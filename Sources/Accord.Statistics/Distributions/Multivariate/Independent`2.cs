@@ -266,7 +266,13 @@ namespace Accord.Statistics.Distributions.Multivariate
             double p = 0;
             for (int i = 0; i < Components.Length; i++)
                 p += Components[i].LogProbabilityFunction(x[i]);
+//#if DEBUG
+//            double expected = Math.Log(ProbabilityFunction(x));
+//            if (!expected.IsEqual(p, rtol: 1e-3))
+//                throw new Exception();
+//#endif
             return p;
+
         }
 
 
@@ -333,12 +339,18 @@ namespace Accord.Statistics.Distributions.Multivariate
                 if (options.InnerOptions != null)
                 {
                     for (int i = 0; i < Components.Length; i++)
-                        ((IFittableDistribution<TObservation>)Components[i]).Fit(observations[i], weights, options.InnerOptions[i]);
+                    {
+                        var c = ((IFittableDistribution<TObservation>)Components[i]);
+                        c.Fit(observations[i], weights, options.InnerOptions[i]);
+                    }
                 }
                 else
                 {
                     for (int i = 0; i < Components.Length; i++)
-                        ((IFittableDistribution<TObservation>)Components[i]).Fit(observations[i], weights, options.InnerOption);
+                    {
+                        var c = ((IFittableDistribution<TObservation>)Components[i]);
+                        c.Fit(observations[i], weights, options.InnerOption);
+                    }
                 }
             }
             else
@@ -369,15 +381,34 @@ namespace Accord.Statistics.Distributions.Multivariate
             return new Independent<TDistribution, TObservation>(clone);
         }
 
+
         /// <summary>
         /// Generates a random observation from the current distribution.
         /// </summary>
+        /// 
         /// <param name="result">The location where to store the sample.</param>
+        ///   
         /// <returns>A random observation drawn from this distribution.</returns>
+        /// 
         public TObservation[] Generate(TObservation[] result)
         {
+            return Generate(result, Accord.Math.Random.Generator.Random);
+        }
+
+        /// <summary>
+        /// Generates a random observation from the current distribution.
+        /// </summary>
+        /// 
+        /// <param name="result">The location where to store the sample.</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        ///   
+        /// <returns>A random observation drawn from this distribution.</returns>
+        /// 
+        public TObservation[] Generate(TObservation[] result, Random source)
+        {
             for (int i = 0; i < Components.Length; i++)
-                result[i] = ((ISampleableDistribution<TObservation>)Components[i]).Generate();
+                result[i] = ((ISampleableDistribution<TObservation>)Components[i]).Generate(source);
             return result;
         }
 
@@ -389,8 +420,24 @@ namespace Accord.Statistics.Distributions.Multivariate
         /// <returns>A random vector of observations drawn from this distribution.</returns>
         public TObservation[][] Generate(int samples, TObservation[][] result)
         {
+            return Generate(samples, result, Accord.Math.Random.Generator.Random);
+        }
+
+        /// <summary>
+        /// Generates a random vector of observations from the current distribution.
+        /// </summary>
+        /// 
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="result">The location where to store the samples.</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        ///   
+        /// <returns>A random vector of observations drawn from this distribution.</returns>
+        /// 
+        public TObservation[][] Generate(int samples, TObservation[][] result, Random source)
+        {
             for (int i = 0; i < Components.Length; i++)
-                result.SetColumn(i, ((ISampleableDistribution<TObservation>)Components[i]).Generate(samples));
+                result.SetColumn(i, ((ISampleableDistribution<TObservation>)Components[i]).Generate(samples, source));
             return result;
         }
 
@@ -403,6 +450,17 @@ namespace Accord.Statistics.Distributions.Multivariate
         {
             return Generate(new TObservation[Components.Length]);
         }
-    }
 
+
+        TObservation[][] ISampleableDistribution<TObservation[]>.Generate(int samples, Random source)
+        {
+            return Generate(samples, Jagged.Zeros<TObservation>(samples, Components.Length), source);
+        }
+
+        TObservation[] ISampleableDistribution<TObservation[]>.Generate(Random source)
+        {
+            return Generate(new TObservation[Components.Length], source);
+        }
+
+    }
 }

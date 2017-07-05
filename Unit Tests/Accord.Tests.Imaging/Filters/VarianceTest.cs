@@ -28,6 +28,11 @@ namespace Accord.Tests.Imaging
     using Accord.Math;
     using NUnit.Framework;
     using System.Drawing.Imaging;
+    using Accord.Tests.Imaging.Properties;
+
+#if NETSTANDARD2_0
+    using Resources = Accord.Tests.Imaging.Properties.Resources_Standard;
+#endif
 
     [TestFixture]
     public class VarianceFilterTest
@@ -37,7 +42,7 @@ namespace Accord.Tests.Imaging
         [Test]
         public void VarianceTest1()
         {
-            Bitmap image = Accord.Imaging.Image.Clone(Properties.Resources.lena512);
+            Bitmap image = Accord.Imaging.Image.Clone(Resources.lena512);
             Variance variance = new Variance();
             Bitmap result = variance.Apply(image);
             Assert.IsNotNull(result);
@@ -46,8 +51,8 @@ namespace Accord.Tests.Imaging
         [Test]
         public void VarianceColorRotate()
         {
-            Bitmap image = Properties.Resources.wiki_flower;
-            Bitmap expected = Properties.Resources.variance_color_expected;
+            Bitmap image = Accord.Imaging.Image.Clone(Resources.wiki_flower);
+            Bitmap expected = Accord.Imaging.Image.Clone(Resources.variance_color_expected);
 
             bool answer = ImageUtils.RotateTest32bpp(new Variance(), image, expected);
             Assert.IsTrue(answer);

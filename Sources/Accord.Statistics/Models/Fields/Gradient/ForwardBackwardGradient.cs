@@ -20,6 +20,8 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
+// #define SERIAL
+
 namespace Accord.Statistics.Models.Fields.Learning
 {
     using System;
@@ -28,6 +30,7 @@ namespace Accord.Statistics.Models.Fields.Learning
     using Accord.Math;
     using Accord.Statistics.Models.Fields.Features;
     using Accord.Statistics.Models.Fields.Functions;
+    using Accord.MachineLearning;
 
     /// <summary>
     ///   Linear Gradient calculator class for <see cref="HiddenConditionalRandomField{T}">
@@ -36,8 +39,8 @@ namespace Accord.Statistics.Models.Fields.Learning
     /// 
     /// <typeparam name="T">The type of the observations being modeled.</typeparam>
     /// 
-    public class ForwardBackwardGradient<T> : IHiddenRandomFieldGradient,
-        IDisposable
+    public class ForwardBackwardGradient<T> : ParallelLearningBase,
+        IHiddenRandomFieldGradient, IDisposable
     {
         private HiddenConditionalRandomField<T> model;
         private IPotentialFunction<T> function;
@@ -67,8 +70,8 @@ namespace Accord.Statistics.Models.Fields.Learning
                     inputs.Value = value;
 
                     gradient.Value = new double[model.Function.Weights.Length];
-                    lnZx.Value = new double[model.Function.Weights.Length];
-                    lnZxy.Value = new double[model.Function.Weights.Length];
+                    lnZx.Value = new double[value.Length];
+                    lnZxy.Value = new double[value.Length];
                 }
             }
         }
@@ -124,8 +127,27 @@ namespace Accord.Statistics.Models.Fields.Learning
         public HiddenConditionalRandomField<T> Model
         {
             get { return model; }
+            set
+            {
+                this.model = value;
+                this.function = model.Function;
+            }
         }
 
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="ForwardBackwardGradient{T}"/> class.
+        /// </summary>
+        /// 
+        public ForwardBackwardGradient()
+        {
+            this.gradient = new ThreadLocal<double[]>();
+            this.lnZx = new ThreadLocal<double[]>();
+            this.lnZxy = new ThreadLocal<double[]>();
+            this.inputs = new ThreadLocal<T[][]>();
+            this.outputs = new ThreadLocal<int[]>();
+            this.logLikelihoods = new ThreadLocal<double[][]>();
+            this.error = new ThreadLocal<double>();
+        }
 
         /// <summary>
         ///   Initializes a new instance of the <see cref="ForwardBackwardGradient{T}"/> class.
@@ -134,17 +156,10 @@ namespace Accord.Statistics.Models.Fields.Learning
         /// <param name="model">The model to be trained.</param>
         /// 
         public ForwardBackwardGradient(HiddenConditionalRandomField<T> model)
+            : this()
         {
             this.model = model;
             this.function = model.Function;
-
-            this.gradient = new ThreadLocal<double[]>();
-            this.lnZx = new ThreadLocal<double[]>();
-            this.lnZxy = new ThreadLocal<double[]>();
-            this.inputs = new ThreadLocal<T[][]>();
-            this.outputs = new ThreadLocal<int[]>();
-            this.logLikelihoods = new ThreadLocal<double[][]>();
-            this.error = new ThreadLocal<double>();
         }
 
 
@@ -185,8 +200,8 @@ namespace Accord.Statistics.Models.Fields.Learning
         }
 
         /// <summary>
-        ///   Computes the gradient using the 
-        ///   input/outputs stored in this object.
+        ///   Computes the gradient using the input/outputs stored in this object.
+        ///   This method is <b>not</b> thread safe.
         /// </summary>
         /// 
         /// <param name="parameters">The parameter vector lambda to use in the model.</param>
@@ -199,8 +214,8 @@ namespace Accord.Statistics.Models.Fields.Learning
         }
 
         /// <summary>
-        ///   Computes the gradient using the 
-        ///   input/outputs stored in this object.
+        ///   Computes the gradient using the input/outputs stored in this object.
+        ///   This method is thread-safe.
         /// </summary>
         /// 
         /// <returns>The value of the gradient vector for the given parameters.</returns>
@@ -254,7 +269,7 @@ namespace Accord.Statistics.Models.Fields.Learning
 #if SERIAL  // For each clique potential (factor potential function)
             for (int c = 0; c < function.Factors.Length; c++)
 #else
-            Parallel.For(0, function.Factors.Length, c =>
+            Parallel.For(0, function.Factors.Length, ParallelOptions, c =>
 #endif
             {
                 FactorPotential<T> factor = function.Factors[c];
@@ -481,7 +496,7 @@ namespace Accord.Statistics.Models.Fields.Learning
                 error = null;
             }
         }
-      
+
         #endregion
 
     }

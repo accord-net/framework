@@ -22,12 +22,18 @@
 
 namespace Accord.Tests.Statistics.Models.Fields
 {
+    using Accord.DataSets;
+    using Accord.Math;
+    using Accord.Statistics.Analysis;
+    using Accord.Statistics.Distributions.Multivariate;
     using Accord.Statistics.Models.Fields;
     using Accord.Statistics.Models.Fields.Functions;
     using Accord.Statistics.Models.Fields.Learning;
     using Accord.Statistics.Models.Markov;
+    using Accord.Statistics.Models.Markov.Topology;
     using NUnit.Framework;
     using System;
+    using System.IO;
 
     [TestFixture]
     public class ResilientGradientHiddenLearningTest
@@ -71,11 +77,9 @@ namespace Accord.Tests.Statistics.Models.Fields
                 expected[i] = outputs[i];
             }
 
-            Assert.AreEqual(-0.0019419916698781847, ll0, 1e-10);
+            Assert.AreEqual(-0.00046872579975998363, ll0, 1e-10);
             Assert.AreEqual(0, error, 1e-10);
             Assert.AreEqual(error, ll1);
-            Assert.IsFalse(Double.IsNaN(ll0));
-            Assert.IsFalse(Double.IsNaN(error));
 
             for (int i = 0; i < inputs.Length; i++)
                 Assert.AreEqual(expected[i], actual[i]);
@@ -121,11 +125,9 @@ namespace Accord.Tests.Statistics.Models.Fields
                 expected[i] = outputs[i];
             }
 
-            Assert.AreEqual(-0.0019419916698781847, ll0, 1e-10);
+            Assert.AreEqual(-0.00046872579975998363, ll0, 1e-10);
             Assert.AreEqual(0, error, 1e-10);
             Assert.AreEqual(error, ll1);
-            Assert.IsFalse(Double.IsNaN(ll0));
-            Assert.IsFalse(Double.IsNaN(error));
 
             for (int i = 0; i < inputs.Length; i++)
                 Assert.AreEqual(expected[i], actual[i]);
@@ -258,6 +260,84 @@ namespace Accord.Tests.Statistics.Models.Fields
             Assert.AreEqual(1, y4);
             Assert.AreEqual(2, y5);
             Assert.AreEqual(2, y6);
+        }
+
+
+
+        [Test]
+#if DEBUG
+        //[Ignore("Intensive")]
+#endif
+        public void learn_pendigits_normalization()
+        {
+            #region doc_learn_pendigits
+            // Ensure we get reproducible results
+            Accord.Math.Random.Generator.Seed = 0;
+
+            // Download the PENDIGITS dataset from UCI ML repository
+            var pendigits = new Pendigits(path: Path.GetTempPath());
+
+            // Get and pre-process the training set
+            double[][][] trainInputs = pendigits.Training.Item1;
+            int[] trainOutputs = pendigits.Training.Item2;
+
+            // Pre-process the digits so each of them is centered and scaled
+            trainInputs = trainInputs.Apply(Accord.Statistics.Tools.ZScores);
+            trainInputs = trainInputs.Apply((x) => x.Subtract(x.Min())); // make them positive
+
+            // Create some prior distributions to help initialize our parameters
+            var priorC = new WishartDistribution(dimension: 2, degreesOfFreedom: 5);
+            var priorM = new MultivariateNormalDistribution(dimension: 2);
+
+            // Create a template Markov classifier that we can use as a base for the HCRF
+            var hmmc = new HiddenMarkovClassifier<MultivariateNormalDistribution, double[]>(
+                classes: pendigits.NumberOfClasses, topology: new Forward(5),
+                initial: (i, j) => new MultivariateNormalDistribution(mean: priorM.Generate(), covariance: priorC.Generate()));
+
+            // Create a new learning algorithm for creating HCRFs
+            var teacher = new HiddenResilientGradientLearning<double[]>()
+            {
+                Function = new MarkovMultivariateFunction(hmmc),
+
+                MaxIterations = 10
+            };
+
+            // The following line is only needed to ensure reproducible results. Please remove it to enable full parallelization
+            teacher.ParallelOptions.MaxDegreeOfParallelism = 1; // (Remove, comment, or change this line to enable full parallelism)
+
+            // Use the learning algorithm to create a classifier
+            var hcrf = teacher.Learn(trainInputs, trainOutputs);
+
+            // Compute predictions for the training set
+            int[] trainPredicted = hcrf.Decide(trainInputs);
+
+            // Check the performance of the classifier by comparing with the ground-truth:
+            var m1 = new ConfusionMatrix(predicted: trainPredicted, expected: trainOutputs);
+            double trainAcc = m1.Accuracy; // should be 0.83476272155517439
+
+
+            // Prepare the testing set
+            double[][][] testInputs = pendigits.Testing.Item1;
+            int[] testOutputs = pendigits.Testing.Item2;
+
+            // Apply the same normalizations
+            testInputs = testInputs.Apply(Accord.Statistics.Tools.ZScores);
+            testInputs = testInputs.Apply((x) => x.Subtract(x.Min())); // make them positive
+
+            // Compute predictions for the test set
+            int[] testPredicted = hcrf.Decide(testInputs);
+
+            // Check the performance of the classifier by comparing with the ground-truth:
+            var m2 = new ConfusionMatrix(predicted: testPredicted, expected: testOutputs);
+            double testAcc = m2.Accuracy; // should be 0.81932212436615959
+            #endregion
+#if NET35
+            Assert.AreEqual(0.89594053744997137d, trainAcc, 1e-5);
+            Assert.AreEqual(0.89605017347211102d, testAcc, 1e-5);
+#else
+            Assert.IsTrue(trainAcc.IsEqual(0.83476272155517439d, 1e-5) || trainAcc.IsEqual(0.85162950257289882d, 1e-5));
+            Assert.IsTrue(testAcc.IsEqual(0.86028823058446757d, 1e-5) || testAcc.IsEqual(0.81932212436615959, 1e-5));
+#endif
         }
     }
 }

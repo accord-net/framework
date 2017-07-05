@@ -32,5 +32,11 @@
 	
 	<file src="..\..\Release\net46\Noncommercial\Accord.Math.Noncommercial.dll" target="lib\net46\Accord.Math.Noncommercial.dll" />
     <file src="..\..\Release\net46\Noncommercial\Accord.Math.Noncommercial.xml" target="lib\net46\Accord.Math.Noncommercial.xml" />
+	
+	<file src="..\..\Release\net462\Noncommercial\Accord.Math.Noncommercial.dll" target="lib\net462\Accord.Math.Noncommercial.dll" />
+    <file src="..\..\Release\net462\Noncommercial\Accord.Math.Noncommercial.xml" target="lib\net462\Accord.Math.Noncommercial.xml" />
+	
+	<file src="..\..\Release\netstandard2.0\Noncommercial\Accord.Math.Noncommercial.dll" target="lib\netstandard2.0\Accord.Math.Noncommercial.dll" />
+    <file src="..\..\Release\netstandard2.0\Noncommercial\Accord.Math.Noncommercial.xml" target="lib\netstandard2.0\Accord.Math.Noncommercial.xml" />
   </files>
 </package>

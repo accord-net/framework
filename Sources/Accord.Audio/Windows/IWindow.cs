@@ -23,7 +23,6 @@
 namespace Accord.Audio.Windows
 {
     using System;
-    using AForge.Math;
 
     /// <summary>
     ///   Spectral Window

@@ -122,13 +122,14 @@ namespace Accord.MachineLearning.Bayes
 
         private void init(int classes, int inputs)
         {
-            if (classes <= 0)
+            if (classes < 2)
                 throw new ArgumentOutOfRangeException("classes");
 
             if (inputs <= 0)
                 throw new ArgumentOutOfRangeException("inputs");
 
             this.NumberOfOutputs = classes;
+            this.NumberOfClasses = classes;
             this.NumberOfInputs = inputs;
 
             this.distributions = new TDistribution[classes];

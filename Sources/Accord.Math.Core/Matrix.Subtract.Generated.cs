@@ -46,7 +46,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The scalar <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this int[,] a, int b)
@@ -61,7 +61,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The scalar <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this int[][] a, int b)
@@ -88,7 +88,7 @@ namespace Accord.Math
         /// <param name="a">The vector <c>a</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Subtract(this int[] a, int[] b)
@@ -103,7 +103,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this int[][] a, int[][] b)
@@ -118,7 +118,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this int[,] a, int[,] b)
@@ -133,7 +133,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this int[][] a, int[,] b)
@@ -148,7 +148,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this int a, int[,] b)
@@ -163,7 +163,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this int a, int[][] b)
@@ -178,7 +178,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Subtract(this int a, int[] b)
@@ -199,7 +199,7 @@ namespace Accord.Math
         ///   Default value is 0.
         /// </param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this int[,] a,  int[] b, int dimension)
@@ -220,7 +220,7 @@ namespace Accord.Math
         ///   Default value is 0.
         /// </param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this int[][] a,  int[] b, int dimension)
@@ -235,7 +235,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] SubtractFromDiagonal(this int a, int[,] b)
@@ -250,7 +250,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] SubtractFromDiagonal(this int a, int[][] b)
@@ -265,7 +265,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] SubtractFromDiagonal(this int[] a, int[,] b)
@@ -280,7 +280,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] SubtractFromDiagonal(this int[] a, int[][] b)
@@ -295,7 +295,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] SubtractFromDiagonal(this int[,] a, int b)
@@ -310,7 +310,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] SubtractFromDiagonal(this int[][] a, int b)
@@ -325,7 +325,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] SubtractFromDiagonal(this int[,] a, int[] b)
@@ -340,7 +340,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] SubtractFromDiagonal(this int[][] a, int[] b)
@@ -356,7 +356,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The scalar <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this int[,] a, float b)
@@ -371,7 +371,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The scalar <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this int[][] a, float b)
@@ -398,7 +398,7 @@ namespace Accord.Math
         /// <param name="a">The vector <c>a</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Subtract(this int[] a, float[] b)
@@ -413,7 +413,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this int[][] a, float[][] b)
@@ -428,7 +428,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this int[,] a, float[,] b)
@@ -443,7 +443,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this int[][] a, float[,] b)
@@ -458,7 +458,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this int a, float[,] b)
@@ -473,7 +473,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this int a, float[][] b)
@@ -488,7 +488,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Subtract(this int a, float[] b)
@@ -509,7 +509,7 @@ namespace Accord.Math
         ///   Default value is 0.
         /// </param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this int[,] a,  float[] b, int dimension)
@@ -530,7 +530,7 @@ namespace Accord.Math
         ///   Default value is 0.
         /// </param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this int[][] a,  float[] b, int dimension)
@@ -545,7 +545,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] SubtractFromDiagonal(this int a, float[,] b)
@@ -560,7 +560,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] SubtractFromDiagonal(this int a, float[][] b)
@@ -575,7 +575,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] SubtractFromDiagonal(this int[] a, float[,] b)
@@ -590,7 +590,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] SubtractFromDiagonal(this int[] a, float[][] b)
@@ -605,7 +605,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] SubtractFromDiagonal(this int[,] a, float b)
@@ -620,7 +620,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] SubtractFromDiagonal(this int[][] a, float b)
@@ -635,7 +635,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] SubtractFromDiagonal(this int[,] a, float[] b)
@@ -650,7 +650,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] SubtractFromDiagonal(this int[][] a, float[] b)
@@ -666,7 +666,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The scalar <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this int[,] a, double b)
@@ -681,7 +681,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The scalar <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this int[][] a, double b)
@@ -708,7 +708,7 @@ namespace Accord.Math
         /// <param name="a">The vector <c>a</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this int[] a, double[] b)
@@ -723,7 +723,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this int[][] a, double[][] b)
@@ -738,7 +738,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this int[,] a, double[,] b)
@@ -753,7 +753,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this int[][] a, double[,] b)
@@ -768,7 +768,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this int a, double[,] b)
@@ -783,7 +783,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this int a, double[][] b)
@@ -798,7 +798,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this int a, double[] b)
@@ -819,7 +819,7 @@ namespace Accord.Math
         ///   Default value is 0.
         /// </param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this int[,] a,  double[] b, int dimension)
@@ -840,7 +840,7 @@ namespace Accord.Math
         ///   Default value is 0.
         /// </param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this int[][] a,  double[] b, int dimension)
@@ -855,7 +855,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this int a, double[,] b)
@@ -870,7 +870,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this int a, double[][] b)
@@ -885,7 +885,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this int[] a, double[,] b)
@@ -900,7 +900,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this int[] a, double[][] b)
@@ -915,7 +915,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] SubtractFromDiagonal(this int[,] a, double b)
@@ -930,7 +930,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] SubtractFromDiagonal(this int[][] a, double b)
@@ -945,7 +945,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] SubtractFromDiagonal(this int[,] a, double[] b)
@@ -960,7 +960,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] SubtractFromDiagonal(this int[][] a, double[] b)
@@ -976,7 +976,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The scalar <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this int[,] a, byte b)
@@ -991,7 +991,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The scalar <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this int[][] a, byte b)
@@ -1018,7 +1018,7 @@ namespace Accord.Math
         /// <param name="a">The vector <c>a</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Subtract(this int[] a, byte[] b)
@@ -1033,7 +1033,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this int[][] a, byte[][] b)
@@ -1048,7 +1048,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this int[,] a, byte[,] b)
@@ -1063,7 +1063,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this int[][] a, byte[,] b)
@@ -1078,7 +1078,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this int a, byte[,] b)
@@ -1093,7 +1093,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this int a, byte[][] b)
@@ -1108,7 +1108,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Subtract(this int a, byte[] b)
@@ -1129,7 +1129,7 @@ namespace Accord.Math
         ///   Default value is 0.
         /// </param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this int[,] a,  byte[] b, int dimension)
@@ -1150,7 +1150,7 @@ namespace Accord.Math
         ///   Default value is 0.
         /// </param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this int[][] a,  byte[] b, int dimension)
@@ -1165,7 +1165,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] SubtractFromDiagonal(this int a, byte[,] b)
@@ -1180,7 +1180,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] SubtractFromDiagonal(this int a, byte[][] b)
@@ -1195,7 +1195,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] SubtractFromDiagonal(this int[] a, byte[,] b)
@@ -1210,7 +1210,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] SubtractFromDiagonal(this int[] a, byte[][] b)
@@ -1225,7 +1225,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] SubtractFromDiagonal(this int[,] a, byte b)
@@ -1240,7 +1240,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] SubtractFromDiagonal(this int[][] a, byte b)
@@ -1255,7 +1255,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] SubtractFromDiagonal(this int[,] a, byte[] b)
@@ -1270,7 +1270,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] SubtractFromDiagonal(this int[][] a, byte[] b)
@@ -1286,7 +1286,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The scalar <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this int[,] a, decimal b)
@@ -1301,7 +1301,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The scalar <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this int[][] a, decimal b)
@@ -1328,7 +1328,7 @@ namespace Accord.Math
         /// <param name="a">The vector <c>a</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Subtract(this int[] a, decimal[] b)
@@ -1343,7 +1343,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this int[][] a, decimal[][] b)
@@ -1358,7 +1358,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this int[,] a, decimal[,] b)
@@ -1373,7 +1373,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this int[][] a, decimal[,] b)
@@ -1388,7 +1388,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this int a, decimal[,] b)
@@ -1403,7 +1403,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this int a, decimal[][] b)
@@ -1418,7 +1418,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Subtract(this int a, decimal[] b)
@@ -1439,7 +1439,7 @@ namespace Accord.Math
         ///   Default value is 0.
         /// </param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this int[,] a,  decimal[] b, int dimension)
@@ -1460,7 +1460,7 @@ namespace Accord.Math
         ///   Default value is 0.
         /// </param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this int[][] a,  decimal[] b, int dimension)
@@ -1475,7 +1475,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] SubtractFromDiagonal(this int a, decimal[,] b)
@@ -1490,7 +1490,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] SubtractFromDiagonal(this int a, decimal[][] b)
@@ -1505,7 +1505,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] SubtractFromDiagonal(this int[] a, decimal[,] b)
@@ -1520,7 +1520,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] SubtractFromDiagonal(this int[] a, decimal[][] b)
@@ -1535,7 +1535,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] SubtractFromDiagonal(this int[,] a, decimal b)
@@ -1550,7 +1550,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] SubtractFromDiagonal(this int[][] a, decimal b)
@@ -1565,7 +1565,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] SubtractFromDiagonal(this int[,] a, decimal[] b)
@@ -1580,7 +1580,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] SubtractFromDiagonal(this int[][] a, decimal[] b)
@@ -1596,7 +1596,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The scalar <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this float[,] a, int b)
@@ -1611,7 +1611,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The scalar <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this float[][] a, int b)
@@ -1638,7 +1638,7 @@ namespace Accord.Math
         /// <param name="a">The vector <c>a</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Subtract(this float[] a, int[] b)
@@ -1653,7 +1653,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this float[][] a, int[][] b)
@@ -1668,7 +1668,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this float[,] a, int[,] b)
@@ -1683,7 +1683,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this float[][] a, int[,] b)
@@ -1698,7 +1698,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this float a, int[,] b)
@@ -1713,7 +1713,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this float a, int[][] b)
@@ -1728,7 +1728,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Subtract(this float a, int[] b)
@@ -1749,7 +1749,7 @@ namespace Accord.Math
         ///   Default value is 0.
         /// </param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this float[,] a,  int[] b, int dimension)
@@ -1770,7 +1770,7 @@ namespace Accord.Math
         ///   Default value is 0.
         /// </param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this float[][] a,  int[] b, int dimension)
@@ -1785,7 +1785,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] SubtractFromDiagonal(this float a, int[,] b)
@@ -1800,7 +1800,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] SubtractFromDiagonal(this float a, int[][] b)
@@ -1815,7 +1815,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] SubtractFromDiagonal(this float[] a, int[,] b)
@@ -1830,7 +1830,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] SubtractFromDiagonal(this float[] a, int[][] b)
@@ -1845,7 +1845,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] SubtractFromDiagonal(this float[,] a, int b)
@@ -1860,7 +1860,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] SubtractFromDiagonal(this float[][] a, int b)
@@ -1875,7 +1875,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] SubtractFromDiagonal(this float[,] a, int[] b)
@@ -1890,7 +1890,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] SubtractFromDiagonal(this float[][] a, int[] b)
@@ -1906,7 +1906,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The scalar <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this float[,] a, float b)
@@ -1921,7 +1921,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The scalar <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this float[][] a, float b)
@@ -1948,7 +1948,7 @@ namespace Accord.Math
         /// <param name="a">The vector <c>a</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Subtract(this float[] a, float[] b)
@@ -1963,7 +1963,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this float[][] a, float[][] b)
@@ -1978,7 +1978,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this float[,] a, float[,] b)
@@ -1993,7 +1993,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this float[][] a, float[,] b)
@@ -2008,7 +2008,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this float a, float[,] b)
@@ -2023,7 +2023,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this float a, float[][] b)
@@ -2038,7 +2038,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Subtract(this float a, float[] b)
@@ -2059,7 +2059,7 @@ namespace Accord.Math
         ///   Default value is 0.
         /// </param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this float[,] a,  float[] b, int dimension)
@@ -2080,7 +2080,7 @@ namespace Accord.Math
         ///   Default value is 0.
         /// </param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this float[][] a,  float[] b, int dimension)
@@ -2095,7 +2095,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] SubtractFromDiagonal(this float a, float[,] b)
@@ -2110,7 +2110,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] SubtractFromDiagonal(this float a, float[][] b)
@@ -2125,7 +2125,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] SubtractFromDiagonal(this float[] a, float[,] b)
@@ -2140,7 +2140,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] SubtractFromDiagonal(this float[] a, float[][] b)
@@ -2155,7 +2155,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] SubtractFromDiagonal(this float[,] a, float b)
@@ -2170,7 +2170,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] SubtractFromDiagonal(this float[][] a, float b)
@@ -2185,7 +2185,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] SubtractFromDiagonal(this float[,] a, float[] b)
@@ -2200,7 +2200,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] SubtractFromDiagonal(this float[][] a, float[] b)
@@ -2216,7 +2216,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The scalar <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this float[,] a, double b)
@@ -2231,7 +2231,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The scalar <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this float[][] a, double b)
@@ -2258,7 +2258,7 @@ namespace Accord.Math
         /// <param name="a">The vector <c>a</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this float[] a, double[] b)
@@ -2273,7 +2273,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this float[][] a, double[][] b)
@@ -2288,7 +2288,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this float[,] a, double[,] b)
@@ -2303,7 +2303,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this float[][] a, double[,] b)
@@ -2318,7 +2318,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this float a, double[,] b)
@@ -2333,7 +2333,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this float a, double[][] b)
@@ -2348,7 +2348,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this float a, double[] b)
@@ -2369,7 +2369,7 @@ namespace Accord.Math
         ///   Default value is 0.
         /// </param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this float[,] a,  double[] b, int dimension)
@@ -2390,7 +2390,7 @@ namespace Accord.Math
         ///   Default value is 0.
         /// </param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this float[][] a,  double[] b, int dimension)
@@ -2405,7 +2405,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this float a, double[,] b)
@@ -2420,7 +2420,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this float a, double[][] b)
@@ -2435,7 +2435,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this float[] a, double[,] b)
@@ -2450,7 +2450,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this float[] a, double[][] b)
@@ -2465,7 +2465,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] SubtractFromDiagonal(this float[,] a, double b)
@@ -2480,7 +2480,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] SubtractFromDiagonal(this float[][] a, double b)
@@ -2495,7 +2495,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] SubtractFromDiagonal(this float[,] a, double[] b)
@@ -2510,7 +2510,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] SubtractFromDiagonal(this float[][] a, double[] b)
@@ -2526,7 +2526,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The scalar <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this float[,] a, byte b)
@@ -2541,7 +2541,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The scalar <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this float[][] a, byte b)
@@ -2568,7 +2568,7 @@ namespace Accord.Math
         /// <param name="a">The vector <c>a</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Subtract(this float[] a, byte[] b)
@@ -2583,7 +2583,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this float[][] a, byte[][] b)
@@ -2598,7 +2598,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this float[,] a, byte[,] b)
@@ -2613,7 +2613,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this float[][] a, byte[,] b)
@@ -2628,7 +2628,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this float a, byte[,] b)
@@ -2643,7 +2643,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this float a, byte[][] b)
@@ -2658,7 +2658,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Subtract(this float a, byte[] b)
@@ -2679,7 +2679,7 @@ namespace Accord.Math
         ///   Default value is 0.
         /// </param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this float[,] a,  byte[] b, int dimension)
@@ -2700,7 +2700,7 @@ namespace Accord.Math
         ///   Default value is 0.
         /// </param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this float[][] a,  byte[] b, int dimension)
@@ -2715,7 +2715,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] SubtractFromDiagonal(this float a, byte[,] b)
@@ -2730,7 +2730,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] SubtractFromDiagonal(this float a, byte[][] b)
@@ -2745,7 +2745,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] SubtractFromDiagonal(this float[] a, byte[,] b)
@@ -2760,7 +2760,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] SubtractFromDiagonal(this float[] a, byte[][] b)
@@ -2775,7 +2775,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] SubtractFromDiagonal(this float[,] a, byte b)
@@ -2790,7 +2790,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] SubtractFromDiagonal(this float[][] a, byte b)
@@ -2805,7 +2805,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] SubtractFromDiagonal(this float[,] a, byte[] b)
@@ -2820,7 +2820,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] SubtractFromDiagonal(this float[][] a, byte[] b)
@@ -2836,7 +2836,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The scalar <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this float[,] a, decimal b)
@@ -2851,7 +2851,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The scalar <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this float[][] a, decimal b)
@@ -2878,7 +2878,7 @@ namespace Accord.Math
         /// <param name="a">The vector <c>a</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Subtract(this float[] a, decimal[] b)
@@ -2893,7 +2893,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this float[][] a, decimal[][] b)
@@ -2908,7 +2908,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this float[,] a, decimal[,] b)
@@ -2923,7 +2923,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this float[][] a, decimal[,] b)
@@ -2938,7 +2938,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this float a, decimal[,] b)
@@ -2953,7 +2953,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this float a, decimal[][] b)
@@ -2968,7 +2968,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Subtract(this float a, decimal[] b)
@@ -2989,7 +2989,7 @@ namespace Accord.Math
         ///   Default value is 0.
         /// </param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this float[,] a,  decimal[] b, int dimension)
@@ -3010,7 +3010,7 @@ namespace Accord.Math
         ///   Default value is 0.
         /// </param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this float[][] a,  decimal[] b, int dimension)
@@ -3025,7 +3025,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] SubtractFromDiagonal(this float a, decimal[,] b)
@@ -3040,7 +3040,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] SubtractFromDiagonal(this float a, decimal[][] b)
@@ -3055,7 +3055,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] SubtractFromDiagonal(this float[] a, decimal[,] b)
@@ -3070,7 +3070,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] SubtractFromDiagonal(this float[] a, decimal[][] b)
@@ -3085,7 +3085,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] SubtractFromDiagonal(this float[,] a, decimal b)
@@ -3100,7 +3100,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] SubtractFromDiagonal(this float[][] a, decimal b)
@@ -3115,7 +3115,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] SubtractFromDiagonal(this float[,] a, decimal[] b)
@@ -3130,7 +3130,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] SubtractFromDiagonal(this float[][] a, decimal[] b)
@@ -3146,7 +3146,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The scalar <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this double[,] a, int b)
@@ -3161,7 +3161,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The scalar <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this double[][] a, int b)
@@ -3188,7 +3188,7 @@ namespace Accord.Math
         /// <param name="a">The vector <c>a</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this double[] a, int[] b)
@@ -3203,7 +3203,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this double[][] a, int[][] b)
@@ -3218,7 +3218,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this double[,] a, int[,] b)
@@ -3233,7 +3233,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this double[][] a, int[,] b)
@@ -3248,7 +3248,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this double a, int[,] b)
@@ -3263,7 +3263,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this double a, int[][] b)
@@ -3278,7 +3278,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this double a, int[] b)
@@ -3299,7 +3299,7 @@ namespace Accord.Math
         ///   Default value is 0.
         /// </param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this double[,] a,  int[] b, int dimension)
@@ -3320,7 +3320,7 @@ namespace Accord.Math
         ///   Default value is 0.
         /// </param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this double[][] a,  int[] b, int dimension)
@@ -3335,7 +3335,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] SubtractFromDiagonal(this double a, int[,] b)
@@ -3350,7 +3350,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] SubtractFromDiagonal(this double a, int[][] b)
@@ -3365,7 +3365,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] SubtractFromDiagonal(this double[] a, int[,] b)
@@ -3380,7 +3380,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] SubtractFromDiagonal(this double[] a, int[][] b)
@@ -3395,7 +3395,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this double[,] a, int b)
@@ -3410,7 +3410,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this double[][] a, int b)
@@ -3425,7 +3425,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this double[,] a, int[] b)
@@ -3440,7 +3440,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this double[][] a, int[] b)
@@ -3456,7 +3456,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The scalar <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this double[,] a, float b)
@@ -3471,7 +3471,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The scalar <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this double[][] a, float b)
@@ -3498,7 +3498,7 @@ namespace Accord.Math
         /// <param name="a">The vector <c>a</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this double[] a, float[] b)
@@ -3513,7 +3513,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this double[][] a, float[][] b)
@@ -3528,7 +3528,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this double[,] a, float[,] b)
@@ -3543,7 +3543,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this double[][] a, float[,] b)
@@ -3558,7 +3558,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this double a, float[,] b)
@@ -3573,7 +3573,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this double a, float[][] b)
@@ -3588,7 +3588,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this double a, float[] b)
@@ -3609,7 +3609,7 @@ namespace Accord.Math
         ///   Default value is 0.
         /// </param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this double[,] a,  float[] b, int dimension)
@@ -3630,7 +3630,7 @@ namespace Accord.Math
         ///   Default value is 0.
         /// </param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this double[][] a,  float[] b, int dimension)
@@ -3645,7 +3645,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] SubtractFromDiagonal(this double a, float[,] b)
@@ -3660,7 +3660,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] SubtractFromDiagonal(this double a, float[][] b)
@@ -3675,7 +3675,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] SubtractFromDiagonal(this double[] a, float[,] b)
@@ -3690,7 +3690,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] SubtractFromDiagonal(this double[] a, float[][] b)
@@ -3705,7 +3705,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this double[,] a, float b)
@@ -3720,7 +3720,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this double[][] a, float b)
@@ -3735,7 +3735,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this double[,] a, float[] b)
@@ -3750,7 +3750,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this double[][] a, float[] b)
@@ -3766,7 +3766,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The scalar <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this double[,] a, double b)
@@ -3781,7 +3781,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The scalar <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this double[][] a, double b)
@@ -3808,7 +3808,7 @@ namespace Accord.Math
         /// <param name="a">The vector <c>a</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this double[] a, double[] b)
@@ -3823,7 +3823,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this double[][] a, double[][] b)
@@ -3838,7 +3838,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this double[,] a, double[,] b)
@@ -3853,7 +3853,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this double[][] a, double[,] b)
@@ -3868,7 +3868,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this double a, double[,] b)
@@ -3883,7 +3883,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this double a, double[][] b)
@@ -3898,7 +3898,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this double a, double[] b)
@@ -3919,7 +3919,7 @@ namespace Accord.Math
         ///   Default value is 0.
         /// </param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this double[,] a,  double[] b, int dimension)
@@ -3940,7 +3940,7 @@ namespace Accord.Math
         ///   Default value is 0.
         /// </param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this double[][] a,  double[] b, int dimension)
@@ -3955,7 +3955,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this double a, double[,] b)
@@ -3970,7 +3970,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this double a, double[][] b)
@@ -3985,7 +3985,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this double[] a, double[,] b)
@@ -4000,7 +4000,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this double[] a, double[][] b)
@@ -4015,7 +4015,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this double[,] a, double b)
@@ -4030,7 +4030,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this double[][] a, double b)
@@ -4045,7 +4045,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this double[,] a, double[] b)
@@ -4060,7 +4060,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this double[][] a, double[] b)
@@ -4076,7 +4076,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The scalar <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this double[,] a, byte b)
@@ -4091,7 +4091,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The scalar <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this double[][] a, byte b)
@@ -4118,7 +4118,7 @@ namespace Accord.Math
         /// <param name="a">The vector <c>a</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this double[] a, byte[] b)
@@ -4133,7 +4133,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this double[][] a, byte[][] b)
@@ -4148,7 +4148,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this double[,] a, byte[,] b)
@@ -4163,7 +4163,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this double[][] a, byte[,] b)
@@ -4178,7 +4178,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this double a, byte[,] b)
@@ -4193,7 +4193,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this double a, byte[][] b)
@@ -4208,7 +4208,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this double a, byte[] b)
@@ -4229,7 +4229,7 @@ namespace Accord.Math
         ///   Default value is 0.
         /// </param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this double[,] a,  byte[] b, int dimension)
@@ -4250,7 +4250,7 @@ namespace Accord.Math
         ///   Default value is 0.
         /// </param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this double[][] a,  byte[] b, int dimension)
@@ -4265,7 +4265,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] SubtractFromDiagonal(this double a, byte[,] b)
@@ -4280,7 +4280,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] SubtractFromDiagonal(this double a, byte[][] b)
@@ -4295,7 +4295,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] SubtractFromDiagonal(this double[] a, byte[,] b)
@@ -4310,7 +4310,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] SubtractFromDiagonal(this double[] a, byte[][] b)
@@ -4325,7 +4325,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this double[,] a, byte b)
@@ -4340,7 +4340,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this double[][] a, byte b)
@@ -4355,7 +4355,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this double[,] a, byte[] b)
@@ -4370,7 +4370,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this double[][] a, byte[] b)
@@ -4386,7 +4386,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The scalar <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this double[,] a, decimal b)
@@ -4401,7 +4401,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The scalar <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this double[][] a, decimal b)
@@ -4428,7 +4428,7 @@ namespace Accord.Math
         /// <param name="a">The vector <c>a</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this double[] a, decimal[] b)
@@ -4443,7 +4443,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this double[][] a, decimal[][] b)
@@ -4458,7 +4458,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this double[,] a, decimal[,] b)
@@ -4473,7 +4473,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this double[][] a, decimal[,] b)
@@ -4488,7 +4488,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this double a, decimal[,] b)
@@ -4503,7 +4503,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this double a, decimal[][] b)
@@ -4518,7 +4518,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this double a, decimal[] b)
@@ -4539,7 +4539,7 @@ namespace Accord.Math
         ///   Default value is 0.
         /// </param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this double[,] a,  decimal[] b, int dimension)
@@ -4560,7 +4560,7 @@ namespace Accord.Math
         ///   Default value is 0.
         /// </param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this double[][] a,  decimal[] b, int dimension)
@@ -4575,7 +4575,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] SubtractFromDiagonal(this double a, decimal[,] b)
@@ -4590,7 +4590,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] SubtractFromDiagonal(this double a, decimal[][] b)
@@ -4605,7 +4605,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] SubtractFromDiagonal(this double[] a, decimal[,] b)
@@ -4620,7 +4620,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] SubtractFromDiagonal(this double[] a, decimal[][] b)
@@ -4635,7 +4635,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this double[,] a, decimal b)
@@ -4650,7 +4650,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this double[][] a, decimal b)
@@ -4665,7 +4665,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this double[,] a, decimal[] b)
@@ -4680,7 +4680,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this double[][] a, decimal[] b)
@@ -4696,7 +4696,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The scalar <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this byte[,] a, int b)
@@ -4711,7 +4711,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The scalar <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this byte[][] a, int b)
@@ -4738,7 +4738,7 @@ namespace Accord.Math
         /// <param name="a">The vector <c>a</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Subtract(this byte[] a, int[] b)
@@ -4753,7 +4753,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this byte[][] a, int[][] b)
@@ -4768,7 +4768,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this byte[,] a, int[,] b)
@@ -4783,7 +4783,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this byte[][] a, int[,] b)
@@ -4798,7 +4798,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this byte a, int[,] b)
@@ -4813,7 +4813,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this byte a, int[][] b)
@@ -4828,7 +4828,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Subtract(this byte a, int[] b)
@@ -4849,7 +4849,7 @@ namespace Accord.Math
         ///   Default value is 0.
         /// </param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this byte[,] a,  int[] b, int dimension)
@@ -4870,7 +4870,7 @@ namespace Accord.Math
         ///   Default value is 0.
         /// </param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this byte[][] a,  int[] b, int dimension)
@@ -4885,7 +4885,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] SubtractFromDiagonal(this byte a, int[,] b)
@@ -4900,7 +4900,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] SubtractFromDiagonal(this byte a, int[][] b)
@@ -4915,7 +4915,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] SubtractFromDiagonal(this byte[] a, int[,] b)
@@ -4930,7 +4930,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] SubtractFromDiagonal(this byte[] a, int[][] b)
@@ -4945,7 +4945,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] SubtractFromDiagonal(this byte[,] a, int b)
@@ -4960,7 +4960,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] SubtractFromDiagonal(this byte[][] a, int b)
@@ -4975,7 +4975,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] SubtractFromDiagonal(this byte[,] a, int[] b)
@@ -4990,7 +4990,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] SubtractFromDiagonal(this byte[][] a, int[] b)
@@ -5006,7 +5006,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The scalar <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this byte[,] a, float b)
@@ -5021,7 +5021,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The scalar <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this byte[][] a, float b)
@@ -5048,7 +5048,7 @@ namespace Accord.Math
         /// <param name="a">The vector <c>a</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Subtract(this byte[] a, float[] b)
@@ -5063,7 +5063,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this byte[][] a, float[][] b)
@@ -5078,7 +5078,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this byte[,] a, float[,] b)
@@ -5093,7 +5093,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this byte[][] a, float[,] b)
@@ -5108,7 +5108,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this byte a, float[,] b)
@@ -5123,7 +5123,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this byte a, float[][] b)
@@ -5138,7 +5138,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Subtract(this byte a, float[] b)
@@ -5159,7 +5159,7 @@ namespace Accord.Math
         ///   Default value is 0.
         /// </param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this byte[,] a,  float[] b, int dimension)
@@ -5180,7 +5180,7 @@ namespace Accord.Math
         ///   Default value is 0.
         /// </param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this byte[][] a,  float[] b, int dimension)
@@ -5195,7 +5195,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] SubtractFromDiagonal(this byte a, float[,] b)
@@ -5210,7 +5210,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] SubtractFromDiagonal(this byte a, float[][] b)
@@ -5225,7 +5225,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] SubtractFromDiagonal(this byte[] a, float[,] b)
@@ -5240,7 +5240,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] SubtractFromDiagonal(this byte[] a, float[][] b)
@@ -5255,7 +5255,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] SubtractFromDiagonal(this byte[,] a, float b)
@@ -5270,7 +5270,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] SubtractFromDiagonal(this byte[][] a, float b)
@@ -5285,7 +5285,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] SubtractFromDiagonal(this byte[,] a, float[] b)
@@ -5300,7 +5300,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] SubtractFromDiagonal(this byte[][] a, float[] b)
@@ -5316,7 +5316,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The scalar <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this byte[,] a, double b)
@@ -5331,7 +5331,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The scalar <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this byte[][] a, double b)
@@ -5358,7 +5358,7 @@ namespace Accord.Math
         /// <param name="a">The vector <c>a</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this byte[] a, double[] b)
@@ -5373,7 +5373,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this byte[][] a, double[][] b)
@@ -5388,7 +5388,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this byte[,] a, double[,] b)
@@ -5403,7 +5403,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this byte[][] a, double[,] b)
@@ -5418,7 +5418,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this byte a, double[,] b)
@@ -5433,7 +5433,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this byte a, double[][] b)
@@ -5448,7 +5448,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this byte a, double[] b)
@@ -5469,7 +5469,7 @@ namespace Accord.Math
         ///   Default value is 0.
         /// </param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this byte[,] a,  double[] b, int dimension)
@@ -5490,7 +5490,7 @@ namespace Accord.Math
         ///   Default value is 0.
         /// </param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this byte[][] a,  double[] b, int dimension)
@@ -5505,7 +5505,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this byte a, double[,] b)
@@ -5520,7 +5520,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this byte a, double[][] b)
@@ -5535,7 +5535,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this byte[] a, double[,] b)
@@ -5550,7 +5550,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this byte[] a, double[][] b)
@@ -5565,7 +5565,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] SubtractFromDiagonal(this byte[,] a, double b)
@@ -5580,7 +5580,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] SubtractFromDiagonal(this byte[][] a, double b)
@@ -5595,7 +5595,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] SubtractFromDiagonal(this byte[,] a, double[] b)
@@ -5610,7 +5610,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] SubtractFromDiagonal(this byte[][] a, double[] b)
@@ -5626,7 +5626,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The scalar <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this byte[,] a, byte b)
@@ -5641,7 +5641,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The scalar <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this byte[][] a, byte b)
@@ -5668,7 +5668,7 @@ namespace Accord.Math
         /// <param name="a">The vector <c>a</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[] Subtract(this byte[] a, byte[] b)
@@ -5683,7 +5683,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this byte[][] a, byte[][] b)
@@ -5698,7 +5698,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this byte[,] a, byte[,] b)
@@ -5713,7 +5713,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this byte[][] a, byte[,] b)
@@ -5728,7 +5728,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this byte a, byte[,] b)
@@ -5743,7 +5743,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this byte a, byte[][] b)
@@ -5758,7 +5758,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[] Subtract(this byte a, byte[] b)
@@ -5779,7 +5779,7 @@ namespace Accord.Math
         ///   Default value is 0.
         /// </param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this byte[,] a,  byte[] b, int dimension)
@@ -5800,7 +5800,7 @@ namespace Accord.Math
         ///   Default value is 0.
         /// </param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this byte[][] a,  byte[] b, int dimension)
@@ -5815,7 +5815,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] SubtractFromDiagonal(this byte a, byte[,] b)
@@ -5830,7 +5830,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] SubtractFromDiagonal(this byte a, byte[][] b)
@@ -5845,7 +5845,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] SubtractFromDiagonal(this byte[] a, byte[,] b)
@@ -5860,7 +5860,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] SubtractFromDiagonal(this byte[] a, byte[][] b)
@@ -5875,7 +5875,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] SubtractFromDiagonal(this byte[,] a, byte b)
@@ -5890,7 +5890,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] SubtractFromDiagonal(this byte[][] a, byte b)
@@ -5905,7 +5905,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] SubtractFromDiagonal(this byte[,] a, byte[] b)
@@ -5920,7 +5920,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] SubtractFromDiagonal(this byte[][] a, byte[] b)
@@ -5936,7 +5936,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The scalar <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this decimal[,] a, int b)
@@ -5951,7 +5951,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The scalar <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this decimal[][] a, int b)
@@ -5978,7 +5978,7 @@ namespace Accord.Math
         /// <param name="a">The vector <c>a</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Subtract(this decimal[] a, int[] b)
@@ -5993,7 +5993,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this decimal[][] a, int[][] b)
@@ -6008,7 +6008,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this decimal[,] a, int[,] b)
@@ -6023,7 +6023,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this decimal[][] a, int[,] b)
@@ -6038,7 +6038,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this decimal a, int[,] b)
@@ -6053,7 +6053,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this decimal a, int[][] b)
@@ -6068,7 +6068,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Subtract(this decimal a, int[] b)
@@ -6089,7 +6089,7 @@ namespace Accord.Math
         ///   Default value is 0.
         /// </param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this decimal[,] a,  int[] b, int dimension)
@@ -6110,7 +6110,7 @@ namespace Accord.Math
         ///   Default value is 0.
         /// </param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this decimal[][] a,  int[] b, int dimension)
@@ -6125,7 +6125,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] SubtractFromDiagonal(this decimal a, int[,] b)
@@ -6140,7 +6140,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] SubtractFromDiagonal(this decimal a, int[][] b)
@@ -6155,7 +6155,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] SubtractFromDiagonal(this decimal[] a, int[,] b)
@@ -6170,7 +6170,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] SubtractFromDiagonal(this decimal[] a, int[][] b)
@@ -6185,7 +6185,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] SubtractFromDiagonal(this decimal[,] a, int b)
@@ -6200,7 +6200,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] SubtractFromDiagonal(this decimal[][] a, int b)
@@ -6215,7 +6215,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] SubtractFromDiagonal(this decimal[,] a, int[] b)
@@ -6230,7 +6230,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] SubtractFromDiagonal(this decimal[][] a, int[] b)
@@ -6246,7 +6246,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The scalar <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this decimal[,] a, float b)
@@ -6261,7 +6261,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The scalar <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this decimal[][] a, float b)
@@ -6288,7 +6288,7 @@ namespace Accord.Math
         /// <param name="a">The vector <c>a</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Subtract(this decimal[] a, float[] b)
@@ -6303,7 +6303,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this decimal[][] a, float[][] b)
@@ -6318,7 +6318,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this decimal[,] a, float[,] b)
@@ -6333,7 +6333,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this decimal[][] a, float[,] b)
@@ -6348,7 +6348,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this decimal a, float[,] b)
@@ -6363,7 +6363,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this decimal a, float[][] b)
@@ -6378,7 +6378,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Subtract(this decimal a, float[] b)
@@ -6399,7 +6399,7 @@ namespace Accord.Math
         ///   Default value is 0.
         /// </param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this decimal[,] a,  float[] b, int dimension)
@@ -6420,7 +6420,7 @@ namespace Accord.Math
         ///   Default value is 0.
         /// </param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this decimal[][] a,  float[] b, int dimension)
@@ -6435,7 +6435,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] SubtractFromDiagonal(this decimal a, float[,] b)
@@ -6450,7 +6450,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] SubtractFromDiagonal(this decimal a, float[][] b)
@@ -6465,7 +6465,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] SubtractFromDiagonal(this decimal[] a, float[,] b)
@@ -6480,7 +6480,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] SubtractFromDiagonal(this decimal[] a, float[][] b)
@@ -6495,7 +6495,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] SubtractFromDiagonal(this decimal[,] a, float b)
@@ -6510,7 +6510,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] SubtractFromDiagonal(this decimal[][] a, float b)
@@ -6525,7 +6525,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] SubtractFromDiagonal(this decimal[,] a, float[] b)
@@ -6540,7 +6540,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] SubtractFromDiagonal(this decimal[][] a, float[] b)
@@ -6556,7 +6556,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The scalar <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this decimal[,] a, double b)
@@ -6571,7 +6571,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The scalar <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this decimal[][] a, double b)
@@ -6598,7 +6598,7 @@ namespace Accord.Math
         /// <param name="a">The vector <c>a</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this decimal[] a, double[] b)
@@ -6613,7 +6613,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this decimal[][] a, double[][] b)
@@ -6628,7 +6628,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this decimal[,] a, double[,] b)
@@ -6643,7 +6643,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this decimal[][] a, double[,] b)
@@ -6658,7 +6658,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this decimal a, double[,] b)
@@ -6673,7 +6673,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this decimal a, double[][] b)
@@ -6688,7 +6688,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this decimal a, double[] b)
@@ -6709,7 +6709,7 @@ namespace Accord.Math
         ///   Default value is 0.
         /// </param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this decimal[,] a,  double[] b, int dimension)
@@ -6730,7 +6730,7 @@ namespace Accord.Math
         ///   Default value is 0.
         /// </param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this decimal[][] a,  double[] b, int dimension)
@@ -6745,7 +6745,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this decimal a, double[,] b)
@@ -6760,7 +6760,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this decimal a, double[][] b)
@@ -6775,7 +6775,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this decimal[] a, double[,] b)
@@ -6790,7 +6790,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this decimal[] a, double[][] b)
@@ -6805,7 +6805,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] SubtractFromDiagonal(this decimal[,] a, double b)
@@ -6820,7 +6820,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] SubtractFromDiagonal(this decimal[][] a, double b)
@@ -6835,7 +6835,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] SubtractFromDiagonal(this decimal[,] a, double[] b)
@@ -6850,7 +6850,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] SubtractFromDiagonal(this decimal[][] a, double[] b)
@@ -6866,7 +6866,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The scalar <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this decimal[,] a, decimal b)
@@ -6881,7 +6881,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The scalar <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this decimal[][] a, decimal b)
@@ -6908,7 +6908,7 @@ namespace Accord.Math
         /// <param name="a">The vector <c>a</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Subtract(this decimal[] a, decimal[] b)
@@ -6923,7 +6923,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this decimal[][] a, decimal[][] b)
@@ -6938,7 +6938,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this decimal[,] a, decimal[,] b)
@@ -6953,7 +6953,7 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this decimal[][] a, decimal[,] b)
@@ -6968,7 +6968,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this decimal a, decimal[,] b)
@@ -6983,7 +6983,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this decimal a, decimal[][] b)
@@ -6998,7 +6998,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Subtract(this decimal a, decimal[] b)
@@ -7019,7 +7019,7 @@ namespace Accord.Math
         ///   Default value is 0.
         /// </param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this decimal[,] a,  decimal[] b, int dimension)
@@ -7040,7 +7040,7 @@ namespace Accord.Math
         ///   Default value is 0.
         /// </param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this decimal[][] a,  decimal[] b, int dimension)
@@ -7055,7 +7055,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] SubtractFromDiagonal(this decimal a, decimal[,] b)
@@ -7070,7 +7070,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] SubtractFromDiagonal(this decimal a, decimal[][] b)
@@ -7085,7 +7085,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] SubtractFromDiagonal(this decimal[] a, decimal[,] b)
@@ -7100,7 +7100,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] SubtractFromDiagonal(this decimal[] a, decimal[][] b)
@@ -7115,7 +7115,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] SubtractFromDiagonal(this decimal[,] a, decimal b)
@@ -7130,7 +7130,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] SubtractFromDiagonal(this decimal[][] a, decimal b)
@@ -7145,7 +7145,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] SubtractFromDiagonal(this decimal[,] a, decimal[] b)
@@ -7160,7 +7160,7 @@ namespace Accord.Math
         /// <param name="a">The scalar <c>a</c>.</param>
         /// <param name="b">The matrix <c>B</c>.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] SubtractFromDiagonal(this decimal[][] a, decimal[] b)
@@ -7180,7 +7180,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this int[][] a, int[,] b, int[,] result)
@@ -7215,7 +7215,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this int[,] a, int[][] b, int[,] result)
@@ -7250,7 +7250,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this int[,] a, int[,] b, int[][] result)
@@ -7285,7 +7285,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this int[][] a, int[,] b, int[][] result)
@@ -7318,7 +7318,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this int[,] a, int[][] b, int[][] result)
@@ -7350,7 +7350,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this int[][] a, int[][] b, int[][] result)
@@ -7375,7 +7375,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this int[,] a, int[,] b, int[,] result)
@@ -7438,7 +7438,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this int[,] a, int b, int[][] result)
@@ -7471,7 +7471,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this int[][] a, int b, int[][] result)
@@ -7495,7 +7495,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this int[][] a, int b, int[,] result)
@@ -7520,7 +7520,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this int a, int[,] b, int[][] result)
@@ -7553,7 +7553,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this int a, int[][] b, int[][] result)
@@ -7577,7 +7577,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this int a, int[][] b, int[,] result)
@@ -7610,7 +7610,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this int a, int[,] b, int[,] result)
@@ -7643,7 +7643,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this int[,] a, int b, int[,] result)
@@ -7676,7 +7676,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this int[,] a, int b, int[][] result)
@@ -7709,7 +7709,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this int[][] a, int b, int[,] result)
@@ -7760,7 +7760,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Subtract(this int[] a, int[] b, int[] result)
@@ -7791,7 +7791,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Subtract(this int[] a, int b, int[] result)
@@ -7814,7 +7814,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Subtract(this int a, int[] b, int[] result)
@@ -7852,7 +7852,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this int[,] a,  int[] b, int dimension, int[,] result)
@@ -7899,7 +7899,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this int[][] a,  int[] b, int dimension, int[][] result)
@@ -7952,7 +7952,7 @@ namespace Accord.Math
 
 
 #region Diagonal
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] SubtractFromDiagonal(this int a, int[,] b, int[,] result)
@@ -7978,7 +7978,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] SubtractFromDiagonal(this int a, int[][] b, int[][] result)
@@ -7992,7 +7992,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] SubtractFromDiagonal(this int[] a, int[,] b, int[,] result)
@@ -8018,7 +8018,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] SubtractFromDiagonal(this int[] a, int[][] b, int[][] result)
@@ -8032,7 +8032,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] SubtractFromDiagonal(this int[,] a, int b, int[,] result)
@@ -8058,7 +8058,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] SubtractFromDiagonal(this int[][] a, int b, int[][] result)
@@ -8072,7 +8072,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] SubtractFromDiagonal(this int[,] a, int[] b, int[,] result)
@@ -8098,7 +8098,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] SubtractFromDiagonal(this int[][] a, int[] b, int[][] result)
@@ -8126,7 +8126,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this int[][] a, int[,] b, double[,] result)
@@ -8161,7 +8161,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this int[,] a, int[][] b, double[,] result)
@@ -8196,7 +8196,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this int[,] a, int[,] b, double[][] result)
@@ -8231,7 +8231,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this int[][] a, int[,] b, double[][] result)
@@ -8264,7 +8264,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this int[,] a, int[][] b, double[][] result)
@@ -8296,7 +8296,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this int[][] a, int[][] b, double[][] result)
@@ -8321,7 +8321,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this int[,] a, int[,] b, double[,] result)
@@ -8384,7 +8384,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this int[,] a, int b, double[][] result)
@@ -8417,7 +8417,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this int[][] a, int b, double[][] result)
@@ -8441,7 +8441,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this int[][] a, int b, double[,] result)
@@ -8466,7 +8466,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this int a, int[,] b, double[][] result)
@@ -8499,7 +8499,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this int a, int[][] b, double[][] result)
@@ -8523,7 +8523,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this int a, int[][] b, double[,] result)
@@ -8556,7 +8556,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this int a, int[,] b, double[,] result)
@@ -8589,7 +8589,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this int[,] a, int b, double[,] result)
@@ -8622,7 +8622,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this int[,] a, int b, double[][] result)
@@ -8655,7 +8655,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this int[][] a, int b, double[,] result)
@@ -8706,7 +8706,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this int[] a, int[] b, double[] result)
@@ -8737,7 +8737,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this int[] a, int b, double[] result)
@@ -8760,7 +8760,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this int a, int[] b, double[] result)
@@ -8798,7 +8798,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this int[,] a,  int[] b, int dimension, double[,] result)
@@ -8845,7 +8845,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this int[][] a,  int[] b, int dimension, double[][] result)
@@ -8898,7 +8898,7 @@ namespace Accord.Math
 
 
 #region Diagonal
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this int a, int[,] b, double[,] result)
@@ -8924,7 +8924,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this int a, int[][] b, double[][] result)
@@ -8938,7 +8938,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this int[] a, int[,] b, double[,] result)
@@ -8964,7 +8964,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this int[] a, int[][] b, double[][] result)
@@ -8978,7 +8978,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this int[,] a, int b, double[,] result)
@@ -9004,7 +9004,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this int[][] a, int b, double[][] result)
@@ -9018,7 +9018,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this int[,] a, int[] b, double[,] result)
@@ -9044,7 +9044,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this int[][] a, int[] b, double[][] result)
@@ -9072,7 +9072,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this int[][] a, float[,] b, int[,] result)
@@ -9107,7 +9107,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this int[,] a, float[][] b, int[,] result)
@@ -9142,7 +9142,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this int[,] a, float[,] b, int[][] result)
@@ -9177,7 +9177,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this int[][] a, float[,] b, int[][] result)
@@ -9210,7 +9210,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this int[,] a, float[][] b, int[][] result)
@@ -9242,7 +9242,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this int[][] a, float[][] b, int[][] result)
@@ -9267,7 +9267,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this int[,] a, float[,] b, int[,] result)
@@ -9330,7 +9330,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this int[,] a, float b, int[][] result)
@@ -9363,7 +9363,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this int[][] a, float b, int[][] result)
@@ -9387,7 +9387,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this int[][] a, float b, int[,] result)
@@ -9412,7 +9412,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this int a, float[,] b, int[][] result)
@@ -9445,7 +9445,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this int a, float[][] b, int[][] result)
@@ -9469,7 +9469,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this int a, float[][] b, int[,] result)
@@ -9502,7 +9502,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this int a, float[,] b, int[,] result)
@@ -9535,7 +9535,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this int[,] a, float b, int[,] result)
@@ -9568,7 +9568,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this int[,] a, float b, int[][] result)
@@ -9601,7 +9601,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this int[][] a, float b, int[,] result)
@@ -9652,7 +9652,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Subtract(this int[] a, float[] b, int[] result)
@@ -9683,7 +9683,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Subtract(this int[] a, float b, int[] result)
@@ -9706,7 +9706,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Subtract(this int a, float[] b, int[] result)
@@ -9744,7 +9744,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this int[,] a,  float[] b, int dimension, int[,] result)
@@ -9791,7 +9791,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this int[][] a,  float[] b, int dimension, int[][] result)
@@ -9844,7 +9844,7 @@ namespace Accord.Math
 
 
 #region Diagonal
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] SubtractFromDiagonal(this int a, float[,] b, int[,] result)
@@ -9870,7 +9870,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] SubtractFromDiagonal(this int a, float[][] b, int[][] result)
@@ -9884,7 +9884,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] SubtractFromDiagonal(this int[] a, float[,] b, int[,] result)
@@ -9910,7 +9910,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] SubtractFromDiagonal(this int[] a, float[][] b, int[][] result)
@@ -9924,7 +9924,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] SubtractFromDiagonal(this int[,] a, float b, int[,] result)
@@ -9950,7 +9950,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] SubtractFromDiagonal(this int[][] a, float b, int[][] result)
@@ -9964,7 +9964,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] SubtractFromDiagonal(this int[,] a, float[] b, int[,] result)
@@ -9990,7 +9990,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] SubtractFromDiagonal(this int[][] a, float[] b, int[][] result)
@@ -10018,7 +10018,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this int[][] a, float[,] b, float[,] result)
@@ -10053,7 +10053,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this int[,] a, float[][] b, float[,] result)
@@ -10088,7 +10088,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this int[,] a, float[,] b, float[][] result)
@@ -10123,7 +10123,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this int[][] a, float[,] b, float[][] result)
@@ -10156,7 +10156,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this int[,] a, float[][] b, float[][] result)
@@ -10188,7 +10188,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this int[][] a, float[][] b, float[][] result)
@@ -10213,7 +10213,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this int[,] a, float[,] b, float[,] result)
@@ -10276,7 +10276,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this int[,] a, float b, float[][] result)
@@ -10309,7 +10309,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this int[][] a, float b, float[][] result)
@@ -10333,7 +10333,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this int[][] a, float b, float[,] result)
@@ -10358,7 +10358,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this int a, float[,] b, float[][] result)
@@ -10391,7 +10391,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this int a, float[][] b, float[][] result)
@@ -10415,7 +10415,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this int a, float[][] b, float[,] result)
@@ -10448,7 +10448,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this int a, float[,] b, float[,] result)
@@ -10481,7 +10481,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this int[,] a, float b, float[,] result)
@@ -10514,7 +10514,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this int[,] a, float b, float[][] result)
@@ -10547,7 +10547,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this int[][] a, float b, float[,] result)
@@ -10598,7 +10598,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Subtract(this int[] a, float[] b, float[] result)
@@ -10629,7 +10629,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Subtract(this int[] a, float b, float[] result)
@@ -10652,7 +10652,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Subtract(this int a, float[] b, float[] result)
@@ -10690,7 +10690,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this int[,] a,  float[] b, int dimension, float[,] result)
@@ -10737,7 +10737,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this int[][] a,  float[] b, int dimension, float[][] result)
@@ -10790,7 +10790,7 @@ namespace Accord.Math
 
 
 #region Diagonal
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] SubtractFromDiagonal(this int a, float[,] b, float[,] result)
@@ -10816,7 +10816,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] SubtractFromDiagonal(this int a, float[][] b, float[][] result)
@@ -10830,7 +10830,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] SubtractFromDiagonal(this int[] a, float[,] b, float[,] result)
@@ -10856,7 +10856,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] SubtractFromDiagonal(this int[] a, float[][] b, float[][] result)
@@ -10870,7 +10870,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] SubtractFromDiagonal(this int[,] a, float b, float[,] result)
@@ -10896,7 +10896,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] SubtractFromDiagonal(this int[][] a, float b, float[][] result)
@@ -10910,7 +10910,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] SubtractFromDiagonal(this int[,] a, float[] b, float[,] result)
@@ -10936,7 +10936,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] SubtractFromDiagonal(this int[][] a, float[] b, float[][] result)
@@ -10964,7 +10964,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this int[][] a, float[,] b, double[,] result)
@@ -10999,7 +10999,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this int[,] a, float[][] b, double[,] result)
@@ -11034,7 +11034,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this int[,] a, float[,] b, double[][] result)
@@ -11069,7 +11069,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this int[][] a, float[,] b, double[][] result)
@@ -11102,7 +11102,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this int[,] a, float[][] b, double[][] result)
@@ -11134,7 +11134,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this int[][] a, float[][] b, double[][] result)
@@ -11159,7 +11159,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this int[,] a, float[,] b, double[,] result)
@@ -11222,7 +11222,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this int[,] a, float b, double[][] result)
@@ -11255,7 +11255,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this int[][] a, float b, double[][] result)
@@ -11279,7 +11279,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this int[][] a, float b, double[,] result)
@@ -11304,7 +11304,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this int a, float[,] b, double[][] result)
@@ -11337,7 +11337,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this int a, float[][] b, double[][] result)
@@ -11361,7 +11361,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this int a, float[][] b, double[,] result)
@@ -11394,7 +11394,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this int a, float[,] b, double[,] result)
@@ -11427,7 +11427,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this int[,] a, float b, double[,] result)
@@ -11460,7 +11460,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this int[,] a, float b, double[][] result)
@@ -11493,7 +11493,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this int[][] a, float b, double[,] result)
@@ -11544,7 +11544,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this int[] a, float[] b, double[] result)
@@ -11575,7 +11575,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this int[] a, float b, double[] result)
@@ -11598,7 +11598,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this int a, float[] b, double[] result)
@@ -11636,7 +11636,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this int[,] a,  float[] b, int dimension, double[,] result)
@@ -11683,7 +11683,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this int[][] a,  float[] b, int dimension, double[][] result)
@@ -11736,7 +11736,7 @@ namespace Accord.Math
 
 
 #region Diagonal
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this int a, float[,] b, double[,] result)
@@ -11762,7 +11762,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this int a, float[][] b, double[][] result)
@@ -11776,7 +11776,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this int[] a, float[,] b, double[,] result)
@@ -11802,7 +11802,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this int[] a, float[][] b, double[][] result)
@@ -11816,7 +11816,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this int[,] a, float b, double[,] result)
@@ -11842,7 +11842,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this int[][] a, float b, double[][] result)
@@ -11856,7 +11856,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this int[,] a, float[] b, double[,] result)
@@ -11882,7 +11882,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this int[][] a, float[] b, double[][] result)
@@ -11910,7 +11910,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this int[][] a, double[,] b, int[,] result)
@@ -11945,7 +11945,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this int[,] a, double[][] b, int[,] result)
@@ -11980,7 +11980,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this int[,] a, double[,] b, int[][] result)
@@ -12015,7 +12015,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this int[][] a, double[,] b, int[][] result)
@@ -12048,7 +12048,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this int[,] a, double[][] b, int[][] result)
@@ -12080,7 +12080,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this int[][] a, double[][] b, int[][] result)
@@ -12105,7 +12105,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this int[,] a, double[,] b, int[,] result)
@@ -12168,7 +12168,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this int[,] a, double b, int[][] result)
@@ -12201,7 +12201,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this int[][] a, double b, int[][] result)
@@ -12225,7 +12225,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this int[][] a, double b, int[,] result)
@@ -12250,7 +12250,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this int a, double[,] b, int[][] result)
@@ -12283,7 +12283,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this int a, double[][] b, int[][] result)
@@ -12307,7 +12307,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this int a, double[][] b, int[,] result)
@@ -12340,7 +12340,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this int a, double[,] b, int[,] result)
@@ -12373,7 +12373,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this int[,] a, double b, int[,] result)
@@ -12406,7 +12406,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this int[,] a, double b, int[][] result)
@@ -12439,7 +12439,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this int[][] a, double b, int[,] result)
@@ -12490,7 +12490,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Subtract(this int[] a, double[] b, int[] result)
@@ -12521,7 +12521,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Subtract(this int[] a, double b, int[] result)
@@ -12544,7 +12544,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Subtract(this int a, double[] b, int[] result)
@@ -12582,7 +12582,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this int[,] a,  double[] b, int dimension, int[,] result)
@@ -12629,7 +12629,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this int[][] a,  double[] b, int dimension, int[][] result)
@@ -12682,7 +12682,7 @@ namespace Accord.Math
 
 
 #region Diagonal
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] SubtractFromDiagonal(this int a, double[,] b, int[,] result)
@@ -12708,7 +12708,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] SubtractFromDiagonal(this int a, double[][] b, int[][] result)
@@ -12722,7 +12722,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] SubtractFromDiagonal(this int[] a, double[,] b, int[,] result)
@@ -12748,7 +12748,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] SubtractFromDiagonal(this int[] a, double[][] b, int[][] result)
@@ -12762,7 +12762,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] SubtractFromDiagonal(this int[,] a, double b, int[,] result)
@@ -12788,7 +12788,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] SubtractFromDiagonal(this int[][] a, double b, int[][] result)
@@ -12802,7 +12802,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] SubtractFromDiagonal(this int[,] a, double[] b, int[,] result)
@@ -12828,7 +12828,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] SubtractFromDiagonal(this int[][] a, double[] b, int[][] result)
@@ -12856,7 +12856,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this int[][] a, double[,] b, double[,] result)
@@ -12891,7 +12891,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this int[,] a, double[][] b, double[,] result)
@@ -12926,7 +12926,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this int[,] a, double[,] b, double[][] result)
@@ -12961,7 +12961,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this int[][] a, double[,] b, double[][] result)
@@ -12994,7 +12994,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this int[,] a, double[][] b, double[][] result)
@@ -13026,7 +13026,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this int[][] a, double[][] b, double[][] result)
@@ -13051,7 +13051,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this int[,] a, double[,] b, double[,] result)
@@ -13114,7 +13114,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this int[,] a, double b, double[][] result)
@@ -13147,7 +13147,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this int[][] a, double b, double[][] result)
@@ -13171,7 +13171,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this int[][] a, double b, double[,] result)
@@ -13196,7 +13196,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this int a, double[,] b, double[][] result)
@@ -13229,7 +13229,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this int a, double[][] b, double[][] result)
@@ -13253,7 +13253,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this int a, double[][] b, double[,] result)
@@ -13286,7 +13286,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this int a, double[,] b, double[,] result)
@@ -13319,7 +13319,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this int[,] a, double b, double[,] result)
@@ -13352,7 +13352,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this int[,] a, double b, double[][] result)
@@ -13385,7 +13385,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this int[][] a, double b, double[,] result)
@@ -13436,7 +13436,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this int[] a, double[] b, double[] result)
@@ -13467,7 +13467,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this int[] a, double b, double[] result)
@@ -13490,7 +13490,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this int a, double[] b, double[] result)
@@ -13528,7 +13528,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this int[,] a,  double[] b, int dimension, double[,] result)
@@ -13575,7 +13575,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this int[][] a,  double[] b, int dimension, double[][] result)
@@ -13628,7 +13628,7 @@ namespace Accord.Math
 
 
 #region Diagonal
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this int a, double[,] b, double[,] result)
@@ -13654,7 +13654,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this int a, double[][] b, double[][] result)
@@ -13668,7 +13668,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this int[] a, double[,] b, double[,] result)
@@ -13694,7 +13694,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this int[] a, double[][] b, double[][] result)
@@ -13708,7 +13708,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this int[,] a, double b, double[,] result)
@@ -13734,7 +13734,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this int[][] a, double b, double[][] result)
@@ -13748,7 +13748,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this int[,] a, double[] b, double[,] result)
@@ -13774,7 +13774,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this int[][] a, double[] b, double[][] result)
@@ -13802,7 +13802,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this int[][] a, byte[,] b, int[,] result)
@@ -13837,7 +13837,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this int[,] a, byte[][] b, int[,] result)
@@ -13872,7 +13872,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this int[,] a, byte[,] b, int[][] result)
@@ -13907,7 +13907,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this int[][] a, byte[,] b, int[][] result)
@@ -13940,7 +13940,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this int[,] a, byte[][] b, int[][] result)
@@ -13972,7 +13972,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this int[][] a, byte[][] b, int[][] result)
@@ -13997,7 +13997,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this int[,] a, byte[,] b, int[,] result)
@@ -14060,7 +14060,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this int[,] a, byte b, int[][] result)
@@ -14093,7 +14093,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this int[][] a, byte b, int[][] result)
@@ -14117,7 +14117,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this int[][] a, byte b, int[,] result)
@@ -14142,7 +14142,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this int a, byte[,] b, int[][] result)
@@ -14175,7 +14175,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this int a, byte[][] b, int[][] result)
@@ -14199,7 +14199,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this int a, byte[][] b, int[,] result)
@@ -14232,7 +14232,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this int a, byte[,] b, int[,] result)
@@ -14265,7 +14265,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this int[,] a, byte b, int[,] result)
@@ -14298,7 +14298,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this int[,] a, byte b, int[][] result)
@@ -14331,7 +14331,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this int[][] a, byte b, int[,] result)
@@ -14382,7 +14382,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Subtract(this int[] a, byte[] b, int[] result)
@@ -14413,7 +14413,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Subtract(this int[] a, byte b, int[] result)
@@ -14436,7 +14436,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Subtract(this int a, byte[] b, int[] result)
@@ -14474,7 +14474,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this int[,] a,  byte[] b, int dimension, int[,] result)
@@ -14521,7 +14521,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this int[][] a,  byte[] b, int dimension, int[][] result)
@@ -14574,7 +14574,7 @@ namespace Accord.Math
 
 
 #region Diagonal
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] SubtractFromDiagonal(this int a, byte[,] b, int[,] result)
@@ -14600,7 +14600,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] SubtractFromDiagonal(this int a, byte[][] b, int[][] result)
@@ -14614,7 +14614,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] SubtractFromDiagonal(this int[] a, byte[,] b, int[,] result)
@@ -14640,7 +14640,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] SubtractFromDiagonal(this int[] a, byte[][] b, int[][] result)
@@ -14654,7 +14654,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] SubtractFromDiagonal(this int[,] a, byte b, int[,] result)
@@ -14680,7 +14680,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] SubtractFromDiagonal(this int[][] a, byte b, int[][] result)
@@ -14694,7 +14694,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] SubtractFromDiagonal(this int[,] a, byte[] b, int[,] result)
@@ -14720,7 +14720,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] SubtractFromDiagonal(this int[][] a, byte[] b, int[][] result)
@@ -14748,7 +14748,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this int[][] a, byte[,] b, byte[,] result)
@@ -14783,7 +14783,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this int[,] a, byte[][] b, byte[,] result)
@@ -14818,7 +14818,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this int[,] a, byte[,] b, byte[][] result)
@@ -14853,7 +14853,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this int[][] a, byte[,] b, byte[][] result)
@@ -14886,7 +14886,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this int[,] a, byte[][] b, byte[][] result)
@@ -14918,7 +14918,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this int[][] a, byte[][] b, byte[][] result)
@@ -14943,7 +14943,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this int[,] a, byte[,] b, byte[,] result)
@@ -15006,7 +15006,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this int[,] a, byte b, byte[][] result)
@@ -15039,7 +15039,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this int[][] a, byte b, byte[][] result)
@@ -15063,7 +15063,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this int[][] a, byte b, byte[,] result)
@@ -15088,7 +15088,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this int a, byte[,] b, byte[][] result)
@@ -15121,7 +15121,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this int a, byte[][] b, byte[][] result)
@@ -15145,7 +15145,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this int a, byte[][] b, byte[,] result)
@@ -15178,7 +15178,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this int a, byte[,] b, byte[,] result)
@@ -15211,7 +15211,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this int[,] a, byte b, byte[,] result)
@@ -15244,7 +15244,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this int[,] a, byte b, byte[][] result)
@@ -15277,7 +15277,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this int[][] a, byte b, byte[,] result)
@@ -15328,7 +15328,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[] Subtract(this int[] a, byte[] b, byte[] result)
@@ -15359,7 +15359,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[] Subtract(this int[] a, byte b, byte[] result)
@@ -15382,7 +15382,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[] Subtract(this int a, byte[] b, byte[] result)
@@ -15420,7 +15420,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this int[,] a,  byte[] b, int dimension, byte[,] result)
@@ -15467,7 +15467,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this int[][] a,  byte[] b, int dimension, byte[][] result)
@@ -15520,7 +15520,7 @@ namespace Accord.Math
 
 
 #region Diagonal
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] SubtractFromDiagonal(this int a, byte[,] b, byte[,] result)
@@ -15546,7 +15546,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] SubtractFromDiagonal(this int a, byte[][] b, byte[][] result)
@@ -15560,7 +15560,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] SubtractFromDiagonal(this int[] a, byte[,] b, byte[,] result)
@@ -15586,7 +15586,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] SubtractFromDiagonal(this int[] a, byte[][] b, byte[][] result)
@@ -15600,7 +15600,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] SubtractFromDiagonal(this int[,] a, byte b, byte[,] result)
@@ -15626,7 +15626,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] SubtractFromDiagonal(this int[][] a, byte b, byte[][] result)
@@ -15640,7 +15640,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] SubtractFromDiagonal(this int[,] a, byte[] b, byte[,] result)
@@ -15666,7 +15666,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] SubtractFromDiagonal(this int[][] a, byte[] b, byte[][] result)
@@ -15694,7 +15694,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this int[][] a, byte[,] b, double[,] result)
@@ -15729,7 +15729,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this int[,] a, byte[][] b, double[,] result)
@@ -15764,7 +15764,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this int[,] a, byte[,] b, double[][] result)
@@ -15799,7 +15799,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this int[][] a, byte[,] b, double[][] result)
@@ -15832,7 +15832,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this int[,] a, byte[][] b, double[][] result)
@@ -15864,7 +15864,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this int[][] a, byte[][] b, double[][] result)
@@ -15889,7 +15889,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this int[,] a, byte[,] b, double[,] result)
@@ -15952,7 +15952,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this int[,] a, byte b, double[][] result)
@@ -15985,7 +15985,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this int[][] a, byte b, double[][] result)
@@ -16009,7 +16009,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this int[][] a, byte b, double[,] result)
@@ -16034,7 +16034,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this int a, byte[,] b, double[][] result)
@@ -16067,7 +16067,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this int a, byte[][] b, double[][] result)
@@ -16091,7 +16091,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this int a, byte[][] b, double[,] result)
@@ -16124,7 +16124,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this int a, byte[,] b, double[,] result)
@@ -16157,7 +16157,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this int[,] a, byte b, double[,] result)
@@ -16190,7 +16190,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this int[,] a, byte b, double[][] result)
@@ -16223,7 +16223,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this int[][] a, byte b, double[,] result)
@@ -16274,7 +16274,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this int[] a, byte[] b, double[] result)
@@ -16305,7 +16305,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this int[] a, byte b, double[] result)
@@ -16328,7 +16328,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this int a, byte[] b, double[] result)
@@ -16366,7 +16366,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this int[,] a,  byte[] b, int dimension, double[,] result)
@@ -16413,7 +16413,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this int[][] a,  byte[] b, int dimension, double[][] result)
@@ -16466,7 +16466,7 @@ namespace Accord.Math
 
 
 #region Diagonal
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this int a, byte[,] b, double[,] result)
@@ -16492,7 +16492,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this int a, byte[][] b, double[][] result)
@@ -16506,7 +16506,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this int[] a, byte[,] b, double[,] result)
@@ -16532,7 +16532,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this int[] a, byte[][] b, double[][] result)
@@ -16546,7 +16546,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this int[,] a, byte b, double[,] result)
@@ -16572,7 +16572,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this int[][] a, byte b, double[][] result)
@@ -16586,7 +16586,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this int[,] a, byte[] b, double[,] result)
@@ -16612,7 +16612,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this int[][] a, byte[] b, double[][] result)
@@ -16640,7 +16640,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this int[][] a, decimal[,] b, int[,] result)
@@ -16675,7 +16675,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this int[,] a, decimal[][] b, int[,] result)
@@ -16710,7 +16710,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this int[,] a, decimal[,] b, int[][] result)
@@ -16745,7 +16745,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this int[][] a, decimal[,] b, int[][] result)
@@ -16778,7 +16778,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this int[,] a, decimal[][] b, int[][] result)
@@ -16810,7 +16810,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this int[][] a, decimal[][] b, int[][] result)
@@ -16835,7 +16835,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this int[,] a, decimal[,] b, int[,] result)
@@ -16898,7 +16898,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this int[,] a, decimal b, int[][] result)
@@ -16931,7 +16931,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this int[][] a, decimal b, int[][] result)
@@ -16955,7 +16955,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this int[][] a, decimal b, int[,] result)
@@ -16980,7 +16980,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this int a, decimal[,] b, int[][] result)
@@ -17013,7 +17013,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this int a, decimal[][] b, int[][] result)
@@ -17037,7 +17037,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this int a, decimal[][] b, int[,] result)
@@ -17070,7 +17070,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this int a, decimal[,] b, int[,] result)
@@ -17103,7 +17103,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this int[,] a, decimal b, int[,] result)
@@ -17136,7 +17136,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this int[,] a, decimal b, int[][] result)
@@ -17169,7 +17169,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this int[][] a, decimal b, int[,] result)
@@ -17220,7 +17220,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Subtract(this int[] a, decimal[] b, int[] result)
@@ -17251,7 +17251,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Subtract(this int[] a, decimal b, int[] result)
@@ -17274,7 +17274,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Subtract(this int a, decimal[] b, int[] result)
@@ -17312,7 +17312,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this int[,] a,  decimal[] b, int dimension, int[,] result)
@@ -17359,7 +17359,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this int[][] a,  decimal[] b, int dimension, int[][] result)
@@ -17412,7 +17412,7 @@ namespace Accord.Math
 
 
 #region Diagonal
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] SubtractFromDiagonal(this int a, decimal[,] b, int[,] result)
@@ -17438,7 +17438,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] SubtractFromDiagonal(this int a, decimal[][] b, int[][] result)
@@ -17452,7 +17452,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] SubtractFromDiagonal(this int[] a, decimal[,] b, int[,] result)
@@ -17478,7 +17478,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] SubtractFromDiagonal(this int[] a, decimal[][] b, int[][] result)
@@ -17492,7 +17492,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] SubtractFromDiagonal(this int[,] a, decimal b, int[,] result)
@@ -17518,7 +17518,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] SubtractFromDiagonal(this int[][] a, decimal b, int[][] result)
@@ -17532,7 +17532,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] SubtractFromDiagonal(this int[,] a, decimal[] b, int[,] result)
@@ -17558,7 +17558,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] SubtractFromDiagonal(this int[][] a, decimal[] b, int[][] result)
@@ -17586,7 +17586,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this int[][] a, decimal[,] b, decimal[,] result)
@@ -17621,7 +17621,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this int[,] a, decimal[][] b, decimal[,] result)
@@ -17656,7 +17656,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this int[,] a, decimal[,] b, decimal[][] result)
@@ -17691,7 +17691,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this int[][] a, decimal[,] b, decimal[][] result)
@@ -17724,7 +17724,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this int[,] a, decimal[][] b, decimal[][] result)
@@ -17756,7 +17756,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this int[][] a, decimal[][] b, decimal[][] result)
@@ -17781,7 +17781,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this int[,] a, decimal[,] b, decimal[,] result)
@@ -17844,7 +17844,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this int[,] a, decimal b, decimal[][] result)
@@ -17877,7 +17877,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this int[][] a, decimal b, decimal[][] result)
@@ -17901,7 +17901,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this int[][] a, decimal b, decimal[,] result)
@@ -17926,7 +17926,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this int a, decimal[,] b, decimal[][] result)
@@ -17959,7 +17959,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this int a, decimal[][] b, decimal[][] result)
@@ -17983,7 +17983,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this int a, decimal[][] b, decimal[,] result)
@@ -18016,7 +18016,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this int a, decimal[,] b, decimal[,] result)
@@ -18049,7 +18049,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this int[,] a, decimal b, decimal[,] result)
@@ -18082,7 +18082,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this int[,] a, decimal b, decimal[][] result)
@@ -18115,7 +18115,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this int[][] a, decimal b, decimal[,] result)
@@ -18166,7 +18166,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Subtract(this int[] a, decimal[] b, decimal[] result)
@@ -18197,7 +18197,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Subtract(this int[] a, decimal b, decimal[] result)
@@ -18220,7 +18220,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Subtract(this int a, decimal[] b, decimal[] result)
@@ -18258,7 +18258,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this int[,] a,  decimal[] b, int dimension, decimal[,] result)
@@ -18305,7 +18305,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this int[][] a,  decimal[] b, int dimension, decimal[][] result)
@@ -18358,7 +18358,7 @@ namespace Accord.Math
 
 
 #region Diagonal
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] SubtractFromDiagonal(this int a, decimal[,] b, decimal[,] result)
@@ -18384,7 +18384,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] SubtractFromDiagonal(this int a, decimal[][] b, decimal[][] result)
@@ -18398,7 +18398,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] SubtractFromDiagonal(this int[] a, decimal[,] b, decimal[,] result)
@@ -18424,7 +18424,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] SubtractFromDiagonal(this int[] a, decimal[][] b, decimal[][] result)
@@ -18438,7 +18438,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] SubtractFromDiagonal(this int[,] a, decimal b, decimal[,] result)
@@ -18464,7 +18464,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] SubtractFromDiagonal(this int[][] a, decimal b, decimal[][] result)
@@ -18478,7 +18478,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] SubtractFromDiagonal(this int[,] a, decimal[] b, decimal[,] result)
@@ -18504,7 +18504,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] SubtractFromDiagonal(this int[][] a, decimal[] b, decimal[][] result)
@@ -18532,7 +18532,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this int[][] a, decimal[,] b, double[,] result)
@@ -18567,7 +18567,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this int[,] a, decimal[][] b, double[,] result)
@@ -18602,7 +18602,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this int[,] a, decimal[,] b, double[][] result)
@@ -18637,7 +18637,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this int[][] a, decimal[,] b, double[][] result)
@@ -18670,7 +18670,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this int[,] a, decimal[][] b, double[][] result)
@@ -18702,7 +18702,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this int[][] a, decimal[][] b, double[][] result)
@@ -18727,7 +18727,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this int[,] a, decimal[,] b, double[,] result)
@@ -18790,7 +18790,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this int[,] a, decimal b, double[][] result)
@@ -18823,7 +18823,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this int[][] a, decimal b, double[][] result)
@@ -18847,7 +18847,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this int[][] a, decimal b, double[,] result)
@@ -18872,7 +18872,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this int a, decimal[,] b, double[][] result)
@@ -18905,7 +18905,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this int a, decimal[][] b, double[][] result)
@@ -18929,7 +18929,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this int a, decimal[][] b, double[,] result)
@@ -18962,7 +18962,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this int a, decimal[,] b, double[,] result)
@@ -18995,7 +18995,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this int[,] a, decimal b, double[,] result)
@@ -19028,7 +19028,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this int[,] a, decimal b, double[][] result)
@@ -19061,7 +19061,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this int[][] a, decimal b, double[,] result)
@@ -19112,7 +19112,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this int[] a, decimal[] b, double[] result)
@@ -19143,7 +19143,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this int[] a, decimal b, double[] result)
@@ -19166,7 +19166,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this int a, decimal[] b, double[] result)
@@ -19204,7 +19204,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this int[,] a,  decimal[] b, int dimension, double[,] result)
@@ -19251,7 +19251,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this int[][] a,  decimal[] b, int dimension, double[][] result)
@@ -19304,7 +19304,7 @@ namespace Accord.Math
 
 
 #region Diagonal
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this int a, decimal[,] b, double[,] result)
@@ -19330,7 +19330,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this int a, decimal[][] b, double[][] result)
@@ -19344,7 +19344,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this int[] a, decimal[,] b, double[,] result)
@@ -19370,7 +19370,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this int[] a, decimal[][] b, double[][] result)
@@ -19384,7 +19384,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this int[,] a, decimal b, double[,] result)
@@ -19410,7 +19410,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this int[][] a, decimal b, double[][] result)
@@ -19424,7 +19424,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this int[,] a, decimal[] b, double[,] result)
@@ -19450,7 +19450,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this int[][] a, decimal[] b, double[][] result)
@@ -19478,7 +19478,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this float[][] a, int[,] b, float[,] result)
@@ -19513,7 +19513,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this float[,] a, int[][] b, float[,] result)
@@ -19548,7 +19548,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this float[,] a, int[,] b, float[][] result)
@@ -19583,7 +19583,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this float[][] a, int[,] b, float[][] result)
@@ -19616,7 +19616,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this float[,] a, int[][] b, float[][] result)
@@ -19648,7 +19648,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this float[][] a, int[][] b, float[][] result)
@@ -19673,7 +19673,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this float[,] a, int[,] b, float[,] result)
@@ -19736,7 +19736,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this float[,] a, int b, float[][] result)
@@ -19769,7 +19769,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this float[][] a, int b, float[][] result)
@@ -19793,7 +19793,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this float[][] a, int b, float[,] result)
@@ -19818,7 +19818,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this float a, int[,] b, float[][] result)
@@ -19851,7 +19851,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this float a, int[][] b, float[][] result)
@@ -19875,7 +19875,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this float a, int[][] b, float[,] result)
@@ -19908,7 +19908,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this float a, int[,] b, float[,] result)
@@ -19941,7 +19941,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this float[,] a, int b, float[,] result)
@@ -19974,7 +19974,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this float[,] a, int b, float[][] result)
@@ -20007,7 +20007,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this float[][] a, int b, float[,] result)
@@ -20058,7 +20058,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Subtract(this float[] a, int[] b, float[] result)
@@ -20089,7 +20089,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Subtract(this float[] a, int b, float[] result)
@@ -20112,7 +20112,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Subtract(this float a, int[] b, float[] result)
@@ -20150,7 +20150,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this float[,] a,  int[] b, int dimension, float[,] result)
@@ -20197,7 +20197,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this float[][] a,  int[] b, int dimension, float[][] result)
@@ -20250,7 +20250,7 @@ namespace Accord.Math
 
 
 #region Diagonal
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] SubtractFromDiagonal(this float a, int[,] b, float[,] result)
@@ -20276,7 +20276,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] SubtractFromDiagonal(this float a, int[][] b, float[][] result)
@@ -20290,7 +20290,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] SubtractFromDiagonal(this float[] a, int[,] b, float[,] result)
@@ -20316,7 +20316,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] SubtractFromDiagonal(this float[] a, int[][] b, float[][] result)
@@ -20330,7 +20330,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] SubtractFromDiagonal(this float[,] a, int b, float[,] result)
@@ -20356,7 +20356,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] SubtractFromDiagonal(this float[][] a, int b, float[][] result)
@@ -20370,7 +20370,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] SubtractFromDiagonal(this float[,] a, int[] b, float[,] result)
@@ -20396,7 +20396,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] SubtractFromDiagonal(this float[][] a, int[] b, float[][] result)
@@ -20424,7 +20424,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this float[][] a, int[,] b, int[,] result)
@@ -20459,7 +20459,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this float[,] a, int[][] b, int[,] result)
@@ -20494,7 +20494,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this float[,] a, int[,] b, int[][] result)
@@ -20529,7 +20529,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this float[][] a, int[,] b, int[][] result)
@@ -20562,7 +20562,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this float[,] a, int[][] b, int[][] result)
@@ -20594,7 +20594,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this float[][] a, int[][] b, int[][] result)
@@ -20619,7 +20619,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this float[,] a, int[,] b, int[,] result)
@@ -20682,7 +20682,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this float[,] a, int b, int[][] result)
@@ -20715,7 +20715,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this float[][] a, int b, int[][] result)
@@ -20739,7 +20739,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this float[][] a, int b, int[,] result)
@@ -20764,7 +20764,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this float a, int[,] b, int[][] result)
@@ -20797,7 +20797,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this float a, int[][] b, int[][] result)
@@ -20821,7 +20821,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this float a, int[][] b, int[,] result)
@@ -20854,7 +20854,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this float a, int[,] b, int[,] result)
@@ -20887,7 +20887,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this float[,] a, int b, int[,] result)
@@ -20920,7 +20920,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this float[,] a, int b, int[][] result)
@@ -20953,7 +20953,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this float[][] a, int b, int[,] result)
@@ -21004,7 +21004,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Subtract(this float[] a, int[] b, int[] result)
@@ -21035,7 +21035,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Subtract(this float[] a, int b, int[] result)
@@ -21058,7 +21058,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Subtract(this float a, int[] b, int[] result)
@@ -21096,7 +21096,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this float[,] a,  int[] b, int dimension, int[,] result)
@@ -21143,7 +21143,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this float[][] a,  int[] b, int dimension, int[][] result)
@@ -21196,7 +21196,7 @@ namespace Accord.Math
 
 
 #region Diagonal
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] SubtractFromDiagonal(this float a, int[,] b, int[,] result)
@@ -21222,7 +21222,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] SubtractFromDiagonal(this float a, int[][] b, int[][] result)
@@ -21236,7 +21236,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] SubtractFromDiagonal(this float[] a, int[,] b, int[,] result)
@@ -21262,7 +21262,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] SubtractFromDiagonal(this float[] a, int[][] b, int[][] result)
@@ -21276,7 +21276,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] SubtractFromDiagonal(this float[,] a, int b, int[,] result)
@@ -21302,7 +21302,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] SubtractFromDiagonal(this float[][] a, int b, int[][] result)
@@ -21316,7 +21316,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] SubtractFromDiagonal(this float[,] a, int[] b, int[,] result)
@@ -21342,7 +21342,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] SubtractFromDiagonal(this float[][] a, int[] b, int[][] result)
@@ -21370,7 +21370,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this float[][] a, int[,] b, double[,] result)
@@ -21405,7 +21405,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this float[,] a, int[][] b, double[,] result)
@@ -21440,7 +21440,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this float[,] a, int[,] b, double[][] result)
@@ -21475,7 +21475,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this float[][] a, int[,] b, double[][] result)
@@ -21508,7 +21508,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this float[,] a, int[][] b, double[][] result)
@@ -21540,7 +21540,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this float[][] a, int[][] b, double[][] result)
@@ -21565,7 +21565,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this float[,] a, int[,] b, double[,] result)
@@ -21628,7 +21628,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this float[,] a, int b, double[][] result)
@@ -21661,7 +21661,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this float[][] a, int b, double[][] result)
@@ -21685,7 +21685,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this float[][] a, int b, double[,] result)
@@ -21710,7 +21710,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this float a, int[,] b, double[][] result)
@@ -21743,7 +21743,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this float a, int[][] b, double[][] result)
@@ -21767,7 +21767,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this float a, int[][] b, double[,] result)
@@ -21800,7 +21800,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this float a, int[,] b, double[,] result)
@@ -21833,7 +21833,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this float[,] a, int b, double[,] result)
@@ -21866,7 +21866,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this float[,] a, int b, double[][] result)
@@ -21899,7 +21899,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this float[][] a, int b, double[,] result)
@@ -21950,7 +21950,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this float[] a, int[] b, double[] result)
@@ -21981,7 +21981,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this float[] a, int b, double[] result)
@@ -22004,7 +22004,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this float a, int[] b, double[] result)
@@ -22042,7 +22042,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this float[,] a,  int[] b, int dimension, double[,] result)
@@ -22089,7 +22089,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this float[][] a,  int[] b, int dimension, double[][] result)
@@ -22142,7 +22142,7 @@ namespace Accord.Math
 
 
 #region Diagonal
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this float a, int[,] b, double[,] result)
@@ -22168,7 +22168,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this float a, int[][] b, double[][] result)
@@ -22182,7 +22182,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this float[] a, int[,] b, double[,] result)
@@ -22208,7 +22208,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this float[] a, int[][] b, double[][] result)
@@ -22222,7 +22222,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this float[,] a, int b, double[,] result)
@@ -22248,7 +22248,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this float[][] a, int b, double[][] result)
@@ -22262,7 +22262,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this float[,] a, int[] b, double[,] result)
@@ -22288,7 +22288,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this float[][] a, int[] b, double[][] result)
@@ -22316,7 +22316,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this float[][] a, float[,] b, float[,] result)
@@ -22351,7 +22351,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this float[,] a, float[][] b, float[,] result)
@@ -22386,7 +22386,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this float[,] a, float[,] b, float[][] result)
@@ -22421,7 +22421,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this float[][] a, float[,] b, float[][] result)
@@ -22454,7 +22454,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this float[,] a, float[][] b, float[][] result)
@@ -22486,7 +22486,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this float[][] a, float[][] b, float[][] result)
@@ -22511,7 +22511,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this float[,] a, float[,] b, float[,] result)
@@ -22574,7 +22574,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this float[,] a, float b, float[][] result)
@@ -22607,7 +22607,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this float[][] a, float b, float[][] result)
@@ -22631,7 +22631,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this float[][] a, float b, float[,] result)
@@ -22656,7 +22656,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this float a, float[,] b, float[][] result)
@@ -22689,7 +22689,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this float a, float[][] b, float[][] result)
@@ -22713,7 +22713,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this float a, float[][] b, float[,] result)
@@ -22746,7 +22746,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this float a, float[,] b, float[,] result)
@@ -22779,7 +22779,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this float[,] a, float b, float[,] result)
@@ -22812,7 +22812,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this float[,] a, float b, float[][] result)
@@ -22845,7 +22845,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this float[][] a, float b, float[,] result)
@@ -22896,7 +22896,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Subtract(this float[] a, float[] b, float[] result)
@@ -22927,7 +22927,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Subtract(this float[] a, float b, float[] result)
@@ -22950,7 +22950,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Subtract(this float a, float[] b, float[] result)
@@ -22988,7 +22988,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this float[,] a,  float[] b, int dimension, float[,] result)
@@ -23035,7 +23035,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this float[][] a,  float[] b, int dimension, float[][] result)
@@ -23088,7 +23088,7 @@ namespace Accord.Math
 
 
 #region Diagonal
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] SubtractFromDiagonal(this float a, float[,] b, float[,] result)
@@ -23114,7 +23114,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] SubtractFromDiagonal(this float a, float[][] b, float[][] result)
@@ -23128,7 +23128,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] SubtractFromDiagonal(this float[] a, float[,] b, float[,] result)
@@ -23154,7 +23154,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] SubtractFromDiagonal(this float[] a, float[][] b, float[][] result)
@@ -23168,7 +23168,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] SubtractFromDiagonal(this float[,] a, float b, float[,] result)
@@ -23194,7 +23194,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] SubtractFromDiagonal(this float[][] a, float b, float[][] result)
@@ -23208,7 +23208,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] SubtractFromDiagonal(this float[,] a, float[] b, float[,] result)
@@ -23234,7 +23234,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] SubtractFromDiagonal(this float[][] a, float[] b, float[][] result)
@@ -23262,7 +23262,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this float[][] a, float[,] b, double[,] result)
@@ -23297,7 +23297,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this float[,] a, float[][] b, double[,] result)
@@ -23332,7 +23332,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this float[,] a, float[,] b, double[][] result)
@@ -23367,7 +23367,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this float[][] a, float[,] b, double[][] result)
@@ -23400,7 +23400,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this float[,] a, float[][] b, double[][] result)
@@ -23432,7 +23432,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this float[][] a, float[][] b, double[][] result)
@@ -23457,7 +23457,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this float[,] a, float[,] b, double[,] result)
@@ -23520,7 +23520,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this float[,] a, float b, double[][] result)
@@ -23553,7 +23553,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this float[][] a, float b, double[][] result)
@@ -23577,7 +23577,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this float[][] a, float b, double[,] result)
@@ -23602,7 +23602,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this float a, float[,] b, double[][] result)
@@ -23635,7 +23635,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this float a, float[][] b, double[][] result)
@@ -23659,7 +23659,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this float a, float[][] b, double[,] result)
@@ -23692,7 +23692,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this float a, float[,] b, double[,] result)
@@ -23725,7 +23725,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this float[,] a, float b, double[,] result)
@@ -23758,7 +23758,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this float[,] a, float b, double[][] result)
@@ -23791,7 +23791,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this float[][] a, float b, double[,] result)
@@ -23842,7 +23842,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this float[] a, float[] b, double[] result)
@@ -23873,7 +23873,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this float[] a, float b, double[] result)
@@ -23896,7 +23896,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this float a, float[] b, double[] result)
@@ -23934,7 +23934,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this float[,] a,  float[] b, int dimension, double[,] result)
@@ -23981,7 +23981,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this float[][] a,  float[] b, int dimension, double[][] result)
@@ -24034,7 +24034,7 @@ namespace Accord.Math
 
 
 #region Diagonal
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this float a, float[,] b, double[,] result)
@@ -24060,7 +24060,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this float a, float[][] b, double[][] result)
@@ -24074,7 +24074,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this float[] a, float[,] b, double[,] result)
@@ -24100,7 +24100,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this float[] a, float[][] b, double[][] result)
@@ -24114,7 +24114,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this float[,] a, float b, double[,] result)
@@ -24140,7 +24140,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this float[][] a, float b, double[][] result)
@@ -24154,7 +24154,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this float[,] a, float[] b, double[,] result)
@@ -24180,7 +24180,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this float[][] a, float[] b, double[][] result)
@@ -24208,7 +24208,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this float[][] a, double[,] b, float[,] result)
@@ -24243,7 +24243,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this float[,] a, double[][] b, float[,] result)
@@ -24278,7 +24278,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this float[,] a, double[,] b, float[][] result)
@@ -24313,7 +24313,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this float[][] a, double[,] b, float[][] result)
@@ -24346,7 +24346,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this float[,] a, double[][] b, float[][] result)
@@ -24378,7 +24378,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this float[][] a, double[][] b, float[][] result)
@@ -24403,7 +24403,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this float[,] a, double[,] b, float[,] result)
@@ -24466,7 +24466,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this float[,] a, double b, float[][] result)
@@ -24499,7 +24499,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this float[][] a, double b, float[][] result)
@@ -24523,7 +24523,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this float[][] a, double b, float[,] result)
@@ -24548,7 +24548,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this float a, double[,] b, float[][] result)
@@ -24581,7 +24581,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this float a, double[][] b, float[][] result)
@@ -24605,7 +24605,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this float a, double[][] b, float[,] result)
@@ -24638,7 +24638,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this float a, double[,] b, float[,] result)
@@ -24671,7 +24671,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this float[,] a, double b, float[,] result)
@@ -24704,7 +24704,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this float[,] a, double b, float[][] result)
@@ -24737,7 +24737,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this float[][] a, double b, float[,] result)
@@ -24788,7 +24788,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Subtract(this float[] a, double[] b, float[] result)
@@ -24819,7 +24819,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Subtract(this float[] a, double b, float[] result)
@@ -24842,7 +24842,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Subtract(this float a, double[] b, float[] result)
@@ -24880,7 +24880,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this float[,] a,  double[] b, int dimension, float[,] result)
@@ -24927,7 +24927,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this float[][] a,  double[] b, int dimension, float[][] result)
@@ -24980,7 +24980,7 @@ namespace Accord.Math
 
 
 #region Diagonal
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] SubtractFromDiagonal(this float a, double[,] b, float[,] result)
@@ -25006,7 +25006,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] SubtractFromDiagonal(this float a, double[][] b, float[][] result)
@@ -25020,7 +25020,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] SubtractFromDiagonal(this float[] a, double[,] b, float[,] result)
@@ -25046,7 +25046,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] SubtractFromDiagonal(this float[] a, double[][] b, float[][] result)
@@ -25060,7 +25060,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] SubtractFromDiagonal(this float[,] a, double b, float[,] result)
@@ -25086,7 +25086,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] SubtractFromDiagonal(this float[][] a, double b, float[][] result)
@@ -25100,7 +25100,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] SubtractFromDiagonal(this float[,] a, double[] b, float[,] result)
@@ -25126,7 +25126,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] SubtractFromDiagonal(this float[][] a, double[] b, float[][] result)
@@ -25154,7 +25154,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this float[][] a, double[,] b, double[,] result)
@@ -25189,7 +25189,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this float[,] a, double[][] b, double[,] result)
@@ -25224,7 +25224,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this float[,] a, double[,] b, double[][] result)
@@ -25259,7 +25259,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this float[][] a, double[,] b, double[][] result)
@@ -25292,7 +25292,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this float[,] a, double[][] b, double[][] result)
@@ -25324,7 +25324,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this float[][] a, double[][] b, double[][] result)
@@ -25349,7 +25349,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this float[,] a, double[,] b, double[,] result)
@@ -25412,7 +25412,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this float[,] a, double b, double[][] result)
@@ -25445,7 +25445,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this float[][] a, double b, double[][] result)
@@ -25469,7 +25469,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this float[][] a, double b, double[,] result)
@@ -25494,7 +25494,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this float a, double[,] b, double[][] result)
@@ -25527,7 +25527,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this float a, double[][] b, double[][] result)
@@ -25551,7 +25551,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this float a, double[][] b, double[,] result)
@@ -25584,7 +25584,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this float a, double[,] b, double[,] result)
@@ -25617,7 +25617,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this float[,] a, double b, double[,] result)
@@ -25650,7 +25650,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this float[,] a, double b, double[][] result)
@@ -25683,7 +25683,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this float[][] a, double b, double[,] result)
@@ -25734,7 +25734,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this float[] a, double[] b, double[] result)
@@ -25765,7 +25765,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this float[] a, double b, double[] result)
@@ -25788,7 +25788,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this float a, double[] b, double[] result)
@@ -25826,7 +25826,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this float[,] a,  double[] b, int dimension, double[,] result)
@@ -25873,7 +25873,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this float[][] a,  double[] b, int dimension, double[][] result)
@@ -25926,7 +25926,7 @@ namespace Accord.Math
 
 
 #region Diagonal
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this float a, double[,] b, double[,] result)
@@ -25952,7 +25952,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this float a, double[][] b, double[][] result)
@@ -25966,7 +25966,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this float[] a, double[,] b, double[,] result)
@@ -25992,7 +25992,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this float[] a, double[][] b, double[][] result)
@@ -26006,7 +26006,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this float[,] a, double b, double[,] result)
@@ -26032,7 +26032,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this float[][] a, double b, double[][] result)
@@ -26046,7 +26046,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this float[,] a, double[] b, double[,] result)
@@ -26072,7 +26072,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this float[][] a, double[] b, double[][] result)
@@ -26100,7 +26100,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this float[][] a, byte[,] b, float[,] result)
@@ -26135,7 +26135,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this float[,] a, byte[][] b, float[,] result)
@@ -26170,7 +26170,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this float[,] a, byte[,] b, float[][] result)
@@ -26205,7 +26205,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this float[][] a, byte[,] b, float[][] result)
@@ -26238,7 +26238,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this float[,] a, byte[][] b, float[][] result)
@@ -26270,7 +26270,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this float[][] a, byte[][] b, float[][] result)
@@ -26295,7 +26295,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this float[,] a, byte[,] b, float[,] result)
@@ -26358,7 +26358,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this float[,] a, byte b, float[][] result)
@@ -26391,7 +26391,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this float[][] a, byte b, float[][] result)
@@ -26415,7 +26415,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this float[][] a, byte b, float[,] result)
@@ -26440,7 +26440,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this float a, byte[,] b, float[][] result)
@@ -26473,7 +26473,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this float a, byte[][] b, float[][] result)
@@ -26497,7 +26497,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this float a, byte[][] b, float[,] result)
@@ -26530,7 +26530,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this float a, byte[,] b, float[,] result)
@@ -26563,7 +26563,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this float[,] a, byte b, float[,] result)
@@ -26596,7 +26596,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this float[,] a, byte b, float[][] result)
@@ -26629,7 +26629,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this float[][] a, byte b, float[,] result)
@@ -26680,7 +26680,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Subtract(this float[] a, byte[] b, float[] result)
@@ -26711,7 +26711,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Subtract(this float[] a, byte b, float[] result)
@@ -26734,7 +26734,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Subtract(this float a, byte[] b, float[] result)
@@ -26772,7 +26772,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this float[,] a,  byte[] b, int dimension, float[,] result)
@@ -26819,7 +26819,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this float[][] a,  byte[] b, int dimension, float[][] result)
@@ -26872,7 +26872,7 @@ namespace Accord.Math
 
 
 #region Diagonal
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] SubtractFromDiagonal(this float a, byte[,] b, float[,] result)
@@ -26898,7 +26898,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] SubtractFromDiagonal(this float a, byte[][] b, float[][] result)
@@ -26912,7 +26912,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] SubtractFromDiagonal(this float[] a, byte[,] b, float[,] result)
@@ -26938,7 +26938,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] SubtractFromDiagonal(this float[] a, byte[][] b, float[][] result)
@@ -26952,7 +26952,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] SubtractFromDiagonal(this float[,] a, byte b, float[,] result)
@@ -26978,7 +26978,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] SubtractFromDiagonal(this float[][] a, byte b, float[][] result)
@@ -26992,7 +26992,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] SubtractFromDiagonal(this float[,] a, byte[] b, float[,] result)
@@ -27018,7 +27018,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] SubtractFromDiagonal(this float[][] a, byte[] b, float[][] result)
@@ -27046,7 +27046,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this float[][] a, byte[,] b, byte[,] result)
@@ -27081,7 +27081,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this float[,] a, byte[][] b, byte[,] result)
@@ -27116,7 +27116,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this float[,] a, byte[,] b, byte[][] result)
@@ -27151,7 +27151,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this float[][] a, byte[,] b, byte[][] result)
@@ -27184,7 +27184,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this float[,] a, byte[][] b, byte[][] result)
@@ -27216,7 +27216,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this float[][] a, byte[][] b, byte[][] result)
@@ -27241,7 +27241,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this float[,] a, byte[,] b, byte[,] result)
@@ -27304,7 +27304,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this float[,] a, byte b, byte[][] result)
@@ -27337,7 +27337,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this float[][] a, byte b, byte[][] result)
@@ -27361,7 +27361,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this float[][] a, byte b, byte[,] result)
@@ -27386,7 +27386,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this float a, byte[,] b, byte[][] result)
@@ -27419,7 +27419,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this float a, byte[][] b, byte[][] result)
@@ -27443,7 +27443,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this float a, byte[][] b, byte[,] result)
@@ -27476,7 +27476,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this float a, byte[,] b, byte[,] result)
@@ -27509,7 +27509,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this float[,] a, byte b, byte[,] result)
@@ -27542,7 +27542,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this float[,] a, byte b, byte[][] result)
@@ -27575,7 +27575,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this float[][] a, byte b, byte[,] result)
@@ -27626,7 +27626,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[] Subtract(this float[] a, byte[] b, byte[] result)
@@ -27657,7 +27657,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[] Subtract(this float[] a, byte b, byte[] result)
@@ -27680,7 +27680,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[] Subtract(this float a, byte[] b, byte[] result)
@@ -27718,7 +27718,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this float[,] a,  byte[] b, int dimension, byte[,] result)
@@ -27765,7 +27765,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this float[][] a,  byte[] b, int dimension, byte[][] result)
@@ -27818,7 +27818,7 @@ namespace Accord.Math
 
 
 #region Diagonal
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] SubtractFromDiagonal(this float a, byte[,] b, byte[,] result)
@@ -27844,7 +27844,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] SubtractFromDiagonal(this float a, byte[][] b, byte[][] result)
@@ -27858,7 +27858,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] SubtractFromDiagonal(this float[] a, byte[,] b, byte[,] result)
@@ -27884,7 +27884,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] SubtractFromDiagonal(this float[] a, byte[][] b, byte[][] result)
@@ -27898,7 +27898,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] SubtractFromDiagonal(this float[,] a, byte b, byte[,] result)
@@ -27924,7 +27924,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] SubtractFromDiagonal(this float[][] a, byte b, byte[][] result)
@@ -27938,7 +27938,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] SubtractFromDiagonal(this float[,] a, byte[] b, byte[,] result)
@@ -27964,7 +27964,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] SubtractFromDiagonal(this float[][] a, byte[] b, byte[][] result)
@@ -27992,7 +27992,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this float[][] a, byte[,] b, double[,] result)
@@ -28027,7 +28027,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this float[,] a, byte[][] b, double[,] result)
@@ -28062,7 +28062,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this float[,] a, byte[,] b, double[][] result)
@@ -28097,7 +28097,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this float[][] a, byte[,] b, double[][] result)
@@ -28130,7 +28130,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this float[,] a, byte[][] b, double[][] result)
@@ -28162,7 +28162,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this float[][] a, byte[][] b, double[][] result)
@@ -28187,7 +28187,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this float[,] a, byte[,] b, double[,] result)
@@ -28250,7 +28250,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this float[,] a, byte b, double[][] result)
@@ -28283,7 +28283,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this float[][] a, byte b, double[][] result)
@@ -28307,7 +28307,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this float[][] a, byte b, double[,] result)
@@ -28332,7 +28332,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this float a, byte[,] b, double[][] result)
@@ -28365,7 +28365,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this float a, byte[][] b, double[][] result)
@@ -28389,7 +28389,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this float a, byte[][] b, double[,] result)
@@ -28422,7 +28422,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this float a, byte[,] b, double[,] result)
@@ -28455,7 +28455,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this float[,] a, byte b, double[,] result)
@@ -28488,7 +28488,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this float[,] a, byte b, double[][] result)
@@ -28521,7 +28521,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this float[][] a, byte b, double[,] result)
@@ -28572,7 +28572,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this float[] a, byte[] b, double[] result)
@@ -28603,7 +28603,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this float[] a, byte b, double[] result)
@@ -28626,7 +28626,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this float a, byte[] b, double[] result)
@@ -28664,7 +28664,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this float[,] a,  byte[] b, int dimension, double[,] result)
@@ -28711,7 +28711,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this float[][] a,  byte[] b, int dimension, double[][] result)
@@ -28764,7 +28764,7 @@ namespace Accord.Math
 
 
 #region Diagonal
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this float a, byte[,] b, double[,] result)
@@ -28790,7 +28790,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this float a, byte[][] b, double[][] result)
@@ -28804,7 +28804,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this float[] a, byte[,] b, double[,] result)
@@ -28830,7 +28830,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this float[] a, byte[][] b, double[][] result)
@@ -28844,7 +28844,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this float[,] a, byte b, double[,] result)
@@ -28870,7 +28870,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this float[][] a, byte b, double[][] result)
@@ -28884,7 +28884,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this float[,] a, byte[] b, double[,] result)
@@ -28910,7 +28910,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this float[][] a, byte[] b, double[][] result)
@@ -28938,7 +28938,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this float[][] a, decimal[,] b, float[,] result)
@@ -28973,7 +28973,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this float[,] a, decimal[][] b, float[,] result)
@@ -29008,7 +29008,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this float[,] a, decimal[,] b, float[][] result)
@@ -29043,7 +29043,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this float[][] a, decimal[,] b, float[][] result)
@@ -29076,7 +29076,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this float[,] a, decimal[][] b, float[][] result)
@@ -29108,7 +29108,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this float[][] a, decimal[][] b, float[][] result)
@@ -29133,7 +29133,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this float[,] a, decimal[,] b, float[,] result)
@@ -29196,7 +29196,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this float[,] a, decimal b, float[][] result)
@@ -29229,7 +29229,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this float[][] a, decimal b, float[][] result)
@@ -29253,7 +29253,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this float[][] a, decimal b, float[,] result)
@@ -29278,7 +29278,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this float a, decimal[,] b, float[][] result)
@@ -29311,7 +29311,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this float a, decimal[][] b, float[][] result)
@@ -29335,7 +29335,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this float a, decimal[][] b, float[,] result)
@@ -29368,7 +29368,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this float a, decimal[,] b, float[,] result)
@@ -29401,7 +29401,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this float[,] a, decimal b, float[,] result)
@@ -29434,7 +29434,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this float[,] a, decimal b, float[][] result)
@@ -29467,7 +29467,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this float[][] a, decimal b, float[,] result)
@@ -29518,7 +29518,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Subtract(this float[] a, decimal[] b, float[] result)
@@ -29549,7 +29549,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Subtract(this float[] a, decimal b, float[] result)
@@ -29572,7 +29572,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Subtract(this float a, decimal[] b, float[] result)
@@ -29610,7 +29610,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this float[,] a,  decimal[] b, int dimension, float[,] result)
@@ -29657,7 +29657,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this float[][] a,  decimal[] b, int dimension, float[][] result)
@@ -29710,7 +29710,7 @@ namespace Accord.Math
 
 
 #region Diagonal
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] SubtractFromDiagonal(this float a, decimal[,] b, float[,] result)
@@ -29736,7 +29736,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] SubtractFromDiagonal(this float a, decimal[][] b, float[][] result)
@@ -29750,7 +29750,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] SubtractFromDiagonal(this float[] a, decimal[,] b, float[,] result)
@@ -29776,7 +29776,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] SubtractFromDiagonal(this float[] a, decimal[][] b, float[][] result)
@@ -29790,7 +29790,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] SubtractFromDiagonal(this float[,] a, decimal b, float[,] result)
@@ -29816,7 +29816,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] SubtractFromDiagonal(this float[][] a, decimal b, float[][] result)
@@ -29830,7 +29830,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] SubtractFromDiagonal(this float[,] a, decimal[] b, float[,] result)
@@ -29856,7 +29856,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] SubtractFromDiagonal(this float[][] a, decimal[] b, float[][] result)
@@ -29884,7 +29884,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this float[][] a, decimal[,] b, decimal[,] result)
@@ -29919,7 +29919,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this float[,] a, decimal[][] b, decimal[,] result)
@@ -29954,7 +29954,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this float[,] a, decimal[,] b, decimal[][] result)
@@ -29989,7 +29989,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this float[][] a, decimal[,] b, decimal[][] result)
@@ -30022,7 +30022,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this float[,] a, decimal[][] b, decimal[][] result)
@@ -30054,7 +30054,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this float[][] a, decimal[][] b, decimal[][] result)
@@ -30079,7 +30079,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this float[,] a, decimal[,] b, decimal[,] result)
@@ -30142,7 +30142,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this float[,] a, decimal b, decimal[][] result)
@@ -30175,7 +30175,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this float[][] a, decimal b, decimal[][] result)
@@ -30199,7 +30199,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this float[][] a, decimal b, decimal[,] result)
@@ -30224,7 +30224,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this float a, decimal[,] b, decimal[][] result)
@@ -30257,7 +30257,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this float a, decimal[][] b, decimal[][] result)
@@ -30281,7 +30281,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this float a, decimal[][] b, decimal[,] result)
@@ -30314,7 +30314,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this float a, decimal[,] b, decimal[,] result)
@@ -30347,7 +30347,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this float[,] a, decimal b, decimal[,] result)
@@ -30380,7 +30380,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this float[,] a, decimal b, decimal[][] result)
@@ -30413,7 +30413,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this float[][] a, decimal b, decimal[,] result)
@@ -30464,7 +30464,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Subtract(this float[] a, decimal[] b, decimal[] result)
@@ -30495,7 +30495,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Subtract(this float[] a, decimal b, decimal[] result)
@@ -30518,7 +30518,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Subtract(this float a, decimal[] b, decimal[] result)
@@ -30556,7 +30556,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this float[,] a,  decimal[] b, int dimension, decimal[,] result)
@@ -30603,7 +30603,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this float[][] a,  decimal[] b, int dimension, decimal[][] result)
@@ -30656,7 +30656,7 @@ namespace Accord.Math
 
 
 #region Diagonal
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] SubtractFromDiagonal(this float a, decimal[,] b, decimal[,] result)
@@ -30682,7 +30682,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] SubtractFromDiagonal(this float a, decimal[][] b, decimal[][] result)
@@ -30696,7 +30696,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] SubtractFromDiagonal(this float[] a, decimal[,] b, decimal[,] result)
@@ -30722,7 +30722,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] SubtractFromDiagonal(this float[] a, decimal[][] b, decimal[][] result)
@@ -30736,7 +30736,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] SubtractFromDiagonal(this float[,] a, decimal b, decimal[,] result)
@@ -30762,7 +30762,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] SubtractFromDiagonal(this float[][] a, decimal b, decimal[][] result)
@@ -30776,7 +30776,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] SubtractFromDiagonal(this float[,] a, decimal[] b, decimal[,] result)
@@ -30802,7 +30802,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] SubtractFromDiagonal(this float[][] a, decimal[] b, decimal[][] result)
@@ -30830,7 +30830,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this float[][] a, decimal[,] b, double[,] result)
@@ -30865,7 +30865,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this float[,] a, decimal[][] b, double[,] result)
@@ -30900,7 +30900,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this float[,] a, decimal[,] b, double[][] result)
@@ -30935,7 +30935,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this float[][] a, decimal[,] b, double[][] result)
@@ -30968,7 +30968,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this float[,] a, decimal[][] b, double[][] result)
@@ -31000,7 +31000,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this float[][] a, decimal[][] b, double[][] result)
@@ -31025,7 +31025,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this float[,] a, decimal[,] b, double[,] result)
@@ -31088,7 +31088,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this float[,] a, decimal b, double[][] result)
@@ -31121,7 +31121,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this float[][] a, decimal b, double[][] result)
@@ -31145,7 +31145,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this float[][] a, decimal b, double[,] result)
@@ -31170,7 +31170,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this float a, decimal[,] b, double[][] result)
@@ -31203,7 +31203,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this float a, decimal[][] b, double[][] result)
@@ -31227,7 +31227,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this float a, decimal[][] b, double[,] result)
@@ -31260,7 +31260,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this float a, decimal[,] b, double[,] result)
@@ -31293,7 +31293,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this float[,] a, decimal b, double[,] result)
@@ -31326,7 +31326,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this float[,] a, decimal b, double[][] result)
@@ -31359,7 +31359,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this float[][] a, decimal b, double[,] result)
@@ -31410,7 +31410,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this float[] a, decimal[] b, double[] result)
@@ -31441,7 +31441,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this float[] a, decimal b, double[] result)
@@ -31464,7 +31464,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this float a, decimal[] b, double[] result)
@@ -31502,7 +31502,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this float[,] a,  decimal[] b, int dimension, double[,] result)
@@ -31549,7 +31549,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this float[][] a,  decimal[] b, int dimension, double[][] result)
@@ -31602,7 +31602,7 @@ namespace Accord.Math
 
 
 #region Diagonal
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this float a, decimal[,] b, double[,] result)
@@ -31628,7 +31628,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this float a, decimal[][] b, double[][] result)
@@ -31642,7 +31642,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this float[] a, decimal[,] b, double[,] result)
@@ -31668,7 +31668,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this float[] a, decimal[][] b, double[][] result)
@@ -31682,7 +31682,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this float[,] a, decimal b, double[,] result)
@@ -31708,7 +31708,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this float[][] a, decimal b, double[][] result)
@@ -31722,7 +31722,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this float[,] a, decimal[] b, double[,] result)
@@ -31748,7 +31748,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this float[][] a, decimal[] b, double[][] result)
@@ -31776,7 +31776,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this double[][] a, int[,] b, double[,] result)
@@ -31811,7 +31811,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this double[,] a, int[][] b, double[,] result)
@@ -31846,7 +31846,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this double[,] a, int[,] b, double[][] result)
@@ -31881,7 +31881,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this double[][] a, int[,] b, double[][] result)
@@ -31914,7 +31914,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this double[,] a, int[][] b, double[][] result)
@@ -31946,7 +31946,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this double[][] a, int[][] b, double[][] result)
@@ -31971,7 +31971,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this double[,] a, int[,] b, double[,] result)
@@ -32034,7 +32034,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this double[,] a, int b, double[][] result)
@@ -32067,7 +32067,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this double[][] a, int b, double[][] result)
@@ -32091,7 +32091,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this double[][] a, int b, double[,] result)
@@ -32116,7 +32116,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this double a, int[,] b, double[][] result)
@@ -32149,7 +32149,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this double a, int[][] b, double[][] result)
@@ -32173,7 +32173,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this double a, int[][] b, double[,] result)
@@ -32206,7 +32206,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this double a, int[,] b, double[,] result)
@@ -32239,7 +32239,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this double[,] a, int b, double[,] result)
@@ -32272,7 +32272,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this double[,] a, int b, double[][] result)
@@ -32305,7 +32305,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this double[][] a, int b, double[,] result)
@@ -32356,7 +32356,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this double[] a, int[] b, double[] result)
@@ -32387,7 +32387,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this double[] a, int b, double[] result)
@@ -32410,7 +32410,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this double a, int[] b, double[] result)
@@ -32448,7 +32448,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this double[,] a,  int[] b, int dimension, double[,] result)
@@ -32495,7 +32495,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this double[][] a,  int[] b, int dimension, double[][] result)
@@ -32548,7 +32548,7 @@ namespace Accord.Math
 
 
 #region Diagonal
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this double a, int[,] b, double[,] result)
@@ -32574,7 +32574,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this double a, int[][] b, double[][] result)
@@ -32588,7 +32588,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this double[] a, int[,] b, double[,] result)
@@ -32614,7 +32614,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this double[] a, int[][] b, double[][] result)
@@ -32628,7 +32628,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this double[,] a, int b, double[,] result)
@@ -32654,7 +32654,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this double[][] a, int b, double[][] result)
@@ -32668,7 +32668,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this double[,] a, int[] b, double[,] result)
@@ -32694,7 +32694,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this double[][] a, int[] b, double[][] result)
@@ -32722,7 +32722,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this double[][] a, int[,] b, int[,] result)
@@ -32757,7 +32757,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this double[,] a, int[][] b, int[,] result)
@@ -32792,7 +32792,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this double[,] a, int[,] b, int[][] result)
@@ -32827,7 +32827,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this double[][] a, int[,] b, int[][] result)
@@ -32860,7 +32860,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this double[,] a, int[][] b, int[][] result)
@@ -32892,7 +32892,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this double[][] a, int[][] b, int[][] result)
@@ -32917,7 +32917,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this double[,] a, int[,] b, int[,] result)
@@ -32980,7 +32980,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this double[,] a, int b, int[][] result)
@@ -33013,7 +33013,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this double[][] a, int b, int[][] result)
@@ -33037,7 +33037,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this double[][] a, int b, int[,] result)
@@ -33062,7 +33062,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this double a, int[,] b, int[][] result)
@@ -33095,7 +33095,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this double a, int[][] b, int[][] result)
@@ -33119,7 +33119,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this double a, int[][] b, int[,] result)
@@ -33152,7 +33152,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this double a, int[,] b, int[,] result)
@@ -33185,7 +33185,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this double[,] a, int b, int[,] result)
@@ -33218,7 +33218,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this double[,] a, int b, int[][] result)
@@ -33251,7 +33251,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this double[][] a, int b, int[,] result)
@@ -33302,7 +33302,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Subtract(this double[] a, int[] b, int[] result)
@@ -33333,7 +33333,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Subtract(this double[] a, int b, int[] result)
@@ -33356,7 +33356,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Subtract(this double a, int[] b, int[] result)
@@ -33394,7 +33394,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this double[,] a,  int[] b, int dimension, int[,] result)
@@ -33441,7 +33441,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this double[][] a,  int[] b, int dimension, int[][] result)
@@ -33494,7 +33494,7 @@ namespace Accord.Math
 
 
 #region Diagonal
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] SubtractFromDiagonal(this double a, int[,] b, int[,] result)
@@ -33520,7 +33520,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] SubtractFromDiagonal(this double a, int[][] b, int[][] result)
@@ -33534,7 +33534,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] SubtractFromDiagonal(this double[] a, int[,] b, int[,] result)
@@ -33560,7 +33560,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] SubtractFromDiagonal(this double[] a, int[][] b, int[][] result)
@@ -33574,7 +33574,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] SubtractFromDiagonal(this double[,] a, int b, int[,] result)
@@ -33600,7 +33600,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] SubtractFromDiagonal(this double[][] a, int b, int[][] result)
@@ -33614,7 +33614,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] SubtractFromDiagonal(this double[,] a, int[] b, int[,] result)
@@ -33640,7 +33640,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] SubtractFromDiagonal(this double[][] a, int[] b, int[][] result)
@@ -33668,7 +33668,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this double[][] a, float[,] b, double[,] result)
@@ -33703,7 +33703,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this double[,] a, float[][] b, double[,] result)
@@ -33738,7 +33738,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this double[,] a, float[,] b, double[][] result)
@@ -33773,7 +33773,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this double[][] a, float[,] b, double[][] result)
@@ -33806,7 +33806,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this double[,] a, float[][] b, double[][] result)
@@ -33838,7 +33838,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this double[][] a, float[][] b, double[][] result)
@@ -33863,7 +33863,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this double[,] a, float[,] b, double[,] result)
@@ -33926,7 +33926,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this double[,] a, float b, double[][] result)
@@ -33959,7 +33959,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this double[][] a, float b, double[][] result)
@@ -33983,7 +33983,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this double[][] a, float b, double[,] result)
@@ -34008,7 +34008,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this double a, float[,] b, double[][] result)
@@ -34041,7 +34041,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this double a, float[][] b, double[][] result)
@@ -34065,7 +34065,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this double a, float[][] b, double[,] result)
@@ -34098,7 +34098,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this double a, float[,] b, double[,] result)
@@ -34131,7 +34131,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this double[,] a, float b, double[,] result)
@@ -34164,7 +34164,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this double[,] a, float b, double[][] result)
@@ -34197,7 +34197,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this double[][] a, float b, double[,] result)
@@ -34248,7 +34248,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this double[] a, float[] b, double[] result)
@@ -34279,7 +34279,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this double[] a, float b, double[] result)
@@ -34302,7 +34302,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this double a, float[] b, double[] result)
@@ -34340,7 +34340,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this double[,] a,  float[] b, int dimension, double[,] result)
@@ -34387,7 +34387,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this double[][] a,  float[] b, int dimension, double[][] result)
@@ -34440,7 +34440,7 @@ namespace Accord.Math
 
 
 #region Diagonal
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this double a, float[,] b, double[,] result)
@@ -34466,7 +34466,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this double a, float[][] b, double[][] result)
@@ -34480,7 +34480,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this double[] a, float[,] b, double[,] result)
@@ -34506,7 +34506,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this double[] a, float[][] b, double[][] result)
@@ -34520,7 +34520,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this double[,] a, float b, double[,] result)
@@ -34546,7 +34546,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this double[][] a, float b, double[][] result)
@@ -34560,7 +34560,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this double[,] a, float[] b, double[,] result)
@@ -34586,7 +34586,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this double[][] a, float[] b, double[][] result)
@@ -34614,7 +34614,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this double[][] a, float[,] b, float[,] result)
@@ -34649,7 +34649,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this double[,] a, float[][] b, float[,] result)
@@ -34684,7 +34684,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this double[,] a, float[,] b, float[][] result)
@@ -34719,7 +34719,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this double[][] a, float[,] b, float[][] result)
@@ -34752,7 +34752,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this double[,] a, float[][] b, float[][] result)
@@ -34784,7 +34784,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this double[][] a, float[][] b, float[][] result)
@@ -34809,7 +34809,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this double[,] a, float[,] b, float[,] result)
@@ -34872,7 +34872,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this double[,] a, float b, float[][] result)
@@ -34905,7 +34905,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this double[][] a, float b, float[][] result)
@@ -34929,7 +34929,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this double[][] a, float b, float[,] result)
@@ -34954,7 +34954,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this double a, float[,] b, float[][] result)
@@ -34987,7 +34987,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this double a, float[][] b, float[][] result)
@@ -35011,7 +35011,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this double a, float[][] b, float[,] result)
@@ -35044,7 +35044,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this double a, float[,] b, float[,] result)
@@ -35077,7 +35077,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this double[,] a, float b, float[,] result)
@@ -35110,7 +35110,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this double[,] a, float b, float[][] result)
@@ -35143,7 +35143,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this double[][] a, float b, float[,] result)
@@ -35194,7 +35194,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Subtract(this double[] a, float[] b, float[] result)
@@ -35225,7 +35225,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Subtract(this double[] a, float b, float[] result)
@@ -35248,7 +35248,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Subtract(this double a, float[] b, float[] result)
@@ -35286,7 +35286,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this double[,] a,  float[] b, int dimension, float[,] result)
@@ -35333,7 +35333,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this double[][] a,  float[] b, int dimension, float[][] result)
@@ -35386,7 +35386,7 @@ namespace Accord.Math
 
 
 #region Diagonal
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] SubtractFromDiagonal(this double a, float[,] b, float[,] result)
@@ -35412,7 +35412,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] SubtractFromDiagonal(this double a, float[][] b, float[][] result)
@@ -35426,7 +35426,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] SubtractFromDiagonal(this double[] a, float[,] b, float[,] result)
@@ -35452,7 +35452,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] SubtractFromDiagonal(this double[] a, float[][] b, float[][] result)
@@ -35466,7 +35466,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] SubtractFromDiagonal(this double[,] a, float b, float[,] result)
@@ -35492,7 +35492,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] SubtractFromDiagonal(this double[][] a, float b, float[][] result)
@@ -35506,7 +35506,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] SubtractFromDiagonal(this double[,] a, float[] b, float[,] result)
@@ -35532,7 +35532,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] SubtractFromDiagonal(this double[][] a, float[] b, float[][] result)
@@ -35560,7 +35560,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this double[][] a, double[,] b, double[,] result)
@@ -35595,7 +35595,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this double[,] a, double[][] b, double[,] result)
@@ -35630,7 +35630,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this double[,] a, double[,] b, double[][] result)
@@ -35665,7 +35665,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this double[][] a, double[,] b, double[][] result)
@@ -35698,7 +35698,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this double[,] a, double[][] b, double[][] result)
@@ -35730,7 +35730,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this double[][] a, double[][] b, double[][] result)
@@ -35755,7 +35755,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this double[,] a, double[,] b, double[,] result)
@@ -35818,7 +35818,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this double[,] a, double b, double[][] result)
@@ -35851,7 +35851,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this double[][] a, double b, double[][] result)
@@ -35875,7 +35875,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this double[][] a, double b, double[,] result)
@@ -35900,7 +35900,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this double a, double[,] b, double[][] result)
@@ -35933,7 +35933,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this double a, double[][] b, double[][] result)
@@ -35957,7 +35957,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this double a, double[][] b, double[,] result)
@@ -35990,7 +35990,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this double a, double[,] b, double[,] result)
@@ -36023,7 +36023,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this double[,] a, double b, double[,] result)
@@ -36056,7 +36056,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this double[,] a, double b, double[][] result)
@@ -36089,7 +36089,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this double[][] a, double b, double[,] result)
@@ -36140,7 +36140,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this double[] a, double[] b, double[] result)
@@ -36171,7 +36171,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this double[] a, double b, double[] result)
@@ -36194,7 +36194,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this double a, double[] b, double[] result)
@@ -36232,7 +36232,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this double[,] a,  double[] b, int dimension, double[,] result)
@@ -36279,7 +36279,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this double[][] a,  double[] b, int dimension, double[][] result)
@@ -36332,7 +36332,7 @@ namespace Accord.Math
 
 
 #region Diagonal
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this double a, double[,] b, double[,] result)
@@ -36358,7 +36358,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this double a, double[][] b, double[][] result)
@@ -36372,7 +36372,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this double[] a, double[,] b, double[,] result)
@@ -36398,7 +36398,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this double[] a, double[][] b, double[][] result)
@@ -36412,7 +36412,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this double[,] a, double b, double[,] result)
@@ -36438,7 +36438,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this double[][] a, double b, double[][] result)
@@ -36452,7 +36452,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this double[,] a, double[] b, double[,] result)
@@ -36478,7 +36478,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this double[][] a, double[] b, double[][] result)
@@ -36506,7 +36506,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this double[][] a, byte[,] b, double[,] result)
@@ -36541,7 +36541,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this double[,] a, byte[][] b, double[,] result)
@@ -36576,7 +36576,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this double[,] a, byte[,] b, double[][] result)
@@ -36611,7 +36611,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this double[][] a, byte[,] b, double[][] result)
@@ -36644,7 +36644,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this double[,] a, byte[][] b, double[][] result)
@@ -36676,7 +36676,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this double[][] a, byte[][] b, double[][] result)
@@ -36701,7 +36701,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this double[,] a, byte[,] b, double[,] result)
@@ -36764,7 +36764,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this double[,] a, byte b, double[][] result)
@@ -36797,7 +36797,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this double[][] a, byte b, double[][] result)
@@ -36821,7 +36821,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this double[][] a, byte b, double[,] result)
@@ -36846,7 +36846,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this double a, byte[,] b, double[][] result)
@@ -36879,7 +36879,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this double a, byte[][] b, double[][] result)
@@ -36903,7 +36903,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this double a, byte[][] b, double[,] result)
@@ -36936,7 +36936,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this double a, byte[,] b, double[,] result)
@@ -36969,7 +36969,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this double[,] a, byte b, double[,] result)
@@ -37002,7 +37002,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this double[,] a, byte b, double[][] result)
@@ -37035,7 +37035,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this double[][] a, byte b, double[,] result)
@@ -37086,7 +37086,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this double[] a, byte[] b, double[] result)
@@ -37117,7 +37117,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this double[] a, byte b, double[] result)
@@ -37140,7 +37140,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this double a, byte[] b, double[] result)
@@ -37178,7 +37178,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this double[,] a,  byte[] b, int dimension, double[,] result)
@@ -37225,7 +37225,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this double[][] a,  byte[] b, int dimension, double[][] result)
@@ -37278,7 +37278,7 @@ namespace Accord.Math
 
 
 #region Diagonal
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this double a, byte[,] b, double[,] result)
@@ -37304,7 +37304,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this double a, byte[][] b, double[][] result)
@@ -37318,7 +37318,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this double[] a, byte[,] b, double[,] result)
@@ -37344,7 +37344,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this double[] a, byte[][] b, double[][] result)
@@ -37358,7 +37358,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this double[,] a, byte b, double[,] result)
@@ -37384,7 +37384,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this double[][] a, byte b, double[][] result)
@@ -37398,7 +37398,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this double[,] a, byte[] b, double[,] result)
@@ -37424,7 +37424,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this double[][] a, byte[] b, double[][] result)
@@ -37452,7 +37452,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this double[][] a, byte[,] b, byte[,] result)
@@ -37487,7 +37487,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this double[,] a, byte[][] b, byte[,] result)
@@ -37522,7 +37522,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this double[,] a, byte[,] b, byte[][] result)
@@ -37557,7 +37557,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this double[][] a, byte[,] b, byte[][] result)
@@ -37590,7 +37590,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this double[,] a, byte[][] b, byte[][] result)
@@ -37622,7 +37622,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this double[][] a, byte[][] b, byte[][] result)
@@ -37647,7 +37647,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this double[,] a, byte[,] b, byte[,] result)
@@ -37710,7 +37710,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this double[,] a, byte b, byte[][] result)
@@ -37743,7 +37743,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this double[][] a, byte b, byte[][] result)
@@ -37767,7 +37767,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this double[][] a, byte b, byte[,] result)
@@ -37792,7 +37792,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this double a, byte[,] b, byte[][] result)
@@ -37825,7 +37825,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this double a, byte[][] b, byte[][] result)
@@ -37849,7 +37849,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this double a, byte[][] b, byte[,] result)
@@ -37882,7 +37882,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this double a, byte[,] b, byte[,] result)
@@ -37915,7 +37915,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this double[,] a, byte b, byte[,] result)
@@ -37948,7 +37948,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this double[,] a, byte b, byte[][] result)
@@ -37981,7 +37981,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this double[][] a, byte b, byte[,] result)
@@ -38032,7 +38032,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[] Subtract(this double[] a, byte[] b, byte[] result)
@@ -38063,7 +38063,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[] Subtract(this double[] a, byte b, byte[] result)
@@ -38086,7 +38086,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[] Subtract(this double a, byte[] b, byte[] result)
@@ -38124,7 +38124,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this double[,] a,  byte[] b, int dimension, byte[,] result)
@@ -38171,7 +38171,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this double[][] a,  byte[] b, int dimension, byte[][] result)
@@ -38224,7 +38224,7 @@ namespace Accord.Math
 
 
 #region Diagonal
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] SubtractFromDiagonal(this double a, byte[,] b, byte[,] result)
@@ -38250,7 +38250,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] SubtractFromDiagonal(this double a, byte[][] b, byte[][] result)
@@ -38264,7 +38264,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] SubtractFromDiagonal(this double[] a, byte[,] b, byte[,] result)
@@ -38290,7 +38290,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] SubtractFromDiagonal(this double[] a, byte[][] b, byte[][] result)
@@ -38304,7 +38304,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] SubtractFromDiagonal(this double[,] a, byte b, byte[,] result)
@@ -38330,7 +38330,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] SubtractFromDiagonal(this double[][] a, byte b, byte[][] result)
@@ -38344,7 +38344,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] SubtractFromDiagonal(this double[,] a, byte[] b, byte[,] result)
@@ -38370,7 +38370,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] SubtractFromDiagonal(this double[][] a, byte[] b, byte[][] result)
@@ -38398,7 +38398,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this double[][] a, decimal[,] b, double[,] result)
@@ -38433,7 +38433,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this double[,] a, decimal[][] b, double[,] result)
@@ -38468,7 +38468,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this double[,] a, decimal[,] b, double[][] result)
@@ -38503,7 +38503,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this double[][] a, decimal[,] b, double[][] result)
@@ -38536,7 +38536,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this double[,] a, decimal[][] b, double[][] result)
@@ -38568,7 +38568,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this double[][] a, decimal[][] b, double[][] result)
@@ -38593,7 +38593,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this double[,] a, decimal[,] b, double[,] result)
@@ -38656,7 +38656,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this double[,] a, decimal b, double[][] result)
@@ -38689,7 +38689,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this double[][] a, decimal b, double[][] result)
@@ -38713,7 +38713,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this double[][] a, decimal b, double[,] result)
@@ -38738,7 +38738,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this double a, decimal[,] b, double[][] result)
@@ -38771,7 +38771,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this double a, decimal[][] b, double[][] result)
@@ -38795,7 +38795,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this double a, decimal[][] b, double[,] result)
@@ -38828,7 +38828,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this double a, decimal[,] b, double[,] result)
@@ -38861,7 +38861,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this double[,] a, decimal b, double[,] result)
@@ -38894,7 +38894,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this double[,] a, decimal b, double[][] result)
@@ -38927,7 +38927,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this double[][] a, decimal b, double[,] result)
@@ -38978,7 +38978,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this double[] a, decimal[] b, double[] result)
@@ -39009,7 +39009,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this double[] a, decimal b, double[] result)
@@ -39032,7 +39032,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this double a, decimal[] b, double[] result)
@@ -39070,7 +39070,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this double[,] a,  decimal[] b, int dimension, double[,] result)
@@ -39117,7 +39117,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this double[][] a,  decimal[] b, int dimension, double[][] result)
@@ -39170,7 +39170,7 @@ namespace Accord.Math
 
 
 #region Diagonal
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this double a, decimal[,] b, double[,] result)
@@ -39196,7 +39196,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this double a, decimal[][] b, double[][] result)
@@ -39210,7 +39210,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this double[] a, decimal[,] b, double[,] result)
@@ -39236,7 +39236,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this double[] a, decimal[][] b, double[][] result)
@@ -39250,7 +39250,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this double[,] a, decimal b, double[,] result)
@@ -39276,7 +39276,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this double[][] a, decimal b, double[][] result)
@@ -39290,7 +39290,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this double[,] a, decimal[] b, double[,] result)
@@ -39316,7 +39316,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this double[][] a, decimal[] b, double[][] result)
@@ -39344,7 +39344,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this double[][] a, decimal[,] b, decimal[,] result)
@@ -39379,7 +39379,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this double[,] a, decimal[][] b, decimal[,] result)
@@ -39414,7 +39414,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this double[,] a, decimal[,] b, decimal[][] result)
@@ -39449,7 +39449,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this double[][] a, decimal[,] b, decimal[][] result)
@@ -39482,7 +39482,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this double[,] a, decimal[][] b, decimal[][] result)
@@ -39514,7 +39514,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this double[][] a, decimal[][] b, decimal[][] result)
@@ -39539,7 +39539,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this double[,] a, decimal[,] b, decimal[,] result)
@@ -39602,7 +39602,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this double[,] a, decimal b, decimal[][] result)
@@ -39635,7 +39635,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this double[][] a, decimal b, decimal[][] result)
@@ -39659,7 +39659,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this double[][] a, decimal b, decimal[,] result)
@@ -39684,7 +39684,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this double a, decimal[,] b, decimal[][] result)
@@ -39717,7 +39717,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this double a, decimal[][] b, decimal[][] result)
@@ -39741,7 +39741,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this double a, decimal[][] b, decimal[,] result)
@@ -39774,7 +39774,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this double a, decimal[,] b, decimal[,] result)
@@ -39807,7 +39807,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this double[,] a, decimal b, decimal[,] result)
@@ -39840,7 +39840,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this double[,] a, decimal b, decimal[][] result)
@@ -39873,7 +39873,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this double[][] a, decimal b, decimal[,] result)
@@ -39924,7 +39924,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Subtract(this double[] a, decimal[] b, decimal[] result)
@@ -39955,7 +39955,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Subtract(this double[] a, decimal b, decimal[] result)
@@ -39978,7 +39978,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Subtract(this double a, decimal[] b, decimal[] result)
@@ -40016,7 +40016,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this double[,] a,  decimal[] b, int dimension, decimal[,] result)
@@ -40063,7 +40063,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this double[][] a,  decimal[] b, int dimension, decimal[][] result)
@@ -40116,7 +40116,7 @@ namespace Accord.Math
 
 
 #region Diagonal
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] SubtractFromDiagonal(this double a, decimal[,] b, decimal[,] result)
@@ -40142,7 +40142,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] SubtractFromDiagonal(this double a, decimal[][] b, decimal[][] result)
@@ -40156,7 +40156,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] SubtractFromDiagonal(this double[] a, decimal[,] b, decimal[,] result)
@@ -40182,7 +40182,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] SubtractFromDiagonal(this double[] a, decimal[][] b, decimal[][] result)
@@ -40196,7 +40196,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] SubtractFromDiagonal(this double[,] a, decimal b, decimal[,] result)
@@ -40222,7 +40222,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] SubtractFromDiagonal(this double[][] a, decimal b, decimal[][] result)
@@ -40236,7 +40236,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] SubtractFromDiagonal(this double[,] a, decimal[] b, decimal[,] result)
@@ -40262,7 +40262,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] SubtractFromDiagonal(this double[][] a, decimal[] b, decimal[][] result)
@@ -40290,7 +40290,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this byte[][] a, int[,] b, byte[,] result)
@@ -40325,7 +40325,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this byte[,] a, int[][] b, byte[,] result)
@@ -40360,7 +40360,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this byte[,] a, int[,] b, byte[][] result)
@@ -40395,7 +40395,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this byte[][] a, int[,] b, byte[][] result)
@@ -40428,7 +40428,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this byte[,] a, int[][] b, byte[][] result)
@@ -40460,7 +40460,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this byte[][] a, int[][] b, byte[][] result)
@@ -40485,7 +40485,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this byte[,] a, int[,] b, byte[,] result)
@@ -40548,7 +40548,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this byte[,] a, int b, byte[][] result)
@@ -40581,7 +40581,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this byte[][] a, int b, byte[][] result)
@@ -40605,7 +40605,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this byte[][] a, int b, byte[,] result)
@@ -40630,7 +40630,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this byte a, int[,] b, byte[][] result)
@@ -40663,7 +40663,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this byte a, int[][] b, byte[][] result)
@@ -40687,7 +40687,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this byte a, int[][] b, byte[,] result)
@@ -40720,7 +40720,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this byte a, int[,] b, byte[,] result)
@@ -40753,7 +40753,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this byte[,] a, int b, byte[,] result)
@@ -40786,7 +40786,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this byte[,] a, int b, byte[][] result)
@@ -40819,7 +40819,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this byte[][] a, int b, byte[,] result)
@@ -40870,7 +40870,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[] Subtract(this byte[] a, int[] b, byte[] result)
@@ -40901,7 +40901,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[] Subtract(this byte[] a, int b, byte[] result)
@@ -40924,7 +40924,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[] Subtract(this byte a, int[] b, byte[] result)
@@ -40962,7 +40962,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this byte[,] a,  int[] b, int dimension, byte[,] result)
@@ -41009,7 +41009,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this byte[][] a,  int[] b, int dimension, byte[][] result)
@@ -41062,7 +41062,7 @@ namespace Accord.Math
 
 
 #region Diagonal
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] SubtractFromDiagonal(this byte a, int[,] b, byte[,] result)
@@ -41088,7 +41088,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] SubtractFromDiagonal(this byte a, int[][] b, byte[][] result)
@@ -41102,7 +41102,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] SubtractFromDiagonal(this byte[] a, int[,] b, byte[,] result)
@@ -41128,7 +41128,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] SubtractFromDiagonal(this byte[] a, int[][] b, byte[][] result)
@@ -41142,7 +41142,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] SubtractFromDiagonal(this byte[,] a, int b, byte[,] result)
@@ -41168,7 +41168,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] SubtractFromDiagonal(this byte[][] a, int b, byte[][] result)
@@ -41182,7 +41182,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] SubtractFromDiagonal(this byte[,] a, int[] b, byte[,] result)
@@ -41208,7 +41208,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] SubtractFromDiagonal(this byte[][] a, int[] b, byte[][] result)
@@ -41236,7 +41236,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this byte[][] a, int[,] b, int[,] result)
@@ -41271,7 +41271,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this byte[,] a, int[][] b, int[,] result)
@@ -41306,7 +41306,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this byte[,] a, int[,] b, int[][] result)
@@ -41341,7 +41341,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this byte[][] a, int[,] b, int[][] result)
@@ -41374,7 +41374,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this byte[,] a, int[][] b, int[][] result)
@@ -41406,7 +41406,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this byte[][] a, int[][] b, int[][] result)
@@ -41431,7 +41431,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this byte[,] a, int[,] b, int[,] result)
@@ -41494,7 +41494,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this byte[,] a, int b, int[][] result)
@@ -41527,7 +41527,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this byte[][] a, int b, int[][] result)
@@ -41551,7 +41551,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this byte[][] a, int b, int[,] result)
@@ -41576,7 +41576,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this byte a, int[,] b, int[][] result)
@@ -41609,7 +41609,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this byte a, int[][] b, int[][] result)
@@ -41633,7 +41633,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this byte a, int[][] b, int[,] result)
@@ -41666,7 +41666,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this byte a, int[,] b, int[,] result)
@@ -41699,7 +41699,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this byte[,] a, int b, int[,] result)
@@ -41732,7 +41732,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this byte[,] a, int b, int[][] result)
@@ -41765,7 +41765,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this byte[][] a, int b, int[,] result)
@@ -41816,7 +41816,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Subtract(this byte[] a, int[] b, int[] result)
@@ -41847,7 +41847,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Subtract(this byte[] a, int b, int[] result)
@@ -41870,7 +41870,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Subtract(this byte a, int[] b, int[] result)
@@ -41908,7 +41908,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this byte[,] a,  int[] b, int dimension, int[,] result)
@@ -41955,7 +41955,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this byte[][] a,  int[] b, int dimension, int[][] result)
@@ -42008,7 +42008,7 @@ namespace Accord.Math
 
 
 #region Diagonal
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] SubtractFromDiagonal(this byte a, int[,] b, int[,] result)
@@ -42034,7 +42034,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] SubtractFromDiagonal(this byte a, int[][] b, int[][] result)
@@ -42048,7 +42048,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] SubtractFromDiagonal(this byte[] a, int[,] b, int[,] result)
@@ -42074,7 +42074,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] SubtractFromDiagonal(this byte[] a, int[][] b, int[][] result)
@@ -42088,7 +42088,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] SubtractFromDiagonal(this byte[,] a, int b, int[,] result)
@@ -42114,7 +42114,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] SubtractFromDiagonal(this byte[][] a, int b, int[][] result)
@@ -42128,7 +42128,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] SubtractFromDiagonal(this byte[,] a, int[] b, int[,] result)
@@ -42154,7 +42154,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] SubtractFromDiagonal(this byte[][] a, int[] b, int[][] result)
@@ -42182,7 +42182,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this byte[][] a, int[,] b, double[,] result)
@@ -42217,7 +42217,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this byte[,] a, int[][] b, double[,] result)
@@ -42252,7 +42252,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this byte[,] a, int[,] b, double[][] result)
@@ -42287,7 +42287,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this byte[][] a, int[,] b, double[][] result)
@@ -42320,7 +42320,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this byte[,] a, int[][] b, double[][] result)
@@ -42352,7 +42352,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this byte[][] a, int[][] b, double[][] result)
@@ -42377,7 +42377,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this byte[,] a, int[,] b, double[,] result)
@@ -42440,7 +42440,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this byte[,] a, int b, double[][] result)
@@ -42473,7 +42473,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this byte[][] a, int b, double[][] result)
@@ -42497,7 +42497,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this byte[][] a, int b, double[,] result)
@@ -42522,7 +42522,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this byte a, int[,] b, double[][] result)
@@ -42555,7 +42555,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this byte a, int[][] b, double[][] result)
@@ -42579,7 +42579,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this byte a, int[][] b, double[,] result)
@@ -42612,7 +42612,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this byte a, int[,] b, double[,] result)
@@ -42645,7 +42645,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this byte[,] a, int b, double[,] result)
@@ -42678,7 +42678,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this byte[,] a, int b, double[][] result)
@@ -42711,7 +42711,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this byte[][] a, int b, double[,] result)
@@ -42762,7 +42762,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this byte[] a, int[] b, double[] result)
@@ -42793,7 +42793,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this byte[] a, int b, double[] result)
@@ -42816,7 +42816,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this byte a, int[] b, double[] result)
@@ -42854,7 +42854,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this byte[,] a,  int[] b, int dimension, double[,] result)
@@ -42901,7 +42901,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this byte[][] a,  int[] b, int dimension, double[][] result)
@@ -42954,7 +42954,7 @@ namespace Accord.Math
 
 
 #region Diagonal
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this byte a, int[,] b, double[,] result)
@@ -42980,7 +42980,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this byte a, int[][] b, double[][] result)
@@ -42994,7 +42994,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this byte[] a, int[,] b, double[,] result)
@@ -43020,7 +43020,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this byte[] a, int[][] b, double[][] result)
@@ -43034,7 +43034,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this byte[,] a, int b, double[,] result)
@@ -43060,7 +43060,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this byte[][] a, int b, double[][] result)
@@ -43074,7 +43074,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this byte[,] a, int[] b, double[,] result)
@@ -43100,7 +43100,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this byte[][] a, int[] b, double[][] result)
@@ -43128,7 +43128,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this byte[][] a, float[,] b, byte[,] result)
@@ -43163,7 +43163,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this byte[,] a, float[][] b, byte[,] result)
@@ -43198,7 +43198,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this byte[,] a, float[,] b, byte[][] result)
@@ -43233,7 +43233,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this byte[][] a, float[,] b, byte[][] result)
@@ -43266,7 +43266,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this byte[,] a, float[][] b, byte[][] result)
@@ -43298,7 +43298,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this byte[][] a, float[][] b, byte[][] result)
@@ -43323,7 +43323,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this byte[,] a, float[,] b, byte[,] result)
@@ -43386,7 +43386,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this byte[,] a, float b, byte[][] result)
@@ -43419,7 +43419,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this byte[][] a, float b, byte[][] result)
@@ -43443,7 +43443,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this byte[][] a, float b, byte[,] result)
@@ -43468,7 +43468,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this byte a, float[,] b, byte[][] result)
@@ -43501,7 +43501,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this byte a, float[][] b, byte[][] result)
@@ -43525,7 +43525,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this byte a, float[][] b, byte[,] result)
@@ -43558,7 +43558,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this byte a, float[,] b, byte[,] result)
@@ -43591,7 +43591,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this byte[,] a, float b, byte[,] result)
@@ -43624,7 +43624,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this byte[,] a, float b, byte[][] result)
@@ -43657,7 +43657,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this byte[][] a, float b, byte[,] result)
@@ -43708,7 +43708,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[] Subtract(this byte[] a, float[] b, byte[] result)
@@ -43739,7 +43739,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[] Subtract(this byte[] a, float b, byte[] result)
@@ -43762,7 +43762,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[] Subtract(this byte a, float[] b, byte[] result)
@@ -43800,7 +43800,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this byte[,] a,  float[] b, int dimension, byte[,] result)
@@ -43847,7 +43847,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this byte[][] a,  float[] b, int dimension, byte[][] result)
@@ -43900,7 +43900,7 @@ namespace Accord.Math
 
 
 #region Diagonal
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] SubtractFromDiagonal(this byte a, float[,] b, byte[,] result)
@@ -43926,7 +43926,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] SubtractFromDiagonal(this byte a, float[][] b, byte[][] result)
@@ -43940,7 +43940,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] SubtractFromDiagonal(this byte[] a, float[,] b, byte[,] result)
@@ -43966,7 +43966,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] SubtractFromDiagonal(this byte[] a, float[][] b, byte[][] result)
@@ -43980,7 +43980,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] SubtractFromDiagonal(this byte[,] a, float b, byte[,] result)
@@ -44006,7 +44006,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] SubtractFromDiagonal(this byte[][] a, float b, byte[][] result)
@@ -44020,7 +44020,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] SubtractFromDiagonal(this byte[,] a, float[] b, byte[,] result)
@@ -44046,7 +44046,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] SubtractFromDiagonal(this byte[][] a, float[] b, byte[][] result)
@@ -44074,7 +44074,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this byte[][] a, float[,] b, float[,] result)
@@ -44109,7 +44109,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this byte[,] a, float[][] b, float[,] result)
@@ -44144,7 +44144,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this byte[,] a, float[,] b, float[][] result)
@@ -44179,7 +44179,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this byte[][] a, float[,] b, float[][] result)
@@ -44212,7 +44212,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this byte[,] a, float[][] b, float[][] result)
@@ -44244,7 +44244,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this byte[][] a, float[][] b, float[][] result)
@@ -44269,7 +44269,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this byte[,] a, float[,] b, float[,] result)
@@ -44332,7 +44332,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this byte[,] a, float b, float[][] result)
@@ -44365,7 +44365,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this byte[][] a, float b, float[][] result)
@@ -44389,7 +44389,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this byte[][] a, float b, float[,] result)
@@ -44414,7 +44414,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this byte a, float[,] b, float[][] result)
@@ -44447,7 +44447,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this byte a, float[][] b, float[][] result)
@@ -44471,7 +44471,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this byte a, float[][] b, float[,] result)
@@ -44504,7 +44504,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this byte a, float[,] b, float[,] result)
@@ -44537,7 +44537,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this byte[,] a, float b, float[,] result)
@@ -44570,7 +44570,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this byte[,] a, float b, float[][] result)
@@ -44603,7 +44603,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this byte[][] a, float b, float[,] result)
@@ -44654,7 +44654,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Subtract(this byte[] a, float[] b, float[] result)
@@ -44685,7 +44685,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Subtract(this byte[] a, float b, float[] result)
@@ -44708,7 +44708,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Subtract(this byte a, float[] b, float[] result)
@@ -44746,7 +44746,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this byte[,] a,  float[] b, int dimension, float[,] result)
@@ -44793,7 +44793,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this byte[][] a,  float[] b, int dimension, float[][] result)
@@ -44846,7 +44846,7 @@ namespace Accord.Math
 
 
 #region Diagonal
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] SubtractFromDiagonal(this byte a, float[,] b, float[,] result)
@@ -44872,7 +44872,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] SubtractFromDiagonal(this byte a, float[][] b, float[][] result)
@@ -44886,7 +44886,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] SubtractFromDiagonal(this byte[] a, float[,] b, float[,] result)
@@ -44912,7 +44912,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] SubtractFromDiagonal(this byte[] a, float[][] b, float[][] result)
@@ -44926,7 +44926,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] SubtractFromDiagonal(this byte[,] a, float b, float[,] result)
@@ -44952,7 +44952,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] SubtractFromDiagonal(this byte[][] a, float b, float[][] result)
@@ -44966,7 +44966,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] SubtractFromDiagonal(this byte[,] a, float[] b, float[,] result)
@@ -44992,7 +44992,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] SubtractFromDiagonal(this byte[][] a, float[] b, float[][] result)
@@ -45020,7 +45020,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this byte[][] a, float[,] b, double[,] result)
@@ -45055,7 +45055,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this byte[,] a, float[][] b, double[,] result)
@@ -45090,7 +45090,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this byte[,] a, float[,] b, double[][] result)
@@ -45125,7 +45125,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this byte[][] a, float[,] b, double[][] result)
@@ -45158,7 +45158,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this byte[,] a, float[][] b, double[][] result)
@@ -45190,7 +45190,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this byte[][] a, float[][] b, double[][] result)
@@ -45215,7 +45215,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this byte[,] a, float[,] b, double[,] result)
@@ -45278,7 +45278,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this byte[,] a, float b, double[][] result)
@@ -45311,7 +45311,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this byte[][] a, float b, double[][] result)
@@ -45335,7 +45335,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this byte[][] a, float b, double[,] result)
@@ -45360,7 +45360,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this byte a, float[,] b, double[][] result)
@@ -45393,7 +45393,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this byte a, float[][] b, double[][] result)
@@ -45417,7 +45417,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this byte a, float[][] b, double[,] result)
@@ -45450,7 +45450,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this byte a, float[,] b, double[,] result)
@@ -45483,7 +45483,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this byte[,] a, float b, double[,] result)
@@ -45516,7 +45516,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this byte[,] a, float b, double[][] result)
@@ -45549,7 +45549,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this byte[][] a, float b, double[,] result)
@@ -45600,7 +45600,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this byte[] a, float[] b, double[] result)
@@ -45631,7 +45631,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this byte[] a, float b, double[] result)
@@ -45654,7 +45654,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this byte a, float[] b, double[] result)
@@ -45692,7 +45692,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this byte[,] a,  float[] b, int dimension, double[,] result)
@@ -45739,7 +45739,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this byte[][] a,  float[] b, int dimension, double[][] result)
@@ -45792,7 +45792,7 @@ namespace Accord.Math
 
 
 #region Diagonal
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this byte a, float[,] b, double[,] result)
@@ -45818,7 +45818,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this byte a, float[][] b, double[][] result)
@@ -45832,7 +45832,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this byte[] a, float[,] b, double[,] result)
@@ -45858,7 +45858,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this byte[] a, float[][] b, double[][] result)
@@ -45872,7 +45872,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this byte[,] a, float b, double[,] result)
@@ -45898,7 +45898,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this byte[][] a, float b, double[][] result)
@@ -45912,7 +45912,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this byte[,] a, float[] b, double[,] result)
@@ -45938,7 +45938,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this byte[][] a, float[] b, double[][] result)
@@ -45966,7 +45966,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this byte[][] a, double[,] b, byte[,] result)
@@ -46001,7 +46001,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this byte[,] a, double[][] b, byte[,] result)
@@ -46036,7 +46036,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this byte[,] a, double[,] b, byte[][] result)
@@ -46071,7 +46071,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this byte[][] a, double[,] b, byte[][] result)
@@ -46104,7 +46104,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this byte[,] a, double[][] b, byte[][] result)
@@ -46136,7 +46136,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this byte[][] a, double[][] b, byte[][] result)
@@ -46161,7 +46161,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this byte[,] a, double[,] b, byte[,] result)
@@ -46224,7 +46224,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this byte[,] a, double b, byte[][] result)
@@ -46257,7 +46257,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this byte[][] a, double b, byte[][] result)
@@ -46281,7 +46281,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this byte[][] a, double b, byte[,] result)
@@ -46306,7 +46306,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this byte a, double[,] b, byte[][] result)
@@ -46339,7 +46339,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this byte a, double[][] b, byte[][] result)
@@ -46363,7 +46363,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this byte a, double[][] b, byte[,] result)
@@ -46396,7 +46396,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this byte a, double[,] b, byte[,] result)
@@ -46429,7 +46429,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this byte[,] a, double b, byte[,] result)
@@ -46462,7 +46462,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this byte[,] a, double b, byte[][] result)
@@ -46495,7 +46495,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this byte[][] a, double b, byte[,] result)
@@ -46546,7 +46546,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[] Subtract(this byte[] a, double[] b, byte[] result)
@@ -46577,7 +46577,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[] Subtract(this byte[] a, double b, byte[] result)
@@ -46600,7 +46600,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[] Subtract(this byte a, double[] b, byte[] result)
@@ -46638,7 +46638,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this byte[,] a,  double[] b, int dimension, byte[,] result)
@@ -46685,7 +46685,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this byte[][] a,  double[] b, int dimension, byte[][] result)
@@ -46738,7 +46738,7 @@ namespace Accord.Math
 
 
 #region Diagonal
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] SubtractFromDiagonal(this byte a, double[,] b, byte[,] result)
@@ -46764,7 +46764,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] SubtractFromDiagonal(this byte a, double[][] b, byte[][] result)
@@ -46778,7 +46778,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] SubtractFromDiagonal(this byte[] a, double[,] b, byte[,] result)
@@ -46804,7 +46804,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] SubtractFromDiagonal(this byte[] a, double[][] b, byte[][] result)
@@ -46818,7 +46818,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] SubtractFromDiagonal(this byte[,] a, double b, byte[,] result)
@@ -46844,7 +46844,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] SubtractFromDiagonal(this byte[][] a, double b, byte[][] result)
@@ -46858,7 +46858,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] SubtractFromDiagonal(this byte[,] a, double[] b, byte[,] result)
@@ -46884,7 +46884,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] SubtractFromDiagonal(this byte[][] a, double[] b, byte[][] result)
@@ -46912,7 +46912,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this byte[][] a, double[,] b, double[,] result)
@@ -46947,7 +46947,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this byte[,] a, double[][] b, double[,] result)
@@ -46982,7 +46982,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this byte[,] a, double[,] b, double[][] result)
@@ -47017,7 +47017,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this byte[][] a, double[,] b, double[][] result)
@@ -47050,7 +47050,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this byte[,] a, double[][] b, double[][] result)
@@ -47082,7 +47082,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this byte[][] a, double[][] b, double[][] result)
@@ -47107,7 +47107,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this byte[,] a, double[,] b, double[,] result)
@@ -47170,7 +47170,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this byte[,] a, double b, double[][] result)
@@ -47203,7 +47203,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this byte[][] a, double b, double[][] result)
@@ -47227,7 +47227,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this byte[][] a, double b, double[,] result)
@@ -47252,7 +47252,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this byte a, double[,] b, double[][] result)
@@ -47285,7 +47285,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this byte a, double[][] b, double[][] result)
@@ -47309,7 +47309,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this byte a, double[][] b, double[,] result)
@@ -47342,7 +47342,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this byte a, double[,] b, double[,] result)
@@ -47375,7 +47375,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this byte[,] a, double b, double[,] result)
@@ -47408,7 +47408,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this byte[,] a, double b, double[][] result)
@@ -47441,7 +47441,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this byte[][] a, double b, double[,] result)
@@ -47492,7 +47492,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this byte[] a, double[] b, double[] result)
@@ -47523,7 +47523,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this byte[] a, double b, double[] result)
@@ -47546,7 +47546,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this byte a, double[] b, double[] result)
@@ -47584,7 +47584,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this byte[,] a,  double[] b, int dimension, double[,] result)
@@ -47631,7 +47631,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this byte[][] a,  double[] b, int dimension, double[][] result)
@@ -47684,7 +47684,7 @@ namespace Accord.Math
 
 
 #region Diagonal
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this byte a, double[,] b, double[,] result)
@@ -47710,7 +47710,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this byte a, double[][] b, double[][] result)
@@ -47724,7 +47724,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this byte[] a, double[,] b, double[,] result)
@@ -47750,7 +47750,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this byte[] a, double[][] b, double[][] result)
@@ -47764,7 +47764,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this byte[,] a, double b, double[,] result)
@@ -47790,7 +47790,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this byte[][] a, double b, double[][] result)
@@ -47804,7 +47804,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this byte[,] a, double[] b, double[,] result)
@@ -47830,7 +47830,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this byte[][] a, double[] b, double[][] result)
@@ -47858,7 +47858,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this byte[][] a, byte[,] b, byte[,] result)
@@ -47893,7 +47893,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this byte[,] a, byte[][] b, byte[,] result)
@@ -47928,7 +47928,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this byte[,] a, byte[,] b, byte[][] result)
@@ -47963,7 +47963,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this byte[][] a, byte[,] b, byte[][] result)
@@ -47996,7 +47996,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this byte[,] a, byte[][] b, byte[][] result)
@@ -48028,7 +48028,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this byte[][] a, byte[][] b, byte[][] result)
@@ -48053,7 +48053,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this byte[,] a, byte[,] b, byte[,] result)
@@ -48116,7 +48116,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this byte[,] a, byte b, byte[][] result)
@@ -48149,7 +48149,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this byte[][] a, byte b, byte[][] result)
@@ -48173,7 +48173,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this byte[][] a, byte b, byte[,] result)
@@ -48198,7 +48198,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this byte a, byte[,] b, byte[][] result)
@@ -48231,7 +48231,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this byte a, byte[][] b, byte[][] result)
@@ -48255,7 +48255,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this byte a, byte[][] b, byte[,] result)
@@ -48288,7 +48288,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this byte a, byte[,] b, byte[,] result)
@@ -48321,7 +48321,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this byte[,] a, byte b, byte[,] result)
@@ -48354,7 +48354,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this byte[,] a, byte b, byte[][] result)
@@ -48387,7 +48387,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this byte[][] a, byte b, byte[,] result)
@@ -48438,7 +48438,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[] Subtract(this byte[] a, byte[] b, byte[] result)
@@ -48469,7 +48469,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[] Subtract(this byte[] a, byte b, byte[] result)
@@ -48492,7 +48492,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[] Subtract(this byte a, byte[] b, byte[] result)
@@ -48530,7 +48530,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this byte[,] a,  byte[] b, int dimension, byte[,] result)
@@ -48577,7 +48577,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this byte[][] a,  byte[] b, int dimension, byte[][] result)
@@ -48630,7 +48630,7 @@ namespace Accord.Math
 
 
 #region Diagonal
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] SubtractFromDiagonal(this byte a, byte[,] b, byte[,] result)
@@ -48656,7 +48656,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] SubtractFromDiagonal(this byte a, byte[][] b, byte[][] result)
@@ -48670,7 +48670,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] SubtractFromDiagonal(this byte[] a, byte[,] b, byte[,] result)
@@ -48696,7 +48696,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] SubtractFromDiagonal(this byte[] a, byte[][] b, byte[][] result)
@@ -48710,7 +48710,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] SubtractFromDiagonal(this byte[,] a, byte b, byte[,] result)
@@ -48736,7 +48736,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] SubtractFromDiagonal(this byte[][] a, byte b, byte[][] result)
@@ -48750,7 +48750,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] SubtractFromDiagonal(this byte[,] a, byte[] b, byte[,] result)
@@ -48776,7 +48776,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] SubtractFromDiagonal(this byte[][] a, byte[] b, byte[][] result)
@@ -48804,7 +48804,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this byte[][] a, byte[,] b, double[,] result)
@@ -48839,7 +48839,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this byte[,] a, byte[][] b, double[,] result)
@@ -48874,7 +48874,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this byte[,] a, byte[,] b, double[][] result)
@@ -48909,7 +48909,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this byte[][] a, byte[,] b, double[][] result)
@@ -48942,7 +48942,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this byte[,] a, byte[][] b, double[][] result)
@@ -48974,7 +48974,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this byte[][] a, byte[][] b, double[][] result)
@@ -48999,7 +48999,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this byte[,] a, byte[,] b, double[,] result)
@@ -49062,7 +49062,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this byte[,] a, byte b, double[][] result)
@@ -49095,7 +49095,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this byte[][] a, byte b, double[][] result)
@@ -49119,7 +49119,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this byte[][] a, byte b, double[,] result)
@@ -49144,7 +49144,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this byte a, byte[,] b, double[][] result)
@@ -49177,7 +49177,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this byte a, byte[][] b, double[][] result)
@@ -49201,7 +49201,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this byte a, byte[][] b, double[,] result)
@@ -49234,7 +49234,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this byte a, byte[,] b, double[,] result)
@@ -49267,7 +49267,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this byte[,] a, byte b, double[,] result)
@@ -49300,7 +49300,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this byte[,] a, byte b, double[][] result)
@@ -49333,7 +49333,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this byte[][] a, byte b, double[,] result)
@@ -49384,7 +49384,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this byte[] a, byte[] b, double[] result)
@@ -49415,7 +49415,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this byte[] a, byte b, double[] result)
@@ -49438,7 +49438,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this byte a, byte[] b, double[] result)
@@ -49476,7 +49476,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this byte[,] a,  byte[] b, int dimension, double[,] result)
@@ -49523,7 +49523,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this byte[][] a,  byte[] b, int dimension, double[][] result)
@@ -49576,7 +49576,7 @@ namespace Accord.Math
 
 
 #region Diagonal
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this byte a, byte[,] b, double[,] result)
@@ -49602,7 +49602,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this byte a, byte[][] b, double[][] result)
@@ -49616,7 +49616,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this byte[] a, byte[,] b, double[,] result)
@@ -49642,7 +49642,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this byte[] a, byte[][] b, double[][] result)
@@ -49656,7 +49656,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this byte[,] a, byte b, double[,] result)
@@ -49682,7 +49682,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this byte[][] a, byte b, double[][] result)
@@ -49696,7 +49696,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this byte[,] a, byte[] b, double[,] result)
@@ -49722,7 +49722,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this byte[][] a, byte[] b, double[][] result)
@@ -49750,7 +49750,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this byte[][] a, decimal[,] b, byte[,] result)
@@ -49785,7 +49785,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this byte[,] a, decimal[][] b, byte[,] result)
@@ -49820,7 +49820,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this byte[,] a, decimal[,] b, byte[][] result)
@@ -49855,7 +49855,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this byte[][] a, decimal[,] b, byte[][] result)
@@ -49888,7 +49888,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this byte[,] a, decimal[][] b, byte[][] result)
@@ -49920,7 +49920,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this byte[][] a, decimal[][] b, byte[][] result)
@@ -49945,7 +49945,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this byte[,] a, decimal[,] b, byte[,] result)
@@ -50008,7 +50008,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this byte[,] a, decimal b, byte[][] result)
@@ -50041,7 +50041,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this byte[][] a, decimal b, byte[][] result)
@@ -50065,7 +50065,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this byte[][] a, decimal b, byte[,] result)
@@ -50090,7 +50090,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this byte a, decimal[,] b, byte[][] result)
@@ -50123,7 +50123,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this byte a, decimal[][] b, byte[][] result)
@@ -50147,7 +50147,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this byte a, decimal[][] b, byte[,] result)
@@ -50180,7 +50180,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this byte a, decimal[,] b, byte[,] result)
@@ -50213,7 +50213,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this byte[,] a, decimal b, byte[,] result)
@@ -50246,7 +50246,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this byte[,] a, decimal b, byte[][] result)
@@ -50279,7 +50279,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this byte[][] a, decimal b, byte[,] result)
@@ -50330,7 +50330,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[] Subtract(this byte[] a, decimal[] b, byte[] result)
@@ -50361,7 +50361,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[] Subtract(this byte[] a, decimal b, byte[] result)
@@ -50384,7 +50384,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[] Subtract(this byte a, decimal[] b, byte[] result)
@@ -50422,7 +50422,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this byte[,] a,  decimal[] b, int dimension, byte[,] result)
@@ -50469,7 +50469,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this byte[][] a,  decimal[] b, int dimension, byte[][] result)
@@ -50522,7 +50522,7 @@ namespace Accord.Math
 
 
 #region Diagonal
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] SubtractFromDiagonal(this byte a, decimal[,] b, byte[,] result)
@@ -50548,7 +50548,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] SubtractFromDiagonal(this byte a, decimal[][] b, byte[][] result)
@@ -50562,7 +50562,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] SubtractFromDiagonal(this byte[] a, decimal[,] b, byte[,] result)
@@ -50588,7 +50588,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] SubtractFromDiagonal(this byte[] a, decimal[][] b, byte[][] result)
@@ -50602,7 +50602,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] SubtractFromDiagonal(this byte[,] a, decimal b, byte[,] result)
@@ -50628,7 +50628,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] SubtractFromDiagonal(this byte[][] a, decimal b, byte[][] result)
@@ -50642,7 +50642,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] SubtractFromDiagonal(this byte[,] a, decimal[] b, byte[,] result)
@@ -50668,7 +50668,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] SubtractFromDiagonal(this byte[][] a, decimal[] b, byte[][] result)
@@ -50696,7 +50696,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this byte[][] a, decimal[,] b, decimal[,] result)
@@ -50731,7 +50731,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this byte[,] a, decimal[][] b, decimal[,] result)
@@ -50766,7 +50766,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this byte[,] a, decimal[,] b, decimal[][] result)
@@ -50801,7 +50801,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this byte[][] a, decimal[,] b, decimal[][] result)
@@ -50834,7 +50834,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this byte[,] a, decimal[][] b, decimal[][] result)
@@ -50866,7 +50866,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this byte[][] a, decimal[][] b, decimal[][] result)
@@ -50891,7 +50891,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this byte[,] a, decimal[,] b, decimal[,] result)
@@ -50954,7 +50954,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this byte[,] a, decimal b, decimal[][] result)
@@ -50987,7 +50987,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this byte[][] a, decimal b, decimal[][] result)
@@ -51011,7 +51011,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this byte[][] a, decimal b, decimal[,] result)
@@ -51036,7 +51036,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this byte a, decimal[,] b, decimal[][] result)
@@ -51069,7 +51069,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this byte a, decimal[][] b, decimal[][] result)
@@ -51093,7 +51093,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this byte a, decimal[][] b, decimal[,] result)
@@ -51126,7 +51126,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this byte a, decimal[,] b, decimal[,] result)
@@ -51159,7 +51159,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this byte[,] a, decimal b, decimal[,] result)
@@ -51192,7 +51192,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this byte[,] a, decimal b, decimal[][] result)
@@ -51225,7 +51225,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this byte[][] a, decimal b, decimal[,] result)
@@ -51276,7 +51276,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Subtract(this byte[] a, decimal[] b, decimal[] result)
@@ -51307,7 +51307,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Subtract(this byte[] a, decimal b, decimal[] result)
@@ -51330,7 +51330,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Subtract(this byte a, decimal[] b, decimal[] result)
@@ -51368,7 +51368,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this byte[,] a,  decimal[] b, int dimension, decimal[,] result)
@@ -51415,7 +51415,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this byte[][] a,  decimal[] b, int dimension, decimal[][] result)
@@ -51468,7 +51468,7 @@ namespace Accord.Math
 
 
 #region Diagonal
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] SubtractFromDiagonal(this byte a, decimal[,] b, decimal[,] result)
@@ -51494,7 +51494,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] SubtractFromDiagonal(this byte a, decimal[][] b, decimal[][] result)
@@ -51508,7 +51508,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] SubtractFromDiagonal(this byte[] a, decimal[,] b, decimal[,] result)
@@ -51534,7 +51534,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] SubtractFromDiagonal(this byte[] a, decimal[][] b, decimal[][] result)
@@ -51548,7 +51548,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] SubtractFromDiagonal(this byte[,] a, decimal b, decimal[,] result)
@@ -51574,7 +51574,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] SubtractFromDiagonal(this byte[][] a, decimal b, decimal[][] result)
@@ -51588,7 +51588,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] SubtractFromDiagonal(this byte[,] a, decimal[] b, decimal[,] result)
@@ -51614,7 +51614,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] SubtractFromDiagonal(this byte[][] a, decimal[] b, decimal[][] result)
@@ -51642,7 +51642,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this byte[][] a, decimal[,] b, double[,] result)
@@ -51677,7 +51677,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this byte[,] a, decimal[][] b, double[,] result)
@@ -51712,7 +51712,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this byte[,] a, decimal[,] b, double[][] result)
@@ -51747,7 +51747,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this byte[][] a, decimal[,] b, double[][] result)
@@ -51780,7 +51780,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this byte[,] a, decimal[][] b, double[][] result)
@@ -51812,7 +51812,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this byte[][] a, decimal[][] b, double[][] result)
@@ -51837,7 +51837,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this byte[,] a, decimal[,] b, double[,] result)
@@ -51900,7 +51900,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this byte[,] a, decimal b, double[][] result)
@@ -51933,7 +51933,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this byte[][] a, decimal b, double[][] result)
@@ -51957,7 +51957,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this byte[][] a, decimal b, double[,] result)
@@ -51982,7 +51982,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this byte a, decimal[,] b, double[][] result)
@@ -52015,7 +52015,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this byte a, decimal[][] b, double[][] result)
@@ -52039,7 +52039,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this byte a, decimal[][] b, double[,] result)
@@ -52072,7 +52072,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this byte a, decimal[,] b, double[,] result)
@@ -52105,7 +52105,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this byte[,] a, decimal b, double[,] result)
@@ -52138,7 +52138,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this byte[,] a, decimal b, double[][] result)
@@ -52171,7 +52171,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this byte[][] a, decimal b, double[,] result)
@@ -52222,7 +52222,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this byte[] a, decimal[] b, double[] result)
@@ -52253,7 +52253,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this byte[] a, decimal b, double[] result)
@@ -52276,7 +52276,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this byte a, decimal[] b, double[] result)
@@ -52314,7 +52314,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this byte[,] a,  decimal[] b, int dimension, double[,] result)
@@ -52361,7 +52361,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this byte[][] a,  decimal[] b, int dimension, double[][] result)
@@ -52414,7 +52414,7 @@ namespace Accord.Math
 
 
 #region Diagonal
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this byte a, decimal[,] b, double[,] result)
@@ -52440,7 +52440,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this byte a, decimal[][] b, double[][] result)
@@ -52454,7 +52454,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this byte[] a, decimal[,] b, double[,] result)
@@ -52480,7 +52480,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this byte[] a, decimal[][] b, double[][] result)
@@ -52494,7 +52494,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this byte[,] a, decimal b, double[,] result)
@@ -52520,7 +52520,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this byte[][] a, decimal b, double[][] result)
@@ -52534,7 +52534,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this byte[,] a, decimal[] b, double[,] result)
@@ -52560,7 +52560,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this byte[][] a, decimal[] b, double[][] result)
@@ -52588,7 +52588,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this decimal[][] a, int[,] b, decimal[,] result)
@@ -52623,7 +52623,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this decimal[,] a, int[][] b, decimal[,] result)
@@ -52658,7 +52658,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this decimal[,] a, int[,] b, decimal[][] result)
@@ -52693,7 +52693,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this decimal[][] a, int[,] b, decimal[][] result)
@@ -52726,7 +52726,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this decimal[,] a, int[][] b, decimal[][] result)
@@ -52758,7 +52758,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this decimal[][] a, int[][] b, decimal[][] result)
@@ -52783,7 +52783,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this decimal[,] a, int[,] b, decimal[,] result)
@@ -52846,7 +52846,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this decimal[,] a, int b, decimal[][] result)
@@ -52879,7 +52879,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this decimal[][] a, int b, decimal[][] result)
@@ -52903,7 +52903,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this decimal[][] a, int b, decimal[,] result)
@@ -52928,7 +52928,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this decimal a, int[,] b, decimal[][] result)
@@ -52961,7 +52961,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this decimal a, int[][] b, decimal[][] result)
@@ -52985,7 +52985,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this decimal a, int[][] b, decimal[,] result)
@@ -53018,7 +53018,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this decimal a, int[,] b, decimal[,] result)
@@ -53051,7 +53051,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this decimal[,] a, int b, decimal[,] result)
@@ -53084,7 +53084,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this decimal[,] a, int b, decimal[][] result)
@@ -53117,7 +53117,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this decimal[][] a, int b, decimal[,] result)
@@ -53168,7 +53168,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Subtract(this decimal[] a, int[] b, decimal[] result)
@@ -53199,7 +53199,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Subtract(this decimal[] a, int b, decimal[] result)
@@ -53222,7 +53222,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Subtract(this decimal a, int[] b, decimal[] result)
@@ -53260,7 +53260,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this decimal[,] a,  int[] b, int dimension, decimal[,] result)
@@ -53307,7 +53307,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this decimal[][] a,  int[] b, int dimension, decimal[][] result)
@@ -53360,7 +53360,7 @@ namespace Accord.Math
 
 
 #region Diagonal
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] SubtractFromDiagonal(this decimal a, int[,] b, decimal[,] result)
@@ -53386,7 +53386,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] SubtractFromDiagonal(this decimal a, int[][] b, decimal[][] result)
@@ -53400,7 +53400,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] SubtractFromDiagonal(this decimal[] a, int[,] b, decimal[,] result)
@@ -53426,7 +53426,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] SubtractFromDiagonal(this decimal[] a, int[][] b, decimal[][] result)
@@ -53440,7 +53440,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] SubtractFromDiagonal(this decimal[,] a, int b, decimal[,] result)
@@ -53466,7 +53466,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] SubtractFromDiagonal(this decimal[][] a, int b, decimal[][] result)
@@ -53480,7 +53480,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] SubtractFromDiagonal(this decimal[,] a, int[] b, decimal[,] result)
@@ -53506,7 +53506,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] SubtractFromDiagonal(this decimal[][] a, int[] b, decimal[][] result)
@@ -53534,7 +53534,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this decimal[][] a, int[,] b, int[,] result)
@@ -53569,7 +53569,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this decimal[,] a, int[][] b, int[,] result)
@@ -53604,7 +53604,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this decimal[,] a, int[,] b, int[][] result)
@@ -53639,7 +53639,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this decimal[][] a, int[,] b, int[][] result)
@@ -53672,7 +53672,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this decimal[,] a, int[][] b, int[][] result)
@@ -53704,7 +53704,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this decimal[][] a, int[][] b, int[][] result)
@@ -53729,7 +53729,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this decimal[,] a, int[,] b, int[,] result)
@@ -53792,7 +53792,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this decimal[,] a, int b, int[][] result)
@@ -53825,7 +53825,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this decimal[][] a, int b, int[][] result)
@@ -53849,7 +53849,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this decimal[][] a, int b, int[,] result)
@@ -53874,7 +53874,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this decimal a, int[,] b, int[][] result)
@@ -53907,7 +53907,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this decimal a, int[][] b, int[][] result)
@@ -53931,7 +53931,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this decimal a, int[][] b, int[,] result)
@@ -53964,7 +53964,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this decimal a, int[,] b, int[,] result)
@@ -53997,7 +53997,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this decimal[,] a, int b, int[,] result)
@@ -54030,7 +54030,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this decimal[,] a, int b, int[][] result)
@@ -54063,7 +54063,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this decimal[][] a, int b, int[,] result)
@@ -54114,7 +54114,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Subtract(this decimal[] a, int[] b, int[] result)
@@ -54145,7 +54145,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Subtract(this decimal[] a, int b, int[] result)
@@ -54168,7 +54168,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Subtract(this decimal a, int[] b, int[] result)
@@ -54206,7 +54206,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] Subtract(this decimal[,] a,  int[] b, int dimension, int[,] result)
@@ -54253,7 +54253,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] Subtract(this decimal[][] a,  int[] b, int dimension, int[][] result)
@@ -54306,7 +54306,7 @@ namespace Accord.Math
 
 
 #region Diagonal
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] SubtractFromDiagonal(this decimal a, int[,] b, int[,] result)
@@ -54332,7 +54332,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] SubtractFromDiagonal(this decimal a, int[][] b, int[][] result)
@@ -54346,7 +54346,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] SubtractFromDiagonal(this decimal[] a, int[,] b, int[,] result)
@@ -54372,7 +54372,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] SubtractFromDiagonal(this decimal[] a, int[][] b, int[][] result)
@@ -54386,7 +54386,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] SubtractFromDiagonal(this decimal[,] a, int b, int[,] result)
@@ -54412,7 +54412,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] SubtractFromDiagonal(this decimal[][] a, int b, int[][] result)
@@ -54426,7 +54426,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] SubtractFromDiagonal(this decimal[,] a, int[] b, int[,] result)
@@ -54452,7 +54452,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] SubtractFromDiagonal(this decimal[][] a, int[] b, int[][] result)
@@ -54480,7 +54480,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this decimal[][] a, int[,] b, double[,] result)
@@ -54515,7 +54515,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this decimal[,] a, int[][] b, double[,] result)
@@ -54550,7 +54550,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this decimal[,] a, int[,] b, double[][] result)
@@ -54585,7 +54585,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this decimal[][] a, int[,] b, double[][] result)
@@ -54618,7 +54618,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this decimal[,] a, int[][] b, double[][] result)
@@ -54650,7 +54650,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this decimal[][] a, int[][] b, double[][] result)
@@ -54675,7 +54675,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this decimal[,] a, int[,] b, double[,] result)
@@ -54738,7 +54738,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this decimal[,] a, int b, double[][] result)
@@ -54771,7 +54771,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this decimal[][] a, int b, double[][] result)
@@ -54795,7 +54795,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this decimal[][] a, int b, double[,] result)
@@ -54820,7 +54820,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this decimal a, int[,] b, double[][] result)
@@ -54853,7 +54853,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this decimal a, int[][] b, double[][] result)
@@ -54877,7 +54877,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this decimal a, int[][] b, double[,] result)
@@ -54910,7 +54910,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this decimal a, int[,] b, double[,] result)
@@ -54943,7 +54943,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this decimal[,] a, int b, double[,] result)
@@ -54976,7 +54976,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this decimal[,] a, int b, double[][] result)
@@ -55009,7 +55009,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this decimal[][] a, int b, double[,] result)
@@ -55060,7 +55060,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this decimal[] a, int[] b, double[] result)
@@ -55091,7 +55091,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this decimal[] a, int b, double[] result)
@@ -55114,7 +55114,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this decimal a, int[] b, double[] result)
@@ -55152,7 +55152,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this decimal[,] a,  int[] b, int dimension, double[,] result)
@@ -55199,7 +55199,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this decimal[][] a,  int[] b, int dimension, double[][] result)
@@ -55252,7 +55252,7 @@ namespace Accord.Math
 
 
 #region Diagonal
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this decimal a, int[,] b, double[,] result)
@@ -55278,7 +55278,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this decimal a, int[][] b, double[][] result)
@@ -55292,7 +55292,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this decimal[] a, int[,] b, double[,] result)
@@ -55318,7 +55318,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this decimal[] a, int[][] b, double[][] result)
@@ -55332,7 +55332,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this decimal[,] a, int b, double[,] result)
@@ -55358,7 +55358,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this decimal[][] a, int b, double[][] result)
@@ -55372,7 +55372,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this decimal[,] a, int[] b, double[,] result)
@@ -55398,7 +55398,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this decimal[][] a, int[] b, double[][] result)
@@ -55426,7 +55426,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this decimal[][] a, float[,] b, decimal[,] result)
@@ -55461,7 +55461,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this decimal[,] a, float[][] b, decimal[,] result)
@@ -55496,7 +55496,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this decimal[,] a, float[,] b, decimal[][] result)
@@ -55531,7 +55531,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this decimal[][] a, float[,] b, decimal[][] result)
@@ -55564,7 +55564,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this decimal[,] a, float[][] b, decimal[][] result)
@@ -55596,7 +55596,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this decimal[][] a, float[][] b, decimal[][] result)
@@ -55621,7 +55621,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this decimal[,] a, float[,] b, decimal[,] result)
@@ -55684,7 +55684,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this decimal[,] a, float b, decimal[][] result)
@@ -55717,7 +55717,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this decimal[][] a, float b, decimal[][] result)
@@ -55741,7 +55741,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this decimal[][] a, float b, decimal[,] result)
@@ -55766,7 +55766,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this decimal a, float[,] b, decimal[][] result)
@@ -55799,7 +55799,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this decimal a, float[][] b, decimal[][] result)
@@ -55823,7 +55823,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this decimal a, float[][] b, decimal[,] result)
@@ -55856,7 +55856,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this decimal a, float[,] b, decimal[,] result)
@@ -55889,7 +55889,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this decimal[,] a, float b, decimal[,] result)
@@ -55922,7 +55922,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this decimal[,] a, float b, decimal[][] result)
@@ -55955,7 +55955,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this decimal[][] a, float b, decimal[,] result)
@@ -56006,7 +56006,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Subtract(this decimal[] a, float[] b, decimal[] result)
@@ -56037,7 +56037,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Subtract(this decimal[] a, float b, decimal[] result)
@@ -56060,7 +56060,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Subtract(this decimal a, float[] b, decimal[] result)
@@ -56098,7 +56098,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this decimal[,] a,  float[] b, int dimension, decimal[,] result)
@@ -56145,7 +56145,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this decimal[][] a,  float[] b, int dimension, decimal[][] result)
@@ -56198,7 +56198,7 @@ namespace Accord.Math
 
 
 #region Diagonal
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] SubtractFromDiagonal(this decimal a, float[,] b, decimal[,] result)
@@ -56224,7 +56224,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] SubtractFromDiagonal(this decimal a, float[][] b, decimal[][] result)
@@ -56238,7 +56238,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] SubtractFromDiagonal(this decimal[] a, float[,] b, decimal[,] result)
@@ -56264,7 +56264,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] SubtractFromDiagonal(this decimal[] a, float[][] b, decimal[][] result)
@@ -56278,7 +56278,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] SubtractFromDiagonal(this decimal[,] a, float b, decimal[,] result)
@@ -56304,7 +56304,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] SubtractFromDiagonal(this decimal[][] a, float b, decimal[][] result)
@@ -56318,7 +56318,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] SubtractFromDiagonal(this decimal[,] a, float[] b, decimal[,] result)
@@ -56344,7 +56344,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] SubtractFromDiagonal(this decimal[][] a, float[] b, decimal[][] result)
@@ -56372,7 +56372,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this decimal[][] a, float[,] b, float[,] result)
@@ -56407,7 +56407,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this decimal[,] a, float[][] b, float[,] result)
@@ -56442,7 +56442,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this decimal[,] a, float[,] b, float[][] result)
@@ -56477,7 +56477,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this decimal[][] a, float[,] b, float[][] result)
@@ -56510,7 +56510,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this decimal[,] a, float[][] b, float[][] result)
@@ -56542,7 +56542,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this decimal[][] a, float[][] b, float[][] result)
@@ -56567,7 +56567,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this decimal[,] a, float[,] b, float[,] result)
@@ -56630,7 +56630,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this decimal[,] a, float b, float[][] result)
@@ -56663,7 +56663,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this decimal[][] a, float b, float[][] result)
@@ -56687,7 +56687,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this decimal[][] a, float b, float[,] result)
@@ -56712,7 +56712,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this decimal a, float[,] b, float[][] result)
@@ -56745,7 +56745,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this decimal a, float[][] b, float[][] result)
@@ -56769,7 +56769,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this decimal a, float[][] b, float[,] result)
@@ -56802,7 +56802,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this decimal a, float[,] b, float[,] result)
@@ -56835,7 +56835,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this decimal[,] a, float b, float[,] result)
@@ -56868,7 +56868,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this decimal[,] a, float b, float[][] result)
@@ -56901,7 +56901,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this decimal[][] a, float b, float[,] result)
@@ -56952,7 +56952,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Subtract(this decimal[] a, float[] b, float[] result)
@@ -56983,7 +56983,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Subtract(this decimal[] a, float b, float[] result)
@@ -57006,7 +57006,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Subtract(this decimal a, float[] b, float[] result)
@@ -57044,7 +57044,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] Subtract(this decimal[,] a,  float[] b, int dimension, float[,] result)
@@ -57091,7 +57091,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] Subtract(this decimal[][] a,  float[] b, int dimension, float[][] result)
@@ -57144,7 +57144,7 @@ namespace Accord.Math
 
 
 #region Diagonal
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] SubtractFromDiagonal(this decimal a, float[,] b, float[,] result)
@@ -57170,7 +57170,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] SubtractFromDiagonal(this decimal a, float[][] b, float[][] result)
@@ -57184,7 +57184,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] SubtractFromDiagonal(this decimal[] a, float[,] b, float[,] result)
@@ -57210,7 +57210,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] SubtractFromDiagonal(this decimal[] a, float[][] b, float[][] result)
@@ -57224,7 +57224,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] SubtractFromDiagonal(this decimal[,] a, float b, float[,] result)
@@ -57250,7 +57250,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] SubtractFromDiagonal(this decimal[][] a, float b, float[][] result)
@@ -57264,7 +57264,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] SubtractFromDiagonal(this decimal[,] a, float[] b, float[,] result)
@@ -57290,7 +57290,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] SubtractFromDiagonal(this decimal[][] a, float[] b, float[][] result)
@@ -57318,7 +57318,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this decimal[][] a, float[,] b, double[,] result)
@@ -57353,7 +57353,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this decimal[,] a, float[][] b, double[,] result)
@@ -57388,7 +57388,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this decimal[,] a, float[,] b, double[][] result)
@@ -57423,7 +57423,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this decimal[][] a, float[,] b, double[][] result)
@@ -57456,7 +57456,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this decimal[,] a, float[][] b, double[][] result)
@@ -57488,7 +57488,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this decimal[][] a, float[][] b, double[][] result)
@@ -57513,7 +57513,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this decimal[,] a, float[,] b, double[,] result)
@@ -57576,7 +57576,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this decimal[,] a, float b, double[][] result)
@@ -57609,7 +57609,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this decimal[][] a, float b, double[][] result)
@@ -57633,7 +57633,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this decimal[][] a, float b, double[,] result)
@@ -57658,7 +57658,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this decimal a, float[,] b, double[][] result)
@@ -57691,7 +57691,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this decimal a, float[][] b, double[][] result)
@@ -57715,7 +57715,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this decimal a, float[][] b, double[,] result)
@@ -57748,7 +57748,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this decimal a, float[,] b, double[,] result)
@@ -57781,7 +57781,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this decimal[,] a, float b, double[,] result)
@@ -57814,7 +57814,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this decimal[,] a, float b, double[][] result)
@@ -57847,7 +57847,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this decimal[][] a, float b, double[,] result)
@@ -57898,7 +57898,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this decimal[] a, float[] b, double[] result)
@@ -57929,7 +57929,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this decimal[] a, float b, double[] result)
@@ -57952,7 +57952,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this decimal a, float[] b, double[] result)
@@ -57990,7 +57990,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this decimal[,] a,  float[] b, int dimension, double[,] result)
@@ -58037,7 +58037,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this decimal[][] a,  float[] b, int dimension, double[][] result)
@@ -58090,7 +58090,7 @@ namespace Accord.Math
 
 
 #region Diagonal
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this decimal a, float[,] b, double[,] result)
@@ -58116,7 +58116,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this decimal a, float[][] b, double[][] result)
@@ -58130,7 +58130,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this decimal[] a, float[,] b, double[,] result)
@@ -58156,7 +58156,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this decimal[] a, float[][] b, double[][] result)
@@ -58170,7 +58170,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this decimal[,] a, float b, double[,] result)
@@ -58196,7 +58196,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this decimal[][] a, float b, double[][] result)
@@ -58210,7 +58210,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this decimal[,] a, float[] b, double[,] result)
@@ -58236,7 +58236,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this decimal[][] a, float[] b, double[][] result)
@@ -58264,7 +58264,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this decimal[][] a, double[,] b, decimal[,] result)
@@ -58299,7 +58299,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this decimal[,] a, double[][] b, decimal[,] result)
@@ -58334,7 +58334,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this decimal[,] a, double[,] b, decimal[][] result)
@@ -58369,7 +58369,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this decimal[][] a, double[,] b, decimal[][] result)
@@ -58402,7 +58402,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this decimal[,] a, double[][] b, decimal[][] result)
@@ -58434,7 +58434,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this decimal[][] a, double[][] b, decimal[][] result)
@@ -58459,7 +58459,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this decimal[,] a, double[,] b, decimal[,] result)
@@ -58522,7 +58522,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this decimal[,] a, double b, decimal[][] result)
@@ -58555,7 +58555,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this decimal[][] a, double b, decimal[][] result)
@@ -58579,7 +58579,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this decimal[][] a, double b, decimal[,] result)
@@ -58604,7 +58604,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this decimal a, double[,] b, decimal[][] result)
@@ -58637,7 +58637,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this decimal a, double[][] b, decimal[][] result)
@@ -58661,7 +58661,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this decimal a, double[][] b, decimal[,] result)
@@ -58694,7 +58694,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this decimal a, double[,] b, decimal[,] result)
@@ -58727,7 +58727,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this decimal[,] a, double b, decimal[,] result)
@@ -58760,7 +58760,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this decimal[,] a, double b, decimal[][] result)
@@ -58793,7 +58793,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this decimal[][] a, double b, decimal[,] result)
@@ -58844,7 +58844,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Subtract(this decimal[] a, double[] b, decimal[] result)
@@ -58875,7 +58875,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Subtract(this decimal[] a, double b, decimal[] result)
@@ -58898,7 +58898,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Subtract(this decimal a, double[] b, decimal[] result)
@@ -58936,7 +58936,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this decimal[,] a,  double[] b, int dimension, decimal[,] result)
@@ -58983,7 +58983,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this decimal[][] a,  double[] b, int dimension, decimal[][] result)
@@ -59036,7 +59036,7 @@ namespace Accord.Math
 
 
 #region Diagonal
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] SubtractFromDiagonal(this decimal a, double[,] b, decimal[,] result)
@@ -59062,7 +59062,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] SubtractFromDiagonal(this decimal a, double[][] b, decimal[][] result)
@@ -59076,7 +59076,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] SubtractFromDiagonal(this decimal[] a, double[,] b, decimal[,] result)
@@ -59102,7 +59102,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] SubtractFromDiagonal(this decimal[] a, double[][] b, decimal[][] result)
@@ -59116,7 +59116,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] SubtractFromDiagonal(this decimal[,] a, double b, decimal[,] result)
@@ -59142,7 +59142,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] SubtractFromDiagonal(this decimal[][] a, double b, decimal[][] result)
@@ -59156,7 +59156,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] SubtractFromDiagonal(this decimal[,] a, double[] b, decimal[,] result)
@@ -59182,7 +59182,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] SubtractFromDiagonal(this decimal[][] a, double[] b, decimal[][] result)
@@ -59210,7 +59210,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this decimal[][] a, double[,] b, double[,] result)
@@ -59245,7 +59245,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this decimal[,] a, double[][] b, double[,] result)
@@ -59280,7 +59280,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this decimal[,] a, double[,] b, double[][] result)
@@ -59315,7 +59315,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this decimal[][] a, double[,] b, double[][] result)
@@ -59348,7 +59348,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this decimal[,] a, double[][] b, double[][] result)
@@ -59380,7 +59380,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this decimal[][] a, double[][] b, double[][] result)
@@ -59405,7 +59405,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this decimal[,] a, double[,] b, double[,] result)
@@ -59468,7 +59468,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this decimal[,] a, double b, double[][] result)
@@ -59501,7 +59501,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this decimal[][] a, double b, double[][] result)
@@ -59525,7 +59525,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this decimal[][] a, double b, double[,] result)
@@ -59550,7 +59550,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this decimal a, double[,] b, double[][] result)
@@ -59583,7 +59583,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this decimal a, double[][] b, double[][] result)
@@ -59607,7 +59607,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this decimal a, double[][] b, double[,] result)
@@ -59640,7 +59640,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this decimal a, double[,] b, double[,] result)
@@ -59673,7 +59673,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this decimal[,] a, double b, double[,] result)
@@ -59706,7 +59706,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this decimal[,] a, double b, double[][] result)
@@ -59739,7 +59739,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this decimal[][] a, double b, double[,] result)
@@ -59790,7 +59790,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this decimal[] a, double[] b, double[] result)
@@ -59821,7 +59821,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this decimal[] a, double b, double[] result)
@@ -59844,7 +59844,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this decimal a, double[] b, double[] result)
@@ -59882,7 +59882,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this decimal[,] a,  double[] b, int dimension, double[,] result)
@@ -59929,7 +59929,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this decimal[][] a,  double[] b, int dimension, double[][] result)
@@ -59982,7 +59982,7 @@ namespace Accord.Math
 
 
 #region Diagonal
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this decimal a, double[,] b, double[,] result)
@@ -60008,7 +60008,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this decimal a, double[][] b, double[][] result)
@@ -60022,7 +60022,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this decimal[] a, double[,] b, double[,] result)
@@ -60048,7 +60048,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this decimal[] a, double[][] b, double[][] result)
@@ -60062,7 +60062,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this decimal[,] a, double b, double[,] result)
@@ -60088,7 +60088,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this decimal[][] a, double b, double[][] result)
@@ -60102,7 +60102,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this decimal[,] a, double[] b, double[,] result)
@@ -60128,7 +60128,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this decimal[][] a, double[] b, double[][] result)
@@ -60156,7 +60156,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this decimal[][] a, byte[,] b, decimal[,] result)
@@ -60191,7 +60191,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this decimal[,] a, byte[][] b, decimal[,] result)
@@ -60226,7 +60226,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this decimal[,] a, byte[,] b, decimal[][] result)
@@ -60261,7 +60261,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this decimal[][] a, byte[,] b, decimal[][] result)
@@ -60294,7 +60294,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this decimal[,] a, byte[][] b, decimal[][] result)
@@ -60326,7 +60326,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this decimal[][] a, byte[][] b, decimal[][] result)
@@ -60351,7 +60351,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this decimal[,] a, byte[,] b, decimal[,] result)
@@ -60414,7 +60414,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this decimal[,] a, byte b, decimal[][] result)
@@ -60447,7 +60447,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this decimal[][] a, byte b, decimal[][] result)
@@ -60471,7 +60471,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this decimal[][] a, byte b, decimal[,] result)
@@ -60496,7 +60496,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this decimal a, byte[,] b, decimal[][] result)
@@ -60529,7 +60529,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this decimal a, byte[][] b, decimal[][] result)
@@ -60553,7 +60553,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this decimal a, byte[][] b, decimal[,] result)
@@ -60586,7 +60586,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this decimal a, byte[,] b, decimal[,] result)
@@ -60619,7 +60619,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this decimal[,] a, byte b, decimal[,] result)
@@ -60652,7 +60652,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this decimal[,] a, byte b, decimal[][] result)
@@ -60685,7 +60685,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this decimal[][] a, byte b, decimal[,] result)
@@ -60736,7 +60736,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Subtract(this decimal[] a, byte[] b, decimal[] result)
@@ -60767,7 +60767,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Subtract(this decimal[] a, byte b, decimal[] result)
@@ -60790,7 +60790,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Subtract(this decimal a, byte[] b, decimal[] result)
@@ -60828,7 +60828,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this decimal[,] a,  byte[] b, int dimension, decimal[,] result)
@@ -60875,7 +60875,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this decimal[][] a,  byte[] b, int dimension, decimal[][] result)
@@ -60928,7 +60928,7 @@ namespace Accord.Math
 
 
 #region Diagonal
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] SubtractFromDiagonal(this decimal a, byte[,] b, decimal[,] result)
@@ -60954,7 +60954,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] SubtractFromDiagonal(this decimal a, byte[][] b, decimal[][] result)
@@ -60968,7 +60968,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] SubtractFromDiagonal(this decimal[] a, byte[,] b, decimal[,] result)
@@ -60994,7 +60994,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] SubtractFromDiagonal(this decimal[] a, byte[][] b, decimal[][] result)
@@ -61008,7 +61008,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] SubtractFromDiagonal(this decimal[,] a, byte b, decimal[,] result)
@@ -61034,7 +61034,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] SubtractFromDiagonal(this decimal[][] a, byte b, decimal[][] result)
@@ -61048,7 +61048,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] SubtractFromDiagonal(this decimal[,] a, byte[] b, decimal[,] result)
@@ -61074,7 +61074,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] SubtractFromDiagonal(this decimal[][] a, byte[] b, decimal[][] result)
@@ -61102,7 +61102,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this decimal[][] a, byte[,] b, byte[,] result)
@@ -61137,7 +61137,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this decimal[,] a, byte[][] b, byte[,] result)
@@ -61172,7 +61172,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this decimal[,] a, byte[,] b, byte[][] result)
@@ -61207,7 +61207,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this decimal[][] a, byte[,] b, byte[][] result)
@@ -61240,7 +61240,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this decimal[,] a, byte[][] b, byte[][] result)
@@ -61272,7 +61272,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this decimal[][] a, byte[][] b, byte[][] result)
@@ -61297,7 +61297,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this decimal[,] a, byte[,] b, byte[,] result)
@@ -61360,7 +61360,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this decimal[,] a, byte b, byte[][] result)
@@ -61393,7 +61393,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this decimal[][] a, byte b, byte[][] result)
@@ -61417,7 +61417,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this decimal[][] a, byte b, byte[,] result)
@@ -61442,7 +61442,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this decimal a, byte[,] b, byte[][] result)
@@ -61475,7 +61475,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this decimal a, byte[][] b, byte[][] result)
@@ -61499,7 +61499,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this decimal a, byte[][] b, byte[,] result)
@@ -61532,7 +61532,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this decimal a, byte[,] b, byte[,] result)
@@ -61565,7 +61565,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this decimal[,] a, byte b, byte[,] result)
@@ -61598,7 +61598,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this decimal[,] a, byte b, byte[][] result)
@@ -61631,7 +61631,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this decimal[][] a, byte b, byte[,] result)
@@ -61682,7 +61682,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[] Subtract(this decimal[] a, byte[] b, byte[] result)
@@ -61713,7 +61713,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[] Subtract(this decimal[] a, byte b, byte[] result)
@@ -61736,7 +61736,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[] Subtract(this decimal a, byte[] b, byte[] result)
@@ -61774,7 +61774,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] Subtract(this decimal[,] a,  byte[] b, int dimension, byte[,] result)
@@ -61821,7 +61821,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] Subtract(this decimal[][] a,  byte[] b, int dimension, byte[][] result)
@@ -61874,7 +61874,7 @@ namespace Accord.Math
 
 
 #region Diagonal
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] SubtractFromDiagonal(this decimal a, byte[,] b, byte[,] result)
@@ -61900,7 +61900,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] SubtractFromDiagonal(this decimal a, byte[][] b, byte[][] result)
@@ -61914,7 +61914,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] SubtractFromDiagonal(this decimal[] a, byte[,] b, byte[,] result)
@@ -61940,7 +61940,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] SubtractFromDiagonal(this decimal[] a, byte[][] b, byte[][] result)
@@ -61954,7 +61954,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] SubtractFromDiagonal(this decimal[,] a, byte b, byte[,] result)
@@ -61980,7 +61980,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] SubtractFromDiagonal(this decimal[][] a, byte b, byte[][] result)
@@ -61994,7 +61994,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[,] SubtractFromDiagonal(this decimal[,] a, byte[] b, byte[,] result)
@@ -62020,7 +62020,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static byte[][] SubtractFromDiagonal(this decimal[][] a, byte[] b, byte[][] result)
@@ -62048,7 +62048,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this decimal[][] a, byte[,] b, double[,] result)
@@ -62083,7 +62083,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this decimal[,] a, byte[][] b, double[,] result)
@@ -62118,7 +62118,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this decimal[,] a, byte[,] b, double[][] result)
@@ -62153,7 +62153,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this decimal[][] a, byte[,] b, double[][] result)
@@ -62186,7 +62186,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this decimal[,] a, byte[][] b, double[][] result)
@@ -62218,7 +62218,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this decimal[][] a, byte[][] b, double[][] result)
@@ -62243,7 +62243,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this decimal[,] a, byte[,] b, double[,] result)
@@ -62306,7 +62306,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this decimal[,] a, byte b, double[][] result)
@@ -62339,7 +62339,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this decimal[][] a, byte b, double[][] result)
@@ -62363,7 +62363,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this decimal[][] a, byte b, double[,] result)
@@ -62388,7 +62388,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this decimal a, byte[,] b, double[][] result)
@@ -62421,7 +62421,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this decimal a, byte[][] b, double[][] result)
@@ -62445,7 +62445,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this decimal a, byte[][] b, double[,] result)
@@ -62478,7 +62478,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this decimal a, byte[,] b, double[,] result)
@@ -62511,7 +62511,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this decimal[,] a, byte b, double[,] result)
@@ -62544,7 +62544,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this decimal[,] a, byte b, double[][] result)
@@ -62577,7 +62577,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this decimal[][] a, byte b, double[,] result)
@@ -62628,7 +62628,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this decimal[] a, byte[] b, double[] result)
@@ -62659,7 +62659,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this decimal[] a, byte b, double[] result)
@@ -62682,7 +62682,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this decimal a, byte[] b, double[] result)
@@ -62720,7 +62720,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this decimal[,] a,  byte[] b, int dimension, double[,] result)
@@ -62767,7 +62767,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this decimal[][] a,  byte[] b, int dimension, double[][] result)
@@ -62820,7 +62820,7 @@ namespace Accord.Math
 
 
 #region Diagonal
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this decimal a, byte[,] b, double[,] result)
@@ -62846,7 +62846,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this decimal a, byte[][] b, double[][] result)
@@ -62860,7 +62860,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this decimal[] a, byte[,] b, double[,] result)
@@ -62886,7 +62886,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this decimal[] a, byte[][] b, double[][] result)
@@ -62900,7 +62900,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this decimal[,] a, byte b, double[,] result)
@@ -62926,7 +62926,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this decimal[][] a, byte b, double[][] result)
@@ -62940,7 +62940,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this decimal[,] a, byte[] b, double[,] result)
@@ -62966,7 +62966,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this decimal[][] a, byte[] b, double[][] result)
@@ -62994,7 +62994,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this decimal[][] a, decimal[,] b, decimal[,] result)
@@ -63029,7 +63029,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this decimal[,] a, decimal[][] b, decimal[,] result)
@@ -63064,7 +63064,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this decimal[,] a, decimal[,] b, decimal[][] result)
@@ -63099,7 +63099,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this decimal[][] a, decimal[,] b, decimal[][] result)
@@ -63132,7 +63132,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this decimal[,] a, decimal[][] b, decimal[][] result)
@@ -63164,7 +63164,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this decimal[][] a, decimal[][] b, decimal[][] result)
@@ -63189,7 +63189,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this decimal[,] a, decimal[,] b, decimal[,] result)
@@ -63252,7 +63252,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this decimal[,] a, decimal b, decimal[][] result)
@@ -63285,7 +63285,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this decimal[][] a, decimal b, decimal[][] result)
@@ -63309,7 +63309,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this decimal[][] a, decimal b, decimal[,] result)
@@ -63334,7 +63334,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this decimal a, decimal[,] b, decimal[][] result)
@@ -63367,7 +63367,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this decimal a, decimal[][] b, decimal[][] result)
@@ -63391,7 +63391,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this decimal a, decimal[][] b, decimal[,] result)
@@ -63424,7 +63424,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this decimal a, decimal[,] b, decimal[,] result)
@@ -63457,7 +63457,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this decimal[,] a, decimal b, decimal[,] result)
@@ -63490,7 +63490,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this decimal[,] a, decimal b, decimal[][] result)
@@ -63523,7 +63523,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this decimal[][] a, decimal b, decimal[,] result)
@@ -63574,7 +63574,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Subtract(this decimal[] a, decimal[] b, decimal[] result)
@@ -63605,7 +63605,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Subtract(this decimal[] a, decimal b, decimal[] result)
@@ -63628,7 +63628,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Subtract(this decimal a, decimal[] b, decimal[] result)
@@ -63666,7 +63666,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] Subtract(this decimal[,] a,  decimal[] b, int dimension, decimal[,] result)
@@ -63713,7 +63713,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] Subtract(this decimal[][] a,  decimal[] b, int dimension, decimal[][] result)
@@ -63766,7 +63766,7 @@ namespace Accord.Math
 
 
 #region Diagonal
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] SubtractFromDiagonal(this decimal a, decimal[,] b, decimal[,] result)
@@ -63792,7 +63792,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] SubtractFromDiagonal(this decimal a, decimal[][] b, decimal[][] result)
@@ -63806,7 +63806,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] SubtractFromDiagonal(this decimal[] a, decimal[,] b, decimal[,] result)
@@ -63832,7 +63832,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] SubtractFromDiagonal(this decimal[] a, decimal[][] b, decimal[][] result)
@@ -63846,7 +63846,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] SubtractFromDiagonal(this decimal[,] a, decimal b, decimal[,] result)
@@ -63872,7 +63872,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] SubtractFromDiagonal(this decimal[][] a, decimal b, decimal[][] result)
@@ -63886,7 +63886,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] SubtractFromDiagonal(this decimal[,] a, decimal[] b, decimal[,] result)
@@ -63912,7 +63912,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] SubtractFromDiagonal(this decimal[][] a, decimal[] b, decimal[][] result)
@@ -63940,7 +63940,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this decimal[][] a, decimal[,] b, double[,] result)
@@ -63975,7 +63975,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this decimal[,] a, decimal[][] b, double[,] result)
@@ -64010,7 +64010,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this decimal[,] a, decimal[,] b, double[][] result)
@@ -64045,7 +64045,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this decimal[][] a, decimal[,] b, double[][] result)
@@ -64078,7 +64078,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this decimal[,] a, decimal[][] b, double[][] result)
@@ -64110,7 +64110,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this decimal[][] a, decimal[][] b, double[][] result)
@@ -64135,7 +64135,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this decimal[,] a, decimal[,] b, double[,] result)
@@ -64198,7 +64198,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this decimal[,] a, decimal b, double[][] result)
@@ -64231,7 +64231,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this decimal[][] a, decimal b, double[][] result)
@@ -64255,7 +64255,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this decimal[][] a, decimal b, double[,] result)
@@ -64280,7 +64280,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this decimal a, decimal[,] b, double[][] result)
@@ -64313,7 +64313,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this decimal a, decimal[][] b, double[][] result)
@@ -64337,7 +64337,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this decimal a, decimal[][] b, double[,] result)
@@ -64370,7 +64370,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this decimal a, decimal[,] b, double[,] result)
@@ -64403,7 +64403,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this decimal[,] a, decimal b, double[,] result)
@@ -64436,7 +64436,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this decimal[,] a, decimal b, double[][] result)
@@ -64469,7 +64469,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this decimal[][] a, decimal b, double[,] result)
@@ -64520,7 +64520,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this decimal[] a, decimal[] b, double[] result)
@@ -64551,7 +64551,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this decimal[] a, decimal b, double[] result)
@@ -64574,7 +64574,7 @@ namespace Accord.Math
         /// <param name="result">The vector where the result should be stored. Pass the same
         ///   vector as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Subtract(this decimal a, decimal[] b, double[] result)
@@ -64612,7 +64612,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Subtract(this decimal[,] a,  decimal[] b, int dimension, double[,] result)
@@ -64659,7 +64659,7 @@ namespace Accord.Math
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Subtract(this decimal[][] a,  decimal[] b, int dimension, double[][] result)
@@ -64712,7 +64712,7 @@ namespace Accord.Math
 
 
 #region Diagonal
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this decimal a, decimal[,] b, double[,] result)
@@ -64738,7 +64738,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this decimal a, decimal[][] b, double[][] result)
@@ -64752,7 +64752,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this decimal[] a, decimal[,] b, double[,] result)
@@ -64778,7 +64778,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this decimal[] a, decimal[][] b, double[][] result)
@@ -64792,7 +64792,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this decimal[,] a, decimal b, double[,] result)
@@ -64818,7 +64818,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this decimal[][] a, decimal b, double[][] result)
@@ -64832,7 +64832,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] SubtractFromDiagonal(this decimal[,] a, decimal[] b, double[,] result)
@@ -64858,7 +64858,7 @@ namespace Accord.Math
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] SubtractFromDiagonal(this decimal[][] a, decimal[] b, double[][] result)

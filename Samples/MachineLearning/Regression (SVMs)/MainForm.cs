@@ -83,7 +83,7 @@ namespace SampleApp
 
 
             // Creates a matrix from the entire source data table
-            double[][] table = (dgvLearningSource.DataSource as DataTable).ToArray(out columnNames);
+            double[][] table = (dgvLearningSource.DataSource as DataTable).ToJagged(out columnNames);
 
             // Get only the input vector values (first column)
             double[][] inputs = table.GetColumns(0);
@@ -321,7 +321,7 @@ namespace SampleApp
                         this.dgvLearningSource.DataSource = tableSource;
                         this.dgvTestingSource.DataSource = tableSource.Copy();
 
-                        CreateScatterplot(graphInput, tableSource.ToArray(out columnNames));
+                        CreateScatterplot(graphInput, tableSource.ToJagged(out columnNames));
                     }
                 }
             }

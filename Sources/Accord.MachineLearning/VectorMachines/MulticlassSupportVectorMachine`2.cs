@@ -22,6 +22,7 @@
 
 namespace Accord.MachineLearning.VectorMachines
 {
+    using Accord.Diagnostics;
     using Accord.MachineLearning;
     using Accord.Math;
     using Accord.Statistics;
@@ -296,6 +297,8 @@ namespace Accord.MachineLearning.VectorMachines
 
             SpinLock[] locks = cache.SyncObjects;
 
+            Debug.Assert(sharedVectors.Length == machine.SupportVectors.Length);
+
             // For each support vector in the machine
             Parallel.For(0, sharedVectors.Length, ParallelOptions,
 
@@ -469,7 +472,7 @@ namespace Accord.MachineLearning.VectorMachines
 
 
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         private int DecideByVoting(TInput input, Cache cache)
@@ -477,7 +480,7 @@ namespace Accord.MachineLearning.VectorMachines
             return DistanceByVoting(input, new double[NumberOfOutputs], cache).ArgMax();
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         private int DecideByElimination(TInput input, Cache cache)
@@ -496,7 +499,7 @@ namespace Accord.MachineLearning.VectorMachines
             return i;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         private int DecideByElimination(TInput input, Decision[] path, Cache cache)
@@ -523,7 +526,7 @@ namespace Accord.MachineLearning.VectorMachines
             return i;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         private double[] DistanceByElimination(TInput input, double[] result, Cache cache)
@@ -560,7 +563,7 @@ namespace Accord.MachineLearning.VectorMachines
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         private double[] DistanceByElimination(TInput input, double[] result, Decision[] path, Cache cache)
@@ -600,7 +603,7 @@ namespace Accord.MachineLearning.VectorMachines
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         private double[] DistanceByVoting(TInput input, double[] result, Cache cache)
@@ -794,7 +797,8 @@ namespace Accord.MachineLearning.VectorMachines
             var indices = new Dictionary<TInput, int>();
             foreach (KeyValuePair<TInput, List<Tuple<int, int, int>>> sv in shared)
             {
-                indices[sv.Key] = idx++;
+                if (sv.Value.Count > 1)
+                    indices[sv.Key] = idx++;
             }
 
             // Create a lookup table for the machines

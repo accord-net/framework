@@ -28,6 +28,9 @@ namespace Accord.Tests.Imaging
     using Accord.Imaging.Converters;
     using Accord.Math;
     using System.Drawing;
+#if NETSTANDARD2_0
+    using Resources = Accord.Tests.Imaging.Properties.Resources_Standard;
+#endif
 
     [TestFixture]
     public class HuMomentsTest

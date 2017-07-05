@@ -20,7 +20,7 @@
             base.Dispose(disposing);
         }
 
-        #region Windows Form Designer generated code
+#region Windows Form Designer generated code
 
         /// <summary>
         /// Required method for Designer support - do not modify
@@ -201,7 +201,7 @@
 
         }
 
-        #endregion
+#endregion
 
         private System.Windows.Forms.Button cancelButton;
         private System.Windows.Forms.Button okButton;

@@ -29,6 +29,7 @@ namespace Accord.Statistics.Distributions.Univariate
     using Accord.Statistics.Distributions.Fitting;
     using AForge;
     using Accord.Math.Random;
+    using System.Diagnostics;
 
     /// <summary>
     ///   Univariate general discrete distribution, also referred as the
@@ -129,6 +130,9 @@ namespace Accord.Statistics.Distributions.Univariate
             if (probabilities == null)
                 throw new ArgumentNullException("probabilities");
 
+            if (probabilities.Length < 2)
+                Trace.TraceWarning("Creating a discrete distribution that is actually constant.");
+
             initialize(0, probabilities, logarithm);
         }
 
@@ -148,6 +152,9 @@ namespace Accord.Statistics.Distributions.Univariate
         {
             if (probabilities == null)
                 throw new ArgumentNullException("probabilities");
+
+            if (probabilities.Length < 2)
+                Trace.TraceWarning("Creating a discrete distribution that is actually constant.");
 
             initialize(start, probabilities, false);
         }
@@ -169,6 +176,9 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   
         public GeneralDiscreteDistribution(int start, int symbols, bool logarithm = false)
         {
+            if (symbols < 2)
+                Trace.TraceWarning("Creating a discrete distribution that is actually constant.");
+
             initialize(start, symbols, logarithm);
         }
 
@@ -513,11 +523,14 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   Generates a random observation from the current distribution.
         /// </summary>
         /// 
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        /// 
         /// <returns>A random observations drawn from this distribution.</returns>
         /// 
-        public override int Generate()
+        public override int Generate(Random source)
         {
-            return Random(probabilities, log: log);
+            return Random(probabilities, source, log: log);
         }
 
         /// <summary>
@@ -526,12 +539,14 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <param name="samples">The number of samples to generate.</param>
         /// <param name="result">The location where to store the samples.</param>
-        /// 
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        ///   
         /// <returns>A random vector of observations drawn from this distribution.</returns>
         /// 
-        public override int[] Generate(int samples, int[] result)
+        public override int[] Generate(int samples, int[] result, Random source)
         {
-            return Random(probabilities, samples, result, log: log);
+            return Random(probabilities, samples, result, source, log: log);
         }
 
         /// <summary>
@@ -696,7 +711,23 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public static int[] Random(double[] probabilities, int samples)
         {
-            return Random(probabilities, samples, new int[samples]);
+            return Random(probabilities, samples, Accord.Math.Random.Generator.Random);
+        }
+
+        /// <summary>
+        ///   Returns a random sample within the given symbol probabilities.
+        /// </summary>
+        /// 
+        /// <param name="probabilities">The probabilities for the discrete symbols.</param>
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        /// 
+        /// <returns>A random sample within the given probabilities.</returns>
+        /// 
+        public static int[] Random(double[] probabilities, int samples, Random source)
+        {
+            return Random(probabilities, samples, new int[samples], source);
         }
 
         /// <summary>
@@ -713,17 +744,35 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public static int[] Random(double[] probabilities, int samples, int[] result, bool log = false)
         {
-            var rand = Accord.Math.Random.Generator.Random;
+            return Random(probabilities, samples, result, Accord.Math.Random.Generator.Random, log);
+        }
 
+        /// <summary>
+        ///   Returns a random sample within the given symbol probabilities.
+        /// </summary>
+        /// 
+        /// <param name="probabilities">The probabilities for the discrete symbols.</param>
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="result">The location where to store the samples.</param>
+        /// <param name="log">Pass true if the <paramref name="probabilities"/> vector
+        ///   contains log-probabilities instead of standard probabilities.</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        ///
+        /// <returns>A random sample within the given probabilities.</returns>
+        /// 
+        public static int[] Random(double[] probabilities, int samples, int[] result, Random source, bool log = false)
+        {
             if (log)
             {
                 double[] cumulativeSum = probabilities.Exp();
+
                 // Use the probabilities to partition the 0,1 interval
                 probabilities.CumulativeSum(result: cumulativeSum);
 
                 for (int j = 0; j < result.Length; j++)
                 {
-                    double u = rand.NextDouble();
+                    double u = source.NextDouble();
 
                     // Check in which range the values fall into
                     for (int i = 0; i < cumulativeSum.Length; i++)
@@ -743,7 +792,7 @@ namespace Accord.Statistics.Distributions.Univariate
 
                 for (int j = 0; j < result.Length; j++)
                 {
-                    double u = rand.NextDouble();
+                    double u = source.NextDouble();
 
                     // Check in which range the values fall into
                     for (int i = 0; i < cumulativeSum.Length; i++)
@@ -771,9 +820,25 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public static int Random(double[] probabilities, bool log = false)
         {
-            double uniform = Accord.Math.Random.Generator.Random.NextDouble();
+            return Random(probabilities, Accord.Math.Random.Generator.Random, log);
+        }
 
+        /// <summary>
+        ///   Returns a random symbol within the given symbol probabilities.
+        /// </summary>
+        /// 
+        /// <param name="probabilities">The probabilities for the discrete symbols.</param>
+        /// <param name="log">Pass true if the <paramref name="probabilities"/> vector
+        ///   contains log-probabilities instead of standard probabilities.</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        /// 
+        /// <returns>A random symbol within the given probabilities.</returns>
+        /// 
+        public static int Random(double[] probabilities, Random source, bool log = false)
+        {
             double cumulativeSum = 0;
+            double uniform = source.NextDouble();
 
             // Use the probabilities to partition the [0,1] interval 
             //  and check inside which range the values fall into.
@@ -796,10 +861,13 @@ namespace Accord.Statistics.Distributions.Univariate
                 }
             }
 
-            if (cumulativeSum == 0)
+            if (cumulativeSum < 1e-100)
                 throw new ArgumentException("probabilities", "All probabilities are zero.");
 
-            throw new InvalidOperationException("Generated value is not between 0 and 1.");
+            throw new InvalidOperationException("The given probabilities do not sum up to one. Please normalize them by " +
+                "dividing the probabilities by their sum. If the probabilities have already been normalized, this can be due " +
+                "a numerical inaccuracy. If this is the case, try transforming the probabilities to logarithms and including " +
+                "'log = true' in the arguments of the GeneralDiscreteDistribution.Random(double[] probabilities, bool log) function.");
         }
 
 
@@ -852,7 +920,10 @@ namespace Accord.Statistics.Distributions.Univariate
             if (weights == null)
             {
                 for (int i = 0; i < observations.Length; i++)
-                    p[observations[i] - start]++;
+                {
+                    int j = observations[i] - start;
+                    p[j]++;
+                }
             }
             else
             {
@@ -861,7 +932,10 @@ namespace Accord.Statistics.Distributions.Univariate
                         "weights");
 
                 for (int i = 0; i < observations.Length; i++)
-                    p[observations[i] - start] += weights[i] * observations.Length;
+                {
+                    int j = observations[i] - start;
+                    p[j] += weights[i] * observations.Length;
+                }
             }
 
             if (regularization > 0)

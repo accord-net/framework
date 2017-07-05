@@ -25,6 +25,7 @@ namespace Accord.Statistics.Testing
     using System;
     using Accord.Math;
     using Accord.Statistics.Distributions.Univariate;
+    using System.Diagnostics;
 
     /// <summary>
     ///   Mann-Whitney-Wilcoxon test for unpaired samples.
@@ -92,6 +93,7 @@ namespace Accord.Statistics.Testing
     [Serializable]
     public class MannWhitneyWilcoxonTest : HypothesisTest<MannWhitneyDistribution>
     {
+        bool hasTies;
 
         /// <summary>
         ///   Gets the alternative hypothesis under test. If the test is
@@ -154,6 +156,12 @@ namespace Accord.Statistics.Testing
         public double Statistic2 { get; protected set; }
 
         /// <summary>
+        ///   Gets a value indicating whether the provided samples have tied ranks.
+        /// </summary>
+        /// 
+        public bool HasTies { get { return hasTies; } }
+
+        /// <summary>
         ///   Tests whether two samples comes from the 
         ///   same distribution without assuming normality.
         /// </summary>
@@ -178,7 +186,7 @@ namespace Accord.Statistics.Testing
 
             // Concatenate both samples and rank them
             double[] samples = sample1.Concatenate(sample2);
-            double[] rank = samples.Rank(adjustForTies: true);
+            double[] rank = samples.Rank(hasTies: out hasTies, adjustForTies: true);
 
             // Split the rankings back and sum
             Rank1 = rank.Get(0, NumberOfSamples1);
@@ -188,9 +196,16 @@ namespace Accord.Statistics.Testing
             this.RankSum1 = Rank1.Sum();
             this.RankSum2 = Rank2.Sum();
 
+            //if (hasTies && exact.HasValue && exact.Value)
+            //{
+            //    throw new ArgumentException("The exact method is not supported when there are ties in the data. "
+            //        + "Please set exact to false or present a set of samples without ties.");
+            //}
+
             // It is not necessary to compute the sum for both ranks. The sum of ranks in the second
             // sample can be determined from the first, since the sum of all the ranks equals n(n+1)/2 
-            Accord.Diagnostics.Debug.Assert(RankSum2 == n * (n + 1) / 2 - RankSum1);
+            //   06/05/2017: This assumption is incorrect! The ranks can be different if there are ties in the data.
+            // Accord.Diagnostics.Debug.Assert(RankSum2 == n * (n + 1) / 2 - RankSum1);
 
             // The U statistic can be obtained from the sum of the ranks in the sample,
             // minus the smallest value it can take (i.e. minus (n1 * (n1 + 1)) / 2.0),
@@ -202,7 +217,8 @@ namespace Accord.Statistics.Testing
             this.Statistic2 = RankSum2 - (NumberOfSamples2 * (NumberOfSamples2 + 1)) / 2.0; // U2
 
             // Again, it would not be necessary to compute U2 due the relation:
-            Accord.Diagnostics.Debug.Assert(Statistic1 + Statistic2 == NumberOfSamples1 * NumberOfSamples2);
+            //   06/05/2017: See above
+            // Accord.Diagnostics.Debug.Assert(Statistic1 + Statistic2 == NumberOfSamples1 * NumberOfSamples2);
 
             Accord.Diagnostics.Debug.Assert(Statistic1 == MannWhitneyDistribution.MannWhitneyU(Rank1));
             Accord.Diagnostics.Debug.Assert(Statistic2 == MannWhitneyDistribution.MannWhitneyU(Rank2));
@@ -221,7 +237,8 @@ namespace Accord.Statistics.Testing
 
             this.StatisticDistribution = new MannWhitneyDistribution(Rank1, Rank2, exact)
             {
-                Correction = (Tail == DistributionTail.TwoTail) ? ContinuityCorrection.Midpoint : ContinuityCorrection.KeepInside
+                Correction = (Tail == DistributionTail.TwoTail) ?
+                    ContinuityCorrection.Midpoint : ContinuityCorrection.KeepInside
             };
 
             this.PValue = StatisticToPValue(Statistic);

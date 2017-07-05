@@ -188,12 +188,14 @@ namespace Accord.Statistics.Distributions.Multivariate
         /// 
         /// <param name="samples">The number of samples to generate.</param>
         /// <param name="result">The location where to store the samples.</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
         /// 
         /// <returns>A random vector of observations drawn from this distribution.</returns>
         /// 
-        public override double[][] Generate(int samples, double[][] result)
+        public override double[][] Generate(int samples, double[][] result, Random source)
         {
-            return Random(samples, center, radius, result);
+            return Random(samples, center, radius, result, source);
         }
 
         /// <summary>
@@ -209,7 +211,25 @@ namespace Accord.Statistics.Distributions.Multivariate
         /// 
         public static double[][] Random(int samples, double[] mean, double radius, double[][] result)
         {
-            Random(samples, mean.Length, result);
+            return Random(samples, mean, radius, result, Accord.Math.Random.Generator.Random);
+        }
+
+        /// <summary>
+        ///   Generates a random vector of observations from the current distribution.
+        /// </summary>
+        /// 
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="result">The location where to store the samples.</param>
+        /// <param name="mean">The sphere's mean.</param>
+        /// <param name="radius">The sphere's radius.</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        /// 
+        /// <returns>A random vector of observations drawn from this distribution.</returns>
+        /// 
+        public static double[][] Random(int samples, double[] mean, double radius, double[][] result, Random source)
+        {
+            Random(samples, mean.Length, result, source);
 
             for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < mean.Length; j++)
@@ -238,16 +258,49 @@ namespace Accord.Statistics.Distributions.Multivariate
         /// 
         /// <param name="samples">The number of samples to generate.</param>
         /// <param name="dimension">The number of dimensions in the n-dimensional sphere.</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        /// 
+        /// <returns>A random vector of observations drawn from this distribution.</returns>
+        /// 
+        public static double[][] Random(int samples, int dimension, Random source)
+        {
+            return Random(samples, dimension, Jagged.Zeros(samples, dimension), source);
+        }
+
+        /// <summary>
+        ///   Generates a random vector of observations from the current distribution.
+        /// </summary>
+        /// 
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="dimension">The number of dimensions in the n-dimensional sphere.</param>
         /// <param name="result">The location where to store the samples.</param>
         /// 
         /// <returns>A random vector of observations drawn from this distribution.</returns>
         /// 
         public static double[][] Random(int samples, int dimension, double[][] result)
         {
+            return Random(samples, dimension, result, Accord.Math.Random.Generator.Random);
+        }
+
+        /// <summary>
+        ///   Generates a random vector of observations from the current distribution.
+        /// </summary>
+        /// 
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="dimension">The number of dimensions in the n-dimensional sphere.</param>
+        /// <param name="result">The location where to store the samples.</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        /// 
+        /// <returns>A random vector of observations drawn from this distribution.</returns>
+        /// 
+        public static double[][] Random(int samples, int dimension, double[][] result, Random source)
+        {
             for (int i = 0; i < result.Length; i++)
             {
                 // Generate independent normally-distributed vectors
-                NormalDistribution.Random(dimension, result: result[i]);
+                NormalDistribution.Random(dimension, result: result[i], source: source);
                 result[i].Normalize(inPlace: true); // make unit norm
             }
 

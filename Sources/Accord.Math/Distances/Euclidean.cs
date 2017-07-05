@@ -30,6 +30,8 @@ namespace Accord.Math.Distances
     /// </summary>
     /// 
     /// <seealso cref="SquareEuclidean"/>
+    /// <seealso cref="WeightedSquareEuclidean"/>
+    /// <seealso cref="WeightedEuclidean"/>
     /// 
     [Serializable]
     public struct Euclidean :
@@ -51,7 +53,7 @@ namespace Accord.Math.Distances
         ///   to the distance function implemented by this class.
         /// </returns>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public double Distance(double x, double y)
@@ -73,7 +75,7 @@ namespace Accord.Math.Distances
         ///   to the distance function implemented by this class.
         /// </returns>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public double Distance(double[] x, double[] y)
@@ -101,7 +103,7 @@ namespace Accord.Math.Distances
         /// 
         /// <returns>The Euclidean distance between x and y.</returns>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public double Distance(double vector1x, double vector1y, double vector2x, double vector2y)
@@ -120,7 +122,7 @@ namespace Accord.Math.Distances
         /// 
         /// <returns>The Euclidean distance between x and y.</returns>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public double Distance(Tuple<double, double> x, Tuple<double, double> y)

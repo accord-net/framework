@@ -24,15 +24,21 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'net46|AnyCPU' ">
     <DefineConstants>TRACE;NET46</DefineConstants>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'net462|AnyCPU' ">
+    <DefineConstants>TRACE;NET462</DefineConstants>
+  </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'mono|AnyCPU' ">
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <DefineConstants>TRACE;MONO</DefineConstants>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="nunit.framework">
-      <HintPath>..\..\Externals\NUnit\nunit.framework.dll</HintPath>
+    <Reference Include="nunit.framework, Version=3.7.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Externals\NUnit\bin\net-4.5\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -102,7 +108,7 @@
     <Compile Include="Models\Regression\LogarithmRegressionTest.cs" />
     <Compile Include="Models\Regression\MultinomialLogisticGradientDescentTest.cs" />
     <Compile Include="Models\Regression\NonlinearLeastSquaresTest.cs" />
-    <Compile Include="Models\Regression\NonNegativeLeastSquaresTests.cs" />
+    <Compile Include="Models\Regression\NonNegativeLeastSquaresTest.cs" />
     <Compile Include="MovingCircularStatisticsTest.cs" />
     <Compile Include="RunningMarkovClassifierTest.cs" />
     <Compile Include="Distributions\Multivariate\Continuous\MultivariateEmpiricalDistributionTest.cs" />
@@ -289,6 +295,10 @@
     <ProjectReference Include="..\..\Sources\Accord.Core\Accord.Core.csproj">
       <Project>{A177A90C-8207-466A-AF70-F2B8452A42AC}</Project>
       <Name>Accord.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Sources\Accord.DataSets\Accord.DataSets.csproj">
+      <Project>{f11a77c5-00b3-4921-acf5-4728f6576efd}</Project>
+      <Name>Accord.DataSets</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Sources\Accord.IO\Accord.IO.csproj">
       <Project>{63184ebd-6b28-4066-aaee-5b99431e31f4}</Project>

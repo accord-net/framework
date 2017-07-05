@@ -85,7 +85,7 @@ namespace Accord.Math
         ///   which takes as input a pair of vectors and produces a scalar.
         /// </remarks>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static <#=r#>[][] Outer(<#=a#>[] a, <#=b#>[] b)
@@ -121,7 +121,7 @@ namespace Accord.Math
         ///   which takes as input a pair of vectors and produces a scalar.
         /// </remarks>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static <#=r#>[][] Outer(<#=a#>[] a, <#=b#>[] b, <#=r#>[][] result)

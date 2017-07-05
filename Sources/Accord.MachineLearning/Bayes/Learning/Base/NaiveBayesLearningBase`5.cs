@@ -52,8 +52,9 @@ namespace Accord.MachineLearning.Bayes
         /// <summary>
         /// Fits one of the distributions in the naive bayes model.
         /// </summary>
-        protected override void Fit(int i, TInput[][] values, double[] weights)
+        protected override void Fit(int i, TInput[][] values, double[] weights, bool transposed)
         {
+            Options.Transposed = transposed;
             Model.Distributions[i].Fit(values, weights, Options);
         }
     }

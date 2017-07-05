@@ -76,7 +76,7 @@ namespace Accord.Tests.Statistics
 
             var regression = lra.Learn(inputs, outputs);
 
-            double[] actual = regression.Score(inputs);
+            double[] actual = regression.Probability(inputs);
 
             double[] expected = 
             {
@@ -183,7 +183,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(coef[1], 19.702873967721807, 1e-6);
             Assert.AreEqual(coef[2], 19.702873967721807, 1e-6);
 
-            double output = target.Regression.Score(testInput);
+            double output = target.Regression.Probability(testInput);
             Assert.AreEqual(0, output, 1e-6);
 
             // Test instance 02
@@ -203,7 +203,7 @@ namespace Accord.Tests.Statistics
 
             regression = target.Learn(trainInput, trainOutput);
 
-            double[] actual = regression.Score(trainInput);
+            double[] actual = regression.Probability(trainInput);
             double[] expected = { 0.500000000158903, 0.999999998410966, 0.500000000913694, 0.500000000158903, 0.999999998410966, 0.500000000913694 };
             Assert.IsTrue(actual.IsEqual(expected, 1e-6));
 
@@ -457,8 +457,8 @@ namespace Accord.Tests.Statistics
             double[] odds = lra.OddsRatios;
             double[] stde = lra.StandardErrors;
 
-            // We can use the analysis to predict a score for a new patient:
-            double y = lra.Regression.Score(new double[] { 87, 1 }); // 0.75
+            // We can use the analysis to predict a probability for a new patient:
+            double y = lra.Regression.Probability(new double[] { 87, 1 }); // 0.75
 
             // For those inputs, the answer probability is approximately 75%.
 
@@ -528,7 +528,7 @@ namespace Accord.Tests.Statistics
 
 
             // Finally, we can use it to estimate risk for a new patient
-            double y = lra.Regression.Score(new double[] { 4 }); // 67.0
+            double y = lra.Regression.Probability(new double[] { 4 }); // 67.0
             #endregion
 
 

@@ -263,7 +263,7 @@ namespace Accord.Imaging
                             int r = rowRadius[i + 3];
 
                             // get pointer to the central pixel of the row
-                            byte* ptr = (byte*)((int)src + stride * i);
+                            byte* ptr = src + stride * i;
 
                             // for each element of the mask's row
                             for (int j = -r; j <= r; j++)

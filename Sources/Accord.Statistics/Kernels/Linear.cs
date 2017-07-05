@@ -33,7 +33,7 @@ namespace Accord.Statistics.Kernels
     /// 
     [Serializable]
     public struct Linear : IKernel, IDistance, ILinear, ICloneable, IReverseDistance,
-        ITransform, IKernel<Sparse<double>>, ILinear<Sparse<double>>
+        ITransform, IKernel<Sparse<double>>, ILinear<Sparse<double>>, IDistance<Sparse<double>>
     {
         private double constant;
 
@@ -67,7 +67,7 @@ namespace Accord.Statistics.Kernels
         /// 
         /// <returns>Dot product in feature (kernel) space.</returns>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public double Function(double[] x, double[] y)
@@ -102,7 +102,7 @@ namespace Accord.Statistics.Kernels
         /// 
         /// <returns>Squared distance between <c>x</c> and <c>y</c> in input space.</returns>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public double Distance(double[] x, double[] y)
@@ -118,6 +118,27 @@ namespace Accord.Statistics.Kernels
             }
 
             return sum;
+        }
+
+        /// <summary>
+        ///   Computes the squared distance in input space
+        ///   between two points given in feature space.
+        /// </summary>
+        /// 
+        /// <param name="x">Vector <c>x</c> in feature (kernel) space.</param>
+        /// <param name="y">Vector <c>y</c> in feature (kernel) space.</param>
+        /// 
+        /// <returns>Squared distance between <c>x</c> and <c>y</c> in input space.</returns>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public double Distance(Sparse<double> x, Sparse<double> y)
+        {
+            if (x == y)
+                return 0.0;
+
+            return Accord.Math.Distance.SquareEuclidean(x, y);
         }
 
         /// <summary>
@@ -184,7 +205,7 @@ namespace Accord.Statistics.Kernels
         /// <param name="b">The vector to be multiplied.</param>
         /// <param name="accumulate">An array to store the result.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public void Product(double a, double[] b, double[] accumulate)
@@ -281,7 +302,7 @@ namespace Accord.Statistics.Kernels
         /// Dot product in feature (kernel) space.
         /// </returns>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public double Function(Sparse<double> x, Sparse<double> y)
@@ -298,7 +319,7 @@ namespace Accord.Statistics.Kernels
         /// Dot product in feature (kernel) space.
         /// </returns>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public double Function(double[] y, Sparse<double> x)
@@ -314,7 +335,7 @@ namespace Accord.Statistics.Kernels
         /// <param name="b">The second vector to add.</param>
         /// <param name="result">An array to store the result.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public void Add(Sparse<double> a, double[] b, double[] result)
@@ -328,7 +349,7 @@ namespace Accord.Statistics.Kernels
         /// <param name="a">The scalar to be multiplied.</param>
         /// <param name="b">The vector to be multiplied.</param>
         /// <param name="accumulate">An array to store the result.</param>
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public void Product(double a, Sparse<double> b, double[] accumulate)
@@ -424,7 +445,7 @@ namespace Accord.Statistics.Kernels
         /// <param name="b">The vector to be multiplied.</param>
         /// <param name="accumulate">An array to store the result.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public void Product(double[] a, Sparse<double> b, double[] accumulate)

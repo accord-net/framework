@@ -36,6 +36,19 @@ namespace Accord.Math.Optimization
     public enum BoundedBroydenFletcherGoldfarbShannoStatus
     {
         /// <summary>
+        ///   The optimization stopped before convergence; maximum
+        ///   number of iterations could have been reached.
+        /// </summary>
+        /// 
+        Stop,
+
+        /// <summary>
+        ///   Maximum number of iterations was reached.
+        /// </summary>
+        /// 
+        MaximumIterations,
+
+        /// <summary>
         ///   The function output converged to a static 
         ///   value within the desired precision.
         /// </summary>
@@ -152,11 +165,10 @@ namespace Accord.Math.Optimization
     /// <seealso cref="BroydenFletcherGoldfarbShanno"/>
     /// <seealso cref="TrustRegionNewtonMethod"/>
     /// 
-    public partial class BoundedBroydenFletcherGoldfarbShanno
-        : BaseGradientOptimizationMethod, IGradientOptimizationMethod,
-        IOptimizationMethod<BoundedBroydenFletcherGoldfarbShannoStatus>
+    public partial class BoundedBroydenFletcherGoldfarbShanno : BaseGradientOptimizationMethod, 
+        IGradientOptimizationMethod, IOptimizationMethod<BoundedBroydenFletcherGoldfarbShannoStatus>,
+        Accord.MachineLearning.ISupportsCancellation
     {
-
 
         // those values need not be modified
         private const double stpmin = 1e-20;
@@ -454,6 +466,12 @@ namespace Accord.Math.Optimization
             if (Token.IsCancellationRequested)
                 return false;
 
+            if (MaxIterations > 0 && iterations >= MaxIterations)
+            {
+                exit(csave, lsave, isave, x, dsave, out newF, out newG);
+                return true;
+            }
+
             iterations++;
 
             // 
@@ -492,22 +510,7 @@ namespace Accord.Math.Optimization
                     Status = BoundedBroydenFletcherGoldfarbShannoStatus.GradientConvergence;
                 else throw OperationException(task, task);
 
-                for (int j = 0; j < Solution.Length; j++)
-                    Solution[j] = x[j];
-
-                newF = Function(x);
-                newG = Gradient(x);
-                evaluations++;
-
-                if (Progress != null)
-                {
-                    Progress(this, new OptimizationProgressEventArgs(iterations, 0, newG, 0, null, 0, newF, 0, true)
-                    {
-                        Tag = new BoundedBroydenFletcherGoldfarbShannoInnerStatus(
-                            isave, dsave, lsave, csave, work)
-                    });
-                }
-
+                exit(csave, lsave, isave, x, dsave, out newF, out newG);
                 return true;
             }
 
@@ -524,6 +527,24 @@ namespace Accord.Math.Optimization
             goto L111;
         }
 
+        private void exit(string csave, bool[] lsave, int[] isave, double[] x, double[] dsave, out double newF, out double[] newG)
+        {
+            for (int j = 0; j < Solution.Length; j++)
+                Solution[j] = x[j];
+
+            newF = Function(x);
+            newG = Gradient(x);
+            evaluations++;
+
+            if (Progress != null)
+            {
+                Progress(this, new OptimizationProgressEventArgs(iterations, 0, newG, 0, null, 0, newF, 0, true)
+                {
+                    Tag = new BoundedBroydenFletcherGoldfarbShannoInnerStatus(
+                        isave, dsave, lsave, csave, work)
+                });
+            }
+        }
 
 
 

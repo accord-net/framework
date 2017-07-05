@@ -33,6 +33,23 @@ namespace Accord.Statistics.Models.Regression.Fitting
     ///   Gradient optimization for Multinomial logistic regression fitting.
     /// </summary>
     /// 
+    /// <examples>
+    ///   <para>
+    ///     The gradient optimization class allows multinomial logistic regression models to be learnt
+    ///     using any mathematical optimization algorithm that implements the <see cref="IFunctionOptimizationMethod{TInput, TOutput}"/>
+    ///     interface. </para>
+    ///   <code source = "Unit Tests\Accord.Tests.Statistics\Models\Regression\MultinomialLogisticGradientDescentTest.cs" region="doc_learn_0" />
+    ///   
+    /// <para>Using Conjugate Gradient:</para>
+    ///   <code source = "Unit Tests\Accord.Tests.Statistics\Models\Regression\MultinomialLogisticGradientDescentTest.cs" region="doc_learn_cg" />
+    ///   
+    /// <para>Using Gradient Descent:</para>
+    ///   <code source = "Unit Tests\Accord.Tests.Statistics\Models\Regression\MultinomialLogisticGradientDescentTest.cs" region="doc_learn_gd" />
+    ///   
+    /// <para>Using BFGS:</para>
+    ///   <code source = "Unit Tests\Accord.Tests.Statistics\Models\Regression\MultinomialLogisticGradientDescentTest.cs" region="doc_learn_bfgs" />
+    /// </examples>
+    /// 
     public class MultinomialLogisticLearning<TMethod> :
         ISupervisedLearning<MultinomialLogisticRegression, double[], int>,
         ISupervisedLearning<MultinomialLogisticRegression, double[], int[]>,
@@ -203,7 +220,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
         /// </summary>
         /// <param name="x">The model inputs.</param>
         /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
-        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <param name="weights">The weight of importance for each input-output pair (if supported by the learning algorithm).</param>
         /// <returns>
         /// A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
         /// </returns>
@@ -217,7 +234,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
         /// </summary>
         /// <param name="x">The model inputs.</param>
         /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
-        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <param name="weights">The weight of importance for each input-output pair (if supported by the learning algorithm).</param>
         /// <returns>
         /// A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
         /// </returns>
@@ -231,7 +248,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
         /// </summary>
         /// <param name="x">The model inputs.</param>
         /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
-        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <param name="weights">The weight of importance for each input-output pair (if supported by the learning algorithm).</param>
         /// <returns>
         /// A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
         /// </returns>
@@ -245,12 +262,15 @@ namespace Accord.Statistics.Models.Regression.Fitting
         /// </summary>
         /// <param name="x">The model inputs.</param>
         /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
-        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <param name="weights">The weight of importance for each input-output pair (if supported by the learning algorithm).</param>
         /// <returns>
         /// A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
         /// </returns>
         public MultinomialLogisticRegression Learn(double[][] x, int[] y, double[] weights = null)
         {
+            if (weights != null)
+                throw new ArgumentException(Accord.Properties.Resources.NotSupportedWeights, "weights");
+
             this.inputs = x;
             this.outputs = y;
 

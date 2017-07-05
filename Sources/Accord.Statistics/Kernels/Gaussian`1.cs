@@ -32,14 +32,14 @@ namespace Accord.Statistics.Kernels
     /// </summary>
     /// 
     [Serializable]
-    public sealed class Gaussian<T> : KernelBase, IKernel, 
+    public sealed class Gaussian<TDistance> : KernelBase, IKernel, 
         IEstimable, ICloneable 
-        where T: IKernel, IDistance, ICloneable
+        where TDistance : IDistance, ICloneable
     {
         private double sigma;
         private double gamma;
 
-        private T innerKernel;
+        private TDistance distance;
 
         /// <summary>
         ///   Constructs a new Composite Gaussian Kernel
@@ -47,7 +47,7 @@ namespace Accord.Statistics.Kernels
         /// 
         /// <param name="innerKernel">The inner kernel function of the composite kernel.</param>
         /// 
-        public Gaussian(T innerKernel)
+        public Gaussian(TDistance innerKernel)
             : this(innerKernel, 1)
         {
         }
@@ -59,9 +59,9 @@ namespace Accord.Statistics.Kernels
         /// <param name="innerKernel">The inner kernel function of the composite kernel.</param>
         /// <param name="sigma">The kernel's sigma parameter.</param>
         /// 
-        public Gaussian(T innerKernel, double sigma)
+        public Gaussian(TDistance innerKernel, double sigma)
         {
-            this.innerKernel = innerKernel;
+            this.distance = innerKernel;
             this.sigma = sigma;
             this.gamma = 1.0 / (2.0 * sigma * sigma);
         }
@@ -124,7 +124,7 @@ namespace Accord.Statistics.Kernels
             if (x == y)
                 return 1.0;
 
-            double distance = innerKernel.Distance(x, y);
+            double distance = this.distance.Distance(x, y);
 
             return Math.Exp(-gamma * distance);
         }
@@ -133,7 +133,7 @@ namespace Accord.Statistics.Kernels
 
         void IEstimable<double[]>.Estimate(double[][] inputs)
         {
-            this.Gamma = Gaussian.Estimate(innerKernel, inputs).Gamma;
+            this.Gamma = Gaussian.Estimate(distance, inputs).Gamma;
         }
 
         /// <summary>
@@ -146,8 +146,8 @@ namespace Accord.Statistics.Kernels
         /// 
         public object Clone()
         {
-            Gaussian<T> clone = (Gaussian<T>)MemberwiseClone();
-            clone.innerKernel = (T)innerKernel.Clone();
+            Gaussian<TDistance> clone = (Gaussian<TDistance>)MemberwiseClone();
+            clone.distance = (TDistance)distance.Clone();
             return clone;
         }
 

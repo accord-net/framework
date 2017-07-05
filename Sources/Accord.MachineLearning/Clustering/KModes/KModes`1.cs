@@ -38,20 +38,27 @@ namespace Accord.MachineLearning
     /// </summary>
     /// 
     /// <remarks>
-    ///   The k-Modes algorithm is a variant of the k-Means which instead of 
-    ///   locating means attempts to locate the modes of a set of points. As
-    ///   the algorithm does not require explicit numeric manipulation of the
-    ///   input points (such as addition and division to compute the means),
-    ///   the algorithm can be used with arbitrary (generic) data structures.
+    ///   The k-Modes algorithm is a variant of the k-Means which instead of locating means attempts to locate 
+    ///   the modes of a set of points. As the algorithm does not require explicit numeric manipulation of the
+    ///   input points (such as addition and division to compute the means), the algorithm can be used with 
+    ///   arbitrary (generic) data structures.
     /// </remarks>
     /// 
     /// <seealso cref="KModes"/>
     /// <seealso cref="KMeans"/>
     /// <seealso cref="MeanShift"/>
     /// 
+    /// <example>
+    ///   How to perform clustering with K-Modes.
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\Clustering\KModesTest.cs" region="doc_learn" />
+    /// </example>
+    /// 
     [Serializable]
-    public class KModes<T> : ParallelLearningBase, IClusteringAlgorithm<T[]>,
-        IUnsupervisedLearning<KModesClusterCollection<T>, T[], int>
+    public class KModes<T> : ParallelLearningBase,
+        IUnsupervisedLearning<KModesClusterCollection<T>, T[], int>,
+#pragma warning disable 0618
+        IClusteringAlgorithm<T[]>
+#pragma warning restore 0618
     {
 
         private KModesClusterCollection<T> clusters;
@@ -77,7 +84,7 @@ namespace Accord.MachineLearning
         /// 
         public int Dimension
         {
-            get { return clusters.Dimension; }
+            get { return clusters.NumberOfInputs; }
         }
 
         /// <summary>
@@ -298,6 +305,10 @@ namespace Accord.MachineLearning
                 // Compute the average error
                 Error = Clusters.Distortion(x, labels);
 
+            Accord.Diagnostics.Debug.Assert(Clusters.NumberOfClasses == K);
+            Accord.Diagnostics.Debug.Assert(Clusters.NumberOfOutputs == K);
+            Accord.Diagnostics.Debug.Assert(Clusters.NumberOfInputs == x[0].Length);
+
             // Return the classification result
             return Clusters;
         }
@@ -335,16 +346,17 @@ namespace Accord.MachineLearning
             return true;
         }
 
-
+#pragma warning disable 0618
         IClusterCollection<T[]> IClusteringAlgorithm<T[]>.Clusters
         {
-            get { return clusters; }
+            get { return (IClusterCollection<T[]>)clusters; }
         }
 
         IClusterCollection<T[]> IUnsupervisedLearning<IClusterCollection<T[]>, T[], int>.Learn(T[][] x, double[] weights)
         {
-            return Learn(x);
+            return (IClusterCollection<T[]>)Learn(x);
         }
+#pragma warning restore 0618
 
     }
 

@@ -41,6 +41,15 @@ namespace Accord.MachineLearning
         ITagger<TInput>
     {
 
+        /// <summary>
+        /// Gets the number of classes expected and recognized by the classifier.
+        /// </summary>
+        /// <value>The number of classes.</value>
+        public virtual int NumberOfClasses
+        {
+            get { return NumberOfOutputs; }
+            set { NumberOfOutputs = value; }
+        }
 
         /// <summary>
         /// Computes class-label decisions for the given <paramref name="input" />.

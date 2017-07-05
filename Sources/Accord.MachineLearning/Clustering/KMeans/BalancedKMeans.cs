@@ -255,6 +255,10 @@ namespace Accord.MachineLearning
 
             ComputeInformation(x, labels);
 
+            Accord.Diagnostics.Debug.Assert(Clusters.NumberOfClasses == K);
+            Accord.Diagnostics.Debug.Assert(Clusters.NumberOfOutputs == K);
+            Accord.Diagnostics.Debug.Assert(Clusters.NumberOfInputs == x[0].Length);
+
             return Clusters;
         }
 

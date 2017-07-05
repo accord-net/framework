@@ -97,7 +97,7 @@ namespace Analysis.PLS
             DataTable table = dgvAnalysisSource.DataSource as DataTable;
 
             // Creates a matrix from the source data table
-            double[][] sourceMatrix = table.ToArray(out inputColumnNames);
+            double[][] sourceMatrix = table.ToJagged(out inputColumnNames);
 
             // Creates the Simple Descriptive Analysis of the given source
             sda = new DescriptiveAnalysis(inputColumnNames).Learn(sourceMatrix);
@@ -120,8 +120,8 @@ namespace Analysis.PLS
             DataTable inputTable = table.DefaultView.ToTable(false, inputColumnNames);
             DataTable outputTable = table.DefaultView.ToTable(false, outputColumnNames);
 
-            this.inputs = inputTable.ToArray();
-            this.outputs = outputTable.ToArray();
+            this.inputs = inputTable.ToJagged();
+            this.outputs = outputTable.ToJagged();
 
 
 
@@ -174,8 +174,8 @@ namespace Analysis.PLS
             }
 
             int components = (int)numComponents.Value;
-            double[][] sourceInput = Matrix.ToArray(dgvProjectionSourceX.DataSource as DataTable);
-            double[][] sourceOutput = Matrix.ToArray(dgvProjectionSourceY.DataSource as DataTable);
+            double[][] sourceInput = Matrix.ToJagged(dgvProjectionSourceX.DataSource as DataTable);
+            double[][] sourceOutput = Matrix.ToJagged(dgvProjectionSourceY.DataSource as DataTable);
 
             pls.NumberOfOutputs = components;
 
@@ -203,8 +203,8 @@ namespace Analysis.PLS
             DataTable outputTable = table.DefaultView.ToTable(false, outputColumnNames);
 
 
-            double[][] sourceInput = inputTable.ToArray();
-            double[][] sourceOutput = outputTable.ToArray();
+            double[][] sourceInput = inputTable.ToJagged();
+            double[][] sourceOutput = outputTable.ToJagged();
 
             
             double[,] result = Matrix.ToMatrix(regression.Transform(sourceInput));

@@ -29,6 +29,7 @@ namespace Accord.Statistics.Models.Fields.Learning
     using Accord.Math.Optimization;
     using Accord.MachineLearning;
     using System.Threading;
+    using System.Threading.Tasks;
 
     /// <summary>
     ///   Conjugate Gradient learning algorithm for <see cref="HiddenConditionalRandomField{T}">
@@ -42,109 +43,52 @@ namespace Accord.Statistics.Models.Fields.Learning
     ///   page. All learning algorithms can be utilized in a similar manner.</para>
     /// </example>
     /// 
-    public class HiddenConjugateGradientLearning<T> : 
-        ISupervisedLearning<HiddenConditionalRandomField<T>, T[], int>,
-        IHiddenConditionalRandomFieldLearning<T>,
-        IConvergenceLearning, IDisposable
+    public class HiddenConjugateGradientLearning<T> : BaseHiddenGradientOptimizationLearning<T, ConjugateGradient>,
+        ISupervisedLearning<HiddenConditionalRandomField<T>, T[], int>, IParallel,
+        IHiddenConditionalRandomFieldLearning<T>, IConvergenceLearning, IDisposable
     {
-        [NonSerialized]
-        CancellationToken token = new CancellationToken();
-
-        private ForwardBackwardGradient<T> calculator;
-        private ConjugateGradient optimizer;
 
         /// <summary>
-        /// Gets or sets a cancellation token that can be used to
-        /// stop the learning algorithm while it is running.
+        ///   Please use HasConverged instead.
         /// </summary>
         /// 
-        public CancellationToken Token
+        [Obsolete("Please use HasConverged instead.")]
+        public bool Converged { get { return HasConverged; } }
+
+        int IConvergenceLearning.Iterations
         {
-            get { return token; }
-            set { token = value; }
+            get
+            {
+                if (Optimizer == null)
+                    return 0;
+                return Optimizer.Iterations;
+            }
+            set { throw new NotImplementedException(); }
         }
 
         /// <summary>
-        ///   Gets or sets the model being trained.
+        /// Gets the current iteration number.
         /// </summary>
-        /// 
-        public HiddenConditionalRandomField<T> Model { get; private set; }
-
-        /// <summary>
-        ///   Gets or sets the amount of the parameter weights
-        ///   which should be included in the objective function.
-        ///   Default is 0 (do not include regularization).
-        /// </summary>
-        /// 
-        public double Regularization
-        {
-            get { return calculator.Regularization; }
-            set { calculator.Regularization = value; }
-        }
-
-        /// <summary>
-        ///   Gets whether the model has converged
-        ///   or if the line search has failed.
-        /// </summary>
-        /// 
-        public bool Converged { get; private set; }
-
-        /// <summary>
-        ///   Gets the total number of iterations performed
-        ///   by the conjugate gradient algorithm.
-        /// </summary>
-        /// 
+        /// <value>The current iteration.</value>
         public int CurrentIteration
         {
-            get { return optimizer.Iterations; }
-        }
-
-        /// <summary>
-        ///   Gets or sets the maximum change in the average log-likelihood
-        ///   after an iteration of the algorithm used to detect convergence.
-        /// </summary>
-        /// 
-        /// <remarks>
-        ///   This is the likelihood convergence limit L between two iterations of the algorithm. The
-        ///   algorithm will stop when the change in the likelihood for two consecutive iterations
-        ///   has not changed by more than L percent of the likelihood. If left as zero, the
-        ///   algorithm will ignore this parameter and iterate over a number of fixed iterations
-        ///   specified by the previous parameter.
-        /// </remarks>
-        /// 
-        public double Tolerance
-        {
-            get { return optimizer.Tolerance; }
-            set
+            get
             {
-                if (value < 0)
-                    throw new ArgumentOutOfRangeException("value", "Tolerance should be positive.");
-
-                optimizer.Tolerance = value;
+                if (Optimizer != null)
+                    return Optimizer.Iterations;
+                return 0;
             }
         }
 
         /// <summary>
-        ///   Gets or sets the maximum number of iterations
-        ///   performed by the learning algorithm.
+        ///   Please use MaxIterations instead.
         /// </summary>
         /// 
-        /// <remarks>
-        ///   This is the maximum number of iterations to be performed by the learning algorithm. If
-        ///   specified as zero, the algorithm will learn until convergence of the model average
-        ///   likelihood respecting the desired limit.
-        /// </remarks>
-        /// 
+        [Obsolete("Please use MaxIterations instead.")]
         public int Iterations
         {
-            get { return optimizer.MaxIterations; }
-            set
-            {
-                if (value < 0)
-                    throw new ArgumentOutOfRangeException("value", "The maximum number of iterations should be positive.");
-
-                optimizer.MaxIterations = value;
-            }
+            get { return MaxIterations; }
+            set { MaxIterations = value; }
         }
 
         /// <summary>
@@ -162,150 +106,36 @@ namespace Accord.Statistics.Models.Fields.Learning
         public HiddenConjugateGradientLearning(HiddenConditionalRandomField<T> model)
         {
             Model = model;
+        }
 
-            calculator = new ForwardBackwardGradient<T>(model);
+        /// <summary>
+        /// Inheritors of this class should create the optimization algorithm in this
+        /// method, using the current <see cref="P:Accord.Statistics.Models.Fields.Learning.BaseHiddenGradientOptimizationLearning`2.MaxIterations" /> and <see cref="P:Accord.Statistics.Models.Fields.Learning.BaseHiddenGradientOptimizationLearning`2.Tolerance" />
+        /// settings.
+        /// </summary>
+        /// <returns>ConjugateGradient.</returns>
+        protected override ConjugateGradient CreateOptimizer()
+        {
+            var cg = new ConjugateGradient(Model.Function.Weights.Length)
+            {
+                Tolerance = Tolerance,
+                MaxIterations = MaxIterations,
+            };
 
-            optimizer = new ConjugateGradient(model.Function.Weights.Length);
-            optimizer.Progress += new EventHandler<OptimizationProgressEventArgs>(progressChanged);
-            optimizer.Function = calculator.Objective;
-            optimizer.Gradient = calculator.Gradient;
+            cg.Progress += new EventHandler<OptimizationProgressEventArgs>(progressChanged);
+            return cg;
         }
 
         private void progressChanged(object sender, OptimizationProgressEventArgs e)
         {
-            int percentage;
-
+            int percentage = 100;
             double ratio = e.GradientNorm / e.SolutionNorm;
-            if (Double.IsNaN(ratio))
-                percentage = 100;
-            else
+            if (!Double.IsNaN(ratio))
                 percentage = (int)Math.Max(0, Math.Min(100, (1.0 - ratio) * 100));
 
             if (ProgressChanged != null)
                 ProgressChanged(this, new ProgressChangedEventArgs(percentage, e));
         }
-
-        /// <summary>
-        ///   Runs the learning algorithm with the specified input
-        ///   training observations and corresponding output labels.
-        /// </summary>
-        /// 
-        /// <param name="observations">The training observations.</param>
-        /// <param name="outputs">The observation's labels.</param>
-        /// 
-        [Obsolete("Please use Learn(x, y) instead.")]
-        public double Run(T[][] observations, int[] outputs)
-        {
-            return run(observations, outputs);
-        }
-
-        private double run(T[][] observations, int[] outputs)
-        {
-            calculator.Inputs = observations;
-            calculator.Outputs = outputs;
-
-            Converged = true;
-            optimizer.Tolerance = Tolerance;
-            optimizer.MaxIterations = Iterations;
-            optimizer.Token = Token;
-
-            try
-            {
-                optimizer.Minimize(Model.Function.Weights);
-            }
-            catch (LineSearchFailedException)
-            {
-                // TODO: Restructure CG to avoid exceptions.
-                Converged = false;
-            }
-
-            Model.Function.Weights = optimizer.Solution;
-
-            // Return negative log-likelihood as error function
-            return -Model.LogLikelihood(observations, outputs);
-        }
-
-        /// <summary>
-        ///   Online learning is not supported.
-        /// </summary>
-        ///   
-        [Obsolete("Use Run(T[][], int[]) instead.")]
-        public double Run(T[] observations, int output)
-        {
-            throw new NotSupportedException();
-        }
-
-        /// <summary>
-        ///   Online learning is not supported.
-        /// </summary>
-        ///   
-        [Obsolete("Use Run(T[][], int[]) instead.")]
-        public double RunEpoch(T[][] observations, int[] output)
-        {
-            throw new NotSupportedException();
-        }
-
-        /// <summary>
-        /// Learns a model that can map the given inputs to the given outputs.
-        /// </summary>
-        /// <param name="x">The model inputs.</param>
-        /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
-        /// <param name="weights">The weight of importance for each input-output pair.</param>
-        /// <returns>
-        /// A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
-        /// </returns>
-        public HiddenConditionalRandomField<T> Learn(T[][] x, int[] y, double[] weights = null)
-        {
-            run(x, y);
-            return Model;
-        }
-
-        #region IDisposable Members
-
-        /// <summary>
-        ///   Performs application-defined tasks associated with freeing,
-        ///   releasing, or resetting unmanaged resources.
-        /// </summary>
-        /// 
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        /// <summary>
-        ///   Releases unmanaged resources and performs other cleanup operations before
-        ///   the <see cref="HiddenConjugateGradientLearning{T}"/> is reclaimed by garbage
-        ///   collection.
-        /// </summary>
-        /// 
-        ~HiddenConjugateGradientLearning()
-        {
-            Dispose(false);
-        }
-
-        /// <summary>
-        ///   Releases unmanaged and - optionally - managed resources
-        /// </summary>
-        /// 
-        /// <param name="disposing"><c>true</c> to release both managed 
-        /// and unmanaged resources; <c>false</c> to release only unmanaged
-        /// resources.</param>
-        /// 
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                // free managed resources
-                if (calculator != null)
-                {
-                    calculator.Dispose();
-                    calculator = null;
-                }
-            }
-        }
-
-        #endregion
 
     }
 }

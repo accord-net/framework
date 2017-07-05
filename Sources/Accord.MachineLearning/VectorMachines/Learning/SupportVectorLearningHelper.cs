@@ -74,20 +74,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             if (linear != null)
                 return linear.GetLength(x);
 
-            var first = x[0] as IList;
-            if (first == null)
-                return 0;
-
-            int length = first.Count;
-
-            for (int i = 0; i < x.Length; i++)
-            {
-                IList l = x[i] as IList;
-                if (l == null || l.Count != length)
-                    return 0;
-            }
-
-            return length;
+            return Tools.GetNumberOfInputs(x);
         }
 
         public static void CheckArgs<TInput>(TInput[] x)

@@ -29,6 +29,7 @@ namespace Accord.Statistics.Models.Markov
     using System.Collections.Generic;
     using System.Runtime.Serialization;
     using System.Threading.Tasks;
+    using System.Threading;
 
     /// <summary>
     ///   Base class for (HMM) Sequence Classifiers. 
@@ -37,10 +38,13 @@ namespace Accord.Statistics.Models.Markov
     /// 
     [Serializable]
     public abstract class BaseHiddenMarkovClassifier<TModel, TDistribution, TObservation> :
-        MulticlassLikelihoodClassifierBase<TObservation[]>, IEnumerable<TModel>
+        MulticlassLikelihoodClassifierBase<TObservation[]>, IEnumerable<TModel>//, IParallel // TODO: Uncomment
         where TModel : HiddenMarkovModel<TDistribution, TObservation>
         where TDistribution : IDistribution<TObservation>
     {
+
+        // TODO: Uncomment
+        // ParallelLearningBase parallel;
 
         private TModel[] models;
         private double[] classPriors;
@@ -56,14 +60,11 @@ namespace Accord.Statistics.Models.Markov
         /// <param name="classes">The number of classes in the classification problem.</param>
         /// 
         protected BaseHiddenMarkovClassifier(int classes)
+            : this(new TModel[classes])
         {
-            this.NumberOfOutputs = classes;
-            models = new TModel[classes];
-
-            classPriors = new double[classes];
-            for (int i = 0; i < classPriors.Length; i++)
-                classPriors[i] = 1.0 / classPriors.Length;
         }
+
+
 
         /// <summary>
         ///   Initializes a new instance of the <see cref="BaseHiddenMarkovClassifier&lt;T&gt;"/> class.
@@ -72,11 +73,7 @@ namespace Accord.Statistics.Models.Markov
         /// 
         protected BaseHiddenMarkovClassifier(TModel[] models)
         {
-            this.models = models;
-
-            classPriors = new double[models.Length];
-            for (int i = 0; i < classPriors.Length; i++)
-                classPriors[i] = 1.0 / classPriors.Length;
+            this.Models = models;
         }
 
         /// <summary>
@@ -132,6 +129,16 @@ namespace Accord.Statistics.Models.Markov
         public TModel[] Models
         {
             get { return models; }
+            set
+            {
+                int classes = value.Length;
+                models = value;
+                this.NumberOfOutputs = classes;
+                this.NumberOfClasses = classes;
+                classPriors = new double[classes];
+                for (int i = 0; i < classPriors.Length; i++)
+                    classPriors[i] = 1.0 / classPriors.Length;
+            }
         }
 
         /// <summary>
@@ -150,6 +157,7 @@ namespace Accord.Statistics.Models.Markov
         ///   Gets the number of classes which can be recognized by this classifier.
         /// </summary>
         /// 
+        [Obsolete("Please use NumberOfClasses instead.")]
         public int Classes
         {
             get { return models.Length; }
@@ -164,6 +172,32 @@ namespace Accord.Statistics.Models.Markov
             get { return classPriors; }
         }
 
+        // TODO: Uncomment
+        ///// <summary>
+        ///// Gets or sets the parallelization options for this algorithm.
+        ///// </summary>
+        ///// 
+        ///// <value>The parallel options.</value>
+        ///// 
+        //public ParallelOptions ParallelOptions
+        //{
+        //    get { return parallel.ParallelOptions; }
+        //    set { parallel.ParallelOptions = value; }
+        //}
+
+        ///// <summary>
+        /////   Gets or sets a cancellation token that can be used
+        /////   to cancel the algorithm while it is running.
+        ///// </summary>
+        ///// 
+        ///// <value>The token.</value>
+        ///// 
+        //public CancellationToken Token
+        //{
+        //    get { return parallel.Token; }
+        //    set { parallel.Token = value; }
+        //}
+
         /// <summary>
         /// Computes the log-likelihood that the given input vector
         /// belongs to its decided class.
@@ -171,7 +205,8 @@ namespace Accord.Statistics.Models.Markov
         /// 
         public override double LogLikelihood(TObservation[] input)
         {
-            return Math.Log(Probability(input));
+            int decision;
+            return LogLikelihood(input, out decision);
         }
 
         /// <summary>
@@ -182,10 +217,7 @@ namespace Accord.Statistics.Models.Markov
         public override double Probability(TObservation[] input)
         {
             int decision;
-            double[] result = Probabilities(input, out decision);
-            if (decision == -1)
-                return 1.0 - result.Sum();
-            return result[decision];
+            return Probability(input, out decision);
         }
 
         /// <summary>
@@ -195,7 +227,10 @@ namespace Accord.Statistics.Models.Markov
         /// 
         public override double LogLikelihood(TObservation[] input, out int decision)
         {
-            return Math.Log(Probability(input, out decision));
+            double[] result = LogLikelihoods(input, out decision);
+            if (decision == -1)
+                return Special.Log1m(1.0 - Math.Exp(result.LogSumExp()));
+            return result[decision];
         }
 
         /// <summary>
@@ -221,7 +256,7 @@ namespace Accord.Statistics.Models.Markov
         public override double LogLikelihood(TObservation[] input, int classIndex)
         {
             int decision;
-            return Math.Log(Probabilities(input, out decision)[classIndex]);
+            return LogLikelihoods(input, out decision)[classIndex];
         }
 
         /// <summary>
@@ -248,25 +283,33 @@ namespace Accord.Statistics.Models.Markov
         /// <param name="result">An array where the probabilities will be stored,
         /// avoiding unnecessary memory allocations.</param>
         /// <returns></returns>
+        //public override double[][] LogLikelihoods(TObservation[][] input, int[] decision, double[][] result)
         public override double[] LogLikelihoods(TObservation[] input, out int decision, double[] result)
         {
+            // TODO: Uncomment this code
+            //Parallel.For(0, input.Length, ParallelOptions, k =>
+            //{
+            //    double[] r = result[k];
+            //    TObservation[] o = input[k];
+
+            double[] r = result;
+            TObservation[] o = input;
+
             // Evaluate the probability of the sequence for every model in the set
             for (int i = 0; i < models.Length; i++)
-                result[i] = models[i].LogLikelihood(input) + Math.Log(classPriors[i]);
+                r[i] = models[i].LogLikelihood(o) + Math.Log(classPriors[i]);
 
             // Get the index of the most likely model
-            double maxValue = result.Max(out decision);
+            double maxValue = r.Max(out decision);
 
             // Compute posterior likelihoods
-            double lnsum = Double.NegativeInfinity;
-            for (int i = 0; i < result.Length; i++)
-                lnsum = Special.LogSum(lnsum, result[i]);
+            double lnsum = r.LogSumExp();
 
             // Compute threshold model posterior likelihood
             if (threshold != null)
             {
                 // Evaluate the current rejection threshold 
-                double rejection = threshold.LogLikelihood(input) + Math.Log(weight);
+                double rejection = threshold.LogLikelihood(o) + Math.Log(weight);
 
                 if (rejection > maxValue)
                     decision = -1; // input should be rejected (does not belong to any of the classes)
@@ -276,7 +319,8 @@ namespace Accord.Statistics.Models.Markov
 
             // Normalize if different from zero
             if (lnsum != Double.NegativeInfinity)
-                result.Subtract(lnsum, result: result);
+                r.Subtract(lnsum, result: r);
+            //});
 
             return result;
         }

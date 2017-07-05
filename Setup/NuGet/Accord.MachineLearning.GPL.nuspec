@@ -17,9 +17,10 @@
     <summary>Extra non-LGPL machine learning libraries from the Accord.NET framework, containing Sequential Minimal Optimization for Regression (SMOreg).</summary>
     <tags>accord.net aforge.net aforge.net machine learning artificial intelligence smo svm gpl kernel</tags>
     <dependencies>
-      <dependency id="Accord"            version="$version$" />
-      <dependency id="Accord.Math"       version="$version$" />
-      <dependency id="Accord.Statistics" version="$version$" />
+      <dependency id="Accord"                 version="$version$" />
+      <dependency id="Accord.Math"            version="$version$" />
+      <dependency id="Accord.Statistics"      version="$version$" />
+	  <dependency id="Accord.MachineLearning" version="$version$" />
     </dependencies>
   </metadata>
   <files>
@@ -34,5 +35,11 @@
 	
 	<file src="..\..\Release\net46\GPL\Accord.MachineLearning.GPL.dll" target="lib\net46\Accord.MachineLearning.GPL.dll" />
     <file src="..\..\Release\net46\GPL\Accord.MachineLearning.GPL.xml" target="lib\net46\Accord.MachineLearning.GPL.xml" />
+	
+	<file src="..\..\Release\net462\GPL\Accord.MachineLearning.GPL.dll" target="lib\net462\Accord.MachineLearning.GPL.dll" />
+    <file src="..\..\Release\net462\GPL\Accord.MachineLearning.GPL.xml" target="lib\net462\Accord.MachineLearning.GPL.xml" />
+	
+	<file src="..\..\Release\netstandard2.0\GPL\Accord.MachineLearning.GPL.dll" target="lib\netstandard2.0\Accord.MachineLearning.GPL.dll" />
+    <file src="..\..\Release\netstandard2.0\GPL\Accord.MachineLearning.GPL.xml" target="lib\netstandard2.0\Accord.MachineLearning.GPL.xml" />
   </files>
 </package>

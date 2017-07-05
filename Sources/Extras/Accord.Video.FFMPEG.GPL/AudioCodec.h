@@ -56,13 +56,20 @@ namespace Accord {
                 /// AAC
                 /// </summary>
                 ///
-                AAC,
+                AAC = 1,
 
                 /// <summary>
-                /// M4A
+                ///   Please use <see href="MP4ALS" /> instead.
                 /// </summary>
                 ///
-                M4A,
+                [Obsolete("Please use MP4ALS instead.")]
+                M4A = 2,
+
+                /// <summary>
+                /// MPEG-4 Audio Lossless Coding, also known as MPEG-4 ALS.
+                /// </summary>
+                ///
+                MP4ALS = 2,
             };
         }
     }

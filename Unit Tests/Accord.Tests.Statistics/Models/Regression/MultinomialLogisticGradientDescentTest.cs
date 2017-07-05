@@ -39,6 +39,9 @@ namespace Accord.Tests.Statistics
         [Test]
         public void LearnTest1()
         {
+            #region doc_learn_0
+            // Declare a simple classification/regression
+            // problem with 5 input variables (a,b,c,d,e):
             double[][] inputs =
             {
                 new double[] { 1, 4, 2, 0, 1 },
@@ -55,49 +58,75 @@ namespace Accord.Tests.Statistics
                 new double[] { 2, 7, 5, 0, 1 },
             };
 
+            // Class labels for each of the inputs
             int[] outputs =
             {
-                0, 0,
-                1, 1,
-                2, 2,
-                3, 3,
-                0, 0, 0, 0
+                0, 0, 1, 1, 2, 2, 3, 3, 0, 0, 0, 0
             };
+            #endregion
 
-            // Create an algorithm to estimate the regression
-            var mcg = new MultinomialLogisticLearning<ConjugateGradient>();
+            {
+                #region doc_learn_cg
+                // Create a Conjugate Gradient algorithm to estimate the regression
+                var mcg = new MultinomialLogisticLearning<ConjugateGradient>();
 
-            // Now, we can iteratively estimate our model
-            MultinomialLogisticRegression mlr = mcg.Learn(inputs, outputs);
+                // Now, we can estimate our model using Conjugate Gradient
+                MultinomialLogisticRegression mlr = mcg.Learn(inputs, outputs);
 
-            int[] predicted = mlr.Decide(inputs);
+                // We can compute the model answers
+                int[] answers = mlr.Decide(inputs);
 
-            double error = new ZeroOneLoss(outputs).Loss(predicted);
-            Assert.AreEqual(0, error);
+                // And also the probability of each of the answers
+                double[][] probabilities = mlr.Probabilities(inputs);
 
+                // Now we can check how good our model is at predicting
+                double error = new ZeroOneLoss(outputs).Loss(answers);
+                #endregion
 
-            // Create an algorithm to estimate the regression
-            var mgd = new MultinomialLogisticLearning<GradientDescent>();
+                Assert.AreEqual(0, error, 1e-5);
+            }
 
-            // Now, we can iteratively estimate our model
-            mlr = mgd.Learn(inputs, outputs);
+            {
+                #region doc_learn_gd
+                // Create a Conjugate Gradient algorithm to estimate the regression
+                var mgd = new MultinomialLogisticLearning<GradientDescent>();
 
-            predicted = mlr.Decide(inputs);
+                // Now, we can estimate our model using Gradient Descent
+                MultinomialLogisticRegression mlr = mgd.Learn(inputs, outputs);
 
-            error = new ZeroOneLoss(outputs).Loss(predicted);
-            Assert.AreEqual(0, error, 1e-5);
+                // We can compute the model answers
+                int[] answers = mlr.Decide(inputs);
 
+                // And also the probability of each of the answers
+                double[][] probabilities = mlr.Probabilities(inputs);
 
-            // Create an algorithm to estimate the regression
-            var mlbfgs = new MultinomialLogisticLearning<BroydenFletcherGoldfarbShanno>();
+                // Now we can check how good our model is at predicting
+                double error = new ZeroOneLoss(outputs).Loss(answers);
+                #endregion
 
-            // Now, we can iteratively estimate our model
-            mlr = mlbfgs.Learn(inputs, outputs);
+                Assert.AreEqual(0, error, 1e-5);
+            }
 
-            predicted = mlr.Decide(inputs);
+            {
+                #region doc_learn_bfgs
+                // Create a Conjugate Gradient algorithm to estimate the regression
+                var mlbfgs = new MultinomialLogisticLearning<BroydenFletcherGoldfarbShanno>();
 
-            error = new ZeroOneLoss(outputs).Loss(predicted);
-            Assert.AreEqual(0, error, 1e-5);
+                // Now, we can estimate our model using BFGS
+                MultinomialLogisticRegression mlr = mlbfgs.Learn(inputs, outputs);
+
+                // We can compute the model answers
+                int[] answers = mlr.Decide(inputs);
+
+                // And also the probability of each of the answers
+                double[][] probabilities = mlr.Probabilities(inputs);
+
+                // Now we can check how good our model is at predicting
+                double error = new ZeroOneLoss(outputs).Loss(answers);
+                #endregion
+
+                Assert.AreEqual(0, error, 1e-5);
+            }
         }
 
         [Test]

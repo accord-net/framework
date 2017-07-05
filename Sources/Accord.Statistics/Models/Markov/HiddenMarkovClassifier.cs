@@ -73,7 +73,7 @@ namespace Accord.Statistics.Models.Markov
         [Obsolete("Please use NumberOfSymbols instead.")]
         public int Symbols
         {
-            get { return this[0].NumberOfSymbols; }
+            get { return NumberOfSymbols; }
         }
 
         /// <summary>
@@ -88,6 +88,17 @@ namespace Accord.Statistics.Models.Markov
 
 
         #region Constructors
+
+        /// <summary>
+        ///   Creates a new Sequence Classifier with the given number of classes.
+        /// </summary>
+        /// 
+        /// <param name="classes">The number of classes in the classifier.</param>
+        /// 
+        public HiddenMarkovClassifier(int classes)
+            : base(classes)
+        {
+        }
 
         /// <summary>
         ///   Creates a new Sequence Classifier with the given number of classes.

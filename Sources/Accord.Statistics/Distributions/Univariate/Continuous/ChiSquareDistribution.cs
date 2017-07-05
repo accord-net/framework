@@ -370,23 +370,28 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <param name="samples">The number of samples to generate.</param>
         /// <param name="result">The location where to store the samples.</param>
-        ///
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        ///   
         /// <returns>A random vector of observations drawn from this distribution.</returns>
         /// 
-        public override double[] Generate(int samples, double[] result)
+        public override double[] Generate(int samples, double[] result, Random source)
         {
-            return GammaDistribution.Random(shape: degreesOfFreedom / 2.0, scale: 2, samples: samples, result: result);
+            return Random(degreesOfFreedom, samples, result, source);
         }
 
         /// <summary>
         ///   Generates a random observation from the current distribution.
         /// </summary>
         /// 
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        ///   
         /// <returns>A random observations drawn from this distribution.</returns>
         /// 
-        public override double Generate()
+        public override double Generate(Random source)
         {
-            return GammaDistribution.Random(shape: degreesOfFreedom / 2.0, scale: 2);
+            return Random(degreesOfFreedom, source);
         }
 
         /// <summary>
@@ -398,7 +403,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public static double[] Random(int degreesOfFreedom, int samples)
         {
-            return GammaDistribution.Random(shape: degreesOfFreedom / 2.0, scale: 2, samples: samples);
+            return Random(degreesOfFreedom, samples, Accord.Math.Random.Generator.Random);
         }
 
 
@@ -413,7 +418,52 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public static double Random(int degreesOfFreedom)
         {
-            return GammaDistribution.Random(shape: degreesOfFreedom / 2.0, scale: 2);
+            return Random(degreesOfFreedom, Accord.Math.Random.Generator.Random);
+        }
+
+
+
+
+        /// <summary>
+        ///   Generates a random vector of observations from the 
+        ///   Chi-Square distribution with the given parameters.
+        /// </summary>
+        /// 
+        /// <returns>An array of double values sampled from the specified Chi-Square distribution.</returns>
+        /// 
+        public static double[] Random(int degreesOfFreedom, int samples, Random source)
+        {
+            return GammaDistribution.Random(shape: degreesOfFreedom / 2.0, scale: 2, samples: samples, source: source);
+        }
+
+        /// <summary>
+        ///   Generates a random vector of observations from the 
+        ///   Chi-Square distribution with the given parameters.
+        /// </summary>
+        /// 
+        /// <returns>An array of double values sampled from the specified Chi-Square distribution.</returns>
+        /// 
+        public static double[] Random(int degreesOfFreedom, int samples, double[] result, Random source)
+        {
+            return GammaDistribution.Random(shape: degreesOfFreedom / 2.0, scale: 2, 
+                samples: samples, result: result, source: source);
+        }
+
+
+        /// <summary>
+        ///   Generates a random observation from the 
+        ///   Chi-Square distribution with the given parameters.
+        /// </summary>
+        /// 
+        /// <param name="degreesOfFreedom">The degrees of freedom for the distribution.</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        /// 
+        /// <returns>A random double value sampled from the specified Chi-Square distribution.</returns>
+        /// 
+        public static double Random(int degreesOfFreedom, Random source)
+        {
+            return GammaDistribution.Random(shape: degreesOfFreedom / 2.0, scale: 2, source: source);
         }
 
         #endregion

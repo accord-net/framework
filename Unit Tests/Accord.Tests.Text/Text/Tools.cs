@@ -31,12 +31,7 @@ namespace Accord.Tests.MachineLearning
     {
         public static void Test(StemmerBase stemmer, string language)
         {
-            string snowballPath = Path.GetFullPath(Environment.CurrentDirectory);
-
-            for (int i = 0; i < 5; i++)
-                snowballPath = Directory.GetParent(snowballPath).FullName;
-
-            string dataPath = Path.GetFullPath("Resources\\snowball\\");
+            string dataPath = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources", "snowball"));
 
             string langPath = Path.Combine(dataPath, language);
 

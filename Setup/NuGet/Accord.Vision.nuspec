@@ -37,5 +37,11 @@
 	
 	<file src="..\..\Release\net46\Accord.Vision.dll" target="lib\net46\Accord.Vision.dll" />
     <file src="..\..\Release\net46\Accord.Vision.xml" target="lib\net46\Accord.Vision.xml" />
+	
+	<file src="..\..\Release\net462\Accord.Vision.dll" target="lib\net462\Accord.Vision.dll" />
+    <file src="..\..\Release\net462\Accord.Vision.xml" target="lib\net462\Accord.Vision.xml" />
+	
+	<file src="..\..\Release\netstandard2.0\Accord.Vision.dll" target="lib\netstandard2.0\Accord.Vision.dll" />
+    <file src="..\..\Release\netstandard2.0\Accord.Vision.xml" target="lib\netstandard2.0\Accord.Vision.xml" />
   </files>
 </package>

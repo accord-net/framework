@@ -32,6 +32,7 @@ namespace Accord.Statistics.Models.Fields
     /// <summary>
     ///   Linear-Chain Conditional Random Field (CRF).
     /// </summary>
+    /// 
     /// <remarks>
     ///   <para>A conditional random field (CRF) is a type of discriminative undirected
     ///   probabilistic graphical model. It is most often used for labeling or parsing

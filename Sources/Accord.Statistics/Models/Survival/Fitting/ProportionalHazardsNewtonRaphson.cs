@@ -36,6 +36,13 @@ namespace Accord.Statistics.Models.Regression.Fitting
     ///   Newton-Raphson learning updates for Cox's Proportional Hazards models.
     /// </summary>
     /// 
+    /// <example>
+    ///   <code source="Unit Tests\Accord.Tests.Statistics\Models\Regression\CoxProportionalHazardsTest.cs" region="doc_learn" />
+    /// </example>
+    /// 
+    /// <seealso cref="ProportionalHazards"/>
+    /// <seealso cref="Accord.Statistics.Analysis.ProportionalHazardsAnalysis"/>
+    /// 
 #pragma warning disable 612, 618
     public class ProportionalHazardsNewtonRaphson :
         ISupervisedLearning<ProportionalHazards, Tuple<double[], double>, int>,
@@ -76,14 +83,24 @@ namespace Accord.Statistics.Models.Regression.Fitting
         }
 
         /// <summary>
+        ///   Please use MaxIterations instead.
+        /// </summary>
+        [Obsolete("Please use MaxIterations instead.")]
+        public int Iterations
+        {
+            get { return convergence.MaxIterations; }
+            set { convergence.MaxIterations = value; }
+        }
+
+        /// <summary>
         ///   Gets or sets the maximum number of iterations
         ///   performed by the learning algorithm.
         /// </summary>
         /// 
-        public int Iterations
+        public int MaxIterations
         {
-            get { return convergence.Iterations; }
-            set { convergence.Iterations = value; }
+            get { return convergence.MaxIterations; }
+            set { convergence.MaxIterations = value; }
         }
 
         /// <summary>
@@ -94,6 +111,15 @@ namespace Accord.Statistics.Models.Regression.Fitting
         {
             get { return convergence.CurrentIteration; }
             set { convergence.CurrentIteration = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets whether the algorithm has converged.
+        /// </summary>
+        /// <value><c>true</c> if this instance has converged; otherwise, <c>false</c>.</value>
+        public bool HasConverged
+        {
+            get { return convergence.HasConverged; }
         }
 
         /// <summary>
@@ -316,7 +342,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
         [Obsolete("Please use Learn(x, y) instead.")]
         public double Run(double[][] inputs, double[] time, SurvivalOutcome[] censor)
         {
-            Learn(inputs, time, censor, null);
+            innerLearn(inputs, time, censor, null);
             return regression.GetPartialLogLikelihood(inputs, time, censor);
         }
 
@@ -398,7 +424,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
         /// </summary>
         /// <param name="x">The model inputs.</param>
         /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
-        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <param name="weights">The weight of importance for each input-output pair (if supported by the learning algorithm).</param>
         /// <returns>
         /// A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
         /// </returns>
@@ -414,7 +440,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
         /// </summary>
         /// <param name="x">The model inputs.</param>
         /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
-        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <param name="weights">The weight of importance for each input-output pair (if supported by the learning algorithm).</param>
         /// <returns>
         /// A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
         /// </returns>
@@ -430,7 +456,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
         /// </summary>
         /// <param name="x">The model inputs.</param>
         /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
-        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <param name="weights">The weight of importance for each input-output pair (if supported by the learning algorithm).</param>
         /// <returns>
         /// A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
         /// </returns>
@@ -448,7 +474,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
         /// <param name="inputs">The model inputs.</param>
         /// <param name="censor">The output (event) associated with each input vector.</param>
         /// <param name="time">The time-to-event for the non-censored training samples.</param>
-        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <param name="weights">The weight of importance for each input-output pair (if supported by the learning algorithm).</param>
         /// <returns>
         /// A model that has learned how to produce <paramref name="censor" /> given <paramref name="inputs" /> and <paramref name="time" />.
         /// </returns>
@@ -463,12 +489,25 @@ namespace Accord.Statistics.Models.Regression.Fitting
         /// <param name="inputs">The model inputs.</param>
         /// <param name="censor">The output (event) associated with each input vector.</param>
         /// <param name="time">The time-to-event for the non-censored training samples.</param>
-        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <param name="weights">The weight of importance for each input-output pair (if supported by the learning algorithm).</param>
         /// <returns>
         /// A model that has learned how to produce <paramref name="censor" /> given <paramref name="inputs" /> and <paramref name="time" />.
         /// </returns>
         public ProportionalHazards Learn(double[][] inputs, double[] time, SurvivalOutcome[] censor, double[] weights = null)
         {
+            var regression = innerLearn(inputs, time, censor, weights);
+
+            // Disable deprecated mechanism
+            regression.Intercept = -regression.Coefficients.Dot(regression.Offsets);
+            regression.Offsets.Clear();
+            return regression;
+        }
+
+        private ProportionalHazards innerLearn(double[][] inputs, double[] time, SurvivalOutcome[] censor, double[] weights)
+        {
+            if (weights != null)
+                throw new ArgumentException(Accord.Properties.Resources.NotSupportedWeights, "weights");
+
             if (inputs.Length != time.Length || time.Length != censor.Length)
             {
                 throw new DimensionMismatchException("time",
@@ -482,8 +521,8 @@ namespace Accord.Statistics.Models.Regression.Fitting
             EmpiricalHazardDistribution.Sort(ref time, ref censor, ref inputs);
 
 
-            double[] means = new double[parameterCount];
-            double[] sdev = new double[parameterCount];
+            var means = new double[parameterCount];
+            var sdev = new double[parameterCount];
             for (int i = 0; i < sdev.Length; i++)
                 sdev[i] = 1;
 
@@ -503,7 +542,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
             }
 
             // Compute actual outputs
-            double[] output = new double[inputs.Length];
+            var output = new double[inputs.Length];
             for (int i = 0; i < output.Length; i++)
             {
                 double sum = 0;

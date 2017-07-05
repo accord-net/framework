@@ -42,7 +42,7 @@ namespace Accord.Math
         ///
         /// <param name="vector">A vector whose sum will be calculated.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int Sum(this int[] vector)
@@ -59,7 +59,7 @@ namespace Accord.Math
         ///
         /// <param name="matrix">A matrix whose sum will be calculated.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int Sum(this int[,] matrix)
@@ -76,7 +76,7 @@ namespace Accord.Math
         ///
         /// <param name="matrix">A matrix whose sums will be calculated.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int Sum(this int[][] matrix)
@@ -97,7 +97,7 @@ namespace Accord.Math
         /// <param name="dimension">The dimension in which the sum will be
         ///   calculated.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Sum(this int[][] matrix, int dimension)
@@ -114,7 +114,7 @@ namespace Accord.Math
         /// <param name="dimension">The dimension in which the sum will be
         ///   calculated.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Sum(this int[,] matrix, int dimension)
@@ -130,7 +130,7 @@ namespace Accord.Math
         ///
         /// <param name="vector">A vector whose product will be calculated.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int Product(this int[] vector)
@@ -147,7 +147,7 @@ namespace Accord.Math
         ///
         /// <param name="matrix">A matrix whose product will be calculated.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int Product(this int[,] matrix)
@@ -164,7 +164,7 @@ namespace Accord.Math
         ///
         /// <param name="matrix">A matrix whose sums will be calculated.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int Product(this int[][] matrix)
@@ -185,7 +185,7 @@ namespace Accord.Math
         /// <param name="dimension">The dimension in which the product will be
         ///   calculated.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Product(this int[][] matrix, int dimension)
@@ -202,7 +202,7 @@ namespace Accord.Math
         /// <param name="dimension">The dimension in which the product will be
         ///   calculated.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Product(this int[,] matrix, int dimension)
@@ -218,7 +218,7 @@ namespace Accord.Math
         ///
         /// <param name="vector">A vector whose sum will be calculated.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short Sum(this short[] vector)
@@ -235,7 +235,7 @@ namespace Accord.Math
         ///
         /// <param name="matrix">A matrix whose sum will be calculated.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short Sum(this short[,] matrix)
@@ -252,7 +252,7 @@ namespace Accord.Math
         ///
         /// <param name="matrix">A matrix whose sums will be calculated.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short Sum(this short[][] matrix)
@@ -273,7 +273,7 @@ namespace Accord.Math
         /// <param name="dimension">The dimension in which the sum will be
         ///   calculated.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Sum(this short[][] matrix, int dimension)
@@ -290,7 +290,7 @@ namespace Accord.Math
         /// <param name="dimension">The dimension in which the sum will be
         ///   calculated.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Sum(this short[,] matrix, int dimension)
@@ -306,7 +306,7 @@ namespace Accord.Math
         ///
         /// <param name="vector">A vector whose product will be calculated.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short Product(this short[] vector)
@@ -323,7 +323,7 @@ namespace Accord.Math
         ///
         /// <param name="matrix">A matrix whose product will be calculated.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short Product(this short[,] matrix)
@@ -340,7 +340,7 @@ namespace Accord.Math
         ///
         /// <param name="matrix">A matrix whose sums will be calculated.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short Product(this short[][] matrix)
@@ -361,7 +361,7 @@ namespace Accord.Math
         /// <param name="dimension">The dimension in which the product will be
         ///   calculated.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Product(this short[][] matrix, int dimension)
@@ -378,7 +378,7 @@ namespace Accord.Math
         /// <param name="dimension">The dimension in which the product will be
         ///   calculated.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Product(this short[,] matrix, int dimension)
@@ -394,7 +394,7 @@ namespace Accord.Math
         ///
         /// <param name="vector">A vector whose sum will be calculated.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float Sum(this float[] vector)
@@ -411,7 +411,7 @@ namespace Accord.Math
         ///
         /// <param name="matrix">A matrix whose sum will be calculated.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float Sum(this float[,] matrix)
@@ -428,7 +428,7 @@ namespace Accord.Math
         ///
         /// <param name="matrix">A matrix whose sums will be calculated.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float Sum(this float[][] matrix)
@@ -449,7 +449,7 @@ namespace Accord.Math
         /// <param name="dimension">The dimension in which the sum will be
         ///   calculated.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Sum(this float[][] matrix, int dimension)
@@ -466,7 +466,7 @@ namespace Accord.Math
         /// <param name="dimension">The dimension in which the sum will be
         ///   calculated.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Sum(this float[,] matrix, int dimension)
@@ -482,7 +482,7 @@ namespace Accord.Math
         ///
         /// <param name="vector">A vector whose product will be calculated.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float Product(this float[] vector)
@@ -499,7 +499,7 @@ namespace Accord.Math
         ///
         /// <param name="matrix">A matrix whose product will be calculated.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float Product(this float[,] matrix)
@@ -516,7 +516,7 @@ namespace Accord.Math
         ///
         /// <param name="matrix">A matrix whose sums will be calculated.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float Product(this float[][] matrix)
@@ -537,7 +537,7 @@ namespace Accord.Math
         /// <param name="dimension">The dimension in which the product will be
         ///   calculated.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Product(this float[][] matrix, int dimension)
@@ -554,7 +554,7 @@ namespace Accord.Math
         /// <param name="dimension">The dimension in which the product will be
         ///   calculated.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Product(this float[,] matrix, int dimension)
@@ -570,7 +570,7 @@ namespace Accord.Math
         ///
         /// <param name="vector">A vector whose sum will be calculated.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Sum(this double[] vector)
@@ -587,7 +587,7 @@ namespace Accord.Math
         ///
         /// <param name="matrix">A matrix whose sum will be calculated.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Sum(this double[,] matrix)
@@ -604,7 +604,7 @@ namespace Accord.Math
         ///
         /// <param name="matrix">A matrix whose sums will be calculated.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Sum(this double[][] matrix)
@@ -625,7 +625,7 @@ namespace Accord.Math
         /// <param name="dimension">The dimension in which the sum will be
         ///   calculated.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Sum(this double[][] matrix, int dimension)
@@ -642,7 +642,7 @@ namespace Accord.Math
         /// <param name="dimension">The dimension in which the sum will be
         ///   calculated.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Sum(this double[,] matrix, int dimension)
@@ -658,7 +658,7 @@ namespace Accord.Math
         ///
         /// <param name="vector">A vector whose product will be calculated.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Product(this double[] vector)
@@ -675,7 +675,7 @@ namespace Accord.Math
         ///
         /// <param name="matrix">A matrix whose product will be calculated.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Product(this double[,] matrix)
@@ -692,7 +692,7 @@ namespace Accord.Math
         ///
         /// <param name="matrix">A matrix whose sums will be calculated.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Product(this double[][] matrix)
@@ -713,7 +713,7 @@ namespace Accord.Math
         /// <param name="dimension">The dimension in which the product will be
         ///   calculated.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Product(this double[][] matrix, int dimension)
@@ -730,7 +730,7 @@ namespace Accord.Math
         /// <param name="dimension">The dimension in which the product will be
         ///   calculated.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Product(this double[,] matrix, int dimension)
@@ -746,7 +746,7 @@ namespace Accord.Math
         ///
         /// <param name="vector">A vector whose sum will be calculated.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long Sum(this long[] vector)
@@ -763,7 +763,7 @@ namespace Accord.Math
         ///
         /// <param name="matrix">A matrix whose sum will be calculated.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long Sum(this long[,] matrix)
@@ -780,7 +780,7 @@ namespace Accord.Math
         ///
         /// <param name="matrix">A matrix whose sums will be calculated.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long Sum(this long[][] matrix)
@@ -801,7 +801,7 @@ namespace Accord.Math
         /// <param name="dimension">The dimension in which the sum will be
         ///   calculated.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Sum(this long[][] matrix, int dimension)
@@ -818,7 +818,7 @@ namespace Accord.Math
         /// <param name="dimension">The dimension in which the sum will be
         ///   calculated.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Sum(this long[,] matrix, int dimension)
@@ -834,7 +834,7 @@ namespace Accord.Math
         ///
         /// <param name="vector">A vector whose product will be calculated.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long Product(this long[] vector)
@@ -851,7 +851,7 @@ namespace Accord.Math
         ///
         /// <param name="matrix">A matrix whose product will be calculated.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long Product(this long[,] matrix)
@@ -868,7 +868,7 @@ namespace Accord.Math
         ///
         /// <param name="matrix">A matrix whose sums will be calculated.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long Product(this long[][] matrix)
@@ -889,7 +889,7 @@ namespace Accord.Math
         /// <param name="dimension">The dimension in which the product will be
         ///   calculated.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Product(this long[][] matrix, int dimension)
@@ -906,7 +906,7 @@ namespace Accord.Math
         /// <param name="dimension">The dimension in which the product will be
         ///   calculated.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Product(this long[,] matrix, int dimension)
@@ -922,7 +922,7 @@ namespace Accord.Math
         ///
         /// <param name="vector">A vector whose sum will be calculated.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal Sum(this decimal[] vector)
@@ -939,7 +939,7 @@ namespace Accord.Math
         ///
         /// <param name="matrix">A matrix whose sum will be calculated.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal Sum(this decimal[,] matrix)
@@ -956,7 +956,7 @@ namespace Accord.Math
         ///
         /// <param name="matrix">A matrix whose sums will be calculated.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal Sum(this decimal[][] matrix)
@@ -977,7 +977,7 @@ namespace Accord.Math
         /// <param name="dimension">The dimension in which the sum will be
         ///   calculated.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Sum(this decimal[][] matrix, int dimension)
@@ -994,7 +994,7 @@ namespace Accord.Math
         /// <param name="dimension">The dimension in which the sum will be
         ///   calculated.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Sum(this decimal[,] matrix, int dimension)
@@ -1010,7 +1010,7 @@ namespace Accord.Math
         ///
         /// <param name="vector">A vector whose product will be calculated.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal Product(this decimal[] vector)
@@ -1027,7 +1027,7 @@ namespace Accord.Math
         ///
         /// <param name="matrix">A matrix whose product will be calculated.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal Product(this decimal[,] matrix)
@@ -1044,7 +1044,7 @@ namespace Accord.Math
         ///
         /// <param name="matrix">A matrix whose sums will be calculated.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal Product(this decimal[][] matrix)
@@ -1065,7 +1065,7 @@ namespace Accord.Math
         /// <param name="dimension">The dimension in which the product will be
         ///   calculated.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Product(this decimal[][] matrix, int dimension)
@@ -1082,7 +1082,7 @@ namespace Accord.Math
         /// <param name="dimension">The dimension in which the product will be
         ///   calculated.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Product(this decimal[,] matrix, int dimension)
@@ -1101,7 +1101,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Sum(this int[][] matrix, int dimension, int[] result)
@@ -1150,7 +1150,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Sum(this int[,] matrix, int dimension, int[] result)
@@ -1199,7 +1199,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Product(this int[][] matrix, int dimension, int[] result)
@@ -1248,7 +1248,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Product(this int[,] matrix, int dimension, int[] result)
@@ -1297,7 +1297,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Sum(this int[][] matrix, int dimension, short[] result)
@@ -1346,7 +1346,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Sum(this int[,] matrix, int dimension, short[] result)
@@ -1395,7 +1395,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Product(this int[][] matrix, int dimension, short[] result)
@@ -1444,7 +1444,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Product(this int[,] matrix, int dimension, short[] result)
@@ -1493,7 +1493,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Sum(this int[][] matrix, int dimension, float[] result)
@@ -1542,7 +1542,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Sum(this int[,] matrix, int dimension, float[] result)
@@ -1591,7 +1591,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Product(this int[][] matrix, int dimension, float[] result)
@@ -1640,7 +1640,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Product(this int[,] matrix, int dimension, float[] result)
@@ -1689,7 +1689,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Sum(this int[][] matrix, int dimension, double[] result)
@@ -1738,7 +1738,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Sum(this int[,] matrix, int dimension, double[] result)
@@ -1787,7 +1787,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Product(this int[][] matrix, int dimension, double[] result)
@@ -1836,7 +1836,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Product(this int[,] matrix, int dimension, double[] result)
@@ -1885,7 +1885,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Sum(this int[][] matrix, int dimension, long[] result)
@@ -1934,7 +1934,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Sum(this int[,] matrix, int dimension, long[] result)
@@ -1983,7 +1983,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Product(this int[][] matrix, int dimension, long[] result)
@@ -2032,7 +2032,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Product(this int[,] matrix, int dimension, long[] result)
@@ -2081,7 +2081,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Sum(this int[][] matrix, int dimension, decimal[] result)
@@ -2130,7 +2130,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Sum(this int[,] matrix, int dimension, decimal[] result)
@@ -2179,7 +2179,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Product(this int[][] matrix, int dimension, decimal[] result)
@@ -2228,7 +2228,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Product(this int[,] matrix, int dimension, decimal[] result)
@@ -2277,7 +2277,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Sum(this short[][] matrix, int dimension, int[] result)
@@ -2326,7 +2326,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Sum(this short[,] matrix, int dimension, int[] result)
@@ -2375,7 +2375,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Product(this short[][] matrix, int dimension, int[] result)
@@ -2424,7 +2424,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Product(this short[,] matrix, int dimension, int[] result)
@@ -2473,7 +2473,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Sum(this short[][] matrix, int dimension, short[] result)
@@ -2522,7 +2522,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Sum(this short[,] matrix, int dimension, short[] result)
@@ -2571,7 +2571,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Product(this short[][] matrix, int dimension, short[] result)
@@ -2620,7 +2620,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Product(this short[,] matrix, int dimension, short[] result)
@@ -2669,7 +2669,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Sum(this short[][] matrix, int dimension, float[] result)
@@ -2718,7 +2718,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Sum(this short[,] matrix, int dimension, float[] result)
@@ -2767,7 +2767,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Product(this short[][] matrix, int dimension, float[] result)
@@ -2816,7 +2816,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Product(this short[,] matrix, int dimension, float[] result)
@@ -2865,7 +2865,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Sum(this short[][] matrix, int dimension, double[] result)
@@ -2914,7 +2914,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Sum(this short[,] matrix, int dimension, double[] result)
@@ -2963,7 +2963,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Product(this short[][] matrix, int dimension, double[] result)
@@ -3012,7 +3012,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Product(this short[,] matrix, int dimension, double[] result)
@@ -3061,7 +3061,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Sum(this short[][] matrix, int dimension, long[] result)
@@ -3110,7 +3110,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Sum(this short[,] matrix, int dimension, long[] result)
@@ -3159,7 +3159,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Product(this short[][] matrix, int dimension, long[] result)
@@ -3208,7 +3208,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Product(this short[,] matrix, int dimension, long[] result)
@@ -3257,7 +3257,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Sum(this short[][] matrix, int dimension, decimal[] result)
@@ -3306,7 +3306,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Sum(this short[,] matrix, int dimension, decimal[] result)
@@ -3355,7 +3355,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Product(this short[][] matrix, int dimension, decimal[] result)
@@ -3404,7 +3404,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Product(this short[,] matrix, int dimension, decimal[] result)
@@ -3453,7 +3453,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Sum(this float[][] matrix, int dimension, int[] result)
@@ -3502,7 +3502,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Sum(this float[,] matrix, int dimension, int[] result)
@@ -3551,7 +3551,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Product(this float[][] matrix, int dimension, int[] result)
@@ -3600,7 +3600,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Product(this float[,] matrix, int dimension, int[] result)
@@ -3649,7 +3649,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Sum(this float[][] matrix, int dimension, short[] result)
@@ -3698,7 +3698,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Sum(this float[,] matrix, int dimension, short[] result)
@@ -3747,7 +3747,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Product(this float[][] matrix, int dimension, short[] result)
@@ -3796,7 +3796,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Product(this float[,] matrix, int dimension, short[] result)
@@ -3845,7 +3845,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Sum(this float[][] matrix, int dimension, float[] result)
@@ -3894,7 +3894,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Sum(this float[,] matrix, int dimension, float[] result)
@@ -3943,7 +3943,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Product(this float[][] matrix, int dimension, float[] result)
@@ -3992,7 +3992,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Product(this float[,] matrix, int dimension, float[] result)
@@ -4041,7 +4041,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Sum(this float[][] matrix, int dimension, double[] result)
@@ -4090,7 +4090,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Sum(this float[,] matrix, int dimension, double[] result)
@@ -4139,7 +4139,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Product(this float[][] matrix, int dimension, double[] result)
@@ -4188,7 +4188,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Product(this float[,] matrix, int dimension, double[] result)
@@ -4237,7 +4237,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Sum(this float[][] matrix, int dimension, long[] result)
@@ -4286,7 +4286,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Sum(this float[,] matrix, int dimension, long[] result)
@@ -4335,7 +4335,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Product(this float[][] matrix, int dimension, long[] result)
@@ -4384,7 +4384,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Product(this float[,] matrix, int dimension, long[] result)
@@ -4433,7 +4433,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Sum(this float[][] matrix, int dimension, decimal[] result)
@@ -4482,7 +4482,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Sum(this float[,] matrix, int dimension, decimal[] result)
@@ -4531,7 +4531,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Product(this float[][] matrix, int dimension, decimal[] result)
@@ -4580,7 +4580,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Product(this float[,] matrix, int dimension, decimal[] result)
@@ -4629,7 +4629,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Sum(this double[][] matrix, int dimension, int[] result)
@@ -4678,7 +4678,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Sum(this double[,] matrix, int dimension, int[] result)
@@ -4727,7 +4727,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Product(this double[][] matrix, int dimension, int[] result)
@@ -4776,7 +4776,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Product(this double[,] matrix, int dimension, int[] result)
@@ -4825,7 +4825,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Sum(this double[][] matrix, int dimension, short[] result)
@@ -4874,7 +4874,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Sum(this double[,] matrix, int dimension, short[] result)
@@ -4923,7 +4923,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Product(this double[][] matrix, int dimension, short[] result)
@@ -4972,7 +4972,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Product(this double[,] matrix, int dimension, short[] result)
@@ -5021,7 +5021,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Sum(this double[][] matrix, int dimension, float[] result)
@@ -5070,7 +5070,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Sum(this double[,] matrix, int dimension, float[] result)
@@ -5119,7 +5119,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Product(this double[][] matrix, int dimension, float[] result)
@@ -5168,7 +5168,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Product(this double[,] matrix, int dimension, float[] result)
@@ -5217,7 +5217,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Sum(this double[][] matrix, int dimension, double[] result)
@@ -5266,7 +5266,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Sum(this double[,] matrix, int dimension, double[] result)
@@ -5315,7 +5315,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Product(this double[][] matrix, int dimension, double[] result)
@@ -5364,7 +5364,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Product(this double[,] matrix, int dimension, double[] result)
@@ -5413,7 +5413,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Sum(this double[][] matrix, int dimension, long[] result)
@@ -5462,7 +5462,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Sum(this double[,] matrix, int dimension, long[] result)
@@ -5511,7 +5511,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Product(this double[][] matrix, int dimension, long[] result)
@@ -5560,7 +5560,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Product(this double[,] matrix, int dimension, long[] result)
@@ -5609,7 +5609,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Sum(this double[][] matrix, int dimension, decimal[] result)
@@ -5658,7 +5658,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Sum(this double[,] matrix, int dimension, decimal[] result)
@@ -5707,7 +5707,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Product(this double[][] matrix, int dimension, decimal[] result)
@@ -5756,7 +5756,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Product(this double[,] matrix, int dimension, decimal[] result)
@@ -5805,7 +5805,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Sum(this long[][] matrix, int dimension, int[] result)
@@ -5854,7 +5854,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Sum(this long[,] matrix, int dimension, int[] result)
@@ -5903,7 +5903,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Product(this long[][] matrix, int dimension, int[] result)
@@ -5952,7 +5952,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Product(this long[,] matrix, int dimension, int[] result)
@@ -6001,7 +6001,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Sum(this long[][] matrix, int dimension, short[] result)
@@ -6050,7 +6050,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Sum(this long[,] matrix, int dimension, short[] result)
@@ -6099,7 +6099,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Product(this long[][] matrix, int dimension, short[] result)
@@ -6148,7 +6148,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Product(this long[,] matrix, int dimension, short[] result)
@@ -6197,7 +6197,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Sum(this long[][] matrix, int dimension, float[] result)
@@ -6246,7 +6246,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Sum(this long[,] matrix, int dimension, float[] result)
@@ -6295,7 +6295,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Product(this long[][] matrix, int dimension, float[] result)
@@ -6344,7 +6344,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Product(this long[,] matrix, int dimension, float[] result)
@@ -6393,7 +6393,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Sum(this long[][] matrix, int dimension, double[] result)
@@ -6442,7 +6442,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Sum(this long[,] matrix, int dimension, double[] result)
@@ -6491,7 +6491,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Product(this long[][] matrix, int dimension, double[] result)
@@ -6540,7 +6540,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Product(this long[,] matrix, int dimension, double[] result)
@@ -6589,7 +6589,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Sum(this long[][] matrix, int dimension, long[] result)
@@ -6638,7 +6638,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Sum(this long[,] matrix, int dimension, long[] result)
@@ -6687,7 +6687,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Product(this long[][] matrix, int dimension, long[] result)
@@ -6736,7 +6736,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Product(this long[,] matrix, int dimension, long[] result)
@@ -6785,7 +6785,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Sum(this long[][] matrix, int dimension, decimal[] result)
@@ -6834,7 +6834,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Sum(this long[,] matrix, int dimension, decimal[] result)
@@ -6883,7 +6883,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Product(this long[][] matrix, int dimension, decimal[] result)
@@ -6932,7 +6932,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Product(this long[,] matrix, int dimension, decimal[] result)
@@ -6981,7 +6981,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Sum(this decimal[][] matrix, int dimension, int[] result)
@@ -7030,7 +7030,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Sum(this decimal[,] matrix, int dimension, int[] result)
@@ -7079,7 +7079,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Product(this decimal[][] matrix, int dimension, int[] result)
@@ -7128,7 +7128,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] Product(this decimal[,] matrix, int dimension, int[] result)
@@ -7177,7 +7177,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Sum(this decimal[][] matrix, int dimension, short[] result)
@@ -7226,7 +7226,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Sum(this decimal[,] matrix, int dimension, short[] result)
@@ -7275,7 +7275,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Product(this decimal[][] matrix, int dimension, short[] result)
@@ -7324,7 +7324,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] Product(this decimal[,] matrix, int dimension, short[] result)
@@ -7373,7 +7373,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Sum(this decimal[][] matrix, int dimension, float[] result)
@@ -7422,7 +7422,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Sum(this decimal[,] matrix, int dimension, float[] result)
@@ -7471,7 +7471,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Product(this decimal[][] matrix, int dimension, float[] result)
@@ -7520,7 +7520,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] Product(this decimal[,] matrix, int dimension, float[] result)
@@ -7569,7 +7569,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Sum(this decimal[][] matrix, int dimension, double[] result)
@@ -7618,7 +7618,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Sum(this decimal[,] matrix, int dimension, double[] result)
@@ -7667,7 +7667,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Product(this decimal[][] matrix, int dimension, double[] result)
@@ -7716,7 +7716,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Product(this decimal[,] matrix, int dimension, double[] result)
@@ -7765,7 +7765,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Sum(this decimal[][] matrix, int dimension, long[] result)
@@ -7814,7 +7814,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Sum(this decimal[,] matrix, int dimension, long[] result)
@@ -7863,7 +7863,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Product(this decimal[][] matrix, int dimension, long[] result)
@@ -7912,7 +7912,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] Product(this decimal[,] matrix, int dimension, long[] result)
@@ -7961,7 +7961,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Sum(this decimal[][] matrix, int dimension, decimal[] result)
@@ -8010,7 +8010,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Sum(this decimal[,] matrix, int dimension, decimal[] result)
@@ -8059,7 +8059,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Product(this decimal[][] matrix, int dimension, decimal[] result)
@@ -8108,7 +8108,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] Product(this decimal[,] matrix, int dimension, decimal[] result)
@@ -8154,7 +8154,7 @@ namespace Accord.Math
         ///
         /// <param name="vector">A vector whose cumulative sum will be calculated.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] CumulativeSum(this int[] vector)
@@ -8173,7 +8173,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[] CumulativeSum(this int[] vector, int[] result)
@@ -8192,7 +8192,7 @@ namespace Accord.Math
         /// <param name="dimension">The dimension in which the cumulative will be
         ///   calculated.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] CumulativeSum(this int[][] matrix, int dimension)
@@ -8214,7 +8214,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[][] CumulativeSum(this int[][] matrix, int dimension, int[][] result)
@@ -8252,7 +8252,7 @@ namespace Accord.Math
         /// <param name="dimension">The dimension in which the cumulative will be
         ///   calculated.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] CumulativeSum(this int[,] matrix, int dimension)
@@ -8274,7 +8274,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int[,] CumulativeSum(this int[,] matrix, int dimension, int[,] result)
@@ -8310,7 +8310,7 @@ namespace Accord.Math
         ///
         /// <param name="vector">A vector whose cumulative sum will be calculated.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] CumulativeSum(this short[] vector)
@@ -8329,7 +8329,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[] CumulativeSum(this short[] vector, short[] result)
@@ -8348,7 +8348,7 @@ namespace Accord.Math
         /// <param name="dimension">The dimension in which the cumulative will be
         ///   calculated.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[][] CumulativeSum(this short[][] matrix, int dimension)
@@ -8370,7 +8370,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[][] CumulativeSum(this short[][] matrix, int dimension, short[][] result)
@@ -8408,7 +8408,7 @@ namespace Accord.Math
         /// <param name="dimension">The dimension in which the cumulative will be
         ///   calculated.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[,] CumulativeSum(this short[,] matrix, int dimension)
@@ -8430,7 +8430,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static short[,] CumulativeSum(this short[,] matrix, int dimension, short[,] result)
@@ -8466,7 +8466,7 @@ namespace Accord.Math
         ///
         /// <param name="vector">A vector whose cumulative sum will be calculated.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] CumulativeSum(this float[] vector)
@@ -8485,7 +8485,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[] CumulativeSum(this float[] vector, float[] result)
@@ -8504,7 +8504,7 @@ namespace Accord.Math
         /// <param name="dimension">The dimension in which the cumulative will be
         ///   calculated.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] CumulativeSum(this float[][] matrix, int dimension)
@@ -8526,7 +8526,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[][] CumulativeSum(this float[][] matrix, int dimension, float[][] result)
@@ -8564,7 +8564,7 @@ namespace Accord.Math
         /// <param name="dimension">The dimension in which the cumulative will be
         ///   calculated.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] CumulativeSum(this float[,] matrix, int dimension)
@@ -8586,7 +8586,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float[,] CumulativeSum(this float[,] matrix, int dimension, float[,] result)
@@ -8622,7 +8622,7 @@ namespace Accord.Math
         ///
         /// <param name="vector">A vector whose cumulative sum will be calculated.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] CumulativeSum(this double[] vector)
@@ -8641,7 +8641,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] CumulativeSum(this double[] vector, double[] result)
@@ -8660,7 +8660,7 @@ namespace Accord.Math
         /// <param name="dimension">The dimension in which the cumulative will be
         ///   calculated.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] CumulativeSum(this double[][] matrix, int dimension)
@@ -8682,7 +8682,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] CumulativeSum(this double[][] matrix, int dimension, double[][] result)
@@ -8720,7 +8720,7 @@ namespace Accord.Math
         /// <param name="dimension">The dimension in which the cumulative will be
         ///   calculated.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] CumulativeSum(this double[,] matrix, int dimension)
@@ -8742,7 +8742,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] CumulativeSum(this double[,] matrix, int dimension, double[,] result)
@@ -8778,7 +8778,7 @@ namespace Accord.Math
         ///
         /// <param name="vector">A vector whose cumulative sum will be calculated.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] CumulativeSum(this long[] vector)
@@ -8797,7 +8797,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[] CumulativeSum(this long[] vector, long[] result)
@@ -8816,7 +8816,7 @@ namespace Accord.Math
         /// <param name="dimension">The dimension in which the cumulative will be
         ///   calculated.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[][] CumulativeSum(this long[][] matrix, int dimension)
@@ -8838,7 +8838,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[][] CumulativeSum(this long[][] matrix, int dimension, long[][] result)
@@ -8876,7 +8876,7 @@ namespace Accord.Math
         /// <param name="dimension">The dimension in which the cumulative will be
         ///   calculated.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[,] CumulativeSum(this long[,] matrix, int dimension)
@@ -8898,7 +8898,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static long[,] CumulativeSum(this long[,] matrix, int dimension, long[,] result)
@@ -8934,7 +8934,7 @@ namespace Accord.Math
         ///
         /// <param name="vector">A vector whose cumulative sum will be calculated.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] CumulativeSum(this decimal[] vector)
@@ -8953,7 +8953,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[] CumulativeSum(this decimal[] vector, decimal[] result)
@@ -8972,7 +8972,7 @@ namespace Accord.Math
         /// <param name="dimension">The dimension in which the cumulative will be
         ///   calculated.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] CumulativeSum(this decimal[][] matrix, int dimension)
@@ -8994,7 +8994,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[][] CumulativeSum(this decimal[][] matrix, int dimension, decimal[][] result)
@@ -9032,7 +9032,7 @@ namespace Accord.Math
         /// <param name="dimension">The dimension in which the cumulative will be
         ///   calculated.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] CumulativeSum(this decimal[,] matrix, int dimension)
@@ -9054,7 +9054,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static decimal[,] CumulativeSum(this decimal[,] matrix, int dimension, decimal[,] result)

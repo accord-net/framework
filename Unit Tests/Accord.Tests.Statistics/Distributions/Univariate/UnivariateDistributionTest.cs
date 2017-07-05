@@ -32,6 +32,10 @@ namespace Accord.Tests.Statistics
     using System.Reflection;
     using System.Collections.Generic;
     using Accord.Statistics.Distributions.Multivariate;
+    using System.ComponentModel;
+
+    using RangeAttribute = System.ComponentModel.DataAnnotations.RangeAttribute;
+    using Accord.Statistics.Distributions.Reflection;
 
     [TestFixture]
     public class UnivariateDistributionTest
@@ -96,6 +100,77 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(checkedTypes.Length >= 57);
         }
 
+        [Test]
+        public void RangeTest()
+        {
+            // Enumerate all distributions in the framework
+            foreach (var distribution in UnivariateDistributionInfo.GetUnivariateDistributions())
+            {
+                Type type = distribution.DistributionType;
+                string name = distribution.Name;
+                bool built = false;
+
+                if (type == typeof(GeneralContinuousDistribution)
+                    || type == typeof(EmpiricalDistribution)
+                    || type == typeof(Mixture<>)
+                    || type == typeof(GeneralDiscreteDistribution)) // TODO: add support for vector ranges
+                    continue;
+
+                // Enumerate all possible ways to construct each distribution
+                foreach (var constructor in distribution.GetConstructors())
+                {
+                    if (!constructor.IsBuildable)
+                        continue;
+
+                    // Build the argument list
+                    var arguments = new Dictionary<DistributionParameterInfo, object>();
+
+                    // Select the minimum value for the parameters
+                    foreach (var parameter in constructor.GetParameters())
+                        arguments[parameter] = parameter.Range.Min;
+
+                    IUnivariateDistribution dist;
+                    dist = distribution.CreateInstance(arguments);
+
+
+                    //// Re-build the argument list
+                    //arguments.Clear();
+
+                    //// Select the maximum value for the parameters
+                    //foreach (var parameter in constructor.GetParameters())
+                    //    arguments[parameter] = parameter.Range.Max;
+
+                    //dist = distribution.Activate(arguments);
+
+
+                    // Re-build the argument list
+                    arguments.Clear();
+
+                    // Select the default value for the parameters
+                    foreach (var parameter in constructor.GetParameters())
+                        arguments[parameter] = parameter.DefaultValue;
+
+                    dist = distribution.CreateInstance(arguments);
+
+                    built = true;
+                }
+
+                Assert.IsTrue(built);
+            }
+
+        }
+
+        [Test]
+        public void GetFittingOptionsTest()
+        {
+            NormalOptions options = (NormalOptions)DistributionInfo.GetFittingOptions<NormalDistribution>();
+            Assert.AreEqual(0, options.Regularization);
+            Assert.IsNull(options.Postprocessing);
+            Assert.AreEqual(false, options.Diagonal);
+            Assert.AreEqual(false, options.Robust);
+            Assert.AreEqual(false, options.Shared);
+        }
+
         private static bool cmp(string dist, string paramName, string propName)
         {
             if (dist.Contains("AndersonDarlingDistribution"))
@@ -122,6 +197,71 @@ namespace Accord.Tests.Statistics
             paramName = propName.Replace("Variance", "var");
 
             return String.Compare(paramName, propName, ignoreCase: true) == 0;
+        }
+
+
+        /// <summary>
+        ///   Tries to get the valid range of a distribution's parameter.
+        /// </summary>
+        /// 
+        public static bool TryGetRange(ParameterInfo parameter, out DoubleRange range)
+        {
+            range = new DoubleRange(0, 0);
+
+            var attrb = parameter.GetCustomAttribute<RangeAttribute>();
+            if (attrb == null)
+                return false;
+
+            double min = (double)Convert.ChangeType(attrb.Minimum, typeof(double));
+            double max = (double)Convert.ChangeType(attrb.Maximum, typeof(double));
+
+            range = new DoubleRange(min, max);
+
+            return true;
+        }
+
+        /// <summary>
+        ///   Tries to get the default value of a distribution's parameter.
+        /// </summary>
+        /// 
+        public static bool TryGetDefault(ParameterInfo parameter, out double value)
+        {
+            var attrb = parameter.GetCustomAttribute<DefaultValueAttribute>();
+
+            if (attrb != null)
+            {
+                value = (double)Convert.ChangeType(attrb.Value, typeof(double));
+                return true;
+            }
+
+            DoubleRange range;
+            if (!TryGetRange(parameter, out range))
+            {
+                value = 0;
+                return false;
+            }
+
+            var a = parameter.GetCustomAttribute<RangeAttribute>();
+
+            value = 0;
+
+            if (a is PositiveAttribute || a is PositiveIntegerAttribute)
+                value = 1;
+
+            else if (a is NegativeAttribute || a is NegativeIntegerAttribute)
+                value = -1;
+
+            else if (a is UnitAttribute)
+                value = 0.5;
+
+
+            if (value < range.Min)
+                value = range.Min;
+
+            if (value > range.Max)
+                value = range.Max;
+
+            return true;
         }
     }
 }

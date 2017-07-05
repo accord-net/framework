@@ -32,23 +32,6 @@ namespace Accord.Tests.MachineLearning
     public class RansacPlaneTest
     {
 
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
         [Test]
         public void RansacPlaneConstructorTest()
         {

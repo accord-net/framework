@@ -144,7 +144,7 @@ namespace Sequences.HMMs
             {
                 return new BaumWelchLearning(hmmc.Models[i])
                 {
-                    Iterations = iterations,
+                    MaxIterations = iterations,
                     Tolerance = limit
                 };
             });
@@ -193,7 +193,7 @@ namespace Sequences.HMMs
 
 
             // Use confusion matrix to compute some performance metrics
-            dgvPerformance.DataSource = new[] { new GeneralConfusionMatrix(hmmc.Classes, actual, expected) };
+            dgvPerformance.DataSource = new[] { new GeneralConfusionMatrix(hmmc.NumberOfClasses, actual, expected) };
         }
 
         /// <summary>

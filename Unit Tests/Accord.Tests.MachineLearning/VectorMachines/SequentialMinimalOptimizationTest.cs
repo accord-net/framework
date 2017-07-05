@@ -244,11 +244,42 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(newPrediction[0], true);
         }
 
+#if !NETSTANDARD2_0
+        [Test]
+        public void learn_gaussian_sparse_kernel2()
+        {
+            var news20 = new Accord.DataSets.News20(@"C:\Temp\");
+            Sparse<double>[] inputs = news20.Training.Item1.Get(0, 2000);
+            int[] outputs = news20.Training.Item2.ToMulticlass().Get(0, 2000);
+
+            var learn = new MultilabelSupportVectorLearning<Gaussian, Sparse<double>>()
+            {
+                // using LIBLINEAR's SVC dual for each SVM
+                Learner = (p) => new SequentialMinimalOptimization<Gaussian, Sparse<double>>()
+                {
+                    Strategy = SelectionStrategy.SecondOrder,
+                    Complexity = 1.0,
+                    Tolerance = 1e-4,
+                    CacheSize = 1999
+                },
+            };
+
+            learn.ParallelOptions.MaxDegreeOfParallelism = 1;
+
+            var svm = learn.Learn(inputs, outputs);
+
+            int[] predicted = svm.ToMulticlass().Decide(inputs);
+
+            var test = new ConfusionMatrix(predicted, outputs);
+
+            Assert.AreEqual(0.9499999, test.Accuracy, 1e-5);
+        }
+#endif
 
         [Test]
         public void learn_sparse_kernel()
         {
-            #region doc_xor_sparse
+#region doc_xor_sparse
             // As an example, we will try to learn a decision machine 
             // that can replicate the "exclusive-or" logical function:
 
@@ -280,7 +311,7 @@ namespace Accord.Tests.MachineLearning
 
             // Finally, we can obtain the decisions predicted by the machine:
             bool[] prediction = svm.Decide(inputs);
-            #endregion
+#endregion
 
             Assert.AreEqual(prediction, Classes.Decide(xor));
         }
@@ -973,7 +1004,6 @@ namespace Accord.Tests.MachineLearning
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentException))]
         public void new_method_null_test()
         {
             double[][] inputs =
@@ -987,7 +1017,7 @@ namespace Accord.Tests.MachineLearning
             int[] or = { 0, 0, 0, +1 };
 
             var smo = new SequentialMinimalOptimization<Gaussian>();
-            smo.Learn(inputs, or);
+            Assert.Throws<ArgumentException>(() => smo.Learn(inputs, or));
         }
 
         [Test]
@@ -1254,7 +1284,7 @@ namespace Accord.Tests.MachineLearning
         {
             double[,] yinyang =
             {
-            #region Yin Yang
+#region Yin Yang
             { -0.876847428, 1.996318824, -1 },
             { -0.748759325, 1.997248514, -1 },
             { -0.635574695, 1.978046579, -1 },
@@ -1355,7 +1385,7 @@ namespace Accord.Tests.MachineLearning
             { -0.228760025, 0.93490314, 1 },
             { -0.293782477, 1.008861678, 1 },
             { 0.013431012, 1.082021525, 1 },
-            #endregion
+#endregion
             };
             return yinyang;
         }

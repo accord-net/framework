@@ -35,8 +35,9 @@ namespace Accord.Statistics.Distributions.Fitting
     public class NormalOptions : IFittingOptions, IComponentOptions
     {
         /// <summary>
-        ///   Gets or sets the regularization step to avoid singular or 
-        ///   non-positive definite covariance matrices. Default is 0.
+        ///   Gets or sets the regularization step to avoid singular or non-positive definite 
+        ///   covariance matrices. Default is 0. Setting this property to a small constant like
+        ///   1e-6 is more efficient than setting <see cref="Robust"/> to true.
         /// </summary>
         /// 
         /// <value>The regularization step.</value>
@@ -53,9 +54,9 @@ namespace Accord.Statistics.Distributions.Fitting
         public bool Diagonal { get; set; }
 
         /// <summary>
-        ///   Gets or sets whether the estimation function should
-        ///   allow non-positive definite covariance matrices by
-        ///   using the Singular Value Decomposition Function.
+        ///   Gets or sets whether the estimation function should allow non-positive definite 
+        ///   covariance matrices by using the Singular Value Decomposition Function. Enabling
+        ///   this property can significantly increase learning times.
         /// </summary>
         /// 
         public bool Robust { get; set; }

@@ -36,8 +36,7 @@ namespace Accord.MachineLearning
     /// 
     /// <seealso cref="BagOfWords"/> 
     /// 
-    public interface IBagOfWords<T> : ITransform<T, double[]>,
-        ITransform<T, int[]>
+    public interface IBagOfWords<T> : ITransform<T, double[]>, ITransform<T, int[]>
     {
         /// <summary>
         ///   Gets the number of words in this codebook.

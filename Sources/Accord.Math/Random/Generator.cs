@@ -57,12 +57,12 @@ namespace Accord.Math.Random
         private static readonly object sourceRandomLock = new Object();
 
         private static int? sourceSeed;
-        private static long sourceLastUpdateTicks;
+        private static int sourceLastUpdateTicks;
         private static readonly object sourceSeedLock = new Object();
 
 
         [ThreadStatic]
-        private static long threadLastUpdateTicks;
+        private static int threadLastUpdateTicks;
 
         [ThreadStatic]
         private static bool threadOverriden;
@@ -111,12 +111,6 @@ namespace Accord.Math.Random
             }
         }
 
-        ///// <summary>
-        /////   Gets an object that can be used to synchronize access to the generator.
-        ///// </summary>
-        ///// 
-        //public static readonly object SyncObject = new Object();
-
         /// <summary>
         ///   Gets the timestamp for when the global random generator
         ///   was last changed (i.e. after setting <see cref="Seed"/>).
@@ -154,8 +148,9 @@ namespace Accord.Math.Random
                 if (value.HasValue)
                 {
                     Generator.threadOverriden = true;
-                    Generator.threadLastUpdateTicks = DateTime.Now.Ticks;
+                    Generator.threadLastUpdateTicks = Environment.TickCount;
                     Generator.threadRandom = (value.HasValue) ? new Random(threadSeed.Value) : new Random();
+                    Thread.Sleep(100);
                 }
                 else
                 {
@@ -183,8 +178,7 @@ namespace Accord.Math.Random
                 {
                     Generator.threadSeed = GetRandomSeed();
                     Generator.threadLastUpdateTicks = Generator.sourceLastUpdateTicks;
-                    Generator.threadRandom = (Generator.threadSeed.HasValue) ? 
-                        new Random(threadSeed.Value) : new Random();
+                    Generator.threadRandom = (Generator.threadSeed.HasValue) ? new Random(threadSeed.Value) : new Random();
                 }
 
                 return threadRandom;
@@ -200,6 +194,14 @@ namespace Accord.Math.Random
         ///   seeds.
         /// </summary>
         /// 
+        /// <remarks>
+        ///   Adjusting the global generator seed causes the calling thread to sleep for 100ms
+        ///   so new threads spawned in a short time span after the call can be properly initialized
+        ///   with the new random seeds. In order to better control the random behavior of different 
+        ///   algorithms, please consider specifying random generators directly using appropriate 
+        ///   interfaces for these algorithms in case they are available.
+        /// </remarks>
+        /// 
         public static int? Seed
         {
             get { return Generator.sourceSeed; }
@@ -211,7 +213,7 @@ namespace Accord.Math.Random
 
                     lock (sourceRandomLock)
                     {
-                        Generator.sourceLastUpdateTicks = DateTime.Now.Ticks;
+                        Generator.sourceLastUpdateTicks = Environment.TickCount;
 
                         if (value.HasValue)
                         {
@@ -220,18 +222,21 @@ namespace Accord.Math.Random
                                 Trace.WriteLine("All threads will be initialized with the same seed: " + value);
                                 Generator.sourceRandom = null;
                             }
-                            else
+                            else // value.Value > 0
                             {
                                 Trace.WriteLine("All threads will be initialized with predictable, but random seeds.");
                                 Generator.sourceRandom = new Random(value.Value);
                             }
                         }
-                        else
+                        else // value == null
                         {
                             Trace.WriteLine("All threads will be initialized with unpredictable random seeds.");
                             int s = unchecked((int)(13 * Thread.CurrentThread.ManagedThreadId ^ Generator.sourceLastUpdateTicks));
                             Generator.sourceRandom = new Random(s);
                         }
+
+                        Generator.threadRandom = null;
+                        Thread.Sleep(100); // Make sure the tick count has incremented before returning
                     }
                 }
             }

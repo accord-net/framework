@@ -34,7 +34,7 @@ namespace Accord.Tests.Audio
         [Test]
         public void WaveFileAudioSourceConstructorTest()
         {
-            string fileName = Path.Combine("Resources","a.wav");
+            string fileName = Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources","a.wav");
 
             WaveFileAudioSource target = new WaveFileAudioSource(fileName);
 

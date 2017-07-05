@@ -133,7 +133,6 @@ namespace Accord.Tests.MachineLearning.GPL
         }
 
         [Test]
-        [Timeout(5 * 60 * 1000)]
         public void learn_test_square_polynomial()
         {
             Accord.Math.Random.Generator.Seed = 0;

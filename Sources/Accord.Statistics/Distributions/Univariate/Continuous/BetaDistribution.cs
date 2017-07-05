@@ -177,10 +177,12 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <param name="successes">The number of success <c>r</c>. Default is 0.</param>
         /// <param name="trials">The number of trials <c>n</c>. Default is 1.</param>
         /// 
-        public BetaDistribution([NonnegativeInteger] int successes, [PositiveInteger] int trials)
+        public BetaDistribution([NonnegativeInteger(maximum: Int32.MaxValue - 1)] int successes, [PositiveInteger] int trials)
         {
             if (successes < 0)
                 throw new ArgumentOutOfRangeException("successes", "The number of success must be positive");
+            if (successes == Int32.MaxValue)
+                throw new ArgumentOutOfRangeException("successes", "The number of success must be less than Int32.MaxValue");
 
             if (trials <= 0)
                 throw new ArgumentOutOfRangeException("trials", "The number of trials must be positive");
@@ -766,23 +768,28 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <param name="samples">The number of samples to generate.</param>
         /// <param name="result">The location where to store the samples.</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
         /// 
         /// <returns>A random vector of observations drawn from this distribution.</returns>
         /// 
-        public override double[] Generate(int samples, double[] result)
+        public override double[] Generate(int samples, double[] result, Random source)
         {
-            return Random(alpha, beta, samples, result);
+            return Random(alpha, beta, samples, result, source);
         }
 
         /// <summary>
         ///   Generates a random observation from the current distribution.
         /// </summary>
         /// 
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        ///   
         /// <returns>A random observations drawn from this distribution.</returns>
         /// 
-        public override double Generate()
+        public override double Generate(Random source)
         {
-            return Random(alpha, beta);
+            return Random(alpha, beta, source);
         }
 
         /// <summary>
@@ -798,7 +805,25 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public static double[] Random(double alpha, double beta, int samples)
         {
-            return Random(alpha, beta, samples, new double[samples]);
+            return Random(alpha, beta, samples, new double[samples], Accord.Math.Random.Generator.Random);
+        }
+
+        /// <summary>
+        ///   Generates a random vector of observations from the 
+        ///   Beta distribution with the given parameters.
+        /// </summary>
+        /// 
+        /// <param name="alpha">The shape parameter α (alpha).</param>
+        /// <param name="beta">The shape parameter β (beta).</param>
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        ///
+        /// <returns>An array of double values sampled from the specified Beta distribution.</returns>
+        /// 
+        public static double[] Random(double alpha, double beta, int samples, Random source)
+        {
+            return Random(alpha, beta, samples, new double[samples], source);
         }
 
         /// <summary>
@@ -815,10 +840,27 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public static double[] Random(double alpha, double beta, int samples, double[] result)
         {
-            var rand = Accord.Math.Random.Generator.Random;
+            return Random(alpha, beta, samples, result, Accord.Math.Random.Generator.Random);
+        }
 
-            double[] x = GammaDistribution.Random(alpha, 1, samples, result);
-            double[] y = GammaDistribution.Random(beta, 1, samples);
+        /// <summary>
+        ///   Generates a random vector of observations from the 
+        ///   Beta distribution with the given parameters.
+        /// </summary>
+        /// 
+        /// <param name="alpha">The shape parameter α (alpha).</param>
+        /// <param name="beta">The shape parameter β (beta).</param>
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="result">The location where to store the samples.</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        ///
+        /// <returns>An array of double values sampled from the specified Beta distribution.</returns>
+        /// 
+        public static double[] Random(double alpha, double beta, int samples, double[] result, Random source)
+        {
+            double[] x = GammaDistribution.Random(alpha, 1, samples, result, source);
+            double[] y = GammaDistribution.Random(beta, 1, samples, source);
 
             for (int i = 0; i < x.Length; i++)
                 result[i] = x[i] / (x[i] + y[i]);
@@ -838,10 +880,25 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public static double Random(double alpha, double beta)
         {
-            var rand = Accord.Math.Random.Generator.Random;
+            return Random(alpha, beta, Accord.Math.Random.Generator.Random);
+        }
 
-            double x = GammaDistribution.Random(alpha, 1);
-            double y = GammaDistribution.Random(beta, 1);
+        /// <summary>
+        ///   Generates a random observation from the 
+        ///   Beta distribution with the given parameters.
+        /// </summary>
+        /// 
+        /// <param name="alpha">The shape parameter α (alpha).</param>
+        /// <param name="beta">The shape parameter β (beta).</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        /// 
+        /// <returns>A random double value sampled from the specified Beta distribution.</returns>
+        /// 
+        public static double Random(double alpha, double beta, Random source)
+        {
+            double x = GammaDistribution.Random(alpha, 1, source);
+            double y = GammaDistribution.Random(beta, 1, source);
 
             return x / (x + y);
         }

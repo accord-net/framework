@@ -316,6 +316,7 @@ namespace Accord.Tests.Statistics
  */ 
         }
 
+#if !NETSTANDARD2_0
         [Test]
         [Category("Office")]
         public void MixtureWeightsFitTest2()
@@ -352,6 +353,6 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.11814483652855159, mean10, 1e-10);
             Assert.AreEqual(-0.12029275652994373, mean11, 1e-10);
         }
-
+#endif
     }
 }

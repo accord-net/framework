@@ -349,22 +349,22 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <param name="samples">The number of samples to generate.</param>
         /// <param name="result">The location where to store the samples.</param>
-        ///
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        /// 
         /// <returns>A random vector of observations drawn from this distribution.</returns>
         /// 
-        public override int[] Generate(int samples, int[] result)
+        public override int[] Generate(int samples, int[] result, Random source)
         {
-            var random = Accord.Math.Random.Generator.Random;
-
             if (lambda > 30)
             {
                 for (int i = 0; i < samples; i++)
-                    result[i] = InverseDistributionFunction(random.NextDouble());
+                    result[i] = InverseDistributionFunction(source.NextDouble());
             }
             else
             {
                 for (int i = 0; i < samples; i++)
-                    result[i] = knuth(random, lambda);
+                    result[i] = knuth(source, lambda);
             }
 
             return result;
@@ -376,22 +376,22 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <param name="samples">The number of samples to generate.</param>
         /// <param name="result">The location where to store the samples.</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
         /// 
         /// <returns>A random vector of observations drawn from this distribution.</returns>
         /// 
-        public override double[] Generate(int samples, double[] result)
+        public override double[] Generate(int samples, double[] result, Random source)
         {
-            var random = Accord.Math.Random.Generator.Random;
-
             if (lambda > 30)
             {
                 for (int i = 0; i < samples; i++)
-                    result[i] = InverseDistributionFunction(random.NextDouble());
+                    result[i] = InverseDistributionFunction(source.NextDouble());
             }
             else
             {
                 for (int i = 0; i < samples; i++)
-                    result[i] = knuth(random, lambda);
+                    result[i] = knuth(source, lambda);
             }
 
             return result;
@@ -403,12 +403,12 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <returns>A random observations drawn from this distribution.</returns>
         /// 
-        public override int Generate()
+        public override int Generate(Random source)
         {
             if (lambda > 30)
-                return InverseDistributionFunction(Accord.Math.Random.Generator.Random.NextDouble());
+                return InverseDistributionFunction(source.NextDouble());
 
-            return knuth(Accord.Math.Random.Generator.Random, lambda);
+            return knuth(source, lambda);
         }
 
         private static int knuth(Random random, double lambda)

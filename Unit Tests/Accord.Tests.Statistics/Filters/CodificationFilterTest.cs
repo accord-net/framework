@@ -28,6 +28,7 @@ namespace Accord.Tests.Statistics
     using NUnit.Framework;
     using System;
     using System.Data;
+    using System.IO;
 
     [TestFixture]
     public class CodificationFilterTest
@@ -144,11 +145,12 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual("elder", labelc);
         }
 
+#if !NETSTANDARD2_0
         [Test]
         [Category("Office")]
         public void ApplyTest4()
         {
-            string path = @"Resources\intrusion.xls";
+            string path = Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources", "intrusion.xls");
 
             ExcelReader db = new ExcelReader(path, false, true);
 
@@ -165,6 +167,7 @@ namespace Accord.Tests.Statistics
 
             Assert.IsTrue(result.Rows.Count > 0);
         }
+#endif
 
         /// <summary>
         ///   Testing Codification.Translate(string, string)

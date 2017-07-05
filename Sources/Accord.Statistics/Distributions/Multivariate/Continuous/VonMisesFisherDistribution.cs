@@ -277,7 +277,7 @@ namespace Accord.Statistics.Distributions.Multivariate
             return y;
         }
 
-        private double[] randomDirection(int samples, double k, int dimensions)
+        private double[] randomDirection(int samples, double k, int dimensions, Random source)
         {
             // Based on the function randVMFMeanDir, available in the
             // SphericalDistributionsRand repository under BSD license,
@@ -304,8 +304,8 @@ namespace Accord.Statistics.Distributions.Multivariate
             {
                 while (true)
                 {
-                    double u1 = Generator.Random.NextDouble();
-                    double u2 = Generator.Random.NextDouble();
+                    double u1 = source.NextDouble();
+                    double u2 = source.NextDouble();
 
                     double x = u1 * (1 - leftBound) + leftBound;
                     double h = density(x);
@@ -328,10 +328,12 @@ namespace Accord.Statistics.Distributions.Multivariate
         /// 
         /// <param name="samples">The number of samples to generate.</param>
         /// <param name="result">The location where to store the samples.</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
         /// 
         /// <returns>A random vector of observations drawn from this distribution.</returns>
         /// 
-        public override double[][] Generate(int samples, double[][] result)
+        public override double[][] Generate(int samples, double[][] result, Random source)
         {
             if (mean.Length <= 2)
                 throw new InvalidOperationException();
@@ -344,9 +346,9 @@ namespace Accord.Statistics.Distributions.Multivariate
             int p = mean.Length;
             double[] tmpMu = Vector.Create(p, new[] { 1.0 });
 
-            double[] t = randomDirection(samples, kappa, p);
+            double[] t = randomDirection(samples, kappa, p, source);
 
-            double[][] RandSphere = UniformSphereDistribution.Random(samples, p - 1);
+            double[][] RandSphere = UniformSphereDistribution.Random(samples, p - 1, source);
 
             for (int i = 0; i < samples; i++)
                 for (int j = 0; j < tmpMu.Length; j++)

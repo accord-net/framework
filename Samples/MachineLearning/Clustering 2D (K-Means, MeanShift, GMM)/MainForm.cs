@@ -210,7 +210,11 @@ namespace SampleApp
             if (rbMeanShift.Checked)
             {
                 var kernel = new Accord.Statistics.Distributions.DensityKernels.GaussianKernel(2);
-                return new MeanShift(2, kernel, (double)numRadius.Value);
+                return new MeanShift()
+                {
+                    Kernel = kernel,
+                    Bandwidth = (double)numRadius.Value
+                };
             }
 
             if (rbGMM.Checked)

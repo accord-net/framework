@@ -20,15 +20,18 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-using System.Collections.Generic;
-using System.Drawing;
-using Accord.Imaging;
-using Accord.Imaging.Filters;
-using AForge;
-using NUnit.Framework;
-
 namespace Accord.Tests.Imaging
 {
+    using System.Collections.Generic;
+    using System.Drawing;
+    using Accord.Imaging;
+    using Accord.Imaging.Filters;
+    using AForge;
+    using NUnit.Framework;
+    using Accord.Tests.Imaging.Properties;
+#if NETSTANDARD2_0
+    using Resources = Accord.Tests.Imaging.Properties.Resources_Standard;
+#endif
 
     [TestFixture]
     public class BorderFollowingTest
@@ -38,7 +41,7 @@ namespace Accord.Tests.Imaging
         [Category("MonoNotSupported")]
         public void FindContourTest()
         {
-            Bitmap bmp = Accord.Imaging.Image.Clone(Properties.Resources.sample_black);
+            Bitmap bmp = Accord.Imaging.Image.Clone(Resources.sample_black);
 
             Bitmap gray = Grayscale.CommonAlgorithms.BT709.Apply(bmp);
 
@@ -78,7 +81,7 @@ namespace Accord.Tests.Imaging
         [Test]
         public void FindContourTest2()
         {
-            Bitmap bmp = Accord.Imaging.Image.Clone(Properties.Resources.hand2);
+            Bitmap bmp = Accord.Imaging.Image.Clone(Resources.hand2);
 
             BlobCounter bc = new BlobCounter(bmp);
             bc.ObjectsOrder = ObjectsOrder.Size;
@@ -111,7 +114,7 @@ namespace Accord.Tests.Imaging
         [Test]
         public void FindContourTest3()
         {
-            Bitmap image = Accord.Imaging.Image.Clone(Properties.Resources.sample_black);
+            Bitmap image = Accord.Imaging.Image.Clone(Resources.sample_black);
             Bitmap grayscaleImage = Grayscale.CommonAlgorithms.BT709.Apply(image);
 
             // Create a new border following algorithm

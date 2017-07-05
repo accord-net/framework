@@ -140,7 +140,7 @@ namespace Accord.MachineLearning
         /// </summary>
         /// <param name="x">The model inputs.</param>
         /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
-        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <param name="weights">The weight of importance for each input-output pair (if supported by the learning algorithm).</param>
         /// <returns>
         /// A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
         /// </returns>
@@ -153,7 +153,7 @@ namespace Accord.MachineLearning
                 Model = Create(numberOfInputs, numberOfClasses);
             }
 
-            int classes = Model.NumberOfOutputs;
+            int classes = Model.NumberOfClasses;
             int total = (classes * (classes - 1)) / 2;
             int progress = 0;
 

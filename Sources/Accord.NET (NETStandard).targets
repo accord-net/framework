@@ -1,0 +1,36 @@
+<Project>
+
+  <Import Project="$(SolutionDir)Version.targets" />
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+    <Authors>César Roberto de Souza, Accord.NET Authors</Authors>
+    <Company>Accord.NET</Company>
+    <Product>Accord.NET Framework</Product>
+    <NeutralLanguage>en</NeutralLanguage>
+    <SignAssembly>False</SignAssembly>
+    <AssemblyOriginatorKeyFile>Accord.snk</AssemblyOriginatorKeyFile>
+    <DelaySign>False</DelaySign>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+    <CodeAnalysisRuleSet>$(SolutionDir)\Accord.NET.ruleset</CodeAnalysisRuleSet>
+
+    <Configurations>Debug;netstandard2.0</Configurations>
+
+    <OutDir>$(SolutionDir)..\Release\$(Configuration)</OutDir>
+    <DocumentationFile>$(SolutionDir)..\Release\$(Configuration)\$(AssemblyName).XML</DocumentationFile>
+    <CodeAnalysisLogFile>$(SolutionDir)..\Release\$(Configuration)\$(AssemblyName).dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+  </PropertyGroup>
+
+  <Target Name="SpicNSpan"  AfterTargets="Clean">
+    <RemoveDir Directories="$(BaseIntermediateOutputPath)" />
+    <RemoveDir Directories="$(BaseOutputPath)" />
+  </Target>
+
+  <ItemGroup>
+    <Compile Remove="Properties\AssemblyInfo.cs" />
+    <Compile Remove="Properties\VersionInfo.cs" />
+  </ItemGroup>
+</Project>

@@ -107,13 +107,23 @@ namespace Accord.Statistics.Models.Regression.Fitting
         }
 
         /// <summary>
+        ///   Please use MaxIterations instead.
+        /// </summary>
+        [Obsolete("Please use MaxIterations instead.")]
+        public int Iterations
+        {
+            get { return convergence.MaxIterations; }
+            set { convergence.MaxIterations = value; }
+        }
+
+        /// <summary>
         /// Gets or sets the maximum number of iterations
         /// performed by the learning algorithm.
         /// </summary>
-        public int Iterations
+        public int MaxIterations
         {
-            get { return convergence.Iterations; }
-            set { convergence.Iterations = value; }
+            get { return convergence.MaxIterations; }
+            set { convergence.MaxIterations = value; }
         }
 
         /// <summary>
@@ -127,6 +137,24 @@ namespace Accord.Statistics.Models.Regression.Fitting
         }
 
         /// <summary>
+        /// Gets the current iteration number.
+        /// </summary>
+        /// <value>The current iteration.</value>
+        public int CurrentIteration
+        {
+            get { return convergence.CurrentIteration; }
+        }
+
+        /// <summary>
+        /// Gets or sets whether the algorithm has converged.
+        /// </summary>
+        /// <value><c>true</c> if this instance has converged; otherwise, <c>false</c>.</value>
+        public bool HasConverged
+        {
+            get { return convergence.HasConverged; }
+        }
+
+        /// <summary>
         ///   Constructs a new Gradient Descent algorithm.
         /// </summary>
         /// 
@@ -134,7 +162,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
         {
             convergence = new RelativeParameterConvergence()
             {
-                Iterations = 0,
+                MaxIterations = 0,
                 Tolerance = 1e-8
             };
         }
@@ -259,7 +287,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
         /// </summary>
         /// <param name="x">The model inputs.</param>
         /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
-        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <param name="weights">The weight of importance for each input-output pair (if supported by the learning algorithm).</param>
         /// <returns>
         /// A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
         /// </returns>
@@ -274,7 +302,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
         /// </summary>
         /// <param name="x">The model inputs.</param>
         /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
-        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <param name="weights">The weight of importance for each input-output pair (if supported by the learning algorithm).</param>
         /// <returns>
         /// A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
         /// </returns>
@@ -289,13 +317,16 @@ namespace Accord.Statistics.Models.Regression.Fitting
         /// </summary>
         /// <param name="x">The model inputs.</param>
         /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
-        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <param name="weights">The weight of importance for each input-output pair (if supported by the learning algorithm).</param>
         /// <returns>
         /// A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
         /// </returns>
         /// 
         public LogisticRegression Learn(double[][] x, double[] y, double[] weights = null)
         {
+            if (weights != null)
+                throw new ArgumentException(Accord.Properties.Resources.NotSupportedWeights, "weights");
+
             if (regression == null)
             {
                 init(new LogisticRegression()
@@ -318,7 +349,8 @@ namespace Accord.Statistics.Models.Regression.Fitting
                     for (int j = 0; j < x.Length; j++)
                     {
                         // 1. Compute local gradient estimate
-                        double actual = regression.Score(x[j]);
+                        double z = regression.Linear.Transform(x[j]);
+                        double actual = regression.Link.Inverse(z);
                         double error = y[j] - actual;
 
                         gradient[0] = error;
@@ -338,7 +370,9 @@ namespace Accord.Statistics.Models.Regression.Fitting
 
                     for (int i = 0; i < x.Length; i++)
                     {
-                        double actual = regression.Score(x[i]);
+                        // 1. Compute local gradient estimate
+                        double z = regression.Linear.Transform(x[i]);
+                        double actual = regression.Link.Inverse(z);
                         double error = y[i] - actual;
 
                         gradient[0] += error;

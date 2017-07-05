@@ -24,6 +24,7 @@ using Accord.IO;
 using Accord.Math;
 using NUnit.Framework;
 using System.Collections.Generic;
+using System.IO;
 
 namespace Accord.Tests
 {
@@ -31,6 +32,8 @@ namespace Accord.Tests
     [TestFixture]
     public class SerializerTest
     {
+        string path = TestContext.CurrentContext.TestDirectory;
+
         [Test, Ignore("this feature has been removed")]
         public void large_array_test()
         {
@@ -61,7 +64,7 @@ namespace Accord.Tests
             DoubleRange range = new DoubleRange(4, 2);
 
             // And we would like to save it as
-            string filename = "my_range.accord";
+            string filename = Path.Combine(path, "my_range.accord");
 
             // We can call Serializer.Save to save it:
             Serializer.Save(obj: range, path: filename);
@@ -87,7 +90,7 @@ namespace Accord.Tests
             DoubleRange range = new DoubleRange(4, 2);
 
             // And we would like to save it as
-            string filename = "my_range.accord";
+            string filename = Path.Combine(path, "my_range.accord");
 
             // We can call Serializer.Save to save it:
             Serializer.Save(obj: range, path: filename,
@@ -112,10 +115,11 @@ namespace Accord.Tests
             for (int i = 0; i < 100; i++)
                 e[i] = e.ToString();
 
-            Serializer.Save(e, "test.bin.gz", compression: SerializerCompression.GZip);
+            string filename = Path.Combine(path, "test.bin.gz");
+            Serializer.Save(e, filename, compression: SerializerCompression.GZip);
 
             Dictionary<int, string> a;
-            Serializer.Load("test.bin.gz", out a);
+            Serializer.Load(filename, out a);
 
             foreach (int k in e.Keys)
                 Assert.AreEqual(e[k], a[k]);
@@ -128,10 +132,12 @@ namespace Accord.Tests
             for (int i = 0; i < 100; i++)
                 e[i] = e.ToString();
 
-            Serializer.Save(e, "test.bin.gz");
+            string filename = Path.Combine(path, "test.bin.gz");
+
+            Serializer.Save(e, filename);
 
             Dictionary<int, string> a;
-            Serializer.Load("test.bin.gz", out a, compression: SerializerCompression.GZip);
+            Serializer.Load(filename, out a, compression: SerializerCompression.GZip);
 
             foreach (int k in e.Keys)
                 Assert.AreEqual(e[k], a[k]);
@@ -144,10 +150,12 @@ namespace Accord.Tests
             for (int i = 0; i < 100; i++)
                 e[i] = e.ToString();
 
-            Serializer.Save(e, "test.bin.gz", compression: SerializerCompression.None);
+            string filename = Path.Combine(path, "test.bin.gz");
+
+            Serializer.Save(e, filename, compression: SerializerCompression.None);
 
             Dictionary<int, string> a;
-            Serializer.Load("test.bin.gz", out a, compression: SerializerCompression.None);
+            Serializer.Load(filename, out a, compression: SerializerCompression.None);
 
             foreach (int k in e.Keys)
                 Assert.AreEqual(e[k], a[k]);

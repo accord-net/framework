@@ -146,21 +146,32 @@ namespace Accord.MachineLearning.Bayes
             if (Model == null)
                 Model = Create(x, y.DistinctCount());
 
-            // For each class
-            Parallel.For(0, Model.NumberOfOutputs, ParallelOptions, i =>
+            if (ParallelOptions.MaxDegreeOfParallelism == 1)
             {
-                // Estimate conditional distributions
-                // Get variables values in class i
-                int[] idx = y.Find(y_i => y_i == i);
-                TInput[][] values = x.Get(idx, transpose: true);
-
-                if (Empirical)
-                    Model.Priors[i] = idx.Length / (double)x.Length;
-
-                Fit(i, values: values, weights: weight);
-            });
+                for (int classIndex = 0; classIndex < Model.NumberOfOutputs; classIndex++)
+                    InnerLearn(x, y, weight, classIndex);
+            }
+            else
+            {
+                // For each class
+                Parallel.For(0, Model.NumberOfOutputs, ParallelOptions, classIndex =>
+                    InnerLearn(x, y, weight, classIndex));
+            }
 
             return Model;
+        }
+
+        private void InnerLearn(TInput[][] x, int[] y, double[] weight, int classIndex)
+        {
+            // Estimate conditional distributions
+            // Get variables values in class i
+            int[] sampleIndicesInClass = y.Find(y_i => y_i == classIndex);
+            TInput[][] samplesInClass = x.Get(sampleIndicesInClass, transpose: true);
+
+            if (Empirical)
+                Model.Priors[classIndex] = sampleIndicesInClass.Length / (double)x.Length;
+
+            Fit(classIndex, values: samplesInClass, weights: weight, transposed: true);
         }
 
         /// <summary>
@@ -182,31 +193,46 @@ namespace Accord.MachineLearning.Bayes
             // For efficiency
             x = x.Transpose();
 
-            // For each class
-            Parallel.For(0, Model.NumberOfOutputs, ParallelOptions, i =>
+            if (ParallelOptions.MaxDegreeOfParallelism == 1)
             {
-                // Estimate conditional distributions
-                // Get variables values in class i
-                double[] target = y.GetColumn(i);
-
-                if (weight != null)
-                    target.Multiply(weight, result: target);
-
-                if (Empirical)
-                    Model.Priors[i] = target.Sum() / x.Length;
-
-                Fit(i, values: x, weights: target);
-            });
+                // For each class
+                for (int classIndex = 0; classIndex < Model.NumberOfOutputs; classIndex++)
+                {
+                    InnerLearn(x, y, weight, classIndex);
+                }
+            }
+            else
+            {
+                // For each class
+                Parallel.For(0, Model.NumberOfOutputs, ParallelOptions, classIndex =>
+                    InnerLearn(x, y, weight, classIndex));
+            }
 
             return Model;
+        }
+
+        private void InnerLearn(TInput[][] x, double[][] y, double[] weight, int inputIndex)
+        {
+            // Estimate conditional distributions
+            // Get variables values in class i
+            double[] target = y.GetColumn(inputIndex);
+
+            if (weight != null)
+                target.Multiply(weight, result: target);
+
+            if (Empirical)
+                Model.Priors[inputIndex] = target.Sum() / x.Length;
+
+            Fit(inputIndex, values: x, weights: target, transposed: false);
         }
 
         /// <summary>
         ///    Fits one of the distributions in the naive bayes model.
         /// </summary>
         /// 
-        protected virtual void Fit(int i, TInput[][] values, double[] weights)
+        protected virtual void Fit(int i, TInput[][] values, double[] weights, bool transposed)
         {
+            Options.Transposed = transposed;
             Model.Distributions[i].Fit(values, weights, Options);
         }
 

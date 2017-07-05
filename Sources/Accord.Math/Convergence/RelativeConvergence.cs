@@ -66,6 +66,7 @@ namespace Accord.Math
         private double tolerance = 0;
         private int maxIterations = 100;
         private double newValue;
+        private double startValue = 0;
 
         private int checks;
         private int maxChecks = 1;
@@ -95,7 +96,7 @@ namespace Accord.Math
         ///   is 100.
         /// </summary>
         /// 
-        public int Iterations
+        public int MaxIterations
         {
             get { return maxIterations; }
             set
@@ -109,11 +110,23 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Please use MaxIterations instead.
+        /// </summary>
+        /// 
+        [Obsolete("Please use MaxIterations instead.")]
+        public int Iterations
+        {
+            get { return MaxIterations; }
+            set { MaxIterations = value; }
+        }
+
+        /// <summary>
         ///   Initializes a new instance of the <see cref="RelativeConvergence"/> class.
         /// </summary>
         /// 
         public RelativeConvergence()
         {
+            init();
         }
 
         /// <summary>
@@ -129,8 +142,7 @@ namespace Accord.Math
         /// 
         public RelativeConvergence(int iterations, double tolerance)
         {
-            this.Iterations = iterations;
-            this.tolerance = tolerance;
+            init(iterations, tolerance);
         }
 
         /// <summary>
@@ -149,9 +161,38 @@ namespace Accord.Math
         /// 
         public RelativeConvergence(int iterations, double tolerance, int checks)
         {
-            this.Iterations = iterations;
+            init(iterations, tolerance, checks);
+        }
+
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="RelativeConvergence"/> class.
+        /// </summary>
+        /// 
+        /// <param name="iterations">The maximum number of iterations which should be
+        ///   performed by the iterative algorithm. Setting to zero indicates there
+        ///   is no maximum number of iterations. Default is 0.</param>
+        /// <param name="tolerance">The maximum relative change in the watched value
+        ///   after an iteration of the algorithm used to detect convergence.
+        ///   Default is 0.</param>
+        /// <param name="checks">The minimum number of convergence checks that the
+        ///   iterative algorithm should pass before convergence can be declared
+        ///   reached.</param>
+        /// <param name="startValue">The initial value for the <see cref="NewValue"/> and
+        ///   <see cref="OldValue"/> properties.</param>
+        /// 
+        public RelativeConvergence(int iterations = 100, double tolerance = 0, int checks = 1, double startValue = 0)
+        {
+            init(iterations, tolerance, checks, startValue);
+        }
+
+        private void init(int iterations = 100, double tolerance = 0, int checks = 1, double startValue = 0)
+        {
+            this.MaxIterations = iterations;
             this.tolerance = tolerance;
             this.maxChecks = checks;
+            this.startValue = startValue;
+
+            Clear();
         }
 
         /// <summary>
@@ -179,7 +220,7 @@ namespace Accord.Math
         ///   Gets the current iteration number.
         /// </summary>
         /// 
-        public int CurrentIteration { get; private set; }
+        public int CurrentIteration { get; set; }
 
         /// <summary>
         ///   Gets whether the algorithm has converged.
@@ -205,9 +246,7 @@ namespace Accord.Math
             if (tolerance > 0)
             {
                 // Stopping criteria is likelihood convergence
-                double delta = Math.Abs(OldValue - NewValue);
-
-                if (delta <= tolerance * Math.Abs(OldValue))
+                if (Delta <= tolerance * Math.Abs(OldValue))
                     return true;
             }
 
@@ -218,6 +257,35 @@ namespace Accord.Math
             return false;
         }
 
+        /// <summary>
+        ///   Gets the absolute difference between the <see cref="NewValue"/> and <see cref="OldValue"/>
+        ///   as as <c>Math.Abs(OldValue - NewValue)</c>.
+        /// </summary>
+        /// 
+        public double Delta
+        {
+            get { return Math.Abs(OldValue - NewValue); }
+        }
+
+        /// <summary>
+        ///   Gets the relative difference between the <see cref="NewValue"/> and <see cref="OldValue"/>
+        ///   as <c>Math.Abs(OldValue - NewValue) / Math.Abs(OldValue)</c>.
+        /// </summary>
+        /// 
+        public double RelativeDelta
+        {
+            get { return Delta / Math.Abs(OldValue); }
+        }
+
+        /// <summary>
+        ///   Gets the initial value for the <see cref="NewValue"/> 
+        ///   and <see cref="OldValue"/> properties.
+        /// </summary>
+        /// 
+        public double StartValue
+        {
+            get { return startValue; }
+        }
 
         /// <summary>
         ///   Resets this instance, reverting all iteration statistics
@@ -226,10 +294,23 @@ namespace Accord.Math
         /// 
         public void Clear()
         {
+            NewValue = startValue;
+            OldValue = startValue;
             CurrentIteration = 0;
-            NewValue = 0;
-            OldValue = 0;
             checks = 0;
         }
+
+
+        /// <summary>
+        /// Returns a <see cref="System.String" /> that represents this instance.
+        /// </summary>
+        /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
+        public override string ToString()
+        {
+            if (HasConverged)
+                return String.Format("Converged: {0} < {1}", RelativeDelta, tolerance);
+            return String.Format("Running: {0} > {1}", RelativeDelta, Tolerance);
+        }
+
     }
 }

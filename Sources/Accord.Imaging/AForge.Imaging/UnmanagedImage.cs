@@ -13,6 +13,7 @@ namespace Accord.Imaging
     using System.Drawing.Imaging;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Runtime.InteropServices;
 
     /// <summary>
     /// Image in unmanaged memory.
@@ -65,14 +66,19 @@ namespace Accord.Imaging
     {
         // pointer to image data in unmanaged memory
         private IntPtr imageData;
+
         // image size
         private int width, height;
+
         // image stride (line size)
         private int stride;
+
         // image pixel format
         private PixelFormat pixelFormat;
+
         // flag which indicates if the image should be disposed or not
         private bool mustBeDisposed = false;
+
 
         /// <summary>
         /// Pointer to image data in unmanaged memory.
@@ -115,6 +121,44 @@ namespace Accord.Imaging
         }
 
         /// <summary>
+        /// Gets the image size, in bytes.
+        /// </summary>
+        /// 
+        public int Bytes
+        {
+            get { return stride * height; }
+        }
+
+        /// <summary>
+        /// Gets the image size, in pixels.
+        /// </summary>
+        /// 
+        public int Size
+        {
+            get { return width * height; }
+        }
+
+        /// <summary>
+        /// Gets the number of extra bytes after the image width is over. This can be computed
+        /// as <see cref="Stride"/> - <see cref="Width"/> * <see cref="PixelSize"/>.
+        /// </summary>
+        /// 
+        public int Offset
+        {
+            get { return stride - width * PixelSize; }
+        }
+
+        /// <summary>
+        /// Gets the size of the pixels in this image, in bytes. For 
+        /// example, a 8-bpp grayscale image would have pixel size 1.
+        /// </summary>
+        /// 
+        public int PixelSize
+        {
+            get { return System.Drawing.Bitmap.GetPixelFormatSize(pixelFormat) / 8; }
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="UnmanagedImage"/> class.
         /// </summary>
         /// 
@@ -130,11 +174,7 @@ namespace Accord.Imaging
         /// 
         public UnmanagedImage(IntPtr imageData, int width, int height, int stride, PixelFormat pixelFormat)
         {
-            this.imageData = imageData;
-            this.width = width;
-            this.height = height;
-            this.stride = stride;
-            this.pixelFormat = pixelFormat;
+            init(imageData, width, height, stride, pixelFormat);
         }
 
         /// <summary>
@@ -149,11 +189,16 @@ namespace Accord.Imaging
         /// 
         public UnmanagedImage(BitmapData bitmapData)
         {
-            this.imageData = bitmapData.Scan0;
-            this.width = bitmapData.Width;
-            this.height = bitmapData.Height;
-            this.stride = bitmapData.Stride;
-            this.pixelFormat = bitmapData.PixelFormat;
+            init(bitmapData.Scan0, bitmapData.Width, bitmapData.Height, bitmapData.Stride, bitmapData.PixelFormat);
+        }
+
+        private void init(IntPtr imageData, int width, int height, int stride, PixelFormat pixelFormat)
+        {
+            this.imageData = imageData;
+            this.width = width;
+            this.height = height;
+            this.stride = stride;
+            this.pixelFormat = pixelFormat;
         }
 
         /// <summary>
@@ -173,8 +218,8 @@ namespace Accord.Imaging
         /// after that.</para>
         /// 
         /// <par><note>The method needs to be called only in the case if unmanaged image was allocated
-        /// using <see cref="Create"/> method. In the case if the class instance was created using constructor,
-        /// this method does not free unmanaged memory.</note></par>
+        /// using <see cref="Create(int, int, PixelFormat)"/> method. In the case if the class instance 
+        /// was created using constructor, this method does not free unmanaged memory.</note></par>
         /// </remarks>
         /// 
         public void Dispose()
@@ -196,6 +241,7 @@ namespace Accord.Imaging
             {
                 // dispose managed resources
             }
+
             // free image memory if the image was allocated using this class
             if ((mustBeDisposed) && (imageData != IntPtr.Zero))
             {
@@ -316,41 +362,7 @@ namespace Accord.Imaging
         /// 
         public static UnmanagedImage Create(int width, int height, PixelFormat pixelFormat)
         {
-            int bytesPerPixel = 0;
-
-            // calculate bytes per pixel
-            switch (pixelFormat)
-            {
-                case PixelFormat.Format8bppIndexed:
-                    bytesPerPixel = 1;
-                    break;
-                case PixelFormat.Format16bppGrayScale:
-                    bytesPerPixel = 2;
-                    break;
-                case PixelFormat.Format24bppRgb:
-                    bytesPerPixel = 3;
-                    break;
-                case PixelFormat.Format32bppRgb:
-                case PixelFormat.Format32bppArgb:
-                case PixelFormat.Format32bppPArgb:
-                    bytesPerPixel = 4;
-                    break;
-                case PixelFormat.Format48bppRgb:
-                    bytesPerPixel = 6;
-                    break;
-                case PixelFormat.Format64bppArgb:
-                case PixelFormat.Format64bppPArgb:
-                    bytesPerPixel = 8;
-                    break;
-                default:
-                    throw new UnsupportedImageFormatException("Can not create image with specified pixel format.");
-            }
-
-            // check image size
-            if ((width <= 0) || (height <= 0))
-            {
-                throw new InvalidImagePropertiesException("Invalid image size specified.");
-            }
+            int bytesPerPixel = GetBytesPerPixel(pixelFormat);
 
             // calculate stride
             int stride = width * bytesPerPixel;
@@ -359,6 +371,51 @@ namespace Accord.Imaging
             {
                 stride += (4 - (stride % 4));
             }
+
+            return Create(width, height, stride, pixelFormat);
+        }
+
+        /// <summary>
+        /// Allocate new image in unmanaged memory.
+        /// </summary>
+        /// 
+        /// <param name="width">Image width.</param>
+        /// <param name="height">Image height.</param>
+        /// <param name="stride">Image stride.</param>
+        /// <param name="pixelFormat">Image pixel format.</param>
+        /// 
+        /// <returns>Return image allocated in unmanaged memory.</returns>
+        /// 
+        /// <remarks><para>Allocate new image with specified attributes in unmanaged memory.</para>
+        /// 
+        /// <para><note>The method supports only
+        /// <see cref="System.Drawing.Imaging.PixelFormat">Format8bppIndexed</see>,
+        /// <see cref="System.Drawing.Imaging.PixelFormat">Format16bppGrayScale</see>,
+        /// <see cref="System.Drawing.Imaging.PixelFormat">Format24bppRgb</see>,
+        /// <see cref="System.Drawing.Imaging.PixelFormat">Format32bppRgb</see>,
+        /// <see cref="System.Drawing.Imaging.PixelFormat">Format32bppArgb</see>,
+        /// <see cref="System.Drawing.Imaging.PixelFormat">Format32bppPArgb</see>,
+        /// <see cref="System.Drawing.Imaging.PixelFormat">Format48bppRgb</see>,
+        /// <see cref="System.Drawing.Imaging.PixelFormat">Format64bppArgb</see> and
+        /// <see cref="System.Drawing.Imaging.PixelFormat">Format64bppPArgb</see> pixel formats.
+        /// In the case if <see cref="System.Drawing.Imaging.PixelFormat">Format8bppIndexed</see>
+        /// format is specified, pallete is not not created for the image (supposed that it is
+        /// 8 bpp grayscale image).
+        /// </note></para>
+        /// </remarks>
+        /// 
+        /// <exception cref="UnsupportedImageFormatException">Unsupported pixel format was specified.</exception>
+        /// <exception cref="InvalidImagePropertiesException">Invalid image size was specified.</exception>
+        /// 
+        public static UnmanagedImage Create(int width, int height, int stride, PixelFormat pixelFormat)
+        {
+
+            // check image size
+            if ((width <= 0) || (height <= 0))
+                throw new InvalidImagePropertiesException("Invalid image size specified.");
+
+            if (stride < width)
+                throw new InvalidImagePropertiesException("Stride is smaller than image width.");
 
             // allocate memory for the image
             IntPtr imageData = System.Runtime.InteropServices.Marshal.AllocHGlobal(stride * height);
@@ -369,6 +426,31 @@ namespace Accord.Imaging
             image.mustBeDisposed = true;
 
             return image;
+        }
+
+        private static int GetBytesPerPixel(PixelFormat pixelFormat)
+        {
+            // calculate bytes per pixel
+            switch (pixelFormat)
+            {
+                case PixelFormat.Format8bppIndexed:
+                    return 1;
+                case PixelFormat.Format16bppGrayScale:
+                    return 2;
+                case PixelFormat.Format24bppRgb:
+                    return 3;
+                case PixelFormat.Format32bppRgb:
+                case PixelFormat.Format32bppArgb:
+                case PixelFormat.Format32bppPArgb:
+                    return 4;
+                case PixelFormat.Format48bppRgb:
+                    return 6;
+                case PixelFormat.Format64bppArgb:
+                case PixelFormat.Format64bppPArgb:
+                    return 8;
+                default:
+                    throw new UnsupportedImageFormatException("Can not create image with specified pixel format.");
+            }
         }
 
         /// <summary>
@@ -473,6 +555,41 @@ namespace Accord.Imaging
         }
 
         /// <summary>
+        /// Create unmanaged image from the specified byte array.
+        /// </summary>
+        /// 
+        /// <param name="bytes">Source byte array containing the image's pixels.</param>
+        /// <param name="height">The height of the image.</param>
+        /// <param name="width">The width of the image.</param>
+        /// <param name="pixelFormat">The <see cref="PixelFormat"/> of the pixels.</param>
+        /// 
+        /// <returns>Returns new unmanaged image, which is a copy of source managed image.</returns>
+        /// 
+        /// <remarks><para>The method creates an exact copy of specified managed image, but allocated
+        /// in unmanaged memory.</para></remarks>
+        /// 
+        /// <exception cref="UnsupportedImageFormatException">Unsupported pixel format of source image.</exception>
+        /// 
+        public static UnmanagedImage FromByteArray(byte[] bytes, int width, int height, PixelFormat pixelFormat)
+        {
+            if (bytes.Length != width * height)
+                throw new ArgumentException();
+
+            UnmanagedImage image = UnmanagedImage.Create(width, height, width, pixelFormat);
+
+            unsafe
+            {
+                byte* dst = (byte*)image.ImageData;
+                fixed (byte* src = bytes)
+                {
+                    Accord.SystemTools.CopyUnmanagedMemory(dst, src, bytes.Length);
+                }
+            }
+
+            return image;
+        }
+
+        /// <summary>
         /// Create unmanaged image from the specified managed image.
         /// </summary>
         /// 
@@ -489,8 +606,7 @@ namespace Accord.Imaging
         {
             UnmanagedImage dstImage = null;
 
-            BitmapData sourceData = image.LockBits(new Rectangle(0, 0, image.Width, image.Height),
-                ImageLockMode.ReadOnly, image.PixelFormat);
+            BitmapData sourceData = image.LockBits(ImageLockMode.ReadOnly);
 
             try
             {
@@ -1111,6 +1227,33 @@ namespace Accord.Imaging
             }
 
             return pixelValues;
+        }
+
+        /// <summary>
+        ///   Converts the image into a sequence of bytes.
+        /// </summary>
+        /// 
+        public byte[] ToByteArray()
+        {
+            byte[] bytes = new byte[this.Size];
+            Debug.Assert(bytes.Length == (width * height));
+            int offset = Offset;
+
+            unsafe
+            {
+                byte* src = (byte*)this.ImageData;
+                for (int y = 0, k = 0; y < height; y++)
+                {
+                    for (int x = 0; x < width; x++, k++, src++)
+                    {
+                        bytes[k] = *src;
+                    }
+
+                    src += offset;
+                }
+            }
+
+            return bytes;
         }
     }
 }

@@ -30,6 +30,7 @@ namespace Accord.Statistics.Models.Fields.Learning
     using System.Threading.Tasks;
     using Accord.Math;
     using Accord.MachineLearning;
+    using Accord.Statistics.Models.Fields.Functions;
 
     /// <summary>
     ///   Resilient Gradient Learning.
@@ -38,82 +39,25 @@ namespace Accord.Statistics.Models.Fields.Learning
     /// <typeparam name="T">The type of the observations being modeled.</typeparam>
     ///
     /// <example>
-    /// <code>
-    /// // Suppose we would like to learn how to classify the
-    /// // following set of sequences among three class labels: 
-    /// 
-    /// int[][] inputSequences =
-    /// {
-    ///     // First class of sequences: starts and
-    ///     // ends with zeros, ones in the middle:
-    ///     new[] { 0, 1, 1, 1, 0 },        
-    ///     new[] { 0, 0, 1, 1, 0, 0 },     
-    ///     new[] { 0, 1, 1, 1, 1, 0 },     
-    ///  
-    ///     // Second class of sequences: starts with
-    ///     // twos and switches to ones until the end.
-    ///     new[] { 2, 2, 2, 2, 1, 1, 1, 1, 1 },
-    ///     new[] { 2, 2, 1, 2, 1, 1, 1, 1, 1 },
-    ///     new[] { 2, 2, 2, 2, 2, 1, 1, 1, 1 },
-    ///  
-    ///     // Third class of sequences: can start
-    ///     // with any symbols, but ends with three.
-    ///     new[] { 0, 0, 1, 1, 3, 3, 3, 3 },
-    ///     new[] { 0, 0, 0, 3, 3, 3, 3 },
-    ///     new[] { 1, 0, 1, 2, 2, 2, 3, 3 },
-    ///     new[] { 1, 1, 2, 3, 3, 3, 3 },
-    ///     new[] { 0, 0, 1, 1, 3, 3, 3, 3 },
-    ///     new[] { 2, 2, 0, 3, 3, 3, 3 },
-    ///     new[] { 1, 0, 1, 2, 3, 3, 3, 3 },
-    ///     new[] { 1, 1, 2, 3, 3, 3, 3 },
-    /// };
-    /// 
-    /// // Now consider their respective class labels
-    /// int[] outputLabels =
-    /// {
-    ///     /* Sequences  1-3 are from class 0: */ 0, 0, 0,
-    ///     /* Sequences  4-6 are from class 1: */ 1, 1, 1,
-    ///     /* Sequences 7-14 are from class 2: */ 2, 2, 2, 2, 2, 2, 2, 2
-    /// };
-    /// 
-    /// 
-    /// // Create the Hidden Conditional Random Field using a set of discrete features
-    /// var function = new MarkovDiscreteFunction(states: 3, symbols: 4, outputClasses: 3);
-    /// var classifier = new HiddenConditionalRandomField&lt;int>(function);
-    /// 
-    /// // Create a learning algorithm
-    /// var teacher = new HiddenResilientGradientLearning&lt;int>(classifier)
-    /// {
-    ///     Iterations = 50
-    /// };
-    /// 
-    /// // Run the algorithm and learn the models
-    /// teacher.Run(inputSequences, outputLabels);
-    /// 
-    /// 
-    /// // After training has finished, we can check the 
-    /// // output classification label for some sequences. 
-    /// 
-    /// int y1 = classifier.Compute(new[] { 0, 1, 1, 1, 0 });    // output is y1 = 0
-    /// int y2 = classifier.Compute(new[] { 0, 0, 1, 1, 0, 0 }); // output is y1 = 0
-    /// 
-    /// int y3 = classifier.Compute(new[] { 2, 2, 2, 2, 1, 1 }); // output is y2 = 1
-    /// int y4 = classifier.Compute(new[] { 2, 2, 1, 1 });       // output is y2 = 1
-    /// 
-    /// int y5 = classifier.Compute(new[] { 0, 0, 1, 3, 3, 3 }); // output is y3 = 2
-    /// int y6 = classifier.Compute(new[] { 2, 0, 2, 2, 3, 3 }); // output is y3 = 2
-    /// </code>
+    ///   <code source="Unit Tests\Accord.Tests.Statistics\Models\Fields\HiddenConditionalRandomFieldTest.cs" region="doc_learn_1" />
+    ///   <code source="Unit Tests\Accord.Tests.Statistics\Models\Fields\HiddenConditionalRandomFieldTest.cs" region="doc_learn_2" />
+    ///   <code source="Unit Tests\Accord.Tests.Statistics\Models\Fields\HiddenConditionalRandomFieldTest.cs" region="doc_learn_3" />
+    ///   
+    ///   <para>
+    ///   The next example shows how to use the learning algorithms in a real-world dataset,
+    ///   including training and testing in separate sets and evaluating its performance:</para>
+    ///   <code source="Unit Tests\Accord.Tests.Statistics\Models\Fields\Learning\ResilientGradientHiddenLearningTest.cs" region="doc_learn_pendigits" />
     /// </example>
     /// 
-    public class HiddenResilientGradientLearning<T> :
-        ISupervisedLearning<HiddenConditionalRandomField<T>, T[], int>,
-        IHiddenConditionalRandomFieldLearning<T>,
-        IConvergenceLearning, IDisposable
+    /// <seealso cref="HiddenQuasiNewtonLearning{T}"/>
+    /// <seealso cref="HiddenGradientDescentLearning{T}"/>
+    /// 
+    public class HiddenResilientGradientLearning<T> : BaseHiddenConditionalRandomFieldLearning<T>,
+        ISupervisedLearning<HiddenConditionalRandomField<T>, T[], int>, IParallel,
+        IHiddenConditionalRandomFieldLearning<T>, IConvergenceLearning, IDisposable
     {
-        [NonSerialized]
-        CancellationToken token = new CancellationToken();
 
-        private ForwardBackwardGradient<T> calculator;
+        private ForwardBackwardGradient<T> calculator = new ForwardBackwardGradient<T>();
         private ISingleValueConvergence convergence;
 
         private double initialStep = 0.0125;
@@ -132,21 +76,7 @@ namespace Accord.Statistics.Models.Fields.Learning
         // update values, also known as deltas
         private double[] weightsUpdates;
 
-        /// <summary>
-        /// Gets or sets a cancellation token that can be used to
-        /// stop the learning algorithm while it is running.
-        /// </summary>
-        public CancellationToken Token
-        {
-            get { return token; }
-            set { token = value; }
-        }
 
-        /// <summary>
-        ///   Gets or sets the model being trained.
-        /// </summary>
-        /// 
-        public HiddenConditionalRandomField<T> Model { get; private set; }
 
         /// <summary>
         ///   Gets or sets a value indicating whether this <see cref="HiddenGradientDescentLearning&lt;T&gt;"/>
@@ -245,16 +175,63 @@ namespace Accord.Statistics.Models.Fields.Learning
         }
 
         /// <summary>
+        ///   Please use MaxIterations instead.
+        /// </summary>
+        /// 
+        [Obsolete("Please use MaxIterations instead.")]
+        public int Iterations
+        {
+            get { return MaxIterations; }
+            set { MaxIterations = value; }
+        }
+
+        /// <summary>
         ///   Gets or sets the maximum number of iterations
         ///   performed by the learning algorithm.
         /// </summary>
         /// 
-        public int Iterations
+        public int MaxIterations
         {
-            get { return convergence.Iterations; }
-            set { convergence.Iterations = value; }
+            get { return convergence.MaxIterations; }
+            set { convergence.MaxIterations = value; }
         }
 
+        /// <summary>
+        ///   Gets or sets the number of performed iterations.
+        /// </summary>
+        /// 
+        public int CurrentIteration
+        {
+            get { return convergence.CurrentIteration; }
+        }
+
+        /// <summary>
+        /// Gets or sets whether the algorithm has converged.
+        /// </summary>
+        /// <value><c>true</c> if this instance has converged; otherwise, <c>false</c>.</value>
+        public bool HasConverged
+        {
+            get { return convergence.HasConverged; }
+        }
+
+        /// <summary>
+        /// Gets or sets the parallelization options for this algorithm.
+        /// </summary>
+        /// <value>The parallel options.</value>
+        public ParallelOptions ParallelOptions
+        {
+            get { return ((IParallel)calculator).ParallelOptions; }
+            set { ((IParallel)calculator).ParallelOptions = value; }
+        }
+
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="HiddenResilientGradientLearning{T}"/> class.
+        /// </summary>
+        /// 
+        public HiddenResilientGradientLearning()
+        {
+            convergence = new RelativeConvergence(iterations: 100, tolerance: 0, checks: 3);
+        }
 
         /// <summary>
         ///   Initializes a new instance of the <see cref="HiddenResilientGradientLearning{T}"/> class.
@@ -263,19 +240,20 @@ namespace Accord.Statistics.Models.Fields.Learning
         /// <param name="model">Model to teach.</param>
         /// 
         public HiddenResilientGradientLearning(HiddenConditionalRandomField<T> model)
+            : this()
         {
             Model = model;
+            init();
+        }
 
-            calculator = new ForwardBackwardGradient<T>(model);
-            convergence = new RelativeConvergence(iterations: 100, tolerance: 0, checks: 3);
-
+        private void init()
+        {
+            calculator.Model = Model;
             int parameters = Model.Function.Weights.Length;
             gradient = new double[parameters];
             previousGradient = new double[parameters];
             weightsUpdates = new double[parameters];
-
-            // Initialize steps
-            Reset(initialStep);
+            Reset(initialStep); // Initialize steps
         }
 
 
@@ -294,11 +272,16 @@ namespace Accord.Statistics.Models.Fields.Learning
         [Obsolete("Please use Learn(x, y) instead.")]
         public double Run(T[][] observations, int[] outputs)
         {
-            return run(observations, outputs);
+            return InnerRun(observations, outputs);
         }
 
-        private double run(T[][] observations, int[] outputs)
+        /// <summary>
+        ///   Runs the learning algorithm.
+        /// </summary>
+        /// 
+        protected override double InnerRun(T[][] observations, int[] outputs)
         {
+            init();
             convergence.Clear();
 
             do
@@ -339,7 +322,7 @@ namespace Accord.Statistics.Models.Fields.Learning
 #if SERIAL      // For each training point
                 for (int i = 0; i < observations.Length; i++)
 #else
-                Parallel.For(0, observations.Length, i =>
+                Parallel.For(0, observations.Length, ParallelOptions, i =>
 #endif
                 {
                     calculator.Inputs = new[] { observations[i] };
@@ -365,7 +348,6 @@ namespace Accord.Statistics.Models.Fields.Learning
 #if !SERIAL
 );
 #endif
-
                 // Compute the average gradient
                 for (int i = 0; i < gradient.Length; i++)
                     gradient[i] /= observations.Length;
@@ -454,21 +436,6 @@ namespace Accord.Statistics.Models.Fields.Learning
                 for (int j = 0; j < weightsUpdates.Length; j++)
                     weightsUpdates[i] = rate;
             });
-        }
-
-        /// <summary>
-        /// Learns a model that can map the given inputs to the given outputs.
-        /// </summary>
-        /// <param name="x">The model inputs.</param>
-        /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
-        /// <param name="weights">The weight of importance for each input-output pair.</param>
-        /// <returns>
-        /// A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
-        /// </returns>
-        public HiddenConditionalRandomField<T> Learn(T[][] x, int[] y, double[] weights = null)
-        {
-            run(x, y);
-            return Model;
         }
 
 

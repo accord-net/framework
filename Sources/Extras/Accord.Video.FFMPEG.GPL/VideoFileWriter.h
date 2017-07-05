@@ -82,9 +82,10 @@ namespace Accord {
             {
                 int m_width;
                 int m_height;
-				Rational m_frameRate;
+                Rational m_frameRate;
                 int m_bitRate;
                 VideoCodec m_codec;
+                unsigned long m_framesCount;
 
                 // audio support
                 AudioCodec m_audiocodec;
@@ -94,18 +95,14 @@ namespace Accord {
                 void CheckIfVideoFileIsOpen()
                 {
                     if (data == nullptr)
-                    {
                         throw gcnew System::IO::IOException("Video file is not open, so can not access its properties.");
-                    }
                 }
 
                 // Check if the object was already disposed
                 void CheckIfDisposed()
                 {
                     if (disposed)
-                    {
                         throw gcnew System::ObjectDisposedException("The object was already disposed.");
-                    }
                 }
 
                 void AddAudioSamples(WriterPrivateData^ data, uint8_t* soundBuffer, int soundBufferSize /*, TimeSpan timestamp*/);
@@ -164,7 +161,7 @@ namespace Accord {
                 ///
                 property Rational FrameRate
                 {
-					Rational get()
+                    Rational get()
                     {
                         CheckIfVideoFileIsOpen();
                         return m_frameRate;
@@ -236,7 +233,7 @@ namespace Accord {
                 /// <param name="width">Frame width of the video file.</param>
                 /// <param name="height">Frame height of the video file.</param>
                 ///
-                /// <remarks><para>See documentation to the <see cref="Open( String^, int, int, int, VideoCodec )" />
+                /// <remarks><para>See documentation to the <see cref="Open( String^, int, int, Rational, VideoCodec, int )" />
                 /// for more information and the list of possible exceptions.</para>
                 ///
                 /// <para><note>The method opens the video file using <see cref="VideoCodec::Default" />
@@ -257,7 +254,7 @@ namespace Accord {
                 /// <param name="height">Frame height of the video file.</param>
                 /// <param name="frameRate">Frame rate of the video file.</param>
                 ///
-                /// <remarks><para>See documentation to the <see cref="Open( String^, int, int, int, VideoCodec )" />
+                /// <remarks><para>See documentation to the <see cref="Open( String^, int, int, Rational, VideoCodec, int )" />
                 /// for more information and the list of possible exceptions.</para>
                 ///
                 /// <para><note>The method opens the video file using <see cref="VideoCodec::Default" />
@@ -328,37 +325,37 @@ namespace Accord {
                     Open(fileName, width, height, frameRate, codec, bitRate, AudioCodec::None, 0, 0, 0);
                 }
 
-				/// <summary>
-				/// Create video file with the specified name and attributes.
-				/// </summary>
-				///
-				/// <param name="fileName">Video file name to create.</param>
-				/// <param name="width">Frame width of the video file.</param>
-				/// <param name="height">Frame height of the video file.</param>
-				/// <param name="frameRate">Frame rate of the video file.</param>
-				/// <param name="codec">Video codec to use for compression.</param>
-				/// <param name="bitRate">Bit rate of the video stream.</param>
-				/// <param name="audioCodec">Audio codec for the audio stream.</param>
-				/// <param name="audioBitrate">Bit rate for the audio stream.</param>
-				/// <param name="sampleRate">Frame rate of the audio stream.</param>
-				/// <param name="channels">Number of audio channels in the audio stream.</param>
-				///
-				/// <remarks><para>The methods creates new video file with the specified name.
-				/// If a file with such name already exists in the file system, it will be overwritten.</para>
-				///
-				/// <para>When adding new video frames using <see cref="WriteVideoFrame(Bitmap^ frame)"/> method,
-				/// the video frame must have width and height as specified during file opening.</para>
-				///
-				/// <para><note>The bit rate parameter represents a trade-off value between video quality
-				/// and video file size. Higher bit rate value increase video quality and result in larger
-				/// file size. Smaller values result in opposite – worse quality and small video files.</note></para>
-				/// </remarks>
-				///
-				/// <exception cref="ArgumentException">Video file resolution must be a multiple of two.</exception>
-				/// <exception cref="ArgumentException">Invalid video codec is specified.</exception>
-				/// <exception cref="VideoException">A error occurred while creating new video file. See exception message.</exception>
-				/// <exception cref="System::IO::IOException">Cannot open video file with the specified name.</exception>
-				/// 
+                /// <summary>
+                /// Create video file with the specified name and attributes.
+                /// </summary>
+                ///
+                /// <param name="fileName">Video file name to create.</param>
+                /// <param name="width">Frame width of the video file.</param>
+                /// <param name="height">Frame height of the video file.</param>
+                /// <param name="frameRate">Frame rate of the video file.</param>
+                /// <param name="codec">Video codec to use for compression.</param>
+                /// <param name="bitRate">Bit rate of the video stream.</param>
+                /// <param name="audioCodec">Audio codec for the audio stream.</param>
+                /// <param name="audioBitrate">Bit rate for the audio stream.</param>
+                /// <param name="sampleRate">Frame rate of the audio stream.</param>
+                /// <param name="channels">Number of audio channels in the audio stream.</param>
+                ///
+                /// <remarks><para>The methods creates new video file with the specified name.
+                /// If a file with such name already exists in the file system, it will be overwritten.</para>
+                ///
+                /// <para>When adding new video frames using <see cref="WriteVideoFrame(Bitmap^ frame)"/> method,
+                /// the video frame must have width and height as specified during file opening.</para>
+                ///
+                /// <para><note>The bit rate parameter represents a trade-off value between video quality
+                /// and video file size. Higher bit rate value increase video quality and result in larger
+                /// file size. Smaller values result in opposite – worse quality and small video files.</note></para>
+                /// </remarks>
+                ///
+                /// <exception cref="ArgumentException">Video file resolution must be a multiple of two.</exception>
+                /// <exception cref="ArgumentException">Invalid video codec is specified.</exception>
+                /// <exception cref="VideoException">A error occurred while creating new video file. See exception message.</exception>
+                /// <exception cref="System::IO::IOException">Cannot open video file with the specified name.</exception>
+                /// 
                 void Open(String^ fileName, int width, int height, Rational frameRate,
                     VideoCodec codec, int bitRate,
                     AudioCodec audioCodec, int audioBitrate, int sampleRate, int channels);
@@ -379,8 +376,24 @@ namespace Accord {
                 /// 
                 void WriteVideoFrame(Bitmap^ frame)
                 {
-                    WriteVideoFrame(frame, TimeSpan::MinValue);
+                    WriteVideoFrame(frame, m_framesCount);
                 }
+
+                /// <summary>
+                /// Write new video frame into currently opened video file.
+                /// </summary>
+                ///
+                /// <param name="frame">Bitmap to add as a new video frame.</param>
+                ///
+                /// <remarks><para>The specified bitmap must be either color 24 or 32 bpp image or grayscale 8 bpp (indexed) image.</para>
+                /// </remarks>
+                ///
+                /// <exception cref="System::IO::IOException">Thrown if no video file was open.</exception>
+                /// <exception cref="ArgumentException">The provided bitmap must be 24 or 32 bpp color image or 8 bpp grayscale image.</exception>
+                /// <exception cref="ArgumentException">Bitmap size must be of the same as video size, which was specified on opening video file.</exception>
+                /// <exception cref="VideoException">A error occurred while writing new video frame. See exception message.</exception>
+                /// 
+                void WriteVideoFrame(Bitmap^ frame, unsigned long frameIndex);
 
                 /// <summary>
                 /// Write new video frame with a specific timestamp into currently opened video file.
@@ -401,7 +414,10 @@ namespace Accord {
                 /// <exception cref="ArgumentException">Bitmap size must be of the same as video size, which was specified on opening video file.</exception>
                 /// <exception cref="VideoException">A error occurred while writing new video frame. See exception message.</exception>
                 /// 
-                void WriteVideoFrame(Bitmap^ frame, TimeSpan timestamp);
+                void WriteVideoFrame(Bitmap^ frame, TimeSpan timestamp)
+                {
+                    WriteVideoFrame(frame, timestamp.TotalSeconds * m_frameRate.Value);
+                }
 
                 /// <summary>
                 /// Write new audio frame into currently opened video file.
@@ -411,11 +427,11 @@ namespace Accord {
 
                 //void WriteAudioFrame( array<System::uint8_t> ^buffer, TimeSpan timestamp );				
 
-				/// <summary>
-				/// Flushes the current write buffer to disk.
-				/// </summary>
-				///
-				void Flush();
+                /// <summary>
+                /// Flushes the current write buffer to disk.
+                /// </summary>
+                ///
+                void Flush();
 
                 /// <summary>
                 /// Close currently opened video file if any.

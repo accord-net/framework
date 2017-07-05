@@ -36,22 +36,6 @@ namespace Accord.Tests.Statistics.Models.Fields
     public class QuasiNewtonHiddenLearningTest
     {
 
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
         public static int[][] inputs = new int[][]
         {
             new int[] { 0,1,1,0 },   // Class 0
@@ -106,11 +90,9 @@ namespace Accord.Tests.Statistics.Models.Fields
                 expected[i] = outputs[i];
             }
 
-            Assert.AreEqual(-0.0019419916698781847, ll0, 1e-10);
+            Assert.AreEqual(-0.00046872579975998363, ll0, 1e-10);
             Assert.AreEqual(0.0, error, 1e-10);
             Assert.AreEqual(error, -ll1);
-            Assert.IsFalse(Double.IsNaN(ll0));
-            Assert.IsFalse(Double.IsNaN(error));
 
             for (int i = 0; i < inputs.Length; i++)
                 Assert.AreEqual(expected[i], actual[i]);

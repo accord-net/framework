@@ -220,6 +220,53 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(1.0, r);
         }
 
+        [Test]
+        public void issue_602()
+        {
+            // Robust multivariate regression causes IndexOutOfRangeException #602
+            // https://github.com/accord-net/framework/issues/602
+
+            var inputs = new double[][]
+            {
+                new double[] { 1, 2, 3 },
+                new double[] { 2, 3, 4 },
+                new double[] { 3, 4, 5 },
+                new double[] { 4, 5, 6 },
+                new double[] { 5, 6, 7 },
+                new double[] { 6, 7, 8 },
+            };
+
+            var outputs = new double[][]
+            {
+                new double[] { 3, 4 },
+                new double[] { 4, 5 },
+                new double[] { 5, 6 },
+                new double[] { 6, 7 },
+                new double[] { 7, 8 },
+                new double[] { 8, 9 },
+            };
+
+            var ols = new OrdinaryLeastSquares() { IsRobust = true };
+
+            var regression = ols.Learn(inputs, outputs);
+
+            //string a = regression.Weights.ToCSharp();
+            //string b = regression.Intercepts.ToCSharp();
+
+            double[][] expectedWeights = new double[][]
+            {
+                new double[] { 4.44089209850063E-16, -0.333333333333333 },
+                new double[] { 0.333333333333333, 0.333333333333333 },
+                new double[] { 0.666666666666667, 1 }
+            };
+
+            double[] expectedIntercepts = new double[] {
+                0.333333333333333, 0.666666666666666
+            };
+
+            Assert.IsTrue(expectedWeights.IsEqual(regression.Weights, rtol: 1e-5));
+            Assert.IsTrue(expectedIntercepts.IsEqual(regression.Intercepts, rtol: 1e-5));
+        }
 
         [Test]
         public void RegressTest4()

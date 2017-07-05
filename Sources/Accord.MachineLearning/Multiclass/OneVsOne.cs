@@ -235,6 +235,7 @@ namespace Accord.MachineLearning
                 throw new ArgumentException("Number of classes must be higher than 1.", "classes");
 
             this.NumberOfOutputs = classes;
+            this.NumberOfClasses = classes;
             int total = (classes * (classes - 1)) / 2;
 
             models = new TBinary[classes - 1][];
@@ -376,7 +377,7 @@ namespace Accord.MachineLearning
 
 
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         private int DecideByVoting(TInput input)
@@ -384,7 +385,7 @@ namespace Accord.MachineLearning
             return DistanceByVoting(input, new double[NumberOfOutputs]).ArgMax();
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         private int DecideByElimination(TInput input)
@@ -403,7 +404,7 @@ namespace Accord.MachineLearning
             return i;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         private int DecideByElimination(TInput input, Decision[] path)
@@ -430,7 +431,7 @@ namespace Accord.MachineLearning
             return i;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         private double[] DistanceByElimination(TInput input, double[] result)
@@ -469,7 +470,7 @@ namespace Accord.MachineLearning
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         private double[] DistanceByElimination(TInput input, double[] result, Decision[] path)
@@ -511,7 +512,7 @@ namespace Accord.MachineLearning
             return result;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         private double[] DistanceByVoting(TInput input, double[] result)

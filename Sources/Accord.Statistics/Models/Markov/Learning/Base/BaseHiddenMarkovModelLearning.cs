@@ -39,9 +39,55 @@ namespace Accord.Statistics.Models.Markov.Learning
     /// 
     public abstract class BaseHiddenMarkovModelLearning<TModel, TObservation> : ParallelLearningBase
     {
+        private int numberOfStates;
+        private ITopology topology;
 
         /// <summary>
-        ///   Gets the model being trained.
+        ///   Gets or sets the number of states to be used when this
+        ///   learning algorithm needs to create new models.
+        /// </summary>
+        /// 
+        /// <value>The number of states.</value>
+        /// 
+        public int NumberOfStates
+        {
+            get { return numberOfStates; }
+            set
+            {
+                numberOfStates = value;
+                this.topology = null;
+            }
+        }
+
+        /// <summary>
+        ///   Gets or sets the state transition topology to be used when this learning 
+        ///   algorithm needs to create new models. Default is <see cref="Forward"/>.
+        /// </summary>
+        /// 
+        /// <value>The topology to be used when this learning algorithm needs to create a new model.</value>
+        /// 
+        public ITopology Topology
+        {
+            get
+            {
+                if (topology != null)
+                    return topology;
+
+                if (numberOfStates == 0)
+                    throw new InvalidOperationException("No topology has been set and no NumberOfStates has been set. Please set at least one of those properties before continuing.");
+
+                this.topology = new Ergodic(numberOfStates);
+                return this.topology;
+            }
+            set
+            {
+                this.topology = value;
+                this.numberOfStates = value.States;
+            }
+        }
+
+        /// <summary>
+        ///   Gets or sets the model being trained.
         /// </summary>
         /// 
         public TModel Model
@@ -60,11 +106,21 @@ namespace Accord.Statistics.Models.Markov.Learning
             this.Model = model;
         }
 
-        //public BaseHiddenMarkovModelLearning()
-        //{
-        //}
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="BaseHiddenMarkovModelLearning{TModel, TObservation}"/> class.
+        /// </summary>
+        /// 
+        public BaseHiddenMarkovModelLearning()
+        {
+        }
 
-        // protected internal abstract TModel CreateModel(TObservation[][] inputs);
+
+        /// <summary>
+        ///   Creates an instance of the model to be learned. Inheritors of this abstract 
+        ///   class must define this method so new models can be created from the training data.
+        /// </summary>
+        /// 
+        protected abstract TModel Create(TObservation[][] x);
 
     }
 }

@@ -246,6 +246,7 @@ namespace Accord.Statistics.Analysis
         public LogisticRegressionAnalysis()
         {
             this.NumberOfOutputs = 1;
+            // this.NumberOfClasses = 2; // TODO: Uncomment this line after changing to LogLikelihoodClassifierBase
         }
 
         private void initialize(double[][] inputs, double[] outputs)
@@ -561,7 +562,7 @@ namespace Accord.Statistics.Analysis
         /// </summary>
         /// <param name="x">The model inputs.</param>
         /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
-        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <param name="weights">The weight of importance for each input-output pair (if supported by the learning algorithm).</param>
         /// <returns>
         /// A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
         /// </returns>
@@ -575,7 +576,7 @@ namespace Accord.Statistics.Analysis
         /// </summary>
         /// <param name="x">The model inputs.</param>
         /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
-        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <param name="weights">The weight of importance for each input-output pair (if supported by the learning algorithm).</param>
         /// <returns>
         /// A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
         /// </returns>
@@ -598,7 +599,7 @@ namespace Accord.Statistics.Analysis
             var learning = new IterativeReweightedLeastSquares(regression)
             {
                 Regularization = regularization,
-                Iterations = iterations,
+                MaxIterations = iterations,
                 Tolerance = tolerance,
                 Token = Token
             };
@@ -785,7 +786,7 @@ namespace Accord.Statistics.Analysis
 
                 var learning = new IterativeReweightedLeastSquares(innerModel)
                 {
-                    Iterations = iterations,
+                    MaxIterations = iterations,
                     Tolerance = tolerance,
                     Regularization = regularization
                 };

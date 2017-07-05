@@ -372,7 +372,7 @@ namespace Accord.Statistics.Analysis
         /// </summary>
         /// <param name="x">The model inputs.</param>
         /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
-        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <param name="weights">The weight of importance for each input-output pair (if supported by the learning algorithm).</param>
         /// <returns>
         /// A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
         /// </returns>
@@ -380,7 +380,7 @@ namespace Accord.Statistics.Analysis
         public LogisticRegression Learn(double[][] x, double[] y, double[] weights = null)
         {
             if (weights != null)
-                throw new ArgumentException();
+                throw new ArgumentException(Accord.Properties.Resources.NotSupportedWeights, "weights");
 
             this.inputData = x;
             this.outputData = y;
@@ -400,7 +400,7 @@ namespace Accord.Statistics.Analysis
             double[][] resultInput = inputData.Submatrix(null, resultVariables);
 
             // Compute the final model output probabilities
-            result = currentModel.Regression.Score(resultInput);
+            result = currentModel.Regression.Probability(resultInput);
 
             return currentModel.Regression;
         }
@@ -426,7 +426,7 @@ namespace Accord.Statistics.Analysis
                 .Submatrix(null, resultVariables);
 
             // Compute the final model output probabilities
-            result = currentModel.Regression.Score(resultInput);
+            result = currentModel.Regression.Probability(resultInput);
         }
 
         /// <summary>
@@ -549,14 +549,14 @@ namespace Accord.Statistics.Analysis
             var irls = new IterativeReweightedLeastSquares(regression)
             {
                 Tolerance = tolerance,
-                Iterations = iterations,
+                MaxIterations = iterations,
                 Token = Token
             };
 
             irls.Learn(input, output);
 
             // Check if the full model has converged
-            return irls.Iterations <= iterations;
+            return irls.MaxIterations <= iterations;
         }
 
     }

@@ -376,23 +376,28 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <param name="samples">The number of samples to generate.</param>
         /// <param name="result">The location where to store the samples.</param>
-        ///
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        ///   
         /// <returns>A random vector of observations drawn from this distribution.</returns>
         /// 
-        public override double[] Generate(int samples, double[] result)
+        public override double[] Generate(int samples, double[] result, Random source)
         {
-            return Random(mean, lambda, samples, result);
+            return Random(mean, lambda, samples, result, source);
         }
 
         /// <summary>
         ///   Generates a random observation from the current distribution.
         /// </summary>
         /// 
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        ///   
         /// <returns>A random observations drawn from this distribution.</returns>
         /// 
-        public override double Generate()
+        public override double Generate(Random source)
         {
-            return Random(mean, lambda);
+            return Random(mean, lambda, source);
         }
 
         /// <summary>
@@ -407,13 +412,28 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public static double Random(double mean, double shape)
         {
-            var u = Accord.Math.Random.Generator.Random;
+            return Random(mean, shape, Accord.Math.Random.Generator.Random);
+        }
 
-            double v = NormalDistribution.Random();
+        /// <summary>
+        ///   Generates a random observation from the 
+        ///   Inverse Gaussian distribution with the given parameters.
+        /// </summary>
+        /// 
+        /// <param name="mean">The mean parameter mu.</param>
+        /// <param name="shape">The shape parameter lambda.</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        /// 
+        /// <returns>A random double value sampled from the specified Uniform distribution.</returns>
+        /// 
+        public static double Random(double mean, double shape, Random source)
+        {
+            double v = NormalDistribution.Random(source);
             double y = v * v;
             double x = mean + (mean * mean * y) / (2 * shape) - (mean / (2 * shape)) * Math.Sqrt(4 * mean * shape * y + mean * mean * y * y);
 
-            double t = u.NextDouble();
+            double t = source.NextDouble();
 
             if (t <= (mean) / (mean + x))
                 return x;
@@ -434,7 +454,25 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public static double[] Random(double mean, double shape, int samples)
         {
-            return Random(mean, shape, samples, new double[samples]);
+            return Random(mean, shape, samples, new double[samples], Accord.Math.Random.Generator.Random);
+        }
+
+        /// <summary>
+        ///   Generates a random vector of observations from the 
+        ///   Inverse Gaussian distribution with the given parameters.
+        /// </summary>
+        /// 
+        /// <param name="mean">The mean parameter mu.</param>
+        /// <param name="shape">The shape parameter lambda.</param>
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        ///
+        /// <returns>An array of double values sampled from the specified Uniform distribution.</returns>
+        /// 
+        public static double[] Random(double mean, double shape, int samples, Random source)
+        {
+            return Random(mean, shape, samples, new double[samples], source);
         }
 
         /// <summary>
@@ -451,9 +489,26 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public static double[] Random(double mean, double shape, int samples, double[] result)
         {
-            var u = Accord.Math.Random.Generator.Random;
+            return Random(mean, shape, samples, result, Accord.Math.Random.Generator.Random);
+        }
 
-            NormalDistribution.Random(samples, result);
+        /// <summary>
+        ///   Generates a random vector of observations from the 
+        ///   Inverse Gaussian distribution with the given parameters.
+        /// </summary>
+        /// 
+        /// <param name="mean">The mean parameter mu.</param>
+        /// <param name="shape">The shape parameter lambda.</param>
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="result">The location where to store the samples.</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        ///
+        /// <returns>An array of double values sampled from the inverse Gaussian distribution.</returns>
+        /// 
+        public static double[] Random(double mean, double shape, int samples, double[] result, Random source)
+        {
+            NormalDistribution.Random(samples, result, source);
 
             for (int i = 0; i < result.Length; i++)
             {
@@ -461,7 +516,7 @@ namespace Accord.Statistics.Distributions.Univariate
                 double y = v * v;
                 double x = mean + (mean * mean * y) / (2 * shape) - (mean / (2 * shape)) * Math.Sqrt(4 * mean * shape * y + mean * mean * y * y);
 
-                double t = u.NextDouble();
+                double t = source.NextDouble();
 
                 if (t <= (mean) / (mean + x))
                     result[i] = x;

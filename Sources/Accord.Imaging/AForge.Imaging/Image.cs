@@ -13,6 +13,7 @@ namespace Accord.Imaging
     using System.Drawing;
     using System.Drawing.Imaging;
     using AForge;
+    using System.Net;
 
     /// <summary>
     /// Core image relatad methods.
@@ -144,6 +145,24 @@ namespace Accord.Imaging
                 g.DrawImage(source, 0, 0, width, height);
 
             return bitmap;
+        }
+
+        /// <summary>
+        /// Clone image.
+        /// </summary>
+        /// 
+        /// <param name="bytes">Source image as an array of bytes.</param>
+        /// 
+        /// <returns>Returns clone of the source image with specified pixel format.</returns>
+        ///
+        /// <remarks>The original <see cref="System.Drawing.Bitmap.Clone(System.Drawing.Rectangle, System.Drawing.Imaging.PixelFormat)">Bitmap.Clone()</see>
+        /// does not produce the desired result - it does not create a clone with specified pixel format.
+        /// More of it, the original method does not create an actual clone - it does not create a copy
+        /// of the image. That is why this method was implemented to provide the functionality.</remarks> 
+        ///
+        public static Bitmap Clone(this byte[] bytes)
+        {
+            return (Bitmap)Bitmap.FromStream(new MemoryStream(bytes));
         }
 
         /// <summary>
@@ -418,6 +437,49 @@ namespace Accord.Imaging
             newImage.UnlockBits(newData);
 
             return newImage;
+        }
+
+        /// <summary>
+        /// Load bitmap from URL.
+        /// </summary>
+        /// 
+        /// <param name="url">URL to load bitmap from.</param>
+        /// 
+        /// <returns>Returns loaded bitmap.</returns>
+        /// 
+        public static Bitmap FromUrl(string url)
+        {
+            return FromUrl(url, String.Empty);
+        }
+
+        /// <summary>
+        /// Load bitmap from URL.
+        /// </summary>
+        /// 
+        /// <param name="url">URL to load bitmap from.</param>
+        /// <param name="localPath">The local directory where the file should be stored.</param>
+        /// 
+        /// <returns>Returns loaded bitmap.</returns>
+        /// 
+        public static Bitmap FromUrl(string url, string localPath)
+        {
+            string name = System.IO.Path.GetFileName(url);
+            string downloadedFileName = System.IO.Path.Combine(localPath, name);
+
+            if (!File.Exists(downloadedFileName))
+            {
+#if NET35
+                if (localPath == null || String.IsNullOrEmpty(localPath.Trim()))
+#else
+                if (!String.IsNullOrWhiteSpace(localPath))
+#endif
+                    Directory.CreateDirectory(localPath);
+
+                using (var client = new WebClient())
+                    client.DownloadFile(url, downloadedFileName);
+            }
+
+            return Image.FromFile(downloadedFileName);
         }
 
         /// <summary>

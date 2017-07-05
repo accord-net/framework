@@ -276,5 +276,13 @@ namespace Accord.Tests.Statistics
                 else Assert.AreEqual(e, a, 0.01);
             }
         }
+
+        [Test]
+        public void RangeTest()
+        {
+            Assert.Throws<ArgumentOutOfRangeException>(() => new WilcoxonDistribution(0));
+            Assert.AreEqual(0.5, new WilcoxonDistribution(1).Mean);
+            Assert.AreEqual(1.5, new WilcoxonDistribution(2).Mean);
+        }
     }
 }

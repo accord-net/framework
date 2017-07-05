@@ -26,6 +26,7 @@ namespace Accord.Statistics.Distributions.Univariate
     using Accord.Statistics.Distributions.Fitting;
     using AForge;
     using System;
+    using System.ComponentModel;
 
     /// <summary>
     ///   von-Mises (Circular Normal) distribution.
@@ -106,30 +107,35 @@ namespace Accord.Statistics.Distributions.Univariate
         private double constant;
 
         /// <summary>
+        ///   Constructs a von-Mises distribution with zero mean and unit concentration.
+        /// </summary>
+        /// 
+        public VonMisesDistribution()
+        {
+            initialize(0, 1);
+        }
+
+        /// <summary>
         ///   Constructs a von-Mises distribution with zero mean.
         /// </summary>
         /// 
-        /// <param name="concentration">The concentration value κ (kappa).</param>
+        /// <param name="concentration">The concentration value κ (kappa). Default is 1.</param>
         /// 
-        public VonMisesDistribution(double concentration)
+        public VonMisesDistribution([Positive]double concentration)
         {
-            initialize(mean, concentration);
+            initialize(0, concentration);
         }
 
         /// <summary>
         ///   Constructs a von-Mises distribution.
         /// </summary>
         /// 
-        /// <param name="mean">The mean value μ (mu).</param>
-        /// <param name="concentration">The concentration value κ (kappa).</param>
+        /// <param name="mean">The mean value μ (mu). Default is 0.</param>
+        /// <param name="concentration">The concentration value κ (kappa). Default is 1.</param>
         /// 
-        public VonMisesDistribution(double mean, double concentration)
+        public VonMisesDistribution([Real, DefaultValue(0)] double mean, [Positive, DefaultValue(1)] double concentration)
         {
             initialize(mean, concentration);
-        }
-
-        private VonMisesDistribution()
-        {
         }
 
         private void initialize(double m, double k)

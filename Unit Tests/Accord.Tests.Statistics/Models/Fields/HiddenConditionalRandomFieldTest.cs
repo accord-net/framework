@@ -112,7 +112,7 @@ namespace Accord.Tests.Statistics.Models.Fields
             // gesture recognition. In this example, we will be trying to
             // create a classifier that can distinguish between the words
             // "hello", "car", and "wardrobe". 
-            
+
             // Let's say we decided to acquire some data, and we asked some
             // people to perform those words in front of a Kinect camera, and,
             // using Microsoft's SDK, we were able to captured the x and y
@@ -159,7 +159,7 @@ namespace Accord.Tests.Statistics.Models.Fields
 
             // Those are the words we have in our vocabulary:
             //
-            double[][][] words = { hello, car, wardrobe }; 
+            double[][][] words = { hello, car, wardrobe };
 
             // Now, let's associate integer labels with them. This is needed
             // for the case where there are multiple samples for each word.
@@ -173,10 +173,10 @@ namespace Accord.Tests.Statistics.Models.Fields
 
             var initial = new Independent<NormalDistribution>
             (
-                new NormalDistribution(0, 1), 
-                new NormalDistribution(0, 1), 
-                new NormalDistribution(0, 1), 
-                new NormalDistribution(0, 1)  
+                new NormalDistribution(0, 1),
+                new NormalDistribution(0, 1),
+                new NormalDistribution(0, 1),
+                new NormalDistribution(0, 1)
             );
 
 
@@ -187,7 +187,7 @@ namespace Accord.Tests.Statistics.Models.Fields
 
             var hmm = new HiddenMarkovClassifier<Independent<NormalDistribution>>
             (
-                classes: numberOfWords, 
+                classes: numberOfWords,
                 topology: new Forward(numberOfStates), // word classifiers should use a forward topology
                 initial: initial
             );
@@ -286,6 +286,177 @@ namespace Accord.Tests.Statistics.Models.Fields
             Assert.AreEqual(2, hc3);
         }
 
+
+        [Test]
+        public void learn_test()
+        {
+            Accord.Math.Random.Generator.Seed = 0;
+
+            #region doc_learn_1
+            // Let's say we would like to do a very simple mechanism for gesture recognition. 
+            // In this example, we will be trying to create a classifier that can distinguish 
+            // between the words "hello", "car", and "wardrobe". 
+
+            // Let's say we decided to acquire some data, and we asked some people to perform 
+            // those words in front of a Kinect camera, and, using Microsoft's SDK, we were able 
+            // to captured the x and y coordinates of each hand while the word was being performed.
+
+            // Let's say we decided to represent our frames as:
+            // 
+            //    double[] frame = { leftHandX, leftHandY, rightHandX, rightHandY }; // 4 dimensions
+            //
+            // Since we captured words, this means we captured sequences of frames as we described 
+            // above. Let's write some of those as rough examples to explain how gesture recognition 
+            // can be done:
+
+            double[][] hello =
+            {
+                new double[] { 1.0, 0.1, 0.0, 0.0 }, // let's say the word
+                new double[] { 0.0, 1.0, 0.1, 0.1 }, // hello took 6 frames
+                new double[] { 0.0, 1.0, 0.1, 0.1 }, // to be recorded.
+                new double[] { 0.0, 0.0, 1.0, 0.0 },
+                new double[] { 0.0, 0.0, 1.0, 0.0 },
+                new double[] { 0.0, 0.0, 0.1, 1.1 },
+            };
+
+            double[][] car =
+            {
+                new double[] { 0.0, 0.0, 0.0, 1.0 }, // the car word
+                new double[] { 0.1, 0.0, 1.0, 0.1 }, // took only 4.
+                new double[] { 0.0, 0.0, 0.1, 0.0 },
+                new double[] { 1.0, 0.0, 0.0, 0.0 },
+            };
+
+            double[][] wardrobe =
+            {
+                new double[] { 0.0, 0.0, 1.0, 0.0 }, // same for the
+                new double[] { 0.1, 0.0, 1.0, 0.1 }, // wardrobe word.
+                new double[] { 0.0, 0.1, 1.0, 0.0 },
+                new double[] { 0.1, 0.0, 1.0, 0.1 },
+            };
+
+            // Please note that a real-world example would involve *lots* of samples for each word. 
+            // Here, we are considering just one from each class which is clearly sub-optimal and 
+            // should _never_ be done on practice. Please keep in mind that we are doing like this
+            // only to simplify this example on how to create and use HCRFs.
+
+            // These are the words we have in our vocabulary:
+            double[][][] words = { hello, car, wardrobe };
+
+            // Now, let's associate integer labels with them. This is needed
+            // for the case where there are multiple samples for each word.
+            int[] labels = { 0, 1, 2 };
+
+            // Create a new learning algorithm to train the hidden Markov model sequence classifier
+            var teacher = new HiddenMarkovClassifierLearning<Independent<NormalDistribution>, double[]>()
+            {
+                // Train each model until the log-likelihood changes less than 0.001
+                Learner = (i) => new BaumWelchLearning<Independent<NormalDistribution>, double[]>()
+                {
+                    Topology = new Forward(5), // this value can be found by trial-and-error
+
+                    // We will create our classifiers assuming an independent Gaussian distribution 
+                    // for each component in our feature vectors (assuming a Naive Bayes assumption).
+                    Emissions = (s) => new Independent<NormalDistribution>(dimensions: 4), // 4 dimensions
+
+                    Tolerance = 0.001,
+                    Iterations = 100,
+
+                    // This is necessary so the code doesn't blow up when it realizes there is only one 
+                    // sample per word class. But this could also be needed in normal situations as well:
+                    FittingOptions = new IndependentOptions()
+                    {
+                        InnerOption = new NormalOptions() { Regularization = 1e-5 }
+                    }
+                }
+            };
+
+            // PS: In case you find exceptions trying to configure your model, you might want 
+            //     to try disabling parallel processing to get more descriptive error messages:
+            // teacher.ParallelOptions.MaxDegreeOfParallelism = 1;
+
+            // Finally, we can run the learning algorithm!
+            var hmm = teacher.Learn(words, labels);
+            double logLikelihood = teacher.LogLikelihood;
+
+            // At this point, the classifier should be successfully 
+            // able to distinguish between our three word classes:
+            //
+            int tc1 = hmm.Decide(hello);    // should be 0
+            int tc2 = hmm.Decide(car);      // should be 1
+            int tc3 = hmm.Decide(wardrobe); // should be 2
+            #endregion 
+
+            Assert.AreEqual(0, tc1);
+            Assert.AreEqual(1, tc2);
+            Assert.AreEqual(2, tc3);
+
+            #region doc_learn_2
+            // Now, we can use the Markov classifier to initialize a HCRF
+            var baseline = HiddenConditionalRandomField.FromHiddenMarkov(hmm);
+
+            // We can check that both are equivalent, although they have
+            // formulations that can be learned with different methods:
+            int[] predictedLabels = baseline.Decide(words);
+
+            #endregion 
+
+            // We can check that both are equivalent, although they have
+            // formulations that can be learned with different methods
+            //
+            for (int i = 0; i < words.Length; i++)
+            {
+                // Should be the same
+                int expected = hmm.Decide(words[i]);
+                int actual = baseline.Decide(words[i]);
+
+                // Should be the same
+                double h0 = hmm.LogLikelihood(words[i], 0);
+                double c0 = baseline.LogLikelihood(words[i], 0);
+
+                double h1 = hmm.LogLikelihood(words[i], 1);
+                double c1 = baseline.LogLikelihood(words[i], 1);
+
+                double h2 = hmm.LogLikelihood(words[i], 2);
+                double c2 = baseline.LogLikelihood(words[i], 2);
+
+                Assert.AreEqual(expected, predictedLabels[i]);
+                Assert.AreEqual(expected, actual);
+                Assert.AreEqual(h0, c0, 1e-10);
+                Assert.IsTrue(h1.IsRelativelyEqual(c1, 1e-10));
+                Assert.IsTrue(h2.IsRelativelyEqual(c2, 1e-10));
+            }
+
+            Accord.Math.Random.Generator.Seed = 0;
+
+            #region doc_learn_3
+            // Now we can learn the HCRF using one of the best learning
+            // algorithms available, Resilient Backpropagation learning:
+
+            // Create the Resilient Backpropagation learning algorithm
+            var rprop = new HiddenResilientGradientLearning<double[]>()
+            {
+                Function = baseline.Function, // use the same HMM function
+
+                Iterations = 50,
+                Tolerance = 1e-5
+            };
+
+            // Run the algorithm and learn the models
+            var hcrf = rprop.Learn(words, labels);
+
+            // At this point, the HCRF should be successfully 
+            // able to distinguish between our three word classes:
+            //
+            int hc1 = hcrf.Decide(hello);    // should be 0
+            int hc2 = hcrf.Decide(car);      // should be 1
+            int hc3 = hcrf.Decide(wardrobe); // should be 2
+            #endregion
+
+            Assert.AreEqual(0, hc1); 
+            Assert.AreEqual(1, hc2); 
+            Assert.AreEqual(2, hc3); 
+        }
 
 
 
@@ -421,9 +592,9 @@ namespace Accord.Tests.Statistics.Models.Fields
                 Assert.AreEqual(e.StateParameters.Offset, a.StateParameters.Offset);
 
                 Assert.AreEqual(target.Function, a.Owner);
-                Assert.AreEqual(hcrf.Function, e.Owner);    
+                Assert.AreEqual(hcrf.Function, e.Owner);
             }
-            
+
             Assert.AreEqual(hcrf.Function.Features.Length, target.Function.Features.Length);
             for (int i = 0; i < hcrf.Function.Factors.Length; i++)
                 Assert.AreEqual(hcrf.Function.Features[i].GetType(), target.Function.Features[i].GetType());
@@ -431,7 +602,7 @@ namespace Accord.Tests.Statistics.Models.Fields
             Assert.AreEqual(hcrf.Function.Outputs, target.Function.Outputs);
 
             for (int i = 0; i < hcrf.Function.Weights.Length; i++)
-                Assert.AreEqual(hcrf.Function.Weights[i], target.Function.Weights[i]);    
+                Assert.AreEqual(hcrf.Function.Weights[i], target.Function.Weights[i]);
         }
 
     }

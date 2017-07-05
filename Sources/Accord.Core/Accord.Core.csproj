@@ -31,8 +31,13 @@
     <DefineConstants>TRACE;NET46</DefineConstants>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'net462|AnyCPU' ">
+    <DefineConstants>TRACE;NET462</DefineConstants>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'mono|AnyCPU'">
     <DefineConstants>TRACE;MONO</DefineConstants>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <ItemGroup>
@@ -56,6 +61,7 @@
     <Compile Include="Collections\TreeTraversal.cs" />
     <Compile Include="Compatibility\EnumerableEx.cs" />
     <Compile Include="Compatibility\Stream.cs" />
+    <Compile Include="Compatibility\TypeExtensions.cs" />
     <Compile Include="Debug.cs" />
     <Compile Include="InterlockedEx.cs" />
     <Compile Include="MachineLearning\Classifiers\IClassifier.cs" />
@@ -71,11 +77,17 @@
     <Compile Include="MachineLearning\Classifiers\Tagging\ITagger.cs" />
     <Compile Include="MachineLearning\Classifiers\Tagging\ILikelihoodTagger.cs" />
     <Compile Include="MachineLearning\Classifiers\Tagging\IScoreTagger.cs" />
+    <Compile Include="MachineLearning\IParallel.cs" />
     <Compile Include="MachineLearning\ITransform.cs" />
     <Compile Include="MachineLearning\Regression\IMultipleRegression.cs" />
     <Compile Include="MachineLearning\Regression\IRegression.cs" />
     <Compile Include="MachineLearning\Unsupervised\IGenerative.cs" />
     <Compile Include="Math\RationalConverter.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\VersionInfo.cs" />
     <Compile Include="Ranges\ByteRange.cs" />
     <Compile Include="Ranges\DoubleRange.cs" />
@@ -116,7 +128,7 @@
     <Compile Include="Exceptions\SingularMatrixException.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Collections\ReadOnlyOrderedDictionary.cs" />
+    <Compile Include="Collections\ReadOnlyKeyedCollection.cs" />
     <Compile Include="Collections\ReadOnlyDictionary.cs" />
     <Compile Include="Collections\RedBlackTreeDictionary`2.cs" />
     <Compile Include="Collections\RedBlackTreeNode.cs" />
@@ -160,7 +172,12 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

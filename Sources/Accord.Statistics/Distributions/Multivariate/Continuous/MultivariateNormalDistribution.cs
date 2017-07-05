@@ -427,7 +427,7 @@ namespace Accord.Statistics.Distributions.Multivariate
         /// 
         /// <returns>The Mahalanobis distance between the point and this distribution.</returns>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public double Mahalanobis(double[] x)
@@ -719,10 +719,12 @@ namespace Accord.Statistics.Distributions.Multivariate
         /// 
         /// <param name="samples">The number of samples to generate.</param>
         /// <param name="result">The location where to store the samples.</param>
-        /// 
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        ///
         /// <returns>A random vector of observations drawn from this distribution.</returns>
         /// 
-        public override double[][] Generate(int samples, double[][] result)
+        public override double[][] Generate(int samples, double[][] result, Random source)
         {
             if (chol == null)
                 throw new NonPositiveDefiniteMatrixException("Covariance matrix is not positive definite.");
@@ -733,7 +735,7 @@ namespace Accord.Statistics.Distributions.Multivariate
 
             for (int i = 0; i < samples; i++)
             {
-                NormalDistribution.Random(Dimension, result: z);
+                NormalDistribution.Random(Dimension, result: z, source: source);
                 Matrix.Dot(A, z, result: result[i]);
                 Elementwise.Add(result[i], u, result: result[i]);
             }

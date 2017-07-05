@@ -60,7 +60,9 @@ namespace Accord.Math.Optimization
 {
     using System;
     using System.Diagnostics;
+    using System.Runtime.CompilerServices;
     using System.Threading;
+    using QFunc = System.Func<int, int[], int, double[], double[]>;
 
     /// <summary>
     ///   General Sequential Minimal Optimization algorithm for Quadratic Programming problems.
@@ -104,7 +106,8 @@ namespace Accord.Math.Optimization
         enum Status { LOWER_BOUND, UPPER_BOUND, FREE };
         Status[] alpha_status;
         double[] alpha;
-        Func<int, int, double> Q;
+        QFunc Q;
+        double[] temp;
         double[] QD; // diagonal
         double eps = 0.001;
         double[] C;
@@ -188,7 +191,7 @@ namespace Accord.Math.Optimization
 
         /// <summary>
         ///   Gets or sets a value indicating whether shrinking
-        ///   heuristics should be used.
+        ///   heuristics should be used. Default is false.
         /// </summary>
         /// 
         /// <value>
@@ -228,7 +231,7 @@ namespace Accord.Math.Optimization
         ///   The quadratic matrix Q. It should be specified as a lambda 
         ///   function so Q doesn't need to be always kept in memory.</param>
         /// 
-        public FanChenLinQuadraticOptimization(int numberOfVariables, Func<int, int, double> Q)
+        public FanChenLinQuadraticOptimization(int numberOfVariables, QFunc Q)
         {
             var zeros = new double[numberOfVariables];
             var ones = new int[numberOfVariables];
@@ -250,12 +253,12 @@ namespace Accord.Math.Optimization
         /// <param name="p">The vector of linear terms p. Default is a zero vector.</param>
         /// <param name="y">The class labels y. Default is a unit vector.</param>
         /// 
-        public FanChenLinQuadraticOptimization(int numberOfVariables, Func<int, int, double> Q, double[] p, int[] y)
+        public FanChenLinQuadraticOptimization(int numberOfVariables, QFunc Q, double[] p, int[] y)
         {
             initialize(numberOfVariables, Q, p, y);
         }
 
-        private void initialize(int numberOfVariables, Func<int, int, double> Q, double[] p, int[] y)
+        private void initialize(int numberOfVariables, QFunc Q, double[] p, int[] y)
         {
             setNumberOfVariables(numberOfVariables);
 
@@ -291,14 +294,16 @@ namespace Accord.Math.Optimization
         /// 
         public bool Minimize()
         {
+            temp = new double[l];
             QD = new double[l];
             for (int k = 0; k < QD.Length; k++)
-                QD[k] = Q(k, k);
-
-            unshrink = false;
+                QD[k] = Q(k, new[] { k }, 1, temp)[0];
 
             var Q_i = new double[l];
             var Q_j = new double[l];
+
+            unshrink = false;
+
 
             // initialize alpha_status
             {
@@ -331,7 +336,7 @@ namespace Accord.Math.Optimization
                 {
                     if (!is_lower_bound(i))
                     {
-                        row(i, l, Q_i);
+                        Q(i, indices, l, Q_i);
 
                         double alpha_i = alpha[i];
                         for (int j = 0; j < l; j++)
@@ -388,8 +393,8 @@ namespace Accord.Math.Optimization
                 ++iter;
 
                 // update alpha[i] and alpha[j], handle bounds carefully
-                row(i, active_size, Q_i);
-                row(j, active_size, Q_j);
+                Q(i, indices, active_size, Q_i);
+                Q(j, indices, active_size, Q_j);
 
                 double C_i = C[i];
                 double C_j = C[j];
@@ -502,7 +507,7 @@ namespace Accord.Math.Optimization
 
                     if (ui != is_upper_bound(i))
                     {
-                        row(i, l, Q_i);
+                        Q(i, indices, l, Q_i);
 
                         if (ui)
                         {
@@ -518,7 +523,7 @@ namespace Accord.Math.Optimization
 
                     if (uj != is_upper_bound(j))
                     {
-                        row(j, l, Q_j);
+                        Q(j, indices, l, Q_j);
 
                         if (uj)
                         {
@@ -631,11 +636,11 @@ namespace Accord.Math.Optimization
             {
                 for (int i = active_size; i < l; i++)
                 {
-                    int ii = indices[i];
+                    Q(indices[i], indices, active_size, temp);
                     for (int j = 0; j < active_size; j++)
                     {
                         if (is_free(j))
-                            G[i] += alpha[j] * Q(ii, indices[j]);
+                            G[i] += alpha[j] * temp[j];
                     }
                 }
             }
@@ -645,10 +650,10 @@ namespace Accord.Math.Optimization
                 {
                     if (is_free(i))
                     {
-                        int ii = indices[i];
+                        Q(indices[i], indices, l, temp);
                         double alpha_i = alpha[i];
                         for (int j = active_size; j < l; j++)
-                            G[j] += alpha_i * Q(ii, indices[j]);
+                            G[j] += alpha_i * temp[j];
                     }
                 }
             }
@@ -701,7 +706,7 @@ namespace Accord.Math.Optimization
             if (i != -1)
             {
                 Q_i = new double[active_size];
-                row(i, active_size, Q_i); // NULL Q_i not accessed: Gmax=-INF if i=-1
+                Q(i, indices, active_size, Q_i); // NULL Q_i not accessed: Gmax=-INF if i=-1
             }
 
             for (int j = 0; j < active_size; j++)
@@ -889,31 +894,29 @@ namespace Accord.Math.Optimization
             return false;
         }
 
-        // TODO: Remove this method and ask Q for a row direcly
-        void row(int i, int length, double[] row)
-        {
-            int ii = indices[i];
-            for (int j = 0; j < length; j++)
-                row[j] = Q(ii, indices[j]);
-        }
-
+#if !NET35 && !NET40
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         void swap_index(int i, int j)
         {
-            swap(ref indices[i], ref indices[j]);
-            swap(ref y[i], ref y[j]);
-            swap(ref G[i], ref G[j]);
-            swap(ref alpha_status[i], ref alpha_status[j]);
-            swap(ref alpha[i], ref alpha[j]);
-            swap(ref p[i], ref p[j]);
-            swap(ref active_set[i], ref active_set[j]);
-            swap(ref G_bar[i], ref G_bar[j]);
+            swap(indices, i, j);
+            swap(y, i, j);
+            swap(G, i, j);
+            swap(alpha_status, i, j);
+            swap(alpha, i, j);
+            swap(p, i, j);
+            swap(active_set, i, j);
+            swap(G_bar, i, j);
         }
 
-        static void swap<T>(ref T a, ref T b)
+#if !NET35 && !NET40
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        static void swap<T>(T[] array, int i, int j)
         {
-            T t = a;
-            a = b;
-            b = t;
+            T t = array[i];
+            array[i] = array[j];
+            array[j] = t;
         }
 
     }

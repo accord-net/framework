@@ -774,7 +774,7 @@ namespace Accord
         // sort the first, middle and last elements to prevent cases that
         // would trigger worst-case performance in the sorting algorithm.
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         private static int pivot<T, U>(T[] keys, U[] items, int first, int last, bool asc)
@@ -802,7 +802,7 @@ namespace Accord
             return middle;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         private static int pivot<T>(T[] keys, int first, int last, bool asc)
@@ -824,7 +824,7 @@ namespace Accord
         }
 
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         private static int pivot<T, U>(T[] keys, U[] items, int first, int last, Func<T, T, int> comparer, bool asc)
@@ -852,7 +852,7 @@ namespace Accord
             return middle;
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         private static int pivot<T>(T[] keys, int first, int last, Func<T, T, int> comparer, bool asc)

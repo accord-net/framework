@@ -106,8 +106,8 @@ namespace Accord.Imaging
     [Serializable]
     public class BagOfVisualWords :
             BaseBagOfVisualWords<BagOfVisualWords,
-                SpeededUpRobustFeaturePoint, double[], 
-                IClusteringAlgorithm<double[]>,
+                SpeededUpRobustFeaturePoint, double[],
+                IUnsupervisedLearning<IClassifier<double[], int>, double[], int>,
                 SpeededUpRobustFeaturesDetector>
     {
         /// <summary>
@@ -131,7 +131,8 @@ namespace Accord.Imaging
         /// 
         /// <param name="algorithm">The clustering algorithm to use.</param>
         /// 
-        public BagOfVisualWords(IClusteringAlgorithm<double[]> algorithm)
+        public BagOfVisualWords(//IClusteringAlgorithm<double[]>
+            IUnsupervisedLearning<IClassifier<double[], int>, double[], int> algorithm)
         {
             base.Init(new SpeededUpRobustFeaturesDetector(), algorithm);
         }
@@ -239,7 +240,7 @@ namespace Accord.Imaging
         /// 
         public static BagOfVisualWords<IFeatureDescriptor<double[]>, double[], TClustering, TDetector>
             Create<TDetector, TClustering>(TDetector detector, TClustering clustering)
-            where TClustering : IClusteringAlgorithm<double[]>
+            where TClustering : IUnsupervisedLearning<IClassifier<double[], int>, double[], int> //IClusteringAlgorithm<double[]>
             where TDetector : IFeatureDetector<IFeatureDescriptor<double[]>, double[]>
         {
             return Create<TDetector, TClustering, IFeatureDescriptor<double[]>, double[]>(detector, clustering);
@@ -262,7 +263,7 @@ namespace Accord.Imaging
         /// 
         public static BagOfVisualWords<SpeededUpRobustFeaturePoint, double[], TClustering, SpeededUpRobustFeaturesDetector>
             Create<TClustering>(TClustering clustering)
-            where TClustering : IClusteringAlgorithm<double[]>
+            where TClustering : IUnsupervisedLearning<IClassifier<double[], int>, double[], int>// IClusteringAlgorithm<double[]>
         {
             return Create<SpeededUpRobustFeaturesDetector, TClustering, SpeededUpRobustFeaturePoint, double[]>(new SpeededUpRobustFeaturesDetector(), clustering);
         }
@@ -274,7 +275,7 @@ namespace Accord.Imaging
         /// 
         public static BagOfVisualWords<IFeatureDescriptor<TFeature>, TFeature, TClustering, TDetector>
             Create<TDetector, TClustering, TFeature>(TDetector detector, TClustering clustering)
-            where TClustering : IClusteringAlgorithm<TFeature>
+            where TClustering : IUnsupervisedLearning<IClassifier<TFeature, int>, TFeature, int> //IClusteringAlgorithm<TFeature>
             where TDetector : IFeatureDetector<IFeatureDescriptor<TFeature>, TFeature>
         {
             return Create<TDetector, TClustering, IFeatureDescriptor<TFeature>, TFeature>(detector, clustering);
@@ -287,7 +288,7 @@ namespace Accord.Imaging
         public static BagOfVisualWords<TPoint, TFeature, TClustering, TDetector>
             Create<TDetector, TClustering, TPoint, TFeature>(TDetector detector, TClustering clustering)
             where TPoint : IFeatureDescriptor<TFeature>
-            where TClustering : IClusteringAlgorithm<TFeature>
+            where TClustering : IUnsupervisedLearning<IClassifier<TFeature, int>, TFeature, int> //IClusteringAlgorithm<TFeature>
             where TDetector : IFeatureDetector<TPoint, TFeature>
         {
             return new BagOfVisualWords<TPoint, TFeature, TClustering, TDetector>(detector, clustering);

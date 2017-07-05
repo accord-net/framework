@@ -28,6 +28,7 @@ namespace Accord.MachineLearning
     using Accord.Math;
     using Accord.Math.Distances;
     using Statistics;
+    using System.Collections;
 
     /// <summary>
     ///   Base class for K-Nearest Neighbor (k-NN) algorithms.
@@ -173,7 +174,7 @@ namespace Accord.MachineLearning
         /// 
         /// <param name="x">The model inputs.</param>
         /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
-        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <param name="weights">The weight of importance for each input-output pair (if supported by the learning algorithm).</param>
         /// 
         /// <returns>A model that has learned how to produce <paramref name="y"/> given <paramref name="x"/>.</returns>
         /// 
@@ -188,7 +189,7 @@ namespace Accord.MachineLearning
         /// 
         /// <param name="x">The model inputs.</param>
         /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
-        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <param name="weights">The weight of importance for each input-output pair (if supported by the learning algorithm).</param>
         /// 
         /// <returns>A model that has learned how to produce <paramref name="y"/> given <paramref name="x"/>.</returns>
         /// 
@@ -203,7 +204,7 @@ namespace Accord.MachineLearning
         /// 
         /// <param name="x">The model inputs.</param>
         /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
-        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <param name="weights">The weight of importance for each input-output pair (if supported by the learning algorithm).</param>
         /// 
         /// <returns>A model that has learned how to produce <paramref name="y"/> given <paramref name="x"/>.</returns>
         /// 
@@ -232,6 +233,24 @@ namespace Accord.MachineLearning
 
             if (distance == null)
                 throw new ArgumentNullException("distance");
+        }
+
+        internal int GetNumberOfInputs(TInput[] x)
+        {
+            var first = x[0] as IList;
+            if (first == null)
+                return 0;
+
+            int length = first.Count;
+
+            for (int i = 0; i < x.Length; i++)
+            {
+                IList l = x[i] as IList;
+                if (l == null || l.Count != length)
+                    return 0;
+            }
+
+            return length;
         }
 
     }

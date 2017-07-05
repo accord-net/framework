@@ -31,27 +31,13 @@ namespace Accord.Tests.MachineLearning
     using Accord.Statistics.Models.Markov;
     using Accord.Statistics.Models.Markov.Learning;
     using NUnit.Framework;
+    using Accord.Math.Optimization.Losses;
+    using Accord.Statistics.Analysis;
+    using Accord.MachineLearning.Performance;
 
     [TestFixture]
     public class CrossvalidationTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
 
         [Test]
         public void SplittingsTest()
@@ -210,6 +196,202 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(3, result.Models.Length);
         }
 
+        [Test]
+        public void learn_test()
+        {
+            #region doc_learn
+            // Ensure results are reproducible
+            Accord.Math.Random.Generator.Seed = 0;
+
+            // This is a sample code on how to use Cross-Validation
+            // to assess the performance of Support Vector Machines.
+
+            // Consider the example binary data. We will be trying
+            // to learn a XOR problem and see how well does SVMs
+            // perform on this data.
+
+            double[][] data =
+            {
+                new double[] { -1, -1 }, new double[] {  1, -1 },
+                new double[] { -1,  1 }, new double[] {  1,  1 },
+                new double[] { -1, -1 }, new double[] {  1, -1 },
+                new double[] { -1,  1 }, new double[] {  1,  1 },
+                new double[] { -1, -1 }, new double[] {  1, -1 },
+                new double[] { -1,  1 }, new double[] {  1,  1 },
+                new double[] { -1, -1 }, new double[] {  1, -1 },
+                new double[] { -1,  1 }, new double[] {  1,  1 },
+            };
+
+            int[] xor = // result of xor for the sample input data
+            {
+                -1,       1,
+                 1,      -1,
+                -1,       1,
+                 1,      -1,
+                -1,       1,
+                 1,      -1,
+                -1,       1,
+                 1,      -1,
+            };
+
+
+            // Create a new Cross-validation algorithm passing the data set size and the number of folds
+            var crossvalidation = new CrossValidation<SupportVectorMachine<Linear, double[]>, double[]>()
+            {
+                K = 3, // Use 3 folds in cross-validation
+
+                // Indicate how learning algorithms for the models should be created
+                Learner = (s) => new SequentialMinimalOptimization<Linear, double[]>()
+                {
+                    Complexity = 100
+                },
+
+                // Indicate how the performance of those models will be measured
+                Loss = (expected, actual, p) => new ZeroOneLoss(expected).Loss(actual),
+
+                Stratify = false, // do not force balancing of classes
+            };
+
+            crossvalidation.ParallelOptions.MaxDegreeOfParallelism = 1;
+
+            // Compute the cross-validation
+            var result = crossvalidation.Learn(data, xor);
+
+            // Finally, access the measured performance.
+            double trainingErrors = result.Training.Mean;
+            double validationErrors = result.Validation.Mean;
+            #endregion
+
+            Assert.AreEqual(3, crossvalidation.K);
+            Assert.AreEqual(0.37575757575757579, result.Training.Mean, 1e-10);
+            Assert.AreEqual(0.75555555555555554, result.Validation.Mean, 1e-10);
+
+            Assert.AreEqual(0.00044077134986225924, result.Training.Variance, 1e-10);
+            Assert.AreEqual(0.0059259259259259334, result.Validation.Variance, 1e-10);
+
+            Assert.AreEqual(0.020994555243259126, result.Training.StandardDeviation, 1e-10);
+            Assert.AreEqual(0.076980035891950155, result.Validation.StandardDeviation, 1e-10);
+
+            Assert.AreEqual(0, result.Training.PooledStandardDeviation);
+            Assert.AreEqual(0, result.Validation.PooledStandardDeviation);
+
+            Assert.AreEqual(3, crossvalidation.Folds.Length);
+            Assert.AreEqual(3, result.Models.Length);
+        }
+
+        [Test]
+        public void learn_hmm()
+        {
+            #region doc_learn_hmm
+            // Ensure results are reproducible
+            Accord.Math.Random.Generator.Seed = 0;
+
+            // This is a sample code on how to use Cross-Validation
+            // to assess the performance of Hidden Markov Models.
+
+            // Declare some testing data
+            int[][] inputs = new int[][]
+            {
+                new int[] { 0,1,1,0 },   // Class 0
+                new int[] { 0,0,1,0 },   // Class 0
+                new int[] { 0,1,1,1,0 }, // Class 0
+                new int[] { 0,1,1,1,0 }, // Class 0
+                new int[] { 0,1,1,0 },   // Class 0
+
+                new int[] { 0,0,0,0,0 }, // Class 1
+                new int[] { 0,0,0,1,0 }, // Class 1
+                new int[] { 0,0,0,0,0 }, // Class 1
+                new int[] { 0,0,0 },     // Class 1
+                new int[] { 0,0,0,0 },   // Class 1
+
+                new int[] { 1,0,0,1 },   // Class 2
+                new int[] { 1,1,0,1 },   // Class 2
+                new int[] { 1,0,0,0,1 }, // Class 2
+                new int[] { 1,0,1 },     // Class 2
+                new int[] { 1,1,0,1 },   // Class 2
+            };
+
+            int[] outputs = new int[]
+            {
+                0,0,0,0,0, // First  5 sequences are of class 0
+                1,1,1,1,1, // Middle 5 sequences are of class 1
+                2,2,2,2,2, // Last   5 sequences are of class 2
+            };
+
+            // Create a new Cross-validation algorithm passing the data set size and the number of folds
+            var crossvalidation = new CrossValidation<HiddenMarkovClassifier, int[]>()
+            {
+                K = 3, // Use 3 folds in cross-validation
+                Learner = (s) => new HiddenMarkovClassifierLearning()
+                {
+                    Learner = (p) => new BaumWelchLearning()
+                    {
+                        NumberOfStates = 3
+                    }
+                },
+
+                Loss = (expected, actual, p) => 
+                {
+                    var cm = new GeneralConfusionMatrix(classes: p.Model.NumberOfClasses, expected: expected, predicted: actual);
+                    p.Variance = cm.Variance;
+                    return p.Value = cm.Kappa;
+                },
+
+                Stratify = false,
+            };
+
+            // Compute the cross-validation
+            var result = crossvalidation.Learn(inputs, outputs);
+
+            // Finally, access the measured performance.
+            double trainingErrors = result.Training.Mean;
+            double validationErrors = result.Validation.Mean;
+
+            double trainingErrorVar = result.Training.Variance;
+            double validationErrorVar = result.Validation.Variance;
+
+            double trainingErrorPooledVar = result.Training.PooledVariance;
+            double validationErrorPooledVar = result.Validation.PooledVariance;
+            #endregion
+
+            Assert.AreEqual(5, result.AverageNumberOfSamples);
+            Assert.AreEqual(15, result.NumberOfSamples);
+
+            Assert.AreEqual(0, result.NumberOfInputs);
+            Assert.AreEqual(3, result.NumberOfOutputs);
+            Assert.AreEqual(3, result.Models.Length);
+
+            for (int i = 0; i < 3; i++)
+            {
+                Assert.AreEqual(0, result.Models[i].NumberOfInputs);
+                Assert.AreEqual(3, result.Models[i].NumberOfOutputs);
+                Assert.AreEqual(3, result.Models[i].Model.NumberOfClasses);
+                Assert.AreEqual(0, result.Models[i].Model.NumberOfInputs);
+                Assert.AreEqual(3, result.Models[i].Model.NumberOfOutputs);
+
+                Assert.AreEqual(10, result.Models[i].Training.NumberOfSamples);
+                Assert.AreEqual(5, result.Models[i].Validation.NumberOfSamples);
+            }
+
+            Assert.AreEqual(3, crossvalidation.K);
+            Assert.AreEqual(1.0, result.Training.Mean, 1e-10);
+            Assert.AreEqual(0.78472222222222232, result.Validation.Mean, 1e-10);
+
+            Assert.AreEqual(0, result.Training.Variance, 1e-10);
+            Assert.AreEqual(0.034866898148148126, result.Validation.Variance, 1e-10);
+
+            Assert.AreEqual(0, result.Training.StandardDeviation, 1e-10);
+            Assert.AreEqual(0.18672680082984372, result.Validation.StandardDeviation, 1e-10);
+
+            Assert.AreEqual(0, result.Training.PooledVariance);
+            Assert.AreEqual(0.045256528501157391, result.Validation.PooledVariance);
+
+            Assert.AreEqual(0, result.Training.PooledStandardDeviation);
+            Assert.AreEqual(0.21273581856649668, result.Validation.PooledStandardDeviation);
+
+            Assert.AreEqual(3, crossvalidation.Folds.Length);
+            Assert.AreEqual(3, result.Models.Length);
+        }
 
         [Test]
         public void CrossvalidationConstructorTest2()
@@ -319,7 +501,7 @@ namespace Accord.Tests.MachineLearning
 
             Assert.AreEqual(3, crossvalidation.K);
             Assert.AreEqual(0, result.Training.Mean);
-            Assert.AreEqual(0.055555555555555552, result.Validation.Mean);
+            Assert.AreEqual(0, result.Validation.Mean);
 
             Assert.AreEqual(3, crossvalidation.Folds.Length);
             Assert.AreEqual(3, result.Models.Length);

@@ -22,6 +22,7 @@
 
 namespace Accord.IO
 {
+#if !NETSTANDARD2_0
     using System;
     using System.Collections.Generic;
     using System.Data;
@@ -358,5 +359,5 @@ namespace Accord.IO
         }
 
     }
-
+#endif
 }

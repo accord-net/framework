@@ -71,6 +71,8 @@ namespace Accord.Tests.MachineLearning
 
             // Create a simple linear regression
             var regression = new SimpleLinearRegression();
+            Assert.AreEqual(1 , regression.NumberOfInputs);
+            Assert.AreEqual(1, regression.NumberOfOutputs);
 
             // Estimate a line passing through the (x, y) points
             double sumOfSquaredErrors = regression.Regress(x, y);

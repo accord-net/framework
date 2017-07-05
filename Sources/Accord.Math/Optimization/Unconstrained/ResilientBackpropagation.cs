@@ -134,8 +134,8 @@ namespace Accord.Math.Optimization
         /// 
         public int Iterations
         {
-            get { return convergence.Iterations; }
-            set { convergence.Iterations = value; }
+            get { return convergence.MaxIterations; }
+            set { convergence.MaxIterations = value; }
         }
 
         /// <summary>

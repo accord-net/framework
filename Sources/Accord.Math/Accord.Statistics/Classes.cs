@@ -25,6 +25,7 @@ namespace Accord.Statistics
     using Accord.Math;
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Runtime.CompilerServices;
 
     /// <summary>
@@ -357,6 +358,57 @@ namespace Accord.Statistics
         }
 
         /// <summary>
+        ///   Returns a random group assignment for a sample, making
+        ///   sure different class labels are distributed evenly among
+        ///   the groups.
+        /// </summary>
+        /// 
+        /// <param name="labels">A vector containing class labels.</param>
+        /// <param name="proportion">The proportion of positive and negative samples.</param>
+        /// 
+        public static int[] Random(int[] labels, double proportion)
+        {
+            if (labels.DistinctCount() != 2)
+                throw new ArgumentException("Only two classes are supported.", "labels");
+
+            int negative = labels.Min();
+            int positive = labels.Max();
+
+            var negativeIndices = labels.Find(i => i == negative).ToList();
+            var positiveIndices = labels.Find(i => i == positive).ToList();
+
+            int positiveCount = positiveIndices.Count;
+            int negativeCount = negativeIndices.Count;
+
+            int firstGroupPositives = (int)((positiveCount / 2.0) * proportion);
+            int firstGroupNegatives = (int)((negativeCount / 2.0) * proportion);
+
+            List<int> training = new List<int>();
+            List<int> testing = new List<int>();
+
+            // Put positives and negatives into training
+            for (int j = 0; j < firstGroupNegatives; j++)
+            {
+                training.Add(negativeIndices[0]);
+                negativeIndices.RemoveAt(0);
+            }
+
+            for (int j = 0; j < firstGroupPositives; j++)
+            {
+                training.Add(positiveIndices[0]);
+                positiveIndices.RemoveAt(0);
+            }
+
+            testing.AddRange(negativeIndices);
+            testing.AddRange(positiveIndices);
+
+            int[] indices = new int[labels.Length];
+            for (int i = 0; i < testing.Count; i++)
+                indices[testing[i]] = 1;
+            return indices;
+        }
+
+        /// <summary>
         ///   Gets the percentage of positive samples in a set of class labels.
         /// </summary>
         /// 
@@ -396,7 +448,7 @@ namespace Accord.Statistics
         ///   Converts a boolean variable into a 0-or-1 representation (0 is false, 1 is true).
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int ToZeroOne(this bool p)
@@ -408,7 +460,7 @@ namespace Accord.Statistics
         ///   Converts a boolean variable into a 0-or-1 representation (0 is false, 1 is true).
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int ToZeroOne(this int p)
@@ -420,7 +472,7 @@ namespace Accord.Statistics
         ///   Converts a boolean variable into a 0-or-1 representation (0 is false, 1 is true).
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int ToZeroOne(this double p)
@@ -468,7 +520,7 @@ namespace Accord.Statistics
         ///   Converts a boolean variable into a -1 or +1 representation (-1 is false, +1 is true).
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int ToMinusOnePlusOne(this bool p)
@@ -480,7 +532,7 @@ namespace Accord.Statistics
         ///   Converts a boolean variable into a -1 or +1 representation (-1 is false, +1 is true).
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int ToMinusOnePlusOne(this int p)
@@ -492,7 +544,7 @@ namespace Accord.Statistics
         ///   Converts a boolean variable into a -1 or +1 representation (-1 is false, +1 is true).
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static int ToMinusOnePlusOne(this double p)
@@ -648,7 +700,7 @@ namespace Accord.Statistics
         ///   is higher than zero, and false otherwise.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static bool Decide(double distance)
@@ -661,7 +713,7 @@ namespace Accord.Statistics
         ///   is higher than zero, and false otherwise.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static bool Decide(int label)

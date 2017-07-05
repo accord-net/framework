@@ -22,8 +22,11 @@
 
 namespace Accord.Tests.Statistics
 {
+    using Accord.DataSets;
     using Accord.Math;
     using Accord.Math.Optimization.Losses;
+    using Accord.Statistics;
+    using Accord.Statistics.Analysis;
     using Accord.Statistics.Distributions.Fitting;
     using Accord.Statistics.Distributions.Multivariate;
     using Accord.Statistics.Distributions.Univariate;
@@ -32,12 +35,14 @@ namespace Accord.Tests.Statistics
     using Accord.Statistics.Models.Markov.Topology;
     using NUnit.Framework;
     using System;
-
+    using System.IO;
+    using System.Threading.Tasks;
 
     [TestFixture]
     public class GenericSequenceClassifierTest2
     {
-
+        const double EXPECTED_LOGLIKELIHOOD_1 = -13.275229544352495;
+        const double EXPECTED_LOGLIKELIHOOD_2 = -24.563151414305928;
 
         [Test]
         public void LearnTest1()
@@ -45,7 +50,7 @@ namespace Accord.Tests.Statistics
             #region doc_learn
             // Create a Continuous density Hidden Markov Model Sequence Classifier
             // to detect a univariate sequence and the same sequence backwards.
-            double[][] sequences = new double[][] 
+            double[][] sequences = new double[][]
             {
                 new double[] { 0,1,2,3,4 }, // This is the first  sequence with label = 0
                 new double[] { 4,3,2,1,0 }, // This is the second sequence with label = 1
@@ -93,9 +98,9 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(1, c2);
 
 
-            Assert.AreEqual(-13.271981026832929, logLikelihood, 1e-10);
-            Assert.AreEqual(0.99999791320102149, likelihood1, 1e-10);
-            Assert.AreEqual(0.99999791320102149, likelihood2, 1e-10);
+            Assert.AreEqual(EXPECTED_LOGLIKELIHOOD_1, logLikelihood, 1e-10);
+            Assert.AreEqual(0.999997742564007, likelihood1, 1e-10);
+            Assert.AreEqual(0.999997742564007, likelihood2, 1e-10);
         }
 
         [Test]
@@ -133,7 +138,7 @@ namespace Accord.Tests.Statistics
             // to detect a multivariate sequence and the same sequence backwards.
             double[][][] sequences = new double[][][]
             {
-                new double[][] 
+                new double[][]
                 { 
                     // This is the first  sequence with label = 0
                     new double[] { 0 },
@@ -141,7 +146,7 @@ namespace Accord.Tests.Statistics
                     new double[] { 2 },
                     new double[] { 3 },
                     new double[] { 4 },
-                }, 
+                },
 
                 new double[][]
                 {
@@ -193,9 +198,9 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0, c1);
             Assert.AreEqual(1, c2);
 
-            Assert.AreEqual(-13.271981026832929, logLikelihood, 1e-14);
-            Assert.AreEqual(0.99999791320102149, likelihood1, 1e-15);
-            Assert.AreEqual(0.99999791320102149, likelihood2, 1e-15);
+            Assert.AreEqual(EXPECTED_LOGLIKELIHOOD_1, logLikelihood, 1e-14);
+            Assert.AreEqual(0.999997742564007, likelihood1, 1e-10);
+            Assert.AreEqual(0.999997742564007, likelihood2, 1e-10);
         }
 
         [Test]
@@ -205,7 +210,7 @@ namespace Accord.Tests.Statistics
             // to detect a multivariate sequence and the same sequence backwards.
             double[][][] sequences = new double[][][]
             {
-                new double[][] 
+                new double[][]
                 { 
                     // This is the first  sequence with label = 0
                     new double[] { 0 },
@@ -213,7 +218,7 @@ namespace Accord.Tests.Statistics
                     new double[] { 2 },
                     new double[] { 3 },
                     new double[] { 4 },
-                }, 
+                },
 
                 new double[][]
                 {
@@ -272,9 +277,9 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0, c1);
             Assert.AreEqual(1, c2);
 
-            Assert.AreEqual(-13.271981026832933, logLikelihood, 1e-10);
-            Assert.AreEqual(0.99999791320102149, likelihood1, 1e-10);
-            Assert.AreEqual(0.99999791320102149, likelihood2, 1e-10);
+            Assert.AreEqual(EXPECTED_LOGLIKELIHOOD_1, logLikelihood, 1e-10);
+            Assert.AreEqual(0.999997742564007, likelihood1, 1e-10);
+            Assert.AreEqual(0.999997742564007, likelihood2, 1e-10);
         }
 
         [Test]
@@ -285,7 +290,7 @@ namespace Accord.Tests.Statistics
             // to detect a multivariate sequence and the same sequence backwards.
             double[][][] sequences = new double[][][]
             {
-                new double[][] 
+                new double[][]
                 { 
                     // This is the first  sequence with label = 0
                     new double[] { 0, 1 },
@@ -293,7 +298,7 @@ namespace Accord.Tests.Statistics
                     new double[] { 2, 3 },
                     new double[] { 3, 4 },
                     new double[] { 4, 5 },
-                }, 
+                },
 
                 new double[][]
                 {
@@ -310,28 +315,29 @@ namespace Accord.Tests.Statistics
             int[] labels = { 0, 1 };
 
 
-            var density = new MultivariateNormalDistribution(2);
-
-            // Creates a sequence classifier containing 2 hidden Markov Models with 2 states
-            // and an underlying multivariate mixture of Normal distributions as density.
-            var classifier = new HiddenMarkovClassifier<MultivariateNormalDistribution, double[]>(
-                2, new Ergodic(2), density);
-
             // Configure the learning algorithms to train the sequence classifier
-            var teacher = new HiddenMarkovClassifierLearning<MultivariateNormalDistribution, double[]>(classifier)
+            var teacher = new HiddenMarkovClassifierLearning<MultivariateNormalDistribution, double[]>()
             {
                 // Train each model until the log-likelihood changes less than 0.0001
-                Learner = modelIndex => new BaumWelchLearning<MultivariateNormalDistribution, double[]>(classifier.Models[modelIndex])
+                Learner = modelIndex => new BaumWelchLearning<MultivariateNormalDistribution, double[], NormalOptions>()
                 {
                     Tolerance = 0.0001,
                     Iterations = 0,
 
-                    FittingOptions = new NormalOptions() { Diagonal = true }
+                    Topology = new Ergodic(2),
+
+                    // Use a mixture of Normal distributions as the emissions densities:
+                    Emissions = (j) => new MultivariateNormalDistribution(2),
+
+                    FittingOptions = new NormalOptions()
+                    {
+                        Diagonal = true
+                    }
                 }
             };
 
             // Train the sequence classifier using the algorithm
-            teacher.Learn(sequences, labels);
+            var classifier = teacher.Learn(sequences, labels);
 
             double logLikelihood = teacher.LogLikelihood;
 
@@ -351,7 +357,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0, c1);
             Assert.AreEqual(1, c2);
 
-            Assert.AreEqual(-24.560599651649841, logLikelihood, 1e-10);
+            Assert.AreEqual(EXPECTED_LOGLIKELIHOOD_2, logLikelihood, 1e-10);
             Assert.AreEqual(0.99999999998806466, logLikelihood1, 1e-10);
             Assert.AreEqual(0.99999999998806466, logLikelihood2, 1e-10);
         }
@@ -363,7 +369,7 @@ namespace Accord.Tests.Statistics
             // to detect a multivariate sequence and the same sequence backwards.
             double[][][] sequences = new double[][][]
             {
-                new double[][] 
+                new double[][]
                 { 
                     // This is the first  sequence with label = 0
                     new double[] { 0, 1 },
@@ -371,7 +377,7 @@ namespace Accord.Tests.Statistics
                     new double[] { 2, 3 },
                     new double[] { 3, 4 },
                     new double[] { 4, 5 },
-                }, 
+                },
 
                 new double[][]
                 {
@@ -458,7 +464,7 @@ namespace Accord.Tests.Statistics
 
             double[][][] sequences = new double[][][]
             {
-                new double[][] 
+                new double[][]
                 { 
                     // This is the first  sequence with label = 0
                     new double[] { 0, 1 },
@@ -466,7 +472,7 @@ namespace Accord.Tests.Statistics
                     new double[] { 2, 3 },
                     new double[] { 3, 4 },
                     new double[] { 4, 5 },
-                }, 
+                },
 
                 new double[][]
                 {
@@ -528,13 +534,9 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0, c1);
             Assert.AreEqual(1, c2);
 
-            Assert.AreEqual(-24.560663315259973, logLikelihood, 1e-10);
-            Assert.AreEqual(0.99999999998805045, likelihood, 1e-10);
-            Assert.AreEqual(0.99999999998805045, likelihood2, 1e-10);
-
-            Assert.IsFalse(double.IsNaN(logLikelihood));
-            Assert.IsFalse(double.IsNaN(likelihood));
-            Assert.IsFalse(double.IsNaN(likelihood2));
+            Assert.AreEqual(-24.562624367319174, logLikelihood, 1e-10);
+            Assert.AreEqual(0.99999999998761879, likelihood, 1e-10);
+            Assert.AreEqual(0.99999999998761879, likelihood2, 1e-10);
         }
 
         [Test]
@@ -590,12 +592,78 @@ namespace Accord.Tests.Statistics
 
             // Train the sequence classifier using the algorithm
             teacher.Learn(inputs, outputs);
-            double likelihood = teacher.LogLikelihood;
+            double logLikelihood = teacher.LogLikelihood;
+            Assert.AreEqual(-24.857860924867822, logLikelihood, 1e-8);
+
+            double newLogLikelihood = testThresholdModel(inputs, outputs, classifier, logLikelihood);
+            Assert.AreEqual(0.80018252199044093, newLogLikelihood, 1e-8);
+        }
+
+        [Test]
+        public void LearnTest8_options()
+        {
+            // Declare some testing data
+            int[][] inputs = new double[][]
+            {
+                new double[] { 0,0,1,2 },     // Class 0
+                new double[] { 0,1,1,2 },     // Class 0
+                new double[] { 0,0,0,1,2 },   // Class 0
+                new double[] { 0,1,2,2,2 },   // Class 0
+
+                new double[] { 2,2,1,0 },     // Class 1
+                new double[] { 2,2,2,1,0 },   // Class 1
+                new double[] { 2,2,2,1,0 },   // Class 1
+                new double[] { 2,2,2,2,1 },   // Class 1
+            }.ToInt32();
+
+            int[] outputs = new int[]
+            {
+                0,0,0,0, // First four sequences are of class 0
+                1,1,1,1, // Last four sequences are of class 1
+            };
+
+            // Each sequence may have up to 3 symbols (0,1,2)
+            int symbols = 3;
+
+            // Nested models will have 3 states each
+            int[] states = new int[] { 3, 3 };
+
+            HiddenMarkovClassifier<GeneralDiscreteDistribution, int> baseline = HiddenMarkovClassifier.CreateGeneric2(2, states, symbols);
+
+            // Create a new learning algorithm to train the sequence classifier
+            var teacher = new HiddenMarkovClassifierLearning<GeneralDiscreteDistribution, int>()
+            {
+                // Train each model until the log-likelihood changes less than 0.001
+                Learner = i => new BaumWelchLearning<GeneralDiscreteDistribution, int, GeneralDiscreteOptions>()
+                {
+                    NumberOfStates = states[i],
+                    Emissions = (j) => new GeneralDiscreteDistribution(symbols: symbols),
+                    Tolerance = 0,
+                    MaxIterations = 10,
+                    CurrentIteration = 100
+                }
+            };
 
 
-            //Assert.AreEqual(-0.84036002169162149, likelihood);
+            HiddenMarkovClassifier<GeneralDiscreteDistribution, int> result = teacher.Learn(inputs, outputs);
 
-            likelihood = testThresholdModel(inputs, outputs, classifier, likelihood);
+            Assert.AreEqual(baseline.NumberOfClasses, result.NumberOfClasses);
+            Assert.AreEqual(baseline.NumberOfInputs, result.NumberOfInputs);
+            Assert.AreEqual(baseline.NumberOfOutputs, result.NumberOfOutputs);
+
+            for (int i = 0; i < baseline.NumberOfClasses; i++)
+            {
+                Assert.AreEqual(baseline[i].NumberOfOutputs, result[i].NumberOfOutputs);
+                Assert.AreEqual(baseline[i].NumberOfInputs, result[i].NumberOfInputs);
+                Assert.AreEqual(baseline[i].NumberOfClasses, result[i].NumberOfClasses);
+                Assert.AreEqual(baseline[i].NumberOfStates, result[i].NumberOfStates);
+
+                Assert.IsTrue(baseline[i].LogInitial.IsEqual(result[i].LogInitial));
+                Assert.IsTrue(baseline[i].LogTransitions.IsEqual(result[i].LogTransitions, 1e-8));
+
+                for (int j = 0; j < baseline[i].Emissions.Length; j++)
+                    Assert.IsTrue(baseline[i].Emissions[j].Frequencies.IsEqual(result[i].Emissions[j].Frequencies, rtol: 1e-8));
+            }
         }
 
         private static double testThresholdModel(int[][] inputs, int[] outputs, HiddenMarkovClassifier<GeneralDiscreteDistribution, int> classifier, double likelihood)
@@ -641,15 +709,13 @@ namespace Accord.Tests.Statistics
             logRejection = classifier.Probability(r0);
 
             Assert.AreEqual(-1, c);
-            Assert.AreEqual(0.99993993054384978, logRejection);
+            Assert.AreEqual(0.99996184856490966, logRejection, 1e-8);
 
             logRejection = threshold.LogLikelihood(r0);
-            Assert.AreEqual(-5.6367018741984483, logRejection);
-            Assert.IsFalse(double.IsNaN(logRejection));
+            Assert.AreEqual(-5.6143520098410855, logRejection, 1e-8);
 
             threshold.Decode(r0, out logRejection);
-            Assert.AreEqual(-8.1618027917853073, logRejection);
-            Assert.IsFalse(double.IsNaN(logRejection));
+            Assert.AreEqual(-8.1618027917853073, logRejection, 1e-8);
 
             foreach (var model in classifier.Models)
             {
@@ -727,6 +793,136 @@ namespace Accord.Tests.Statistics
             }
         }
 
+        [Test]
+#if DEBUG
+        [Ignore("Intensive")]
+#endif
+        public void learn_pendigits()
+        {
+            Accord.Math.Random.Generator.Seed = 0;
+
+            var pendigits = new Pendigits(path: Path.Combine(Path.GetTempPath(), "learn_pendigits"));
+
+            double[][][] inputs = pendigits.Training.Item1;
+            int[] outputs = pendigits.Training.Item2;
+
+            var teacher = new HiddenMarkovClassifierLearning<MultivariateNormalDistribution, double[]>()
+            {
+                Learner = (i) => new BaumWelchLearning<MultivariateNormalDistribution, double[]>()
+                {
+                    Topology = new Forward(5),
+                    Emissions = (j) => new MultivariateNormalDistribution(dimension: 2),
+
+                    Tolerance = 1e-6,
+                    MaxIterations = 1000,
+
+                    FittingOptions = new NormalOptions()
+                    {
+                        Regularization = 1e-5
+                    }
+                }
+            };
+
+            var hmmc = teacher.Learn(inputs, outputs);
+
+            int[] predicted = hmmc.Decide(inputs);
+
+            var cm = new ConfusionMatrix(predicted: predicted, expected: outputs);
+
+            double acc = cm.Accuracy;
+#if NET35
+            Assert.AreEqual(0.885934819897084d, acc, 1e-10);
+#else
+            Assert.AreEqual(0.90937678673527733, acc, 1e-10);
+#endif
+        }
+
+        [Test]
+#if DEBUG
+        [Ignore("Intensive")]
+#endif
+        public void learn_pendigits_normalization()
+        {
+#region doc_learn_pendigits
+            // Ensure we get reproducible results
+            Accord.Math.Random.Generator.Seed = 0;
+
+            // Download the PENDIGITS dataset from UCI ML repository
+            var pendigits = new Pendigits(path: Path.GetTempPath());
+
+            // Get and pre-process the training set
+            double[][][] trainInputs = pendigits.Training.Item1;
+            int[] trainOutputs = pendigits.Training.Item2;
+
+            // Pre-process the digits so each of them is centered and scaled
+            trainInputs = trainInputs.Apply(Accord.Statistics.Tools.ZScores);
+
+            // Create some prior distributions to help initialize our parameters
+            var priorC = new WishartDistribution(dimension: 2, degreesOfFreedom: 5);
+            var priorM = new MultivariateNormalDistribution(dimension: 2);
+
+            // Create a new learning algorithm for creating continuous hidden Markov model classifiers
+            var teacher = new HiddenMarkovClassifierLearning<MultivariateNormalDistribution, double[]>()
+            {
+                // This tells the generative algorithm how to train each of the component models. Note: The learning
+                // algorithm is more efficient if all generic parameters are specified, including the fitting options
+                Learner = (i) => new BaumWelchLearning<MultivariateNormalDistribution, double[], NormalOptions>()
+                {
+                    Topology = new Forward(5), // Each model will have a forward topology with 5 states
+
+                    // Their emissions will be multivariate Normal distributions initialized using the prior distributions
+                    Emissions = (j) => new MultivariateNormalDistribution(mean: priorM.Generate(), covariance: priorC.Generate()),
+
+                    // We will train until the relative change in the average log-likelihood is less than 1e-6 between iterations
+                    Tolerance = 1e-6,
+                    MaxIterations = 1000, // or until we perform 1000 iterations (which is unlikely for this dataset)
+
+                    // We will prevent our covariance matrices from becoming degenerate by adding a small 
+                    // regularization value to their diagonal until they become positive-definite again:
+                    FittingOptions = new NormalOptions()
+                    {
+                        Regularization = 1e-6
+                    }
+                }
+            };
+
+            // The following line is only needed to ensure reproducible results. Please remove it to enable full parallelization
+            teacher.ParallelOptions.MaxDegreeOfParallelism = 1; // (Remove, comment, or change this line to enable full parallelism)
+
+            // Use the learning algorithm to create a classifier
+            var hmmc = teacher.Learn(trainInputs, trainOutputs);
+
+            // Compute predictions for the training set
+            int[] trainPredicted = hmmc.Decide(trainInputs);
+
+            // Check the performance of the classifier by comparing with the ground-truth:
+            var m1 = new ConfusionMatrix(predicted: trainPredicted, expected: trainOutputs);
+            double trainAcc = m1.Accuracy; // should be 0.971
+
+
+            // Prepare the testing set
+            double[][][] testInputs = pendigits.Testing.Item1;
+            int[] testOutputs = pendigits.Testing.Item2;
+
+            // Apply the same normalizations
+            testInputs = testInputs.Apply(Accord.Statistics.Tools.ZScores);
+
+            // Compute predictions for the test set
+            int[] testPredicted = hmmc.Decide(testInputs);
+
+            // Check the performance of the classifier by comparing with the ground-truth:
+            var m2 = new ConfusionMatrix(predicted: testPredicted, expected: testOutputs);
+            double testAcc = m2.Accuracy; // should be 0.969
+#endregion
+
+#if NET35
+            Assert.AreEqual(0.89594053744997137d, trainAcc, 1.5e-2);
+            Assert.AreEqual(0.89605017347211102d, testAcc, 1.5e-2);
+#else
+            Assert.AreEqual(0.94196683819325333, trainAcc, 1.5e-2);
+            Assert.AreEqual(0.959434214037897, testAcc, 1.5e-2);
+#endif
+        }
 
 
         int[] large_outputs = { 0, 0, 0, 0, 1, 1, 1 };
@@ -735,7 +931,7 @@ namespace Accord.Tests.Statistics
         {
             new double[][] // gesture 0
             {
-                #region sequence
+#region sequence
                 new double[] {   1.70607484670038, -0.418406015828554, -0.658357827182728, 0.910629137808571, -0.469253024784096, -0.257835129470835   },
                 new double[] {   1.653881619034, -0.411162210682249, -0.775015524625083, 0.887731091115406, -0.469241198076328, -0.30895182927735   },
                 new double[] {   1.58637419136102, -0.391336921856269, -0.892424225752619, 0.849212911279741, -0.476227938464957, -0.389638208576432   },
@@ -795,7 +991,7 @@ namespace Accord.Tests.Statistics
             },
             new double[][] // gesture 0
             {
-                #region sequence
+#region sequence
                 new double[] {   1.83693249912303, -0.472608854432551, -0.361217031210459, 1.00843830742803, -0.447539851591357, -0.0521939050571813   },
                 new double[] {   1.83716244351518, -0.47191974175817, -0.361071883732304, 1.00702227932266, -0.44678898450176, -0.0523100221038502   },
                 new double[] {   1.8368131940214, -0.47241080908223, -0.360998504698197, 1.00887413954735, -0.445025806880815, -0.051695576926882   },
@@ -855,7 +1051,7 @@ namespace Accord.Tests.Statistics
             },
             new double[][] // gesture 0
             {
-                #region gesture
+#region gesture
                 new double[] {   1.89455683626509, -0.418753558655544, -0.410361427342023, 1.05139072610869, -0.417631338315134, -0.17028735510749   },
                 new double[] {   1.90193378851809, -0.420074410052927, -0.420222980980532, 1.05172718830226, -0.417741631682848, -0.170773700087548   },
                 new double[] {   1.90026938624568, -0.41694355085257, -0.456154315554865, 1.05045287954932, -0.415661390746359, -0.175461627607773   },
@@ -915,7 +1111,7 @@ namespace Accord.Tests.Statistics
             },
             new double[][] // gesture 0
             {
-                #region sequence
+#region sequence
                 new double[] {   1.81039746638912, -0.329993263438475, -0.478202228974957, 0.985513326660156, -0.398607588378203, -0.14218226056278   },
                 new double[] {   1.76019127762543, -0.33062339939884, -0.561142146137987, 0.972538156506926, -0.397368026821941, -0.170688777426528   },
                 new double[] {   1.65465817428832, -0.302325056730812, -0.787810196583759, 0.915559840893151, -0.424788463437848, -0.292594804755651   },
@@ -976,7 +1172,7 @@ namespace Accord.Tests.Statistics
 
             new double[][] // gesture 1
             {
-                #region sequence
+#region sequence
                 new double[] {   -0.457141558961931, -0.40632533154858, -0.735627349411788, 0.535630266102316, -0.346827950566122, -0.650236844528936   },
                 new double[] {   -0.456071961790413, -0.409714955952653, -0.726524609508806, 0.535891032024648, -0.346643275206004, -0.648562468729008   },
                 new double[] {   -0.456603392782934, -0.40612856011685, -0.718937097397445, 0.535278649216686, -0.346096775156327, -0.646807416293433   },
@@ -1036,7 +1232,7 @@ namespace Accord.Tests.Statistics
             },
             new double[][] // gesture 1
             {
-                #region sequence
+#region sequence
             new double[] {   -0.489801149161806, -0.435182232082444, -0.69958300997751, 0.544282523803138, -0.350114357080994, -0.664027770276546   },
             new double[] {   -0.490925548298537, -0.43220227275968, -0.700816453327263, 0.544024945795574, -0.348261323819772, -0.662829366433597   },
             new double[] {   -0.322301663994229, -0.407675475433039, -0.763017292054366, 0.545150343764277, -0.34967680502357, -0.661825969078828   },
@@ -1096,7 +1292,7 @@ namespace Accord.Tests.Statistics
             },
             new double[][] // gesture 1
             { 
-                #region sequence
+#region sequence
             new double[] {   -0.576631881789471, -0.393931720024426, -0.855029516776733, 0.379653432691902, -0.303807643252035, -0.843460633929   },
             new double[] {   -0.575852205635844, -0.389129131950642, -0.849660518741581, 0.380709083643687, -0.300654266662638, -0.8379317146046   },
             new double[] {   -0.573684468934919, -0.385923094478572, -0.847773956806995, 0.380834373262598, -0.297599183972112, -0.835363076753102   },

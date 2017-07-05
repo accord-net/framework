@@ -27,6 +27,10 @@
 		<CodeAnalysisLogFile>$(SolutionDir)..\Release\$(Configuration)\$(AssemblyName).dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
 		
 		<TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
-	</PropertyGroup>  
-	
+	</PropertyGroup>
+
+  <Target Name="SpicNSpan"  AfterTargets="Clean">
+    <RemoveDir Directories="$(BaseIntermediateOutputPath)" />
+    <RemoveDir Directories="$(BaseOutputPath)" />
+  </Target>
 </Project>  

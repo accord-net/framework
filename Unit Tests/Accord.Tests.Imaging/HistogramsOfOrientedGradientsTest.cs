@@ -28,6 +28,10 @@ namespace Accord.Tests.Imaging
     using System.Collections.Generic;
     using System.Drawing;
     using Accord.Math;
+    using Accord.Tests.Imaging.Properties;
+#if NETSTANDARD2_0
+    using Resources = Accord.Tests.Imaging.Properties.Resources_Standard;
+#endif
 
     [TestFixture]
     public class HistogramsOfOrientedGradientsTest
@@ -36,12 +40,12 @@ namespace Accord.Tests.Imaging
         {
             Bitmap[] images =
             {
-                Accord.Imaging.Image.Clone(Accord.Tests.Imaging.Properties.Resources.flower01),
-                Accord.Imaging.Image.Clone(Accord.Tests.Imaging.Properties.Resources.flower02),
-                Accord.Imaging.Image.Clone(Accord.Tests.Imaging.Properties.Resources.flower03),
-                Accord.Imaging.Image.Clone(Accord.Tests.Imaging.Properties.Resources.flower04),
-                Accord.Imaging.Image.Clone(Accord.Tests.Imaging.Properties.Resources.flower05),
-                Accord.Imaging.Image.Clone(Accord.Tests.Imaging.Properties.Resources.flower06),
+                Accord.Imaging.Image.Clone(Resources.flower01),
+                Accord.Imaging.Image.Clone(Resources.flower02),
+                Accord.Imaging.Image.Clone(Resources.flower03),
+                Accord.Imaging.Image.Clone(Resources.flower04),
+                Accord.Imaging.Image.Clone(Resources.flower05),
+                Accord.Imaging.Image.Clone(Resources.flower06),
             };
 
             return images;

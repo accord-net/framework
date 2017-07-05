@@ -72,8 +72,26 @@ namespace Accord.Statistics.Models.Markov.Learning
     /// <seealso cref="HiddenMarkovModel{TDistribution}"/>
     /// <seealso cref="BaumWelchLearning{TDistribution}"/>
     /// 
-    public class BaumWelchLearning : BaseBaumWelchLearning<HiddenMarkovModel, GeneralDiscreteDistribution, int, GeneralDiscreteOptions>
+    public class BaumWelchLearning : BaseBaumWelchLearningOptions<HiddenMarkovModel, GeneralDiscreteDistribution, int, GeneralDiscreteOptions>
     {
+
+        /// <summary>
+        ///   Gets or sets the number of symbols that should be used whenever 
+        ///   this learning algorithm needs to create a new model. This property
+        ///   must be set before learning.
+        /// </summary>
+        /// 
+        /// <value>The number of symbols.</value>
+        /// 
+        public int NumberOfSymbols { get; set; }
+
+        /// <summary>
+        ///   Creates a new instance of the Baum-Welch learning algorithm.
+        /// </summary>
+        /// 
+        public BaumWelchLearning()
+        {
+        }
 
         /// <summary>
         ///   Creates a new instance of the Baum-Welch learning algorithm.
@@ -82,6 +100,7 @@ namespace Accord.Statistics.Models.Markov.Learning
         public BaumWelchLearning(HiddenMarkovModel model)
             : base(model)
         {
+            NumberOfSymbols = model.NumberOfSymbols;
         }
 
         /// <summary>
@@ -143,6 +162,21 @@ namespace Accord.Statistics.Models.Markov.Learning
             {
                 FittingOptions = mixOptions
             };
+        }
+
+        /// <summary>
+        ///   Creates an instance of the model to be learned. Inheritors of this abstract 
+        ///   class must define this method so new models can be created from the training data.
+        /// </summary>
+        /// 
+        protected override HiddenMarkovModel Create(int[][] x)
+        {
+            if (Topology == null)
+                throw new InvalidOperationException("Please set the Topology property before trying to learn a new hidden Markov model.");
+
+            this.NumberOfSymbols = x.Concatenate().DistinctCount();
+
+            return new HiddenMarkovModel(Topology, NumberOfSymbols);
         }
 
         // TODO: Uncomment the following lines

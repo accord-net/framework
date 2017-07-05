@@ -28,7 +28,9 @@ namespace Accord.Tests.Imaging
     using NUnit.Framework;
     using Accord.Imaging.Converters;
     using Accord.Math;
-
+#if NETSTANDARD2_0
+    using Resources = Accord.Tests.Imaging.Properties.Resources_Standard;
+#endif
 
     [TestFixture]
     public class RawMomentsTest

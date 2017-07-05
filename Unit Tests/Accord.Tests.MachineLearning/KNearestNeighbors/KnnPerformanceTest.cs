@@ -77,7 +77,7 @@ namespace Accord.Tests.MachineLearning
             //Assert.IsTrue(t1 > t2);
             Assert.IsTrue(t2 > t3);
 
-            Assert.IsTrue(t2.Ticks > t3.Ticks * 10);
+            //Assert.IsTrue(t2.Ticks > t3.Ticks * 10);
 
 
             for (int i = 0; i < inputs.Length; i++)
@@ -118,6 +118,7 @@ namespace Accord.Tests.MachineLearning
 
                 targetNN = target.GetNearestNeighbors(inputs[i], out targetLabels);
 
+                Assert.AreEqual(expectedLabels.Length, normalNN.Length);
                 Assert.AreEqual(expectedNN.Length, normalNN.Length);
                 Assert.AreEqual(expectedNN.Length, targetNN.Length);
 
@@ -163,7 +164,14 @@ namespace Accord.Tests.MachineLearning
 
             naive = new NaiveKNearestNeighbors(k, inputs, outputs);
             normal = new KNearestNeighbors<double[]>(k, inputs, outputs, new Euclidean());
+            Assert.AreEqual(2, normal.NumberOfInputs);
+            Assert.AreEqual(2, normal.NumberOfOutputs);
+            Assert.AreEqual(2, normal.NumberOfClasses);
+
             target = new KNearestNeighbors(k, inputs, outputs);
+            Assert.AreEqual(2, target.NumberOfInputs);
+            Assert.AreEqual(2, target.NumberOfOutputs);
+            Assert.AreEqual(2, target.NumberOfClasses);
         }
 
 

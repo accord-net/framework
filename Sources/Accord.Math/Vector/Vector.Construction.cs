@@ -40,7 +40,7 @@ namespace Accord.Math
         /// 
         /// <returns>A vector of the specified size.</returns>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[] Zeros<T>(int size)
@@ -57,7 +57,7 @@ namespace Accord.Math
         /// 
         /// <returns>A vector of the specified size.</returns>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[] Ones<T>(int size) where T : struct
@@ -76,7 +76,7 @@ namespace Accord.Math
         /// 
         /// <param name="mask">The boolean mask determining where ones will be placed.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[] Ones<T>(bool[] mask) where T : struct
@@ -93,7 +93,7 @@ namespace Accord.Math
         /// 
         /// <returns>A vector of the specified size.</returns>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Zeros(int size)
@@ -109,7 +109,7 @@ namespace Accord.Math
         /// 
         /// <returns>A vector of the specified size.</returns>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Ones(int size)
@@ -125,7 +125,7 @@ namespace Accord.Math
         /// 
         /// <param name="mask">The boolean mask determining where ones will be placed.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Ones(bool[] mask)
@@ -140,7 +140,7 @@ namespace Accord.Math
         /// <param name="size">The number of elements in the vector.</param>
         /// <param name="value">The initial values for the vector.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[] Create<T>(int size, T value)
@@ -158,7 +158,7 @@ namespace Accord.Math
         /// <param name="size">The number of elements in the vector.</param>
         /// <param name="values">The initial values for the vector.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[] Create<T>(int size, T[] values)
@@ -180,7 +180,7 @@ namespace Accord.Math
         /// <param name="value">The initial values for the vector.</param>
         /// <param name="mask">The boolean mask determining where the values will be placed.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[] Create<T>(T value, bool[] mask)
@@ -198,7 +198,7 @@ namespace Accord.Math
         /// 
         /// <param name="values">The initial values for the vector.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[] Create<T>(params T[] values)
@@ -212,7 +212,7 @@ namespace Accord.Math
         /// 
         /// <param name="vector">The vector whose shape should be copied.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[] CreateAs<T>(T[] vector)
@@ -232,7 +232,7 @@ namespace Accord.Math
         /// 
         /// <returns>A one-hot vector where only a single position is one and the others are zero.</returns>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[] OneHot<T>(int index, int columns)
@@ -247,7 +247,7 @@ namespace Accord.Math
         /// 
         /// <param name="mask">The boolean mask determining where the values will be placed.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[] OneHot<T>(bool mask)
@@ -263,7 +263,7 @@ namespace Accord.Math
         /// <param name="mask">The boolean mask determining where the values will be placed.</param>
         /// <param name="result">The vector where the one-hot should be marked.</param>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[] OneHot<T>(bool mask, T[] result)
@@ -281,7 +281,7 @@ namespace Accord.Math
         /// 
         /// <returns>A one-hot vector where only a single position is one and the others are zero.</returns>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] OneHot(int index, int columns)
@@ -301,7 +301,7 @@ namespace Accord.Math
         /// 
         /// <returns>A one-hot vector where only a single position is one and the others are zero.</returns>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[] OneHot<T>(int index, T[] result)
@@ -321,7 +321,7 @@ namespace Accord.Math
         /// 
         /// <returns>A one-hot vector where only a single position is one and the others are zero.</returns>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] OneHot(int index, double[] result)
@@ -342,7 +342,7 @@ namespace Accord.Math
         /// 
         /// <returns>A k-hot vector where the indicated positions are one and the others are zero.</returns>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[] KHot<T>(int[] indices, int columns)
@@ -359,7 +359,7 @@ namespace Accord.Math
         /// 
         /// <returns>A k-hot vector where the indicated positions are one and the others are zero.</returns>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[] KHot<T>(bool[] mask)
@@ -378,7 +378,7 @@ namespace Accord.Math
         /// 
         /// <returns>A k-hot vector where the indicated positions are one and the others are zero.</returns>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] KHot(int[] indices, int columns)
@@ -396,7 +396,7 @@ namespace Accord.Math
         /// 
         /// <returns>A k-hot vector where the indicated positions are one and the others are zero.</returns>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[] KHot<T>(int[] indices, T[] result)
@@ -417,7 +417,7 @@ namespace Accord.Math
         ///
         /// <returns>A k-hot vector where the indicated positions are one and the others are zero.</returns>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[] KHot<T>(bool[] mask, T[] result)
@@ -441,7 +441,7 @@ namespace Accord.Math
         /// 
         /// <returns>A k-hot vector where the indicated positions are one and the others are zero.</returns>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] KHot(int[] indices, double[] result)

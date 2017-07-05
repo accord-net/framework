@@ -34,6 +34,9 @@ namespace Accord.Tests.Math
     using System.ComponentModel;
 
     [TestFixture]
+#if !MONO
+    [SingleThreaded]
+#endif
     public class GeneratorTest
     {
 

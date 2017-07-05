@@ -241,7 +241,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
 
             for (int i = 0; i < inputs.Length; i++)
             {
-                double actual = Model.Score(inputs[i]);
+                double actual = Model.Probability(inputs[i]);
                 double expected = outputs[i];
                 double delta = actual - expected;
                 sum += delta * delta;
@@ -283,7 +283,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
         private RelativeConvergence convergence;
 
         /// <summary>
-        ///   Initializes
+        ///   Initializes this instance.
         /// </summary>
         /// 
         protected void Initialize(TModel regression)
@@ -361,23 +361,52 @@ namespace Accord.Statistics.Models.Regression.Fitting
         }
 
         /// <summary>
-        /// Gets or sets the maximum number of iterations
-        /// performed by the learning algorithm.
+        ///   Please use MaxIterations instead.
         /// </summary>
+        [Obsolete("Please use MaxIterations instead.")]
         public int Iterations
         {
-            get { return convergence.Iterations; }
-            set { convergence.Iterations = value; }
+            get { return convergence.MaxIterations; }
+            set { convergence.MaxIterations = value; }
         }
 
         /// <summary>
-        /// Gets or sets the tolerance value used to determine
-        /// whether the algorithm has converged.
+        ///   Gets or sets the tolerance value used to determine
+        ///   whether the algorithm has converged.
         /// </summary>
         public double Tolerance
         {
             get { return convergence.Tolerance; }
             set { convergence.Tolerance = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the maximum number of iterations
+        /// performed by the learning algorithm.
+        /// </summary>
+        /// <value>The maximum iterations.</value>
+        public int MaxIterations
+        {
+            get { return convergence.MaxIterations; }
+            set { convergence.MaxIterations = value; }
+        }
+
+        /// <summary>
+        /// Gets the current iteration number.
+        /// </summary>
+        /// <value>The current iteration.</value>
+        public int CurrentIteration
+        {
+            get { return convergence.CurrentIteration; }
+        }
+
+        /// <summary>
+        /// Gets or sets whether the algorithm has converged.
+        /// </summary>
+        /// <value><c>true</c> if this instance has converged; otherwise, <c>false</c>.</value>
+        public bool HasConverged
+        {
+            get { return convergence.HasConverged; }
         }
 
         /// <summary>
@@ -414,7 +443,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
         {
             this.convergence = new RelativeConvergence()
             {
-                Iterations = 0,
+                MaxIterations = 0,
                 Tolerance = 1e-5
             };
         }
@@ -426,7 +455,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
         /// </summary>
         /// <param name="x">The model inputs.</param>
         /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
-        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <param name="weights">The weight of importance for each input-output pair (if supported by the learning algorithm).</param>
         /// <returns>
         /// A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
         /// </returns>
@@ -440,7 +469,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
         /// </summary>
         /// <param name="x">The model inputs.</param>
         /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
-        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <param name="weights">The weight of importance for each input-output pair (if supported by the learning algorithm).</param>
         /// <returns>
         /// A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
         /// </returns>
@@ -454,7 +483,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
         /// </summary>
         /// <param name="x">The model inputs.</param>
         /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
-        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <param name="weights">The weight of importance for each input-output pair (if supported by the learning algorithm).</param>
         /// <returns>
         /// A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
         /// </returns>
@@ -498,7 +527,8 @@ namespace Accord.Statistics.Models.Regression.Fitting
                 // Compute errors and weighting matrix
                 for (int i = 0; i < x.Length; i++)
                 {
-                    double actual = regression.Score(x[i]);
+                    double z = regression.Linear.Transform(x[i]);
+                    double actual = regression.Link.Inverse(z);
 
                     // Calculate error vector
                     errors[i] = actual - y[i];

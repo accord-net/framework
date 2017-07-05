@@ -24,6 +24,7 @@ namespace Accord.MachineLearning
 {
     using Accord.Math.Random;
     using System;
+    using System.Collections;
     using System.Runtime.CompilerServices;
     using System.Text.RegularExpressions;
 
@@ -58,6 +59,38 @@ namespace Accord.MachineLearning
             for (int i = 0; i < words.Length; i++)
                 words[i] = words[i].ToLowerInvariant();
             return words;
+        }
+
+        /// <summary>
+        ///   Estimates the number of columns (dimensions) in a set of data.
+        /// </summary>
+        /// 
+        /// <typeparam name="TInput">The type of the t input.</typeparam>
+        /// 
+        /// <param name="x">The input data.</param>
+        /// 
+        /// <returns>The number of columns (data dimensions) in the data.</returns>
+        /// 
+        public static int GetNumberOfInputs<TInput>(TInput[] x)
+        {
+            var first = x[0] as IList;
+            if (first == null)
+            {
+                if (x[0] is int || x[0] is double)
+                    return 1;
+                return 0;
+            }
+
+            int length = first.Count;
+
+            for (int i = 0; i < x.Length; i++)
+            {
+                IList l = x[i] as IList;
+                if (l == null || l.Count != length)
+                    return 0;
+            }
+
+            return length;
         }
     }
 }

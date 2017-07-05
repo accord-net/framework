@@ -144,6 +144,29 @@ namespace Accord.Statistics.Distributions.Multivariate
         /// </summary>
         /// 
         /// <param name="dimensions">The number of independent component distributions.</param>
+        /// 
+        public Independent(int dimensions)
+            : base(dimensions)
+        {
+            try
+            {
+                this.components = new TDistribution[dimensions];
+                for (int i = 0; i < components.Length; i++)
+                    components[i] = Activator.CreateInstance<TDistribution>();
+            }
+            catch
+            {
+                throw new ArgumentException("The component distribution needs specific parameters that need to be" +
+                    "given to its constructor. Please specify in the 'initializer' argument of this constructor" +
+                    "how the component distributions should be created.");
+            }
+        }
+
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="Independent&lt;TDistribution&gt;"/> class.
+        /// </summary>
+        /// 
+        /// <param name="dimensions">The number of independent component distributions.</param>
         /// <param name="initializer">A function that creates a new distribution for each component index.</param>
         /// 
         public Independent(int dimensions, Func<TDistribution> initializer)
@@ -442,18 +465,23 @@ namespace Accord.Statistics.Distributions.Multivariate
         /// <summary>
         /// Generates a random vector of observations from the current distribution.
         /// </summary>
+        /// 
         /// <param name="samples">The number of samples to generate.</param>
         /// <param name="result">The location where to store the samples.</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        /// 
         /// <returns>
         /// A random vector of observations drawn from this distribution.
         /// </returns>
-        public override double[][] Generate(int samples, double[][] result)
+        /// 
+        public override double[][] Generate(int samples, double[][] result, Random source)
         {
             var gen = components.Apply(x => (ISampleableDistribution<double>)x);
 
             for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < gen.Length; j++)
-                    result[i][j] = gen[j].Generate();
+                    result[i][j] = gen[j].Generate(source);
 
             return result;
         }

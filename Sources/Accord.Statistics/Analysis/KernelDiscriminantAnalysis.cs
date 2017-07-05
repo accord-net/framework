@@ -327,6 +327,7 @@ namespace Accord.Statistics.Analysis
             base.ScatterBetweenClass = Sb.ToJagged();
             base.ScatterWithinClass = Sw.ToJagged();
             this.NumberOfOutputs = eigs.Columns();
+            this.NumberOfClasses = Classes.Count;
 
             // Project into the kernel discriminant space
             this.Result = Matrix.Dot(K, eigs);
@@ -353,6 +354,8 @@ namespace Accord.Statistics.Analysis
             {
                 NumberOfInputs = NumberOfInputs,
                 NumberOfOutputs = NumberOfClasses,
+                NumberOfClasses = NumberOfClasses,
+
                 First = new MultivariateKernelRegression()
                 {
                     Weights = eig,
@@ -366,6 +369,7 @@ namespace Accord.Statistics.Analysis
                     Means = projectedMeans,
                     NumberOfInputs = NumberOfOutputs,
                     NumberOfOutputs = NumberOfClasses,
+                    NumberOfClasses = NumberOfClasses,
                 }
             };
         }
@@ -396,13 +400,16 @@ namespace Accord.Statistics.Analysis
         /// </summary>
         /// <param name="x">The model inputs.</param>
         /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
-        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <param name="weights">The weight of importance for each input-output pair (if supported by the learning algorithm).</param>
         /// <returns>
         /// A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
         /// </returns>
         /// 
         public Pipeline Learn(double[][] x, int[] y, double[] weights = null)
         {
+            if (weights != null)
+                throw new ArgumentException(Accord.Properties.Resources.NotSupportedWeights, "weights");
+
             Init(x, y);
 
             // Create the Gram (Kernel) Matrix

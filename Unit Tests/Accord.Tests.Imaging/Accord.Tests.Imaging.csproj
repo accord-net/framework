@@ -24,13 +24,19 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'net46|AnyCPU' ">
     <DefineConstants>TRACE;NET46</DefineConstants>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'net462|AnyCPU' ">
+    <DefineConstants>TRACE;NET462</DefineConstants>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+  </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'mono|AnyCPU' ">
     <DefineConstants>TRACE;MONO</DefineConstants>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="nunit.framework">
-      <HintPath>..\..\Externals\NUnit\nunit.framework.dll</HintPath>
+    <Reference Include="nunit.framework, Version=3.7.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Externals\NUnit\bin\net-4.5\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -58,6 +64,8 @@
     <Compile Include="ConvexityDefectsTest.cs" />
     <Compile Include="BorderFollowingTest.cs" />
     <Compile Include="CentralMomentsTest.cs" />
+    <Compile Include="Filters\BinaryWatershedTest.cs" />
+    <Compile Include="Filters\DistanceTransformTest.cs" />
     <Compile Include="Filters\WhitePatchTest.cs" />
     <Compile Include="Filters\GrayWorldTest.cs" />
     <Compile Include="Filters\DifferenceOfGaussiansTest.cs" />
@@ -146,9 +154,11 @@
     <None Include="Resources\image1.bmp" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\water.bmp" />
     <None Include="Resources\noise-line.png" />
     <None Include="Resources\blend_net35.png" />
     <None Include="Resources\blend_net45.png" />
+    <Content Include="Resources\cards.png" />
     <Content Include="Resources\SURF\surf-bug-1.bmp" />
     <None Include="Resources\wiki-flower.png" />
     <None Include="Resources\tt4.png" />

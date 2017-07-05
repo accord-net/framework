@@ -528,6 +528,15 @@ namespace Accord.Math
         ///   Applies a function to every element of the array.
         /// </summary>
         /// 
+        public static TResult[][] Apply<TInput, TResult>(TInput[][] matrix, Func<TInput, TResult> func)
+        {
+            return Apply(matrix, func, Jagged.CreateAs<TInput, TResult>(matrix));
+        }
+
+        /// <summary>
+        ///   Applies a function to every element of the array.
+        /// </summary>
+        /// 
         public static TResult[][] Apply<TInput, TResult>(this TInput[][] matrix, Func<TInput, int, int, TResult> func)
         {
             return Apply(matrix, func, Jagged.CreateAs<TInput, TResult>(matrix));

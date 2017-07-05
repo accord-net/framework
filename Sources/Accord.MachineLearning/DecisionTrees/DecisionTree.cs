@@ -122,6 +122,7 @@ namespace Accord.MachineLearning.DecisionTrees
             this.attributes = new DecisionVariableCollection(inputs);
             this.NumberOfInputs = inputs.Count;
             this.NumberOfOutputs = classes;
+            this.NumberOfClasses = classes;
         }
 
 
@@ -360,6 +361,7 @@ namespace Accord.MachineLearning.DecisionTrees
             return new DecisionTreeExpressionCreator(this).Create();
         }
 
+#if !NETSTANDARD2_0
         /// <summary>
         ///   Creates a .NET assembly (.dll) containing a static class of
         ///   the given name implementing the decision tree. The class will
@@ -400,6 +402,7 @@ namespace Accord.MachineLearning.DecisionTrees
             dt.CreateType();
             da.Save(assemblyName);
         }
+#endif
 #endif
 
 

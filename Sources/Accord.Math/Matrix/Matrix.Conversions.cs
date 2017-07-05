@@ -31,7 +31,24 @@ namespace Accord.Math
 
     public static partial class Matrix
     {
-       
+
+        /// <summary>
+        ///   Converts a jagged-array into a multidimensional array.
+        /// </summary>
+        /// 
+        public static Array DeepToMatrix(this Array array)
+        {
+            int[] shape = array.GetLength();
+            int totalLength = array.GetTotalLength();
+            Type elementType = array.GetInnerMostType();
+
+            Array flat = array.DeepFlatten();
+
+            Array result = Array.CreateInstance(elementType, shape);
+            Buffer.BlockCopy(flat, 0, result, 0, totalLength);
+            return result;
+        }
+
         /// <summary>
         ///   Converts a jagged-array into a multidimensional array.
         /// </summary>
@@ -224,23 +241,6 @@ namespace Accord.Math
                     result[i, j] = converter(matrix[i, j]);
 
             return result;
-        }
-
-        /// <summary>
-        ///   Converts an object into another type, irrespective of whether
-        ///   the conversion can be done at compile time or not. This can be
-        ///   used to convert generic types to numeric types during runtime.
-        /// </summary>
-        /// 
-        /// <typeparam name="T">The destination type.</typeparam>
-        /// 
-        /// <param name="value">The value to be converted.</param>
-        /// 
-        /// <returns>The result of the conversion.</returns>
-        /// 
-        public static T To<T>(this object value)
-        {
-            return (T)System.Convert.ChangeType(value, typeof(T));
         }
 
         /// <summary>
@@ -555,7 +555,10 @@ namespace Accord.Math
             for (int j = 0; j < table.Columns.Count; j++)
             {
                 for (int i = 0; i < table.Rows.Count; i++)
-                    m[i, j] = (T)System.Convert.ChangeType(table.Rows[i][j], typeof(T));
+                {
+                    object obj = table.Rows[i][j];
+                    m[i, j] = (T)System.Convert.ChangeType(obj, typeof(T));
+                }
 
                 columnNames[j] = table.Columns[j].Caption;
             }
@@ -575,7 +578,10 @@ namespace Accord.Math
             for (int j = 0; j < table.Columns.Count; j++)
             {
                 for (int i = 0; i < table.Rows.Count; i++)
-                    m[i, j] = (T)System.Convert.ChangeType(table.Rows[i][j], typeof(T), provider);
+                {
+                    object obj = table.Rows[i][j];
+                    m[i, j] = (T)System.Convert.ChangeType(obj, typeof(T), provider);
+                }
 
                 columnNames[j] = table.Columns[j].Caption;
             }

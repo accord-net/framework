@@ -31,8 +31,13 @@
     <DefineConstants>TRACE;NET46</DefineConstants>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'net462|AnyCPU' ">
+    <DefineConstants>TRACE;NET462</DefineConstants>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'mono|AnyCPU'">
     <DefineConstants>TRACE;MONO</DefineConstants>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
@@ -49,6 +54,7 @@
     <Compile Include="..\Accord.Core\Properties\VersionInfo.cs">
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
+    <Compile Include="Compression\LzwInputStream.cs" />
     <Compile Include="Csv\CsvReader.IDataReader.cs" />
     <Compile Include="Csv\CsvReader.RecordEnumerator.cs" />
     <Compile Include="Csv\CsvWriter.cs" />
@@ -56,6 +62,7 @@
     <Compile Include="Exceptions\MalformedCsvException.cs" />
     <Compile Include="Exceptions\MissingFieldCsvException.cs" />
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="UnipenReader.cs" />
     <Compile Include="IdxReader.cs" />
     <Compile Include="ExcelReader.cs" />
     <Compile Include="Csv\CsvReader.cs" />

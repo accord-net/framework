@@ -24,13 +24,19 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'net46|AnyCPU' ">
     <DefineConstants>TRACE;NET46</DefineConstants>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'net462|AnyCPU' ">
+    <DefineConstants>TRACE;NET462</DefineConstants>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+  </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'mono|AnyCPU' ">
     <DefineConstants>TRACE;MONO</DefineConstants>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="nunit.framework">
-      <HintPath>..\..\Externals\NUnit\nunit.framework.dll</HintPath>
+    <Reference Include="nunit.framework, Version=3.7.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Externals\NUnit\bin\net-4.5\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -51,7 +57,9 @@
   </ItemGroup>
  -->
   <ItemGroup>
+    <Compile Include="CsvWriterTest.cs" />
     <Compile Include="CsvReaderTest.cs" />
+    <Compile Include="UnipenReaderTest.cs" />
     <Compile Include="IdxReaderTest.cs" />
     <Compile Include="ExcelReaderTest.cs" />
     <Compile Include="NumPyWriterTest.cs" />
@@ -155,6 +163,7 @@
     <None Include="Resources\numpy\npy_integer.npy" />
     <None Include="Resources\numpy\npy_strings.npy" />
     <None Include="Resources\numpy\npy_strings_var.npy" />
+    <None Include="Resources\pendigits-orig.tes.Z" />
     <None Include="Resources\sample.xls">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

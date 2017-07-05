@@ -20,20 +20,23 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-using Accord.Imaging;
-using NUnit.Framework;
-using Accord.Math;
-using System.Drawing;
-
-using Tools = Accord.Imaging.Tools;
-using System.Drawing.Imaging;
-using Accord.Math.Decompositions;
-using System;
-using Accord.Imaging.Converters;
-using Accord.Statistics;
-
 namespace Accord.Tests.Imaging
 {
+    using Accord.Imaging;
+    using NUnit.Framework;
+    using Accord.Math;
+    using System.Drawing;
+    using Tools = Accord.Imaging.Tools;
+    using System.Drawing.Imaging;
+    using Accord.Math.Decompositions;
+    using System;
+    using Accord.Imaging.Converters;
+    using Accord.Statistics;
+    using Accord.Tests.Imaging.Properties;
+#if NETSTANDARD2_0
+    using Resources = Accord.Tests.Imaging.Properties.Resources_Standard;
+#endif
+
     [TestFixture]
     public class ToolsTest
     {
@@ -44,7 +47,7 @@ namespace Accord.Tests.Imaging
         [Test]
         public void NormalizeTest()
         {
-            PointH[] points = new PointH[] 
+            PointH[] points = new PointH[]
             {
                 new PointH(1, 2),
                 new PointH(5, 2),
@@ -86,7 +89,7 @@ namespace Accord.Tests.Imaging
         {
             MatrixH matrix = new MatrixH(Matrix.Identity(3));
 
-            PointH[] points = new PointH[] 
+            PointH[] points = new PointH[]
             {
                 new PointH(1, 2),
                 new PointH(5, 2),
@@ -96,7 +99,7 @@ namespace Accord.Tests.Imaging
             };
 
 
-            PointH[] expected = new PointH[] 
+            PointH[] expected = new PointH[]
             {
                 new PointH(1, 2),
                 new PointH(5, 2),
@@ -143,7 +146,7 @@ namespace Accord.Tests.Imaging
         [Test]
         public void HomographyTest()
         {
-            PointH[] x1 = 
+            PointH[] x1 =
             {
                 new PointH(0, 0),
                 new PointH(1, 0),
@@ -151,7 +154,7 @@ namespace Accord.Tests.Imaging
                 new PointH(1, 1),
             };
 
-            PointH[] x2 = 
+            PointH[] x2 =
             {
                 new PointH(0, 0),
                 new PointH(1, 0),
@@ -170,7 +173,7 @@ namespace Accord.Tests.Imaging
             Assert.IsTrue(Matrix.IsEqual(expected, actual, 1e-4));
 
 
-            x1 = new PointH[] 
+            x1 = new PointH[]
             {
                 new PointH(2, 0),
                 new PointH(1, 0),
@@ -181,7 +184,7 @@ namespace Accord.Tests.Imaging
                 new PointH(1, 1),
             };
 
-            x2 = new PointH[] 
+            x2 = new PointH[]
             {
                 new PointH(9, 1),
                 new PointH(1, 5),
@@ -210,7 +213,7 @@ namespace Accord.Tests.Imaging
         [Test]
         public void HomographyTestF()
         {
-            PointF[] x1 = 
+            PointF[] x1 =
             {
                 new PointF(0, 0),
                 new PointF(1, 0),
@@ -218,7 +221,7 @@ namespace Accord.Tests.Imaging
                 new PointF(1, 1),
             };
 
-            PointF[] x2 = 
+            PointF[] x2 =
             {
                 new PointF(0, 0),
                 new PointF(1, 0),
@@ -278,9 +281,9 @@ namespace Accord.Tests.Imaging
         [Test]
         public void ToDoubleArrayTest()
         {
-            Bitmap image = Accord.Imaging.Image.Clone(Properties.Resources.image1);
+            Bitmap image = Accord.Imaging.Image.Clone(Resources.image1);
 
-            double[] actual = Tools.ToDoubleArray(image, 0, 0, 1);
+            double[] actual; new ImageToArray(min: 0, max: 1).Convert(image, out actual);
 
 
             for (int i = 0; i < 256; i++)
@@ -320,7 +323,7 @@ namespace Accord.Tests.Imaging
         [Test]
         public void SumTest()
         {
-            Bitmap image = Accord.Imaging.Image.Clone(Properties.Resources.image1);
+            Bitmap image = Accord.Imaging.Image.Clone(Resources.image1);
 
             int expected = 0;
 
@@ -335,7 +338,7 @@ namespace Accord.Tests.Imaging
         [Test]
         public void SumTest1()
         {
-            Bitmap image = Properties.Resources.image2;
+            Bitmap image = Accord.Imaging.Image.Clone(Resources.image2);
 
             int expected = 0;
 
@@ -356,7 +359,7 @@ namespace Accord.Tests.Imaging
         [Test]
         public void SumTest2()
         {
-            Bitmap image = Properties.Resources.image2;
+            Bitmap image = Accord.Imaging.Image.Clone(Resources.image2);
 
             int expected = 0;
 
@@ -372,20 +375,22 @@ namespace Accord.Tests.Imaging
         [Test]
         public void ToBitmapTest1()
         {
-            double[][] pixels = 
+            double[][] pixels =
             {
                 new double[] { 0,0,0 }, new double[] { 0,0,1 }, new double[] { 0,1,0 },
                 new double[] { 0,1,1 }, new double[] { 1,0,0 }, new double[] { 1,0,1 },
                 new double[] { 1,1,0 }, new double[] { 1,1,1 }, new double[] { 0,0.5,0 },
             };
 
-            int width = 3;
-            int height = 3;
             double min = 0;
             double max = 1;
 
 
-            Bitmap actual = Tools.ToBitmap(pixels, width, height, min, max);
+            Bitmap actual;
+            new ArrayToImage(min: min, max: max, width: 3, height: 3).Convert(pixels, out actual);
+
+            Assert.AreEqual(3, actual.Width);
+            Assert.AreEqual(3, actual.Height);
 
             // Accord.Controls.ImageBox.Show(actual, PictureBoxSizeMode.Zoom);
 
@@ -401,7 +406,7 @@ namespace Accord.Tests.Imaging
             Assert.AreEqual(Color.FromArgb(255, 255, 255), actual.GetPixel(1, 2));
             Assert.AreEqual(Color.FromArgb(000, 127, 000), actual.GetPixel(2, 2));
 
-            double[][] actualArray = actual.ToDoubleArray(min, max);
+            double[][] actualArray; new ImageToArray(min: min, max: max).Convert(actual, out actualArray);
             Assert.IsTrue(Matrix.IsEqual(pixels, actualArray, 0.01));
 
         }
@@ -409,36 +414,34 @@ namespace Accord.Tests.Imaging
         [Test]
         public void ToBitmapTest()
         {
-            double[] array = 
+            double[] array =
             {
                 0,0,0,
                 0,1,0,
                 0,0,0,
             };
 
-            int width = 3;
-            int height = 3;
             double min = 0;
             double max = 1;
 
-            Bitmap actual = Accord.Imaging.Tools.ToBitmap(array, width, height, min, max);
+            Bitmap actual; new ArrayToImage(min: min, max: max, width: 3, height: 3).Convert(array, out actual);
 
-            double[] actualarray = actual.ToDoubleArray(0, min, max);
+            double[] actualarray; new ImageToArray(min: min, max: max).Convert(actual, out actualarray);
 
             Assert.IsTrue(Matrix.IsEqual(array, actualarray));
-
         }
 
 
         [Test]
         public void MeanTest()
         {
-            Bitmap image = new byte[,]
+            Bitmap image;
+            new MatrixToImage().Convert(new byte[,]
             {
                 { 1, 2, 3 },
                 { 4, 5, 6 },
                 { 7, 8, 9 },
-            }.ToBitmap();
+            }, out image);
 
             {
                 Rectangle rectangle = new Rectangle(0, 0, 1, 2);
@@ -513,7 +516,7 @@ namespace Accord.Tests.Imaging
         {
             double[] values = { 5, 2, 7, 5, 3, 5, 1, 1, 2 };
 
-            Bitmap image = values.ToBitmap(3, 3, 0, 255);
+            Bitmap image; new ArrayToImage(3, 3, 0, 255).Convert(values, out image);
             double mean = Measures.Mean(values);
             double expected = Measures.StandardDeviation(values);
             double actual = Tools.StandardDeviation(image, mean);
@@ -531,7 +534,8 @@ namespace Accord.Tests.Imaging
                 { 1, 1, 2 }
             };
 
-            Bitmap image = values.ToBitmap();
+            Bitmap image; new MatrixToImage().Convert(values, out image);
+
             double mean = Measures.Mean(values.Reshape().ToDouble());
             double expected = Measures.StandardDeviation(values.Reshape().ToDouble());
             double actual = Tools.StandardDeviation(image, mean);

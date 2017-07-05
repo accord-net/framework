@@ -239,7 +239,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.038549935871770913, p2, 1e-5);
         }
 
-        [Test]
+        [Test, Ignore("This test can only be run in 64-bits")]
         public void ApproximationTest()
         {
             int t = 14;
@@ -277,6 +277,49 @@ namespace Accord.Tests.Statistics
                     Assert.AreEqual(e, a, 0.1);
                 else Assert.AreEqual(e, a, 0.01);
             }
+        }
+
+        [Test]
+        public void RangeTest()
+        {
+            Assert.Throws<ArgumentOutOfRangeException>(() => new MannWhitneyDistribution(new double[] { 1, 2 }, n1: 0, n2: 1));
+            Assert.Throws<ArgumentOutOfRangeException>(() => new MannWhitneyDistribution(new double[] { 0, 2 }, n1: 0, n2: 1));
+            Assert.Throws<ArgumentOutOfRangeException>(() => new MannWhitneyDistribution(new double[] { -1, 2 }, n1: 0, n2: 1));
+            Assert.Throws<ArgumentOutOfRangeException>(() => new MannWhitneyDistribution(new double[] { -1, 2 }, n1: 1, n2: 1));
+
+            Assert.Throws<ArgumentOutOfRangeException>(() => new MannWhitneyDistribution(new double[] { 1, 2 }, n1: 0, n2: 0));
+            Assert.Throws<ArgumentOutOfRangeException>(() => new MannWhitneyDistribution(new double[] { 1, 2 }, n1: 0, n2: 1));
+            Assert.Throws<ArgumentOutOfRangeException>(() => new MannWhitneyDistribution(new double[] { 1, 2 }, n1: 1, n2: 0));
+
+            Assert.Throws<ArgumentOutOfRangeException>(() => new MannWhitneyDistribution(new double[] { 1, 2 }, n1: 0, n2: 2));
+            Assert.Throws<ArgumentOutOfRangeException>(() => new MannWhitneyDistribution(new double[] { 1, 2 }, n1: 0, n2: 2));
+            Assert.Throws<ArgumentOutOfRangeException>(() => new MannWhitneyDistribution(new double[] { 1, 2 }, n1: 2, n2: 0));
+
+            Assert.Throws<ArgumentOutOfRangeException>(() => new MannWhitneyDistribution(new double[] { 1 }, n1: 1, n2: 1));
+            Assert.Throws<ArgumentOutOfRangeException>(() => new MannWhitneyDistribution(new double[] { 1 }, n1: 2, n2: 2));
+
+            Assert.Throws<ArgumentOutOfRangeException>(() => new MannWhitneyDistribution(new double[] { }, n1: 1, n2: 1));
+            Assert.Throws<ArgumentOutOfRangeException>(() => new MannWhitneyDistribution(new double[] { }, n1: 2, n2: 2));
+
+            Assert.Throws<ArgumentOutOfRangeException>(() => new MannWhitneyDistribution(n1: 0, n2: 1));
+            Assert.Throws<ArgumentOutOfRangeException>(() => new MannWhitneyDistribution(n1: 0, n2: 1));
+            Assert.Throws<ArgumentOutOfRangeException>(() => new MannWhitneyDistribution(n1: 0, n2: 1));
+
+            Assert.AreEqual(0.5, new MannWhitneyDistribution(n1: 1, n2: 1).Mean);
+            Assert.AreEqual(1, new MannWhitneyDistribution(n1: 1, n2: 2).Mean);
+            Assert.AreEqual(1, new MannWhitneyDistribution(n1: 2, n2: 1).Mean);
+            Assert.AreEqual(2, new MannWhitneyDistribution(n1: 2, n2: 2).Mean);
+
+
+
+            Assert.Throws<ArgumentOutOfRangeException>(() => new MannWhitneyDistribution(n1: 0, n2: 0));
+            Assert.Throws<ArgumentOutOfRangeException>(() => new MannWhitneyDistribution(n1: 0, n2: 1));
+            Assert.Throws<ArgumentOutOfRangeException>(() => new MannWhitneyDistribution(n1: 1, n2: 0));
+
+            Assert.Throws<ArgumentOutOfRangeException>(() => new MannWhitneyDistribution(n1: 0, n2: 2));
+            Assert.Throws<ArgumentOutOfRangeException>(() => new MannWhitneyDistribution(n1: 0, n2: 2));
+            Assert.Throws<ArgumentOutOfRangeException>(() => new MannWhitneyDistribution(n1: 2, n2: 0));
+
         }
     }
 }

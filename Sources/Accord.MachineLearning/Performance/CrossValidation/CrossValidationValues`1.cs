@@ -22,15 +22,16 @@
 
 namespace Accord.MachineLearning
 {
+    using Accord.MachineLearning.Performance;
     using System;
 
     /// <summary>
-    ///   Training and validation errors of a model. 
+    ///   Obsolete. Please refer to <see cref="CrossValidation{TModel, TInput}"/> instead.
     /// </summary>
     /// 
-    /// <typeparam name="TModel">The type of the model.</typeparam>
-    /// 
     [Serializable]
+    // TODO: Mark as obsolete
+    // [Obsolete("Please refer to CrossValidation<TModel, TInput> instead.")]
     public class CrossValidationValues<TModel> 
         where TModel : class
     {

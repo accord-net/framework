@@ -51,9 +51,11 @@ namespace Accord.MachineLearning
     /// <seealso cref="MeanShift"/> 
     /// 
     [Serializable]
-    public class GaussianMixtureModel : ParallelLearningBase, 
-        IClusteringAlgorithm<double[], double>,
-        IUnsupervisedLearning<GaussianClusterCollection, double[], int>
+    public class GaussianMixtureModel : ParallelLearningBase,
+        IUnsupervisedLearning<GaussianClusterCollection, double[], int>,
+#pragma warning disable 0618
+        IClusteringAlgorithm<double[], double>
+#pragma warning restore 0618
     {
         private GaussianClusterCollection clusters;
 
@@ -280,6 +282,10 @@ namespace Accord.MachineLearning
             if (ComputeLogLikelihood)
                 LogLikelihood = model.LogLikelihood(x);
 
+            Accord.Diagnostics.Debug.Assert(clusters.NumberOfClasses == clusters.Model.Components.Length);
+            Accord.Diagnostics.Debug.Assert(clusters.NumberOfOutputs == clusters.Model.Components.Length);
+            Accord.Diagnostics.Debug.Assert(clusters.NumberOfInputs == x[0].Length);
+
             return clusters;
         }
 
@@ -429,20 +435,23 @@ namespace Accord.MachineLearning
         #endregion
 
 
+#pragma warning disable 0618
         /// <summary>
         ///   Gets the collection of clusters currently modeled by the
         ///   clustering algorithm.
         /// </summary>
         /// 
+        [Obsolete("Please use Gaussians instead")]
         public IClusterCollection<double[]> Clusters
         {
-            get { return Gaussians; }
+            get { return (IClusterCollection<double[]>)Gaussians; }
         }
 
         IClusterCollection<double[]> IUnsupervisedLearning<IClusterCollection<double[]>, double[], int>.Learn(double[][] x, double[] weights)
         {
             return Learn(x);
         }
+#pragma warning restore 0618
     }
 
     /// <summary>

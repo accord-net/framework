@@ -92,7 +92,7 @@ namespace Analysis.PCA
 
 
             // Create a matrix from the source data table
-            this.inputs = (dgvAnalysisSource.DataSource as DataTable).ToArray(out columnNames);
+            this.inputs = (dgvAnalysisSource.DataSource as DataTable).ToJagged(out columnNames);
 
             // Create and compute a new Simple Descriptive Analysis
             sda = new DescriptiveAnalysis(columnNames).Learn(inputs);
@@ -145,7 +145,7 @@ namespace Analysis.PCA
 
             string[] colNames;
             int components = (int)numComponents.Value;
-            double[][] projectionSource = (dgvProjectionSource.DataSource as DataTable).ToArray(out colNames);
+            double[][] projectionSource = (dgvProjectionSource.DataSource as DataTable).ToJagged(out colNames);
 
             pca.NumberOfOutputs = components; // set the desired number of components
             double[][] projection = pca.Transform(projectionSource); // project the data

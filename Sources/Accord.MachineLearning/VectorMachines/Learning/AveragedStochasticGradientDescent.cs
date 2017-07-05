@@ -280,10 +280,21 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         ///   Default is 0 (iterate until convergence).
         /// </summary>
         /// 
+        public int MaxIterations
+        {
+            get { return convergence.MaxIterations; }
+            set { convergence.MaxIterations = value; }
+        }
+
+        /// <summary>
+        ///   Please use MaxIterations instead.
+        /// </summary>
+        /// 
+        [Obsolete("Please use MaxIterations instead.")]
         public int Iterations
         {
-            get { return convergence.Iterations; }
-            set { convergence.Iterations = value; }
+            get { return MaxIterations; }
+            set { MaxIterations = value; }
         }
 
         /// <summary>
@@ -345,7 +356,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         /// 
         protected BaseAveragedStochasticGradientDescent()
         {
-            Iterations = 0;
+            MaxIterations = 0;
             Tolerance = 1e-5;
         }
 
@@ -362,7 +373,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         ///   Renormalize the weights.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         void renorm()
@@ -385,7 +396,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         ///   Compute the norm of the weights.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         double wnorm()
@@ -400,7 +411,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         ///   Compute the norm of the averaged weights.
         /// </summary>
         /// 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         double anorm()
@@ -462,7 +473,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             }
         }
 
-#if NET45 || NET46
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         private double score(TInput x)
@@ -559,12 +570,15 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         /// </summary>
         /// <param name="x">The model inputs.</param>
         /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
-        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <param name="weights">The weight of importance for each input-output pair (if supported by the learning algorithm).</param>
         /// <returns>
         /// A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
         /// </returns>
         public override TModel Learn(TInput[] x, bool[] y, double[] weights = null)
         {
+            if (weights != null)
+                throw new ArgumentException(Accord.Properties.Resources.NotSupportedWeights, "weights");
+
             if (Model == null)
                 Model = Create(SupportVectorLearningHelper.GetNumberOfInputs(Kernel, x), Kernel);
 
@@ -653,7 +667,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             clone.regularizedBias = regularizedBias;
 
             clone.Tolerance = Tolerance;
-            clone.Iterations = Iterations;
+            clone.MaxIterations = MaxIterations;
 
             return clone;
         }

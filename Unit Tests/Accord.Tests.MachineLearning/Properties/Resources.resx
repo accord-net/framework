@@ -199,4 +199,13 @@
   <data name="times" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\rforest\times.csv;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
+  <data name="data16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\gh608\data16.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="labels16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\gh608\labels16.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="Shapes" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Shapes.csv;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
 </root>

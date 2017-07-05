@@ -116,7 +116,7 @@ namespace Analysis.LDA
             }
 
             // Create a matrix from the source data table
-            double[][] sourceMatrix = (dgvAnalysisSource.DataSource as DataTable).ToArray(out columnNames);
+            double[][] sourceMatrix = (dgvAnalysisSource.DataSource as DataTable).ToJagged(out columnNames);
 
             // Create and compute a new Simple Descriptive Analysis
             sda = new DescriptiveAnalysis(columnNames).Learn(sourceMatrix);
@@ -184,7 +184,7 @@ namespace Analysis.LDA
             dgvProjectionSource.EndEdit();
 
             // Creates a matrix from the source data table
-            double[][] sourceMatrix = (dgvProjectionSource.DataSource as DataTable).ToArray(out columnNames);
+            double[][] sourceMatrix = (dgvProjectionSource.DataSource as DataTable).ToJagged(out columnNames);
 
             // Gets only the X and Y
             double[][] data = sourceMatrix.GetColumns(0, 1);

@@ -95,7 +95,6 @@ namespace Accord.MachineLearning
         /// 
         public virtual TOutput[] Transform(TInput[] input, TOutput[] result)
         {
-            result = new TOutput[input.Length];
             for (int i = 0; i < input.Length; i++)
                 result[i] = Transform(input[i]);
             return result;

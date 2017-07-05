@@ -75,6 +75,9 @@ namespace Accord.Statistics.Analysis
     /// <code source="Unit Tests\Accord.Tests.Statistics\Analysis\ProportionalHazardsAnalysisTest.cs" region="doc_learn_part2" />
     /// </example>
     /// 
+    /// <seealso cref="ProportionalHazards"/>
+    /// <seealso cref="ProportionalHazardsNewtonRaphson"/>
+    /// 
     [Serializable]
     public class ProportionalHazardsAnalysis : IRegressionAnalysis,
         ISupervisedLearning<ProportionalHazards, Tuple<double[], double>, int>
@@ -611,7 +614,7 @@ namespace Accord.Statistics.Analysis
             Array.Clear(regression.Coefficients, 0, regression.Coefficients.Length);
 
 
-            learning.Iterations = Iterations;
+            learning.MaxIterations = Iterations;
             learning.Tolerance = Tolerance;
 
             learning.Learn(inputData, timeData, censorData);
@@ -649,7 +652,7 @@ namespace Accord.Statistics.Analysis
 
                 Array.Clear(innerModel.Coefficients, 0, inputCount - 1);
 
-                learning.Iterations = Iterations;
+                learning.MaxIterations = Iterations;
                 learning.Tolerance = Tolerance;
 
                 learning.Learn(data, timeData, censorData);
@@ -699,7 +702,7 @@ namespace Accord.Statistics.Analysis
         /// <param name="inputs">The model inputs.</param>
         /// <param name="censor">The output (event) associated with each input vector.</param>
         /// <param name="time">The time-to-event for the non-censored training samples.</param>
-        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <param name="weights">The weight of importance for each input-output pair (if supported by the learning algorithm).</param>
         /// <returns>
         /// A model that has learned how to produce <paramref name="censor" /> given <paramref name="inputs" /> and <paramref name="time" />.
         /// </returns>
@@ -719,7 +722,7 @@ namespace Accord.Statistics.Analysis
         /// <param name="inputs">The model inputs.</param>
         /// <param name="censor">The output (event) associated with each input vector.</param>
         /// <param name="time">The time-to-event for the non-censored training samples.</param>
-        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <param name="weights">The weight of importance for each input-output pair (if supported by the learning algorithm).</param>
         /// <returns>
         /// A model that has learned how to produce <paramref name="censor" /> given <paramref name="inputs" /> and <paramref name="time" />.
         /// </returns>
@@ -736,7 +739,7 @@ namespace Accord.Statistics.Analysis
         /// </summary>
         /// <param name="x">The model inputs.</param>
         /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
-        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <param name="weights">The weight of importance for each input-output pair (if supported by the learning algorithm).</param>
         /// <returns>
         /// A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
         /// </returns>
@@ -753,7 +756,7 @@ namespace Accord.Statistics.Analysis
         /// </summary>
         /// <param name="x">The model inputs.</param>
         /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
-        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <param name="weights">The weight of importance for each input-output pair (if supported by the learning algorithm).</param>
         /// <returns>
         /// A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
         /// </returns>
@@ -771,7 +774,7 @@ namespace Accord.Statistics.Analysis
             return new ProportionalHazardsNewtonRaphson()
             {
                 Model = model,
-                Iterations = Iterations,
+                MaxIterations = Iterations,
                 Tolerance = Tolerance,
                 Token = Token
             };

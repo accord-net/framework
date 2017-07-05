@@ -28,6 +28,7 @@ namespace Accord.Statistics.Models.Fields.Learning
     using Accord.Math.Optimization;
     using Accord.MachineLearning;
     using System.Threading;
+    using System.Threading.Tasks;
 
     /// <summary>
     ///   Quasi-Newton (L-BFGS) learning algorithm for <see cref="HiddenConditionalRandomField{T}">
@@ -37,52 +38,54 @@ namespace Accord.Statistics.Models.Fields.Learning
     /// <typeparam name="T">The type of the observations.</typeparam>
     /// 
     /// <example>
-    /// <para>
-    ///   For an example on how to learn Hidden Conditional Random Fields, please see the
-    ///   <see cref="HiddenResilientGradientLearning{T}">Hidden Resilient Gradient Learning</see>
-    ///   page. All learning algorithms can be utilized in a similar manner.</para>
+    ///   <code source="Unit Tests\Accord.Tests.Statistics\Models\Fields\HiddenConditionalRandomFieldTest.cs" region="doc_learn_1" />
+    ///   <code source="Unit Tests\Accord.Tests.Statistics\Models\Fields\HiddenConditionalRandomFieldTest.cs" region="doc_learn_2" />
+    ///   <code source="Unit Tests\Accord.Tests.Statistics\Models\Fields\HiddenConditionalRandomFieldTest.cs" region="doc_learn_3" />
+    ///   
+    ///   <para>
+    ///   The next example shows how to use the learning algorithms in a real-world dataset,
+    ///   including training and testing in separate sets and evaluating its performance:</para>
+    ///   <code source="Unit Tests\Accord.Tests.Statistics\Models\Fields\Learning\NormalQuasiNewtonHiddenLearningTest.cs" region="doc_learn_pendigits" />
     /// </example>
     /// 
+    /// <seealso cref="HiddenGradientDescentLearning{T}"/>
     /// <seealso cref="HiddenResilientGradientLearning{T}"/>
     /// 
-    public class HiddenQuasiNewtonLearning<T> :
-        ISupervisedLearning<HiddenConditionalRandomField<T>, T[], int>,
-        IHiddenConditionalRandomFieldLearning<T>,
-        IDisposable
+    public class HiddenQuasiNewtonLearning<T> : BaseHiddenGradientOptimizationLearning<T, BoundedBroydenFletcherGoldfarbShanno>,
+        ISupervisedLearning<HiddenConditionalRandomField<T>, T[], int>, IParallel,
+        IHiddenConditionalRandomFieldLearning<T>, IConvergenceLearning, IDisposable
     {
-        [NonSerialized]
-        CancellationToken token = new CancellationToken();
-
-        private BoundedBroydenFletcherGoldfarbShanno lbfgs;
-        private ForwardBackwardGradient<T> calculator;
-
-        /// <summary>
-        ///   Gets or sets the model being trained.
-        /// </summary>
-        /// 
-        public HiddenConditionalRandomField<T> Model { get; set; }
-
-        /// <summary>
-        /// Gets or sets a cancellation token that can be used to
-        /// stop the learning algorithm while it is running.
-        /// </summary>
-        public CancellationToken Token
+        int IConvergenceLearning.Iterations
         {
-            get { return token; }
-            set { token = value; }
+            get
+            {
+                if (Optimizer == null)
+                    return 0;
+                return Optimizer.Iterations;
+            }
+            set { throw new NotImplementedException(); }
         }
 
+        /// <summary>
+        /// Gets the current iteration number.
+        /// </summary>
+        /// <value>The current iteration.</value>
+        public int CurrentIteration
+        {
+            get
+            {
+                if (Optimizer != null)
+                    return Optimizer.Iterations;
+                return 0;
+            }
+        }
 
         /// <summary>
-        ///   Gets or sets the amount of the parameter weights
-        ///   which should be included in the objective function.
-        ///   Default is 0 (do not include regularization).
+        ///   Constructs a new L-BFGS learning algorithm.
         /// </summary>
         /// 
-        public double Regularization
+        public HiddenQuasiNewtonLearning()
         {
-            get { return calculator.Regularization; }
-            set { calculator.Regularization = value; }
         }
 
         /// <summary>
@@ -92,129 +95,30 @@ namespace Accord.Statistics.Models.Fields.Learning
         public HiddenQuasiNewtonLearning(HiddenConditionalRandomField<T> model)
         {
             Model = model;
+        }
 
-            calculator = new ForwardBackwardGradient<T>(model);
-
-            lbfgs = new BoundedBroydenFletcherGoldfarbShanno(model.Function.Weights.Length);
-            lbfgs.FunctionTolerance = 1e-3;
-            lbfgs.Function = calculator.Objective;
-            lbfgs.Gradient = calculator.Gradient;
+        /// <summary>
+        /// Inheritors of this class should create the optimization algorithm in this
+        /// method, using the current <see cref="P:Accord.Statistics.Models.Fields.Learning.BaseHiddenGradientOptimizationLearning`2.MaxIterations" /> and <see cref="P:Accord.Statistics.Models.Fields.Learning.BaseHiddenGradientOptimizationLearning`2.Tolerance" />
+        /// settings.
+        /// </summary>
+        /// <returns>BoundedBroydenFletcherGoldfarbShanno.</returns>
+        protected override BoundedBroydenFletcherGoldfarbShanno CreateOptimizer()
+        {
+            var lbfgs = new BoundedBroydenFletcherGoldfarbShanno(Model.Function.Weights.Length)
+            {
+                FunctionTolerance = Tolerance,
+                MaxIterations = MaxIterations,
+            };
 
             for (int i = 0; i < lbfgs.UpperBounds.Length; i++)
             {
                 lbfgs.UpperBounds[i] = 1e10;
                 lbfgs.LowerBounds[i] = -1e100;
             }
+
+            return lbfgs;
         }
-
-        /// <summary>
-        ///   Runs the learning algorithm with the specified input
-        ///   training observations and corresponding output labels.
-        /// </summary>
-        /// 
-        /// <param name="observations">The training observations.</param>
-        /// <param name="outputs">The observation's labels.</param>
-        /// 
-        [Obsolete("Please use Learn(x, y) instead.")]
-        public double Run(T[][] observations, int[] outputs)
-        {
-            return run(observations, outputs);
-        }
-
-        private double run(T[][] observations, int[] outputs)
-        {
-            calculator.Inputs = observations;
-            calculator.Outputs = outputs;
-
-            lbfgs.Token = Token;
-            lbfgs.Minimize(Model.Function.Weights);
-
-            Model.Function.Weights = lbfgs.Solution;
-
-            // Return negative log-likelihood as error function
-            return -Model.LogLikelihood(observations, outputs);
-        }
-
-        /// <summary>
-        ///   Online learning is not supported.
-        /// </summary>
-        ///   
-        public double Run(T[] observations, int output)
-        {
-            throw new NotSupportedException();
-        }
-
-        /// <summary>
-        ///   Online learning is not supported.
-        /// </summary>
-        ///   
-        [Obsolete("Use Run(T[][], int[]) instead.")]
-        public double RunEpoch(T[][] observations, int[] output)
-        {
-            throw new NotSupportedException();
-        }
-
-        /// <summary>
-        /// Learns a model that can map the given inputs to the given outputs.
-        /// </summary>
-        /// <param name="x">The model inputs.</param>
-        /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
-        /// <param name="weights">The weight of importance for each input-output pair.</param>
-        /// <returns>
-        /// A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
-        /// </returns>
-        public HiddenConditionalRandomField<T> Learn(T[][] x, int[] y, double[] weights = null)
-        {
-            run(x, y);
-            return Model;
-        }
-
-        #region IDisposable Members
-
-        /// <summary>
-        ///   Performs application-defined tasks associated with freeing,
-        ///   releasing, or resetting unmanaged resources.
-        /// </summary>
-        /// 
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        /// <summary>
-        ///   Releases unmanaged resources and performs other cleanup operations before
-        ///   the <see cref="HiddenQuasiNewtonLearning{T}"/> is reclaimed by garbage
-        ///   collection.
-        /// </summary>
-        /// 
-        ~HiddenQuasiNewtonLearning()
-        {
-            Dispose(false);
-        }
-
-        /// <summary>
-        ///   Releases unmanaged and - optionally - managed resources
-        /// </summary>
-        /// 
-        /// <param name="disposing"><c>true</c> to release both managed 
-        /// and unmanaged resources; <c>false</c> to release only unmanaged
-        /// resources.</param>
-        /// 
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                // free managed resources
-                if (calculator != null)
-                {
-                    calculator.Dispose();
-                    calculator = null;
-                }
-            }
-        }
-
-        #endregion
 
     }
 }

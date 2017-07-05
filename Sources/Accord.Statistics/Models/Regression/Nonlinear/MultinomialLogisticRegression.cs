@@ -25,37 +25,33 @@ namespace Accord.Statistics.Models.Regression
     using System;
     using Accord.Math;
     using Accord.Statistics.Testing;
-    using AForge;
     using Accord.MachineLearning;
     using System.Runtime.Serialization;
+    using Accord.Statistics.Models.Regression.Fitting;
+    using Accord.Math.Optimization;
 
     /// <summary>
     ///   Nominal Multinomial Logistic Regression.
     /// </summary>
     /// 
     /// <example>
-    ///   <code>
-    ///   // Create a new Multinomial Logistic Regression for 3 categories
-    ///   var mlr = new MultinomialLogisticRegression(inputs: 2, categories: 3);
+    ///   <para>
+    ///     The default optimizer for <see cref="MultinomialLogisticRegression"/> is the <see cref="LowerBoundNewtonRaphson"/> class:</para>
+    ///   <code source="Unit Tests\Accord.Tests.Statistics\Models\Regression\MultinomialLogisticRegressionTest.cs" region="doc_learn" />
     ///   
-    ///   // Create a estimation algorithm to estimate the regression
-    ///   LowerBoundNewtonRaphson lbnr = new LowerBoundNewtonRaphson(mlr);
+    ///   <para>
+    ///     Additionally, the <see cref="MultinomialLogisticLearning{TMethod}"/> class allows multinomial logistic regression models to be learnt using any 
+    ///     mathematical  optimization algorithm that implements the <see cref="IFunctionOptimizationMethod{TInput, TOutput}"/> interface. </para>
+    ///   <code source = "Unit Tests\Accord.Tests.Statistics\Models\Regression\MultinomialLogisticGradientDescentTest.cs" region="doc_learn_0" />
     ///   
-    ///   // Now, we will iteratively estimate our model. The Run method returns
-    ///   // the maximum relative change in the model parameters and we will use
-    ///   // it as the convergence criteria.
+    /// <para>Using Conjugate Gradient:</para>
+    ///   <code source = "Unit Tests\Accord.Tests.Statistics\Models\Regression\MultinomialLogisticGradientDescentTest.cs" region="doc_learn_cg" />
     ///   
-    ///   double delta;
-    ///   int iteration = 0;
+    /// <para>Using Gradient Descent:</para>
+    ///   <code source = "Unit Tests\Accord.Tests.Statistics\Models\Regression\MultinomialLogisticGradientDescentTest.cs" region="doc_learn_gd" />
     ///   
-    ///   do
-    ///   {
-    ///       // Perform an iteration
-    ///       delta = lbnr.Run(inputs, outputs);
-    ///       iteration++;
-    ///   
-    ///   } while (iteration &lt; 100 &amp;&amp; delta > 1e-6);
-    ///   </code>
+    /// <para>Using BFGS:</para>
+    ///   <code source = "Unit Tests\Accord.Tests.Statistics\Models\Regression\MultinomialLogisticGradientDescentTest.cs" region="doc_learn_bfgs" />
     /// </example>
     /// 
     [Serializable]
@@ -90,6 +86,7 @@ namespace Accord.Statistics.Models.Regression
                 throw new ArgumentOutOfRangeException("categories");
 
             this.NumberOfOutputs = categories;
+            this.NumberOfClasses = categories;
             this.NumberOfInputs = inputs;
             this.coefficients = new double[categories - 1][];
             this.standardErrors = new double[categories - 1][];

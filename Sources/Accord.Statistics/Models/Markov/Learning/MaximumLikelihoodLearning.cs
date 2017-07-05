@@ -26,6 +26,9 @@ namespace Accord.Statistics.Models.Markov.Learning
     using Accord.Math;
     using Accord.MachineLearning;
     using System.Threading;
+    using Accord.Statistics.Models.Markov.Topology;
+    using Accord.Statistics.Distributions.Univariate;
+    using Accord.Statistics.Distributions.Fitting;
 #pragma warning disable 612, 618
 
     /// <summary>
@@ -65,49 +68,10 @@ namespace Accord.Statistics.Models.Markov.Learning
     /// <seealso cref="ViterbiLearning"/>
     /// <seealso cref="HiddenMarkovModel"/>
     /// 
-    public class MaximumLikelihoodLearning : ISupervisedLearning,
-        ISupervisedLearning<HiddenMarkovModel, int[], int[]>
+    public class MaximumLikelihoodLearning :
+        BaseMaximumLikelihoodLearning<HiddenMarkovModel, GeneralDiscreteDistribution, int, GeneralDiscreteOptions>,
+        ISupervisedLearning, ISupervisedLearning<HiddenMarkovModel, int[], int[]>
     {
-        [NonSerialized]
-        CancellationToken token = new CancellationToken();
-
-        private HiddenMarkovModel model;
-        private bool useLaplaceRule = true;
-
-        private int[] initial;
-        private int[,] transitions;
-        private int[,] emissions;
-
-        /// <summary>
-        ///   Gets or sets a cancellation token that can be used to
-        ///   stop the learning algorithm while it is running.
-        /// </summary>
-        /// 
-        public CancellationToken Token
-        {
-            get { return token; }
-            set { token = value; }
-        }
-
-        /// <summary>
-        ///   Gets the model being trained.
-        /// </summary>
-        /// 
-        public HiddenMarkovModel Model
-        {
-            get { return model; }
-        }
-
-        /// <summary>
-        ///   Gets or sets whether to use Laplace's rule
-        ///   of succession to avoid zero probabilities.
-        /// </summary>
-        /// 
-        public bool UseLaplaceRule
-        {
-            get { return useLaplaceRule; }
-            set { useLaplaceRule = value; }
-        }
 
         /// <summary>
         ///   Creates a new instance of the Maximum Likelihood learning algorithm.
@@ -115,14 +79,15 @@ namespace Accord.Statistics.Models.Markov.Learning
         /// 
         public MaximumLikelihoodLearning(HiddenMarkovModel model)
         {
-            this.model = model;
+            this.Model = model;
+        }
 
-            int states = model.States;
-            int symbols = model.Symbols;
-
-            initial = new int[states];
-            transitions = new int[states, states];
-            emissions = new int[states, symbols];
+        /// <summary>
+        ///   Creates a new instance of the Maximum Likelihood learning algorithm.
+        /// </summary>
+        /// 
+        public MaximumLikelihoodLearning()
+        {
         }
 
 
@@ -148,38 +113,25 @@ namespace Accord.Statistics.Models.Markov.Learning
         {
             run(observations, paths);
 
-
             // 5. Compute log-likelihood
             double logLikelihood = Double.NegativeInfinity;
             for (int i = 0; i < observations.Length; i++)
-                logLikelihood = Special.LogSum(logLikelihood, model.Evaluate(observations[i]));
+                logLikelihood = Special.LogSum(logLikelihood, Model.Evaluate(observations[i]));
 
             return logLikelihood;
         }
 
-        /// <summary>
-        /// Learns a model that can map the given inputs to the given outputs.
-        /// </summary>
-        /// <param name="x">The model inputs.</param>
-        /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
-        /// <param name="weights">The weight of importance for each input-output pair.</param>
-        /// <returns>A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.</returns>
-        public HiddenMarkovModel Learn(int[][] x, int[][] y, double[] weights = null)
-        {
-            run(x, y);
-            return model;
-        }
-
-        private void run(int[][] observations, int[][] paths)
+        void run(int[][] observations, int[][] paths)
         {
             // Grab model information
+            var model = Model;
             int N = observations.Length;
             int states = model.States;
             int symbols = model.Symbols;
 
-            Array.Clear(initial, 0, initial.Length);
-            Array.Clear(transitions, 0, transitions.Length);
-            Array.Clear(emissions, 0, emissions.Length);
+            int[] initial = new int[states];
+            int[,] transitions = new int[states, states];
+            int[,] emissions = new int[states, symbols];
 
             // 1. Count first state occurrences
             for (int i = 0; i < paths.Length; i++)
@@ -198,7 +150,7 @@ namespace Accord.Statistics.Models.Markov.Learning
             // 4. Form log-probabilities, using the Laplace
             //    correction to avoid zero probabilities
 
-            if (useLaplaceRule)
+            if (UseLaplaceRule)
             {
                 // Use Laplace's rule of succession correction
                 // http://en.wikipedia.org/wiki/Rule_of_succession
@@ -273,6 +225,14 @@ namespace Accord.Statistics.Models.Markov.Learning
             return Run(observations as int[][], paths);
         }
 
-
+        /// <summary>
+        ///   Creates an instance of the model to be learned. Inheritors of this abstract 
+        ///   class must define this method so new models can be created from the training data.
+        /// </summary>
+        /// 
+        protected override HiddenMarkovModel Create(int[][] x, int numberOfClasses)
+        {
+            return new HiddenMarkovModel(states: numberOfClasses, symbols: x.Max() + 1);
+        }
     }
 }

@@ -31,8 +31,13 @@
     <DefineConstants>TRACE;NET46</DefineConstants>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'net462|AnyCPU' ">
+    <DefineConstants>TRACE;NET462</DefineConstants>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'mono|AnyCPU'">
     <DefineConstants>TRACE;MONO</DefineConstants>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
@@ -115,6 +120,9 @@
       <DependentUpon>SingularValueDecomposition.tt</DependentUpon>
     </Compile>
     <Compile Include="Distances\Angular.cs" />
+    <Compile Include="Distances\Dirac.cs" />
+    <Compile Include="Distances\WeightedSquareEuclidean.cs" />
+    <Compile Include="Distances\WeightedEuclidean.cs" />
     <Compile Include="IO\NumPy\NpzDictionary`1.cs" />
     <Compile Include="IO\NumPy\NpzDictionary.cs" />
     <Compile Include="IO\NumPy\NpzFormat.Reader.cs" />
@@ -126,6 +134,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Jagged.Product.tt</DependentUpon>
     </Compile>
+    <Compile Include="Matrix\Matrix.Set.cs" />
     <Compile Include="Matrix\Matrix.Linear.Generated.cs">
       <DependentUpon>Matrix.Linear.tt</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -224,10 +233,12 @@
     <Compile Include="Optimization\Unconstrained\TrustRegionNewtonMethod.cs" />
     <Compile Include="Random\IRandomNumberGenerator.cs" />
     <Compile Include="Random\ZigguratExponentialGenerator.cs" />
+    <Compile Include="Random\ConstantGenerator.cs" />
     <Compile Include="Random\ZigguratUniformGenerator.cs" />
     <Compile Include="Random\ZigguratUniformOneGenerator.cs" />
     <Compile Include="Random\ZigguratNormalGenerator.cs" />
     <Compile Include="Sort.cs" />
+    <Compile Include="Vector\Vector.Parse.cs" />
     <Compile Include="Vector\Vector.Sparse.cs" />
     <Compile Include="Vector\Vector.Common.cs" />
     <Compile Include="IO\Mat\MatArrayFlags.cs" />

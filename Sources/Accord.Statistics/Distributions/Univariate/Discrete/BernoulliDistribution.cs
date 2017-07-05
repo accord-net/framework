@@ -402,15 +402,15 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <param name="samples">The number of samples to generate.</param>
         /// <param name="result">The location where to store the samples.</param>
-        ///
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        /// 
         /// <returns>A random vector of observations drawn from this distribution.</returns>
         /// 
-        public override int[] Generate(int samples, int[] result)
+        public override int[] Generate(int samples, int[] result, Random source)
         {
-            var rand = Accord.Math.Random.Generator.Random;
-            for (int i = 0; i < result.Length; i++)
-                result[i] = rand.NextDouble() > this.probability ? 1 : 0;
-
+            for (int i = 0; i < samples; i++)
+                result[i] = source.NextDouble() > this.probability ? 1 : 0;
             return result;
         }
 
@@ -418,11 +418,14 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   Generates a random observation from the current distribution.
         /// </summary>
         /// 
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        /// 
         /// <returns>A random observations drawn from this distribution.</returns>
         /// 
-        public override int Generate()
+        public override int Generate(Random source)
         {
-            double u = Accord.Math.Random.Generator.Random.NextDouble();
+            double u = source.NextDouble();
             return u > this.probability ? 1 : 0;
         }
 

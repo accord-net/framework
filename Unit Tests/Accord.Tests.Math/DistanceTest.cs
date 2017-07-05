@@ -337,7 +337,7 @@ namespace Accord.Tests.Math
             Assert.IsTrue(Distance.IsMetric(new Chebyshev()));
             Assert.IsFalse(Distance.IsMetric(new Cosine()));
             Assert.IsTrue(Distance.IsMetric(new Hellinger()));
-            Assert.IsFalse(Distance.IsMetric(new SquareEuclidean()));
+            Assert.IsFalse(Distance.IsMetric<double[]>(new SquareEuclidean()));
             Assert.IsFalse(Distance.IsMetric(new BrayCurtis()));
             // Assert.IsFalse(Distance.IsMetric<double[]>(new Minkowski(2)));
             // Assert.IsFalse(Distance.IsMetric<double[]>(new Minkowski(3)));

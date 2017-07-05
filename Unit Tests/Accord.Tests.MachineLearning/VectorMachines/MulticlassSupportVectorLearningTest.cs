@@ -34,6 +34,11 @@ namespace Accord.Tests.MachineLearning
     using System.Collections.Generic;
     using System.Linq;
     using Accord.Statistics.Filters;
+    using System.IO;
+    using Accord.Statistics.Analysis;
+    using Accord.IO;
+    using Accord.Tests.MachineLearning.Properties;
+    using System.Data;
 
     [TestFixture]
     public class MulticlassSupportVectorLearningTest
@@ -68,6 +73,9 @@ namespace Accord.Tests.MachineLearning
             // Create a new Multi-class Support Vector Machine for one input,
             //  using the linear kernel and four disjoint classes.
             var machine = new MulticlassSupportVectorMachine(1, kernel, 4);
+            Assert.AreEqual(1, machine.NumberOfInputs);
+            Assert.AreEqual(4, machine.NumberOfOutputs);
+            Assert.AreEqual(4, machine.NumberOfClasses);
 
             // Create the Multi-class learning algorithm for the machine
             var teacher = new MulticlassSupportVectorLearning(machine, inputs, outputs);
@@ -80,6 +88,9 @@ namespace Accord.Tests.MachineLearning
             // Run the learning algorithm
             double error = teacher.Run();
 
+            Assert.AreEqual(1, machine.NumberOfInputs);
+            Assert.AreEqual(4, machine.NumberOfOutputs);
+            Assert.AreEqual(4, machine.NumberOfClasses);
             Assert.AreEqual(0, error);
             Assert.AreEqual(0, machine.Compute(inputs[0]));
             Assert.AreEqual(3, machine.Compute(inputs[1]));
@@ -136,6 +147,10 @@ namespace Accord.Tests.MachineLearning
             double error = new ZeroOneLoss(outputs).Loss(predicted);
             #endregion
 
+            Assert.AreEqual(3, ovo.NumberOfInputs);
+            Assert.AreEqual(4, ovo.NumberOfOutputs);
+            Assert.AreEqual(4, ovo.NumberOfClasses);
+
             Assert.AreEqual(0, error);
             Assert.IsTrue(predicted.IsEqual(outputs));
             Assert.IsTrue(ovo.Scores(inputs[0]).IsEqual(new double[] { 0.62, -0.25, -0.59, -0.62 }, 1e-2));
@@ -191,13 +206,17 @@ namespace Accord.Tests.MachineLearning
             double error = new ZeroOneLoss(outputs).Loss(predicted);
             #endregion
 
+            Assert.AreEqual(3, ovo.NumberOfInputs);
+            Assert.AreEqual(4, ovo.NumberOfOutputs);
+            Assert.AreEqual(4, ovo.NumberOfClasses);
+
             Assert.AreEqual(0, error);
             Assert.IsTrue(predicted.IsEqual(outputs));
             var s0 = ovo.Scores(inputs[0]);
             var s1 = ovo.Scores(inputs[1]);
             var s2 = ovo.Scores(inputs[2]);
-            Assert.IsTrue(s0.IsEqual(new double[] {  1, -1, -1, -1 }, 1e-2));
-            Assert.IsTrue(s1.IsEqual(new double[] { -1, -1, -1,  1 }, 1e-2));
+            Assert.IsTrue(s0.IsEqual(new double[] { 1, -1, -1, -1 }, 1e-2));
+            Assert.IsTrue(s1.IsEqual(new double[] { -1, -1, -1, 1 }, 1e-2));
             Assert.IsTrue(s2.IsEqual(new double[] { -1.18, 1.18, -1, -1 }, 1e-2));
         }
 
@@ -233,6 +252,10 @@ namespace Accord.Tests.MachineLearning
 
             IKernel kernel = new Linear();
             var machine = new MulticlassSupportVectorMachine(4, kernel, 3);
+            Assert.AreEqual(4, machine.NumberOfInputs);
+            Assert.AreEqual(3, machine.NumberOfOutputs);
+            Assert.AreEqual(3, machine.NumberOfClasses);
+
             var target = new MulticlassSupportVectorLearning(machine, inputs, outputs);
 
             target.Algorithm = (svm, classInputs, classOutputs, i, j) =>
@@ -315,6 +338,10 @@ namespace Accord.Tests.MachineLearning
                 int imax; Matrix.Max(answersWeights, out imax);
                 Assert.AreEqual(answer, imax);
             }
+
+            Assert.AreEqual(5, machine.NumberOfInputs);
+            Assert.AreEqual(4, machine.NumberOfOutputs);
+            Assert.AreEqual(4, machine.NumberOfClasses);
         }
 
         [Test]
@@ -439,6 +466,10 @@ namespace Accord.Tests.MachineLearning
             double error = new ZeroOneLoss(outputs).Loss(predicted);
             #endregion
 
+            Assert.AreEqual(4, machine.NumberOfInputs);
+            Assert.AreEqual(3, machine.NumberOfOutputs);
+            Assert.AreEqual(3, machine.NumberOfClasses);
+
             Assert.AreEqual(0, error);
             Assert.IsTrue(predicted.IsEqual(outputs));
         }
@@ -516,11 +547,11 @@ namespace Accord.Tests.MachineLearning
             double loss = new CategoryCrossEntropyLoss(outputs).Loss(prob);
 
             string str = scores.ToCSharp();
- 
+
             double[] expectedScores =
-            { 
+            {
                 1.00888999727541, 1.00303259868784, 1.00068403386636, 1.00888999727541,
-                1.00303259868784, 1.00831890183328, 1.00831890183328, 0.843757409449037, 
+                1.00303259868784, 1.00831890183328, 1.00831890183328, 0.843757409449037,
                 0.996768862332386, 0.996768862332386, 1.02627325826713, 1.00303259868784,
                 0.996967401312164, 0.961947708617365, 1.02627325826713
             };
@@ -541,7 +572,7 @@ namespace Accord.Tests.MachineLearning
                 new double[] { -1.00303259868784, -0.38657999872922, 1.00303259868784 },
                 new double[] { -0.996967401312164, -0.38657999872922, 0.996967401312164 },
                 new double[] { -0.479189991343958, -0.961947708617365, 0.961947708617365 },
-                new double[] { -1.02627325826713, -1.00323113766761, 1.02627325826713 } 
+                new double[] { -1.02627325826713, -1.00323113766761, 1.02627325826713 }
             };
 
             double[][] expectedProbs =
@@ -560,7 +591,7 @@ namespace Accord.Tests.MachineLearning
                 new double[] { 0.0972161784678357, 0.180077937396817, 0.722705884135347 },
                 new double[] { 0.0981785890979593, 0.180760971768703, 0.721060439133338 },
                 new double[] { 0.171157270099157, 0.105617610634377, 0.723225119266465 },
-                new double[] { 0.10192623206507, 0.104302095948601, 0.79377167198633 } 
+                new double[] { 0.10192623206507, 0.104302095948601, 0.79377167198633 }
             };
 
             Assert.AreEqual(0, error);
@@ -598,8 +629,8 @@ namespace Accord.Tests.MachineLearning
             int[] outputs = // those are the class labels
             {
                 0, 0, 0, 0, 0,
-                1, 1, 1, 
-                2, 2, 2, 2, 
+                1, 1, 1,
+                2, 2, 2, 2,
             };
 
             // Create the multi-class learning algorithm for the machine
@@ -659,10 +690,10 @@ namespace Accord.Tests.MachineLearning
 
             double[] expectedScores =
             {
-                1.87436400885238, 1.81168086449304, 1.74038320983522, 
-                1.87436400885238, 1.81168086449304, 1.55446926953952, 
-                1.67016543853596, 1.67016543853596, 1.83135194001403, 
-                1.83135194001403, 1.59836868669125, 2.0618816310294 
+                1.87436400885238, 1.81168086449304, 1.74038320983522,
+                1.87436400885238, 1.81168086449304, 1.55446926953952,
+                1.67016543853596, 1.67016543853596, 1.83135194001403,
+                1.83135194001403, 1.59836868669125, 2.0618816310294
             };
 
             double[][] expectedLogL =
@@ -678,7 +709,7 @@ namespace Accord.Tests.MachineLearning
                 new double[] { -1.83135194001403, -1.20039293330558, 1.83135194001403 },
                 new double[] { -1.83135194001403, -1.20039293330558, 1.83135194001403 },
                 new double[] { -0.894598978116595, -1.59836868669125, 1.59836868669125 },
-                new double[] { -1.87336852014759, -2.0618816310294, 2.0618816310294 } 
+                new double[] { -1.87336852014759, -2.0618816310294, 2.0618816310294 }
             };
 
             double[][] expectedProbs =
@@ -694,7 +725,7 @@ namespace Accord.Tests.MachineLearning
                 new double[] { 0.0238971617859334, 0.0449126146360623, 0.931190223578004 },
                 new double[] { 0.0238971617859334, 0.0449126146360623, 0.931190223578004 },
                 new double[] { 0.0735735561383806, 0.0363980776342206, 0.890028366227399 },
-                new double[] { 0.0188668069460003, 0.0156252941482294, 0.96550789890577 } 
+                new double[] { 0.0188668069460003, 0.0156252941482294, 0.96550789890577 }
             };
 
             Assert.AreEqual(0, error);
@@ -735,8 +766,8 @@ namespace Accord.Tests.MachineLearning
             int[] outputs = // those are the class labels
             {
                 0, 0, 0, 0, 0,
-                1, 1, 1, 
-                2, 2, 2, 2, 
+                1, 1, 1,
+                2, 2, 2, 2,
             };
 
             // Create the multi-class learning algorithm for the machine
@@ -785,16 +816,16 @@ namespace Accord.Tests.MachineLearning
             // Compute classification error
             double error = new ZeroOneLoss(outputs).Loss(predicted);
             double loss = new CategoryCrossEntropyLoss(outputs).Loss(prob);
-            
+
 
             //string str = logl.ToCSharp();
 
             double[] expectedScores =
             {
-                1.87436400885238, 1.81168086449304, 1.74038320983522, 
-                1.87436400885238, 1.81168086449304, 1.55446926953952, 
-                1.67016543853596, 1.67016543853596, 1.83135194001403, 
-                1.83135194001403, 1.59836868669125, 2.0618816310294 
+                1.87436400885238, 1.81168086449304, 1.74038320983522,
+                1.87436400885238, 1.81168086449304, 1.55446926953952,
+                1.67016543853596, 1.67016543853596, 1.83135194001403,
+                1.83135194001403, 1.59836868669125, 2.0618816310294
             };
 
             double[][] expectedLogL =
@@ -810,7 +841,7 @@ namespace Accord.Tests.MachineLearning
                 new double[] { -1.83135194001403, -1.20039293330558, 1.83135194001403 },
                 new double[] { -1.83135194001403, -1.20039293330558, 1.83135194001403 },
                 new double[] { -0.894598978116595, -1.59836868669125, 1.59836868669125 },
-                new double[] { -1.87336852014759, -2.0618816310294, 2.0618816310294 } 
+                new double[] { -1.87336852014759, -2.0618816310294, 2.0618816310294 }
             };
 
             double[][] expectedProbs =
@@ -826,7 +857,7 @@ namespace Accord.Tests.MachineLearning
                 new double[] { 0.0238971617859334, 0.0449126146360623, 0.931190223578004 },
                 new double[] { 0.0238971617859334, 0.0449126146360623, 0.931190223578004 },
                 new double[] { 0.0735735561383806, 0.0363980776342206, 0.890028366227399 },
-                new double[] { 0.0188668069460003, 0.0156252941482294, 0.96550789890577 } 
+                new double[] { 0.0188668069460003, 0.0156252941482294, 0.96550789890577 }
             };
 
             // Must be exactly the same as test above
@@ -834,7 +865,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(0.5, ((Gaussian)machine[0].Value.Kernel).Gamma);
             Assert.AreEqual(0.5, ((Gaussian)machine[1].Value.Kernel).Gamma);
             Assert.AreEqual(0.5, ((Gaussian)machine[2].Value.Kernel).Gamma);
-            Assert.AreEqual(1.0231652126930515, loss);
+            Assert.AreEqual(1.0231652126930515, loss, 1e-8);
             Assert.IsTrue(predicted.IsEqual(outputs));
             Assert.IsTrue(expectedScores.IsEqual(scores, 1e-10));
             Assert.IsTrue(expectedLogL.IsEqual(logl, 1e-10));
@@ -938,7 +969,7 @@ namespace Accord.Tests.MachineLearning
             double[][] K = kernel.ToJagged(trainInputs);
 
             // Create a pre-computed kernel
-            var pre  = new Precomputed(K);
+            var pre = new Precomputed(K);
 
             // Create a one-vs-one learning algorithm using SMO
             var teacher = new MulticlassSupportVectorLearning<Precomputed, int>()
@@ -974,7 +1005,7 @@ namespace Accord.Tests.MachineLearning
 
             int[] testOutputs = // those are the test set class labels
             {
-                0, 0,  1,  2, 
+                0, 0,  1,  2,
             };
 
             // Compute precomputed matrix between train and testing
@@ -1012,21 +1043,23 @@ namespace Accord.Tests.MachineLearning
 
             Assert.AreEqual(4, expected.NumberOfInputs);
             Assert.AreEqual(3, expected.NumberOfOutputs);
-            Assert.AreEqual(0, machine.NumberOfInputs);
+            Assert.AreEqual(1, machine.NumberOfInputs);
             Assert.AreEqual(3, machine.NumberOfOutputs);
 
-            var machines = Enumerable.Zip(machine, expected, (a,b) => Tuple.Create(a.Value, b.Value));
+            var machines = Enumerable.Zip(machine, expected, (a, b) => Tuple.Create(a.Value, b.Value));
 
             foreach (var pair in machines)
             {
                 var a = pair.Item1;
                 var e = pair.Item2;
 
-                Assert.AreEqual(0, a.NumberOfInputs);
-                Assert.AreEqual(2, a.NumberOfOutputs);
+                Assert.AreEqual(1, a.NumberOfInputs);
+                Assert.AreEqual(2, a.NumberOfClasses);
+                Assert.AreEqual(1, a.NumberOfOutputs);
 
                 Assert.AreEqual(4, e.NumberOfInputs);
-                Assert.AreEqual(2, e.NumberOfOutputs);
+                Assert.AreEqual(2, e.NumberOfClasses);
+                Assert.AreEqual(1, e.NumberOfOutputs);
 
                 Assert.IsTrue(a.Weights.IsEqual(e.Weights));
             }
@@ -1063,7 +1096,7 @@ namespace Accord.Tests.MachineLearning
             // have 3 classes, but they have the class labels 5, 1, and 8
             // respectively. In this case, we can use a Codification filter
             // to obtain a contiguous zero-indexed labeling before learning
-            int[] output_labels = 
+            int[] output_labels =
             {
                 5, 5, 5, 5, 5,
                 1, 1, 1, 1, 1,
@@ -1105,5 +1138,86 @@ namespace Accord.Tests.MachineLearning
             Assert.IsTrue(predicted_labels.IsEqual(output_labels));
         }
 
+
+
+        [Test]
+        public void index_out_range_test()
+        {
+            Accord.Math.Random.Generator.Seed = 0;
+
+            var x = new Accord.IO.CsvReader(new StringReader(Properties.Resources.data16), hasHeaders: false).ToJagged<double>();
+            var y = new Accord.IO.CsvReader(new StringReader(Properties.Resources.labels16), hasHeaders: false).ToJagged<int>().GetColumn(0);
+
+            var msvl = new MulticlassSupportVectorLearning<Linear>()
+            {
+                Learner = (param) => new LinearDualCoordinateDescent<Linear>()
+                {
+                    Complexity = 10000000,
+                }
+            };
+
+            var svm = msvl.Learn(x, y);
+
+            var actual = svm.Decide(x);
+
+            var cm = new ConfusionMatrix(actual, y);
+
+            Assert.AreEqual(0.999, cm.Accuracy, 1e-2);
+        }
+
+        [Test]
+        public void dynamic_time_warp_issue_470()
+        {
+            var instances = CsvReader.FromText(Resources.Shapes, hasHeaders: false).Select(x => new
+            {
+                InstanceId = int.Parse(x[0]),
+                ClassId = int.Parse(x[1]),
+                X = Double.Parse(x[3]),
+                Y = Double.Parse(x[4])
+            });
+
+            var Sequences = (from a in instances
+                             group a by a.InstanceId into g
+                             select new
+                             {
+                                 InstanceId = g.Key,
+                                 ClassID = g.First().ClassId,
+                                 Values = Enumerable.Zip(g.Select(x => x.X), g.Select(x => x.Y),
+                                     (a, b) => new double[] { a, b }).ToArray()
+                             }).ToList();
+
+
+
+            double[][][] inputs = Sequences.Select(x=>x.Values).ToArray(); // X,Y values sequences from attached file.
+            int[] outputs = Sequences.Select(x=>x.ClassID).ToArray();      // Class 0,1,2
+
+
+            // Create the learning algorithm to teach the multiple class classifier
+            var teacher = new MulticlassSupportVectorLearning<DynamicTimeWarping, double[][]>()
+            {
+                Learner = (param) => new SequentialMinimalOptimization<DynamicTimeWarping, double[][]>()
+                {
+                    Kernel = new DynamicTimeWarping(length: 2), // (x, y) pairs
+                }
+            };
+
+            // Learn the SVM using the SMO algorithm
+            var svm = teacher.Learn(inputs, outputs);
+
+            // Compute predicted values (at once)
+            int[] predicted = svm.Decide(inputs);  
+
+            // Compute individual values and compare
+            for (int i = 0; i < inputs.Length; i++)
+            {
+                int outClass = svm.Decide(inputs[i]); 
+                Assert.AreEqual(predicted[i], outClass);
+            }
+
+
+            Assert.AreEqual(3, svm.NumberOfClasses);
+            Assert.AreEqual(0, svm.NumberOfInputs);
+            Assert.AreEqual(3, svm.NumberOfOutputs);
+        }
     }
 }

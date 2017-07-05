@@ -31,6 +31,10 @@ namespace Accord.Tests.Imaging
     using Accord.Imaging;
     using Accord.Imaging.Filters;
     using NUnit.Framework;
+    using Accord.Tests.Imaging.Properties;
+#if NETSTANDARD2_0
+    using Resources = Accord.Tests.Imaging.Properties.Resources_Standard;
+#endif
 
     [TestFixture]
     public class ImageToMatrixTest
@@ -91,7 +95,7 @@ namespace Accord.Tests.Imaging
         public void ConvertTest()
         {
             ImageToMatrix target = new ImageToMatrix(min: 0, max: 255);
-            Bitmap image = Accord.Imaging.Image.Clone(Properties.Resources.image1);
+            Bitmap image = Accord.Imaging.Image.Clone(Resources.image1);
 
             new Invert().ApplyInPlace(image);
             new Threshold().ApplyInPlace(image);
@@ -129,7 +133,7 @@ namespace Accord.Tests.Imaging
         public void ConvertTest2()
         {
             // Load a test image
-            Bitmap sourceImage = Accord.Imaging.Image.Clone(Properties.Resources.image1);
+            Bitmap sourceImage = Accord.Imaging.Image.Clone(Resources.image1);
 
             // Make sure values are binary
             new Threshold().ApplyInPlace(sourceImage);
@@ -217,7 +221,7 @@ namespace Accord.Tests.Imaging
         public void ConvertTest4()
         {
             ImageToMatrix target = new ImageToMatrix(min: 0, max: 255);
-            Bitmap image = Accord.Imaging.Image.Clone(Properties.Resources.image3);
+            Bitmap image = Accord.Imaging.Image.Clone(Resources.image3);
             Assert.AreEqual(PixelFormat.Format32bppArgb, image.PixelFormat);
 
             {

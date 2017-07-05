@@ -148,7 +148,7 @@
       <NamespaceSummaryItem name="Accord.Collections" isDocumented="True">Contains collections such as Lists, Dictionaries, Trees and other useful structures.</NamespaceSummaryItem>
     </NamespaceSummaries>
     <ProjectSummary>&amp;lt%3bpara&amp;gt%3b
-  Accord.NET provides statistical analysis, machine learning, image processing and computer vision methods for .NET applications. The Accord.NET Framework extends the popular AForge.NET with new features, adding to a more complete environment for scientific computing in .NET. &amp;lt%3b/para&amp;gt%3b
+  Accord.NET provides statistical analysis, machine learning, image processing and computer vision methods for .NET applications. Once an extension to the former AForge.NET Framework, the framework grew to incorporate AForge.NET and complement it with new features, adding to a more complete environment for scientific computing in .NET. &amp;lt%3b/para&amp;gt%3b
 
 
 &amp;lt%3bpara&amp;gt%3b
@@ -261,7 +261,7 @@
     <PresentationStyle>VS2013</PresentationStyle>
     <SyntaxFilters>C#, Visual Basic</SyntaxFilters>
     <NamingMethod>MemberName</NamingMethod>
-    <HelpFileVersion>3.5.0.0</HelpFileVersion>
+    <HelpFileVersion>3.6.0.0</HelpFileVersion>
     <FrameworkVersion>.NET Framework 4.6</FrameworkVersion>
     <VisibleItems>Attributes, InheritedMembers, InheritedFrameworkMembers, Protected</VisibleItems>
     <PlugInNamespaces>ms.vsipcc+, ms.vsexpresscc+</PlugInNamespaces>
@@ -317,8 +317,6 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)' == 'NET46' ">
     <OutputPath>..\..\..\..\..\..\Docs\</OutputPath>
   </PropertyGroup>
   <ItemGroup>

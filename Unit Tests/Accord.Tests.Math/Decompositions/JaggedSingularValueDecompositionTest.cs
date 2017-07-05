@@ -530,5 +530,37 @@ namespace Accord.Tests.Math
                 Assert.IsTrue(Matrix.IsEqual(actual, expected, 1e-8));
             }
         }
+
+        [Test]
+        public void issue_614()
+        {
+            // https://github.com/accord-net/framework/issues/614
+
+            double[][] A =
+            {
+                new double[] { 1 },
+                new double[] { 0 }
+            };
+
+            double[][] B =
+            {
+                new double[] { 1 },
+                new double[] { 0 }
+            };
+
+
+            double[][] X = Accord.Math.Matrix.Solve(A, B, true);
+
+            double[][] expected =
+            {
+                new double[] { 1 }
+            };
+
+            Assert.IsTrue(expected.IsEqual(X));
+
+            X = new JaggedSingularValueDecomposition(A).Solve(B);
+
+            Assert.IsTrue(expected.IsEqual(X));
+        }
     }
 }

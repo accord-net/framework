@@ -31,8 +31,13 @@
     <DefineConstants>TRACE;NET46</DefineConstants>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'net462|AnyCPU' ">
+    <DefineConstants>TRACE;NET462</DefineConstants>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'mono|AnyCPU'">
     <DefineConstants>TRACE;MONO</DefineConstants>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <ItemGroup>
@@ -48,9 +53,44 @@
     <Compile Include="..\Accord.Core\Properties\VersionInfo.cs">
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
+    <Compile Include="Clustering\CentroidCluster`3.cs" />
+    <Compile Include="Clustering\CentroidCluster`4.cs" />
+    <Compile Include="Clustering\IClusterCollection`3.cs" />
     <Compile Include="Clustering\KMeans\BalancedKMeans.cs" />
     <Compile Include="DecisionTrees\DecisionTreeHelper.cs" />
     <Compile Include="BaseKNearestNeighbors`2.cs" />
+    <Compile Include="Performance\GridSearch\New\GridSearchRange.cs" />
+    <Compile Include="Performance\GridSearch\New\GridSearch`2.cs" />
+    <Compile Include="Performance\GridSearch\New\GridSearch`3.cs" />
+    <Compile Include="Performance\GridSearch\New\GridSearch`5.cs" />
+    <Compile Include="Performance\GridSearch\New\GridSearch.cs" />
+    <Compile Include="Performance\GridSearch\New\GridSearch`4.cs" />
+    <Compile Include="Performance\GridSearch\New\BaseGridSearch`5.cs" />
+    <Compile Include="Performance\Base\BaseSplitSetValidation`4.cs" />
+    <Compile Include="Performance\Bootstrap\New\BootstrapResult`3.cs" />
+    <Compile Include="Performance\Bootstrap\New\Bootstrap`2.cs" />
+    <Compile Include="Performance\Bootstrap\New\Bootstrap`3.cs" />
+    <Compile Include="Performance\CrossValidation\New\CrossValidationResult`3.cs" />
+    <Compile Include="Performance\Base\BaseSplitSetValidation`3.cs" />
+    <Compile Include="Performance\Data Splits\Base\IDataSplit.cs" />
+    <Compile Include="Performance\Data Splits\TrainValTestDataSplit.cs" />
+    <Compile Include="Performance\Data Splits\TrainTestDataSplit.cs" />
+    <Compile Include="Performance\GridSearch\New\GridSearchResult`4.cs" />
+    <Compile Include="Performance\GridSearch\New\IGridSearchRange.cs" />
+    <Compile Include="Performance\SetResult.cs" />
+    <Compile Include="Performance\SplitResult.cs" />
+    <Compile Include="Performance\CrossValidation\New\CrossValidation`2.cs" />
+    <Compile Include="Performance\CrossValidation\New\CrossValidation`3.cs" />
+    <Compile Include="Performance\Data Splits\DataSubset.cs" />
+    <Compile Include="Performance\SplitSet\New\SplitSetValidation`2.cs" />
+    <Compile Include="Performance\SplitSet\New\SplitSetValidation`3.cs" />
+    <Compile Include="Performance\Data Splits\TrainValDataSplit.cs" />
+    <Compile Include="Performance\Data Splits\Base\TrainValSplit.cs" />
+    <Compile Include="Performance\Data Splits\Base\TrainValTestSplit.cs" />
+    <Compile Include="Performance\Data Splits\Base\TrainTestSplit.cs" />
+    <Compile Include="Representations\BagOfWords`1.cs" />
+    <Compile Include="Representations\BagOfWords`2.cs" />
+    <Compile Include="Representations\BaseBagOfWords`3.cs" />
     <Compile Include="Representations\TFIDF.cs" />
     <Compile Include="Representations\BagOfWords.cs" />
     <Compile Include="Rules\AssociationRule.cs" />
@@ -70,10 +110,9 @@
     <Compile Include="Boosting\Learners\Weak.cs" />
     <Compile Include="Boosting\Learners\IWeakClassifier.cs" />
     <Compile Include="Boosting\Learners\DecisionStump.cs" />
-    <Compile Include="Clustering\ClusterCollection`3.cs" />
+    <Compile Include="Clustering\BaseCluster`3.cs" />
     <Compile Include="Clustering\KMeans\BinarySplit.cs" />
     <Compile Include="Clustering\Gaussian\GaussianCluster.cs" />
-    <Compile Include="Clustering\ClusterCollection`2.cs" />
     <Compile Include="Clustering\MeanShift\MeanShiftCluster.cs" />
     <Compile Include="Clustering\KMeans\KMeansCluster.cs" />
     <Compile Include="Clustering\IClusteringAlgorithm.cs" />
@@ -141,7 +180,7 @@
     <Compile Include="Performance\SplitSet\SplitSetStatistics`1.cs" />
     <Compile Include="Performance\SplitSet\SplitSetResult`1.cs" />
     <Compile Include="Performance\SplitSet\SplitSetValidation`1.cs" />
-    <Compile Include="GridSearch.cs" />
+    <Compile Include="GridSearch`1.cs" />
     <Compile Include="Clustering\KMeans\KMeans.cs" />
     <Compile Include="QLearning.cs" />
     <Compile Include="Ransac.cs" />

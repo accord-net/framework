@@ -80,9 +80,9 @@ namespace Accord.Statistics.Running
         {
             this.Classifier = model;
 
-            this.Responses = new double[model.Classes];
-            this.models = new RunningMarkovStatistics[model.Classes];
-            for (int i = 0; i < model.Classes; i++)
+            this.Responses = new double[model.NumberOfClasses];
+            this.models = new RunningMarkovStatistics[model.NumberOfClasses];
+            for (int i = 0; i < model.NumberOfClasses; i++)
                 this.models[i] = new RunningMarkovStatistics(model[i]);
 
             if (model.Threshold != null)

@@ -22,12 +22,14 @@
 
 namespace Accord.MachineLearning
 {
+    using Accord.MachineLearning.Performance;
     using System;
 
     /// <summary>
-    ///   Information class to store the training and validation errors of a model. 
+    ///   Obsolete. Please refer to <see cref="CrossValidation{TModel, TInput}"/> instead.
     /// </summary>
     /// 
+    [Obsolete("Please refer to CrossValidation<TModel, TInput> instead.")]
     [Serializable]
     public class CrossValidationValues : CrossValidationValues<object>
     {

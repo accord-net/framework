@@ -141,9 +141,9 @@ namespace Accord.MachineLearning.Bayes
         /// <param name="symbols">The number of symbols for each input variable.</param>
         /// 
         public NaiveBayes(int classes, params int[] symbols)
-            : base(classes, symbols.Length, (int j) => new GeneralDiscreteDistribution(symbols[j]))
+            : base(classes, symbols.Length, (int j) => new GeneralDiscreteDistribution(logarithm: false, symbols: Math.Max(symbols[j], 2)))
         {
-            if (classes <= 0)
+            if (classes < 2)
                 throw new ArgumentOutOfRangeException("classes");
 
             if (symbols == null)
@@ -516,7 +516,7 @@ namespace Accord.MachineLearning.Bayes
                 {
                     for (int j = 0; j < nb.Distributions[i].Components.Length; j++)
                     {
-                        nb.Distributions[i].Components[j].Frequencies = obj.probabilities[i, j];
+                        obj.probabilities[i, j].CopyTo(nb.Distributions[i].Components[j].Frequencies, 0);
                     }
                 }
 

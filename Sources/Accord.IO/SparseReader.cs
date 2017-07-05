@@ -129,12 +129,22 @@ namespace Accord.IO
         public List<string> SampleDescriptions { get { return descriptions; } }
 
         /// <summary>
+        ///   Obsolete. Please use <see cref="NumberOfInputs"/> instead.
+        /// </summary>
+        /// 
+        [Obsolete("Please use NumberOfInputs instead.")]
+        public int Dimensions
+        {
+            get { return NumberOfInputs; }
+        }
+
+        /// <summary>
         ///   Gets the number of features present in this dataset. Please 
         ///   note that, when using the sparse representation, it is not
         ///   strictly necessary to know this value.
         /// </summary>
         /// 
-        public int Dimensions
+        public int NumberOfInputs
         {
             get
             {
@@ -355,6 +365,22 @@ namespace Accord.IO
         /// <returns>A tuple containing the sparse vector as the first item
         ///   and its associated output value as the second item.</returns>
         ///   
+        public void Read(out Sparse<double> sample, out int output)
+        {
+            var values = ReadLine();
+            output = Int32.Parse(values.Item2, CultureInfo.InvariantCulture);
+            sample = Sparse.Parse(values.Item1, Intercept);
+        }
+
+        /// <summary>
+        ///   Reads a sample from the file and returns it as a
+        ///   <see cref="Sparse{T}"/> sparse vector, together with
+        ///   its associated output value.
+        /// </summary>
+        /// 
+        /// <returns>A tuple containing the sparse vector as the first item
+        ///   and its associated output value as the second item.</returns>
+        ///   
         public void Read(out Sparse<double> sample, out bool output)
         {
             var values = ReadLine();
@@ -401,6 +427,38 @@ namespace Accord.IO
             {
                 Sparse<double> s;
                 double o;
+                Read(out s, out o);
+                sampleList.Add(s);
+                outputList.Add(o);
+                if (count > 0 && sampleList.Count >= count)
+                    break;
+            }
+
+            samples = sampleList.ToArray();
+            outputs = outputList.ToArray();
+        }
+
+
+        /// <summary>
+        ///   Reads <paramref name="count"/> samples from the file and returns
+        ///   them as a <see cref="Sparse{T}"/> sparse vector, together with
+        ///   their associated output values.
+        /// </summary>
+        /// 
+        /// <param name="count">The number of samples to read.</param>
+        /// <param name="samples">The samples that have been read from the file.</param>
+        /// <param name="outputs">The output labels associated with each sample in <paramref name="samples"/>.</param>
+        /// 
+        /// 
+        public void Read(int count, out Sparse<double>[] samples, out int[] outputs)
+        {
+            var sampleList = new List<Sparse<double>>();
+            var outputList = new List<int>();
+
+            while (!reader.EndOfStream)
+            {
+                Sparse<double> s;
+                int o;
                 Read(out s, out o);
                 sampleList.Add(s);
                 outputList.Add(o);
@@ -484,6 +542,20 @@ namespace Accord.IO
             Read(-1, out samples, out outputs);
         }
 
+        /// <summary>
+        ///   Reads all samples from the file and returns them as a
+        ///   <see cref="Sparse{T}"/> sparse vector, together with
+        ///   their associated output values.
+        /// </summary>
+        /// 
+        /// <param name="samples">The samples that have been read from the file.</param>
+        /// <param name="outputs">The output labels associated with each sample in <paramref name="samples"/>.</param>
+        /// 
+        public void ReadToEnd(out Sparse<double>[] samples, out int[] outputs)
+        {
+            Read(-1, out samples, out outputs);
+        }
+
 
         /// <summary>
         ///   Reads a sample from the file and returns it as a
@@ -496,7 +568,7 @@ namespace Accord.IO
         public Tuple<double[], double> ReadDense()
         {
             var sparse = ReadSparse();
-            return Tuple.Create(sparse.Item1.ToDense(Dimensions), sparse.Item2);
+            return Tuple.Create(sparse.Item1.ToDense(NumberOfInputs), sparse.Item2);
         }
 
         /// <summary>
@@ -515,7 +587,7 @@ namespace Accord.IO
             var sparse = ReadSparse(count);
             var dense = new double[sparse.Item1.Length][];
             for (int i = 0; i < dense.Length; i++)
-                dense[i] = sparse.Item1[i].ToDense(Dimensions);
+                dense[i] = sparse.Item1[i].ToDense(NumberOfInputs);
             return Tuple.Create(dense, sparse.Item2);
         }
 

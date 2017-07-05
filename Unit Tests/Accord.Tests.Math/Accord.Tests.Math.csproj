@@ -25,13 +25,19 @@
     <DefineConstants>TRACE;NET46</DefineConstants>
     <CodeAnalysisRuleSet>..\..\Sources\Accord.NET.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'net462|AnyCPU' ">
+    <DefineConstants>TRACE;NET462</DefineConstants>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+  </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'mono|AnyCPU' ">
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <DefineConstants>TRACE;MONO</DefineConstants>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="nunit.framework">
-      <HintPath>..\..\Externals\NUnit\nunit.framework.dll</HintPath>
+    <Reference Include="nunit.framework, Version=3.7.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Externals\NUnit\bin\net-4.5\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -85,6 +91,7 @@
     <Compile Include="Decompositions\JaggedSingularValueDecompositionTest.cs" />
     <Compile Include="IO\MatReaderTest.cs" />
     <Compile Include="Losses\LossesTest.cs" />
+    <Compile Include="Matrix\Matrix.Set.cs" />
     <Compile Include="Matrix\Matrix.Selection.cs" />
     <Compile Include="Matrix\Matrix.Construction.cs" />
     <Compile Include="Matrix\Matrix.Common.cs" />
@@ -224,12 +231,22 @@
     <None Include="Resources\mat\uint64.mat" />
     <None Include="Resources\mat\uint8.mat" />
     <None Include="Resources\pseudoInverse1.csv" />
+    <None Include="Resources\unfeasible_qp_1\unf_1_constraintMat.csv" />
+    <None Include="Resources\unfeasible_qp_1\unf_1_constraintValues.csv" />
+    <None Include="Resources\unfeasible_qp_1\unf_1_linTerms.csv" />
+    <None Include="Resources\unfeasible_qp_1\unf_1_quadTerms.csv" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\labels16.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\data16.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

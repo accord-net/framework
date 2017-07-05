@@ -216,15 +216,26 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         }
 
         /// <summary>
+        ///   Please use MaxIterations instead.
+        /// </summary>
+        /// 
+        [Obsolete("Please use MaxIterations instead.")]
+        public int Iterations
+        {
+            get { return MaxIterations; }
+            set { MaxIterations = value; }
+        }
+
+        /// <summary>
         ///   Gets or sets the number of iterations that should be
         ///   performed by the algorithm when calling <see cref="Learn"/>.
         ///   Default is 0 (iterate until convergence).
         /// </summary>
         /// 
-        public int Iterations
+        public int MaxIterations
         {
-            get { return convergence.Iterations; }
-            set { convergence.Iterations = value; }
+            get { return convergence.MaxIterations; }
+            set { convergence.MaxIterations = value; }
         }
 
         /// <summary>
@@ -256,7 +267,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         /// 
         public BaseStochasticGradientDescent()
         {
-            Iterations = 0;
+            MaxIterations = 0;
             Tolerance = 1e-5;
         }
 
@@ -396,12 +407,15 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         /// </summary>
         /// <param name="x">The model inputs.</param>
         /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
-        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <param name="weights">The weight of importance for each input-output pair (if supported by the learning algorithm).</param>
         /// <returns>
         /// A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
         /// </returns>
         public override TModel Learn(TInput[] x, bool[] y, double[] weights = null)
         {
+            if (weights != null)
+                throw new ArgumentException(Accord.Properties.Resources.NotSupportedWeights, "weights");
+
             if (Model == null)
                 Model = Create(SupportVectorLearningHelper.GetNumberOfInputs(Kernel, x), Kernel);
 
@@ -449,7 +463,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             clone.bias = bias;
             clone.regularizedBias = regularizedBias;
             clone.Tolerance = Tolerance;
-            clone.Iterations = Iterations;
+            clone.MaxIterations = MaxIterations;
 
             return clone;
         }

@@ -77,7 +77,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreNotEqual(labels[0], labels[6]);
 
 
-            int[] labels2 = binarySplit.Clusters.Nearest(observations);
+            int[] labels2 = binarySplit.Clusters.Decide(observations);
 
             Assert.IsTrue(labels.IsEqual(labels2));
 
@@ -133,7 +133,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreNotEqual(output[2], output[6]);
             Assert.AreNotEqual(output[0], output[6]);
 
-            int[] labels2 = binarySplit.Clusters.Nearest(input);
+            int[] labels2 = binarySplit.Clusters.Decide(input);
 
             Assert.IsTrue(output.IsEqual(labels2));
         }

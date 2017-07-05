@@ -156,6 +156,7 @@ namespace Accord.MachineLearning
             knn.Outputs = outputs;
             knn.NumberOfInputs = inputs.Columns();
             knn.NumberOfOutputs = outputs.DistinctCount();
+            knn.NumberOfClasses = knn.NumberOfOutputs;
             knn.tree = tree;
 
             return knn;
@@ -168,7 +169,7 @@ namespace Accord.MachineLearning
         /// 
         /// <param name="x">The model inputs.</param>
         /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
-        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <param name="weights">The weight of importance for each input-output pair (if supported by the learning algorithm).</param>
         /// 
         /// <returns>A model that has learned how to produce <paramref name="y"/> given <paramref name="x"/>.</returns>
         /// 
@@ -176,10 +177,12 @@ namespace Accord.MachineLearning
         {
             CheckArgs(K, x, y, Distance, weights);
 
+            this.NumberOfInputs = GetNumberOfInputs(x);
             this.Inputs = x;
             this.Outputs = y;
 
             this.NumberOfOutputs = y.DistinctCount();
+            this.NumberOfClasses = this.NumberOfOutputs;
 
             this.tree = KDTree.FromData(points: x, values: y, distance: Distance);
 

@@ -99,9 +99,20 @@ namespace Accord.Statistics.Models.Fields
             TObservation[] observations, int output = 0)
         {
             int states = function.States;
+            double[,] fwd = new double[observations.Length, states];
+            return Forward(function, observations, fwd, output);
+        }
 
+        /// <summary>
+        ///   Computes Forward probabilities for a given potential function and a set of observations.
+        /// </summary>
+        /// 
+        public static double[,] Forward<TObservation>(FactorPotential<TObservation> function,
+            TObservation[] observations, double[,] fwd, int output = 0)
+        {
+            int states = function.States;
             int T = observations.Length;
-            double[,] fwd = new double[T, states];
+            Array.Clear(fwd, 0, fwd.Length);
 
             // 1. Initialization
             for (int i = 0; i < states; i++)
@@ -222,9 +233,22 @@ namespace Accord.Statistics.Models.Fields
             TObservation[] observations, int output = 0)
         {
             int states = function.States;
-
             int T = observations.Length;
             double[,] bwd = new double[T, states];
+            return Backward(function, observations, bwd, output)
+;
+        }
+
+        /// <summary>
+        ///   Computes Backward probabilities for a given potential function and a set of observations.
+        /// </summary>
+        /// 
+        public static double[,] Backward<TObservation>(FactorPotential<TObservation> function,
+            TObservation[] observations, double[,] bwd, int output = 0)
+        {
+            int states = function.States;
+            int T = observations.Length;
+            Array.Clear(bwd, 0, bwd.Length);
 
             // 1. Initialization
             for (int i = 0; i < states; i++)

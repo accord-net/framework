@@ -88,7 +88,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreNotEqual(labels[2], labels[6]);
             Assert.AreNotEqual(labels[0], labels[6]);
 
-            int[] labels2 = kmeans.Clusters.Nearest(observations);
+            int[] labels2 = kmeans.Clusters.Decide(observations);
             Assert.IsTrue(labels.IsEqual(labels2));
 
             // the data must not have changed!
@@ -176,7 +176,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreNotEqual(balanced[3], balanced[6]);
             Assert.AreNotEqual(balanced[0], balanced[6]);
 
-            int[] labels2 = kmeans.Clusters.Nearest(observations);
+            int[] labels2 = kmeans.Clusters.Decide(observations);
             Assert.IsTrue(labels.IsEqual(labels2));
 
             // the data must not have changed!
@@ -214,7 +214,6 @@ namespace Accord.Tests.MachineLearning
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentException))]
         public void KMeansMoreClustersThanSamples()
         {
             Accord.Math.Tools.SetupGenerator(0);
@@ -241,11 +240,11 @@ namespace Accord.Tests.MachineLearning
                 MaxIterations = 10
             };
 
-            int[] labels = kmeans.Compute(observations);
+            Assert.Throws<ArgumentException>(() => kmeans.Compute(observations),
+                "Not enough points. There should be more points than the number K of clusters.");
         }
 
         [Test]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void MaxIterationsZero()
         {
             Accord.Math.Tools.SetupGenerator(0);
@@ -268,7 +267,7 @@ namespace Accord.Tests.MachineLearning
 
             var kmeans = new BalancedKMeans(2);
 
-            int[] labels = kmeans.Compute(observations);
+            Assert.Throws<InvalidOperationException>(() => kmeans.Compute(observations), "");
         }
 
         [Test]
@@ -560,6 +559,6 @@ namespace Accord.Tests.MachineLearning
             for (int i = 0; i < hist.Length; i++)
                 Assert.AreEqual(hist[i], 50);
         }
-            
+
     }
 }

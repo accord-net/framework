@@ -228,7 +228,7 @@ namespace SampleApp
                     {
                         DataTable tableSource = db.GetWorksheet(t.Selection);
 
-                        double[][] sourceMatrix = tableSource.ToArray(out columnNames);
+                        double[][] sourceMatrix = tableSource.ToJagged(out columnNames);
 
                         // Detect the kind of problem loaded.
                         if (sourceMatrix.Columns() == 2)

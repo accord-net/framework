@@ -23,7 +23,6 @@
 namespace Accord.Audio.Filters
 {
     using System.Collections.Generic;
-    using AForge.Math;
     using System.Numerics;
 
     /// <summary>

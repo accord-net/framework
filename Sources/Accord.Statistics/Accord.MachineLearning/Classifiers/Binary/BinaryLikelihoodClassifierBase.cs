@@ -22,11 +22,10 @@
 
 namespace Accord.MachineLearning
 {
+    using Accord.Diagnostics;
     using Accord.Math;
     using Accord.Statistics;
     using System;
-
-    // TODO: Rename to BinaryLikelihoodClassifierBase
 
     /// <summary>
     ///   Base class for <see cref="IBinaryLikelihoodClassifier{TInput}">
@@ -41,75 +40,42 @@ namespace Accord.MachineLearning
         IBinaryLikelihoodClassifier<TInput>
     {
 
+        internal const double PROBABILITY_DECISION_THRESHOLD = 0.5;
+        internal readonly double LOGLIKELIHOOD_DECISION_THRESHOLD = Math.Log(0.5);
+
+
+
+        // Main, overridable methods
 
         /// <summary>
-        /// Computes a numerical score measuring the association between
-        /// the given <paramref name="input" /> vector and its most strongly
-        /// associated class (as predicted by the classifier).
-        /// </summary>
-        /// <param name="input">The input vector.</param>
-        /// <returns>System.Double.</returns>
-        public override double Score(TInput input)
-        {
-            return LogLikelihood(input);
-        }
-
-
-        /// <summary>
-        ///   Predicts a class label vector for the given input vector, returning the
-        ///   log-likelihood that the input vector belongs to its predicted class.
-        /// </summary>
-        ///
-        /// <param name="input">The input vector.</param>
-        /// <param name="decision">The class label predicted by the classifier.</param>
-        ///
-        public abstract double LogLikelihood(TInput input, out bool decision);
-
-        /// <summary>
-        ///   Predicts a class label for the given input vector, returning the
-        ///   probability that the input vector belongs to its predicted class.
-        /// </summary>
-        /// 
-        /// <param name="input">The input vector.</param>
-        /// <param name="decision">The class label predicted by the classifier.</param>
-        ///
-        public virtual double Probability(TInput input, out bool decision)
-        {
-            double exp = Math.Exp(LogLikelihood(input, out decision));
-//#if DEBUG
-//            if (exp < 0 || exp > 1)
-//                throw new InvalidOperationException();
-//#endif
-            return exp;
-        }
-
-
-        /// <summary>
-        /// Predicts a class label vector for the given input vector, returning the
+        /// Predicts a class label vector for the given input vectors, returning the
         /// log-likelihood that the input vector belongs to its predicted class.
         /// </summary>
         /// <param name="input">The input vector.</param>
-        public abstract double LogLikelihood(TInput input);
+        /// <param name="result">An array where the log-likelihoods will be stored,
+        /// avoiding unnecessary memory allocations.</param>
+        /// <returns>System.Double[].</returns>
+        public abstract double[] LogLikelihood(TInput[] input, double[] result);
 
 
         /// <summary>
-        /// Predicts a class label for the given input vector, returning the
-        /// probability that the input vector belongs to its predicted class.
+        /// Computes a numerical score measuring the association between
+        /// the given <paramref name="input" /> vector and each class.
         /// </summary>
         /// <param name="input">The input vector.</param>
-        public double Probability(TInput input)
+        /// <param name="result">An array where the result will be stored,
+        /// avoiding unnecessary memory allocations.</param>
+        /// <returns>System.Double[].</returns>
+        public override double[] Score(TInput[] input, double[] result)
         {
-            double exp = Math.Exp(LogLikelihood(input));
-//#if DEBUG
-//            if (exp < 0 || exp > 1)
-//                throw new InvalidOperationException();
-//#endif
-            return exp;
+            return LogLikelihood(input, result);
         }
 
 
 
-        #region LogLikelihoods
+
+
+        #region LogLikelihood
 
         // Input, classIndex
         double IMultilabelLikelihoodClassifier<TInput>.LogLikelihood(TInput input, int classIndex)
@@ -124,7 +90,7 @@ namespace Accord.MachineLearning
 
         double[] IMultilabelLikelihoodClassifier<TInput>.LogLikelihood(TInput[] input, int classIndex, double[] result)
         {
-            var temp = new double[NumberOfOutputs];
+            var temp = new double[NumberOfClasses];
             for (int i = 0; i < input.Length; i++)
             {
                 ToMultilabel().LogLikelihoods(input[i], result: temp);
@@ -143,7 +109,7 @@ namespace Accord.MachineLearning
 
         double[] IMultilabelLikelihoodClassifier<TInput>.LogLikelihood(TInput[] input, int[] classIndex, double[] result)
         {
-            var temp = new double[NumberOfOutputs];
+            var temp = new double[NumberOfClasses];
             for (int i = 0; i < input.Length; i++)
             {
                 ToMultilabel().LogLikelihoods(input[i], result: temp);
@@ -156,9 +122,25 @@ namespace Accord.MachineLearning
 
         // Input
 
-        double[] IMultilabelLikelihoodClassifier<TInput>.LogLikelihoods(TInput input)
+        /// <summary>
+        /// Predicts a class label vector for the given input vector, returning the
+        /// log-likelihood that the input vector belongs to its predicted class.
+        /// </summary>
+        /// <param name="input">The input vector.</param>
+        public double LogLikelihood(TInput input)
         {
-            return ToMultilabel().LogLikelihoods(input, new double[NumberOfOutputs]);
+            return LogLikelihood(new TInput[] { input })[0];
+        }
+
+        /// <summary>
+        /// Computes the log-likelihood that the given input
+        /// vector belongs to each of the possible classes.
+        /// </summary>
+        /// <param name="input">The input vector.</param>
+        /// <returns>System.Double[].</returns>
+        public double[] LogLikelihoods(TInput input)
+        {
+            return ToMultilabel().LogLikelihoods(input, new double[NumberOfClasses]);
         }
 
         /// <summary>
@@ -171,7 +153,13 @@ namespace Accord.MachineLearning
             return LogLikelihood(input, new double[input.Length]);
         }
 
-        double[][] IMultilabelLikelihoodClassifier<TInput>.LogLikelihoods(TInput[] input)
+        /// <summary>
+        /// Computes the log-likelihoods that the given input
+        /// vectors belongs to each of the possible classes.
+        /// </summary>
+        /// <param name="input">A set of input vectors.</param>
+        /// <returns>System.Double[][].</returns>
+        public double[][] LogLikelihoods(TInput[] input)
         {
             return ToMultilabel().LogLikelihoods(input, create<double>(input));
         }
@@ -179,37 +167,47 @@ namespace Accord.MachineLearning
 
         // Input, result
 
-        double[] IMultilabelLikelihoodClassifier<TInput>.LogLikelihoods(TInput input, double[] result)
+        /// <summary>
+        /// Computes the log-likelihood that the given input
+        /// vector belongs to each of the possible classes.
+        /// </summary>
+        /// <param name="input">The input vector.</param>
+        /// <param name="result">An array where the log-likelihoods will be stored,
+        /// avoiding unnecessary memory allocations.</param>
+        /// <returns>System.Double[].</returns>
+        public double[] LogLikelihoods(TInput input, double[] result)
         {
-            double d = LogLikelihood(input);
-            result[0] = +d;
-            result[1] = 1 - d;
-            return result;
+            return LogLikelihoods(new[] { input }, new[] { result })[0];
         }
 
 
         /// <summary>
-        /// Predicts a class label vector for the given input vector, returning the
-        /// log-likelihood that the input vector belongs to its predicted class.
+        /// Computes the log-likelihoods that the given input
+        /// vectors belongs to each of the possible classes.
         /// </summary>
-        /// <param name="input">The input vector.</param>
+        /// <param name="input">A set of input vectors.</param>
         /// <param name="result">An array where the log-likelihoods will be stored,
-        ///   avoiding unnecessary memory allocations.</param>
-        public double[] LogLikelihood(TInput[] input, double[] result)
+        /// avoiding unnecessary memory allocations.</param>
+        /// <returns>System.Double[][].</returns>
+        /// <exception cref="Exception"></exception>
+        public double[][] LogLikelihoods(TInput[] input, double[][] result)
         {
-            for (int i = 0; i < input.Length; i++)
-                result[i] = LogLikelihood(input[i]);
-            return result;
-        }
+            TInput[] p = new TInput[1];
+            double[] o = new double[1];
 
-        double[][] IMultilabelLikelihoodClassifier<TInput>.LogLikelihoods(TInput[] input, double[][] result)
-        {
             for (int i = 0; i < input.Length; i++)
             {
-                double d = LogLikelihood(input[i]);
-                result[i][0] = +d;
-                result[i][1] = 1 - d;
+                p[0] = input[i];
+                double d = LogLikelihood(p, result: o)[0];
+                result[i][CLASS_NEGATIVE] = Math.Log(1.0 - Math.Exp(d));
+                result[i][CLASS_POSITIVE] = d;
+#if DEBUG
+                double sum = result[i].Exp().Sum();
+                if (!sum.IsEqual(1, rtol: 1e-5))
+                    throw new Exception();
+#endif
             }
+
             return result;
         }
 
@@ -217,37 +215,94 @@ namespace Accord.MachineLearning
 
         // Input, decision
 
-        double IMulticlassOutLikelihoodClassifier<TInput, double>.LogLikelihood(TInput input, out double decision)
+        /// <summary>
+        ///   Predicts a class label vector for the given input vector, returning the
+        ///   log-likelihood that the input vector belongs to its predicted class.
+        /// </summary>
+        ///
+        /// <param name="input">The input vector.</param>
+        /// <param name="decision">The class label predicted by the classifier.</param>
+        ///
+        public double LogLikelihood(TInput input, out bool decision)
         {
-            bool value;
-            double d = LogLikelihood(input, out value);
-            decision = Classes.ToZeroOne(value);
-            return d;
+            bool[] d = new bool[1];
+            double s = LogLikelihood(new TInput[] { input }, ref d)[0];
+            decision = d[0];
+            return s;
         }
 
-        double IMulticlassOutLikelihoodClassifier<TInput, int>.LogLikelihood(TInput input, out int decision)
+        /// <summary>
+        /// Predicts a class label vector for the given input vector, returning the
+        /// log-likelihood that the input vector belongs to its predicted class.
+        /// </summary>
+        /// <param name="input">The input vector.</param>
+        /// <param name="decision">The class label predicted by the classifier.</param>
+        /// <returns>System.Double.</returns>
+        public double LogLikelihood(TInput input, out double decision)
         {
-            bool value;
-            double d = LogLikelihood(input, out value);
-            decision = Classes.ToZeroOne(value);
-            return d;
+            double[] d = new double[1];
+            double s = LogLikelihood(new TInput[] { input }, ref d)[0];
+            decision = d[0];
+            return s;
+        }
+
+        /// <summary>
+        /// Predicts a class label vector for the given input vector, returning the
+        /// log-likelihood that the input vector belongs to its predicted class.
+        /// </summary>
+        /// <param name="input">The input vector.</param>
+        /// <param name="decision">The class label predicted by the classifier.</param>
+        /// <returns>System.Double.</returns>
+        public double LogLikelihood(TInput input, out int decision)
+        {
+            int[] d = new int[1];
+            double s = LogLikelihood(new TInput[] { input }, ref d)[0];
+            decision = d[0];
+            return s;
         }
 
 
 
-        double[] IMultilabelOutLikelihoodClassifier<TInput, bool>.LogLikelihoods(TInput input, out bool decision)
+        /// <summary>
+        /// Predicts a class label vector for the given input vector, returning the
+        /// log-likelihoods of the input vector belonging to each possible class.
+        /// </summary>
+        /// <param name="input">A set of input vectors.</param>
+        /// <param name="decision">The class labels associated with each input
+        /// vector, as predicted by the classifier. If passed as null, the classifier
+        /// will create a new array.</param>
+        /// <returns>System.Double[].</returns>
+        public double[] LogLikelihoods(TInput input, out bool decision)
         {
-            return LogLikelihoods(input, out decision, new double[NumberOfOutputs]);
+            return LogLikelihoods(input, out decision, new double[NumberOfClasses]);
         }
 
-        double[] IMultilabelOutLikelihoodClassifier<TInput, int>.LogLikelihoods(TInput input, out int decision)
+        /// <summary>
+        /// Predicts a class label vector for the given input vector, returning the
+        /// log-likelihoods of the input vector belonging to each possible class.
+        /// </summary>
+        /// <param name="input">A set of input vectors.</param>
+        /// <param name="decision">The class labels associated with each input
+        /// vector, as predicted by the classifier. If passed as null, the classifier
+        /// will create a new array.</param>
+        /// <returns>System.Double[].</returns>
+        public double[] LogLikelihoods(TInput input, out int decision)
         {
-            return ToMultilabel().LogLikelihoods(input, out decision, new double[NumberOfOutputs]);
+            return ToMultilabel().LogLikelihoods(input, out decision, new double[NumberOfClasses]);
         }
 
-        double[] IMultilabelOutLikelihoodClassifier<TInput, double>.LogLikelihoods(TInput input, out double decision)
+        /// <summary>
+        /// Predicts a class label vector for the given input vector, returning the
+        /// log-likelihoods of the input vector belonging to each possible class.
+        /// </summary>
+        /// <param name="input">A set of input vectors.</param>
+        /// <param name="decision">The class labels associated with each input
+        /// vector, as predicted by the classifier. If passed as null, the classifier
+        /// will create a new array.</param>
+        /// <returns>System.Double[].</returns>
+        public double[] LogLikelihoods(TInput input, out double decision)
         {
-            return ToMultilabel().LogLikelihoods(input, out decision, new double[NumberOfOutputs]);
+            return ToMultilabel().LogLikelihoods(input, out decision, new double[NumberOfClasses]);
         }
 
         /// <summary>
@@ -258,50 +313,34 @@ namespace Accord.MachineLearning
         /// <param name="decision">The class label predicted by the classifier.</param>
         public double[] LogLikelihoods(TInput input, ref bool[] decision)
         {
-            return LogLikelihoods(input, ref decision, new double[NumberOfOutputs]);
+            return LogLikelihoods(input, ref decision, new double[NumberOfClasses]);
         }
 
-        double[] IMultilabelRefLikelihoodClassifier<TInput, int[]>.LogLikelihoods(TInput input, ref int[] decision)
+        /// <summary>
+        /// Predicts a class label vector for the given input vector, returning the
+        /// log-likelihoods of the input vector belonging to each possible class.
+        /// </summary>
+        /// <param name="input">The input vector.</param>
+        /// <param name="decision">The class label predicted by the classifier.</param>
+        /// <returns>System.Double[].</returns>
+        public double[] LogLikelihoods(TInput input, ref int[] decision)
         {
-            return ToMultilabel().LogLikelihoods(input, ref decision, new double[NumberOfOutputs]);
+            return ToMultilabel().LogLikelihoods(input, ref decision, new double[NumberOfClasses]);
         }
 
-        double[] IMultilabelRefLikelihoodClassifier<TInput, double[]>.LogLikelihoods(TInput input, ref double[] decision)
+        /// <summary>
+        /// Predicts a class label vector for the given input vector, returning the
+        /// log-likelihoods of the input vector belonging to each possible class.
+        /// </summary>
+        /// <param name="input">The input vector.</param>
+        /// <param name="decision">The class label predicted by the classifier.</param>
+        /// <returns>System.Double[].</returns>
+        public double[] LogLikelihoods(TInput input, ref double[] decision)
         {
-            return ToMultilabel().LogLikelihoods(input, ref decision, new double[NumberOfOutputs]);
+            return ToMultilabel().LogLikelihoods(input, ref decision, new double[NumberOfClasses]);
         }
 
-        //double[] IMulticlassGenerativeClassifier<TInput, double[]>.LogLikelihood(TInput[] input, ref double[][] decision)
-        //{
-        //    return ToMulticlass().LogLikelihood(input, ref decision, new double[input.Length]);
-        //}
 
-        //double IMulticlassRefGenerativeClassifier<TInput, double[]>.LogLikelihood(TInput input, ref double[] decision)
-        //{
-        //    decision = create(input, decision);
-        //    int value;
-        //    double result = ToMulticlass().LogLikelihood(input, out value);
-        //    Vector.OneHot(value, decision);
-        //    return result;
-        //}
-
-        //public double LogLikelihood(TInput input, ref bool[] decision)
-        //{
-        //    decision = create(input, decision);
-        //    int value;
-        //    double result = ToMulticlass().LogLikelihood(input, out value);
-        //    Vector.OneHot(value, decision);
-        //    return result;
-        //}
-
-        //double IMulticlassRefGenerativeClassifier<TInput, int[]>.LogLikelihood(TInput input, ref int[] decision)
-        //{
-        //    decision = create(input, decision);
-        //    int value;
-        //    double result = ToMulticlass().LogLikelihood(input, out value);
-        //    Vector.OneHot(value, decision);
-        //    return result;
-        //}
 
 
 
@@ -320,32 +359,53 @@ namespace Accord.MachineLearning
         ///   avoiding unnecessary memory allocations.</param>
         public double[] LogLikelihoods(TInput input, out bool decision, double[] result)
         {
-            double d = LogLikelihood(input, out decision);
-            result[0] = +d;
-            result[1] = 1 - d;
-            return result;
+            bool[] d = new bool[1];
+            double[][] r = new[] { result };
+            double[] s = LogLikelihoods(new TInput[] { input }, ref d, r)[0];
+            decision = d[0];
+            return s;
         }
 
 
-        double[] IMultilabelOutLikelihoodClassifier<TInput, double>.LogLikelihoods(TInput input, out double decision, double[] result)
+        /// <summary>
+        /// Predicts a class label vector for the given input vector, returning the
+        /// log-likelihoods of the input vector belonging to each possible class.
+        /// </summary>
+        /// <param name="input">A set of input vectors.</param>
+        /// <param name="decision">The class labels associated with each input
+        /// vector, as predicted by the classifier. If passed as null, the classifier
+        /// will create a new array.</param>
+        /// <param name="result">An array where the distances will be stored,
+        /// avoiding unnecessary memory allocations.</param>
+        /// <returns>System.Double[].</returns>
+        public double[] LogLikelihoods(TInput input, out double decision, double[] result)
         {
-            bool value;
-            double d = LogLikelihood(input, out value);
-            result[0] = +d;
-            result[1] = 1 - d;
-            decision = Classes.ToZeroOne(value);
-            return result;
+            double[] d = new double[1];
+            double[][] r = new[] { result };
+            double[] s = LogLikelihoods(new TInput[] { input }, ref d, r)[0];
+            decision = d[0];
+            return s;
         }
 
 
-        double[] IMultilabelOutLikelihoodClassifier<TInput, int>.LogLikelihoods(TInput input, out int decision, double[] result)
+        /// <summary>
+        /// Predicts a class label vector for the given input vector, returning the
+        /// log-likelihoods of the input vector belonging to each possible class.
+        /// </summary>
+        /// <param name="input">A set of input vectors.</param>
+        /// <param name="decision">The class labels associated with each input
+        /// vector, as predicted by the classifier. If passed as null, the classifier
+        /// will create a new array.</param>
+        /// <param name="result">An array where the distances will be stored,
+        /// avoiding unnecessary memory allocations.</param>
+        /// <returns>System.Double[].</returns>
+        public double[] LogLikelihoods(TInput input, out int decision, double[] result)
         {
-            bool value;
-            double d = LogLikelihood(input, out value);
-            result[0] = +d;
-            result[1] = 1 - d;
-            decision = Classes.ToZeroOne(value);
-            return result;
+            int[] d = new int[1];
+            double[][] r = new[] { result };
+            double[] s = LogLikelihoods(new TInput[] { input }, ref d, r)[0];
+            decision = d[0];
+            return s;
         }
 
         /// <summary>
@@ -358,43 +418,76 @@ namespace Accord.MachineLearning
         ///   avoiding unnecessary memory allocations.</param>
         public double[] LogLikelihoods(TInput input, ref bool[] decision, double[] result)
         {
-            bool value;
-            double d = LogLikelihood(input, out value);
-            result[0] = +d;
-            result[1] = 1 - d;
-            Vector.OneHot(value, decision);
-            return result;
+            bool[] d = new bool[1];
+            double[][] r = new[] { result };
+            double[] s = LogLikelihoods(new TInput[] { input }, ref d, r)[0];
+            decision = Vector.OneHot(d[0], createOrReuse(input, decision));
+            return s;
         }
 
-        double[] IMultilabelRefLikelihoodClassifier<TInput, int[]>.LogLikelihoods(TInput input, ref int[] decision, double[] result)
+        /// <summary>
+        /// Predicts a class label vector for the given input vector, returning the
+        /// log-likelihoods of the input vector belonging to each possible class.
+        /// </summary>
+        /// <param name="input">The input vector.</param>
+        /// <param name="decision">The class label predicted by the classifier.</param>
+        /// <param name="result">An array where the distances will be stored,
+        /// avoiding unnecessary memory allocations.</param>
+        /// <returns>System.Double[].</returns>
+        public double[] LogLikelihoods(TInput input, ref int[] decision, double[] result)
         {
-            bool value;
-            double d = LogLikelihood(input, out value);
-            result[0] = +d;
-            result[1] = 1 - d;
-            Vector.OneHot(value, decision);
-            return result;
+            bool[] d = new bool[1];
+            double[][] r = new[] { result };
+            double[] s = LogLikelihoods(new TInput[] { input }, ref d, r)[0];
+            decision = Vector.OneHot(d[0], createOrReuse(input, decision));
+            return s;
         }
 
-        double[] IMultilabelRefLikelihoodClassifier<TInput, double[]>.LogLikelihoods(TInput input, ref double[] decision, double[] result)
+        /// <summary>
+        /// Predicts a class label vector for the given input vector, returning the
+        /// log-likelihoods of the input vector belonging to each possible class.
+        /// </summary>
+        /// <param name="input">The input vector.</param>
+        /// <param name="decision">The class label predicted by the classifier.</param>
+        /// <param name="result">An array where the distances will be stored,
+        /// avoiding unnecessary memory allocations.</param>
+        /// <returns>System.Double[].</returns>
+        public double[] LogLikelihoods(TInput input, ref double[] decision, double[] result)
         {
-            bool value;
-            double d = LogLikelihood(input, out value);
-            result[0] = +d;
-            result[1] = 1 - d;
-            Vector.OneHot(value, decision);
-            return result;
+            bool[] d = new bool[1];
+            double[][] r = new[] { result };
+            double[] s = LogLikelihoods(new TInput[] { input }, ref d, r)[0];
+            decision = Vector.OneHot(d[0], createOrReuse(input, decision));
+            return s;
         }
 
 
         // Input[], decision[]
 
-        double[] IMulticlassLikelihoodClassifier<TInput, int>.LogLikelihood(TInput[] input, ref int[] decision)
+        /// <summary>
+        /// Predicts a class label for each input vector, returning the
+        /// log-likelihood that each vector belongs to its predicted class.
+        /// </summary>
+        /// <param name="input">A set of input vectors.</param>
+        /// <param name="decision">The class labels associated with each input
+        /// vector, as predicted by the classifier. If passed as null, the classifier
+        /// will create a new array.</param>
+        /// <returns>System.Double[].</returns>
+        public double[] LogLikelihood(TInput[] input, ref int[] decision)
         {
             return ToMulticlass().LogLikelihood(input, ref decision, new double[input.Length]);
         }
 
-        double[] IMulticlassLikelihoodClassifier<TInput, double>.LogLikelihood(TInput[] input, ref double[] decision)
+        /// <summary>
+        /// Predicts a class label for each input vector, returning the
+        /// log-likelihood that each vector belongs to its predicted class.
+        /// </summary>
+        /// <param name="input">A set of input vectors.</param>
+        /// <param name="decision">The class labels associated with each input
+        /// vector, as predicted by the classifier. If passed as null, the classifier
+        /// will create a new array.</param>
+        /// <returns>System.Double[].</returns>
+        public double[] LogLikelihood(TInput[] input, ref double[] decision)
         {
             return ToMulticlass().LogLikelihood(input, ref decision, new double[input.Length]);
         }
@@ -412,30 +505,33 @@ namespace Accord.MachineLearning
             return LogLikelihood(input, ref decision, new double[input.Length]);
         }
 
-        //double[] IMulticlassGenerativeClassifier<TInput, int[]>.LogLikelihood(TInput[] input, ref int[][] decision)
-        //{
-        //    return ToMulticlass().LogLikelihood(input, ref decision, new double[input.Length]);
-        //}
-
-        //public double[] LogLikelihood(TInput[] input, ref bool[][] decision)
-        //{
-        //    return ToMulticlass().LogLikelihood(input, ref decision, new double[input.Length]);
-        //}
 
 
 
 
 
 
-
-
-        double[][] IMultilabelLikelihoodClassifier<TInput, int>.LogLikelihoods(TInput[] input, ref int[] decision)
+        /// <summary>
+        /// Predicts a class label vector for each input vector, returning the
+        /// log-likelihoods of the input vector belonging to each possible class.
+        /// </summary>
+        /// <param name="input">A set of input vectors.</param>
+        /// <param name="decision">The labels predicted by the classifier.</param>
+        /// <returns>System.Double[][].</returns>
+        public double[][] LogLikelihoods(TInput[] input, ref int[] decision)
         {
             return ToMultilabel().LogLikelihoods(input, ref decision, create<double>(input));
         }
 
 
-        double[][] IMultilabelLikelihoodClassifier<TInput, double>.LogLikelihoods(TInput[] input, ref double[] decision)
+        /// <summary>
+        /// Predicts a class label vector for each input vector, returning the
+        /// log-likelihoods of the input vector belonging to each possible class.
+        /// </summary>
+        /// <param name="input">A set of input vectors.</param>
+        /// <param name="decision">The labels predicted by the classifier.</param>
+        /// <returns>System.Double[][].</returns>
+        public double[][] LogLikelihoods(TInput[] input, ref double[] decision)
         {
             return ToMultilabel().LogLikelihoods(input, ref decision, create<double>(input));
         }
@@ -471,7 +567,14 @@ namespace Accord.MachineLearning
         }
 
 
-        double[][] IMultilabelLikelihoodClassifier<TInput, double[]>.LogLikelihoods(TInput[] input, ref double[][] decision)
+        /// <summary>
+        /// Predicts a class label vector for each input vector, returning the
+        /// log-likelihoods of the input vector belonging to each possible class.
+        /// </summary>
+        /// <param name="input">A set of input vectors.</param>
+        /// <param name="decision">The labels predicted by the classifier.</param>
+        /// <returns>System.Double[][].</returns>
+        public double[][] LogLikelihoods(TInput[] input, ref double[][] decision)
         {
             return ToMultilabel().LogLikelihoods(input, ref decision, create<double>(input));
         }
@@ -493,25 +596,50 @@ namespace Accord.MachineLearning
         ///   avoiding unnecessary memory allocations.</param>
         public double[] LogLikelihood(TInput[] input, ref bool[] decision, double[] result)
         {
-            decision = create(input, decision);
+            LogLikelihood(input, result);
+            decision = createOrReuse(input, decision);
             for (int i = 0; i < input.Length; i++)
-                result[i] = LogLikelihood(input[i], out decision[i]);
+                decision[i] = Classes.Decide(result[i] - LOGLIKELIHOOD_DECISION_THRESHOLD);
             return result;
         }
 
-        double[] IMulticlassLikelihoodClassifier<TInput, int>.LogLikelihood(TInput[] input, ref int[] decision, double[] result)
+        /// <summary>
+        /// Predicts a class label for each input vector, returning the
+        /// log-likelihood that each vector belongs to its predicted class.
+        /// </summary>
+        /// <param name="input">A set of input vectors.</param>
+        /// <param name="decision">The class labels associated with each input
+        /// vector, as predicted by the classifier. If passed as null, the classifier
+        /// will create a new array.</param>
+        /// <param name="result">An array where the log-likelihoods will be stored,
+        /// avoiding unnecessary memory allocations.</param>
+        /// <returns>System.Double[].</returns>
+        public double[] LogLikelihood(TInput[] input, ref int[] decision, double[] result)
         {
-            decision = create(input, decision);
+            LogLikelihood(input, result);
+            decision = createOrReuse(input, decision);
             for (int i = 0; i < input.Length; i++)
-                result[i] = ToMulticlass().LogLikelihood(input[i], out decision[i]);
+                decision[i] = Classes.ToZeroOne(result[i] - LOGLIKELIHOOD_DECISION_THRESHOLD);
             return result;
         }
 
-        double[] IMulticlassLikelihoodClassifier<TInput, double>.LogLikelihood(TInput[] input, ref double[] decision, double[] result)
+        /// <summary>
+        /// Predicts a class label for each input vector, returning the
+        /// log-likelihood that each vector belongs to its predicted class.
+        /// </summary>
+        /// <param name="input">A set of input vectors.</param>
+        /// <param name="decision">The class labels associated with each input
+        /// vector, as predicted by the classifier. If passed as null, the classifier
+        /// will create a new array.</param>
+        /// <param name="result">An array where the log-likelihoods will be stored,
+        /// avoiding unnecessary memory allocations.</param>
+        /// <returns>System.Double[].</returns>
+        public double[] LogLikelihood(TInput[] input, ref double[] decision, double[] result)
         {
-            decision = create(input, decision);
+            LogLikelihood(input, result);
+            decision = createOrReuse(input, decision);
             for (int i = 0; i < input.Length; i++)
-                result[i] = ToMulticlass().LogLikelihood(input[i], out decision[i]);
+                decision[i] = Classes.ToZeroOne(result[i] - LOGLIKELIHOOD_DECISION_THRESHOLD);
             return result;
         }
 
@@ -525,47 +653,46 @@ namespace Accord.MachineLearning
         ///   avoiding unnecessary memory allocations.</param>
         public double[][] LogLikelihoods(TInput[] input, ref bool[][] decision, double[][] result)
         {
-            decision = create(input, decision);
-            for (int i = 0; i < input.Length; i++)
-                LogLikelihoods(input[i], ref decision[i], result[i]);
+            ToMultilabel().LogLikelihoods(input, result);
+            decision = createOrReuse(input, decision);
+            for (int i = 0; i < result.Length; i++)
+                Vector.OneHot(Classes.ToZeroOne(result[i][CLASS_POSITIVE] - LOGLIKELIHOOD_DECISION_THRESHOLD), result: decision[i]);
             return result;
         }
 
-        double[][] IMultilabelLikelihoodClassifier<TInput, int[]>.LogLikelihoods(TInput[] input, ref int[][] decision, double[][] result)
+        /// <summary>
+        /// Predicts a class label vector for each input vector, returning the
+        /// log-likelihoods of the input vector belonging to each possible class.
+        /// </summary>
+        /// <param name="input">A set of input vectors.</param>
+        /// <param name="decision">The labels predicted by the classifier.</param>
+        /// <param name="result">An array where the log-likelihoods will be stored,
+        /// avoiding unnecessary memory allocations.</param>
+        /// <returns>System.Double[][].</returns>
+        public double[][] LogLikelihoods(TInput[] input, ref int[][] decision, double[][] result)
         {
-            decision = create(input, decision);
-            int value;
-            for (int i = 0; i < input.Length; i++)
-            {
-                ToMultilabel().LogLikelihoods(input[i], out value, result[i]);
-                decision[i] = Vector.OneHot<int>(value, decision[i]);
-            }
+            ToMultilabel().LogLikelihoods(input, result);
+            decision = createOrReuse(input, decision);
+            for (int i = 0; i < result.Length; i++)
+                Vector.OneHot(Classes.ToZeroOne(result[i][CLASS_POSITIVE] - LOGLIKELIHOOD_DECISION_THRESHOLD), result: decision[i]);
             return result;
         }
 
-        //double[] IMulticlassGenerativeClassifier<TInput, double[]>.LogLikelihood(TInput[] input, ref double[][] decision, double[] result)
-        //{
-        //    decision = create(input, decision);
-        //    int value;
-        //    for (int i = 0; i < input.Length; i++)
-        //    {
-        //        result[i] = ToMulticlass().LogLikelihood(input[i], out value);
-        //        Vector.OneHot(value, decision[i]);
-        //    }
-        //    return result;
-        //}
-
-
-
-        double[][] IMultilabelLikelihoodClassifier<TInput, double[]>.LogLikelihoods(TInput[] input, ref double[][] decision, double[][] result)
+        /// <summary>
+        /// Predicts a class label vector for each input vector, returning the
+        /// log-likelihoods of the input vector belonging to each possible class.
+        /// </summary>
+        /// <param name="input">A set of input vectors.</param>
+        /// <param name="decision">The labels predicted by the classifier.</param>
+        /// <param name="result">An array where the log-likelihoods will be stored,
+        /// avoiding unnecessary memory allocations.</param>
+        /// <returns>System.Double[][].</returns>
+        public double[][] LogLikelihoods(TInput[] input, ref double[][] decision, double[][] result)
         {
-            decision = create(input, decision);
-            int value;
-            for (int i = 0; i < input.Length; i++)
-            {
-                ToMultilabel().LogLikelihoods(input[i], out value, result[i]);
-                decision[i] = Vector.OneHot<double>(value, decision[i]);
-            }
+            ToMultilabel().LogLikelihoods(input, result);
+            decision = createOrReuse(input, decision);
+            for (int i = 0; i < result.Length; i++)
+                Vector.OneHot(Classes.ToZeroOne(result[i][CLASS_POSITIVE] - LOGLIKELIHOOD_DECISION_THRESHOLD), result: decision[i]);
             return result;
         }
 
@@ -580,55 +707,52 @@ namespace Accord.MachineLearning
         ///   avoiding unnecessary memory allocations.</param>
         public double[][] LogLikelihoods(TInput[] input, ref bool[] decision, double[][] result)
         {
-            decision = create(input, decision);
-            for (int i = 0; i < input.Length; i++)
-                LogLikelihoods(input[i], out decision[i], result[i]);
+            ToMultilabel().LogLikelihoods(input, result);
+            decision = createOrReuse(input, decision);
+            for (int i = 0; i < result.Length; i++)
+                decision[i] = Classes.Decide(result[i][CLASS_POSITIVE] - LOGLIKELIHOOD_DECISION_THRESHOLD);
             return result;
         }
 
 
 
 
-        double[][] IMultilabelLikelihoodClassifier<TInput, int>.LogLikelihoods(TInput[] input, ref int[] decision, double[][] result)
+        /// <summary>
+        /// Predicts a class label vector for each input vector, returning the
+        /// log-likelihoods of the input vector belonging to each possible class.
+        /// </summary>
+        /// <param name="input">A set of input vectors.</param>
+        /// <param name="decision">The labels predicted by the classifier.</param>
+        /// <param name="result">An array where the log-likelihoods will be stored,
+        /// avoiding unnecessary memory allocations.</param>
+        /// <returns>System.Double[][].</returns>
+        public double[][] LogLikelihoods(TInput[] input, ref int[] decision, double[][] result)
         {
-            decision = create(input, decision);
-            for (int i = 0; i < input.Length; i++)
-                ToMultilabel().LogLikelihoods(input[i], out decision[i], result[i]);
+            ToMultilabel().LogLikelihoods(input, result);
+            decision = createOrReuse(input, decision);
+            for (int i = 0; i < result.Length; i++)
+                decision[i] = Classes.ToZeroOne(result[i][CLASS_POSITIVE] - LOGLIKELIHOOD_DECISION_THRESHOLD);
             return result;
         }
 
 
-        double[][] IMultilabelLikelihoodClassifier<TInput, double>.LogLikelihoods(TInput[] input, ref double[] decision, double[][] result)
+        /// <summary>
+        /// Predicts a class label vector for each input vector, returning the
+        /// log-likelihoods of the input vector belonging to each possible class.
+        /// </summary>
+        /// <param name="input">A set of input vectors.</param>
+        /// <param name="decision">The labels predicted by the classifier.</param>
+        /// <param name="result">An array where the log-likelihoods will be stored,
+        /// avoiding unnecessary memory allocations.</param>
+        /// <returns>System.Double[][].</returns>
+        public double[][] LogLikelihoods(TInput[] input, ref double[] decision, double[][] result)
         {
-            decision = create(input, decision);
-            for (int i = 0; i < input.Length; i++)
-                ToMultilabel().LogLikelihoods(input[i], out decision[i], result[i]);
+            ToMultilabel().LogLikelihoods(input, result);
+            decision = createOrReuse(input, decision);
+            for (int i = 0; i < result.Length; i++)
+                decision[i] = Classes.ToZeroOne(result[i][CLASS_POSITIVE] - LOGLIKELIHOOD_DECISION_THRESHOLD);
             return result;
         }
-
-        //public double[] LogLikelihood(TInput[] input, ref bool[][] decision, double[] result)
-        //{
-        //    decision = create(input, decision);
-        //    bool value;
-        //    for (int i = 0; i < input.Length; i++)
-        //    {
-        //        result[i] = LogLikelihood(input[i], out value);
-        //        Vector.OneHot<bool>(value, decision[i]);
-        //    }
-        //    return result;
-        //}
-
-        //double[] IMulticlassGenerativeClassifier<TInput, int[]>.LogLikelihood(TInput[] input, ref int[][] decision, double[] result)
-        //{
-        //    decision = create(input, decision);
-        //    bool value;
-        //    for (int i = 0; i < input.Length; i++)
-        //    {
-        //        result[i] = LogLikelihood(input[i], out value);
-        //        Vector.OneHot<int>(value, decision[i]);
-        //    }
-        //    return result;
-        //}
 
         #endregion
 
@@ -637,6 +761,18 @@ namespace Accord.MachineLearning
 
 
         #region Probability
+
+
+        /// <summary>
+        /// Predicts a class label for the given input vector, returning the
+        /// probability that the input vector belongs to its predicted class.
+        /// </summary>
+        /// <param name="input">The input vector.</param>
+        public double Probability(TInput input)
+        {
+            return Probability(new TInput[] { input })[0];
+        }
+
 
         // Input, classIndex
         double IMultilabelLikelihoodClassifier<TInput>.Probability(TInput input, int classIndex)
@@ -652,13 +788,9 @@ namespace Accord.MachineLearning
 
         double[] IMultilabelLikelihoodClassifier<TInput>.Probability(TInput[] input, int classIndex, double[] result)
         {
-            var temp = new double[NumberOfOutputs];
+            var temp = new double[NumberOfClasses];
             for (int i = 0; i < input.Length; i++)
-            {
-                ToMultilabel().Probabilities(input[i], result: temp);
-                result[i] = temp[classIndex];
-            }
-
+                result[i] = ToMultilabel().Probabilities(input[i], result: temp)[classIndex];
             return result;
         }
 
@@ -671,22 +803,24 @@ namespace Accord.MachineLearning
 
         double[] IMultilabelLikelihoodClassifier<TInput>.Probability(TInput[] input, int[] classIndex, double[] result)
         {
-            var temp = new double[NumberOfOutputs];
+            var temp = new double[NumberOfClasses];
             for (int i = 0; i < input.Length; i++)
-            {
-                ToMultilabel().Probabilities(input[i], result: temp);
-                result[i] = temp[classIndex[i]];
-            }
-
+                result[i] = ToMultilabel().Probabilities(input[i], result: temp)[classIndex[i]];
             return result;
         }
 
 
         // Input
 
-        double[] IMultilabelLikelihoodClassifier<TInput>.Probabilities(TInput input)
+        /// <summary>
+        /// Computes the probabilities that the given input
+        /// vector belongs to each of the possible classes.
+        /// </summary>
+        /// <param name="input">The input vector.</param>
+        /// <returns>System.Double[].</returns>
+        public double[] Probabilities(TInput input)
         {
-            return ToMultilabel().Probabilities(input, new double[NumberOfOutputs]);
+            return ToMultilabel().Probabilities(input, new double[NumberOfClasses]);
         }
 
         /// <summary>
@@ -699,49 +833,33 @@ namespace Accord.MachineLearning
             return Probability(input, new double[input.Length]);
         }
 
-        double[][] IMultilabelLikelihoodClassifier<TInput>.Probabilities(TInput[] input)
+        /// <summary>
+        /// Computes the probabilities that the given input
+        /// vectors belongs to each of the possible classes.
+        /// </summary>
+        /// <param name="input">A set of input vectors.</param>
+        /// <returns>System.Double[][].</returns>
+        public double[][] Probabilities(TInput[] input)
         {
             return ToMultilabel().Probabilities(input, create<double>(input));
         }
-
-        //double IMulticlassRefGenerativeClassifier<TInput, double[]>.Probability(TInput input, ref double[] decision)
-        //{
-        //    decision = create(input, decision);
-        //    int value;
-        //    double result = ToMulticlass().Probability(input, out value);
-        //    Vector.OneHot(value, decision);
-        //    return result;
-        //}
-
-        //public double Probability(TInput input, ref bool[] decision)
-        //{
-        //    decision = create(input, decision);
-        //    int value;
-        //    double result = ToMulticlass().Probability(input, out value);
-        //    Vector.OneHot(value, decision);
-        //    return result;
-        //}
-
-        //double IMulticlassRefGenerativeClassifier<TInput, int[]>.Probability(TInput input, ref int[] decision)
-        //{
-        //    decision = create(input, decision);
-        //    int value;
-        //    double result = ToMulticlass().Probability(input, out value);
-        //    Vector.OneHot(value, decision);
-        //    return result;
-        //}
 
 
 
 
         // Input, result
 
-        double[] IMultilabelLikelihoodClassifier<TInput>.Probabilities(TInput input, double[] result)
+        /// <summary>
+        /// Computes the probabilities that the given input
+        /// vector belongs to each of the possible classes.
+        /// </summary>
+        /// <param name="input">The input vector.</param>
+        /// <param name="result">An array where the probabilities will be stored,
+        /// avoiding unnecessary memory allocations.</param>
+        /// <returns>System.Double[].</returns>
+        public double[] Probabilities(TInput input, double[] result)
         {
-            double d = Probability(input);
-            result[0] = d;
-            result[1] = 1 - d;
-            return result;
+            return Probabilities(new TInput[] { input }, result: new[] { result })[0];
         }
 
         /// <summary>
@@ -751,21 +869,31 @@ namespace Accord.MachineLearning
         /// <param name="input">The input vector.</param>
         /// <param name="result">An array where the probabilities will be stored,
         ///   avoiding unnecessary memory allocations.</param>
-        public double[] Probability(TInput[] input, double[] result)
+        public virtual double[] Probability(TInput[] input, double[] result)
         {
-            for (int i = 0; i < input.Length; i++)
-                result[i] = Probability(input[i]);
+            LogLikelihood(input, result: result);
+            Elementwise.Exp(result, result: result);
             return result;
         }
 
-        double[][] IMultilabelLikelihoodClassifier<TInput>.Probabilities(TInput[] input, double[][] result)
+        /// <summary>
+        /// Computes the probabilities that the given input
+        /// vectors belongs to each of the possible classes.
+        /// </summary>
+        /// <param name="input">A set of input vectors.</param>
+        /// <param name="result">An array where the probabilities will be stored,
+        /// avoiding unnecessary memory allocations.</param>
+        /// <returns>System.Double[][].</returns>
+        public double[][] Probabilities(TInput[] input, double[][] result)
         {
+            double[] r = Probability(input, new double[input.Length]);
+
             for (int i = 0; i < input.Length; i++)
             {
-                double d = Probability(input[i]);
-                result[i][0] = d;
-                result[i][1] = 1 - d;
+                result[i][CLASS_NEGATIVE] = 1.0 - r[i];
+                result[i][CLASS_POSITIVE] = r[i];
             }
+
             return result;
         }
 
@@ -773,20 +901,51 @@ namespace Accord.MachineLearning
 
         // Input, decision
 
-        double IMulticlassOutLikelihoodClassifier<TInput, double>.Probability(TInput input, out double decision)
+
+        /// <summary>
+        ///   Predicts a class label for the given input vector, returning the
+        ///   probability that the input vector belongs to its predicted class.
+        /// </summary>
+        /// 
+        /// <param name="input">The input vector.</param>
+        /// <param name="decision">The class label predicted by the classifier.</param>
+        ///
+        public double Probability(TInput input, out bool decision)
         {
-            bool value;
-            double d = Probability(input, out value);
-            decision = Classes.ToZeroOne(value);
-            return d;
+            bool[] d = new bool[1];
+            double s = Probability(new TInput[] { input }, ref d)[0];
+            decision = d[0];
+            return s;
         }
 
-        double IMulticlassOutLikelihoodClassifier<TInput, int>.Probability(TInput input, out int decision)
+        /// <summary>
+        /// Predicts a class label for the given input vector, returning the
+        /// probability that the input vector belongs to its predicted class.
+        /// </summary>
+        /// <param name="input">The input vector.</param>
+        /// <param name="decision">The class label predicted by the classifier.</param>
+        /// <returns>System.Double.</returns>
+        public double Probability(TInput input, out double decision)
         {
-            bool value;
-            double d = Probability(input, out value);
-            decision = Classes.ToZeroOne(value);
-            return d;
+            double[] d = new double[1];
+            double s = Probability(new TInput[] { input }, ref d)[0];
+            decision = d[0];
+            return s;
+        }
+
+        /// <summary>
+        /// Predicts a class label for the given input vector, returning the
+        /// probability that the input vector belongs to its predicted class.
+        /// </summary>
+        /// <param name="input">The input vector.</param>
+        /// <param name="decision">The class label predicted by the classifier.</param>
+        /// <returns>System.Double.</returns>
+        public double Probability(TInput input, out int decision)
+        {
+            int[] d = new int[1];
+            double s = Probability(new TInput[] { input }, ref d)[0];
+            decision = d[0];
+            return s;
         }
 
 
@@ -801,17 +960,35 @@ namespace Accord.MachineLearning
         /// will create a new array.</param>
         public double[] Probabilities(TInput input, out bool decision)
         {
-            return Probabilities(input, out decision, new double[NumberOfOutputs]);
+            return Probabilities(input, out decision, new double[NumberOfClasses]);
         }
 
-        double[] IMultilabelOutLikelihoodClassifier<TInput, int>.Probabilities(TInput input, out int decision)
+        /// <summary>
+        /// Predicts a class label vector for the given input vector, returning the
+        /// probabilities of the input vector belonging to each possible class.
+        /// </summary>
+        /// <param name="input">A set of input vectors.</param>
+        /// <param name="decision">The class labels associated with each input
+        /// vector, as predicted by the classifier. If passed as null, the classifier
+        /// will create a new array.</param>
+        /// <returns>System.Double[].</returns>
+        public double[] Probabilities(TInput input, out int decision)
         {
-            return ToMultilabel().Probabilities(input, out decision, new double[NumberOfOutputs]);
+            return ToMultilabel().Probabilities(input, out decision, new double[NumberOfClasses]);
         }
 
-        double[] IMultilabelOutLikelihoodClassifier<TInput, double>.Probabilities(TInput input, out double decision)
+        /// <summary>
+        /// Predicts a class label vector for the given input vector, returning the
+        /// probabilities of the input vector belonging to each possible class.
+        /// </summary>
+        /// <param name="input">A set of input vectors.</param>
+        /// <param name="decision">The class labels associated with each input
+        /// vector, as predicted by the classifier. If passed as null, the classifier
+        /// will create a new array.</param>
+        /// <returns>System.Double[].</returns>
+        public double[] Probabilities(TInput input, out double decision)
         {
-            return ToMultilabel().Probabilities(input, out decision, new double[NumberOfOutputs]);
+            return ToMultilabel().Probabilities(input, out decision, new double[NumberOfClasses]);
         }
 
         /// <summary>
@@ -822,23 +999,33 @@ namespace Accord.MachineLearning
         /// <param name="decision">The class label predicted by the classifier.</param>
         public double[] Probabilities(TInput input, ref bool[] decision)
         {
-            return ToMultilabel().Probabilities(input, ref decision, new double[NumberOfOutputs]);
+            return ToMultilabel().Probabilities(input, ref decision, new double[NumberOfClasses]);
         }
 
-        double[] IMultilabelRefLikelihoodClassifier<TInput, int[]>.Probabilities(TInput input, ref int[] decision)
+        /// <summary>
+        /// Predicts a class label vector for the given input vector, returning the
+        /// probabilities of the input vector belonging to each possible class.
+        /// </summary>
+        /// <param name="input">The input vector.</param>
+        /// <param name="decision">The class label predicted by the classifier.</param>
+        /// <returns>System.Double[].</returns>
+        public double[] Probabilities(TInput input, ref int[] decision)
         {
-            return ToMultilabel().Probabilities(input, ref decision, new double[NumberOfOutputs]);
+            return ToMultilabel().Probabilities(input, ref decision, new double[NumberOfClasses]);
         }
 
-        double[] IMultilabelRefLikelihoodClassifier<TInput, double[]>.Probabilities(TInput input, ref double[] decision)
+        /// <summary>
+        /// Probabilitieses the specified input.
+        /// </summary>
+        /// <param name="input">The input.</param>
+        /// <param name="decision">The decision.</param>
+        /// <returns>System.Double[].</returns>
+        public double[] Probabilities(TInput input, ref double[] decision)
         {
-            return ToMultilabel().Probabilities(input, ref decision, new double[NumberOfOutputs]);
+            return ToMultilabel().Probabilities(input, ref decision, new double[NumberOfClasses]);
         }
 
-        //double[] IMulticlassGenerativeClassifier<TInput, double[]>.Probability(TInput[] input, ref double[][] decision)
-        //{
-        //    return ToMulticlass().Probability(input, ref decision, new double[input.Length]);
-        //}
+
 
 
         // Input, decision, result
@@ -855,71 +1042,134 @@ namespace Accord.MachineLearning
         ///   avoiding unnecessary memory allocations.</param>
         public double[] Probabilities(TInput input, out bool decision, double[] result)
         {
-            double d = Probability(input, out decision);
-            result[0] = d;
-            result[1] = 1 - d;
-            return result;
+            bool[] d = new bool[1];
+            double[][] r = new[] { result };
+            double[] s = LogLikelihoods(new TInput[] { input }, ref d, r)[0];
+            decision = d[0];
+            return s;
         }
 
-        double[] IMultilabelOutLikelihoodClassifier<TInput, double>.Probabilities(TInput input, out double decision, double[] result)
+        /// <summary>
+        /// Predicts a class label vector for the given input vector, returning the
+        /// probabilities of the input vector belonging to each possible class.
+        /// </summary>
+        /// <param name="input">A set of input vectors.</param>
+        /// <param name="decision">The class labels associated with each input
+        /// vector, as predicted by the classifier. If passed as null, the classifier
+        /// will create a new array.</param>
+        /// <param name="result">An array where the distances will be stored,
+        /// avoiding unnecessary memory allocations.</param>
+        /// <returns>System.Double[].</returns>
+        public double[] Probabilities(TInput input, out double decision, double[] result)
         {
-            bool value;
-            double d = Probability(input, out value);
-            result[0] = +d;
-            result[1] = 1 - d;
-            decision = Classes.ToZeroOne(value);
-            return result;
+            double[] d = new double[1];
+            double[][] r = new[] { result };
+            double[] s = LogLikelihoods(new TInput[] { input }, ref d, r)[0];
+            decision = d[0];
+            return s;
         }
 
-        double[] IMultilabelOutLikelihoodClassifier<TInput, int>.Probabilities(TInput input, out int decision, double[] result)
+        /// <summary>
+        /// Predicts a class label vector for the given input vector, returning the
+        /// probabilities of the input vector belonging to each possible class.
+        /// </summary>
+        /// <param name="input">A set of input vectors.</param>
+        /// <param name="decision">The class labels associated with each input
+        /// vector, as predicted by the classifier. If passed as null, the classifier
+        /// will create a new array.</param>
+        /// <param name="result">An array where the distances will be stored,
+        /// avoiding unnecessary memory allocations.</param>
+        /// <returns>System.Double[].</returns>
+        public double[] Probabilities(TInput input, out int decision, double[] result)
         {
-            bool value;
-            double d = Probability(input, out value);
-            result[0] = +d;
-            result[1] = 1 - d;
-            decision = Classes.ToZeroOne(value);
-            return result;
+            int[] d = new int[1];
+            double[][] r = new[] { result };
+            double[] s = LogLikelihoods(new TInput[] { input }, ref d, r)[0];
+            decision = d[0];
+            return s;
         }
 
-        double[] IMultilabelRefLikelihoodClassifier<TInput, bool[]>.Probabilities(TInput input, ref bool[] decision, double[] result)
+        /// <summary>
+        /// Predicts a class label vector for the given input vector, returning the
+        /// probabilities of the input vector belonging to each possible class.
+        /// </summary>
+        /// <param name="input">The input vector.</param>
+        /// <param name="decision">The class label predicted by the classifier.</param>
+        /// <param name="result">An array where the distances will be stored,
+        /// avoiding unnecessary memory allocations.</param>
+        /// <returns>System.Double[].</returns>
+        public double[] Probabilities(TInput input, ref bool[] decision, double[] result)
         {
-            bool value;
-            double d = Probability(input, out value);
-            result[0] = +d;
-            result[1] = 1 - d;
-            Vector.OneHot(value, decision);
-            return result;
+            bool[] d = new bool[1];
+            double[][] r = new[] { result };
+            double[] s = LogLikelihoods(new TInput[] { input }, ref d, r)[0];
+            decision = Vector.OneHot(d[0], createOrReuse(input, decision));
+            return s;
         }
 
-        double[] IMultilabelRefLikelihoodClassifier<TInput, int[]>.Probabilities(TInput input, ref int[] decision, double[] result)
+        /// <summary>
+        /// Predicts a class label vector for the given input vector, returning the
+        /// probabilities of the input vector belonging to each possible class.
+        /// </summary>
+        /// <param name="input">The input vector.</param>
+        /// <param name="decision">The class label predicted by the classifier.</param>
+        /// <param name="result">An array where the distances will be stored,
+        /// avoiding unnecessary memory allocations.</param>
+        /// <returns>System.Double[].</returns>
+        public double[] Probabilities(TInput input, ref int[] decision, double[] result)
         {
-            bool value;
-            double d = Probability(input, out value);
-            result[0] = +d;
-            result[1] = 1 - d;
-            Vector.OneHot(value, decision);
-            return result;
+            bool[] d = new bool[1];
+            double[][] r = new[] { result };
+            double[] s = LogLikelihoods(new TInput[] { input }, ref d, r)[0];
+            decision = Vector.OneHot(d[0], createOrReuse(input, decision));
+            return s;
         }
 
-        double[] IMultilabelRefLikelihoodClassifier<TInput, double[]>.Probabilities(TInput input, ref double[] decision, double[] result)
+        /// <summary>
+        /// Predicts a class label vector for the given input vector, returning the
+        /// probabilities of the input vector belonging to each possible class.
+        /// </summary>
+        /// <param name="input">The input vector.</param>
+        /// <param name="decision">The class label predicted by the classifier.</param>
+        /// <param name="result">An array where the distances will be stored,
+        /// avoiding unnecessary memory allocations.</param>
+        /// <returns>System.Double[].</returns>
+        public double[] Probabilities(TInput input, ref double[] decision, double[] result)
         {
-            bool value;
-            double d = Probability(input, out value);
-            result[0] = +d;
-            result[1] = 1 - d;
-            Vector.OneHot(value, decision);
-            return result;
+            bool[] d = new bool[1];
+            double[][] r = new[] { result };
+            double[] s = LogLikelihoods(new TInput[] { input }, ref d, r)[0];
+            decision = Vector.OneHot(d[0], createOrReuse(input, decision));
+            return s;
         }
 
 
         // Input[], decision[]
 
-        double[] IMulticlassLikelihoodClassifier<TInput, int>.Probability(TInput[] input, ref int[] decision)
+        /// <summary>
+        /// Predicts a class label for each input vector, returning the
+        /// probability that each vector belongs to its predicted class.
+        /// </summary>
+        /// <param name="input">A set of input vectors.</param>
+        /// <param name="decision">The class labels associated with each input
+        /// vector, as predicted by the classifier. If passed as null, the classifier
+        /// will create a new array.</param>
+        /// <returns>System.Double[].</returns>
+        public double[] Probability(TInput[] input, ref int[] decision)
         {
             return ToMulticlass().Probability(input, ref decision, new double[input.Length]);
         }
 
-        double[] IMulticlassLikelihoodClassifier<TInput, double>.Probability(TInput[] input, ref double[] decision)
+        /// <summary>
+        /// Predicts a class label for each input vector, returning the
+        /// probability that each vector belongs to its predicted class.
+        /// </summary>
+        /// <param name="input">A set of input vectors.</param>
+        /// <param name="decision">The class labels associated with each input
+        /// vector, as predicted by the classifier. If passed as null, the classifier
+        /// will create a new array.</param>
+        /// <returns>System.Double[].</returns>
+        public double[] Probability(TInput[] input, ref double[] decision)
         {
             return ToMulticlass().Probability(input, ref decision, new double[input.Length]);
         }
@@ -938,28 +1188,31 @@ namespace Accord.MachineLearning
             return Probability(input, ref decision, new double[input.Length]);
         }
 
-        //double[] IMulticlassGenerativeClassifier<TInput, int[]>.Probability(TInput[] input, ref int[][] decision)
-        //{
-        //    return ToMulticlass().Probability(input, ref decision, new double[input.Length]);
-        //}
-
-        //double[] IMulticlassGenerativeClassifier<TInput, bool[]>.Probability(TInput[] input, ref bool[][] decision)
-        //{
-        //    return ToMulticlass().Probability(input, ref decision, new double[input.Length]);
-        //}
 
 
 
 
 
-
-
-        double[][] IMultilabelLikelihoodClassifier<TInput, int>.Probabilities(TInput[] input, ref int[] decision)
+        /// <summary>
+        /// Predicts a class label vector for each input vector, returning the
+        /// probabilities of the input vector belonging to each possible class.
+        /// </summary>
+        /// <param name="input">A set of input vectors.</param>
+        /// <param name="decision">The labels predicted by the classifier.</param>
+        /// <returns>System.Double[][].</returns>
+        public double[][] Probabilities(TInput[] input, ref int[] decision)
         {
             return ToMultilabel().Probabilities(input, ref decision, create<double>(input));
         }
 
-        double[][] IMultilabelLikelihoodClassifier<TInput, double>.Probabilities(TInput[] input, ref double[] decision)
+        /// <summary>
+        /// Predicts a class label vector for each input vector, returning the
+        /// probabilities of the input vector belonging to each possible class.
+        /// </summary>
+        /// <param name="input">A set of input vectors.</param>
+        /// <param name="decision">The labels predicted by the classifier.</param>
+        /// <returns>System.Double[][].</returns>
+        public double[][] Probabilities(TInput[] input, ref double[] decision)
         {
             return ToMultilabel().Probabilities(input, ref decision, create<double>(input));
         }
@@ -975,17 +1228,38 @@ namespace Accord.MachineLearning
             return Probabilities(input, ref decision, create<double>(input));
         }
 
-        double[][] IMultilabelLikelihoodClassifier<TInput, int[]>.Probabilities(TInput[] input, ref int[][] decision)
+        /// <summary>
+        /// Predicts a class label vector for each input vector, returning the
+        /// probabilities of the input vector belonging to each possible class.
+        /// </summary>
+        /// <param name="input">A set of input vectors.</param>
+        /// <param name="decision">The labels predicted by the classifier.</param>
+        /// <returns>System.Double[][].</returns>
+        public double[][] Probabilities(TInput[] input, ref int[][] decision)
         {
             return ToMultilabel().Probabilities(input, ref decision, create<double>(input));
         }
 
-        double[][] IMultilabelLikelihoodClassifier<TInput, bool[]>.Probabilities(TInput[] input, ref bool[][] decision)
+        /// <summary>
+        /// Predicts a class label vector for each input vector, returning the
+        /// probabilities of the input vector belonging to each possible class.
+        /// </summary>
+        /// <param name="input">A set of input vectors.</param>
+        /// <param name="decision">The labels predicted by the classifier.</param>
+        /// <returns>System.Double[][].</returns>
+        public double[][] Probabilities(TInput[] input, ref bool[][] decision)
         {
             return ToMultilabel().Probabilities(input, ref decision, create<double>(input));
         }
 
-        double[][] IMultilabelLikelihoodClassifier<TInput, double[]>.Probabilities(TInput[] input, ref double[][] decision)
+        /// <summary>
+        /// Predicts a class label vector for each input vector, returning the
+        /// probabilities of the input vector belonging to each possible class.
+        /// </summary>
+        /// <param name="input">A set of input vectors.</param>
+        /// <param name="decision">The labels predicted by the classifier.</param>
+        /// <returns>System.Double[][].</returns>
+        public double[][] Probabilities(TInput[] input, ref double[][] decision)
         {
             return ToMultilabel().Probabilities(input, ref decision, create<double>(input));
         }
@@ -1007,71 +1281,104 @@ namespace Accord.MachineLearning
         ///   avoiding unnecessary memory allocations.</param>
         public double[] Probability(TInput[] input, ref bool[] decision, double[] result)
         {
-            decision = create(input, decision);
+            Probability(input, result);
+            decision = createOrReuse(input, decision);
             for (int i = 0; i < input.Length; i++)
-                result[i] = Probability(input[i], out decision[i]);
+                decision[i] = Classes.Decide(result[i] - PROBABILITY_DECISION_THRESHOLD);
             return result;
         }
 
-        double[] IMulticlassLikelihoodClassifier<TInput, int>.Probability(TInput[] input, ref int[] decision, double[] result)
+        /// <summary>
+        /// Predicts a class label for each input vector, returning the
+        /// probability that each vector belongs to its predicted class.
+        /// </summary>
+        /// <param name="input">A set of input vectors.</param>
+        /// <param name="decision">The class labels associated with each input
+        /// vector, as predicted by the classifier. If passed as null, the classifier
+        /// will create a new array.</param>
+        /// <param name="result">An array where the probabilities will be stored,
+        /// avoiding unnecessary memory allocations.</param>
+        /// <returns>System.Double[].</returns>
+        public double[] Probability(TInput[] input, ref int[] decision, double[] result)
         {
-            decision = create(input, decision);
+            Probability(input, result);
+            decision = createOrReuse(input, decision);
             for (int i = 0; i < input.Length; i++)
-                result[i] = ToMulticlass().Probability(input[i], out decision[i]);
+                decision[i] = Classes.ToZeroOne(result[i] - PROBABILITY_DECISION_THRESHOLD);
             return result;
         }
 
-        double[] IMulticlassLikelihoodClassifier<TInput, double>.Probability(TInput[] input, ref double[] decision, double[] result)
+        /// <summary>
+        /// Predicts a class label for each input vector, returning the
+        /// probability that each vector belongs to its predicted class.
+        /// </summary>
+        /// <param name="input">A set of input vectors.</param>
+        /// <param name="decision">The class labels associated with each input
+        /// vector, as predicted by the classifier. If passed as null, the classifier
+        /// will create a new array.</param>
+        /// <param name="result">An array where the probabilities will be stored,
+        /// avoiding unnecessary memory allocations.</param>
+        /// <returns>System.Double[].</returns>
+        public double[] Probability(TInput[] input, ref double[] decision, double[] result)
         {
-            decision = create(input, decision);
+            Probability(input, result);
+            decision = createOrReuse(input, decision);
             for (int i = 0; i < input.Length; i++)
-                result[i] = ToMulticlass().Probability(input[i], out decision[i]);
+                decision[i] = Classes.ToZeroOne(result[i] - PROBABILITY_DECISION_THRESHOLD);
             return result;
         }
 
-        double[][] IMultilabelLikelihoodClassifier<TInput, bool[]>.Probabilities(TInput[] input, ref bool[][] decision, double[][] result)
+        /// <summary>
+        /// Predicts a class label vector for each input vector, returning the
+        /// probabilities of the input vector belonging to each possible class.
+        /// </summary>
+        /// <param name="input">A set of input vectors.</param>
+        /// <param name="decision">The labels predicted by the classifier.</param>
+        /// <param name="result">An array where the probabilities will be stored,
+        /// avoiding unnecessary memory allocations.</param>
+        /// <returns>System.Double[][].</returns>
+        public double[][] Probabilities(TInput[] input, ref bool[][] decision, double[][] result)
         {
-            decision = create(input, decision);
-            for (int i = 0; i < input.Length; i++)
-                ToMultilabel().Probabilities(input[i], ref decision[i], result[i]);
+            ToMultilabel().LogLikelihoods(input, result);
+            decision = createOrReuse(input, decision);
+            for (int i = 0; i < result.Length; i++)
+                Vector.OneHot(Classes.ToZeroOne(result[i][CLASS_POSITIVE] - PROBABILITY_DECISION_THRESHOLD), result: decision[i]);
             return result;
         }
 
-        double[][] IMultilabelLikelihoodClassifier<TInput, int[]>.Probabilities(TInput[] input, ref int[][] decision, double[][] result)
+        /// <summary>
+        /// Predicts a class label vector for each input vector, returning the
+        /// probabilities of the input vector belonging to each possible class.
+        /// </summary>
+        /// <param name="input">A set of input vectors.</param>
+        /// <param name="decision">The labels predicted by the classifier.</param>
+        /// <param name="result">An array where the probabilities will be stored,
+        /// avoiding unnecessary memory allocations.</param>
+        /// <returns>System.Double[][].</returns>
+        public double[][] Probabilities(TInput[] input, ref int[][] decision, double[][] result)
         {
-            decision = create(input, decision);
-            int value;
-            for (int i = 0; i < input.Length; i++)
-            {
-                ToMultilabel().Probabilities(input[i], out value, result[i]);
-                decision[i] = Vector.OneHot<int>(value, decision[i]);
-            }
+            ToMultilabel().Probabilities(input, result);
+            decision = createOrReuse(input, decision);
+            for (int i = 0; i < result.Length; i++)
+                Vector.OneHot(Classes.ToZeroOne(result[i][CLASS_POSITIVE] - PROBABILITY_DECISION_THRESHOLD), result: decision[i]);
             return result;
         }
 
-        //double[] IMulticlassGenerativeClassifier<TInput, double[]>.Probability(TInput[] input, ref double[][] decision, double[] result)
-        //{
-        //    decision = create(input, decision);
-        //    int value;
-        //    for (int i = 0; i < input.Length; i++)
-        //    {
-        //        result[i] = ToMulticlass().Probability(input[i], out value);
-        //        Vector.OneHot(value, decision[i]);
-        //    }
-        //    return result;
-        //}
-
-
-
-        double[][] IMultilabelLikelihoodClassifier<TInput, double[]>.Probabilities(TInput[] input, ref double[][] decision, double[][] result)
+        /// <summary>
+        /// Predicts a class label vector for each input vector, returning the
+        /// probabilities of the input vector belonging to each possible class.
+        /// </summary>
+        /// <param name="input">A set of input vectors.</param>
+        /// <param name="decision">The labels predicted by the classifier.</param>
+        /// <param name="result">An array where the probabilities will be stored,
+        /// avoiding unnecessary memory allocations.</param>
+        /// <returns>System.Double[][].</returns>
+        public double[][] Probabilities(TInput[] input, ref double[][] decision, double[][] result)
         {
-            decision = create(input, decision);
-            int value;
-            for (int i = 0; i < input.Length; i++)
-            {
-                ToMultilabel().Probabilities(input[i], out value, result[i]);
-                decision[i] = Vector.OneHot<double>(value, decision[i]);
-            }
+            ToMultilabel().Probabilities(input, result);
+            decision = createOrReuse(input, decision);
+            for (int i = 0; i < result.Length; i++)
+                Vector.OneHot(Classes.ToZeroOne(result[i][CLASS_POSITIVE] - PROBABILITY_DECISION_THRESHOLD), result: decision[i]);
             return result;
         }
 
@@ -1086,60 +1393,50 @@ namespace Accord.MachineLearning
         ///   avoiding unnecessary memory allocations.</param>
         public double[][] Probabilities(TInput[] input, ref bool[] decision, double[][] result)
         {
-            decision = create(input, decision);
-            for (int i = 0; i < input.Length; i++)
-                Probabilities(input[i], out decision[i], result[i]);
+            ToMultilabel().Probabilities(input, result);
+            decision = createOrReuse(input, decision);
+            for (int i = 0; i < result.Length; i++)
+                decision[i] = Classes.Decide(result[i][CLASS_POSITIVE] - PROBABILITY_DECISION_THRESHOLD);
             return result;
         }
 
-
-
-        double[][] IMultilabelLikelihoodClassifier<TInput, int>.Probabilities(TInput[] input, ref int[] decision, double[][] result)
+        /// <summary>
+        /// Predicts a class label vector for each input vector, returning the
+        /// probabilities of the input vector belonging to each possible class.
+        /// </summary>
+        /// <param name="input">A set of input vectors.</param>
+        /// <param name="decision">The labels predicted by the classifier.</param>
+        /// <param name="result">An array where the probabilities will be stored,
+        /// avoiding unnecessary memory allocations.</param>
+        /// <returns>System.Double[][].</returns>
+        public double[][] Probabilities(TInput[] input, ref int[] decision, double[][] result)
         {
-            decision = create(input, decision);
-            for (int i = 0; i < input.Length; i++)
-                ToMultilabel().Probabilities(input[i], out decision[i], result[i]);
+            ToMultilabel().Probabilities(input, result);
+            decision = createOrReuse(input, decision);
+            for (int i = 0; i < result.Length; i++)
+                decision[i] = Classes.ToZeroOne(result[i][CLASS_POSITIVE] - PROBABILITY_DECISION_THRESHOLD);
             return result;
         }
 
-        double[][] IMultilabelLikelihoodClassifier<TInput, double>.Probabilities(TInput[] input, ref double[] decision, double[][] result)
+        /// <summary>
+        /// Predicts a class label vector for each input vector, returning the
+        /// probabilities of the input vector belonging to each possible class.
+        /// </summary>
+        /// <param name="input">A set of input vectors.</param>
+        /// <param name="decision">The labels predicted by the classifier.</param>
+        /// <param name="result">An array where the probabilities will be stored,
+        /// avoiding unnecessary memory allocations.</param>
+        /// <returns>System.Double[][].</returns>
+        public double[][] Probabilities(TInput[] input, ref double[] decision, double[][] result)
         {
-            decision = create(input, decision);
-            for (int i = 0; i < input.Length; i++)
-                ToMultilabel().Probabilities(input[i], out decision[i], result[i]);
+            ToMultilabel().Probabilities(input, result);
+            decision = createOrReuse(input, decision);
+            for (int i = 0; i < result.Length; i++)
+                decision[i] = Classes.ToZeroOne(result[i][CLASS_POSITIVE] - PROBABILITY_DECISION_THRESHOLD);
             return result;
         }
-
-        //double[] IMulticlassGenerativeClassifier<TInput, bool[]>.Probability(TInput[] input, ref bool[][] decision, double[] result)
-        //{
-        //    decision = create(input, decision);
-        //    bool value;
-        //    for (int i = 0; i < input.Length; i++)
-        //    {
-        //        result[i] = Probability(input[i], out value);
-        //        Vector.OneHot<bool>(value, decision[i]);
-        //    }
-        //    return result;
-        //}
-
-        //double[] IMulticlassGenerativeClassifier<TInput, int[]>.Probability(TInput[] input, ref int[][] decision, double[] result)
-        //{
-        //    decision = create(input, decision);
-        //    bool value;
-        //    for (int i = 0; i < input.Length; i++)
-        //    {
-        //        result[i] = Probability(input[i], out value);
-        //        Vector.OneHot<int>(value, decision[i]);
-        //    }
-        //    return result;
-        //}
 
         #endregion
-
-
-
-
-
 
 
 

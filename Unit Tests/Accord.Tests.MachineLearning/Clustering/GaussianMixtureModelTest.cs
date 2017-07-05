@@ -26,6 +26,7 @@ namespace Accord.Tests.MachineLearning
     using Accord.IO;
     using Accord.MachineLearning;
     using Accord.Math;
+    using Accord.Statistics;
     using Accord.Statistics.Distributions.Fitting;
     using Accord.Tests.MachineLearning.Properties;
     using NUnit.Framework;
@@ -47,7 +48,7 @@ namespace Accord.Tests.MachineLearning
             double[][] samples =
             {
                 new double[] { 0, 1 },
-                new double[] { 1, 2 }, 
+                new double[] { 1, 2 },
                 new double[] { 1, 1 },
                 new double[] { 0, 7 },
                 new double[] { 1, 1 },
@@ -74,12 +75,13 @@ namespace Accord.Tests.MachineLearning
             Assert.IsTrue(gmm.Gaussians.Means[1].IsEqual(new[] { 0.6, 2.4 }, 1e-3));
 
 
-            int[] c = samples.Apply(gmm.Clusters.Nearest);
+            int[] c = samples.Apply(gmm.Clusters.Decide);
 
             for (int i = 0; i < samples.Length; i++)
             {
                 double[] responses;
-                int e = gmm.Gaussians.Nearest(samples[i], out responses);
+                int e;
+                responses = gmm.Gaussians.Probabilities(samples[i], out e);
                 int a = responses.ArgMax();
 
                 Assert.AreEqual(a, e);
@@ -154,12 +156,12 @@ namespace Accord.Tests.MachineLearning
 
             gmm.Options.Robust = true;
             var result = gmm.Compute(B, new GaussianMixtureModelOptions()
+            {
+                NormalOptions = new NormalOptions
                 {
-                    NormalOptions = new NormalOptions
-                    {
-                        Robust = true
-                    }
-                });
+                    Robust = true
+                }
+            });
         }
 
         [Test]
@@ -193,7 +195,7 @@ namespace Accord.Tests.MachineLearning
                 Weights = weights
             });
 
-            int[] classifications = gmm.Gaussians.Nearest(values);
+            int[] classifications = gmm.Gaussians.Decide(values);
         }
 
 
@@ -204,10 +206,10 @@ namespace Accord.Tests.MachineLearning
             // Suppose we have a weighted data set. Those are the input points:
             double[][] points =
             {
-                new double[] { 0 }, new double[] { 3 }, new double[] {  1 }, 
+                new double[] { 0 }, new double[] { 3 }, new double[] {  1 },
                 new double[] { 7 }, new double[] { 3 }, new double[] {  5 },
                 new double[] { 1 }, new double[] { 2 }, new double[] { -1 },
-                new double[] { 2 }, new double[] { 7 }, new double[] {  6 }, 
+                new double[] { 2 }, new double[] { 7 }, new double[] {  6 },
                 new double[] { 8 }, new double[] { 6 } // (14 points)
             };
 
@@ -315,6 +317,7 @@ namespace Accord.Tests.MachineLearning
             }
         }
 
+#if !NETSTANDARD2_0
         [Test]
         [Category("Office")]
         public void GaussianMixtureModelTest5()
@@ -361,7 +364,7 @@ namespace Accord.Tests.MachineLearning
             Assert.IsFalse(gmm.Gaussians[0].Mean.HasNaN());
             Assert.IsFalse(gmm.Gaussians[1].Mean.HasNaN());
         }
-
+#endif
 
 
         [Test]
@@ -380,7 +383,7 @@ namespace Accord.Tests.MachineLearning
             }
         }
 
-        [Test, Ignore]
+        [Test, Ignore("Intensive, random")]
         public void LargeSampleTest()
         {
             Accord.Math.Tools.SetupGenerator(0);
@@ -424,7 +427,7 @@ namespace Accord.Tests.MachineLearning
             for (int i = 0; i < samples.Length; i++)
             {
                 var sample = samples[i];
-                int c = gmm.Gaussians.Nearest(sample);
+                int c = gmm.Gaussians.Decide(sample);
 
                 Assert.AreEqual(c, (i % 10) >= 5 ? 1 : 0);
             }
@@ -460,7 +463,19 @@ namespace Accord.Tests.MachineLearning
             // Predict cluster labels for each sample
             int[] predicted = clusters.Decide(samples);
 
+            // We can also obtain the log-likelihoods for each sample:
+            double[] logLikelihoods = clusters.LogLikelihood(samples);
+
+            // As well as the probability of belonging to each cluster
+            double[][] probabilities = clusters.Probabilities(samples);
             #endregion
+
+            int[] argMax = probabilities.ArgMax(1);
+            Assert.AreEqual(argMax, predicted);
+
+            Assert.AreEqual(2, clusters.NumberOfClasses);
+            Assert.AreEqual(2, clusters.NumberOfOutputs);
+            Assert.AreEqual(2, clusters.NumberOfInputs);
 
             Assert.AreEqual(-35.930732550698494, gmm.LogLikelihood, 1e-10);
 
@@ -469,19 +484,88 @@ namespace Accord.Tests.MachineLearning
             Assert.IsTrue(clusters.Means[0].IsEqual(new[] { 5.8, 2.0 }, 1e-3));
             Assert.IsTrue(clusters.Means[1].IsEqual(new[] { 0.6, 2.4 }, 1e-3));
 
-
+            var mix = clusters.ToMixtureDistribution();
 
             for (int i = 0; i < samples.Length; i++)
             {
-                double[] responses;
-                int e = gmm.Gaussians.Nearest(samples[i], out responses);
-                int a = responses.ArgMax();
+                double[] x = samples[i];
+
+                double[] expected, actual;
+                int e;
+                expected = gmm.Gaussians.Probabilities(x, out e);
+                int a = expected.ArgMax();
 
                 Assert.AreEqual(a, e);
                 Assert.AreEqual(predicted[i], (i < 5) ? 1 : 0);
 
-                double[] actual = clusters.Scores(samples[i]);
-                Assert.IsTrue(responses.IsEqual(actual, 1e-10));
+                actual = clusters.Probabilities(x);
+                Assert.IsTrue(expected.IsEqual(actual, 1e-10));
+
+                for (int j = 0; j < actual.Length; j++)
+                    actual[j] = mix.LogProbabilityDensityFunction(j, x);
+                actual = Special.Softmax(actual);
+                Assert.IsTrue(expected.IsEqual(actual, 1e-10));
+            }
+
+            for (int i = 0; i < samples.Length; i++)
+            {
+                double[] x = samples[i];
+
+                double[] expected, actual;
+                double e;
+                expected = gmm.Gaussians.Probabilities(x, out e);
+                int a = expected.ArgMax();
+
+                Assert.AreEqual(a, e);
+                Assert.AreEqual(predicted[i], (i < 5) ? 1 : 0);
+
+                actual = clusters.Probabilities(x);
+                Assert.IsTrue(expected.IsEqual(actual, 1e-10));
+
+                for (int j = 0; j < actual.Length; j++)
+                    actual[j] = mix.LogProbabilityDensityFunction(j, x);
+                actual = Special.Softmax(actual);
+                Assert.IsTrue(expected.IsEqual(actual, 1e-10));
+            }
+
+            for (int i = 0; i < samples.Length; i++)
+            {
+                double[] x = samples[i];
+
+                double[] expected, actual;
+                int e;
+                expected = gmm.Gaussians.LogLikelihoods(x, out e);
+                int a = expected.ArgMax();
+
+                Assert.AreEqual(a, e);
+                Assert.AreEqual(predicted[i], (i < 5) ? 1 : 0);
+
+                actual = clusters.LogLikelihoods(x);
+                Assert.IsTrue(expected.IsEqual(actual, 1e-10));
+
+                for (int j = 0; j < actual.Length; j++)
+                    actual[j] = mix.LogProbabilityDensityFunction(j, x);
+                Assert.IsTrue(expected.IsEqual(actual, 1e-10));
+            }
+
+            for (int i = 0; i < samples.Length; i++)
+            {
+                double[] x = samples[i];
+
+                double[] expected, actual;
+                double e;
+                expected = gmm.Gaussians.LogLikelihoods(x, out e);
+                int a = expected.ArgMax();
+
+                Assert.AreEqual(a, e);
+                Assert.AreEqual(predicted[i], (i < 5) ? 1 : 0);
+
+                actual = clusters.LogLikelihoods(x);
+                Assert.IsTrue(expected.IsEqual(actual, 1e-10));
+
+                for (int j = 0; j < actual.Length; j++)
+                    actual[j] = mix.LogProbabilityDensityFunction(j, x);
+                Assert.IsTrue(expected.IsEqual(actual, 1e-10));
             }
         }
 
@@ -535,13 +619,14 @@ namespace Accord.Tests.MachineLearning
             for (int i = 0; i < samples.Length; i++)
             {
                 double[] responses;
-                int e = gmm.Gaussians.Nearest(samples[i], out responses);
+                int e;
+                responses = gmm.Gaussians.Probabilities(samples[i], out e);
                 int a = responses.ArgMax();
 
                 Assert.AreEqual(a, e);
                 Assert.AreEqual(predicted[i], (i < 5) ? 1 : 0);
 
-                double[] actual = clusters.Scores(samples[i]);
+                double[] actual = clusters.Probabilities(samples[i]);
                 Assert.IsTrue(responses.IsEqual(actual, 1e-10));
             }
         }
@@ -584,7 +669,7 @@ namespace Accord.Tests.MachineLearning
 
             #endregion
 
-            Assert.AreEqual(-38.935822773153589, gmm.LogLikelihood, 1e-8);
+            Assert.AreEqual(-38.935822773153589, gmm.LogLikelihood, 1e-5);
 
             Assert.AreEqual(2, clusters.Count);
 
@@ -596,13 +681,14 @@ namespace Accord.Tests.MachineLearning
             for (int i = 0; i < samples.Length; i++)
             {
                 double[] responses;
-                int e = gmm.Gaussians.Nearest(samples[i], out responses);
+                int e;
+                responses = gmm.Gaussians.Probabilities(samples[i], out e);
                 int a = responses.ArgMax();
 
                 Assert.AreEqual(a, e);
                 Assert.AreEqual(predicted[i], (i < 5) ? 1 : 0);
 
-                double[] actual = clusters.Scores(samples[i]);
+                double[] actual = clusters.Probabilities(samples[i]);
                 Assert.IsTrue(responses.IsEqual(actual, 1e-10));
             }
 
@@ -655,12 +741,14 @@ namespace Accord.Tests.MachineLearning
                 MaxIterations = 10
             };
 
+            gmm.ParallelOptions.MaxDegreeOfParallelism = 1;
+
             Assert.AreEqual(0, gmm.Iterations);
             Assert.AreEqual(10, gmm.MaxIterations);
 
             // Estimate the Gaussian Mixture
             var clusters = gmm.Learn(samples);
-            Assert.IsTrue(gmm.Iterations == 4 || gmm.Iterations == 3);
+            Assert.AreEqual(3, gmm.Iterations);
             Assert.AreEqual(10, gmm.MaxIterations);
 
             // Predict cluster labels for each sample
@@ -679,13 +767,14 @@ namespace Accord.Tests.MachineLearning
             for (int i = 0; i < samples.Length; i++)
             {
                 double[] responses;
-                int e = gmm.Gaussians.Nearest(samples[i], out responses);
+                int e;
+                responses = gmm.Gaussians.Probabilities(samples[i], out e);
                 int a = responses.ArgMax();
 
                 Assert.AreEqual(a, e);
                 Assert.AreEqual(predicted[i], (i < 5) ? 1 : 0);
 
-                double[] actual = clusters.Scores(samples[i]);
+                double[] actual = clusters.Probabilities(samples[i]);
                 Assert.IsTrue(responses.IsEqual(actual, 1e-10));
             }
 
@@ -706,5 +795,6 @@ namespace Accord.Tests.MachineLearning
 
             Assert.IsTrue(clusters.Covariance[0].IsEqual(clusters.Covariance[1]));
         }
+
     }
 }

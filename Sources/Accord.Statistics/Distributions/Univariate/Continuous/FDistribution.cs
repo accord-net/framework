@@ -414,12 +414,14 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <param name="samples">The number of samples to generate.</param>
         /// <param name="result">The location where to store the samples.</param>
-        ///
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        /// 
         /// <returns>A random vector of observations drawn from this distribution.</returns>
         /// 
-        public override double[] Generate(int samples, double[] result)
+        public override double[] Generate(int samples, double[] result, Random source)
         {
-            return Random(d1, d2, samples, result);
+            return Random(d1, d2, samples, result, source);
         }
 
         /// <summary>
@@ -428,9 +430,9 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <returns>A random observations drawn from this distribution.</returns>
         /// 
-        public override double Generate()
+        public override double Generate(Random source)
         {
-            return Random(d1, d2);
+            return Random(d1, d2, source);
         }
 
         /// <summary>
@@ -446,7 +448,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public static double[] Random(int d1, int d2, int samples)
         {
-            return Random(d1, d2, samples, new double[samples]);
+            return Random(d1, d2, samples, Accord.Math.Random.Generator.Random);
         }
 
         /// <summary>
@@ -463,12 +465,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public static double[] Random(int d1, int d2, int samples, double[] result)
         {
-            double[] x = GammaDistribution.Random(shape: d1 / 2.0, scale: 2, samples: samples, result: result);
-            double[] y = GammaDistribution.Random(shape: d2 / 2.0, scale: 2, samples: samples);
-
-            for (int i = 0; i < x.Length; i++)
-                x[i] /= y[i];
-            return x;
+            return Random(d1, d2, samples, result, Accord.Math.Random.Generator.Random);
         }
 
         /// <summary>
@@ -483,8 +480,71 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public static double Random(int d1, int d2)
         {
-            double x = GammaDistribution.Random(shape: d1 / 2.0, scale: 2);
-            double y = GammaDistribution.Random(shape: d2 / 2.0, scale: 2);
+            return Random(d1, d2, Accord.Math.Random.Generator.Random);
+        }
+
+
+
+
+
+        /// <summary>
+        ///   Generates a random vector of observations from the 
+        ///   F-distribution with the given parameters.
+        /// </summary>
+        /// 
+        /// <param name="d1">The first degree of freedom.</param>
+        /// <param name="d2">The second degree of freedom.</param>
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        ///
+        /// <returns>An array of double values sampled from the specified F-distribution.</returns>
+        /// 
+        public static double[] Random(int d1, int d2, int samples, Random source)
+        {
+            return Random(d1, d2, samples, new double[samples], source);
+        }
+
+        /// <summary>
+        ///   Generates a random vector of observations from the 
+        ///   F-distribution with the given parameters.
+        /// </summary>
+        /// 
+        /// <param name="d1">The first degree of freedom.</param>
+        /// <param name="d2">The second degree of freedom.</param>
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="result">The location where to store the samples.</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        ///
+        /// <returns>An array of double values sampled from the specified F-distribution.</returns>
+        /// 
+        public static double[] Random(int d1, int d2, int samples, double[] result, Random source)
+        {
+            double[] x = GammaDistribution.Random(shape: d1 / 2.0, scale: 2, samples: samples, result: result, source: source);
+            double[] y = GammaDistribution.Random(shape: d2 / 2.0, scale: 2, samples: samples, source: source);
+
+            for (int i = 0; i < x.Length; i++)
+                x[i] /= y[i];
+            return x;
+        }
+
+        /// <summary>
+        ///   Generates a random observation from the 
+        ///   F-distribution with the given parameters.
+        /// </summary>
+        /// 
+        /// <param name="d1">The first degree of freedom.</param>
+        /// <param name="d2">The second degree of freedom.</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        /// 
+        /// <returns>A random double value sampled from the specified F-distribution.</returns>
+        /// 
+        public static double Random(int d1, int d2, Random source)
+        {
+            double x = GammaDistribution.Random(shape: d1 / 2.0, scale: 2, source: source);
+            double y = GammaDistribution.Random(shape: d2 / 2.0, scale: 2, source: source);
             return x / y;
         }
 

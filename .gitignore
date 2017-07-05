@@ -1,6 +1,7 @@
 bin
 obj
 
+.vs
 *.user
 *.pidb
 *.suo
@@ -35,3 +36,8 @@ obj
 /config.log
 *.m4
 /accord.pc
+
+html
+
+/install-sh
+/missing

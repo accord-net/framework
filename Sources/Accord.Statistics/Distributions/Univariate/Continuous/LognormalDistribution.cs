@@ -499,12 +499,14 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <param name="samples">The number of samples to generate.</param>
         /// <param name="result">The location where to store the samples.</param>
-        ///
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        ///   
         /// <returns>A random vector of observations drawn from this distribution.</returns>
         /// 
-        public override double[] Generate(int samples, double[] result)
+        public override double[] Generate(int samples, double[] result, Random source)
         {
-            return Random(location, shape, samples, result);
+            return Random(location, shape, samples, result, source);
         }
 
         /// <summary>
@@ -513,9 +515,9 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <returns>A random observations drawn from this distribution.</returns>
         /// 
-        public override double Generate()
+        public override double Generate(Random source)
         {
-            return Random(location, shape);
+            return Random(location, shape, source);
         }
 
         /// <summary>
@@ -530,7 +532,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public static double Random(double location, double shape)
         {
-            return Math.Exp(location + shape * NormalDistribution.Random());
+            return Random(location, shape);
         }
 
         /// <summary>
@@ -546,7 +548,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public static double[] Random(double location, double shape, int samples)
         {
-            return Random(location, shape, samples, new double[samples]);
+            return Random(location, shape, samples, Accord.Math.Random.Generator.Random);
         }
 
         /// <summary>
@@ -563,7 +565,64 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public static double[] Random(double location, double shape, int samples, double[] result)
         {
-            NormalDistribution.Random(samples, result);
+            return Random(location, shape, samples, result, Accord.Math.Random.Generator.Random);
+        }
+
+
+
+
+        /// <summary>
+        ///   Generates a random observation from the 
+        ///   Lognormal distribution with the given parameters.
+        /// </summary>
+        /// 
+        /// <param name="location">The distribution's location value.</param>
+        /// <param name="shape">The distribution's shape deviation.</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        /// 
+        /// <returns>A random double value sampled from the specified Lognormal distribution.</returns>
+        /// 
+        public static double Random(double location, double shape, Random source)
+        {
+            return Math.Exp(location + shape * NormalDistribution.Random(source));
+        }
+
+        /// <summary>
+        ///   Generates a random vector of observations from the 
+        ///   Lognormal distribution with the given parameters.
+        /// </summary>
+        /// 
+        /// <param name="location">The distribution's location value.</param>
+        /// <param name="shape">The distribution's shape deviation.</param>
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        ///
+        /// <returns>An array of double values sampled from the specified Lognormal distribution.</returns>
+        /// 
+        public static double[] Random(double location, double shape, int samples, Random source)
+        {
+            return Random(location, shape, samples, new double[samples], source);
+        }
+
+        /// <summary>
+        ///   Generates a random vector of observations from the 
+        ///   Lognormal distribution with the given parameters.
+        /// </summary>
+        /// 
+        /// <param name="location">The distribution's location value.</param>
+        /// <param name="shape">The distribution's shape deviation.</param>
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="result">The location where to store the samples.</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        ///
+        /// <returns>An array of double values sampled from the specified Lognormal distribution.</returns>
+        /// 
+        public static double[] Random(double location, double shape, int samples, double[] result, Random source)
+        {
+            NormalDistribution.Random(samples, result, source);
 
             for (int i = 0; i < result.Length; i++)
                 result[i] = Math.Exp(location + shape * result[i]);

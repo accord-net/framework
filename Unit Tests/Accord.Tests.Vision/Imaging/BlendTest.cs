@@ -23,6 +23,7 @@
 namespace Accord.Tests.Imaging
 {
     using Accord.Imaging;
+    using Accord.Imaging.Converters;
     using Accord.Imaging.Filters;
     using Accord.Math;
     using Accord.Tests.Vision.Properties;
@@ -30,13 +31,16 @@ namespace Accord.Tests.Imaging
     using System.Drawing;
     using System.Drawing.Imaging;
     using System.IO;
+#if NETSTANDARD2_0
+    using Resources = Accord.Tests.Vision.Properties.Resources_Standard;
+#endif
 
 
-    [TestFixture, Ignore]
+    [TestFixture]
     public class BlendTest
     {
 
-        [Test]
+        [Test, Ignore("Random")]
         public void Panorama_Example1()
         {
             Accord.Math.Random.Generator.Seed = 0;
@@ -98,11 +102,9 @@ namespace Accord.Tests.Imaging
             Bitmap image = Accord.Imaging.Image.Clone(Resources.blend_net45);
 #endif
 
-#pragma warning disable 618
-            double[,] expected = image.ToDoubleMatrix(channel: 0);
-            double[,] actual = result.ToDoubleMatrix(channel: 0);
+            double[,] expected; new ImageToMatrix().Convert(image, out expected);
+            double[,] actual; new ImageToMatrix().Convert(result, out actual);
             Assert.IsTrue(Matrix.IsEqual(expected, actual, atol: 0.1));
-#pragma warning restore 618
         }
 
 

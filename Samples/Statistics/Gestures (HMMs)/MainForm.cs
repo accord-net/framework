@@ -106,7 +106,7 @@ namespace Gestures.HMMs
                 Learner = i => new BaumWelchLearning<MultivariateNormalDistribution, double[]>(hmm.Models[i])
                 {
                     Tolerance = tolerance,
-                    Iterations = iterations,
+                    MaxIterations = iterations,
 
                     FittingOptions = new NormalOptions()
                     {
@@ -171,7 +171,7 @@ namespace Gestures.HMMs
             // Create the learning algorithm for the ensemble classifier
             var teacher = new HiddenResilientGradientLearning<double[]>(hcrf)
             {
-                Iterations = iterations,
+                MaxIterations = iterations,
                 Tolerance = tolerance
             };
 
@@ -182,7 +182,7 @@ namespace Gestures.HMMs
 
             foreach (var sample in database.Samples)
             {
-                sample.RecognizedAs = hcrf.Compute(sample.Input);
+                sample.RecognizedAs = hcrf.Decide(sample.Input);
             }
 
             foreach (DataGridViewRow row in gridSamples.Rows)

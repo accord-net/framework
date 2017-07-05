@@ -5,35 +5,41 @@
     <RootNamespace>Accord.Imaging</RootNamespace>
     <AssemblyName>Accord.Imaging</AssemblyName>
   </PropertyGroup>
-  <Import Project="$(SolutionDir)Accord.NET.targets" />  
+  <Import Project="$(SolutionDir)Accord.NET.targets" />
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-		<DebugType>Full</DebugType>
-		<Optimize>False</Optimize>
-		<CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
-		<DefineConstants>DEBUG;TRACE</DefineConstants>
-		<OutputPath>$(SolutionDir)..\Debug\</OutputPath>
-		<DocumentationFile></DocumentationFile>
-	</PropertyGroup>
-	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'net35|AnyCPU' ">
-		<DefineConstants>TRACE;NET35</DefineConstants>
-		<TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-	</PropertyGroup>
-	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'net40|AnyCPU' ">
-		<DefineConstants>TRACE;NET40</DefineConstants>
-		<TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'net45|AnyCPU'">
-		<DefineConstants>TRACE;NET45</DefineConstants>
-		<TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'net46|AnyCPU'">
-		<DefineConstants>TRACE;NET46</DefineConstants>
-		<TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
-	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'mono|AnyCPU'">
-		<DefineConstants>TRACE;MONO</DefineConstants>
-		<TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-	</PropertyGroup>
+    <DebugType>Full</DebugType>
+    <Optimize>False</Optimize>
+    <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <OutputPath>$(SolutionDir)..\Debug\</OutputPath>
+    <DocumentationFile>
+    </DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'net35|AnyCPU' ">
+    <DefineConstants>TRACE;NET35</DefineConstants>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'net40|AnyCPU' ">
+    <DefineConstants>TRACE;NET40</DefineConstants>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'net45|AnyCPU'">
+    <DefineConstants>TRACE;NET45</DefineConstants>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'net46|AnyCPU'">
+    <DefineConstants>TRACE;NET46</DefineConstants>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'net462|AnyCPU' ">
+    <DefineConstants>TRACE;NET462</DefineConstants>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'mono|AnyCPU'">
+    <DefineConstants>TRACE;MONO</DefineConstants>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -48,6 +54,7 @@
     <Compile Include="..\Accord.Core\Properties\VersionInfo.cs">
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
+    <Compile Include="Accord.DataSets\TestImages.cs" />
     <Compile Include="AForge.Imaging\Filters\2 Source filters\Divide.cs" />
     <Compile Include="AForge.Imaging\Filters\2 Source filters\Multiply.cs" />
     <Compile Include="AForge.Imaging\Filters\Convolution\FastBoxBlur.cs" />
@@ -174,6 +181,8 @@
     <Compile Include="AForge.Imaging\Filters\Normalized RGB\ExtractNormalizedRGBChannel.cs" />
     <Compile Include="AForge.Imaging\Filters\Other\ApplyMask.cs" />
     <Compile Include="Blob Processing\IBlobsFilter.cs" />
+    <Compile Include="Filters\BinaryWatershed.cs" />
+    <Compile Include="Filters\DistanceTransform.cs" />
     <Compile Include="Filters\Other\BlobsFiltering.cs" />
     <Compile Include="AForge.Imaging\Filters\Other\CanvasCrop.cs" />
     <Compile Include="AForge.Imaging\Filters\Other\CanvasFill.cs" />

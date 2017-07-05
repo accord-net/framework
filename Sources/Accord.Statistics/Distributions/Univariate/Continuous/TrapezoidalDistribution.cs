@@ -130,8 +130,8 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <param name="n3">The growth slope between points <paramref name="c"/> and <paramref name="d"/>.</param>
         /// 
         public TrapezoidalDistribution(
-            [Real, DefaultValue(0)] double a, [Real, DefaultValue(1)] double b,
-            [Real, DefaultValue(2)] double c, [Real, DefaultValue(3)] double d, 
+            [Real(maximum: 1e+300), DefaultValue(0)] double a, [Real, DefaultValue(1)] double b,
+            [Real, DefaultValue(2)] double c, [Real(minimum: 1e-300), DefaultValue(3)] double d,
             [Positive] double n1, [Positive] double n3)
         {
             // boundary validation

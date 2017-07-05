@@ -44,25 +44,6 @@ namespace Accord
     {
 
         /// <summary>
-        ///   Copies a collection by calling the ICloneable.Clone method for each element inside it.
-        /// </summary>
-        /// 
-        /// <typeparam name="T"></typeparam>
-        /// <param name="list">The collection to be cloned.</param>
-        /// 
-        /// <returns>A copy of the collection where each element has also been copied.</returns>
-        /// 
-        [Obsolete("Please use Matrix.Copy() instead.")]
-        public static T DeepClone<T>(this T list)
-            where T : IList<ICloneable>, ICloneable
-        {
-            T clone = (T)list.Clone();
-            for (int i = 0; i < clone.Count; i++)
-                clone[i] = (ICloneable)list[i].Clone();
-            return clone;
-        }
-
-        /// <summary>
         ///   Creates and adds multiple <see cref="System.Data.DataColumn"/>
         ///   objects with the given names at once.
         /// </summary>
@@ -254,6 +235,12 @@ namespace Accord
         {
             // http://stackoverflow.com/a/17457085/262032
 
+#if NETSTANDARD2_0
+            var type = reader.GetType().GetTypeInfo();
+            char[] charBuffer = (char[])type.GetDeclaredField("_charBuffer").GetValue(reader);
+            int charPos = (int)type.GetDeclaredField("_charPos").GetValue(reader);
+            int byteLen = (int)type.GetDeclaredField("_byteLen").GetValue(reader);
+#else
             // The current buffer of decoded characters
             char[] charBuffer = (char[])reader.GetType().InvokeMember("charBuffer",
                 BindingFlags.DeclaredOnly | BindingFlags.NonPublic | BindingFlags.Instance
@@ -264,13 +251,14 @@ namespace Accord
                 BindingFlags.DeclaredOnly | BindingFlags.NonPublic | BindingFlags.Instance
                 | BindingFlags.GetField, null, reader, null, CultureInfo.InvariantCulture);
 
-            // The number of bytes that the already-read characters need when encoded.
-            int numReadBytes = reader.CurrentEncoding.GetByteCount(charBuffer, 0, charPos);
-
             // The number of encoded bytes that are in the current buffer
             int byteLen = (int)reader.GetType().InvokeMember("byteLen",
                 BindingFlags.DeclaredOnly | BindingFlags.NonPublic | BindingFlags.Instance
                 | BindingFlags.GetField, null, reader, null, CultureInfo.InvariantCulture);
+#endif
+
+            // The number of bytes that the already-read characters need when encoded.
+            int numReadBytes = reader.CurrentEncoding.GetByteCount(charBuffer, 0, charPos);
 
             return reader.BaseStream.Position - byteLen + numReadBytes;
         }

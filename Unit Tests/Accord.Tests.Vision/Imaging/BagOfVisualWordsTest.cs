@@ -39,6 +39,10 @@ namespace Accord.Tests.Imaging
     using Statistics.Kernels;
     using Math.Optimization.Losses;
     using Math.Metrics;
+    using Accord.Tests.Vision.Properties;
+#if NETSTANDARD2_0
+    using Resources = Accord.Tests.Vision.Properties.Resources_Standard;
+#endif
 
     [TestFixture]
     public class BagOfVisualWordsTest
@@ -49,12 +53,12 @@ namespace Accord.Tests.Imaging
         {
             Bitmap[] images =
             {
-                Accord.Imaging.Image.Clone(Accord.Tests.Vision.Properties.Resources.flower01),
-                Accord.Imaging.Image.Clone(Accord.Tests.Vision.Properties.Resources.flower02),
-                Accord.Imaging.Image.Clone(Accord.Tests.Vision.Properties.Resources.flower03),
-                Accord.Imaging.Image.Clone(Accord.Tests.Vision.Properties.Resources.flower04),
-                Accord.Imaging.Image.Clone(Accord.Tests.Vision.Properties.Resources.flower05),
-                Accord.Imaging.Image.Clone(Accord.Tests.Vision.Properties.Resources.flower06),
+                Accord.Imaging.Image.Clone(Resources.flower01),
+                Accord.Imaging.Image.Clone(Resources.flower02),
+                Accord.Imaging.Image.Clone(Resources.flower03),
+                Accord.Imaging.Image.Clone(Resources.flower04),
+                Accord.Imaging.Image.Clone(Resources.flower05),
+                Accord.Imaging.Image.Clone(Resources.flower06),
             };
 
             return images;
@@ -453,7 +457,7 @@ namespace Accord.Tests.Imaging
             Assert.AreEqual(error, 0);
         }
 
-        [Test, Ignore]
+        [Test, Ignore("Haralick does not extract good features in this dataset")]
         public void custom_feature_test_haralick()
         {
             #region doc_feature_haralick
@@ -693,8 +697,7 @@ namespace Accord.Tests.Imaging
         }
 
 
-        [Test, Timeout(600 * 1000)]
-        [Category("Serialization")]
+        [Test, Category("Serialization")]
         public void SerializeTest()
         {
             var images = GetImages();
@@ -759,7 +762,7 @@ namespace Accord.Tests.Imaging
         }
 
 
-        [Test, Ignore]
+        [Test, Ignore("Test writing has not been finished")]
         public void LargeTest()
         {
             // Requires data from the National Data Science bowl

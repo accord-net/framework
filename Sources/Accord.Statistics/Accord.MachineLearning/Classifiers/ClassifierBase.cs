@@ -42,6 +42,12 @@ namespace Accord.MachineLearning
         IClassifier<TInput, TClasses>
     {
         /// <summary>
+        /// Gets the number of classes expected and recognized by the classifier.
+        /// </summary>
+        /// <value>The number of classes.</value>
+        public virtual int NumberOfClasses { get; set; }
+
+        /// <summary>
         ///   Computes a class-label decision for a given <paramref name="input"/>.
         /// </summary>
         /// 
@@ -120,33 +126,34 @@ namespace Accord.MachineLearning
 
         internal T[] create<T>(TInput input)
         {
-            return new T[NumberOfOutputs];
+            return new T[NumberOfClasses];
         }
 
         internal T[][] create<T>(TInput[] input)
         {
-            return Jagged.Create<T>(input.Length, NumberOfOutputs);
+            return Jagged.Create<T>(input.Length, NumberOfClasses);
         }
 
-        internal T[] create<T>(TInput input, T[] decision)
+        internal T[] createOrReuse<T>(TInput input, T[] decision)
         {
             if (decision == null)
-                decision = new T[NumberOfOutputs];
+                decision = new T[NumberOfClasses];
             return decision;
         }
 
-        internal T[][] create<T>(TInput[] input, T[][] decision)
+        internal T[][] createOrReuse<T>(TInput[] input, T[][] decision)
         {
             if (decision == null)
-                decision = Jagged.Create<T>(input.Length, NumberOfOutputs);
+                decision = Jagged.Create<T>(input.Length, NumberOfClasses);
             return decision;
         }
 
-        internal T[] create<T>(TInput[] input, T[] decision)
+        internal T[] createOrReuse<T>(TInput[] input, T[] decision)
         {
             if (decision == null)
-                decision = new T[NumberOfOutputs];
+                decision = new T[input.Length];
             return decision;
         }
+
     }
 }

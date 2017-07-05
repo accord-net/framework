@@ -963,7 +963,6 @@ namespace Accord.Tests.MachineLearning
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentException))]
         public void new_method_null_test()
         {
             double[][] inputs =
@@ -978,7 +977,7 @@ namespace Accord.Tests.MachineLearning
 
             var smo = new SequentialMinimalOptimization<Gaussian>();
             smo.Strategy = SelectionStrategy.SecondOrder;
-            smo.Learn(inputs, or);
+            Assert.Throws<ArgumentException>(() => smo.Learn(inputs, or));
         }
 
         [Test]
@@ -1148,8 +1147,11 @@ namespace Accord.Tests.MachineLearning
         }
 
         [Test]
+        [Category("Random")]
         public void FixedWeightsTest()
         {
+            Accord.Math.Random.Generator.Seed = 0;
+
             var dataset = KernelSupportVectorMachineTest.training;
             var inputs = dataset.Submatrix(null, 0, 3);
             var labels = Accord.Math.Tools.Scale(0, 1, -1, 1, dataset.GetColumn(4)).ToInt32();

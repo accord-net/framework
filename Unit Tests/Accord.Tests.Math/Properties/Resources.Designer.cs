@@ -19,7 +19,7 @@ namespace Accord.Tests.Math.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -312,6 +312,24 @@ namespace Accord.Tests.Math.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 0.514 0.988 1.003 1.015 0.965 1.007 0.927 0.958 0.992 
+        ///0.528 0.977 0.988 0.981 0.955 0.981 0.933 0.966 0.981 
+        ///0.528 0.988 0.981 0.959 0.981 0.966 0.966 0.981 0.974 
+        ///0.52 0.996 0.973 0.951 0.996 0.958 0.996 0.988 0.966 
+        ///0.508 0.996 0.973 0.957 1.003 0.957 1.011 0.988 0.973 
+        ///0.496 0.996 0.98 0.972 1.004 0.972 1.011 0.996 0.98 
+        ///0.492 0.988 0.98 0.96 0.988 0.992 1.004 0.988 1.012 
+        ///0.498 0.968 0.948 0.956 0.968 0.988 0.976 1 1.007 
+        ///0.502 0.941 0.949 0.957 0.972 0.988 0.992 1 1.011 
+        ///0.506 0.941 0.949 0.9 [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string data16 {
+            get {
+                return ResourceManager.GetString("data16", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 0.004211296,0.003102358,0.003410097,0.003645828,0.003412039,0.003553231,0.003792231,0.003118266,0.003437556,0.003401806,0.003443469,0.003417222,0.002975686,0.002945521,0.003034944,0.003460155,0.003643609,0.003336103,0.003419381
         ///0.003102358,0.002543703,0.002650282,0.002833489,0.002651791,0.002761523,0.002947271,0.002423474,0.002671622,0.002643838,0.002676218,0.002655819,0.002312663,0.002289219,0.002358718,0.002689186,0.002831764,0.002592774,0.002657497
         ///0.003410097,0.002650282,0.003073378,0.003114557,0.002914 [rest of string was truncated]&quot;;.
@@ -359,6 +377,169 @@ namespace Accord.Tests.Math.Properties {
             get {
                 object obj = ResourceManager.GetObject("java", resourceCulture);
                 return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 4
+        ///4
+        ///4
+        ///4
+        ///4
+        ///4
+        ///4
+        ///4
+        ///4
+        ///4
+        ///15
+        ///15
+        ///15
+        ///15
+        ///15
+        ///15
+        ///15
+        ///15
+        ///15
+        ///15
+        ///2
+        ///2
+        ///4
+        ///4
+        ///4
+        ///4
+        ///4
+        ///4
+        ///4
+        ///4
+        ///14
+        ///14
+        ///14
+        ///4
+        ///4
+        ///14
+        ///14
+        ///14
+        ///14
+        ///14
+        ///14
+        ///14
+        ///14
+        ///14
+        ///14
+        ///14
+        ///14
+        ///15
+        ///15
+        ///1
+        ///14
+        ///15
+        ///2
+        ///2
+        ///2
+        ///14
+        ///14
+        ///14
+        ///14
+        ///10
+        ///10
+        ///10
+        ///10
+        ///15
+        ///15
+        ///1
+        ///1
+        ///9
+        ///15
+        ///15
+        ///15
+        ///10
+        ///10
+        ///10
+        ///15
+        ///15
+        ///1
+        ///1
+        ///2
+        ///2
+        ///2
+        ///2
+        ///2
+        ///2
+        ///2
+        ///2
+        ///1
+        ///2
+        ///2
+        ///2
+        ///2
+        ///2
+        ///2
+        ///2
+        ///9
+        ///9
+        ///9
+        ///9
+        ///9
+        ///9
+        ///9
+        ///1
+        ///9
+        ///9
+        ///9
+        ///9
+        ///9
+        ///9
+        ///9
+        ///9
+        ///9
+        ///11
+        ///1
+        ///9
+        ///1
+        ///1
+        ///9
+        ///9
+        ///4
+        ///7
+        ///7
+        ///7
+        ///7
+        ///7
+        ///7
+        ///7
+        ///7
+        ///7
+        ///7
+        ///7
+        ///7
+        ///3
+        ///3
+        ///7
+        ///7
+        ///7
+        ///7
+        ///7
+        ///8
+        ///8
+        ///3
+        ///3
+        ///7
+        ///7
+        ///7
+        ///7
+        ///8
+        ///8
+        ///8
+        ///3
+        ///3
+        ///3
+        ///8
+        ///8
+        ///8        /// [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string labels16 {
+            get {
+                return ResourceManager.GetString("labels16", resourceCulture);
             }
         }
         
@@ -470,6 +651,50 @@ namespace Accord.Tests.Math.Properties {
             get {
                 object obj = ResourceManager.GetObject("uint8", resourceCulture);
                 return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+        ///0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+        ///0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+        ///0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+        ///0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+        ///0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+        ///0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+        ///0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string unf_1_constraintMat {
+            get {
+                return ResourceManager.GetString("unf_1_constraintMat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 0,0,0,0,0,0,0,0,0,0,465669.432265165,-40000000
+        ///.
+        /// </summary>
+        internal static string unf_1_constraintValues {
+            get {
+                return ResourceManager.GetString("unf_1_constraintValues", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to -842.518391849212,-488.219381897471,-190.491736876565,-186.907180907253,-88.573727999289,-72.8163617663375,-56.0230847324956,-39.7430339089597,-27.0855686809237,-21.4647055129153,-0.115540704378476,-0.349068317072662,-0.577422801256726,-0.804382016952285,-1.02956006691747,-4.87311899182541,-5.67624053425528,-6.47041221362809,-7.24022664271635,-7.99801332612495,-0.441400863323973,-0.909270405717938,-1.40164941495127,-1.91514568013197,-2.44974982103197,-8.08364585878164,-9.61279495811294,-11.2052253164321,-12 [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string unf_1_linTerms {
+            get {
+                return ResourceManager.GetString("unf_1_linTerms", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 0.000425982528487717,-1.30859921184782E-05,3.540886544383E-07,3.19408906899178E-05,4.99246203983784E-08,1.15225834218077E-07,4.19040197567661E-08,2.38160563285809E-08,1.129338173272E-08,1.5384045991757E-08,-6.89318827239171E-09,-2.0825505976031E-08,-3.44491934963131E-08,-4.79896389381127E-08,-6.14238195722856E-08,1.00789083786742E-08,1.06117549160358E-08,1.11387348781526E-08,1.1655341183062E-08,1.21691807261004E-08,2.1523266102491E-10,4.43371785773401E-10,6.83462037505227E-10,9.33849331152353E-10,1.19452909 [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string unf_1_quadTerms {
+            get {
+                return ResourceManager.GetString("unf_1_quadTerms", resourceCulture);
             }
         }
     }

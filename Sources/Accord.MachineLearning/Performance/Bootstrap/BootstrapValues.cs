@@ -22,13 +22,14 @@
 
 namespace Accord.MachineLearning
 {
+    using Accord.MachineLearning.Performance;
     using System;
 
     /// <summary>
-    ///   Information class to store the training and validation errors of a model. 
+    ///   Obsolete. Please refer to <see cref="Bootstrap{TModel, TInput, TOutput}"/> instead.
     /// </summary>
     /// 
-    [Serializable]
+    [Obsolete("Please refer to Bootstrap<TModel, TInput, TOutput> instead.")]
     public class BootstrapValues
     {
 
