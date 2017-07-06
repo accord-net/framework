@@ -4,6 +4,7 @@ Accord.NET Framework 3.6.0 release notes
 
 Version updates and fixes:
   - GH-168: Text naive bayes classification gives wrong results;
+  - GH-207: ResizeBilinear filter can support more pixel formats;
   - GH-259: K-means clustering exception;
   - GH-318: Adding support for .NET Standard 2.0;
   - GH-389: Wilcoxon Signed Rank Test / Mann-Whitney-Wilcoxon Test - differences to R;
@@ -11,6 +12,7 @@ Version updates and fixes:
   - GH-470: Multiclass SVM and DTW System.AggregateException;
   - GH-499: Add an example for K-means with mixed categorical and continuous data;
   - GH-540: Add an example for BaumWelchLearning(TDistribution, TObservation, TOptions) Class;
+  - GH-549: Multithreaded BagOfVisualWords: "memory corrupt" problem;
   - GH-571: Accord.Controls is referencing wrong version of ZedGraph on NuGet;
   - GH-602: Robust multivariate regression causes IndexOutOfRangeException;
   - GH-605: Renaming AudioCodec.M4A to AudioCodec.MP4ALS;
@@ -40,7 +42,7 @@ Version updates and fixes:
   - Moving IParallel and ISupportsCancellation interfaces to Accord.Core.
   
 * IO
-  - Adding a parser for the UNIPEN file format used by the pendigits dataset.
+  - Adding a parser for the UNIPEN file format used by the pendigits dataset;
   - Whitespace as a candidate delimiter in CSV parser;
   - Adding more overloads to SparseReader's Read method.
 
@@ -78,6 +80,9 @@ Version updates and fixes:
   - Adding support for jagged matrices in the ImageToMatrix and MatrixToImage converters;
   - Adding convenience methods PixelSize and Offset to UnmanagedImage;
   - Adding a constructor method in UnmanagedImage to construct from byte arrays.
+  
+* Vision
+  - Fixing reproducibility of Bag-Of-Visual-Words when using parallel processing.
 
 * Statistics
   - Marking Sparse kernel classes as deprecated;
@@ -96,7 +101,11 @@ Version updates and fixes:
     the available IGradientOptimizationMethod optimizers;
   - Adding extension methods to simplify how distributions can be estimated 
     from the data (without requiring the distribution to be created first);
-  - Fixing gradient computation in CRF learning.
+  - Fixing gradient computation in CRF learning;
+  - Updating base classes for probability distributions to perform input 
+    validation before calling distribution-specific implementations;
+  - Adding automatic testing of all univariate probability distributions;
+  - Mass fixing issues detected by automatic testing in multiple distributions.
   
 * Math
   - Fixing an issue with Bounded L-BFGS in which the optimization algorithm 
