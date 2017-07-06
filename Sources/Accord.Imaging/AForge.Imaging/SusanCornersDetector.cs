@@ -239,7 +239,7 @@ namespace Accord.Imaging
             unsafe
             {
                 int stride = grayImage.Stride;
-                int offset = stride - width;
+                int offset = grayImage.Offset;
 
                 byte* src = (byte*)grayImage.ImageData.ToPointer() + stride * 3 + 3;
 
@@ -263,7 +263,7 @@ namespace Accord.Imaging
                             int r = rowRadius[i + 3];
 
                             // get pointer to the central pixel of the row
-                            byte* ptr = src + stride * i;
+                            byte* ptr = (byte*)((long)src + (long)(stride * i));
 
                             // for each element of the mask's row
                             for (int j = -r; j <= r; j++)

@@ -59,7 +59,7 @@ namespace Accord.Imaging
     {
         const int numberOfBins = 256;
 
-        int cellSize = 6;  // size of the cell, in number of pixels
+        readonly int cellSize = 6;  // size of the cell, in number of pixels
         int blockSize = 3; // size of the block, in number of cells
         bool normalize = true;
 

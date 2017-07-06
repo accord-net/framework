@@ -28,6 +28,8 @@ namespace Accord.Imaging
     using System.Runtime.InteropServices;
     using System.Security;
 
+    using size_t = System.Int64;
+
     /// <summary>
     ///   Joint representation of both Integral Image and Squared Integral Image.
     /// </summary>
@@ -55,14 +57,14 @@ namespace Accord.Imaging
         private GCHandle sSumHandle;
         private GCHandle tSumHandle;
 
-        private int width;
-        private int height;
+        private size_t width;
+        private size_t height;
 
-        private int nWidth;
-        private int nHeight;
+        private size_t nWidth;
+        private size_t nHeight;
 
-        private int tWidth;
-        private int tHeight;
+        private size_t tWidth;
+        private size_t tHeight;
 
 
         /// <summary>
@@ -71,7 +73,7 @@ namespace Accord.Imaging
         /// 
         public int Width
         {
-            get { return width; }
+            get { return (int)width; }
         }
 
         /// <summary>
@@ -80,7 +82,7 @@ namespace Accord.Imaging
         /// 
         public int Height
         {
-            get { return height; }
+            get { return (int)height; }
         }
 
         /// <summary>
@@ -215,9 +217,7 @@ namespace Accord.Imaging
 
 
             // lock source image
-            BitmapData imageData = image.LockBits(
-                new Rectangle(0, 0, image.Width, image.Height),
-                ImageLockMode.ReadOnly, image.PixelFormat);
+            BitmapData imageData = image.LockBits(ImageLockMode.ReadOnly);
 
             // process the image
             IntegralImage2 im = FromBitmap(imageData, channel, computeTilted);
@@ -382,8 +382,7 @@ namespace Accord.Imaging
             // get source image size
             int width = image.Width;
             int height = image.Height;
-            int stride = image.Stride;
-            int offset = stride - width * pixelSize;
+            int offset = image.Offset;
 
             // create integral image
             IntegralImage2 im = new IntegralImage2(width, height, computeTilted);
@@ -391,8 +390,8 @@ namespace Accord.Imaging
             long* sSum = im.sSum;
             long* tSum = im.tSum;
 
-            int nWidth = im.nWidth;
-            int tWidth = im.tWidth;
+            size_t nWidth = im.nWidth;
+            size_t tWidth = im.tWidth;
 
             if (image.PixelFormat == PixelFormat.Format8bppIndexed && channel != 0)
                 throw new ArgumentException("Only the first channel is available for 8 bpp images.", "channel");
@@ -405,8 +404,8 @@ namespace Accord.Imaging
             // for each line
             for (int y = 1; y <= height; y++)
             {
-                int yy = nWidth * (y);
-                int y1 = nWidth * (y - 1);
+                size_t yy = nWidth * (y);
+                size_t y1 = nWidth * (y - 1);
 
                 // for each pixel
                 for (int x = 1; x <= width; x++, src += pixelSize)
@@ -416,10 +415,10 @@ namespace Accord.Imaging
                     long p1 = *src;
                     long p2 = p1 * p1;
 
-                    int r = yy + (x);
-                    int a = yy + (x - 1);
-                    int b = y1 + (x);
-                    int c = y1 + (x - 1);
+                    size_t r = yy + (x);
+                    size_t a = yy + (x - 1);
+                    size_t b = y1 + (x);
+                    size_t c = y1 + (x - 1);
 
                     nSum[r] = p1 + nSum[a] + nSum[b] - nSum[c];
                     sSum[r] = p2 + sSum[a] + sSum[b] - sSum[c];
@@ -435,32 +434,32 @@ namespace Accord.Imaging
                 // Left-to-right, top-to-bottom pass
                 for (int y = 1; y <= height; y++, src += offset)
                 {
-                    int yy = tWidth * (y);
-                    int y1 = tWidth * (y - 1);
+                    size_t yy = tWidth * (y);
+                    size_t y1 = tWidth * (y - 1);
 
                     for (int x = 2; x < width + 2; x++, src += pixelSize)
                     {
                         image.CheckBounds(src);
 
-                        int a = y1 + (x - 1);
-                        int b = yy + (x - 1);
-                        int c = y1 + (x - 2);
-                        int r = yy + (x);
+                        size_t a = y1 + (x - 1);
+                        size_t b = yy + (x - 1);
+                        size_t c = y1 + (x - 2);
+                        size_t r = yy + (x);
 
                         tSum[r] = *src + tSum[a] + tSum[b] - tSum[c];
                     }
                 }
 
                 {
-                    int yy = tWidth * (height);
-                    int y1 = tWidth * (height + 1);
+                    size_t yy = tWidth * (height);
+                    size_t y1 = tWidth * (height + 1);
 
                     for (int x = 2; x < width + 2; x++, src += pixelSize)
                     {
-                        int a = yy + (x - 1);
-                        int c = yy + (x - 2);
-                        int b = y1 + (x - 1);
-                        int r = y1 + (x);
+                        size_t a = yy + (x - 1);
+                        size_t c = yy + (x - 2);
+                        size_t b = y1 + (x - 1);
+                        size_t r = y1 + (x);
 
                         tSum[r] = tSum[a] + tSum[b] - tSum[c];
                     }
@@ -470,13 +469,13 @@ namespace Accord.Imaging
                 // Right-to-left, bottom-to-top pass
                 for (int y = height; y >= 0; y--)
                 {
-                    int yy = tWidth * (y);
-                    int y1 = tWidth * (y + 1);
+                    size_t yy = tWidth * (y);
+                    size_t y1 = tWidth * (y + 1);
 
                     for (int x = width + 1; x >= 1; x--)
                     {
-                        int r = yy + (x);
-                        int b = y1 + (x - 1);
+                        size_t r = yy + (x);
+                        size_t b = y1 + (x - 1);
 
                         tSum[r] += tSum[b];
                     }
@@ -484,12 +483,12 @@ namespace Accord.Imaging
 
                 for (int y = height + 1; y >= 0; y--)
                 {
-                    int yy = tWidth * (y);
+                    size_t yy = tWidth * (y);
 
                     for (int x = width + 1; x >= 2; x--)
                     {
-                        int r = yy + (x);
-                        int b = yy + (x - 2);
+                        size_t r = yy + (x);
+                        size_t b = yy + (x - 2);
 
                         tSum[r] -= tSum[b];
                     }
@@ -514,10 +513,10 @@ namespace Accord.Imaging
         /// 
         public long GetSum(int x, int y, int width, int height)
         {
-            int a = nWidth * (y) + (x);
-            int b = nWidth * (y + height) + (x + width);
-            int c = nWidth * (y + height) + (x);
-            int d = nWidth * (y) + (x + width);
+            size_t a = nWidth * (y) + (x);
+            size_t b = nWidth * (y + height) + (x + width);
+            size_t c = nWidth * (y + height) + (x);
+            size_t d = nWidth * (y) + (x + width);
 
             return nSum[a] + nSum[b] - nSum[c] - nSum[d];
         }
@@ -536,10 +535,10 @@ namespace Accord.Imaging
         /// 
         public long GetSum2(int x, int y, int width, int height)
         {
-            int a = nWidth * (y) + (x);
-            int b = nWidth * (y + height) + (x + width);
-            int c = nWidth * (y + height) + (x);
-            int d = nWidth * (y) + (x + width);
+            size_t a = nWidth * (y) + (x);
+            size_t b = nWidth * (y + height) + (x + width);
+            size_t c = nWidth * (y + height) + (x);
+            size_t d = nWidth * (y) + (x + width);
 
             return sSum[a] + sSum[b] - sSum[c] - sSum[d];
         }
@@ -559,10 +558,10 @@ namespace Accord.Imaging
         /// 
         public long GetSumT(int x, int y, int width, int height)
         {
-            int a = tWidth * (y + width) + (x + width + 1);
-            int b = tWidth * (y + height) + (x - height + 1);
-            int c = tWidth * (y) + (x + 1);
-            int d = tWidth * (y + width + height) + (x + width - height + 1);
+            size_t a = tWidth * (y + width) + (x + width + 1);
+            size_t b = tWidth * (y + height) + (x - height + 1);
+            size_t c = tWidth * (y) + (x + 1);
+            size_t d = tWidth * (y + width + height) + (x + width - height + 1);
 
             return tSum[a] + tSum[b] - tSum[c] - tSum[d];
         }

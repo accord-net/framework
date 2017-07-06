@@ -494,8 +494,8 @@ namespace Accord.Imaging
             double dy = (mid.Responses[yp1 * ms, x * ms] - mid.Responses[ym1 * ms, x * ms]) / 2f;
             double ds = (top.Responses[y, x] - bot.Responses[y * bs, x * bs]) / 2f;
 
-            double[] d = 
-            { 
+            double[] d =
+            {
                 -dx,
                 -dy,
                 -ds
@@ -629,7 +629,9 @@ namespace Accord.Imaging
                 // free managed resources
             }
 
-            // free native resources if there are any.
+            this.responses = null;
+            this.integral = null;
+            this.descriptor = null;
         }
     }
 }

@@ -57,11 +57,11 @@ namespace Accord.Imaging
         /// 
         /// <remarks>See remarks to <see cref="InternalData"/> property.</remarks>
         /// 
-        protected uint[,] integralImage = null;
+        protected readonly uint[,] integralImage = null;
 
         // image's width and height
-        private int width;
-        private int height;
+        private readonly int width;
+        private readonly int height;
 
         /// <summary>
         /// Width of the source image the integral image was constructed for.
@@ -133,9 +133,7 @@ namespace Accord.Imaging
             }
 
             // lock source image
-            BitmapData imageData = image.LockBits(
-                new Rectangle(0, 0, image.Width, image.Height),
-                ImageLockMode.ReadOnly, PixelFormat.Format8bppIndexed);
+            BitmapData imageData = image.LockBits(ImageLockMode.ReadOnly);
 
             // process the image
             IntegralImage im = FromBitmap(imageData);
