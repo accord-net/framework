@@ -24,11 +24,9 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'net46|AnyCPU' ">
     <DefineConstants>TRACE;NET46</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NET462|AnyCPU' ">
-    <DefineConstants>TRACE;NET46</DefineConstants>
-  </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'net462|AnyCPU' ">
     <DefineConstants>TRACE;NET462</DefineConstants>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'mono|AnyCPU' ">
     <DefineConstants>TRACE;MONO</DefineConstants>
@@ -130,15 +128,23 @@
     <None Include="Resources\three.jpg" />
     <None Include="Resources\lena_gray.jpg" />
     <None Include="Resources\lena_color.jpg" />
-    <None Include="Resources\haarcascade_frontalface_alt.xml" />
+    <None Include="Resources\haarcascade_frontalface_alt.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Resources\lena_color_small.jpg" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\blend_net35.png" />
     <None Include="Resources\blend_net45.png" />
-    <Content Include="Resources\haarcascade_eye.xml" />
-    <Content Include="Resources\haarcascade_eye_tree_eyeglasses.xml" />
-    <Content Include="Resources\haarcascade_frontalface_alt2.xml" />
+    <Content Include="Resources\haarcascade_eye.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\haarcascade_eye_tree_eyeglasses.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\haarcascade_frontalface_alt2.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="Resources\PICT0108a.jpg" />
     <None Include="Resources\PICT0107a.jpg" />
     <None Include="Resources\old.png" />
@@ -176,7 +182,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\SURF\surf-bug-1.bmp" />
-    <None Include="Resources\haarcascade_mcs_nose.xml" />
+    <None Include="Resources\haarcascade_mcs_nose.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">

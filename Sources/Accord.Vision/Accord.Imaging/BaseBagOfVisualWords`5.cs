@@ -34,6 +34,7 @@ namespace Accord.Imaging
     using System.Threading;
     using System.Threading.Tasks;
     using System.Collections.Concurrent;
+    using System.Linq;
 
     /// <summary>
     ///   Base class for Bag of Visual Words implementations.
@@ -577,17 +578,17 @@ namespace Accord.Imaging
         /// given the input data <paramref name="x" />.</returns>
         public TModel Learn(Bitmap[] x, double[] weights = null)
         {
-            var descriptors = new ConcurrentBag<TFeature>();
+            // Note: See note in the method below
+            var descriptors = new TFeature[x.Length][];
 
             // For all images
             For(0, x.Length, (i, detector) =>
             {
                 // Compute the feature points
-                foreach (IFeatureDescriptor<TFeature> point in detector.ProcessImage(x[i]))
-                    descriptors.Add(point.Descriptor);
+                descriptors[i] = detector.ProcessImage(x[i]).Select(p => p.Descriptor).ToArray();
             });
 
-            return Learn(descriptors.ToArray());
+            return Learn(descriptors.Concatenate());
         }
 
         /// <summary>
@@ -599,17 +600,21 @@ namespace Accord.Imaging
         /// given the input data <paramref name="x" />.</returns>
         public TModel Learn(UnmanagedImage[] x, double[] weights = null)
         {
-            var descriptors = new ConcurrentBag<TFeature>();
+            // Note: we cannot use a ConcurrentBag here to store all the descriptors because
+            // it would break the reproducibility of the clustering algorithm that is run
+            // after this step. The point is that the ConcurrentBag cannot guarantee order of
+            // insertion (since we are using parallel code) and this would cause the clustering
+            // algorithm to initialize with arbitrary points even the random seeds were fixed.
+            var descriptors = new TFeature[x.Length][];
 
             // For all images
             For(0, x.Length, (i, detector) =>
             {
                 // Compute the feature points
-                foreach (IFeatureDescriptor<TFeature> point in detector.ProcessImage(x[i]))
-                    descriptors.Add(point.Descriptor);
+                descriptors[i] = detector.ProcessImage(x[i]).Select(p => p.Descriptor).ToArray();
             });
 
-            return Learn(descriptors.ToArray());
+            return Learn(descriptors.Concatenate());
         }
 
         /// <summary>

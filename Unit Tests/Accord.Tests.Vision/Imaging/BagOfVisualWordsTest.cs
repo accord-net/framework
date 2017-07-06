@@ -229,9 +229,6 @@ namespace Accord.Tests.Imaging
             // Note: the BoW model can also be created using
             // var bow = BagOfVisualWords.Create(10);
 
-            // Ensure results are reproducible
-            bow.ParallelOptions.MaxDegreeOfParallelism = 1;
-
             // Get some training images
             Bitmap[] images = GetImages();
 
@@ -243,18 +240,29 @@ namespace Accord.Tests.Imaging
             double[][] features = bow.Transform(images);
             #endregion
 
+            var kmeans = bow.Clustering as KMeans;
+            Assert.AreEqual(64, kmeans.Clusters.NumberOfInputs);
+            Assert.AreEqual(10, kmeans.Clusters.NumberOfOutputs);
+            Assert.AreEqual(10, kmeans.Clusters.NumberOfClasses);
+
+            string str = kmeans.Clusters.Proportions.ToCSharp();
+            double[] expectedProportions = new double[] { 0.0960793804453049, 0.0767182962245886, 0.103823814133591, 0.0738141335914811, 0.0997095837366893, 0.0815585672797677, 0.0788964181994192, 0.090513068731849, 0.117376573088093, 0.181510164569216 };
+
+            Assert.IsTrue(kmeans.Clusters.Proportions.IsEqual(expectedProportions, 1e-10));
+            Assert.IsTrue(kmeans.Clusters.Covariances.All(x => x == null));
+
             Assert.AreEqual(features.GetLength(), new[] { 6, 10 });
 
-            string str = features.ToCSharp();
+            str = features.ToCSharp();
 
             double[][] expected = new double[][]
             {
-                new double[] { 4, 28, 24, 68, 51, 97, 60, 35, 18, 24 },
-                new double[] { 53, 111, 89, 70, 24, 80, 130, 46, 50, 74 },
-                new double[] { 31, 29, 57, 102, 63, 142, 40, 18, 37, 33 },
-                new double[] { 24, 52, 57, 78, 56, 69, 65, 22, 21, 16 },
-                new double[] { 124, 35, 33, 145, 90, 83, 31, 4, 95, 79 },
-                new double[] { 97, 110, 127, 131, 71, 264, 139, 58, 116, 152 }
+                new double[] { 47, 44, 42, 4, 23, 22, 28, 53, 50, 96 },
+                new double[] { 26, 91, 71, 49, 99, 70, 59, 28, 155, 79 },
+                new double[] { 71, 34, 51, 33, 53, 25, 44, 64, 32, 145 },
+                new double[] { 49, 41, 31, 24, 54, 19, 41, 63, 66, 72 },
+                new double[] { 137, 16, 92, 115, 39, 75, 24, 92, 41, 88 },
+                new double[] { 67, 91, 142, 80, 144, 126, 130, 74, 141, 270 }
             };
 
             for (int i = 0; i < features.Length; i++)
@@ -315,8 +323,10 @@ namespace Accord.Tests.Imaging
             // Create a new Bag-of-Visual-Words (BoW) model
             var bow = BagOfVisualWords.Create(new BinarySplit(10));
 
-            // Ensure results are reproducible
-            bow.ParallelOptions.MaxDegreeOfParallelism = 1;
+            // Since we are using generics, we can setup properties 
+            // of the binary split clustering algorithm directly:
+            bow.Clustering.ComputeProportions = true;
+            bow.Clustering.ComputeCovariances = false;
 
             // Get some training images
             Bitmap[] images = GetImages();
@@ -329,18 +339,33 @@ namespace Accord.Tests.Imaging
             double[][] features = bow.Transform(images);
             #endregion
 
+            Assert.AreEqual(-1, bow.NumberOfInputs);
+            Assert.AreEqual(10, bow.NumberOfOutputs);
+            Assert.AreEqual(10, bow.NumberOfWords);
+            Assert.AreEqual(64, bow.Clustering.Clusters.NumberOfInputs);
+            Assert.AreEqual(10, bow.Clustering.Clusters.NumberOfOutputs);
+            Assert.AreEqual(10, bow.Clustering.Clusters.NumberOfClasses);
+
+            BinarySplit binarySplit = bow.Clustering;
+
+            string str = binarySplit.Clusters.Proportions.ToCSharp();
+            double[] expectedProportions = new double[] { 0.158034849951597, 0.11810261374637, 0.0871248789932236, 0.116408518877057, 0.103581800580833, 0.192642787996128, 0.0365440464666021, 0.0716360116166505, 0.0575992255566312, 0.058325266214908 };
+
+            Assert.IsTrue(binarySplit.Clusters.Proportions.IsEqual(expectedProportions, 1e-10));
+            Assert.IsTrue(binarySplit.Clusters.Covariances.All(x => x == null));
+
             Assert.AreEqual(features.GetLength(), new[] { 6, 10 });
 
-            string str = features.ToCSharp();
+            str = features.ToCSharp();
 
             double[][] expected = new double[][]
             {
-                new double[] { 118, 43, 65, 87, 19, 12, 31, 14, 17, 3 },
-                new double[] { 121, 67, 35, 98, 65, 113, 98, 19, 104, 7 },
-                new double[] { 130, 50, 73, 120, 25, 51, 49, 16, 31, 7 },
-                new double[] { 63, 35, 77, 109, 28, 37, 53, 6, 50, 2 },
-                new double[] { 74, 83, 97, 198, 28, 84, 28, 48, 26, 53 },
-                new double[] { 202, 134, 78, 195, 83, 182, 169, 58, 118, 46 }
+                new double[] { 73, 36, 41, 50, 7, 106, 23, 22, 22, 29 },
+                new double[] { 76, 93, 25, 128, 86, 114, 20, 91, 22, 72 },
+                new double[] { 106, 47, 67, 57, 37, 131, 33, 31, 22, 21 },
+                new double[] { 84, 41, 49, 59, 33, 73, 32, 50, 6, 33 },
+                new double[] { 169, 105, 92, 47, 95, 67, 16, 25, 83, 20 },
+                new double[] { 145, 166, 86, 140, 170, 305, 27, 77, 83, 66 }
             };
 
             for (int i = 0; i < features.Length; i++)
@@ -398,8 +423,6 @@ namespace Accord.Tests.Imaging
             // Create a new Bag-of-Visual-Words (BoW) model using HOG features
             var bow = BagOfVisualWords.Create(new HistogramsOfOrientedGradients(), new BinarySplit(10));
 
-            bow.ParallelOptions.MaxDegreeOfParallelism = 1;
-
             // Get some training images
             Bitmap[] images = GetImages();
 
@@ -417,12 +440,12 @@ namespace Accord.Tests.Imaging
 
             double[][] expected = new double[][]
             {
-                new double[] { 141, 332, 240, 88, 363, 238, 282, 322, 114, 232 },
-                new double[] { 103, 452, 195, 140, 158, 260, 283, 368, 163, 230 },
-                new double[] { 88, 231, 185, 172, 631, 189, 219, 241, 237, 159 },
-                new double[] { 106, 318, 262, 212, 165, 276, 264, 275, 244, 230 },
-                new double[] { 143, 302, 231, 113, 332, 241, 273, 320, 157, 240 },
-                new double[] { 87, 347, 248, 249, 63, 227, 292, 288, 339, 212 }
+                new double[] { 53, 285, 317, 292, 389, 264, 127, 250, 283, 92 },
+                new double[] { 64, 326, 267, 418, 166, 241, 160, 237, 324, 149 },
+                new double[] { 63, 234, 229, 221, 645, 178, 226, 178, 218, 160 },
+                new double[] { 87, 322, 324, 295, 180, 276, 219, 218, 247, 184 },
+                new double[] { 60, 312, 285, 285, 352, 274, 166, 226, 290, 102 },
+                new double[] { 110, 292, 299, 324, 72, 208, 317, 248, 252, 230 }
             };
 
             for (int i = 0; i < features.Length; i++)
@@ -475,8 +498,6 @@ namespace Accord.Tests.Imaging
 
             // Create a new Bag-of-Visual-Words (BoW) model using HOG features
             var bow = BagOfVisualWords.Create(new Haralick(), new GaussianMixtureModel(3));
-
-            bow.ParallelOptions.MaxDegreeOfParallelism = 1;
 
             // Get some training images
             Bitmap[] images = GetImages();
@@ -554,7 +575,11 @@ namespace Accord.Tests.Imaging
             // Create a new Bag-of-Visual-Words (BoW) model using LBP features
             var bow = BagOfVisualWords.Create(new LocalBinaryPattern(), new BinarySplit(3));
 
-            bow.ParallelOptions.MaxDegreeOfParallelism = 1;
+            // Since we are using generics, we can setup properties 
+            // of the binary split clustering algorithm directly:
+            bow.Clustering.ComputeCovariances = false;
+            bow.Clustering.ComputeProportions = false;
+            bow.Clustering.ComputeError = false;
 
             // Get some training images
             Bitmap[] images = GetImages();
@@ -573,12 +598,12 @@ namespace Accord.Tests.Imaging
 
             double[][] expected = new double[][]
             {
-                new double[] { 1686, 359, 307 },
-                new double[] { 1689, 356, 307 },
-                new double[] { 1686, 372, 294 },
-                new double[] { 1676, 372, 304 },
-                new double[] { 1700, 356, 296 },
-                new double[] { 1670, 378, 304 }
+                new double[] { 1608, 374, 370 },
+                new double[] { 1508, 337, 507 },
+                new double[] { 1215, 343, 794 },
+                new double[] { 782, 550, 1020 },
+                new double[] { 1480, 360, 512 },
+                new double[] { 15, 724, 1613 }
             };
 
             for (int i = 0; i < features.Length; i++)
@@ -595,9 +620,9 @@ namespace Accord.Tests.Imaging
             int[] labels = { -1, -1, +1, +1, +1, +1 };
 
             // Create the SMO algorithm to learn a Linear kernel SVM
-            var teacher = new SequentialMinimalOptimization<Linear>()
+            var teacher = new SequentialMinimalOptimization<Gaussian>()
             {
-                Complexity = 10 // make a hard margin SVM
+                Complexity = 100 // make a hard margin SVM
             };
 
             // Obtain a learned machine
@@ -638,8 +663,6 @@ namespace Accord.Tests.Imaging
             var bow = BagOfVisualWords.Create<FastRetinaKeypointDetector, KModes<byte>, byte[]>(
                 new FastRetinaKeypointDetector(), new KModes<byte>(10, new Hamming()));
 
-            bow.ParallelOptions.MaxDegreeOfParallelism = 1;
-
             // Get some training images
             Bitmap[] images = GetImages();
 
@@ -655,13 +678,14 @@ namespace Accord.Tests.Imaging
 
             string str = features.ToCSharp();
 
-            double[][] expected = new double[][] {
-                new double[] { 17, 81, 103, 91, 38, 63, 65, 57, 125, 40 },
-                new double[] { 137, 55, 38, 63, 41, 150, 28, 67, 302, 136 },
-                new double[] { 58, 96, 51, 71, 43, 128, 51, 74, 110, 69 },
-                new double[] { 53, 39, 9, 9, 12, 133, 2, 39, 128, 115 },
-                new double[] { 202, 45, 24, 42, 30, 156, 22, 61, 211, 153 },
-                new double[] { 37, 26, 40, 23, 41, 121, 22, 63, 171, 122 }
+            double[][] expected = new double[][]
+            {
+                new double[] { 33, 58, 19, 35, 112, 67, 70, 155, 86, 45 },
+                new double[] { 130, 91, 74, 114, 200, 90, 136, 37, 53, 92 },
+                new double[] { 45, 49, 68, 55, 123, 142, 40, 100, 92, 37 },
+                new double[] { 25, 17, 89, 136, 138, 59, 33, 7, 23, 12 },
+                new double[] { 186, 78, 86, 133, 198, 60, 65, 25, 38, 77 },
+                new double[] { 45, 33, 10, 131, 192, 26, 99, 20, 82, 28 }
             };
 
             for (int i = 0; i < features.Length; i++)
@@ -680,7 +704,7 @@ namespace Accord.Tests.Imaging
             // Create the SMO algorithm to learn a Linear kernel SVM
             var teacher = new SequentialMinimalOptimization<Linear>()
             {
-                Complexity = 10000 // make a hard margin SVM
+                Complexity = 1000 // make a hard margin SVM
             };
 
             // Obtain a learned machine
@@ -739,7 +763,7 @@ namespace Accord.Tests.Imaging
             FastRetinaKeypointDetector freak = new FastRetinaKeypointDetector(fast);
 
             var kmodes = new KModes<byte>(5, new Hamming());
-            kmodes.ParallelOptions.MaxDegreeOfParallelism = 1;
+            //kmodes.ParallelOptions.MaxDegreeOfParallelism = 1;
 
             var bow = new BagOfVisualWords<FastRetinaKeypoint, byte[]>(freak, kmodes);
             bow.Compute(images);
