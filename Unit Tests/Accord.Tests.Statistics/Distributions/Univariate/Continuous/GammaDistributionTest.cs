@@ -112,6 +112,12 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(26.553408271975243, range2.Max, 1e-10);
             Assert.AreEqual(0.59421896101306348, range3.Min, 1e-10);
             Assert.AreEqual(26.553408271975243, range3.Max, 1e-10);
+
+            Assert.AreEqual(0, gamma.Support.Min);
+            Assert.AreEqual(double.PositiveInfinity, gamma.Support.Max);
+
+            Assert.AreEqual(gamma.InverseDistributionFunction(0), gamma.Support.Min);
+            Assert.AreEqual(gamma.InverseDistributionFunction(1), gamma.Support.Max);
         }
 
         [Test]

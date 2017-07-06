@@ -110,6 +110,28 @@ namespace Accord.Statistics.Distributions.Univariate
         }
 
         /// <summary>
+        ///   Gets the number of failures.
+        /// </summary>
+        /// 
+        /// <value>The number of failures.</value>
+        /// 
+        public double NumberOfFailures
+        {
+            get { return r; }
+        }
+
+        /// <summary>
+        ///   Gets the probability of success.
+        /// </summary>
+        /// 
+        /// <value>The probability of success in each experiment.</value>
+        /// 
+        public double ProbabilityOfSuccess
+        {
+            get { return p; }
+        }
+
+        /// <summary>
         ///   Gets the mean for this distribution.
         /// </summary>
         /// 
@@ -168,14 +190,8 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value or any value smaller than it will occur.
         /// </remarks>
         /// 
-        public override double DistributionFunction(int k)
+        protected internal override double InnerDistributionFunction(int k)
         {
-            if (k < 0)
-                return 0;
-
-            if (k == int.MaxValue)
-                return 1;
-
             return 1.0 - Beta.Incomplete(k + 1, r, 1 - p);
         }
 
@@ -196,10 +212,8 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value <c>x</c> will occur.
         /// </remarks>
         /// 
-        public override double ProbabilityMassFunction(int k)
+        protected internal override double InnerProbabilityMassFunction(int k)
         {
-            if (k < 0)
-                return 0;
             return Special.Binomial(k + r - 1, r - 1) * Math.Pow(1 - p, k) * Math.Pow(p, r);
         }
 
@@ -220,11 +234,8 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value <c>k</c> will occur.
         /// </remarks>
         /// 
-        public override double LogProbabilityMassFunction(int k)
+        protected internal override double InnerLogProbabilityMassFunction(int k)
         {
-            if (k <= 0)
-                return Double.NegativeInfinity;
-
             return Special.LogBinomial(k + r - 1, r - 1) + k * Math.Log(1 - p) + r * Math.Log(p);
         }
 

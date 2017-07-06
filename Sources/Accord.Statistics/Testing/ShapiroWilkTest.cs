@@ -65,8 +65,7 @@ namespace Accord.Statistics.Testing
 
             if (n < 4)
             {
-                throw new ArgumentException(
-                    "The sample must contain at least 4 observations.", "sample");
+                throw new ArgumentException("The sample must contain at least 4 observations.", "sample");
             }
 
             double mean = sample.Mean();
@@ -139,9 +138,9 @@ namespace Accord.Statistics.Testing
             }
 
             double W = (Wnum * Wnum) / Wden;
-            this.Statistic = W;
 
-            this.PValue = StatisticDistribution.ComplementaryDistributionFunction(W);
+            this.Statistic = W;
+            this.PValue = this.StatisticToPValue(W);
         }
 
         /// <summary>
@@ -154,7 +153,7 @@ namespace Accord.Statistics.Testing
         /// 
         public override double PValueToStatistic(double p)
         {
-            throw new NotSupportedException();
+            return StatisticDistribution.InverseDistributionFunction(p);
         }
 
         /// <summary>
@@ -167,7 +166,7 @@ namespace Accord.Statistics.Testing
         /// 
         public override double StatisticToPValue(double x)
         {
-            return StatisticDistribution.ComplementaryDistributionFunction(x);
+            return StatisticDistribution.DistributionFunction(x);
         }
     }
 }

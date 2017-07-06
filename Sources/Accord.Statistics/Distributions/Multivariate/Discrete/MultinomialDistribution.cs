@@ -218,7 +218,7 @@ namespace Accord.Statistics.Distributions.Multivariate
         ///   Not supported.
         /// </summary>
         /// 
-        public override double DistributionFunction(params int[] x)
+        protected internal override double InnerDistributionFunction(params int[] x)
         {
             // TODO: Implement an approximation of the multinomial CDF
             //  "A Representation for Multinomial Cumulative Distribution Functions",  
@@ -243,7 +243,7 @@ namespace Accord.Statistics.Distributions.Multivariate
         ///   probability that a given value <c>x</c> will occur.
         /// </remarks>
         /// 
-        public override double ProbabilityMassFunction(params int[] x)
+        protected internal override double InnerProbabilityMassFunction(params int[] x)
         {
             if (x.Length != Dimension)
                 throw new DimensionMismatchException("x",
@@ -281,7 +281,7 @@ namespace Accord.Statistics.Distributions.Multivariate
         ///   probability that a given value <c>x</c> will occur.
         /// </remarks>
         /// 
-        public override double LogProbabilityMassFunction(params int[] x)
+        protected internal override double InnerLogProbabilityMassFunction(params int[] x)
         {
             if (x.Length != Dimension)
                 throw new DimensionMismatchException("x",

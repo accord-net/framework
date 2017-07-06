@@ -22,6 +22,7 @@
 
 namespace Accord.Statistics.Distributions.Reflection
 {
+    using System;
     using System.Linq;
     using System.Reflection;
 

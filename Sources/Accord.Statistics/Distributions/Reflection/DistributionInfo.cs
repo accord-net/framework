@@ -23,6 +23,8 @@
 namespace Accord.Statistics.Distributions.Reflection
 {
     using Accord.Statistics.Distributions.Fitting;
+    using Accord.Statistics.Distributions.Multivariate;
+    using Accord.Statistics.Distributions.Univariate;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
@@ -70,6 +72,56 @@ namespace Accord.Statistics.Distributions.Reflection
                     isBuildable = GetConstructors().Any(x => x.IsBuildable);
                 return isBuildable.Value;
             }
+        }
+
+        /// <summary>
+        ///   Gets a value indicating whether the distribution modeled by <see cref="DistributionType"/> is a discrete-valued distribution.
+        ///   Discrete distributions are assumed to inherit from <see cref="UnivariateDiscreteDistribution"/> or 
+        ///   <see cref="MultivariateDiscreteDistribution"/>.
+        /// </summary>
+        /// 
+        public bool IsDiscrete
+        {
+            get
+            {
+                return typeof(UnivariateDiscreteDistribution).IsAssignableFrom(DistributionType)
+                  || typeof(MultivariateDiscreteDistribution).IsAssignableFrom(DistributionType);
+            }
+        }
+
+        /// <summary>
+        ///   Gets a value indicating whether the distribution modeled by <see cref="DistributionType"/> is a continuous-valued distribution.
+        ///   Discrete distributions are assumed to inherit from <see cref="UnivariateContinuousDistribution"/> or 
+        ///   <see cref="MultivariateContinuousDistribution"/>.
+        /// </summary>
+        /// 
+        public bool IsContinuous
+        {
+            get
+            {
+                return typeof(UnivariateContinuousDistribution).IsAssignableFrom(DistributionType)
+                  || typeof(MultivariateContinuousDistribution).IsAssignableFrom(DistributionType);
+            }
+        }
+
+        /// <summary>
+        ///   Gets a value indicating whether the distribution modeled by <see cref="DistributionType"/> is univariate.
+        ///   A distribution is assumed to be univariate if it implements the <see cref="IUnivariateDistribution"/> interface.
+        /// </summary>
+        /// 
+        public bool IsUnivariate
+        {
+            get { return typeof(IUnivariateDistribution).IsAssignableFrom(DistributionType); }
+        }
+
+        /// <summary>
+        ///   Gets a value indicating whether the distribution modeled by <see cref="DistributionType"/> is multivariate.
+        ///   A distribution is assumed to be univariate if it implements the <see cref="IMultivariateDistribution"/> interface.
+        /// </summary>
+        /// 
+        public bool IsMultivariate
+        {
+            get { return typeof(IMultivariateDistribution).IsAssignableFrom(DistributionType); }
         }
 
         /// <summary>

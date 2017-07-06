@@ -165,7 +165,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override DoubleRange Support
         {
-            get { return new DoubleRange(0, Double.PositiveInfinity); }
+            get { return new DoubleRange(Double.Epsilon, Double.PositiveInfinity); }
         }
 
         /// <summary>
@@ -200,11 +200,8 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   See <see cref="InverseGammaDistribution"/>.
         /// </example>
         /// 
-        public override double DistributionFunction(double x)
+        protected internal override double InnerDistributionFunction(double x)
         {
-            if (x == 0) 
-                return 0;
-
             return Gamma.UpperIncomplete(a, b / x);
         }
 
@@ -229,11 +226,8 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   See <see cref="InverseGammaDistribution"/>.
         /// </example>
         /// 
-        public override double ProbabilityDensityFunction(double x)
+        protected internal override double InnerProbabilityDensityFunction(double x)
         {
-            if (x <= 0) 
-                return 0;
-
             return constant * Math.Pow(x, -a - 1) * Math.Exp(-b / x);
         }
 
@@ -258,11 +252,8 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   See <see cref="InverseGammaDistribution"/>.
         /// </example>
         /// 
-        public override double LogProbabilityDensityFunction(double x)
+        protected internal override double InnerLogProbabilityDensityFunction(double x)
         {
-            if (x <= 0) 
-                return 0;
-
             double lnx = Math.Log(x);
             return Math.Log(constant) + (-a - 1) * lnx + (-b / x);
         }

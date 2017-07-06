@@ -27,6 +27,7 @@ namespace Accord.Tests.Statistics
     using Accord.Math;
     using Accord.Statistics.Distributions.Univariate;
     using NUnit.Framework;
+    using Accord.Statistics.Distributions.Reflection;
 
     [TestFixture]
     public class ParetoDistributionTest
@@ -77,6 +78,12 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(1.9494675279346789, range2.Max, 1e-8);
             Assert.AreEqual(0.42140940651872005, range3.Min, 1e-8);
             Assert.AreEqual(1.9494675279346789, range3.Max, 1e-8);
+
+            Assert.AreEqual(0.42, pareto.Support.Min);
+            Assert.AreEqual(double.PositiveInfinity, pareto.Support.Max);
+
+            Assert.AreEqual(pareto.InverseDistributionFunction(0), pareto.Support.Min);
+            Assert.AreEqual(pareto.InverseDistributionFunction(1), pareto.Support.Max);
         }
 
         [Test]
@@ -128,7 +135,24 @@ namespace Accord.Tests.Statistics
         {
             var target = new ParetoDistribution(scale: 7.12, shape: 2);
 
-            Assert.AreEqual(target.Median, target.InverseDistributionFunction(0.5), 1e-6);
+            double median = target.Median;
+            Assert.AreEqual(10.069200564096438, median, 1e-10);
+
+            Assert.AreEqual(median, target.InverseDistributionFunction(0.5), 1e-6);
+        }
+
+        [Test]
+        public void MedianTest2()
+        {
+            var target = UnivariateDistributionInfo.CreateInstance<ParetoDistribution>();
+
+            Assert.AreEqual(1, target.Alpha);
+            Assert.AreEqual(1, target.Scale);
+
+            double median = target.Median;
+            Assert.AreEqual(2, target.Median);
+
+            Assert.AreEqual(median, target.InverseDistributionFunction(0.5), 1e-6);
         }
 
         [Test]

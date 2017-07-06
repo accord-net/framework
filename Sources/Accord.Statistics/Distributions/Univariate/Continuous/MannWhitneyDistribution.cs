@@ -31,6 +31,7 @@ namespace Accord.Statistics.Distributions.Univariate
     using System.Threading;
     using System.Linq;
     using System.Collections.Generic;
+    using System.Diagnostics;
 
     /// <summary>
     ///   Continuity correction to be used when aproximating
@@ -219,6 +220,9 @@ namespace Accord.Statistics.Distributions.Univariate
             if (n2 <= 0)
                 throw new ArgumentOutOfRangeException("n2", "The number of observations in the second sample (n2) must be higher than zero.");
 
+            if (n1 > n2)
+                Trace.TraceWarning("Creating a MannWhitneyDistribution where the first sample is larger than the second sample. If possible, please re-organize your samples such that the first sample is smaller than the second sample.");
+
             if (ranks != null)
             {
                 if (ranks.Length <= 1)
@@ -326,11 +330,12 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value or any value smaller than it will occur.
         /// </remarks>
         /// 
-        public override double DistributionFunction(double x)
+        protected internal override double InnerDistributionFunction(double x)
         {
-            if (NumberOfSamples1 < NumberOfSamples2)
+            if (NumberOfSamples1 <= NumberOfSamples2)
                 return distributionFunction(x);
 
+            Trace.TraceWarning("Warning: Using a MannWhitneyDistribution where the first sample is larger than the second.");
             return complementaryDistributionFunction(x);
         }
 
@@ -344,11 +349,12 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <remarks>The Complementary Cumulative Distribution Function (CCDF) is
         /// the complement of the Cumulative Distribution Function, or 1
         /// minus the CDF.</remarks>
-        public override double ComplementaryDistributionFunction(double x)
+        protected internal override double InnerComplementaryDistributionFunction(double x)
         {
-            if (NumberOfSamples1 < NumberOfSamples2)
+            if (NumberOfSamples1 <= NumberOfSamples2)
                 return complementaryDistributionFunction(x);
 
+            Trace.TraceWarning("Warning: Using a MannWhitneyDistribution where the first sample is larger than the second.");
             return distributionFunction(x);
         }
 
@@ -506,7 +512,10 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override DoubleRange Support
         {
-            get { return new DoubleRange(0, Double.PositiveInfinity); }
+            get
+            {
+                return new DoubleRange(Double.NegativeInfinity, Double.PositiveInfinity);
+            }
         }
 
         /// <summary>
@@ -530,7 +539,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   See <see cref="MannWhitneyDistribution"/>.
         /// </example>
         /// 
-        public override double ProbabilityDensityFunction(double x)
+        protected internal override double InnerProbabilityDensityFunction(double x)
         {
             if (this.exact)
                 return WilcoxonDistribution.count(x, table) / (double)table.Length;
@@ -559,7 +568,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   See <see cref="MannWhitneyDistribution"/>.
         /// </example>
         /// 
-        public override double LogProbabilityDensityFunction(double x)
+        protected internal override double InnerLogProbabilityDensityFunction(double x)
         {
             if (exact)
                 return Math.Log(WilcoxonDistribution.count(x, table)) - Math.Log(table.Length);
@@ -577,13 +586,13 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <returns>
         ///   A sample which could original the given probability
-        ///   value when applied in the <see cref="DistributionFunction"/>.
+        ///   value when applied in the <see cref="UnivariateContinuousDistribution.DistributionFunction(double)"/>.
         /// </returns>
         /// 
-        public override double InverseDistributionFunction(double p)
+        protected internal override double InnerInverseDistributionFunction(double p)
         {
             if (this.exact)
-                return base.InverseDistributionFunction(p);
+                return base.InnerInverseDistributionFunction(p);
 
             return approximation.InverseDistributionFunction(p);
         }

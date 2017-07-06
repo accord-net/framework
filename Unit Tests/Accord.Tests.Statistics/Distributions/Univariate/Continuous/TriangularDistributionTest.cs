@@ -35,22 +35,6 @@ namespace Accord.Tests.Statistics
     {
 
 
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
         [Test]
         public void ConstructorTest1()
         {
@@ -96,6 +80,12 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(5.6127016687540774, range2.Max);
             Assert.AreEqual(1.3162277235820532, range3.Min);
             Assert.AreEqual(5.6127016687540774, range3.Max);
+
+            Assert.AreEqual(1, tri.Support.Min);
+            Assert.AreEqual(6, tri.Support.Max);
+
+            Assert.AreEqual(tri.InverseDistributionFunction(0), tri.Support.Min);
+            Assert.AreEqual(tri.InverseDistributionFunction(1), tri.Support.Max);
         }
 
         [Test]
@@ -141,6 +131,15 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(min, target.Min, 1e-2);
             Assert.AreEqual(max, target.Max, 1e-2);
             Assert.AreEqual(mode, target.Mode, 0.035);
+        }
+
+        [Test]
+        public void ctor_test()
+        {
+            Assert.Throws<ArgumentOutOfRangeException>(() => new TriangularDistribution(min: 0, max: 0, mode: 0));
+            Assert.Throws<ArgumentOutOfRangeException>(() => new TriangularDistribution(min: 1, max: 0, mode: 0));
+            Assert.Throws<ArgumentOutOfRangeException>(() => new TriangularDistribution(min: 1, max: 0.5, mode: 1));
+            Assert.Throws<ArgumentOutOfRangeException>(() => new TriangularDistribution(min: 1, max: 2.5, mode: 0));
         }
     }
 }

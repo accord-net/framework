@@ -70,6 +70,12 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.417236328125, ccdf, 1e-8);
             Assert.AreEqual(42.5, icdf, 0.05);
             Assert.AreEqual("W+(x; R)", str);
+
+            Assert.AreEqual(0, W.Support.Min);
+            Assert.AreEqual(double.PositiveInfinity, W.Support.Max);
+
+            Assert.AreEqual(W.InverseDistributionFunction(0), W.Support.Min);
+            Assert.AreEqual(W.InverseDistributionFunction(1), W.Support.Max);
         }
 
         [Test]
@@ -283,6 +289,26 @@ namespace Accord.Tests.Statistics
             Assert.Throws<ArgumentOutOfRangeException>(() => new WilcoxonDistribution(0));
             Assert.AreEqual(0.5, new WilcoxonDistribution(1).Mean);
             Assert.AreEqual(1.5, new WilcoxonDistribution(2).Mean);
+        }
+
+        [Test]
+        public void icdf()
+        {
+            var dist = new WilcoxonDistribution(1);
+
+            double[] percentiles = Vector.Range(0.0, 1.0, stepSize: 0.1);
+            for (int i = 0; i < percentiles.Length; i++)
+            {
+                double x = percentiles[i];
+                double icdf = dist.InverseDistributionFunction(x);
+                double cdf = dist.DistributionFunction(icdf);
+                double iicdf = dist.InverseDistributionFunction(cdf);
+                double iiicdf = dist.DistributionFunction(iicdf);
+
+                Assert.AreEqual(iicdf, icdf, 1e-5);
+                Assert.AreEqual(x, cdf, 1e-5);
+                Assert.AreEqual(iiicdf, cdf, 1e-5);
+            }
         }
     }
 }

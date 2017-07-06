@@ -175,7 +175,7 @@ namespace Accord.Statistics.Distributions.Multivariate
         ///   Not supported.
         /// </summary>
         /// 
-        public override double DistributionFunction(params double[] x)
+        protected internal override double InnerDistributionFunction(params double[] x)
         {
             throw new NotSupportedException();
         }
@@ -200,7 +200,7 @@ namespace Accord.Statistics.Distributions.Multivariate
         ///   The Probability Density Function (PDF) describes the probability that a given value <c>x</c> will occur.
         /// </remarks>
         /// 
-        public override double ProbabilityDensityFunction(params double[] x)
+        protected internal override double InnerProbabilityDensityFunction(params double[] x)
         {
             if (x.Length != Dimension)
                 throw new DimensionMismatchException("x", "The vector should have the same dimension as the distribution.");

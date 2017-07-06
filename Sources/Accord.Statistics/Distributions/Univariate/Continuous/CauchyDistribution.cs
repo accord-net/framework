@@ -308,7 +308,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// </para>
         /// </remarks>
         /// 
-        public override double DistributionFunction(double x)
+        protected internal override double InnerDistributionFunction(double x)
         {
             return 1.0 / Math.PI * Math.Atan2(x - location, scale) + 0.5;
         }
@@ -336,7 +336,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// </para>
         /// </remarks>
         /// 
-        public override double ProbabilityDensityFunction(double x)
+        protected internal override double InnerProbabilityDensityFunction(double x)
         {
             double z = (x - location) / scale;
             return constant / (1.0 + z * z);
@@ -359,9 +359,9 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value <c>x</c> will occur.
         /// </remarks>
         /// 
-        /// <seealso cref="ProbabilityDensityFunction"/>
+        /// <seealso cref="UnivariateContinuousDistribution.ProbabilityDensityFunction(double)"/>
         /// 
-        public override double LogProbabilityDensityFunction(double x)
+        protected internal override double InnerLogProbabilityDensityFunction(double x)
         {
             double z = (x - location) / scale;
             return lnconstant - Math.Log(1.0 + z * z);

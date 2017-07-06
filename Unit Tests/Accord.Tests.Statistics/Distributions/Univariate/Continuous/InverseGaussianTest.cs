@@ -30,22 +30,6 @@ namespace Accord.Tests.Statistics
     public class InverseGaussianTest
     {
 
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
         [Test]
         public void ConstructorTest2()
         {
@@ -91,6 +75,12 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(1.2855706686397079, range2.Max);
             Assert.AreEqual(0.10646291322190739, range3.Min);
             Assert.AreEqual(1.2855706686397079, range3.Max);
+
+            Assert.AreEqual(0, invGaussian.Support.Min);
+            Assert.AreEqual(double.PositiveInfinity, invGaussian.Support.Max);
+
+            Assert.AreEqual(invGaussian.InverseDistributionFunction(0), invGaussian.Support.Min);
+            Assert.AreEqual(invGaussian.InverseDistributionFunction(1), invGaussian.Support.Max);
         }
 
         [Test]

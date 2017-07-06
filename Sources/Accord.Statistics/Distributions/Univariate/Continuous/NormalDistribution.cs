@@ -354,7 +354,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   See <see cref="NormalDistribution"/>.
         /// </example>
         /// 
-        public override double DistributionFunction(double x)
+        protected internal override double InnerDistributionFunction(double x)
         {
             return Normal.Function((x - mean) / stdDev);
         }
@@ -367,7 +367,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <param name="x">A single point in the distribution range.</param>
         /// 
-        public override double ComplementaryDistributionFunction(double x)
+        protected internal override double InnerComplementaryDistributionFunction(double x)
         {
             return Normal.Complemented((x - mean) / stdDev);
         }
@@ -395,14 +395,27 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   See <see cref="NormalDistribution"/>.
         /// </example>
         ///
-        public override double InverseDistributionFunction(double p)
+        protected internal override double InnerInverseDistributionFunction(double p)
         {
             double inv = Normal.Inverse(p);
 
             double icdf = mean + stdDev * inv;
 
 #if DEBUG
-            double baseValue = base.InverseDistributionFunction(p);
+            double baseValue;
+            if (p < 0.0 || p > 1.0)
+                throw new ArgumentOutOfRangeException("p", "Value must be between 0 and 1.");
+
+            if (Double.IsNaN(p))
+                throw new ArgumentOutOfRangeException("p", "Value is Not-a-Number (NaN).");
+
+            if (p == 0)
+                baseValue = Support.Min;
+
+            if (p == 1)
+                baseValue = Support.Max;
+
+            baseValue = base.InnerInverseDistributionFunction(p);
             double r1 = DistributionFunction(baseValue);
             double r2 = DistributionFunction(icdf);
 
@@ -445,7 +458,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   See <see cref="NormalDistribution"/>.
         /// </example> 
         ///
-        public override double ProbabilityDensityFunction(double x)
+        protected internal override double InnerProbabilityDensityFunction(double x)
         {
             double z = (x - mean) / stdDev;
             double lnp = lnconstant - z * z * 0.5;
@@ -477,7 +490,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   See <see cref="NormalDistribution"/>.
         /// </example>
         /// 
-        public override double LogProbabilityDensityFunction(double x)
+        protected internal override double InnerLogProbabilityDensityFunction(double x)
         {
             double z = (x - mean) / stdDev;
             double lnp = lnconstant - z * z * 0.5;

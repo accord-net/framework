@@ -257,11 +257,8 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   u is given as u = (d1 * x) / (d1 * x + d2)</para>.
         /// </remarks>
         /// 
-        public override double DistributionFunction(double x)
+        protected internal override double InnerDistributionFunction(double x)
         {
-            if (x <= 0)
-                return 0;
-
             double u = (d1 * x) / (d1 * x + d2);
             return Beta.Incomplete(d1 * 0.5, d2 * 0.5, u);
         }
@@ -278,11 +275,8 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   u is given as u = (d2 * x) / (d2 * x + d1)</para>.
         /// </remarks>
         /// 
-        public override double ComplementaryDistributionFunction(double x)
+        protected internal override double InnerComplementaryDistributionFunction(double x)
         {
-            if (x <= 0)
-                return 1;
-
             double u = d2 / (d2 + d1 * x);
             return Beta.Incomplete(d2 * 0.5, d1 * 0.5, u);
         }
@@ -299,15 +293,11 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   or below, with that probability.
         /// </remarks>
         /// 
-        public override double InverseDistributionFunction(double p)
+        protected internal override double InnerInverseDistributionFunction(double p)
         {
             // Cephes Math Library Release 2.8:  June, 2000
             // Copyright 1984, 1987, 1995, 2000 by Stephen L. Moshier
             // Adapted under the LGPL with permission of original author.
-
-            if (p <= 0.0 || p > 1.0)
-                throw new ArgumentOutOfRangeException("p", "Input must be between zero and one.");
-
 
             double d1 = this.d1;
             double d2 = this.d2;
@@ -347,11 +337,8 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value <c>x</c> will occur.
         /// </remarks>
         /// 
-        public override double ProbabilityDensityFunction(double x)
+        protected internal override double InnerProbabilityDensityFunction(double x)
         {
-            if (x <= 0)
-                return 0;
-
             double u = Math.Pow(d1 * x, d1) * Math.Pow(d2, d2) /
                 Math.Pow(d1 * x + d2, d1 + d2);
             return Math.Sqrt(u) / (x * b);
@@ -374,11 +361,8 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value <c>x</c> will occur.
         /// </remarks>
         /// 
-        public override double LogProbabilityDensityFunction(double x)
+        protected internal override double InnerLogProbabilityDensityFunction(double x)
         {
-            if (x <= 0)
-                return Double.NegativeInfinity;
-
             double lnu = d1 * Math.Log(d1 * x) + d2 * Math.Log(d2) -
                 (d1 + d2) * Math.Log(d1 * x + d2);
             return 0.5 * lnu - Math.Log(x * b);

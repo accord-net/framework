@@ -52,6 +52,12 @@ namespace Accord.Tests.Statistics
 
             string str = F.ToString(CultureInfo.InvariantCulture); // F(x; df1 = 8, df2 = 5)
 
+            Assert.AreEqual(0, F.Support.Min);
+            Assert.AreEqual(double.PositiveInfinity, F.Support.Max);
+
+            Assert.AreEqual(F.InverseDistributionFunction(0), F.Support.Min);
+            Assert.AreEqual(F.InverseDistributionFunction(1), F.Support.Max);
+
             Assert.AreEqual(1.6666666666666667, mean);
             Assert.AreEqual(1.0545096252132447, median);
             Assert.AreEqual(7.6388888888888893, var);

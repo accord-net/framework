@@ -219,6 +219,12 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(50.378210075966564, range2.Max, 1e-10);
             Assert.AreEqual(-49.538210069999892, range3.Min, 1e-10);
             Assert.AreEqual(50.378210075966564, range3.Max, 1e-10);
+
+            Assert.AreEqual(Double.NegativeInfinity, cauchy.Support.Min);
+            Assert.AreEqual(Double.PositiveInfinity, cauchy.Support.Max);
+
+            Assert.AreEqual(cauchy.InverseDistributionFunction(0), cauchy.Support.Min);
+            Assert.AreEqual(cauchy.InverseDistributionFunction(1), cauchy.Support.Max);
         }
 
 

@@ -22,6 +22,8 @@
 
 namespace Accord.Tests.Statistics
 {
+    using Accord.Math;
+    using Accord.Statistics.Distributions.Reflection;
     using Accord.Statistics.Distributions.Univariate;
     using NUnit.Framework;
     using System;
@@ -193,6 +195,52 @@ namespace Accord.Tests.Statistics
                     Assert.AreEqual(target.Median, target.InverseDistributionFunction(0.5));
                 }
             }
+        }
+
+        [Test]
+        public void icdf2()
+        {
+            int trials = 1;
+
+            var dist = new NegativeBinomialDistribution(trials, 0.5);
+
+            double[] percentiles = Vector.Range(0.0, 1.0, stepSize: 0.1);
+            for (int i = 0; i < percentiles.Length; i++)
+            {
+                double x = percentiles[i];
+                int icdf = dist.InverseDistributionFunction(x);
+                double cdf = dist.DistributionFunction(icdf);
+                int iicdf = dist.InverseDistributionFunction(cdf);
+                double iiicdf = dist.DistributionFunction(iicdf);
+
+                double rx = System.Math.Round(x, MidpointRounding.ToEven);
+                double rc = System.Math.Round(cdf, MidpointRounding.ToEven);
+
+                Assert.AreEqual(rx, rc, 1e-5);
+                Assert.AreEqual(iicdf, icdf, 1e-5);
+                Assert.AreEqual(iiicdf, cdf, 1e-5);
+            }
+        }
+
+        [Test]
+        public void pdf()
+        {
+            NegativeBinomialDistribution dist = UnivariateDistributionInfo.CreateInstance<NegativeBinomialDistribution>();
+
+            Assert.AreEqual(0.5, dist.ProbabilityOfSuccess);
+            Assert.AreEqual(1, dist.NumberOfFailures);
+
+            double median = dist.Median;
+            Assert.AreEqual(0, median);
+
+            int middle = (int)median;
+
+            double pdf = dist.ProbabilityMassFunction(middle);
+            double lpdf = dist.LogProbabilityMassFunction(middle);
+
+            Assert.AreEqual(Math.Log(pdf), lpdf, 1e-10);
+            Assert.AreEqual(pdf, Math.Exp(lpdf), 1e-10);
+
         }
     }
 }

@@ -32,23 +32,6 @@ namespace Accord.Tests.Statistics
     public class TDistributionTest
     {
 
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
         [Test]
         public void ConstructorTest()
         {
@@ -70,6 +53,14 @@ namespace Accord.Tests.Statistics
             double chf = t.CumulativeHazardFunction(x: 1.4); // 2.1590162088918525
 
             string str = t.ToString(CultureInfo.InvariantCulture); // T(x; df = 4.2)
+
+            Assert.AreEqual(double.NegativeInfinity, t.Support.Min);
+            Assert.AreEqual(double.PositiveInfinity, t.Support.Max);
+
+            double icdf0 = t.InverseDistributionFunction(0);
+            double icdf1 = t.InverseDistributionFunction(1);
+            Assert.AreEqual(icdf0, t.Support.Min);
+            Assert.AreEqual(icdf1, t.Support.Max);
 
             Assert.AreEqual(0.0, mean);
             Assert.AreEqual(0.0, median);

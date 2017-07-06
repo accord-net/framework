@@ -243,11 +243,10 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value or any value smaller than it will occur.
         /// </remarks>
         /// 
-        public override double DistributionFunction(double x)
+        protected internal override double InnerDistributionFunction(double x)
         {
-            if (x < 0) return 0;
-
-            return 1.0 - Math.Exp(-Math.Pow(x / lambda, k));
+            double exp = Math.Exp(-Math.Pow(x / lambda, k));
+            return 1.0 - exp;
         }
 
         /// <summary>
@@ -267,10 +266,8 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value <c>x</c> will occur.
         /// </remarks>
         /// 
-        public override double ProbabilityDensityFunction(double x)
+        protected internal override double InnerProbabilityDensityFunction(double x)
         {
-            if (x <= 0) return 0;
-
             double a = Math.Pow(x / lambda, k - 1);
             double b = Math.Exp(-Math.Pow(x / lambda, k));
             return (k / lambda) * a * b;
@@ -293,10 +290,8 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value <c>x</c> will occur.
         /// </remarks>
         /// 
-        public override double LogProbabilityDensityFunction(double x)
+        protected internal override double InnerLogProbabilityDensityFunction(double x)
         {
-            if (x <= 0) return Double.NegativeInfinity;
-
             return Math.Log(k / lambda) + (k - 1) * Math.Log(x / lambda) - Math.Pow(x / lambda, k);
         }
 
@@ -343,13 +338,13 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <param name="x">A single point in the distribution range.</param>
         /// 
-        public override double ComplementaryDistributionFunction(double x)
+        protected internal override double InnerComplementaryDistributionFunction(double x)
         {
             return Math.Exp(-Math.Pow(x, k));
         }
 
         /// <summary>
-        ///   Gets the inverse of the <see cref="ComplementaryDistributionFunction"/>. 
+        ///   Gets the inverse of the <see cref="UnivariateContinuousDistribution.ComplementaryDistributionFunction(Double)"/>. 
         ///   The inverse complementary distribution function is also known as the 
         ///   inverse survival Function.
         /// </summary>

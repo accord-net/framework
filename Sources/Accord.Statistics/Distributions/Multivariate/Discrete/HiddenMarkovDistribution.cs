@@ -101,7 +101,7 @@ namespace Accord.Statistics.Distributions.Multivariate
         ///   probability that a given value or any value smaller than it will occur.
         /// </remarks>
         /// 
-        public override double DistributionFunction(int[] x)
+        protected internal override double InnerDistributionFunction(int[] x)
         {
             throw new NotSupportedException();
         }
@@ -133,7 +133,7 @@ namespace Accord.Statistics.Distributions.Multivariate
         ///   probability that a given value <c>x</c> will occur.
         /// </remarks>
         /// 
-        public override double ProbabilityMassFunction(int[] x)
+        protected internal override double InnerProbabilityMassFunction(int[] x)
         {
             return Math.Exp(model.LogLikelihood(x));
         }
@@ -155,7 +155,7 @@ namespace Accord.Statistics.Distributions.Multivariate
         ///   probability that a given value <c>x</c> will occur.
         /// </remarks>
         /// 
-        public override double LogProbabilityMassFunction(int[] x)
+        protected internal override double InnerLogProbabilityMassFunction(int[] x)
         {
             return model.LogLikelihood(x);
         }

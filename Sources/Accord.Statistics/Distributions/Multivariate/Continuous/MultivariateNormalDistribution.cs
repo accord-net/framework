@@ -299,7 +299,7 @@ namespace Accord.Statistics.Distributions.Multivariate
         ///   is not supported.
         /// </summary>
         /// 
-        public override double DistributionFunction(params double[] x)
+        protected internal override double InnerDistributionFunction(params double[] x)
         {
             if (Dimension == 1)
             {
@@ -343,7 +343,7 @@ namespace Accord.Statistics.Distributions.Multivariate
         ///   minus the CDF.
         /// </remarks>
         /// 
-        public override double ComplementaryDistributionFunction(params double[] x)
+        protected internal override double InnerComplementaryDistributionFunction(params double[] x)
         {
             if (Dimension == 1)
             {
@@ -394,7 +394,7 @@ namespace Accord.Statistics.Distributions.Multivariate
         ///   probability that a given value <c>x</c> will occur.
         /// </remarks>
         /// 
-        public override double ProbabilityDensityFunction(params double[] x)
+        protected internal override double InnerProbabilityDensityFunction(params double[] x)
         {
             return Math.Exp(-0.5 * Mahalanobis(x) + lnconstant);
         }
@@ -414,7 +414,7 @@ namespace Accord.Statistics.Distributions.Multivariate
         ///   occurring in the current distribution.
         /// </returns>
         /// 
-        public override double LogProbabilityDensityFunction(params double[] x)
+        protected internal override double InnerLogProbabilityDensityFunction(params double[] x)
         {
             return -0.5 * Mahalanobis(x) + lnconstant;
         }

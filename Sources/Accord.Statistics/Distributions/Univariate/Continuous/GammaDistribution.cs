@@ -304,7 +304,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   See <see cref="GammaDistribution"/>.
         /// </example>
         /// 
-        public override double DistributionFunction(double x)
+        protected internal override double InnerDistributionFunction(double x)
         {
             return Gamma.LowerIncomplete(k, x / theta);
         }
@@ -330,7 +330,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   See <see cref="GammaDistribution"/>.
         /// </example>
         /// 
-        public override double ProbabilityDensityFunction(double x)
+        protected internal override double InnerProbabilityDensityFunction(double x)
         {
             return Math.Exp(LogProbabilityDensityFunction(x));
         }
@@ -356,7 +356,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   See <see cref="GammaDistribution"/>.
         /// </example>
         /// 
-        public override double LogProbabilityDensityFunction(double x)
+        protected internal override double InnerLogProbabilityDensityFunction(double x)
         {
             return lnconstant + (k - 1) * Math.Log(x) - x / theta;
         }
@@ -371,16 +371,11 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <returns>
         ///   A sample which could original the given probability
-        ///   value when applied in the <see cref="DistributionFunction"/>.
+        ///   value when applied in the <see cref="UnivariateContinuousDistribution.DistributionFunction(double)"/>.
         /// </returns>
         /// 
-        public override double InverseDistributionFunction(double p)
+        protected internal override double InnerInverseDistributionFunction(double p)
         {
-            if (p == 0)
-                return Support.Min;
-            if (p == 1)
-                return Support.Max;
-
             return Gamma.InverseLowerIncomplete(k, p) * theta;
         }
 

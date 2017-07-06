@@ -27,6 +27,7 @@ namespace Accord.Tests.Statistics
     using Accord.Math;
     using System.Globalization;
     using Accord.Statistics.Distributions;
+    using System;
 
     [TestFixture]
     public class RademacherDistributionTest
@@ -36,12 +37,17 @@ namespace Accord.Tests.Statistics
         [Test]
         public void ConstructorTest()
         {
+            #region doc_ctor
+            // Create a new Rademacher distribution
             var dist = new RademacherDistribution();
 
-            double median = dist.Median; // 0
-            double mode = dist.Mode;     // 0
+            double mean = dist.Mean;         // 0
+            double median = dist.Median;     // 0
+            double mode = dist.Mode;         // NaN
+            double variance = dist.Variance; // 1
 
             double lpdf = dist.LogProbabilityMassFunction(k: -1); // -0.69314718055994529
+            double cdf = dist.DistributionFunction(k: 1); // 1.0
             double ccdf = dist.ComplementaryDistributionFunction(k: 1); // 0.0
 
             int icdf1 = dist.InverseDistributionFunction(p: 0); // -1
@@ -51,12 +57,16 @@ namespace Accord.Tests.Statistics
             double chf = dist.CumulativeHazardFunction(x: 0); // 0.69314718055994529
 
             string str = dist.ToString(CultureInfo.InvariantCulture); // Rademacher(x)
+            #endregion
 
+            Assert.AreEqual(0, mean);
+            Assert.AreEqual(1, variance);
             Assert.AreEqual(0, median);
-            Assert.AreEqual(0, mode);
+            Assert.AreEqual(Double.NaN, mode);
             Assert.AreEqual(0.69314718055994529, chf);
             Assert.AreEqual(-0.69314718055994529, lpdf);
             Assert.AreEqual(0, hf);
+            Assert.AreEqual(1, cdf);
             Assert.AreEqual(0, ccdf);
             Assert.AreEqual(-1, icdf1);
             Assert.AreEqual(1, icdf3);
@@ -65,7 +75,10 @@ namespace Accord.Tests.Statistics
             var range1 = dist.GetRange(0.95);
             var range2 = dist.GetRange(0.99);
             var range3 = dist.GetRange(0.01);
+            var range4 = dist.GetRange(1.0);
 
+            Assert.AreEqual(-1, range4.Min);
+            Assert.AreEqual(+1, range4.Max);
             Assert.AreEqual(-1, range1.Min);
             Assert.AreEqual(+1, range1.Max);
             Assert.AreEqual(-1, range2.Min);
@@ -95,7 +108,7 @@ namespace Accord.Tests.Statistics
             double lpdf = dist.LogProbabilityFunction(x: 2); // 0
             double ccdf = dist.ComplementaryDistributionFunction(x: 2); // 0.0
 
-            double icdf1 = dist.InverseDistributionFunction(p: 0.0); // 3
+            double icdf1 = dist.InverseDistributionFunction(p: 0.0); // 2
             double icdf2 = dist.InverseDistributionFunction(p: 0.7); // 3
             double icdf3 = dist.InverseDistributionFunction(p: 1.0); // 2
 
@@ -142,6 +155,28 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(3.0, range2.Max);
             Assert.AreEqual(1.0, range3.Min);
             Assert.AreEqual(3.0, range3.Max);
+        }
+
+        [Test]
+        public void inverse_cdf()
+        {
+            var dist = new RademacherDistribution();
+
+            Assert.AreEqual(0, dist.ProbabilityMassFunction(-2));
+            Assert.AreEqual(0.5, dist.ProbabilityMassFunction(-1));
+            Assert.AreEqual(0, dist.ProbabilityMassFunction(0));
+            Assert.AreEqual(0.5, dist.ProbabilityMassFunction(+1));
+            Assert.AreEqual(0, dist.ProbabilityMassFunction(+2));
+
+            Assert.AreEqual(0, dist.DistributionFunction(-2));
+            Assert.AreEqual(0.5, dist.DistributionFunction(-1));
+            Assert.AreEqual(0.5, dist.DistributionFunction(0));
+            Assert.AreEqual(1.0, dist.DistributionFunction(+1));
+            Assert.AreEqual(1.0, dist.DistributionFunction(+2));
+
+            Assert.AreEqual(-1, dist.InverseDistributionFunction(0));
+            Assert.AreEqual(0, dist.InverseDistributionFunction(0.5));
+            Assert.AreEqual(+1, dist.InverseDistributionFunction(1));
         }
     }
 }

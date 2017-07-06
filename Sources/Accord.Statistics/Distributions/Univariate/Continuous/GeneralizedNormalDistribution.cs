@@ -242,14 +242,8 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   See <see cref="GeneralizedNormalDistribution"/>.
         /// </example>
         /// 
-        public override double DistributionFunction(double x)
+        protected internal override double InnerDistributionFunction(double x)
         {
-            if (Double.IsNegativeInfinity(x))
-                return 0;
-
-            if (Double.IsPositiveInfinity(x))
-                return 1;
-
             double z = x - mean;
             double w = Math.Abs(z) / alpha;
 
@@ -285,14 +279,8 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   See <see cref="GeneralizedNormalDistribution"/>.
         /// </example> 
         ///
-        public override double ProbabilityDensityFunction(double x)
+        protected internal override double InnerProbabilityDensityFunction(double x)
         {
-            if (Double.IsNegativeInfinity(x))
-                return 0;
-
-            if (Double.IsPositiveInfinity(x))
-                return 1;
-
             double z = Math.Abs(x - mean) / alpha;
 
             double a = beta / (2 * alpha * Gamma.Function(1 / beta));

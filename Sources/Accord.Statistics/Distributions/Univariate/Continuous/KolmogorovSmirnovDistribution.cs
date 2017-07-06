@@ -30,6 +30,7 @@ namespace Accord.Statistics.Distributions.Univariate
     using System;
     using Accord.Math;
     using AForge;
+    using Accord.Math.Differentiation;
 
     /// <summary>
     ///   Kolmogorov-Smirnov distribution.
@@ -227,7 +228,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   See <see cref="KolmogorovSmirnovDistribution"/>.
         /// </example>
         /// 
-        public override double DistributionFunction(double x)
+        protected internal override double InnerDistributionFunction(double x)
         {
             return CumulativeFunction(NumberOfSamples, x);
         }
@@ -236,20 +237,10 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   Not supported.
         /// </summary>
         /// 
-        public override double ProbabilityDensityFunction(double x)
+        protected internal override double InnerProbabilityDensityFunction(double x)
         {
             throw new NotSupportedException();
         }
-
-        /// <summary>
-        ///   Not supported.
-        /// </summary>
-        /// 
-        public override double LogProbabilityDensityFunction(double x)
-        {
-            throw new NotSupportedException();
-        }
-
 
         /// <summary>
         ///   Gets the complementary cumulative distribution function
@@ -267,7 +258,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   See <see cref="KolmogorovSmirnovDistribution"/>.
         /// </example>
         /// 
-        public override double ComplementaryDistributionFunction(double x)
+        protected internal override double InnerComplementaryDistributionFunction(double x)
         {
             return ComplementaryDistributionFunction(NumberOfSamples, x);
         }

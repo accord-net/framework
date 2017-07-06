@@ -25,6 +25,7 @@ namespace Accord.Statistics.Distributions.Univariate
     using System;
     using Accord.Math;
     using AForge;
+    using System.ComponentModel;
 
     /// <summary>
     ///   Discrete uniform distribution.
@@ -114,7 +115,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <param name="a">The starting (minimum) value a.</param>
         /// <param name="b">The ending (maximum) value b.</param>
         /// 
-        public UniformDiscreteDistribution([Integer] int a, [Integer] int b)
+        public UniformDiscreteDistribution([Integer, DefaultValue(0)] int a, [Integer, DefaultValue(1)] int b)
         {
             if (a > b)
             {
@@ -199,12 +200,8 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value or any value smaller than it will occur.
         /// </remarks>
         /// 
-        public override double DistributionFunction(int k)
+        protected internal override double InnerDistributionFunction(int k)
         {
-            if (k < a)
-                return 0;
-            if (k >= b)
-                return 1;
             return (k - a + 1.0) / n;
         }
 
@@ -225,11 +222,9 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value <c>k</c> will occur.
         /// </remarks>
         /// 
-        public override double ProbabilityMassFunction(int k)
+        protected internal override double InnerProbabilityMassFunction(int k)
         {
-            if (k >= a && k <= b)
-                return 1.0 / n;
-            else return 0;
+            return 1.0 / n;
         }
 
         /// <summary>
@@ -245,11 +240,9 @@ namespace Accord.Statistics.Distributions.Univariate
         /// The Probability Mass Function (PMF) describes the
         /// probability that a given value <c>k</c> will occur.
         /// </remarks>
-        public override double LogProbabilityMassFunction(int k)
+        protected internal override double InnerLogProbabilityMassFunction(int k)
         {
-            if (k >= a && k <= b)
-                return -Math.Log(n);
-            else return double.NegativeInfinity;
+            return -Math.Log(n);
         }
 
         /// <summary>
@@ -397,7 +390,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///
         /// <returns>An array of double values sampled from the specified Uniform distribution.</returns>
         /// 
-        public static int [] Random(int a, int b, int samples, Random source)
+        public static int[] Random(int a, int b, int samples, Random source)
         {
             return Random(a, b, samples, new int[samples], source);
         }
@@ -416,7 +409,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///
         /// <returns>An array of double values sampled from the specified Uniform distribution.</returns>
         /// 
-        public static int[] Random(int a, int b, int samples, int [] result, Random source)
+        public static int[] Random(int a, int b, int samples, int[] result, Random source)
         {
             for (int i = 0; i < samples; i++)
                 result[i] = source.Next(a, b);

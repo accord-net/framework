@@ -206,11 +206,8 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   See <see cref="InverseGaussianDistribution"/>.
         /// </example>
         /// 
-        public override double DistributionFunction(double x)
+        protected internal override double InnerDistributionFunction(double x)
         {
-            if (x < 0)
-                return 0;
-
             double sqrt = Math.Sqrt(lambda / x);
 
             double a = 0.5 * Special.Erfc(sqrt * (mean - x) / (Constants.Sqrt2 * mean));
@@ -241,11 +238,8 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   See <see cref="InverseGaussianDistribution"/>.
         /// </example>
         /// 
-        public override double ProbabilityDensityFunction(double x)
+        protected internal override double InnerProbabilityDensityFunction(double x)
         {
-            if (x < 0)
-                return 0;
-
             double a = Math.Sqrt(lambda / (2.0 * Math.PI * x * x * x));
             double b = -lambda * ((x - mean) * (x - mean)) / (2.0 * mean * mean * x);
 
@@ -273,11 +267,8 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   See <see cref="InverseGaussianDistribution"/>.
         /// </example>
         /// 
-        public override double LogProbabilityDensityFunction(double x)
+        protected internal override double InnerLogProbabilityDensityFunction(double x)
         {
-            if (x < 0)
-                return Double.NegativeInfinity;
-
             double a = Math.Sqrt(lambda / (2.0 * Math.PI * x * x * x));
             double b = -lambda * ((x - mean) * (x - mean)) / (2.0 * mean * mean * x);
 

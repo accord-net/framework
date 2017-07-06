@@ -245,11 +245,9 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   See <see cref="ParetoDistribution"/>.
         /// </example>
         /// 
-        public override double DistributionFunction(double x)
+        protected internal override double InnerDistributionFunction(double x)
         {
-            if (x >= xm)
-                return 1 - Math.Pow(xm / x, alpha);
-            return 0;
+            return 1 - Math.Pow(xm / x, alpha);
         }
 
         /// <summary>
@@ -273,11 +271,9 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   See <see cref="ParetoDistribution"/>.
         /// </example>
         /// 
-        public override double ProbabilityDensityFunction(double x)
+        protected internal override double InnerProbabilityDensityFunction(double x)
         {
-            if (x >= xm)
-                return (alpha * Math.Pow(xm, alpha)) / Math.Pow(x, alpha + 1);
-            return 0;
+            return (alpha * Math.Pow(xm, alpha)) / Math.Pow(x, alpha + 1);
         }
 
         /// <summary>
@@ -301,11 +297,9 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   See <see cref="ParetoDistribution"/>.
         /// </example>
         /// 
-        public override double LogProbabilityDensityFunction(double x)
+        protected internal override double InnerLogProbabilityDensityFunction(double x)
         {
-            if (x >= xm)
-                return Math.Log(alpha) + alpha * Math.Log(xm) - (alpha + 1) * Math.Log(x);
-            return 0;
+            return Math.Log(alpha) + alpha * Math.Log(xm) - (alpha + 1) * Math.Log(x);
         }
 
 

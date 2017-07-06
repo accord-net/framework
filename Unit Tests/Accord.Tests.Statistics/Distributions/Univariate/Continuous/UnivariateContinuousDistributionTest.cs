@@ -33,22 +33,6 @@ namespace Accord.Tests.Statistics
     public class UnivariateContinuousDistributionTest
     {
 
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
         internal virtual UnivariateContinuousDistribution CreateUnivariateContinuousDistribution()
         {
             double mean = 23;

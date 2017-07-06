@@ -188,11 +188,8 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <param name="x">A single point in the distribution range.</param>
         /// 
-        public override double DistributionFunction(double x)
+        protected internal override double InnerDistributionFunction(double x)
         {
-            if (x < 0)
-                return 0;
-
             double ebx = Math.Exp(b * x);
             
             double cdf = 1.0 - Math.Exp(-eta * (ebx - 1.0));
@@ -212,11 +209,8 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   in the current distribution.
         /// </returns>
         /// 
-        public override double ProbabilityDensityFunction(double x)
+        protected internal override double InnerProbabilityDensityFunction(double x)
         {
-            if (x < 0)
-                return 0;
-
             double a1 = b * eta * Math.Exp(eta);
             double a2 = Math.Exp(b * x);
             double a3 = Math.Exp(-eta * Math.Exp(b * x));
@@ -235,11 +229,8 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   occurring in the current distribution.
         /// </returns>
         /// 
-        public override double LogProbabilityDensityFunction(double x)
+        protected internal override double InnerLogProbabilityDensityFunction(double x)
         {
-            if (x < 0)
-                return Double.NegativeInfinity;
-
             double a1 = Math.Log(b * eta) + eta;
             double a2 = b * x;
             double a3 = -eta * Math.Exp(b * x);

@@ -68,6 +68,7 @@
     <Compile Include="Distances\DistanceTest.cs" />
     <Compile Include="Distributions\Multivariate\Continuous\VonMisesFisherDistributionTest.cs" />
     <Compile Include="Distributions\Univariate\Continuous\AndersonDarlingDistributionTest.cs" />
+    <Compile Include="Distributions\Univariate\Continuous\ContinuousInheritanceTest.cs" />
     <Compile Include="Distributions\Univariate\Continuous\GrubbDistributionTest.cs" />
     <Compile Include="Distributions\Univariate\Continuous\GeneralizedBetaDistributionTest.cs" />
     <Compile Include="Distributions\Univariate\Continuous\BirnbaumSaundersDistributionTest.cs" />
@@ -92,6 +93,8 @@
     <Compile Include="Distributions\Univariate\Continuous\BetaPrimeDistributionTest.cs" />
     <Compile Include="Distributions\Univariate\Continuous\TrapezoidalDistributionTest.cs" />
     <Compile Include="Distributions\Univariate\Continuous\UQuadraticDistributionTest.cs" />
+    <Compile Include="Distributions\Univariate\Discrete\DiscreteInheritanceTest.cs" />
+    <Compile Include="Distributions\Univariate\Discrete\SymmetricGeometricDistributionTest.cs" />
     <Compile Include="Distributions\Univariate\Discrete\RademacherDistributionTest.cs" />
     <Compile Include="Distributions\Univariate\Discrete\DegenerateDistributionTest.cs" />
     <Compile Include="Distributions\Univariate\UnivariateDistributionTest.cs" />

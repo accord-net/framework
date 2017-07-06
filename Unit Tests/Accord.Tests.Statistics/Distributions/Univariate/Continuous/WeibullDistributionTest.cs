@@ -98,14 +98,19 @@ namespace Accord.Tests.Statistics
         {
             WeibullDistribution n = new WeibullDistribution(0.80, 12.5);
 
-            double[] expected = 
+            double[] expected =
             {
-                0.0,
+                Double.PositiveInfinity, // checked against R
                 0.09289322,
-                0.0733005, 
-                0.06186956, 
-                0.0537782,
-                0.0475457 
+                0.07330050,
+                0.06186956,
+                0.05377820,
+                0.04754570,
+                0.04251180,
+                0.03832077,
+                0.03475727,
+                0.03168016,
+                0.02899143
             };
 
             double[] actual = new double[expected.Length];
@@ -114,10 +119,7 @@ namespace Accord.Tests.Statistics
                 actual[i] = n.ProbabilityDensityFunction(i);
 
             for (int i = 0; i < actual.Length; i++)
-            {
                 Assert.AreEqual(expected[i], actual[i], 1e-5);
-                Assert.IsFalse(double.IsNaN(actual[i]));
-            }
         }
 
         [Test]
@@ -125,7 +127,7 @@ namespace Accord.Tests.Statistics
         {
             WeibullDistribution n = new WeibullDistribution(0.80, 12.5);
 
-            double[] expected = 
+            double[] expected =
             {
                 0.0,
                 0.1241655,
@@ -153,6 +155,38 @@ namespace Accord.Tests.Statistics
             WeibullDistribution target = new WeibullDistribution(1.52, 0.6);
 
             Assert.AreEqual(target.Median, target.InverseDistributionFunction(0.5), 1e-8);
+        }
+
+        [Test]
+        public void rtest()
+        {
+            // pweibull((0:20)/10, 1.52, 0.6)
+            var n = new WeibullDistribution(1.52, 0.6);
+
+            Assert.AreEqual(0.00000000, n.DistributionFunction(0.0), 1e-6);
+            Assert.AreEqual(0.06353795, n.DistributionFunction(0.1), 1e-6);
+            Assert.AreEqual(0.17160704, n.DistributionFunction(0.2), 1e-6);
+            Assert.AreEqual(0.29438528, n.DistributionFunction(0.3), 1e-6);
+            Assert.AreEqual(0.41721373, n.DistributionFunction(0.4), 1e-6);
+            Assert.AreEqual(0.53137710, n.DistributionFunction(0.5), 1e-6);
+            Assert.AreEqual(0.63212056, n.DistributionFunction(0.6), 1e-6);
+            Assert.AreEqual(0.71748823, n.DistributionFunction(0.7), 1e-6);
+            Assert.AreEqual(0.78743013, n.DistributionFunction(0.8), 1e-6);
+            Assert.AreEqual(0.84308886, n.DistributionFunction(0.9), 1e-6);
+            Assert.AreEqual(0.88625003, n.DistributionFunction(1.0), 1e-6);
+            Assert.AreEqual(0.9999903, n.DistributionFunction(3.0), 1e-6);
+
+            Assert.AreEqual(0.00000000, n.ProbabilityDensityFunction(0.0), 1e-6);
+            Assert.AreEqual(0.934423757, n.ProbabilityDensityFunction(0.1), 1e-6);
+            Assert.AreEqual(1.185292906, n.ProbabilityDensityFunction(0.2), 1e-6);
+            Assert.AreEqual(1.246592100, n.ProbabilityDensityFunction(0.3), 1e-6);
+            Assert.AreEqual(1.195732949, n.ProbabilityDensityFunction(0.4), 1e-6);
+            Assert.AreEqual(1.079795701, n.ProbabilityDensityFunction(0.5), 1e-6);
+            Assert.AreEqual(0.931961251, n.ProbabilityDensityFunction(0.6), 1e-6);
+            Assert.AreEqual(0.775427531, n.ProbabilityDensityFunction(0.7), 1e-6);
+            Assert.AreEqual(0.625406197, n.ProbabilityDensityFunction(0.8), 1e-6);
+            Assert.AreEqual(0.490810192, n.ProbabilityDensityFunction(0.9), 1e-6);
+            Assert.AreEqual(0.375841697, n.ProbabilityDensityFunction(1.0), 1e-6);
         }
     }
 }

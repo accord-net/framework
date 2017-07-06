@@ -74,7 +74,7 @@ namespace Accord.Statistics.Distributions.Univariate
                     "A probability must be between 0 and 1.");
 
             this.p = probabilityOfSuccess;
-            this.lnconstant = Math.Log(p) - Math.Log(2 * (1 - p));
+            this.lnconstant = Math.Log(p) - Math.Log(2.0 * (1.0 - p));
         }
 
 
@@ -131,7 +131,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   Not supported.
         /// </summary>
         /// 
-        public override double DistributionFunction(int k)
+        protected internal override double InnerDistributionFunction(int k)
         {
             throw new NotSupportedException();
         }
@@ -153,9 +153,11 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value <c>x</c> will occur.
         /// </remarks>
         /// 
-        public override double ProbabilityMassFunction(int k)
+        protected internal override double InnerProbabilityMassFunction(int k)
         {
-            return Math.Exp(lnconstant) * Math.Pow(1 - p, Math.Abs(k));
+            if (k == 0)
+                return p; // need special case otherwise will be double at center
+            return Math.Exp(lnconstant) * Math.Pow(1 - p, Math.Abs(k) - 1);
         }
 
         /// <summary>
@@ -175,9 +177,11 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value <c>k</c> will occur.
         /// </remarks>
         /// 
-        public override double LogProbabilityMassFunction(int k)
+        protected internal override double InnerLogProbabilityMassFunction(int k)
         {
-            return lnconstant + Math.Abs(k) * Math.Log(1 - p);
+            if (k == 0)
+                return Math.Log(p); // need special case otherwise will be double at center
+            return lnconstant + (Math.Abs(k) - 1) * Math.Log(1 - p);
         }
 
         /// <summary>

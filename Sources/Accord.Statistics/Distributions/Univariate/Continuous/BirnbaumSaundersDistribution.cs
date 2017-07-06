@@ -246,10 +246,12 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value or any value smaller than it will occur.</para>
         /// </remarks>
         /// 
-        public override double DistributionFunction(double x)
+        protected internal override double InnerDistributionFunction(double x)
         {
-            double a = Math.Sqrt(x);
-            double b = Math.Sqrt(1.0 / x);
+            double c = x - location;
+
+            double a = Math.Sqrt(c);
+            double b = Math.Sqrt(1.0 / c);
             double z = (a - b) / shape;
 
             // Normal cumulative distribution function
@@ -274,7 +276,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value <c>x</c> will occur.</para>
         /// </remarks>
         /// 
-        public override double ProbabilityDensityFunction(double x)
+        protected internal override double InnerProbabilityDensityFunction(double x)
         {
             double c = x - location;
 
@@ -299,15 +301,20 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <returns>
         ///   A sample which could original the given probability
-        ///   value when applied in the <see cref="DistributionFunction"/>.
+        ///   value when applied in the <see cref="UnivariateContinuousDistribution.DistributionFunction(double)"/>.
         /// </returns>
         /// 
-        public override double InverseDistributionFunction(double p)
+        protected internal override double InnerInverseDistributionFunction(double p)
         {
+            if (p <= 0)
+                return Support.Min;
+            if (p >= 1)
+                return Support.Max;
+
             double z = Normal.Inverse(p);
             double a = z + Math.Sqrt(4 + shape * (z * z));
 
-            return (1.0 / 4.0) * a * a;
+            return (1.0 / 4.0) * a * a + location;
         }
 
         /// <summary>

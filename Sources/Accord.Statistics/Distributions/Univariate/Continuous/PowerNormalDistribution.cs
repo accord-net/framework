@@ -107,15 +107,6 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   Not supported.
         /// </summary>
         /// 
-        public override double Median
-        {
-            get { throw new NotSupportedException(); }
-        }
-
-        /// <summary>
-        ///   Not supported.
-        /// </summary>
-        /// 
         public override double Mode
         {
             get { throw new NotSupportedException(); }
@@ -159,7 +150,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override DoubleRange Support
         {
-            get { return new DoubleRange(0, Double.PositiveInfinity); }
+            get { return new DoubleRange(Double.NegativeInfinity, Double.PositiveInfinity); }
         }
 
         /// <summary>
@@ -175,7 +166,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value or any value smaller than it will occur.
         /// </remarks>
         /// 
-        public override double DistributionFunction(double x)
+        protected internal override double InnerDistributionFunction(double x)
         {
             double phi = Normal.Function(-x);
             return 1.0 - Math.Pow(phi, power);
@@ -196,9 +187,9 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <param name="p">A probability value between 0 and 1.</param>
         /// 
         /// <returns>A sample which could original the given probability 
-        ///   value when applied in the <see cref="DistributionFunction"/>.</returns>
+        ///   value when applied in the <see cref="UnivariateContinuousDistribution.DistributionFunction(double)"/>.</returns>
         /// 
-        public override double InverseDistributionFunction(double p)
+        protected internal override double InnerInverseDistributionFunction(double p)
         {
             return Normal.Inverse(1.0 - Math.Pow(1.0 - p, 1.0 / power));
         }
@@ -220,7 +211,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   The probability of <c>x</c> occurring
         ///   in the current distribution.</returns>
         ///   
-        public override double ProbabilityDensityFunction(double x)
+        protected internal override double InnerProbabilityDensityFunction(double x)
         {
             double pdf = Normal.Derivative(x);
             double cdf = Normal.Function(-x);
@@ -244,7 +235,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   The logarithm of the probability of <c>x</c> 
         ///   occurring in the current distribution.</returns>
         ///   
-        public override double LogProbabilityDensityFunction(double x)
+        protected internal override double InnerLogProbabilityDensityFunction(double x)
         {
             return Math.Log(power) + Normal.LogDerivative(x) + (power - 1) * Normal.Function(-x);
         }

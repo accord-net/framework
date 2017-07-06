@@ -270,10 +270,8 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   The Exponential CDF is defined as CDF(x) = 1 - exp(-λ*x).</para>
         /// </remarks>
         /// 
-        public override double DistributionFunction(double x)
+        protected internal override double InnerDistributionFunction(double x)
         {
-            if (x <= 0)
-                return 0;
             return 1.0 - Math.Exp(-lambda * x);
         }
 
@@ -298,10 +296,8 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   The Exponential PDF is defined as PDF(x) = λ * exp(-λ*x).</para>
         /// </remarks>
         /// 
-        public override double ProbabilityDensityFunction(double x)
+        protected internal override double InnerProbabilityDensityFunction(double x)
         {
-            if (x < 0)
-                return 0;
             return lambda * Math.Exp(-lambda * x);
         }
 
@@ -322,12 +318,10 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value <c>x</c> will occur.
         /// </remarks>
         /// 
-        /// <seealso cref="ProbabilityDensityFunction"/>
+        /// <seealso cref="UnivariateContinuousDistribution.ProbabilityDensityFunction(double)"/>
         /// 
-        public override double LogProbabilityDensityFunction(double x)
+        protected internal override double InnerLogProbabilityDensityFunction(double x)
         {
-            if (x < 0)
-                return Double.NegativeInfinity;
             return lnlambda - lambda * x;
         }
 
@@ -347,10 +341,10 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   The Exponential ICDF is defined as ICDF(p) = -ln(1-p)/λ.</para>
         /// </remarks>
         /// 
-        public override double InverseDistributionFunction(double p)
+        protected internal override double InnerInverseDistributionFunction(double p)
         {
             double icdf = -Math.Log(1.0 - p) / lambda;
-            Accord.Diagnostics.Debug.Assert(icdf.IsEqual(base.InverseDistributionFunction(p), 1e-6));
+            Accord.Diagnostics.Debug.Assert(icdf.IsEqual(base.InnerInverseDistributionFunction(p), 1e-6));
             return icdf;
         }
 

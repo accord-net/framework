@@ -117,6 +117,21 @@ namespace Accord.Statistics.Distributions.Univariate
         // derived measures
         double constant;
 
+        /// <summary>
+        ///   Creates a new trapezoidal distribution.
+        /// </summary>
+        /// 
+        /// <param name="a">The minimum value a.</param>
+        /// <param name="b">The beginning of the stability region b.</param>
+        /// <param name="c">The end of the stability region c.</param>
+        /// <param name="d">The maximum value d.</param>
+        /// 
+        public TrapezoidalDistribution(
+            [Real(maximum: 1e+300), DefaultValue(0)] double a, [Real, DefaultValue(1)] double b,
+            [Real, DefaultValue(2)] double c, [Real(minimum: 1e-300), DefaultValue(3)] double d)
+            : this(a, b, c, d, 2, 2)
+        {
+        }
 
         /// <summary>
         ///   Creates a new trapezoidal distribution.
@@ -126,13 +141,33 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <param name="b">The beginning of the stability region b.</param>
         /// <param name="c">The end of the stability region c.</param>
         /// <param name="d">The maximum value d.</param>
-        /// <param name="n1">The growth slope between points <paramref name="a"/> and <paramref name="b"/>.</param>
-        /// <param name="n3">The growth slope between points <paramref name="c"/> and <paramref name="d"/>.</param>
+        /// <param name="n1">The growth slope between points <paramref name="a"/> and <paramref name="b"/>. Default is 2.</param>
+        /// <param name="n3">The growth slope between points <paramref name="c"/> and <paramref name="d"/>. Default is 2.</param>
         /// 
         public TrapezoidalDistribution(
-            [Real(maximum: 1e+300), DefaultValue(0)] double a, [Real, DefaultValue(1)] double b,
-            [Real, DefaultValue(2)] double c, [Real(minimum: 1e-300), DefaultValue(3)] double d,
-            [Positive] double n1, [Positive] double n3)
+        [Real(maximum: 1e+300), DefaultValue(0)] double a, [Real, DefaultValue(1)] double b,
+        [Real, DefaultValue(2)] double c, [Real(minimum: 1e-300), DefaultValue(3)] double d,
+        [Positive, DefaultValue(2)] double n1, [Positive, DefaultValue(2)] double n3)
+            : this(a, b, c, d, n1, n3, 1)
+        {
+        }
+
+        /// <summary>
+        ///   Creates a new trapezoidal distribution.
+        /// </summary>
+        /// 
+        /// <param name="a">The minimum value a.</param>
+        /// <param name="b">The beginning of the stability region b.</param>
+        /// <param name="c">The end of the stability region c.</param>
+        /// <param name="d">The maximum value d.</param>
+        /// <param name="n1">The growth slope between points <paramref name="a"/> and <paramref name="b"/>. Default is 2.</param>
+        /// <param name="n3">The growth slope between points <paramref name="c"/> and <paramref name="d"/>. Default is 2.</param>
+        /// <param name="alpha">The boundary ratio α. Default is 1.</param>
+        /// 
+        public TrapezoidalDistribution(
+    [Real(maximum: 1e+300), DefaultValue(0)] double a, [Real, DefaultValue(1)] double b,
+    [Real, DefaultValue(2)] double c, [Real(minimum: 1e-300), DefaultValue(3)] double d,
+    [Positive, DefaultValue(2)] double n1, [Positive, DefaultValue(2)] double n3, [Positive, DefaultValue(1)]double alpha)
         {
             // boundary validation
             if (a > b)
@@ -159,6 +194,7 @@ namespace Accord.Statistics.Distributions.Univariate
             this.d = d;
             this.n1 = n1;
             this.n3 = n3;
+            this.alpha = alpha;
 
             double num = 2 * n1 * n3;
             double den = 2 * alpha * (b - a) * n3
@@ -289,44 +325,39 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value or any value smaller than it will occur.
         /// </remarks>
         /// 
-        public override double DistributionFunction(double x)
+        protected internal override double InnerDistributionFunction(double x)
         {
-            if (x < a)
-                return 0;
-
-            if (x > d)
-                return 1;
-
             if (x < b)
             {
                 double num = 2 * alpha * (b - a) * n3;
                 double den = 2 * alpha * (b - a) * n3
                     + (alpha + 1) * (c - b) * n1 * n3
                     + 2 * (d - c) * n1;
-
-                return (num / den) * Math.Pow((x - a) / (b - a), n1);
+                double p = Math.Pow((x - a) / (b - a), n1);
+                return (num / den) * p;
             }
 
             if (x < c)
             {
                 double num = 2 * alpha * (b - a) * n3
-                    + 2 * (x - b) * n1 * n3 * (1 + ((alpha - 1) * (2 * c - b - x)) / (2 * (c - b)));
+                    + 2 * (x - b) * n1 * n3 * (1 + ((alpha - 1) / 2) * ((2 * c - b - x) / (c - b)));
 
                 double den = 2 * alpha * (b - a) * n3
                     + (alpha + 1) * (c - b) * n1 * n3
-                    + 2 * (c - d) * n1;
+                    + 2 * (d - c) * n1;
 
                 return num / den;
             }
 
             if (x < d)
             {
-                double num = 2 * (c - d) * n1;
+                double num = 2 * (d - c) * n1;
                 double den = 2 * alpha * (b - a) * n3
                     + (alpha + 1) * (c - b) * n1 * n3
-                    + 2 * (c - d) * n1;
+                    + 2 * (d-c) * n1;
 
-                return 1 - num / den * Math.Pow((d - x) / (d - c), n3);
+                double p = Math.Pow((d - x) / (d - c), n3);
+                return 1 - (num / den) * p;
             }
 
             return 1;
@@ -349,24 +380,15 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value <c>x</c> will occur.
         /// </remarks>
         /// 
-        public override double ProbabilityDensityFunction(double x)
+        protected internal override double InnerProbabilityDensityFunction(double x)
         {
-            if (x < a)
-                return 0;
-
-            if (x > d)
-                return 0;
-
             if (x < b)
                 return constant * alpha * Math.Pow((x - a) / (b - a), n1 - 1);
 
             if (x < c)
                 return constant * (((alpha - 1) * (c - x) / (c - b)) + 1);
 
-            if (x < d)
-                return constant * Math.Pow((d - x) / (d - c), n3 - 1);
-
-            return 0;
+            return constant * Math.Pow((d - x) / (d - c), n3 - 1);
         }
 
 

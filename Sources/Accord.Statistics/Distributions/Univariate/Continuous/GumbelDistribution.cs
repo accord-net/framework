@@ -252,7 +252,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value or any value smaller than it will occur.</para>
         /// </remarks>
         /// 
-        public override double DistributionFunction(double x)
+        protected internal override double InnerDistributionFunction(double x)
         {
             double z = (x - mean) / beta;
             double cdf = Math.Exp(-Math.Exp(-z));
@@ -277,7 +277,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value <c>x</c> will occur.</para>
         /// </remarks>
         /// 
-        public override double ProbabilityDensityFunction(double x)
+        protected internal override double InnerProbabilityDensityFunction(double x)
         {
             double z = (x - mean) / beta;
             return (1 / beta) * Math.Exp(-(z + Math.Exp(-z)));
@@ -300,9 +300,9 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value <c>x</c> will occur.
         /// </remarks>
         /// 
-        /// <seealso cref="ProbabilityDensityFunction"/>
+        /// <seealso cref="UnivariateContinuousDistribution.ProbabilityDensityFunction"/>
         /// 
-        public override double LogProbabilityDensityFunction(double x)
+        protected internal override double InnerLogProbabilityDensityFunction(double x)
         {
             double z = (x - mean) / beta;
             return Math.Log(1 / beta) - (z + Math.Exp(-z));
@@ -322,7 +322,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   minus the CDF.
         /// </remarks>
         /// 
-        public override double ComplementaryDistributionFunction(double x)
+        protected internal override double InnerComplementaryDistributionFunction(double x)
         {
             double z = (x - mean) / beta;
             double expz = Math.Exp(-z);
@@ -395,7 +395,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <returns>
         ///   A sample which could original the given probability
-        ///   value when applied in the <see cref="DistributionFunction(double)" />.
+        ///   value when applied in the <see cref="UnivariateContinuousDistribution.DistributionFunction(double)" />.
         /// </returns>
         /// 
         /// <remarks>
@@ -404,7 +404,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   or below, with that probability.
         /// </remarks>
         /// 
-        public override double InverseDistributionFunction(double p)
+        protected internal override double InnerInverseDistributionFunction(double p)
         {
             return mean - beta * Math.Log(-Math.Log(p));
         }

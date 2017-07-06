@@ -30,23 +30,6 @@ namespace Accord.Tests.Statistics
     public class LogisticDistributionTest
     {
 
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
         [Test]
         public void ConstructorTest1()
         {
@@ -92,6 +75,12 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(5.9341438201615064, range2.Max);
             Assert.AreEqual(-5.0941438201615075, range3.Min);
             Assert.AreEqual(5.9341438201615064, range3.Max);
+
+            Assert.AreEqual(double.NegativeInfinity, log.Support.Min);
+            Assert.AreEqual(double.PositiveInfinity, log.Support.Max);
+
+            Assert.AreEqual(log.InverseDistributionFunction(0), log.Support.Min);
+            Assert.AreEqual(log.InverseDistributionFunction(1), log.Support.Max);
         }
 
     }

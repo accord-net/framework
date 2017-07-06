@@ -349,7 +349,7 @@ namespace Accord.Statistics.Distributions.Multivariate
         ///   The probability of <c>x</c> occurring
         ///   in the current distribution.</returns>
         ///   
-        public override double ProbabilityMassFunction(int[] x)
+        protected internal override double InnerProbabilityMassFunction(int[] x)
         {
             int index = ravel(x);
             if (index < 0 || index >= probabilities.Length)
@@ -371,7 +371,7 @@ namespace Accord.Statistics.Distributions.Multivariate
         ///   probability that a given value <c>x</c> will occur.
         /// </remarks>
         /// 
-        public override double LogProbabilityMassFunction(int[] x)
+        protected internal override double InnerLogProbabilityMassFunction(int[] x)
         {
             int index = ravel(x);
             if (index < 0 || index >= probabilities.Length)
@@ -448,7 +448,7 @@ namespace Accord.Statistics.Distributions.Multivariate
         ///   probability that a given value or any value smaller than it will occur.
         /// </remarks>
         /// 
-        public override double DistributionFunction(int[] x)
+        protected internal override double InnerDistributionFunction(int[] x)
         {
             int[] value = x.Subtract(start);
 

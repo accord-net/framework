@@ -27,6 +27,7 @@ namespace Accord.Tests.Statistics
     using Accord.Math;
     using Accord.Statistics.Distributions.Univariate;
     using NUnit.Framework;
+    using Accord.Statistics.Distributions.Reflection;
 
     [TestFixture]
     public class GeneralizedParetoDistributionTest
@@ -85,6 +86,12 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(139999.86000000086, range2.Max, 1e-8);
             Assert.AreEqual(0.0042854196206619493, range3.Min, 1e-8);
             Assert.AreEqual(139999.86000000086, range3.Max, 1e-8);
+
+            Assert.AreEqual(0, pareto.Support.Min);
+            Assert.AreEqual(double.PositiveInfinity, pareto.Support.Max);
+
+            Assert.AreEqual(pareto.InverseDistributionFunction(0), pareto.Support.Min);
+            Assert.AreEqual(pareto.InverseDistributionFunction(1), pareto.Support.Max);
         }
 
         [Test]
@@ -132,8 +139,51 @@ namespace Accord.Tests.Statistics
         {
             var target = new GeneralizedParetoDistribution(0, scale: 7.12, shape: 2);
 
-            Assert.AreEqual(target.Median, target.InverseDistributionFunction(0.5), 1e-6);
+            double median = target.Median;
+            Assert.AreEqual(10.68, median, 1e-10);
+
+            Assert.AreEqual(median, target.InverseDistributionFunction(0.5), 1e-6);
         }
 
+        [Test]
+        public void MedianTest2()
+        {
+            var target = UnivariateDistributionInfo.CreateInstance<GeneralizedParetoDistribution>();
+
+            Assert.AreEqual(1, target.Location);
+            Assert.AreEqual(1, target.Scale);
+            Assert.AreEqual(2, target.Shape);
+
+            double median = target.Median;
+            Assert.AreEqual(2.5, target.Median);
+
+            Assert.AreEqual(median, target.InverseDistributionFunction(0.5), 1e-6);
+        }
+
+        [Test]
+        public void ctor_test()
+        {
+            Assert.Throws<ArgumentOutOfRangeException>(() => new GeneralizedParetoDistribution(location: 0, scale: 0, shape: 2));
+            Assert.Throws<ArgumentOutOfRangeException>(() => new GeneralizedParetoDistribution(location: 1, scale: 0, shape: 2));
+            Assert.Throws<ArgumentOutOfRangeException>(() => new GeneralizedParetoDistribution(location: 1, scale: 0, shape: 2));
+            Assert.Throws<ArgumentOutOfRangeException>(() => new GeneralizedParetoDistribution(location: 1, scale: 1, shape: 1));
+            Assert.DoesNotThrow(() => new GeneralizedParetoDistribution(location: 1, scale: 1, shape: 2));
+        }
+
+        [Test]
+        public void MedianTest3()
+        {
+            var target = new GeneralizedParetoDistribution(location: 1, scale: 1, shape: 2);
+
+            Assert.AreEqual(1, target.Location);
+            Assert.AreEqual(1, target.Scale);
+            Assert.AreEqual(2, target.Shape);
+
+
+            double median = target.Median;
+            Assert.AreEqual(2.5, median, 1e-10);
+
+            Assert.AreEqual(median, target.InverseDistributionFunction(0.5), 1e-6);
+        }
     }
 }

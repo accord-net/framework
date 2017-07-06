@@ -125,7 +125,7 @@ namespace Accord.Statistics.Distributions.Multivariate
         ///   Not implemented.
         /// </summary>
         /// 
-        public override double DistributionFunction(params double[] x)
+        protected internal override double InnerDistributionFunction(params double[] x)
         {
             throw new NotImplementedException();
         }
@@ -143,7 +143,7 @@ namespace Accord.Statistics.Distributions.Multivariate
         /// in the current distribution.</returns>
         /// <remarks>The Probability Density Function (PDF) describes the
         /// probability that a given value <c>x</c> will occur.</remarks>
-        public override double ProbabilityDensityFunction(params double[] x)
+        protected internal override double InnerProbabilityDensityFunction(params double[] x)
         {
             double distance = Distance.Euclidean(x, center);
             if (distance.IsEqual(radius, rtol: rtol))
@@ -161,7 +161,7 @@ namespace Accord.Statistics.Distributions.Multivariate
         /// this should be a double array.</param>
         /// <returns>The logarithm of the probability of <c>x</c>
         /// occurring in the current distribution.</returns>
-        public override double LogProbabilityDensityFunction(params double[] x)
+        protected internal override double InnerLogProbabilityDensityFunction(params double[] x)
         {
             double distance = Distance.Euclidean(x, center);
             if (distance.IsEqual(radius, rtol: rtol))

@@ -223,7 +223,7 @@ namespace Accord.Statistics.Distributions.Multivariate
         ///   probability that a given value <c>x</c> will occur.
         /// </remarks>
         /// 
-        public override double ProbabilityDensityFunction(params double[] x)
+        protected internal override double InnerProbabilityDensityFunction(params double[] x)
         {
             double product = 1;
 
@@ -237,7 +237,7 @@ namespace Accord.Statistics.Distributions.Multivariate
         ///   Not supported.
         /// </summary>
         /// 
-        public override double DistributionFunction(params double[] x)
+        protected internal override double InnerDistributionFunction(params double[] x)
         {
             throw new NotSupportedException();
         }
@@ -257,7 +257,7 @@ namespace Accord.Statistics.Distributions.Multivariate
         ///   occurring in the current distribution.
         /// </returns>
         /// 
-        public override double LogProbabilityDensityFunction(params double[] x)
+        protected internal override double InnerLogProbabilityDensityFunction(params double[] x)
         {
             double sum = 0;
 

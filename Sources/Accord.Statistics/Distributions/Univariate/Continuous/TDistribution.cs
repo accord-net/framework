@@ -219,7 +219,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   See <see cref="TDistribution"/>.
         /// </example>
         /// 
-        public override double DistributionFunction(double x)
+        protected internal override double InnerDistributionFunction(double x)
         {
             double v = DegreesOfFreedom;
             double sqrt = Math.Sqrt(x * x + v);
@@ -248,7 +248,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   See <see cref="TDistribution"/>.
         /// </example>
         /// 
-        public override double ProbabilityDensityFunction(double x)
+        protected internal override double InnerProbabilityDensityFunction(double x)
         {
             return Math.Exp(LogProbabilityDensityFunction(x));
         }
@@ -274,7 +274,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   See <see cref="TDistribution"/>.
         /// </example>
         /// 
-        public override double LogProbabilityDensityFunction(double x)
+        protected internal override double InnerLogProbabilityDensityFunction(double x)
         {
             return lnconstant - ((DegreesOfFreedom + 1) / 2.0) * Special.Log1p((x * x) / DegreesOfFreedom);
         }
@@ -295,7 +295,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   See <see cref="TDistribution"/>.
         /// </example>
         /// 
-        public override double InverseDistributionFunction(double p)
+        protected internal override double InnerInverseDistributionFunction(double p)
         {
             return inverseDistributionLeftTail(DegreesOfFreedom, p);
         }
@@ -349,6 +349,11 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         private static double inverseDistributionLeftTail(double df, double p)
         {
+            if (p == 0)
+                return Double.NegativeInfinity;
+            if (p == 1)
+                return Double.PositiveInfinity;
+
             if (p > 0.25 && p < 0.75)
             {
                 if (p == 0.5)

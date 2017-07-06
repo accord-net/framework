@@ -245,14 +245,8 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value or any value smaller than it will occur.
         /// </remarks>
         /// 
-        public override double DistributionFunction(int k)
+        protected internal override double InnerDistributionFunction(int k)
         {
-            if (k < 0)
-                return 0;
-
-            if (k >= Int32.MaxValue)
-                return 1;
-
             return Gamma.UpperIncomplete(k + 1, lambda);
         }
 
@@ -273,11 +267,8 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   The probability of <c>x</c> occurring
         ///   in the current distribution.</returns>
         ///   
-        public override double ProbabilityMassFunction(int k)
+        protected internal override double InnerProbabilityMassFunction(int k)
         {
-            if (k < 0)
-                return 0;
-
             return (Math.Pow(lambda, k) / Special.Factorial(k)) * epml;
         }
 
@@ -298,11 +289,8 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value <c>k</c> will occur.
         /// </remarks>
         /// 
-        public override double LogProbabilityMassFunction(int k)
+        protected internal override double InnerLogProbabilityMassFunction(int k)
         {
-            if (k < 0)
-                return Double.NegativeInfinity;
-
             return (k * Math.Log(lambda) - Special.LogFactorial(k)) - lambda;
         }
 

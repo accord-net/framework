@@ -157,7 +157,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <param name="alpha">The shape parameter α (alpha).</param>
         /// <param name="beta">The shape parameter β (beta).</param>
         /// 
-        public GeneralizedBetaDistribution([Positive] double alpha, [Positive] double beta)
+        public GeneralizedBetaDistribution([Positive, DefaultValue(1)] double alpha, [Positive, DefaultValue(1)] double beta)
             : this(alpha, beta, 0, 1)
         {
         }
@@ -172,7 +172,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <param name="min">The minimum possible value a.</param>
         /// <param name="max">The maximum possible value b.</param>
         /// 
-        public GeneralizedBetaDistribution([Positive] double alpha, [Positive] double beta,
+        public GeneralizedBetaDistribution([Positive, DefaultValue(1)] double alpha, [Positive, DefaultValue(1)] double beta,
             [Real, DefaultValue(0)] double min, [Real, DefaultValue(1)] double max)
         {
             if (min > max)
@@ -447,14 +447,8 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <param name="x">A single point in the distribution range.</param>
         /// 
-        public override double DistributionFunction(double x)
+        protected internal override double InnerDistributionFunction(double x)
         {
-            if (x < min)
-                return 0;
-
-            if (x >= max)
-                return 1;
-
             double z = (x - min) / (max - min);
 
             return Accord.Math.Beta.Incomplete(alpha, beta, z);
@@ -469,20 +463,12 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <param name="p">A probability value between 0 and 1.</param>
         /// 
         /// <returns>A sample which could original the given probability 
-        ///   value when applied in the <see cref="DistributionFunction"/>.</returns>
+        ///   value when applied in the <see cref="UnivariateContinuousDistribution.DistributionFunction(double)"/>.</returns>
         /// 
-        public override double InverseDistributionFunction(double p)
+        protected internal override double InnerInverseDistributionFunction(double p)
         {
-            if (p <= 0)
-                return min;
-
-            if (p >= 1)
-                return max;
-
             double z = Accord.Math.Beta.IncompleteInverse(alpha, beta, p);
-
             double x = z * (max - min) + min;
-
             return x;
         }
 
@@ -497,11 +483,8 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   The probability of <c>x</c> occurring in the current distribution.
         /// </returns>
         /// 
-        public override double ProbabilityDensityFunction(double x)
+        protected internal override double InnerProbabilityDensityFunction(double x)
         {
-            if (x <= min || x >= max)
-                return 0;
-
             double length = (max - min);
             double z = (x - min) / length;
 
@@ -528,13 +511,10 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value <c>x</c> will occur.</para>
         /// </remarks>
         /// 
-        /// <seealso cref="ProbabilityDensityFunction"/>
+        /// <seealso cref="UnivariateContinuousDistribution.ProbabilityDensityFunction(double)"/>
         /// 
-        public override double LogProbabilityDensityFunction(double x)
+        protected internal override double InnerLogProbabilityDensityFunction(double x)
         {
-            if (x <= min || x >= max)
-                return Double.NegativeInfinity;
-
             double length = (max - min);
             double z = (x - min) / length;
 

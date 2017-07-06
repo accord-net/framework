@@ -96,6 +96,30 @@ namespace Accord.Statistics.Distributions.Reflection
 
             return distribution;
         }
+
+        /// <summary>
+        ///   Creates a new instance of the distribution using default arguments, 
+        ///   if the distribution declared them using parameter attributes.
+        /// </summary>
+        /// 
+        public static T CreateInstance<T>()
+        {
+            var info = new UnivariateDistributionInfo(typeof(T));
+
+            var ctor = info.GetConstructors()
+                .Where(x => x.IsBuildable)
+                .OrderBy(x => x.GetParameters().Length)
+                .First();
+
+            // Build the argument list
+            var arguments = new Dictionary<DistributionParameterInfo, object>();
+
+            // Select the minimum value for the parameters
+            foreach (var parameter in ctor.GetParameters())
+                arguments[parameter] = parameter.DefaultValue;
+
+            return (T)info.CreateInstance(arguments);
+        }
     }
 
 }

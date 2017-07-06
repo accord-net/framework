@@ -418,7 +418,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   See <see cref="EmpiricalDistribution"/>.
         /// </example>
         /// 
-        public override double DistributionFunction(double x)
+        protected internal override double InnerDistributionFunction(double x)
         {
             if (type == WeightType.None)
             {
@@ -480,7 +480,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   See <see cref="EmpiricalDistribution"/>.
         /// </example>
         /// 
-        public override double ProbabilityDensityFunction(double x)
+        protected internal override double InnerProbabilityDensityFunction(double x)
         {
             // References:
             //  - Bishop, Christopher M.; Pattern Recognition and Machine Learning. 

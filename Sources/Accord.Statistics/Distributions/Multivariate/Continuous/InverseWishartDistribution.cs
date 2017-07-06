@@ -228,7 +228,7 @@ namespace Accord.Statistics.Distributions.Multivariate
         ///   Not supported.
         /// </summary>
         /// 
-        public override double DistributionFunction(double[,] x)
+        protected internal override double InnerDistributionFunction(double[,] x)
         {
             throw new NotSupportedException();
         }
@@ -254,7 +254,7 @@ namespace Accord.Statistics.Distributions.Multivariate
         ///   probability that a given value <c>x</c> will occur.
         /// </remarks>
         /// 
-        public override double ProbabilityDensityFunction(double[,] x)
+        protected internal override double InnerProbabilityDensityFunction(double[,] x)
         {
             var chol = new CholeskyDecomposition(x);
 
@@ -289,7 +289,7 @@ namespace Accord.Statistics.Distributions.Multivariate
         ///   probability that a given value <c>x</c> will occur.
         /// </remarks>
         /// 
-        public override double LogProbabilityDensityFunction(double[,] x)
+        protected internal override double InnerLogProbabilityDensityFunction(double[,] x)
         {
             var chol = new CholeskyDecomposition(x);
 

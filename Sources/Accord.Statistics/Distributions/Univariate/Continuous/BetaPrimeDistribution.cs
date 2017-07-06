@@ -236,11 +236,8 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value or any value smaller than it will occur.
         /// </remarks>
         /// 
-        public override double DistributionFunction([Positive] double x)
+        protected internal override double InnerDistributionFunction([Positive] double x)
         {
-            if (x <= 0)
-                return 0;
-
             return Accord.Math.Beta.Incomplete(alpha, beta, x / (1 + x));
         }
 
@@ -261,11 +258,8 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value <c>x</c> will occur.
         /// </remarks>
         /// 
-        public override double ProbabilityDensityFunction([Positive] double x)
+        protected internal override double InnerProbabilityDensityFunction([Positive] double x)
         {
-            if (x <= 0)
-                return 0;
-
             double num = Math.Pow(x, alpha - 1) * Math.Pow(1 + x, -alpha - beta);
             double den = Accord.Math.Beta.Function(alpha, beta);
             return num / den;
@@ -288,11 +282,8 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value <c>x</c> will occur.
         /// </remarks>
         /// 
-        public override double LogProbabilityDensityFunction([Positive] double x)
+        protected internal override double InnerLogProbabilityDensityFunction([Positive] double x)
         {
-            if (x <= 0)
-                return Double.NegativeInfinity;
-
             double num = (alpha - 1) * Math.Log(x) + (-alpha - beta) * Math.Log(1 + x);
             double den = Accord.Math.Beta.Log(alpha, beta);
             return num - den;

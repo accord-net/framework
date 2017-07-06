@@ -27,6 +27,7 @@ namespace Accord.Statistics.Distributions.Univariate
     using Accord.Statistics.Distributions;
     using Accord.Statistics.Distributions.Fitting;
     using AForge;
+    using System.ComponentModel;
 
     /// <summary>
     ///   Triangular distribution.
@@ -94,9 +95,9 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <param name="max">The maximum possible value in the distribution (b).</param>
         /// <param name="mode">The most common value in the distribution (c).</param>
         /// 
-        public TriangularDistribution([Real] double min, [Real] double max, [Real] double mode)
+        public TriangularDistribution([Real, DefaultValue(0)] double min, [Real(minimum: 1e-300), DefaultValue(1)] double max, [Real, DefaultValue(0.5)] double mode)
         {
-            if (min > max)
+            if (min >= max)
             {
                 throw new ArgumentOutOfRangeException("max",
                     "The maximum value 'max' must be greater than the minimum value 'min'.");
@@ -229,18 +230,11 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <param name="x">A single point in the distribution range.</param>
         /// 
-        public override double DistributionFunction(double x)
+        protected internal override double InnerDistributionFunction(double x)
         {
-            if (x < a)
-                return 0;
-
             if (x >= a && x <= c)
                 return ((x - a) * (x - a)) / ((b - a) * (c - a));
-
-            if (x > c && x <= b)
-                return 1 - ((b - x) * (b - x)) / ((b - a) * (b - c));
-
-            return 1;
+            return 1 - ((b - x) * (b - x)) / ((b - a) * (b - c));
         }
 
 
@@ -256,18 +250,11 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   in the current distribution.
         /// </returns>
         /// 
-        public override double ProbabilityDensityFunction(double x)
+        protected internal override double InnerProbabilityDensityFunction(double x)
         {
-            if (x < a)
-                return 0;
-
             if (x >= a && x <= c)
                 return (2 * (x - a)) / ((b - a) * (c - a));
-
-            if (x > c && x <= b)
-                return (2 * (b - x)) / ((b - a) * (b - c));
-
-            return 0;
+            return (2 * (b - x)) / ((b - a) * (b - c));
         }
 
 

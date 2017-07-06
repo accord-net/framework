@@ -101,11 +101,16 @@ namespace Accord.Tests.Statistics
         }
 
         [Test]
-        public void RangeTest()
+        public void exhaustive_screening_test()
         {
+            var passed = new HashSet<UnivariateDistributionInfo>();
+            var todo = new HashSet<UnivariateDistributionInfo>(UnivariateDistributionInfo.GetUnivariateDistributions());
+
             // Enumerate all distributions in the framework
             foreach (var distribution in UnivariateDistributionInfo.GetUnivariateDistributions())
             {
+                todo.Remove(distribution);
+
                 Type type = distribution.DistributionType;
                 string name = distribution.Name;
                 bool built = false;
@@ -113,7 +118,7 @@ namespace Accord.Tests.Statistics
                 if (type == typeof(GeneralContinuousDistribution)
                     || type == typeof(EmpiricalDistribution)
                     || type == typeof(Mixture<>)
-                    || type == typeof(GeneralDiscreteDistribution)) // TODO: add support for vector ranges
+                    || type == typeof(GeneralDiscreteDistribution)) // TODO: add support for vector ranges (e.g. IntegerVector(length: 3))
                     continue;
 
                 // Enumerate all possible ways to construct each distribution
@@ -131,7 +136,6 @@ namespace Accord.Tests.Statistics
 
                     IUnivariateDistribution dist;
                     dist = distribution.CreateInstance(arguments);
-
 
                     //// Re-build the argument list
                     //arguments.Clear();
@@ -153,9 +157,92 @@ namespace Accord.Tests.Statistics
                     dist = distribution.CreateInstance(arguments);
 
                     built = true;
+
+
+                    if (dist is ShapiroWilkDistribution) // tested in ShapiroWilkDistributionTest.cs
+                        continue;
+                    if (dist is HypergeometricDistribution) // tested in HypergeometricDistributionDistributionTest.cs
+                        continue;
+                    if (dist is EmpiricalHazardDistribution) // tested in EmpiricalHazardDistributionest.cs
+                        continue;
+                    if (dist is DegenerateDistribution) // tested in EmpiricalHazardDistributionest.cs
+                        continue;
+
+                    double icdf0 = dist.InverseDistributionFunction(0);
+                    double icdf1 = dist.InverseDistributionFunction(1);
+
+
+                    Assert.AreEqual(dist.Support.Min, icdf0);
+                    Assert.AreEqual(dist.Support.Max, icdf1);
+
+                    var range = dist.GetRange(1.0);
+                    Assert.AreEqual(dist.Support.Min, range.Min);
+                    Assert.AreEqual(dist.Support.Max, range.Max);
+
+                    double middle = 0.5;
+                    if (!(dist is WrappedCauchyDistribution ||
+                          dist is SymmetricGeometricDistribution)) // exclude distributions that do not support cdf
+                    {
+                        double icdf05 = dist.InverseDistributionFunction(0.5);
+                        Assert.AreEqual(dist.Median, icdf05, 1e-5);
+                        middle = dist.Median;
+                        Assert.AreEqual(middle, icdf05, 1e-5);
+
+                        double ccdf = dist.ComplementaryDistributionFunction(middle);
+                        double cdfm = dist.DistributionFunction(middle);
+                        Assert.AreEqual(cdfm, 1 - ccdf, 1e-5);
+
+                        if (dist is AndersonDarlingDistribution)
+                            continue; // tested in AndersonDarlingDistributionTest.cs
+                        if (dist is RademacherDistribution)
+                            continue; // tested in RademacherDistributionTest.cs
+                        if (dist is MannWhitneyDistribution)
+                            continue; // tested in MannWhitneyDistributionTest.cs
+                        if (dist is BernoulliDistribution)
+                            continue; // tested in BernoulliDistributionTest.cs
+                        if (dist is DegenerateDistribution)
+                            continue; // tested in DegenerateDistributionTest.cs
+                        if (dist is RademacherDistribution)
+                            continue; // tested in RademacherDistributionTest.cs
+
+                        double[] percentiles = Vector.Range(0.0, 1.0, stepSize: 0.1);
+                        for (int i = 0; i < percentiles.Length; i++)
+                        {
+                            double x = percentiles[i];
+                            double icdf = dist.InverseDistributionFunction(x);
+                            double cdf = dist.DistributionFunction(icdf);
+                            double iicdf = dist.InverseDistributionFunction(cdf);
+                            double iiicdf = dist.DistributionFunction(iicdf);
+
+                            if (distribution.IsDiscrete)
+                            {
+                                Assert.AreEqual(iicdf, icdf, 1e-5);
+                                Assert.AreEqual(iiicdf, cdf, 1e-5);
+                            }
+                            else
+                            {
+                                Assert.AreEqual(iicdf, icdf, 1e-5);
+                                Assert.AreEqual(x, cdf, 1e-5);
+                                Assert.AreEqual(iiicdf, cdf, 1e-5);
+                            }
+                        }
+                    }
+
+                    if (!(dist is GrubbDistribution ||
+                          dist is KolmogorovSmirnovDistribution)) // exclude distributions that do not support pdf
+                    {
+                        double pdf = dist.ProbabilityFunction(middle);
+                        double lpdf = dist.LogProbabilityFunction(middle);
+                        Assert.AreEqual(Math.Log(pdf), lpdf, 1e-10);
+                        Assert.AreEqual(pdf, Math.Exp(lpdf), 1e-10);
+                    }
+
+                    Assert.Throws<ArgumentOutOfRangeException>(() => dist.InverseDistributionFunction(0.0 - 1e-15));
+                    Assert.Throws<ArgumentOutOfRangeException>(() => dist.InverseDistributionFunction(1.0 + 1e-15));
                 }
 
                 Assert.IsTrue(built);
+                passed.Add(distribution);
             }
 
         }

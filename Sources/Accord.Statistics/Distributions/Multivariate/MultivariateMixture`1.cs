@@ -314,7 +314,7 @@ namespace Accord.Statistics.Distributions.Multivariate
         ///   probability that a given value <c>x</c> will occur.
         /// </remarks>
         /// 
-        public override double ProbabilityDensityFunction(params double[] x)
+        protected internal override double InnerProbabilityDensityFunction(params double[] x)
         {
             double r = 0.0;
             for (int i = 0; i < components.Length; i++)
@@ -342,7 +342,7 @@ namespace Accord.Statistics.Distributions.Multivariate
         ///   The logarithm of the probability of <c>x</c> 
         ///   occurring in the current distribution.</returns>
         ///   
-        public override double LogProbabilityDensityFunction(params double[] x)
+        protected internal override double InnerLogProbabilityDensityFunction(params double[] x)
         {
             double r = Double.NegativeInfinity;
             for (int i = 0; i < components.Length; i++)
@@ -362,7 +362,7 @@ namespace Accord.Statistics.Distributions.Multivariate
         ///   probability that a given value or any value smaller than it will occur.
         /// </remarks>
         /// 
-        public override double DistributionFunction(params double[] x)
+        protected internal override double InnerDistributionFunction(params double[] x)
         {
             double r = 0.0;
             for (int i = 0; i < components.Length; i++)

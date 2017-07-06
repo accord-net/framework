@@ -31,22 +31,6 @@ namespace Accord.Tests.Statistics
     {
 
 
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
         [Test]
         public void ConstructorTest1()
         {
@@ -92,6 +76,12 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(2.6442035634463381, range2.Max, 1e-10);
             Assert.AreEqual(-2.6442035634463372, range3.Min, 1e-10);
             Assert.AreEqual(2.6442035634463381, range3.Max, 1e-10);
+
+            Assert.AreEqual(double.NegativeInfinity, sech.Support.Min);
+            Assert.AreEqual(double.PositiveInfinity, sech.Support.Max);
+
+            Assert.AreEqual(sech.InverseDistributionFunction(0), sech.Support.Min);
+            Assert.AreEqual(sech.InverseDistributionFunction(1), sech.Support.Max);
         }
 
     }

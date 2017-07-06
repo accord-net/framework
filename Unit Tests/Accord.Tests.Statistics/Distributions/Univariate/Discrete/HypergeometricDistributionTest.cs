@@ -27,26 +27,12 @@ namespace Accord.Tests.Statistics
     using Accord.Statistics.Distributions.Univariate;
     using NUnit.Framework;
     using System.Globalization;
+    using Accord.Statistics.Distributions.Reflection;
+    using Accord.Math;
 
     [TestFixture]
     public class HypergeometricDistributionTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
 
         [Test]
         public void ConstructorTest()
@@ -298,6 +284,57 @@ namespace Accord.Tests.Statistics
 
         }
 
+        [Test]
+        public void DynamicConstructorTest()
+        {
+            var dist = UnivariateDistributionInfo.CreateInstance<HypergeometricDistribution>();
+
+            Assert.AreEqual(1, dist.PopulationSize);
+            Assert.AreEqual(0, dist.PopulationSuccess);
+            Assert.AreEqual(1, dist.SampleSize);
+            Assert.AreEqual(0, dist.Support.Min);
+            Assert.AreEqual(0, dist.Support.Max);
+        }
+
+
+        [Test]
+        public void icdf()
+        {
+            var dist =  HypergeometricDistribution.FromSuccessCounts(successes: 10, failures: 5, samples: 8);
+
+            {
+                double pdf = dist.ProbabilityMassFunction(3);
+                Assert.AreEqual(0.018648018648018648, pdf); // matches R
+
+                double cdf = dist.DistributionFunction(3);
+                Assert.AreEqual(0.018648018648018648, cdf); // matches R
+            }
+
+            {
+                double x = 0.3;
+                int icdf = dist.InverseDistributionFunction(x);
+                Assert.AreEqual(5, icdf);
+
+                double cdf = dist.DistributionFunction(icdf);
+                Assert.AreEqual(0.57342657342657344, cdf); // matches R
+            }
+
+            double[] percentiles = Vector.Range(0.0, 1.0, stepSize: 0.1);
+            for (int i = 0; i < percentiles.Length; i++)
+            {
+                double x = percentiles[i];
+                int icdf = dist.InverseDistributionFunction(x);
+                double cdf = dist.DistributionFunction(icdf);
+                int iicdf = dist.InverseDistributionFunction(cdf);
+                double iiicdf = dist.DistributionFunction(iicdf);
+
+                Assert.AreEqual(iicdf, icdf, 1e-5);
+                double rx = Math.Floor(x);
+                double rc = Math.Floor(cdf);
+                Assert.AreEqual(rx, rc);
+                Assert.AreEqual(iiicdf, cdf, 1e-5);
+            }
+        }
 
         [Test]
         public void ConstructorTest3()

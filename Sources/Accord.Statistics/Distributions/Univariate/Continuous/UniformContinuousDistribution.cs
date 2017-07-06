@@ -101,7 +101,8 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   Creates a new uniform distribution defined in the interval [0;1].
         /// </summary>
         /// 
-        public UniformContinuousDistribution() : this(0, 1) { }
+        public UniformContinuousDistribution()
+            : this(0, 1) { }
 
         /// <summary>
         ///   Creates a new uniform distribution defined in the interval [min;max].
@@ -225,14 +226,8 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value or any value smaller than it will occur.
         /// </remarks>
         /// 
-        public override double DistributionFunction(double x)
+        protected internal override double InnerDistributionFunction(double x)
         {
-            if (x < a)
-                return 0;
-
-            if (x >= b)
-                return 1;
-
             return (x - a) / (b - a);
         }
 
@@ -253,11 +248,9 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value <c>x</c> will occur.
         /// </remarks>
         /// 
-        public override double ProbabilityDensityFunction(double x)
+        protected internal override double InnerProbabilityDensityFunction(double x)
         {
-            if (x > a && x <= b)
-                return 1.0 / (b - a);
-            else return 0;
+            return 1.0 / (b - a);
         }
 
         /// <summary>
@@ -277,11 +270,9 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value <c>x</c> will occur.
         /// </remarks>
         /// 
-        public override double LogProbabilityDensityFunction(double x)
+        protected internal override double InnerLogProbabilityDensityFunction(double x)
         {
-            if (x >= a && x <= b)
-                return -Math.Log(b - a);
-            else return double.NegativeInfinity;
+            return -Math.Log(b - a);
         }
 
         /// <summary>

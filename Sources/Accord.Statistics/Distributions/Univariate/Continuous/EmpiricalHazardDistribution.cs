@@ -296,7 +296,7 @@ namespace Accord.Statistics.Distributions.Univariate
 
             if (times.Length > 0)
             {
-                this.range = new DoubleRange(0, times[times.Length - 1]);
+                this.range = new DoubleRange(0, times[times.Length - 1] + 1);
 
                 this.survivals = new double[times.Length];
                 this.survivals[0] = 1;
@@ -416,17 +416,11 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   is computed using the Fleming-Harrington estimator.
         /// </remarks>
         /// 
-        public override double ComplementaryDistributionFunction(double x)
+        protected internal override double InnerComplementaryDistributionFunction(double x)
         {
             if (estimator == SurvivalEstimator.KaplanMeier)
             {
                 // Kaplan-Meier estimator
-                if (x < range.Min)
-                    return 1;
-
-                if (x > range.Max)
-                    return 0;
-
                 for (int i = 0; i < survivals.Length; i++)
                 {
                     if (times[i] > x)
@@ -477,9 +471,6 @@ namespace Accord.Statistics.Distributions.Univariate
             else // (estimator == SurvivalEstimator.FlemingHarrington)
             {
                 // Fleming-Harrington estimator
-                if (x < range.Min || x > range.Max)
-                    return Double.PositiveInfinity;
-
                 double sum = 0;
                 for (int i = 0; i < times.Length; i++)
                 {
@@ -537,7 +528,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   function S(x), as PDF(x) = h(x) * S(x).
         /// </remarks>
         /// 
-        public override double ProbabilityDensityFunction(double x)
+        protected internal override double InnerProbabilityDensityFunction(double x)
         {
             return HazardFunction(x) * ComplementaryDistributionFunction(x);
         }
@@ -554,7 +545,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value or any value smaller than it will occur.
         /// </remarks>
         /// 
-        public override double DistributionFunction(double x)
+        protected internal override double InnerDistributionFunction(double x)
         {
             return 1.0 - ComplementaryDistributionFunction(x);
         }
@@ -621,8 +612,8 @@ namespace Accord.Statistics.Distributions.Univariate
         {
             SurvivalOutcome[] outcome = null;
             double[] output = weights;
-            var estimator = HazardEstimator.BreslowNelsonAalen;
-            var ties = HazardTiesMethod.Breslow;
+            HazardEstimator hazardEstimator = HazardEstimator.BreslowNelsonAalen;
+            HazardTiesMethod ties = HazardTiesMethod.Breslow;
 
             if (options != null)
             {
@@ -630,7 +621,7 @@ namespace Accord.Statistics.Distributions.Univariate
                 var hazardOps = options as EmpiricalHazardOptions;
                 if (hazardOps != null)
                 {
-                    estimator = hazardOps.Estimator;
+                    hazardEstimator = hazardOps.Estimator;
                     ties = hazardOps.Ties;
                 }
             }
@@ -643,7 +634,7 @@ namespace Accord.Statistics.Distributions.Univariate
 
 
 
-            if (estimator == HazardEstimator.KaplanMeier)
+            if (hazardEstimator == HazardEstimator.KaplanMeier)
             {
                 double[] times = observations.Distinct();
                 double[] hazards = new double[times.Length];
@@ -684,7 +675,7 @@ namespace Accord.Statistics.Distributions.Univariate
                 this.init(times, hazards, this.estimator);
                 return;
             }
-            else if (estimator == HazardEstimator.BreslowNelsonAalen)
+            else if (hazardEstimator == HazardEstimator.BreslowNelsonAalen)
             {
                 double[] survivals = new double[observations.Length];
 
@@ -831,131 +822,26 @@ namespace Accord.Statistics.Distributions.Univariate
             return String.Format(formatProvider, "H(x; v, t)");
         }
 
+
+
         /// <summary>
         ///   Estimates an Empirical Hazards distribution considering event times and the outcome of the
         ///   observed sample at the time of event, plus additional parameters for the hazard estimation.
         /// </summary>
         /// 
         /// <param name="time">The time of occurrence for the event.</param>
-        /// <param name="outcome">The outcome at the time of event (failure or censored).</param>
         /// <param name="weights">The weights associated with each event.</param>
-        /// 
-        /// <returns>The <see cref="EmpiricalHazardDistribution"/> estimated from the given data.</returns>
-        /// 
-        public static EmpiricalHazardDistribution Estimate(double[] time, SurvivalOutcome[] outcome, double[] weights)
-        {
-            return Estimate(time, outcome, weights, 
-                EmpiricalHazardOptions.DefaultSurvival, EmpiricalHazardOptions.DefaultEstimator);
-        }
-
-        /// <summary>
-        ///   Estimates an Empirical Hazards distribution considering event times and the outcome of the
-        ///   observed sample at the time of event, plus additional parameters for the hazard estimation.
-        /// </summary>
-        /// 
-        /// <param name="time">The time of occurrence for the event.</param>
-        /// <param name="outcome">The outcome at the time of event (failure or censored).</param>
-        /// <param name="weights">The weights associated with each event.</param>
-        /// 
-        /// <returns>The <see cref="EmpiricalHazardDistribution"/> estimated from the given data.</returns>
-        /// 
-        public static EmpiricalHazardDistribution Estimate(double[] time, int[] outcome, double[] weights)
-        {
-            return Estimate(time, outcome, weights,
-                EmpiricalHazardOptions.DefaultSurvival, EmpiricalHazardOptions.DefaultEstimator);
-        }
-
-        /// <summary>
-        ///   Estimates an Empirical Hazards distribution considering event times and the outcome of the
-        ///   observed sample at the time of event, plus additional parameters for the hazard estimation.
-        /// </summary>
-        /// 
-        /// <param name="time">The time of occurrence for the event.</param>
-        /// <param name="outcome">The outcome at the time of event (failure or censored).</param>
-        /// <param name="weights">The weights associated with each event.</param>
-        /// <param name="hazard">The hazard estimator to use. Default is <see cref="HazardEstimator.BreslowNelsonAalen"/>.</param>
-        /// <param name="survival">The survival estimator to use. Default is <see cref="SurvivalEstimator.FlemingHarrington"/>.</param>
-        /// 
-        /// <returns>The <see cref="EmpiricalHazardDistribution"/> estimated from the given data.</returns>
-        /// 
-        public static EmpiricalHazardDistribution Estimate(double[] time, SurvivalOutcome[] outcome, double[] weights,
-            SurvivalEstimator survival, HazardEstimator hazard)
-        {
-            return Estimate(time, outcome, weights, survival, hazard, EmpiricalHazardOptions.DefaultTies);
-        }
-
-        /// <summary>
-        ///   Estimates an Empirical Hazards distribution considering event times and the outcome of the
-        ///   observed sample at the time of event, plus additional parameters for the hazard estimation.
-        /// </summary>
-        /// 
-        /// <param name="time">The time of occurrence for the event.</param>
-        /// <param name="outcome">The outcome at the time of event (failure or censored).</param>
-        /// <param name="weights">The weights associated with each event.</param>
-        /// <param name="hazard">The hazard estimator to use. Default is <see cref="HazardEstimator.BreslowNelsonAalen"/>.</param>
-        /// <param name="survival">The survival estimator to use. Default is <see cref="SurvivalEstimator.FlemingHarrington"/>.</param>
-        /// 
-        /// <returns>The <see cref="EmpiricalHazardDistribution"/> estimated from the given data.</returns>
-        /// 
-        public static EmpiricalHazardDistribution Estimate(double[] time, int[] outcome, double[] weights, 
-            SurvivalEstimator survival, HazardEstimator hazard)
-        {
-            return Estimate(time, outcome, weights, survival, hazard, EmpiricalHazardOptions.DefaultTies);
-        }
-
-        /// <summary>
-        ///   Estimates an Empirical Hazards distribution considering event times and the outcome of the
-        ///   observed sample at the time of event, plus additional parameters for the hazard estimation.
-        /// </summary>
-        /// 
-        /// <param name="time">The time of occurrence for the event.</param>
-        /// <param name="outcome">The outcome at the time of event (failure or censored).</param>
-        /// <param name="hazard">The hazard estimator to use. Default is <see cref="HazardEstimator.BreslowNelsonAalen"/>.</param>
-        /// <param name="survival">The survival estimator to use. Default is <see cref="SurvivalEstimator.FlemingHarrington"/>.</param>
-        /// 
-        /// <returns>The <see cref="EmpiricalHazardDistribution"/> estimated from the given data.</returns>
-        /// 
-        public static EmpiricalHazardDistribution Estimate(double[] time, SurvivalOutcome[] outcome,
-            SurvivalEstimator survival, HazardEstimator hazard)
-        {
-            return Estimate(time, outcome, null, survival, hazard, EmpiricalHazardOptions.DefaultTies);
-        }
-
-        /// <summary>
-        ///   Estimates an Empirical Hazards distribution considering event times and the outcome of the
-        ///   observed sample at the time of event, plus additional parameters for the hazard estimation.
-        /// </summary>
-        /// 
-        /// <param name="time">The time of occurrence for the event.</param>
-        /// <param name="outcome">The outcome at the time of event (failure or censored).</param>
-        /// <param name="hazard">The hazard estimator to use. Default is <see cref="HazardEstimator.BreslowNelsonAalen"/>.</param>
-        /// <param name="survival">The survival estimator to use. Default is <see cref="SurvivalEstimator.FlemingHarrington"/>.</param>
-        /// 
-        /// <returns>The <see cref="EmpiricalHazardDistribution"/> estimated from the given data.</returns>
-        /// 
-        public static EmpiricalHazardDistribution Estimate(double[] time, int[] outcome,
-            SurvivalEstimator survival, HazardEstimator hazard)
-        {
-            return Estimate(time, outcome, survival, hazard, EmpiricalHazardOptions.DefaultTies);
-        }
-
-        /// <summary>
-        ///   Estimates an Empirical Hazards distribution considering event times and the outcome of the
-        ///   observed sample at the time of event, plus additional parameters for the hazard estimation.
-        /// </summary>
-        /// 
-        /// <param name="time">The time of occurrence for the event.</param>
-        /// <param name="outcome">The outcome at the time of event (failure or censored).</param>
         /// <param name="hazard">The hazard estimator to use. Default is <see cref="HazardEstimator.BreslowNelsonAalen"/>.</param>
         /// <param name="survival">The survival estimator to use. Default is <see cref="SurvivalEstimator.FlemingHarrington"/>.</param>
         /// <param name="ties">The method for handling event ties. Default is <see cref="HazardTiesMethod.Efron"/>.</param>
         /// 
         /// <returns>The <see cref="EmpiricalHazardDistribution"/> estimated from the given data.</returns>
         /// 
-        public static EmpiricalHazardDistribution Estimate(double[] time, int[] outcome,
-            SurvivalEstimator survival, HazardEstimator hazard, HazardTiesMethod ties)
+        public static EmpiricalHazardDistribution Estimate(double[] time, double[] weights = null,
+            SurvivalEstimator survival = EmpiricalHazardOptions.DefaultSurvival,
+            HazardEstimator hazard = EmpiricalHazardOptions.DefaultEstimator, HazardTiesMethod ties = EmpiricalHazardOptions.DefaultTies)
         {
-            return Estimate(time, outcome.To<SurvivalOutcome[]>(), null, survival, hazard, ties);
+            return Estimate(time, (SurvivalOutcome[])null, weights, survival, hazard, ties);
         }
 
         /// <summary>
@@ -972,8 +858,9 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <returns>The <see cref="EmpiricalHazardDistribution"/> estimated from the given data.</returns>
         /// 
-        public static EmpiricalHazardDistribution Estimate(double[] time, int[] outcome,
-            double[] weights, SurvivalEstimator survival, HazardEstimator hazard, HazardTiesMethod ties)
+        public static EmpiricalHazardDistribution Estimate(double[] time, int[] outcome, double[] weights = null,
+            SurvivalEstimator survival = EmpiricalHazardOptions.DefaultSurvival,
+            HazardEstimator hazard = EmpiricalHazardOptions.DefaultEstimator, HazardTiesMethod ties = EmpiricalHazardOptions.DefaultTies)
         {
             return Estimate(time, outcome.To<SurvivalOutcome[]>(), weights, survival, hazard, ties);
         }
@@ -985,73 +872,6 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <param name="time">The time of occurrence for the event.</param>
         /// <param name="outcome">The outcome at the time of event (failure or censored).</param>
-        /// <param name="hazard">The hazard estimator to use. Default is <see cref="HazardEstimator.BreslowNelsonAalen"/>.</param>
-        /// <param name="survival">The survival estimator to use. Default is <see cref="SurvivalEstimator.FlemingHarrington"/>.</param>
-        /// <param name="ties">The method for handling event ties. Default is <see cref="HazardTiesMethod.Efron"/>.</param>
-        /// 
-        /// <returns>The <see cref="EmpiricalHazardDistribution"/> estimated from the given data.</returns>
-        /// 
-        public static EmpiricalHazardDistribution Estimate(double[] time, SurvivalOutcome[] outcome,
-            SurvivalEstimator survival, HazardEstimator hazard, HazardTiesMethod ties)
-        {
-            return Estimate(time, outcome, null, survival, hazard, ties);
-        }
-
-        /// <summary>
-        ///   Estimates an Empirical Hazards distribution considering event times and the outcome of the
-        ///   observed sample at the time of event, plus additional parameters for the hazard estimation.
-        /// </summary>
-        /// 
-        /// <param name="time">The time of occurrence for the event.</param>
-        /// <param name="outcome">The outcome at the time of event (failure or censored).</param>
-        /// <param name="ties">The method for handling event ties. Default is <see cref="HazardTiesMethod.Efron"/>.</param>
-        /// 
-        /// <returns>The <see cref="EmpiricalHazardDistribution"/> estimated from the given data.</returns>
-        /// 
-        public static EmpiricalHazardDistribution Estimate(double[] time, SurvivalOutcome[] outcome, HazardTiesMethod ties)
-        {
-            return Estimate(time, outcome, null, SurvivalOptions.DefaultSurvival, EmpiricalHazardOptions.DefaultEstimator, ties);
-        }
-
-        /// <summary>
-        ///   Estimates an Empirical Hazards distribution considering event times and the outcome of the
-        ///   observed sample at the time of event, plus additional parameters for the hazard estimation.
-        /// </summary>
-        /// 
-        /// <param name="time">The time of occurrence for the event.</param>
-        /// <param name="outcome">The outcome at the time of event (failure or censored).</param>
-        /// <param name="ties">The method for handling event ties. Default is <see cref="HazardTiesMethod.Efron"/>.</param>
-        /// 
-        /// <returns>The <see cref="EmpiricalHazardDistribution"/> estimated from the given data.</returns>
-        /// 
-        public static EmpiricalHazardDistribution Estimate(double[] time, int[] outcome, HazardTiesMethod ties)
-        {
-            return Estimate(time, outcome, null, SurvivalOptions.DefaultSurvival, EmpiricalHazardOptions.DefaultEstimator, ties);
-        }
-
-        /// <summary>
-        ///   Estimates an Empirical Hazards distribution considering event times and the outcome of the
-        ///   observed sample at the time of event, plus additional parameters for the hazard estimation.
-        /// </summary>
-        /// 
-        /// <param name="time">The time of occurrence for the event.</param>
-        /// <param name="outcome">The outcome at the time of event (failure or censored).</param>
-        /// 
-        /// <returns>The <see cref="EmpiricalHazardDistribution"/> estimated from the given data.</returns>
-        /// 
-        public static EmpiricalHazardDistribution Estimate(double[] time, SurvivalOutcome[] outcome)
-        {
-            return Estimate(time, outcome, null, SurvivalOptions.DefaultSurvival,
-                EmpiricalHazardOptions.DefaultEstimator, EmpiricalHazardOptions.DefaultTies);
-        }
-
-        /// <summary>
-        ///   Estimates an Empirical Hazards distribution considering event times and the outcome of the
-        ///   observed sample at the time of event, plus additional parameters for the hazard estimation.
-        /// </summary>
-        /// 
-        /// <param name="time">The time of occurrence for the event.</param>
-        /// <param name="outcome">The outcome at the time of event (failure or censored).</param>
         /// <param name="weights">The weights associated with each event.</param>
         /// <param name="hazard">The hazard estimator to use. Default is <see cref="HazardEstimator.BreslowNelsonAalen"/>.</param>
         /// <param name="survival">The survival estimator to use. Default is <see cref="SurvivalEstimator.FlemingHarrington"/>.</param>
@@ -1059,8 +879,9 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <returns>The <see cref="EmpiricalHazardDistribution"/> estimated from the given data.</returns>
         /// 
-        public static EmpiricalHazardDistribution Estimate(double[] time, SurvivalOutcome[] outcome,
-            double[] weights, SurvivalEstimator survival, HazardEstimator hazard, HazardTiesMethod ties)
+        public static EmpiricalHazardDistribution Estimate(double[] time, SurvivalOutcome[] outcome, double[] weights = null,
+            SurvivalEstimator survival = EmpiricalHazardOptions.DefaultSurvival,
+            HazardEstimator hazard = EmpiricalHazardOptions.DefaultEstimator, HazardTiesMethod ties = EmpiricalHazardOptions.DefaultTies)
         {
             var dist = new EmpiricalHazardDistribution(survival);
             dist.Fit(time, weights, new EmpiricalHazardOptions

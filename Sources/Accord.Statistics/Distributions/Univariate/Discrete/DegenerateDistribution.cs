@@ -234,7 +234,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value or any value smaller than it will occur.
         /// </remarks>
         /// 
-        public override double DistributionFunction(int k)
+        protected internal override double InnerDistributionFunction(int k)
         {
             if (k < k0)
                 return 0;
@@ -258,7 +258,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value <c>x</c> will occur.
         /// </remarks>
         /// 
-        public override double ProbabilityMassFunction(int k)
+        protected internal override double InnerProbabilityMassFunction(int k)
         {
             if (k == k0)
                 return 1;
@@ -275,15 +275,16 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <returns>
         ///   A sample which could original the given probability
-        ///   value when applied in the <see cref="DistributionFunction(int)"/>.
+        ///   value when applied in the <see cref="UnivariateDiscreteDistribution.DistributionFunction(int)"/>.
         /// </returns>
         /// 
-        public override int InverseDistributionFunction(double p)
+        protected override int InnerInverseDistributionFunction(double p)
         {
-            if (p == 1)
-                return k0;
-
-            return (p > 0.5) ? k0 + 1 : k0 - 1;
+            if (p > 0.5)
+                return k0 + 1;
+            if (p < 0.5)
+                return k0 - 1;
+            return k0;
         }
 
         /// <summary>

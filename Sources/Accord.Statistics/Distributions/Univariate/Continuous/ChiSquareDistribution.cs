@@ -149,11 +149,8 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   The probability of <c>x</c> occurring
         ///   in the current distribution.</returns>
         ///   
-        public override double ProbabilityDensityFunction(double x)
+        protected internal override double InnerProbabilityDensityFunction(double x)
         {
-            if (x <= 0)
-                return 0;
-
             double v = degreesOfFreedom;
             double m1 = Math.Pow(x, (v - 2.0) / 2.0);
             double m2 = Math.Exp(-x / 2.0);
@@ -178,11 +175,8 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value <c>x</c> will occur.
         /// </remarks>
         /// 
-        public override double LogProbabilityDensityFunction(double x)
+        protected internal override double InnerLogProbabilityDensityFunction(double x)
         {
-            if (x <= 0)
-                return Double.NegativeInfinity;
-
             double v = degreesOfFreedom;
             double m1 = ((v - 2.0) / 2.0) * Math.Log(x);
             double m2 = (-x / 2.0);
@@ -206,11 +200,8 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   Incomplete Gamma Function Γ(a, x)</see> as CDF(x; df) = Γ(df/2, x/d). </para>
         /// </remarks>
         /// 
-        public override double DistributionFunction(double x)
+        protected internal override double InnerDistributionFunction(double x)
         {
-            if (x <= 0)
-                return 0;
-
             return Gamma.LowerIncomplete(degreesOfFreedom / 2.0, x / 2.0);
         }
 
@@ -232,11 +223,8 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   Function Γc(a, x)</see> as CDF(x; df) = Γc(df/2, x/d). </para>
         /// </remarks>
         /// 
-        public override double ComplementaryDistributionFunction(double x)
+        protected internal override double InnerComplementaryDistributionFunction(double x)
         {
-            if (x <= 0)
-                return 1;
-
             return Gamma.UpperIncomplete(degreesOfFreedom / 2.0, x / 2.0);
         }
 
@@ -250,16 +238,11 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <returns>
         ///   A sample which could original the given probability
-        ///   value when applied in the <see cref="DistributionFunction"/>.
+        ///   value when applied in the <see cref="UnivariateContinuousDistribution.DistributionFunction(double)"/>.
         /// </returns>
         /// 
-        public override double InverseDistributionFunction(double p)
+        protected internal override double InnerInverseDistributionFunction(double p)
         {
-            if (p <= 0)
-                return Support.Min;
-            else if (p >= 1)
-                return Support.Max;
-
             return Gamma.InverseLowerIncomplete(degreesOfFreedom / 2.0, p) * 2.0;
         }
 
@@ -496,7 +479,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <returns>
         ///   A sample which could original the given probability
-        ///   value when applied in the <see cref="DistributionFunction"/>.
+        ///   value when applied in the <see cref="UnivariateContinuousDistribution.DistributionFunction(double)"/>.
         /// </returns>
         /// 
         public static double Inverse(double p, int degreesOfFreedom)

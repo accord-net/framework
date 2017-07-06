@@ -25,6 +25,7 @@ namespace Accord.Statistics.Distributions.Univariate
     using System;
     using AForge;
     using Accord.Statistics.Testing;
+    using Accord.Math;
 
     /// <summary>
     ///   Shapiro-Wilk distribution.
@@ -116,8 +117,8 @@ namespace Accord.Statistics.Distributions.Univariate
                 double n3 = n2 * n;
 
                 double alpha = 0.459 * n - 2.273;
-                this.g = w => -Math.Log(alpha - Math.Log(1 - w));
-                this.h = w => Math.Exp(-Math.Exp(alpha)) * (Math.Exp(Math.Exp(-alpha)) - Math.Exp(w));
+                this.g = w => -Math.Log(alpha - Special.Log1m(w));
+                this.h = w => Math.Exp(-Math.Exp(-alpha)) * (Math.Exp(Math.Exp(-alpha)) - Math.Exp(w));
                 double mean = -0.0006714 * n3 + 0.0250540 * n2 - 0.39978 * n + 0.54400;
                 double sigma = Math.Exp(-0.0020322 * n3 + 0.0627670 * n2 - 0.77857 * n + 1.38220);
 
@@ -129,7 +130,7 @@ namespace Accord.Statistics.Distributions.Univariate
                 double u2 = u * u;
                 double u3 = u2 * u;
 
-                this.g = w => Math.Log(1 - w);
+                this.g = w => Special.Log1m(w);
                 this.h = w => 1 - Math.Exp(w);
                 double mean = 0.00389150 * u3 - 0.083751 * u2 - 0.31082 * u - 1.5861;
                 double sigma = Math.Exp(0.00303020 * u2 - 0.082676 * u - 0.48030);
@@ -150,7 +151,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override DoubleRange Support
         {
-            get { return new DoubleRange(0, Double.PositiveInfinity); }
+            get { return new DoubleRange(0, 1); }
         }
 
 
@@ -225,16 +226,13 @@ namespace Accord.Statistics.Distributions.Univariate
         /// </remarks>
         /// 
         /// <example>
-        ///   See <see cref="KolmogorovSmirnovDistribution"/>.
+        ///   See <see cref="ShapiroWilkDistribution"/>.
         /// </example>
         /// 
-        public override double DistributionFunction(double x)
+        protected internal override double InnerDistributionFunction(double x)
         {
-            if (x <= 0) return 1;
-            if (x >= 1) return 0;
-
             double z = g(x);
-            double cdf = normal.DistributionFunction(z);
+            double cdf = normal.ComplementaryDistributionFunction(z);
             return cdf;
         }
 
@@ -252,13 +250,10 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   minus the CDF.
         /// </remarks>
         /// 
-        public override double ComplementaryDistributionFunction(double x)
+        protected internal override double InnerComplementaryDistributionFunction(double x)
         {
-            if (x <= 0) return 0;
-            if (x >= 1) return 1;
-
             double z = g(x);
-            return normal.ComplementaryDistributionFunction(z);
+            return normal.DistributionFunction(z);
         }
 
         /// <summary>
@@ -278,24 +273,25 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value <c>x</c> will occur.
         /// </remarks>
         /// 
-        public override double ProbabilityDensityFunction(double x)
+        protected internal override double InnerProbabilityDensityFunction(double x)
         {
-            if (x <= 0 || x >= 1)
-                return 0;
-
             double z = g(x);
             return normal.ProbabilityDensityFunction(z);
         }
 
-        /// <summary>
-        ///   Not supported.
-        /// </summary>
-        /// 
-        public override double LogProbabilityDensityFunction(double x)
-        {
-            if (x <= 0 || x >= 1)
-                return Double.NegativeInfinity;
 
+
+        /// <summary>
+        /// Gets the log-probability density function (pdf) for
+        /// this distribution evaluated at point <c>x</c>.
+        /// </summary>
+        /// <param name="x">A single point in the distribution range.</param>
+        /// <returns>The logarithm of the probability of <c>x</c>
+        /// occurring in the current distribution.</returns>
+        /// <remarks>The Probability Density Function (PDF) describes the
+        /// probability that a given value <c>x</c> will occur.</remarks>
+        protected internal override double InnerLogProbabilityDensityFunction(double x)
+        {
             double z = g(x);
             return normal.LogProbabilityDensityFunction(z);
         }

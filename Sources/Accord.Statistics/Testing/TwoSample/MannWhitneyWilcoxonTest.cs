@@ -235,11 +235,24 @@ namespace Accord.Statistics.Testing
             this.Hypothesis = alternate;
             this.Tail = (DistributionTail)alternate;
 
-            this.StatisticDistribution = new MannWhitneyDistribution(Rank1, Rank2, exact)
+            if (NumberOfSamples1 < NumberOfSamples2)
             {
-                Correction = (Tail == DistributionTail.TwoTail) ?
-                    ContinuityCorrection.Midpoint : ContinuityCorrection.KeepInside
-            };
+                this.Statistic = Statistic1;
+                this.StatisticDistribution = new MannWhitneyDistribution(Rank1, Rank2, exact)
+                {
+                    Correction = (Tail == DistributionTail.TwoTail) ?
+                        ContinuityCorrection.Midpoint : ContinuityCorrection.KeepInside
+                };
+            }
+            else
+            {
+                this.Statistic = Statistic2;
+                this.StatisticDistribution = new MannWhitneyDistribution(Rank2, Rank1, exact)
+                {
+                    Correction = (Tail == DistributionTail.TwoTail) ?
+                        ContinuityCorrection.Midpoint : ContinuityCorrection.KeepInside
+                };
+            }
 
             this.PValue = StatisticToPValue(Statistic);
 
@@ -268,11 +281,17 @@ namespace Accord.Statistics.Testing
                     break;
 
                 case DistributionTail.OneLower:
-                    p = StatisticDistribution.DistributionFunction(x);
+                    if (NumberOfSamples1 < NumberOfSamples2)
+                        p = StatisticDistribution.DistributionFunction(x);
+                    else
+                        p = StatisticDistribution.ComplementaryDistributionFunction(x); 
                     break;
 
                 case DistributionTail.OneUpper:
-                    p = StatisticDistribution.ComplementaryDistributionFunction(x);
+                    if (NumberOfSamples1 < NumberOfSamples2)
+                        p = StatisticDistribution.ComplementaryDistributionFunction(x);
+                    else
+                        p = StatisticDistribution.DistributionFunction(x); 
                     break;
 
                 default:

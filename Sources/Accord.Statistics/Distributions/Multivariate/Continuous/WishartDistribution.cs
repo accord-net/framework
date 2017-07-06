@@ -269,7 +269,7 @@ namespace Accord.Statistics.Distributions.Multivariate
         ///   probability that a given value <c>x</c> will occur.
         /// </remarks>
         /// 
-        public override double ProbabilityDensityFunction(double[,] x)
+        protected internal override double InnerProbabilityDensityFunction(double[,] x)
         {
             double det = x.Determinant();
             double[,] Vx = chol.Solve(x);
@@ -297,7 +297,7 @@ namespace Accord.Statistics.Distributions.Multivariate
         ///   occurring in the current distribution.
         /// </returns>
         /// 
-        public override double LogProbabilityDensityFunction(double[,] x)
+        protected internal override double InnerLogProbabilityDensityFunction(double[,] x)
         {
             double det = x.Determinant();
             double[,] Vx = chol.Solve(x);
@@ -326,7 +326,7 @@ namespace Accord.Statistics.Distributions.Multivariate
         ///   Unsupported.
         /// </summary>
         /// 
-        public override double DistributionFunction(double[,] x)
+        protected internal override double InnerDistributionFunction(double[,] x)
         {
             throw new NotSupportedException();
         }

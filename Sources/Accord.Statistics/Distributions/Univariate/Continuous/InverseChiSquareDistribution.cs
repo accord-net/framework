@@ -140,11 +140,8 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   The probability of <c>x</c> occurring
         ///   in the current distribution.</returns>
         ///   
-        public override double ProbabilityDensityFunction(double x)
+        protected internal override double InnerProbabilityDensityFunction(double x)
         {
-            if (x <= 0 || Double.IsPositiveInfinity(x))
-                return 0;
-
             double v = degreesOfFreedom;
             double a = Math.Pow(2, -v / 2);
             double b = Math.Pow(x, -v / 2 - 1);
@@ -164,17 +161,10 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value or any value smaller than it will occur.</para>
         /// </remarks>
         /// 
-        public override double DistributionFunction(double x)
+        protected internal override double InnerDistributionFunction(double x)
         {
-            if (x < 0)
-                return 0;
-
-            if (Double.IsPositiveInfinity(x))
-                return 1;
-
-            double cdf = Gamma.UpperIncomplete(degreesOfFreedom / 2.0, x / 2.0);
-
-            return cdf;
+            double result = Gamma.UpperIncomplete(degreesOfFreedom / 2.0, (1 / (2.0 * x)));
+            return result;
         }
 
         /// <summary>

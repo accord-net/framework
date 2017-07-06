@@ -411,7 +411,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override IntRange Support
         {
-            get { return new IntRange(start, start + probabilities.Length); }
+            get { return new IntRange(start, start + probabilities.Length - 1); }
         }
 
         /// <summary>
@@ -434,15 +434,9 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   The probability of <c>k</c> occurring
         ///   in the current distribution.</returns>
         ///   
-        public override double DistributionFunction(int k)
+        protected internal override double InnerDistributionFunction(int k)
         {
             int value = k - start;
-
-            if (value < 0)
-                return 0;
-
-            if (value >= probabilities.Length)
-                return 1.0;
 
             if (log)
             {
@@ -478,12 +472,9 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   The probability of <c>x</c> occurring
         ///   in the current distribution.</returns>
         ///   
-        public override double ProbabilityMassFunction(int k)
+        protected internal override double InnerProbabilityMassFunction(int k)
         {
             int value = k - start;
-
-            if (value < 0 || value >= probabilities.Length)
-                return 0;
 
             if (log)
                 return Math.Exp(probabilities[value]);
@@ -507,12 +498,9 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value <c>x</c> will occur.
         /// </remarks>
         /// 
-        public override double LogProbabilityMassFunction(int k)
+        protected internal override double InnerLogProbabilityMassFunction(int k)
         {
             int value = k - start;
-
-            if (value < 0 || value >= probabilities.Length)
-                return double.NegativeInfinity;
 
             if (log)
                 return probabilities[value];

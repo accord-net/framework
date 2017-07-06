@@ -157,6 +157,7 @@ namespace Accord.Statistics.Distributions.Univariate
             get
             {
                 double median = Math.Ceiling(-1.0 / Math.Log(1 - p, 2)) - 1;
+                Accord.Diagnostics.Debug.Assert(median == base.Median);
                 return median;
             }
         }
@@ -194,7 +195,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override IntRange Support
         {
-            get { return new IntRange(1, Int32.MaxValue); }
+            get { return new IntRange(0, Int32.MaxValue); }
         }
 
         /// <summary>
@@ -209,7 +210,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value or any value smaller than it will occur.
         /// </remarks>
         /// 
-        public override double DistributionFunction(int k)
+        protected internal override double InnerDistributionFunction(int k)
         {
             return 1 - Math.Pow(1 - p, k + 1);
         }
@@ -231,11 +232,8 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value <c>x</c> will occur.
         /// </remarks>
         /// 
-        public override double ProbabilityMassFunction(int k)
+        protected internal override double InnerProbabilityMassFunction(int k)
         {
-            if (k < 0)
-                return 0;
-
             return Math.Pow(1 - p, k) * p;
         }
 
@@ -256,11 +254,8 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value <c>k</c> will occur.
         /// </remarks>
         /// 
-        public override double LogProbabilityMassFunction(int k)
+        protected internal override double InnerLogProbabilityMassFunction(int k)
         {
-            if (k < 0)
-                return Double.NegativeInfinity; // TODO: Test
-
             return k * Math.Log(1.0 - p) + Math.Log(p);
         }
 
@@ -274,13 +269,15 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <returns>
         ///   A sample which could original the given probability
-        ///   value when applied in the <see cref="DistributionFunction(int)"/>.
+        ///   value when applied in the <see cref="UnivariateDiscreteDistribution.DistributionFunction(int)"/>.
         /// </returns>
         /// 
-        public override int InverseDistributionFunction(double p)
+        protected override int InnerInverseDistributionFunction(double p)
         {
-            double ratio = Special.Log1m(p) / Special.Log1m(this.p);
-            return (int)Math.Floor(ratio);
+            double num = Special.Log1m(p);
+            double den = Special.Log1m(this.p);
+            double ratio = num / den;
+            return (int)Math.Ceiling(ratio) - 1;
         }
 
         /// <summary>

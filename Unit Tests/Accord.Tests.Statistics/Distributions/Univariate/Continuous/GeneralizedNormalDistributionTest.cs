@@ -78,6 +78,12 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(430.92857248354375, range2.Max);
             Assert.AreEqual(-428.92857248354403, range3.Min);
             Assert.AreEqual(430.92857248354375, range3.Max);
+
+            Assert.AreEqual(double.NegativeInfinity, normal.Support.Min);
+            Assert.AreEqual(double.PositiveInfinity, normal.Support.Max);
+
+            Assert.AreEqual(normal.InverseDistributionFunction(0), normal.Support.Min);
+            Assert.AreEqual(normal.InverseDistributionFunction(1), normal.Support.Max);
         }
 
         [Test]

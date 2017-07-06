@@ -278,11 +278,8 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   See <see cref="LognormalDistribution"/>.
         /// </example>
         /// 
-        public override double DistributionFunction(double x)
+        protected internal override double InnerDistributionFunction(double x)
         {
-            if (x <= 0)
-                return 0.0;
-
             double z = (Math.Log(x) - location) / shape;
             return 0.5 * Special.Erfc(-z / Constants.Sqrt2);
         }
@@ -311,11 +308,8 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   See <see cref="LognormalDistribution"/>.
         /// </example>
         /// 
-        public override double ProbabilityDensityFunction(double x)
+        protected internal override double InnerProbabilityDensityFunction(double x)
         {
-            if (x <= 0)
-                return 0.0;
-
             double z = (Math.Log(x) - location) / shape;
             return constant * Math.Exp((-z * z) * 0.5) / x;
         }
@@ -341,11 +335,8 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   See <see cref="LognormalDistribution"/>.
         /// </example>
         /// 
-        public override double LogProbabilityDensityFunction(double x)
+        protected internal override double InnerLogProbabilityDensityFunction(double x)
         {
-            if (x <= 0)
-                return Double.NegativeInfinity;
-
             double z = (Math.Log(x) - location) / shape;
             return Math.Log(constant) + (-z * z) * 0.5 - Math.Log(x);
         }

@@ -143,7 +143,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   of ranks. This is used to compute the exact distribution.
         /// </summary>
         /// 
-        public double[] Table {  get { return table; } }
+        public double[] Table { get { return table; } }
 
         /// <summary>
         ///   Gets or sets the <see cref="ContinuityCorrection">continuity correction</see>
@@ -371,7 +371,12 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override DoubleRange Support
         {
-            get { return new DoubleRange(0, Double.PositiveInfinity); }
+            get
+            {
+                if (exact)
+                    return new DoubleRange(0, Double.PositiveInfinity);
+                return approximation.Support;
+            }
         }
 
         /// <summary>
@@ -397,7 +402,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value or any value smaller than it will occur.
         /// </remarks>
         /// 
-        public override double DistributionFunction(double x)
+        protected internal override double InnerDistributionFunction(double x)
         {
             if (this.exact)
                 return exactMethod(x, table);
@@ -431,7 +436,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <remarks>The Complementary Cumulative Distribution Function (CCDF) is
         /// the complement of the Cumulative Distribution Function, or 1
         /// minus the CDF.</remarks>
-        public override double ComplementaryDistributionFunction(double x)
+        protected internal override double InnerComplementaryDistributionFunction(double x)
         {
             if (this.exact)
                 return exactComplement(x, table);
@@ -465,13 +470,13 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <returns>
         ///   A sample which could original the given probability
-        ///   value when applied in the <see cref="DistributionFunction"/>.
+        ///   value when applied in the <see cref="UnivariateContinuousDistribution.DistributionFunction(double)"/>.
         /// </returns>
         /// 
-        public override double InverseDistributionFunction(double p)
+        protected internal override double InnerInverseDistributionFunction(double p)
         {
             if (this.exact)
-                return base.InverseDistributionFunction(p);
+                return base.InnerInverseDistributionFunction(p);
 
             return approximation.InverseDistributionFunction(p);
         }
@@ -493,7 +498,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value <c>x</c> will occur.
         /// </remarks>
         /// 
-        public override double ProbabilityDensityFunction(double x)
+        protected internal override double InnerProbabilityDensityFunction(double x)
         {
             if (this.exact)
                 return count(x, table) / (double)table.Length;
@@ -518,7 +523,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value <c>x</c> will occur.
         /// </remarks>
         /// 
-        public override double LogProbabilityDensityFunction(double x)
+        protected internal override double InnerLogProbabilityDensityFunction(double x)
         {
             if (this.exact)
                 return Math.Log(count(x, table)) - Math.Log(table.Length);

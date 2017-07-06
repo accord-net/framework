@@ -299,7 +299,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <param name="x">A single point in the distribution range.</param>
         /// 
-        public override double DistributionFunction(double x)
+        protected internal override double InnerDistributionFunction(double x)
         {
             if (ksi > 0 && x < mu - sigma / ksi)
                 return 0;
@@ -324,11 +324,8 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   in the current distribution.
         /// </returns>
         /// 
-        public override double ProbabilityDensityFunction(double x)
+        protected internal override double InnerProbabilityDensityFunction(double x)
         {
-            if (ksi > 0 && x < mu - sigma / ksi)
-                return 0;
-
             double z = (x - mu) / sigma;
 
             double a, b;

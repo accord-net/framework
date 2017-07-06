@@ -57,6 +57,15 @@ namespace Accord.Statistics.Distributions.Univariate
         }
 
         /// <summary>
+        /// Gets the median for this distribution.
+        /// </summary>
+        /// <value>The distribution's median value.</value>
+        public override double Median
+        {
+            get { return 0; }
+        }
+
+        /// <summary>
         ///   Gets the entropy for this distribution.
         /// </summary>
         /// 
@@ -67,6 +76,15 @@ namespace Accord.Statistics.Distributions.Univariate
         public override double Entropy
         {
             get { return System.Math.Log(2); }
+        }
+
+        /// <summary>
+        ///   Returns NaN.
+        /// </summary>
+        /// 
+        public override double Mode
+        {
+            get { return Double.NaN; }
         }
 
         /// <summary>
@@ -95,12 +113,8 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value or any value smaller than it will occur.
         /// </remarks>
         /// 
-        public override double DistributionFunction(int k)
+        protected internal override double InnerDistributionFunction(int k)
         {
-            if (k < -1)
-                return 0;
-            if (k >= 1)
-                return 1;
             return 0.5;
         }
 
@@ -121,7 +135,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value <c>x</c> will occur.
         /// </remarks>
         /// 
-        public override double ProbabilityMassFunction(int k)
+        protected internal override double InnerProbabilityMassFunction(int k)
         {
             if (k == -1)
                 return 0.5;

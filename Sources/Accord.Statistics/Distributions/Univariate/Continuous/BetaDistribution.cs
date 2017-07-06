@@ -27,6 +27,7 @@ namespace Accord.Statistics.Distributions.Univariate
     using Accord.Statistics.Distributions.Fitting;
     using AForge;
     using Accord.Math.Optimization;
+    using System.ComponentModel;
 
     /// <summary>
     ///   Beta Distribution (of the first kind).
@@ -203,7 +204,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <param name="alpha">The shape parameter α (alpha).</param>
         /// <param name="beta">The shape parameter β (beta).</param>
         /// 
-        public BetaDistribution([Positive] double alpha, [Positive] double beta)
+        public BetaDistribution([Positive, DefaultValue(1)] double alpha, [Positive, DefaultValue(1)] double beta)
         {
             if (alpha <= 0)
                 throw new ArgumentOutOfRangeException("alpha", "The shape parameter alpha must be positive.");
@@ -357,7 +358,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   (regularized) Beta function I_x(a,b)</see> as CDF(x) = I_x(a,b)</para>
         /// </remarks>
         /// 
-        public override double DistributionFunction(double x)
+        protected internal override double InnerDistributionFunction(double x)
         {
             return Accord.Math.Beta.Incomplete(alpha, beta, x);
         }
@@ -371,9 +372,9 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <param name="p">A probability value between 0 and 1.</param>
         /// 
         /// <returns>A sample which could original the given probability 
-        ///   value when applied in the <see cref="DistributionFunction"/>.</returns>
+        ///   value when applied in the <see cref="UnivariateContinuousDistribution.DistributionFunction(double)"/>.</returns>
         /// 
-        public override double InverseDistributionFunction(double p)
+        protected internal override double InnerInverseDistributionFunction(double p)
         {
             return Accord.Math.Beta.IncompleteInverse(alpha, beta, p);
         }
@@ -399,11 +400,8 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   where constant c is c = 1.0 / <see cref="Accord.Math.Beta.Function">Beta.Function(a, b)</see></para>
         /// </remarks>
         /// 
-        public override double ProbabilityDensityFunction(double x)
+        protected internal override double InnerProbabilityDensityFunction(double x)
         {
-            if (x <= 0 || x >= 1)
-                return 0;
-
             return constant * Math.Pow(x, alpha - 1) * Math.Pow(1 - x, beta - 1);
         }
 
@@ -425,13 +423,10 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value <c>x</c> will occur.</para>
         /// </remarks>
         /// 
-        /// <seealso cref="ProbabilityDensityFunction"/>
+        /// <seealso cref="UnivariateContinuousDistribution.ProbabilityDensityFunction(double)"/>
         /// 
-        public override double LogProbabilityDensityFunction(double x)
+        protected internal override double InnerLogProbabilityDensityFunction(double x)
         {
-            if (x <= 0 || x >= 1)
-                return Double.NegativeInfinity;
-
             return Math.Log(constant) + (alpha - 1) * Math.Log(x) + (beta - 1) * Math.Log(1 - x);
         }
 

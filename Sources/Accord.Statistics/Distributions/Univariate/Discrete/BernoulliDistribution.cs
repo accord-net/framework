@@ -87,7 +87,7 @@ namespace Accord.Statistics.Distributions.Univariate
     [Serializable]
     public class BernoulliDistribution : UnivariateDiscreteDistribution,
         IFittableDistribution<double, IFittingOptions>,
-        ISampleableDistribution<int>
+        ISampleableDistribution<int>, IUnivariateDistribution<double>, IUnivariateDistribution
     {
 
         // Distribution parameters
@@ -156,14 +156,19 @@ namespace Accord.Statistics.Distributions.Univariate
                 double median;
 
                 if (complement > probability)
+                {
                     median = 0;
-
+                }
                 else if (complement < probability)
+                {
                     median = 1;
+                }
+                else
+                {
+                    median = 0.5;
+                }
 
-                else median = 0.5;
-
-                Accord.Diagnostics.Debug.Assert(median == base.Median);
+                Accord.Diagnostics.Debug.Assert(median == complement || median == base.Median);
 
                 return median;
             }
@@ -244,10 +249,8 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value or any value smaller than it will occur.
         /// </remarks>
         /// 
-        public override double DistributionFunction(int k)
+        protected internal override double InnerDistributionFunction(int k)
         {
-            if (k < 0) return 0;
-            if (k >= 1) return 1;
             return complement;
         }
 
@@ -261,12 +264,32 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <returns>
         ///   A sample which could original the given probability
-        ///   value when applied in the <see cref="DistributionFunction"/>.
+        ///   value when applied in the <see cref="UnivariateDiscreteDistribution.DistributionFunction(int)"/>.
         /// </returns>
         /// 
-        public override int InverseDistributionFunction(double p)
+        protected override int InnerInverseDistributionFunction(double p)
         {
-            return (p > this.complement) ? 1 : 0;
+            if (p > this.complement)
+                return 1;
+            return 0;
+        }
+
+        double IUnivariateDistribution.InverseDistributionFunction(double p)
+        {
+            if (p == complement)
+                return 0.5;
+            if (p > complement)
+                return 1.0;
+            return 0.0;
+        }
+
+        double IUnivariateDistribution<double>.InverseDistributionFunction(double p)
+        {
+            if (p == complement)
+                return 0.5;
+            if (p > complement)
+                return 1.0;
+            return 0.0;
         }
 
         /// <summary>
@@ -283,14 +306,8 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   minus the CDF.
         /// </remarks>
         /// 
-        public override double ComplementaryDistributionFunction(int k)
+        protected internal override double InnerComplementaryDistributionFunction(int k)
         {
-            if (k < 0)
-                return 1;
-
-            if (k >= 1)
-                return 0;
-
             return probability;
         }
 
@@ -310,15 +327,11 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value <c>k</c> will occur.
         /// </remarks>
         /// 
-        public override double ProbabilityMassFunction(int k)
+        protected internal override double InnerProbabilityMassFunction(int k)
         {
             if (k == 1)
                 return probability;
-
-            if (k == 0)
-                return complement;
-
-            return 0;
+            return complement;
         }
 
         /// <summary>
@@ -338,15 +351,11 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value <c>k</c> will occur.
         /// </remarks>
         /// 
-        public override double LogProbabilityMassFunction(int k)
+        protected internal override double InnerLogProbabilityMassFunction(int k)
         {
             if (k == 1)
                 return Math.Log(probability);
-
-            if (k == 0)
-                return Math.Log(complement);
-
-            return double.NegativeInfinity;
+            return Math.Log(complement);
         }
 
         /// <summary>

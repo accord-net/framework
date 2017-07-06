@@ -266,11 +266,8 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   See <see cref="NakagamiDistribution"/>.
         /// </example>
         /// 
-        public override double DistributionFunction(double x)
+        protected internal override double InnerDistributionFunction(double x)
         {
-            if (x <= 0)
-                return 0;
-
             return Gamma.LowerIncomplete(mu, (mu / omega) * (x * x));
         }
 
@@ -300,11 +297,8 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   See <see cref="NakagamiDistribution"/>.
         /// </example>
         /// 
-        public override double ProbabilityDensityFunction(double x)
+        protected internal override double InnerProbabilityDensityFunction(double x)
         {
-            if (x <= 0)
-                return 0;
-
             return constant * Math.Pow(x, twoMu1) * Math.Exp(nratio * x * x);
         }
 
@@ -334,11 +328,8 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   See <see cref="NakagamiDistribution"/>.
         /// </example>
         /// 
-        public override double LogProbabilityDensityFunction(double x)
+        protected internal override double InnerLogProbabilityDensityFunction(double x)
         {
-            if (x <= 0)
-                return Double.NegativeInfinity;
-
             return Math.Log(constant) + twoMu1 * Math.Log(x) + nratio * x * x;
         }
 

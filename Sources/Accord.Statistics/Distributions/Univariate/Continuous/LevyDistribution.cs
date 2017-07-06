@@ -269,11 +269,8 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value or any value smaller than it will occur.
         /// </remarks>
         /// 
-        public override double DistributionFunction(double x)
+        protected internal override double InnerDistributionFunction(double x)
         {
-            if (x < location)
-                return 0;
-
             double cdf = Special.Erfc(Math.Sqrt(scale / (2 * (x - location))));
 
             return cdf;
@@ -295,11 +292,8 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value <c>x</c> will occur.
         /// </remarks>
         /// 
-        public override double ProbabilityDensityFunction(double x)
+        protected internal override double InnerProbabilityDensityFunction(double x)
         {
-            if (x < location)
-                return 0;
-
             double z = x - location;
             double a = Math.Sqrt(scale / (2.0 * Math.PI));
             double b = Math.Exp(-(scale / (2 * z)));
@@ -318,7 +312,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <returns>
         ///   A sample which could original the given probability
-        ///   value when applied in the <see cref="DistributionFunction" />.
+        ///   value when applied in the <see cref="UnivariateContinuousDistribution.DistributionFunction(double)" />.
         /// </returns>
         /// 
         /// <remarks>
@@ -327,13 +321,13 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   or below, with that probability.
         /// </remarks>
         /// 
-        public override double InverseDistributionFunction(double p)
+        protected internal override double InnerInverseDistributionFunction(double p)
         {
             double a = Normal.Inverse(1.0 - p / 2.0);
             double icdf = location + scale / (a * a);
 
 #if DEBUG
-            double baseValue = base.InverseDistributionFunction(p);
+            double baseValue = base.InnerInverseDistributionFunction(p);
             if (!baseValue.IsEqual(icdf, 1e-5))
                 throw new Exception();
 #endif

@@ -81,7 +81,10 @@ namespace Accord.Statistics.Distributions.Univariate
         /// the support interval for this distribution.</value>
         public override DoubleRange Support
         {
-            get { return new DoubleRange(0, (NumberOfSamples - 1.0) / Math.Sqrt(NumberOfSamples)); }
+            get
+            {
+                return new DoubleRange(InnerInverseDistributionFunction(0), (NumberOfSamples - 1.0) / Math.Sqrt(NumberOfSamples));
+            }
         }
 
         /// <summary>
@@ -109,13 +112,8 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <returns>System.Double.</returns>
         /// <remarks>The Cumulative Distribution Function (CDF) describes the cumulative
         /// probability that a given value or any value smaller than it will occur.</remarks>
-        public override double DistributionFunction(double x)
+        protected internal override double InnerDistributionFunction(double x)
         {
-            if (x < Support.Min)
-                return 0;
-            if (x > Support.Max)
-                return 1;
-
             // http://graphpad.com/support/faqid/1598/
             double N = NumberOfSamples;
             double num = N * (N - 2) * x * x;
@@ -137,17 +135,12 @@ namespace Accord.Statistics.Distributions.Univariate
         /// </summary>
         /// <param name="p">A probability value between 0 and 1.</param>
         /// <returns>A sample which could original the given probability
-        /// value when applied in the <see cref="DistributionFunction(double)" />.</returns>
+        /// value when applied in the <see cref="UnivariateContinuousDistribution.DistributionFunction(double)" />.</returns>
         /// <remarks>The Inverse Cumulative Distribution Function (ICDF) specifies, for
         /// a given probability, the value which the random variable will be at,
         /// or below, with that probability.</remarks>
-        public override double InverseDistributionFunction(double p)
+        protected internal override double InnerInverseDistributionFunction(double p)
         {
-            if (p >= 1)
-                return Support.Max;
-            if (p <= 0)
-                return Support.Min;
-
             // https://www.wolframalpha.com/input/?i=sqrt((N+*(+N-+2)*x%C2%B2)+%2F+((N-1)%C2%B2+-+N*x%C2%B2))+%3D+t+solve+for+x
             double N = NumberOfSamples;
             double t = tDistribution.InverseDistributionFunction((1 - p) / N);
@@ -161,7 +154,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   Not supported.
         /// </summary>
         /// 
-        public override double ProbabilityDensityFunction(double x)
+        protected internal override double InnerProbabilityDensityFunction(double x)
         {
             throw new NotSupportedException();
         }

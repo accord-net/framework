@@ -206,7 +206,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   See <see cref="RayleighDistribution"/>.
         /// </example>
         /// 
-        public override double DistributionFunction(double x)
+        protected internal override double InnerDistributionFunction(double x)
         {
             return 1.0 - Math.Exp(-x * x / (2 * sigma * sigma));
         }
@@ -232,7 +232,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   See <see cref="RayleighDistribution"/>.
         /// </example>
         ///
-        public override double ProbabilityDensityFunction(double x)
+        protected internal override double InnerProbabilityDensityFunction(double x)
         {
             return x / (sigma * sigma) * Math.Exp(-x * x / (2 * sigma * sigma));
         }
@@ -258,7 +258,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   See <see cref="RayleighDistribution"/>.
         /// </example>
         /// 
-        public override double LogProbabilityDensityFunction(double x)
+        protected internal override double InnerLogProbabilityDensityFunction(double x)
         {
             return Math.Log(x / (sigma * sigma)) + (-x * x / (2 * sigma * sigma));
         }

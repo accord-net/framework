@@ -35,23 +35,6 @@ namespace Accord.Tests.Statistics
     public class MultivariateContinuousDistributionTest
     {
 
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
         internal virtual MultivariateContinuousDistribution CreateMultivariateContinuousDistribution()
         {
             double[] mean = { 0.2, 4.2 };
