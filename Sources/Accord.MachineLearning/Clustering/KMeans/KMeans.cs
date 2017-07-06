@@ -399,6 +399,18 @@ namespace Accord.MachineLearning
         /// </summary>
         /// 
         /// <param name="data">The data points.</param>
+        /// 
+        protected void ComputeInformation(double[][] data)
+        {
+            if (ComputeCovariances || ComputeError)
+                ComputeInformation(data, clusters.Decide(data));
+        }
+
+        /// <summary>
+        /// Computes the information about each cluster (covariance, proportions and error).
+        /// </summary>
+        /// 
+        /// <param name="data">The data points.</param>
         /// <param name="labels">The assigned labels.</param>
         /// 
         protected void ComputeInformation(double[][] data, int[] labels)

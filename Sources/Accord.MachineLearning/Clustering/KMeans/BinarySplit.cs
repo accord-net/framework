@@ -43,6 +43,21 @@ namespace Accord.MachineLearning
     [Serializable]
     public class BinarySplit : KMeans
     {
+        private bool computeProportions;
+
+        /// <summary>
+        ///   Gets or sets whether <see cref="KMeansClusterCollection.Proportions">cluster proportions</see> 
+        ///   should be calculated after the learning algorithm has finished computing the clusters. Default
+        ///   is false.
+        /// </summary>
+        /// 
+        /// <value><c>true</c> if  to compute proportions after learning; otherwise, <c>false</c>.</value>
+        /// 
+        public bool ComputeProportions
+        {
+            get { return computeProportions; }
+            set { computeProportions = value; }
+        }
 
         /// <summary>
         ///   Initializes a new instance of the Binary Split algorithm
@@ -97,7 +112,7 @@ namespace Accord.MachineLearning
             for (int i = 0; i < x.Length; i++)
                 if (x[i].Length != cols)
                     throw new DimensionMismatchException("data", "The points matrix should be rectangular. The vector at position {} has a different length than previous ones.");
-            
+
             int k = Clusters.Count;
 
             KMeans kmeans = new KMeans(2)
@@ -145,6 +160,19 @@ namespace Accord.MachineLearning
             Accord.Diagnostics.Debug.Assert(Clusters.NumberOfClasses == K);
             Accord.Diagnostics.Debug.Assert(Clusters.NumberOfOutputs == K);
             Accord.Diagnostics.Debug.Assert(Clusters.NumberOfInputs == x[0].Length);
+
+            if (ComputeProportions)
+            {
+                int[] y = Clusters.Decide(x);
+                int[] counts = y.Histogram();
+                counts.Divide(y.Length, result: Clusters.Proportions);
+
+                ComputeInformation(x, y);
+            }
+            else
+            {
+                ComputeInformation(x);
+            }
 
             return Clusters;
         }
