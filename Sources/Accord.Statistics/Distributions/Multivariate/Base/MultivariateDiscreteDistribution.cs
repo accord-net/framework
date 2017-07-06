@@ -20,6 +20,22 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
+// A note on compatibility: Up to version 3.5, users were supposed to implement their own probability
+// distributions by inheriting from this class and overriding the public members ProbabilityDensityFunction,
+// DistributionFunction, etc. However, since those were public methods this meant that users (and I) had to
+// write validation checks on every method override, resulting in lots of duplicated code. Starting from version
+// 3.6, users should override methods that start with "Inner" in their name, such as InnerProbabilityDensityFunction 
+// and InnerDistributionFunction. The framework will have already validated the inputs of those functions, and
+// will also take care to check whether the implementation of those functions is correct.
+
+// For now, compatibility mode is enabled for release builds, meaning that old code that has been written
+// using the old way will keep working. However, debug (development) builds will have this feature turned
+// off to force new classes to be implemented using this new way.
+
+# if !DEBUG
+#define COMPATIBILITY
+#endif
+
 namespace Accord.Statistics.Distributions.Multivariate
 {
     using System;
@@ -254,7 +270,39 @@ namespace Accord.Statistics.Distributions.Multivariate
         ///   probability that a given value or any value smaller than it will occur.
         /// </remarks>
         /// 
-        public abstract double DistributionFunction(int[] x);
+        public
+#if COMPATIBILITY
+        virtual
+#endif
+         double DistributionFunction(int[] x)
+        {
+            if (x == null)
+                throw new ArgumentNullException("x");
+
+            return InnerDistributionFunction(x);
+        }
+
+        /// <summary>
+        ///   Gets the cumulative distribution function (cdf) for
+        ///   this distribution evaluated at point <c>x</c>.
+        /// </summary>
+        /// 
+        /// <param name="x">
+        ///   A single point in the distribution range.</param>
+        ///   
+        /// <remarks>
+        ///   The Cumulative Distribution Function (CDF) describes the cumulative
+        ///   probability that a given value or any value smaller than it will occur.
+        /// </remarks>
+        /// 
+#if COMPATIBILITY
+        protected internal virtual double InnerDistributionFunction(int[] x)
+        {
+            throw new NotImplementedException();
+        }
+#else
+        protected internal abstract double InnerDistributionFunction(int[] x);
+#endif
 
         /// <summary>
         ///   Gets the probability mass function (pmf) for
@@ -273,7 +321,43 @@ namespace Accord.Statistics.Distributions.Multivariate
         ///   The probability of <c>x</c> occurring
         ///   in the current distribution.</returns>
         ///   
-        public abstract double ProbabilityMassFunction(int[] x);
+        public
+#if COMPATIBILITY
+        virtual
+#endif
+         double ProbabilityMassFunction(int[] x)
+        {
+            if (x == null)
+                throw new ArgumentNullException("x");
+
+            return InnerProbabilityMassFunction(x);
+        }
+
+        /// <summary>
+        ///   Gets the probability mass function (pmf) for
+        ///   this distribution evaluated at point <c>x</c>.
+        /// </summary>
+        /// 
+        /// <param name="x">
+        ///   A single point in the distribution range.</param>
+        ///   
+        /// <remarks>
+        ///   The Probability Mass Function (PMF) describes the
+        ///   probability that a given value <c>x</c> will occur.
+        /// </remarks>
+        /// 
+        /// <returns>
+        ///   The probability of <c>x</c> occurring
+        ///   in the current distribution.</returns>
+        ///   
+#if COMPATIBILITY
+        protected internal virtual double InnerProbabilityMassFunction(int[] x)
+        {
+            throw new NotImplementedException();
+        }
+#else
+        protected internal abstract double InnerProbabilityMassFunction(int[] x);
+#endif
 
         /// <summary>
         ///   Gets the log-probability mass function (pmf) for
@@ -292,13 +376,64 @@ namespace Accord.Statistics.Distributions.Multivariate
         ///   The logarithm of the probability of <c>x</c> 
         ///   occurring in the current distribution.</returns>
         ///   
-        public abstract double LogProbabilityMassFunction(int[] x);
+        public
+#if COMPATIBILITY
+        virtual
+#endif
+        double LogProbabilityMassFunction(int[] x)
+        {
+            if (x == null)
+                throw new ArgumentNullException("x");
+
+            return InnerLogProbabilityMassFunction(x);
+        }
+
+        /// <summary>
+        ///   Gets the log-probability mass function (pmf) for
+        ///   this distribution evaluated at point <c>x</c>.
+        /// </summary>
+        /// 
+        /// <param name="x">
+        ///   A single point in the distribution range.</param>
+        ///   
+        /// <remarks>
+        ///   The Probability Mass Function (PMF) describes the
+        ///   probability that a given value <c>x</c> will occur.
+        /// </remarks>
+        /// 
+        /// <returns>
+        ///   The logarithm of the probability of <c>x</c> 
+        ///   occurring in the current distribution.</returns>
+        ///   
+#if COMPATIBILITY
+        protected internal virtual double InnerLogProbabilityMassFunction(int[] x)
+        {
+            throw new NotImplementedException();
+        }
+#else
+        protected internal virtual double InnerLogProbabilityMassFunction(int[] x)
+        {
+            return Math.Log(ProbabilityMassFunction(x));
+        }
+#endif
 
         /// <summary>
         ///   Not supported.
         /// </summary>
         /// 
-        public virtual int[] InverseDistributionFunction(double p)
+        public
+#if COMPATIBILITY
+        virtual
+#endif
+         int[] InverseDistributionFunction(double p)
+        {
+            return InnerInverseDistributionFunction(p);
+        }
+
+        /// <summary>
+        ///   Not supported.
+        /// </summary>
+        protected internal int[] InnerInverseDistributionFunction(double p)
         {
             throw new NotImplementedException();
         }
@@ -315,7 +450,31 @@ namespace Accord.Statistics.Distributions.Multivariate
         ///   minus the CDF.
         /// </remarks>
         /// 
-        public virtual double ComplementaryDistributionFunction(int[] x)
+        public
+#if COMPATIBILITY
+        virtual
+#endif
+         double ComplementaryDistributionFunction(int[] x)
+        {
+            if (x == null)
+                throw new ArgumentNullException("x");
+
+            return InnerComplementaryDistributionFunction(x);
+        }
+
+        /// <summary>
+        ///   Gets the complementary cumulative distribution function
+        ///   (ccdf) for this distribution evaluated at point <c>x</c>.
+        ///   This function is also known as the Survival function.
+        /// </summary>
+        /// 
+        /// <remarks>
+        ///   The Complementary Cumulative Distribution Function (CCDF) is
+        ///   the complement of the Cumulative Distribution Function, or 1
+        ///   minus the CDF.
+        /// </remarks>
+        /// 
+        protected internal double InnerComplementaryDistributionFunction(int[] x)
         {
             return 1.0 - DistributionFunction(x);
         }

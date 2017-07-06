@@ -20,6 +20,22 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
+// A note on compatibility: Up to version 3.5, users were supposed to implement their own probability
+// distributions by inheriting from this class and overriding the public members ProbabilityDensityFunction,
+// DistributionFunction, etc. However, since those were public methods this meant that users (and I) had to
+// write validation checks on every method override, resulting in lots of duplicated code. Starting from version
+// 3.6, users should override methods that start with "Inner" in their name, such as InnerProbabilityDensityFunction 
+// and InnerDistributionFunction. The framework will have already validated the inputs of those functions, and
+// will also take care to check whether the implementation of those functions is correct.
+
+// For now, compatibility mode is enabled for release builds, meaning that old code that has been written
+// using the old way will keep working. However, debug (development) builds will have this feature turned
+// off to force new classes to be implemented using this new way.
+
+# if !DEBUG
+#define COMPATIBILITY
+#endif
+
 namespace Accord.Statistics.Distributions.Univariate
 {
     using System;
@@ -28,6 +44,7 @@ namespace Accord.Statistics.Distributions.Univariate
     using AForge;
     using Accord.Math.Optimization;
     using Accord.Math.Random;
+    using System.ComponentModel.DataAnnotations;
 
     /// <summary>
     ///   Abstract class for univariate discrete probability distributions.
@@ -210,7 +227,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public virtual IntRange GetRange(double percentile)
         {
-            if (percentile <= 0 || percentile >= 1)
+            if (percentile <= 0 || percentile > 1)
                 throw new ArgumentOutOfRangeException("percentile", "The percentile must be between 0 and 1.");
 
             int a = InverseDistributionFunction(1.0 - percentile);
@@ -507,7 +524,50 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value or any value smaller than it will occur.
         /// </remarks>
         /// 
-        public abstract double DistributionFunction(int k);
+        public
+#if COMPATIBILITY
+        virtual
+#endif
+        double DistributionFunction(int k)
+        {
+            if (k < Support.Min)
+                return 0;
+
+            if (k >= Support.Max)
+                return 1;
+
+            double result = InnerDistributionFunction(k);
+
+            if (Double.IsNaN(result))
+                throw new InvalidOperationException("CDF computation generated NaN values.");
+            if (result < 0 || result > 1)
+                new InvalidOperationException("CDF computation generated values out of the [0,1] range.");
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Gets P(X ≤ k), the cumulative distribution function
+        ///   (cdf) for this distribution evaluated at point <c>k</c>.
+        /// </summary>
+        /// 
+        /// <param name="k">
+        ///   A single point in the distribution range.</param>
+        ///   
+        /// <remarks>
+        ///   The Cumulative Distribution Function (CDF) describes the cumulative
+        ///   probability that a given value or any value smaller than it will occur.
+        /// </remarks>
+        /// 
+#if COMPATIBILITY
+        protected internal virtual double InnerDistributionFunction(int k)
+        {
+            throw new NotImplementedException();
+        }
+#else
+        protected internal abstract double InnerDistributionFunction(int k);
+#endif
+
 
         /// <summary>
         ///   Gets P(X ≤ k) or P(X &lt; k), the cumulative distribution function
@@ -545,12 +605,15 @@ namespace Accord.Statistics.Distributions.Univariate
         /// </example>
         /// 
         /// 
-        public virtual double DistributionFunction(int k, bool inclusive)
+        public
+#if COMPATIBILITY
+        virtual
+#endif
+        double DistributionFunction(int k, bool inclusive)
         {
             if (inclusive)
                 return DistributionFunction(k);
-            else
-                return DistributionFunction(k) - ProbabilityMassFunction(k);
+            return DistributionFunction(k) - ProbabilityMassFunction(k);
         }
 
         /// <summary>
@@ -567,7 +630,11 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value or any value smaller than it will occur.
         /// </remarks>
         /// 
-        public virtual double DistributionFunction(int a, int b)
+        public
+#if COMPATIBILITY
+        virtual
+#endif
+        double DistributionFunction(int a, int b)
         {
             if (a >= b)
             {
@@ -595,7 +662,55 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <returns>A sample which could original the given probability 
         ///   value when applied in the <see cref="DistributionFunction(int)"/>.</returns>
         /// 
-        public virtual int InverseDistributionFunction(double p)
+        public int InverseDistributionFunction(
+#if !NET35
+[RangeAttribute(0, 1)]
+#endif 
+            double p)
+        {
+            if (p < 0.0 || p > 1.0)
+                throw new ArgumentOutOfRangeException("p", "Value must be between 0 and 1.");
+
+            if (Double.IsNaN(p))
+                throw new ArgumentOutOfRangeException("p", "Value is Not-a-Number (NaN).");
+
+            if (p == 0)
+            {
+                if (Support.Min == Support.Max) // Needed by Degenerate
+                    return Support.Min - 1;
+                return Support.Min;
+            }
+
+
+            if (p == 1)
+                return Support.Max;
+
+            int result = InnerInverseDistributionFunction(p);
+
+            if (result < Support.Min || result > Support.Max)
+                new InvalidOperationException("invCDF computation generated values outside the distribution supported range.");
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Gets the inverse of the cumulative distribution function (icdf) for
+        ///   this distribution evaluated at probability <c>p</c>. This function 
+        ///   is also known as the Quantile function.
+        /// </summary>
+        /// 
+        /// <remarks>
+        ///   The Inverse Cumulative Distribution Function (ICDF) specifies, for
+        ///   a given probability, the value which the random variable will be at,
+        ///   or below, with that probability.
+        /// </remarks>
+        /// 
+        /// <param name="p">A probability value between 0 and 1.</param>
+        /// 
+        /// <returns>A sample which could original the given probability 
+        ///   value when applied in the <see cref="DistributionFunction(int)"/>.</returns>
+        /// 
+        protected virtual int InnerInverseDistributionFunction(double p)
         {
             return BaseInverseDistributionFunction(p);
         }
@@ -725,6 +840,22 @@ namespace Accord.Statistics.Distributions.Univariate
         }
 
         /// <summary>
+        ///   Computes the cumulative distribution function by summing the outputs of the <see cref="ProbabilityMassFunction"/>
+        ///   for all elements in the distribution domain. Note that this method should not be used in case there is a more
+        ///   efficient formula for computing the CDF of a distribution.
+        /// </summary>
+        /// 
+        /// <param name="k">A single point in the distribution range.</param>
+        /// 
+        protected double BaseDistributionFunction(int k)
+        {
+            double sum = 0;
+            for (int i = Support.Min; i <= k; i++)
+                sum += ProbabilityMassFunction(i);
+            return sum;
+        }
+
+        /// <summary>
         ///   Gets the first derivative of the <see cref="InverseDistributionFunction">
         ///   inverse distribution function</see> (icdf) for this distribution evaluated
         ///   at probability <c>p</c>. 
@@ -773,12 +904,15 @@ namespace Accord.Statistics.Distributions.Univariate
         /// </code>
         /// </example>
         /// 
-        public virtual double ComplementaryDistributionFunction(int k, bool inclusive)
+        public
+#if COMPATIBILITY
+        virtual
+#endif
+        double ComplementaryDistributionFunction(int k, bool inclusive)
         {
             if (inclusive)
                 return ComplementaryDistributionFunction(k) + ProbabilityMassFunction(k);
-            else
-                return ComplementaryDistributionFunction(k);
+            return ComplementaryDistributionFunction(k);
         }
 
         /// <summary>
@@ -796,7 +930,43 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   minus the CDF.
         /// </remarks>
         /// 
-        public virtual double ComplementaryDistributionFunction(int k)
+        public
+#if COMPATIBILITY
+        virtual
+#endif
+        double ComplementaryDistributionFunction(int k)
+        {
+            if (k < Support.Min)
+                return 1;
+            if (k >= Support.Max)
+                return 0;
+
+            double result = InnerComplementaryDistributionFunction(k);
+
+            if (Double.IsNaN(result))
+                throw new InvalidOperationException("CCDF computation generated NaN values.");
+            if (result < 0 || result > 1)
+                new InvalidOperationException("CCDF computation generated values out of the [0,1] range.");
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Gets P(X &gt; k) the complementary cumulative distribution function
+        ///   (ccdf) for this distribution evaluated at point <c>k</c>.
+        ///   This function is also known as the Survival function.
+        /// </summary>
+        /// 
+        /// <param name="k">
+        ///   A single point in the distribution range.</param>
+        ///   
+        /// <remarks>
+        ///   The Complementary Cumulative Distribution Function (CCDF) is
+        ///   the complement of the Cumulative Distribution Function, or 1
+        ///   minus the CDF.
+        /// </remarks>
+        /// 
+        protected internal virtual double InnerComplementaryDistributionFunction(int k)
         {
             return 1.0 - DistributionFunction(k);
         }
@@ -818,7 +988,51 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   The probability of <c>k</c> occurring
         ///   in the current distribution.</returns>
         ///   
-        public abstract double ProbabilityMassFunction(int k);
+        public
+#if COMPATIBILITY
+        virtual
+#endif
+        double ProbabilityMassFunction(int k)
+        {
+            if (k < Support.Min)
+                return 0;
+            if (k > Support.Max)
+                return 0;
+
+            double result = InnerProbabilityMassFunction(k);
+
+            if (Double.IsNaN(result))
+                throw new InvalidOperationException("PMF computation generated NaN values.");
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Gets the probability mass function (pmf) for
+        ///   this distribution evaluated at point <c>x</c>.
+        /// </summary>
+        /// 
+        /// <param name="k">
+        ///   A single point in the distribution range.</param>
+        ///   
+        /// <remarks>
+        ///   The Probability Mass Function (PMF) describes the
+        ///   probability that a given value <c>x</c> will occur.
+        /// </remarks>
+        /// 
+        /// <returns>
+        ///   The probability of <c>k</c> occurring
+        ///   in the current distribution.</returns>
+        ///   
+#if COMPATIBILITY
+        protected internal virtual double InnerProbabilityMassFunction(int k)
+        {
+            throw new NotImplementedException();
+        }
+#else
+        protected internal abstract double InnerProbabilityMassFunction(int k);
+#endif
+
 
         /// <summary>
         ///   Gets the log-probability mass function (pmf) for
@@ -837,7 +1051,41 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   The logarithm of the probability of <c>x</c>
         ///   occurring in the current distribution.</returns>
         ///   
-        public virtual double LogProbabilityMassFunction(int k)
+        public
+#if COMPATIBILITY
+        virtual
+#endif
+        double LogProbabilityMassFunction(int k)
+        {
+            if (k < Support.Min || k > Support.Max)
+                return Double.NegativeInfinity;
+
+            double result = InnerLogProbabilityMassFunction(k);
+
+            if (Double.IsNaN(result))
+                throw new InvalidOperationException("LogPDF computation generated NaN values.");
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Gets the log-probability mass function (pmf) for
+        ///   this distribution evaluated at point <c>x</c>.
+        /// </summary>
+        /// 
+        /// <param name="k">
+        ///   A single point in the distribution range.</param>
+        ///   
+        /// <remarks>
+        ///   The Probability Mass Function (PMF) describes the
+        ///   probability that a given value <c>k</c> will occur.
+        /// </remarks>
+        /// 
+        /// <returns>
+        ///   The logarithm of the probability of <c>x</c>
+        ///   occurring in the current distribution.</returns>
+        ///   
+        protected internal virtual double InnerLogProbabilityMassFunction(int k)
         {
             return Math.Log(ProbabilityMassFunction(k));
         }

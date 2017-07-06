@@ -20,6 +20,22 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
+// A note on compatibility: Up to version 3.5, users were supposed to implement their own probability
+// distributions by inheriting from this class and overriding the public members ProbabilityDensityFunction,
+// DistributionFunction, etc. However, since those were public methods this meant that users (and I) had to
+// write validation checks on every method override, resulting in lots of duplicated code. Starting from version
+// 3.6, users should override methods that start with "Inner" in their name, such as InnerProbabilityDensityFunction 
+// and InnerDistributionFunction. The framework will have already validated the inputs of those functions, and
+// will also take care to check whether the implementation of those functions is correct.
+
+// For now, compatibility mode is enabled for release builds, meaning that old code that has been written
+// using the old way will keep working. However, debug (development) builds will have this feature turned
+// off to force new classes to be implemented using this new way.
+
+# if !DEBUG
+#define COMPATIBILITY
+#endif
+
 namespace Accord.Statistics.Distributions.Univariate
 {
     using System;
@@ -558,7 +574,55 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value or any value smaller than it will occur.
         /// </remarks>
         /// 
-        public abstract double DistributionFunction(double x);
+        public
+#if COMPATIBILITY
+        virtual
+#endif
+        double DistributionFunction(double x)
+        {
+            if (Double.IsNaN(x))
+                throw new ArgumentOutOfRangeException("x", "The input argument is NaN.");
+
+            if (Double.IsNegativeInfinity(Support.Min) && Double.IsNegativeInfinity(x))
+                return 0;
+
+            if (x < Support.Min) // Needed by: InverseChiSquare
+                return 0;
+            if (x >= Support.Max) // Needed by: GrubbDistribution
+                return 1;
+
+            double result = InnerDistributionFunction(x);
+
+            if (Double.IsNaN(result))
+                throw new InvalidOperationException("CDF computation generated NaN values.");
+            if (result < 0 || result > 1)
+                new InvalidOperationException("CDF computation generated values out of the [0,1] range.");
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Gets the cumulative distribution function (cdf) for
+        ///   this distribution evaluated at point <c>x</c>.
+        /// </summary>
+        /// 
+        /// <param name="x">
+        ///   A single point in the distribution range.</param>
+        ///   
+        /// <remarks>
+        ///   The Cumulative Distribution Function (CDF) describes the cumulative
+        ///   probability that a given value or any value smaller than it will occur.
+        /// </remarks>
+        /// 
+#if COMPATIBILITY
+        protected internal virtual double InnerDistributionFunction(double x)
+        {
+            throw new NotImplementedException();
+        }
+#else
+        protected internal abstract double InnerDistributionFunction(double x);
+#endif
+
 
         /// <summary>
         ///   Gets the cumulative distribution function (cdf) for this
@@ -574,7 +638,11 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value or any value smaller than it will occur.
         /// </remarks>
         /// 
-        public virtual double DistributionFunction(double a, double b)
+        public
+#if COMPATIBILITY
+        virtual
+#endif
+        double DistributionFunction(double a, double b)
         {
             if (a > b)
             {
@@ -604,7 +672,50 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   minus the CDF.
         /// </remarks>
         /// 
-        public virtual double ComplementaryDistributionFunction(double x)
+        public
+#if COMPATIBILITY
+        virtual
+#endif
+        double ComplementaryDistributionFunction(double x)
+        {
+            if (Double.IsNaN(x))
+                throw new ArgumentOutOfRangeException("x", "The input argument is NaN.");
+
+            if (Double.IsNegativeInfinity(Support.Min) && Double.IsNegativeInfinity(x))
+                return 1;
+
+            if (x < Support.Min)
+                return 1;
+
+            if (x >= Support.Max)
+                return 0;
+
+            double result = InnerComplementaryDistributionFunction(x);
+
+            if (Double.IsNaN(result))
+                throw new InvalidOperationException("CCDF computation generated NaN values.");
+            if (result < 0 || result > 1)
+                new InvalidOperationException("CCDF computation generated values out of the [0,1] range.");
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Gets the complementary cumulative distribution function
+        ///   (ccdf) for this distribution evaluated at point <c>x</c>.
+        ///   This function is also known as the Survival function.
+        /// </summary>
+        /// 
+        /// <param name="x">
+        ///   A single point in the distribution range.</param>
+        ///   
+        /// <remarks>
+        ///   The Complementary Cumulative Distribution Function (CCDF) is
+        ///   the complement of the Cumulative Distribution Function, or 1
+        ///   minus the CDF.
+        /// </remarks>
+        /// 
+        protected internal virtual double InnerComplementaryDistributionFunction(double x)
         {
             return 1.0 - DistributionFunction(x);
         }
@@ -626,7 +737,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <returns>A sample which could original the given probability 
         ///   value when applied in the <see cref="DistributionFunction(double)"/>.</returns>
         /// 
-        public virtual double InverseDistributionFunction(
+        public double InverseDistributionFunction(
 #if !NET35
 [RangeAttribute(0, 1)]
 #endif 
@@ -641,9 +752,38 @@ namespace Accord.Statistics.Distributions.Univariate
             if (p == 0)
                 return Support.Min;
 
-            else if (p == 1)
+            if (p == 1)
                 return Support.Max;
 
+            double result = InnerInverseDistributionFunction(p);
+
+            if (Double.IsNaN(result))
+                throw new InvalidOperationException("invCDF computation generated NaN values.");
+            if (result < Support.Min || result > Support.Max)
+                new InvalidOperationException("invCDF computation generated values outside the distribution supported range.");
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Gets the inverse of the cumulative distribution function (icdf) for
+        ///   this distribution evaluated at probability <c>p</c>. This function 
+        ///   is also known as the Quantile function.
+        /// </summary>
+        /// 
+        /// <remarks>
+        ///   The Inverse Cumulative Distribution Function (ICDF) specifies, for
+        ///   a given probability, the value which the random variable will be at,
+        ///   or below, with that probability.
+        /// </remarks>
+        /// 
+        /// <param name="p">A probability value between 0 and 1.</param>
+        /// 
+        /// <returns>A sample which could original the given probability 
+        ///   value when applied in the <see cref="DistributionFunction(double)"/>.</returns>
+        /// 
+        protected internal virtual double InnerInverseDistributionFunction(double p)
+        {
             bool lowerBounded = !Double.IsInfinity(Support.Min);
             bool upperBounded = !Double.IsInfinity(Support.Max);
 
@@ -776,7 +916,51 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   The probability of <c>x</c> occurring
         ///   in the current distribution.</returns>
         ///   
-        public abstract double ProbabilityDensityFunction(double x);
+        public
+#if COMPATIBILITY
+        virtual
+#endif
+        double ProbabilityDensityFunction(double x)
+        {
+            if (Double.IsNaN(x))
+                throw new ArgumentOutOfRangeException("x", "The input argument is NaN.");
+
+            if (x < Support.Min || x > Support.Max)
+                return 0;
+
+            double result = InnerProbabilityDensityFunction(x);
+
+            if (Double.IsNaN(result))
+                throw new InvalidOperationException("PDF computation generated NaN values.");
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Gets the probability density function (pdf) for
+        ///   this distribution evaluated at point <c>x</c>.
+        /// </summary>
+        /// 
+        /// <param name="x">
+        ///   A single point in the distribution range.</param>
+        ///   
+        /// <remarks>
+        ///   The Probability Density Function (PDF) describes the
+        ///   probability that a given value <c>x</c> will occur.
+        /// </remarks>
+        /// 
+        /// <returns>
+        ///   The probability of <c>x</c> occurring
+        ///   in the current distribution.</returns>
+        ///   
+#if COMPATIBILITY
+        protected internal virtual double InnerProbabilityDensityFunction(double x)
+        {
+            throw new NotImplementedException();
+        }
+#else
+        protected internal abstract double InnerProbabilityDensityFunction(double x);
+#endif
 
 
         /// <summary>
@@ -796,7 +980,44 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   The logarithm of the probability of <c>x</c> 
         ///   occurring in the current distribution.</returns>
         ///   
-        public virtual double LogProbabilityDensityFunction(double x)
+        public
+#if COMPATIBILITY
+        virtual
+#endif
+        double LogProbabilityDensityFunction(double x)
+        {
+            if (Double.IsNaN(x))
+                throw new ArgumentOutOfRangeException("x", "The input argument is NaN.");
+
+            if (x < Support.Min || x > Support.Max)
+                return Double.NegativeInfinity;
+
+            double result = InnerLogProbabilityDensityFunction(x);
+
+            if (Double.IsNaN(result))
+                throw new InvalidOperationException("LogPDF computation generated NaN values.");
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Gets the log-probability density function (pdf) for
+        ///   this distribution evaluated at point <c>x</c>.
+        /// </summary>
+        /// 
+        /// <param name="x">
+        ///   A single point in the distribution range.</param>
+        ///   
+        /// <remarks>
+        ///   The Probability Density Function (PDF) describes the
+        ///   probability that a given value <c>x</c> will occur.
+        /// </remarks>
+        /// 
+        /// <returns>
+        ///   The logarithm of the probability of <c>x</c> 
+        ///   occurring in the current distribution.</returns>
+        ///   
+        protected internal virtual double InnerLogProbabilityDensityFunction(double x)
         {
             return Math.Log(ProbabilityDensityFunction(x));
         }
@@ -1070,7 +1291,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public double[] Generate(int samples, Random source)
         {
-            return Generate(samples, new double[samples],  source);
+            return Generate(samples, new double[samples], source);
         }
 
         /// <summary>

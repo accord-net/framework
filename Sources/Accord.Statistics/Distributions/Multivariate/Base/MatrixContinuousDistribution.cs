@@ -279,7 +279,13 @@ namespace Accord.Statistics.Distributions.Multivariate
         ///   The probability of <c>x</c> occurring
         ///   in the current distribution.</returns>
         ///   
-        public abstract double DistributionFunction(double[,] x);
+        public double DistributionFunction(double[,] x)
+        {
+            if (x == null)
+                throw new ArgumentNullException("x");
+
+            return InnerDistributionFunction(x);
+        }
 
         /// <summary>
         ///   Gets the probability density function (pdf) for
@@ -301,7 +307,57 @@ namespace Accord.Statistics.Distributions.Multivariate
         ///   The probability of <c>x</c> occurring
         ///   in the current distribution.</returns>
         ///   
-        public abstract double ProbabilityDensityFunction(double[,] x);
+        protected internal abstract double InnerDistributionFunction(double[,] x);
+
+        /// <summary>
+        ///   Gets the probability density function (pdf) for
+        ///   this distribution evaluated at point <c>x</c>.
+        /// </summary>
+        /// 
+        /// <param name="x">
+        ///   A single point in the distribution range. For a 
+        ///   univariate distribution, this should be a single
+        ///   double value. For a multivariate distribution,
+        ///   this should be a double array.</param>
+        ///   
+        /// <remarks>
+        ///   The Probability Density Function (PDF) describes the
+        ///   probability that a given value <c>x</c> will occur.
+        /// </remarks>
+        /// 
+        /// <returns>
+        ///   The probability of <c>x</c> occurring
+        ///   in the current distribution.</returns>
+        ///   
+        public double ProbabilityDensityFunction(double[,] x)
+        {
+            if (x == null)
+                throw new ArgumentNullException("x");
+
+            return InnerProbabilityDensityFunction(x);
+        }
+
+        /// <summary>
+        ///   Gets the probability density function (pdf) for
+        ///   this distribution evaluated at point <c>x</c>.
+        /// </summary>
+        /// 
+        /// <param name="x">
+        ///   A single point in the distribution range. For a 
+        ///   univariate distribution, this should be a single
+        ///   double value. For a multivariate distribution,
+        ///   this should be a double array.</param>
+        ///   
+        /// <remarks>
+        ///   The Probability Density Function (PDF) describes the
+        ///   probability that a given value <c>x</c> will occur.
+        /// </remarks>
+        /// 
+        /// <returns>
+        ///   The probability of <c>x</c> occurring
+        ///   in the current distribution.</returns>
+        ///   
+        protected internal abstract double InnerProbabilityDensityFunction(double[,] x);
 
         /// <summary>
         ///   Gets the log-probability density function (pdf)
@@ -318,7 +374,30 @@ namespace Accord.Statistics.Distributions.Multivariate
         ///   The logarithm of the probability of <c>x</c>
         ///   occurring in the current distribution.</returns>
         ///   
-        public virtual double LogProbabilityDensityFunction(double[,] x)
+        public double LogProbabilityDensityFunction(double[,] x)
+        {
+            if (x == null)
+                throw new ArgumentNullException("x");
+
+            return InnerLogProbabilityDensityFunction(x);
+        }
+
+        /// <summary>
+        ///   Gets the log-probability density function (pdf)
+        ///   for this distribution evaluated at point <c>x</c>.
+        /// </summary>
+        /// 
+        /// <param name="x">
+        ///   A single point in the distribution range. For a 
+        ///   univariate distribution, this should be a single
+        ///   double value. For a multivariate distribution,
+        ///   this should be a double array.</param>
+        ///   
+        /// <returns>
+        ///   The logarithm of the probability of <c>x</c>
+        ///   occurring in the current distribution.</returns>
+        ///   
+        protected internal virtual double InnerLogProbabilityDensityFunction(double[,] x)
         {
             return Math.Log(ProbabilityDensityFunction(x));
         }
@@ -335,7 +414,27 @@ namespace Accord.Statistics.Distributions.Multivariate
         ///   minus the CDF.
         /// </remarks>
         /// 
-        public virtual double ComplementaryDistributionFunction(double[,] x)
+        public double ComplementaryDistributionFunction(double[,] x)
+        {
+            if (x == null)
+                throw new ArgumentNullException("x");
+
+            return InnerComplementaryDistributionFunction(x);
+        }
+
+        /// <summary>
+        ///   Gets the complementary cumulative distribution function
+        ///   (ccdf) for this distribution evaluated at point <c>x</c>.
+        ///   This function is also known as the Survival function.
+        /// </summary>
+        /// 
+        /// <remarks>
+        ///   The Complementary Cumulative Distribution Function (CCDF) is
+        ///   the complement of the Cumulative Distribution Function, or 1
+        ///   minus the CDF.
+        /// </remarks>
+        /// 
+        protected internal virtual double InnerComplementaryDistributionFunction(double[,] x)
         {
             return 1.0 - DistributionFunction(x);
         }

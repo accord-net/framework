@@ -77,7 +77,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// </summary>
         /// 
         public GeneralizedParetoDistribution()
-            : this(1, 1, 1)
+            : this(1, 1, 2)
         {
         }
 
@@ -85,14 +85,17 @@ namespace Accord.Statistics.Distributions.Univariate
         /// Initializes a new instance of the <see cref="GeneralizedParetoDistribution"/> class.
         /// </summary>
         /// 
-        /// <param name="location">The location parameter μ (mu).</param>
-        /// <param name="scale">The scale parameter σ (sigma). Must be > 0.</param>
-        /// <param name="shape">The shape parameter ξ (Xi).</param>
+        /// <param name="location">The location parameter μ (mu). Default is 0.</param>
+        /// <param name="scale">The scale parameter σ (sigma). Must be > 0. Default is 1.</param>
+        /// <param name="shape">The shape parameter ξ (Xi). Default is 2.</param>
         /// 
-        public GeneralizedParetoDistribution([Real] double location, [Positive] double scale, [Real] double shape)
+        public GeneralizedParetoDistribution([Real] double location, [Positive] double scale, [Positive(minimum: 2)] double shape)
         {
             if (scale <= 0)
                 throw new ArgumentOutOfRangeException("scale", "Scale must be positive.");
+
+            if (shape <= 1)
+                throw new ArgumentOutOfRangeException("scale", "Shape must be higher than 1.");
 
             init(location, scale, shape);
         }
@@ -196,7 +199,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <returns>System.Double.</returns>
         /// <remarks>The Cumulative Distribution Function (CDF) describes the cumulative
         /// probability that a given value or any value smaller than it will occur.</remarks>
-        public override double DistributionFunction(double x)
+        protected internal override double InnerDistributionFunction(double x)
         {
             // PDF components
             double m = (x - mu) / sigma;
@@ -234,7 +237,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// in the current distribution.</returns>
         /// <remarks>The Probability Density Function (PDF) describes the
         /// probability that a given value <c>x</c> will occur.</remarks>
-        public override double ProbabilityDensityFunction(double x)
+        protected internal override double InnerProbabilityDensityFunction(double x)
         {
             // PDF components
             double m = (x - mu) / sigma;
