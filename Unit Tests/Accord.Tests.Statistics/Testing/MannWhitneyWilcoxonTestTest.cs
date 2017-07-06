@@ -34,16 +34,12 @@ namespace Accord.Tests.Statistics
         [Test]
         public void MannWhitneyWilcoxonTestConstructorTest()
         {
-            // The following example comes from Richard Lowry's page at
-            // http://vassarstats.net/textbook/ch11a.html. As stated by
-            // Richard, this example deals with persons seeking treatment
-            // by claustrophobia. Those persons are randomly divided into
-            // two groups, and each group receive a different treatment
-            // for the disorder.
+            // The following example comes from Richard Lowry's page at http://vassarstats.net/textbook/ch11a.html. As 
+            // stated by Richard, this example deals with persons seeking treatment by claustrophobia. Those persons are 
+            // randomly divided into two groups, and each group receive a different treatment for the disorder.
 
-            // The hypothesis would be that treatment A would more effective
-            // than B. To check this hypothesis, we can use Mann-Whitney's Test
-            // to compare the medians of both groups.
+            // The hypothesis would be that treatment A would more effective than B. To check this 
+            // hypothesis, we can use Mann -Whitney's Test to compare the medians of both groups.
 
             // Claustrophobia test scores for people treated with treatment A
             double[] sample1 = { 4.6, 4.7, 4.9, 5.1, 5.2, 5.5, 5.8, 6.1, 6.5, 6.5, 7.2 };
