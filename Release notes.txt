@@ -1,6 +1,6 @@
 Accord.NET Framework 3.6.0 release notes
 -----------------------------------------
-03.07.2017.
+09.07.2017.
 
 Version updates and fixes:
   - GH-168: Text naive bayes classification gives wrong results;
