@@ -284,7 +284,11 @@ namespace Accord.Genetic
         ///
         public override IChromosome CreateNew()
         {
-            return new DoubleArrayChromosome(chromosomeGenerator, mutationMultiplierGenerator, mutationAdditionGenerator, length);
+            var chromosome = new DoubleArrayChromosome(chromosomeGenerator, mutationMultiplierGenerator, mutationAdditionGenerator, length);
+            chromosome.CrossoverBalancer = this.CrossoverBalancer;
+            chromosome.MutationBalancer = this.MutationBalancer;
+
+            return chromosome;
         }
 
         /// <summary>
