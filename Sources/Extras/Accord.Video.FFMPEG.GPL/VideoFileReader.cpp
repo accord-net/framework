@@ -30,7 +30,10 @@
 #include "VideoFileReader.h"
 
 #include <string>
-#include <msclr\marshal_cppstd.h>
+
+#if !NET35
+    #include <msclr\marshal_cppstd.h>
+#endif
 
 namespace libffmpeg
 {
@@ -109,10 +112,18 @@ namespace Accord {
                 try
                 {
                     // convert specified managed String to UTF8 unmanaged string
-                    auto nativeFileName = msclr::interop::marshal_as<std::string>(fileName);
+#if NET35
+                    IntPtr ptr = System::Runtime::InteropServices::Marshal::StringToHGlobalUni(fileName);
+                    wchar_t* nativeFileNameUnicode = (wchar_t*)ptr.ToPointer();
+                    int utf8StringSize = WideCharToMultiByte(CP_UTF8, 0, nativeFileNameUnicode, -1, NULL, 0, NULL, NULL);
+                    char* nativeFileName = new char[utf8StringSize];
+                    WideCharToMultiByte(CP_UTF8, 0, nativeFileNameUnicode, -1, nativeFileName, utf8StringSize, NULL, NULL);
+#else
+                    auto nativeFileName = msclr::interop::marshal_as<std::string>(fileName).c_str();
+#endif
 
                     // open the specified video file
-                    data->FormatContext = open_file(nativeFileName.c_str());
+                    data->FormatContext = open_file(nativeFileName);
                     if (data->FormatContext == nullptr)
                         throw gcnew System::IO::IOException("Cannot open the video file.");
 
@@ -187,7 +198,7 @@ namespace Accord {
 
                 if (data->FormatContext != nullptr)
                 {
-                    auto c = data->FormatContext;
+                    libffmpeg::AVFormatContext* c = data->FormatContext;
                     libffmpeg::avformat_close_input(&c);
                 }
 

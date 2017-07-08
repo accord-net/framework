@@ -30,7 +30,10 @@
 #include "VideoFileWriter.h"
 
 #include <string>
-#include <msclr\marshal_cppstd.h>
+
+#if !NET35
+    #include <msclr\marshal_cppstd.h>
+#endif
 
 #define MAX_AUDIO_PACKET_SIZE (128 * 1024)
 
@@ -183,7 +186,9 @@ namespace Accord {
                 // of which frame timestamps are represented. for fixed-fps content,
                 // timebase should be 1/framerate and timestamp increments should be
                 // identically 1.
-                codecContex->time_base = { frameRate.Denominator, frameRate.Numerator };
+                codecContex->time_base.num = frameRate.Denominator;
+                codecContex->time_base.den = frameRate.Numerator;
+
                 //codecContex->framerate = { frameRate.Denominator, frameRate.Numerator };
                 //codecContex->ticks_per_frame = 1;
                 //data->VideoStream->time_base = codecContex->time_base;
@@ -311,7 +316,9 @@ namespace Accord {
                 codecContext->sample_rate = data->SampleRate;
                 codecContext->channels = data->Channels;
                 codecContext->sample_fmt = libffmpeg::AV_SAMPLE_FMT_S16;
-                codecContext->time_base = { 1, codecContext->sample_rate };
+
+                codecContext->time_base.num = 1;
+                codecContext->time_base.den = codecContext->sample_rate;
 
                 data->AudioStream->time_base = codecContext->time_base;
                 data->AudioEncodeBufferSize = 4 * MAX_AUDIO_PACKET_SIZE;
@@ -403,11 +410,19 @@ namespace Accord {
                 try
                 {
                     // convert specified managed String to unmanaged string
-                    auto nativeFileName = msclr::interop::marshal_as<std::string>(fileName);
+#if NET35
+                    IntPtr ptr = System::Runtime::InteropServices::Marshal::StringToHGlobalUni(fileName);
+                    wchar_t* nativeFileNameUnicode = (wchar_t*)ptr.ToPointer();
+                    int utf8StringSize = WideCharToMultiByte(CP_UTF8, 0, nativeFileNameUnicode, -1, NULL, 0, NULL, NULL);
+                    char* nativeFileName = new char[utf8StringSize];
+                    WideCharToMultiByte(CP_UTF8, 0, nativeFileNameUnicode, -1, nativeFileName, utf8StringSize, NULL, NULL);
+#else
+                    auto nativeFileName = msclr::interop::marshal_as<std::string>(fileName).c_str();
+#endif
 
                     // guess about destination file format from its file name
                     libffmpeg::AVOutputFormat* outputFormat = libffmpeg::av_guess_format(nullptr,
-                        nativeFileName.c_str(), nullptr);
+                        nativeFileName, nullptr);
 
                     if (!outputFormat)
                     {
@@ -451,7 +466,7 @@ namespace Accord {
                     // open output file
                     if (!(outputFormat->flags & AVFMT_NOFILE))
                     {
-                        if (libffmpeg::avio_open(&data->FormatContext->pb, nativeFileName.c_str(), AVIO_FLAG_WRITE) < 0)
+                        if (libffmpeg::avio_open(&data->FormatContext->pb, nativeFileName, AVIO_FLAG_WRITE) < 0)
                             throw gcnew System::IO::IOException("Cannot open the video file.");
                     }
 

@@ -39,6 +39,16 @@ namespace Accord.Tests.Video
 
         string fireplace_mp4 = Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources", "fireplace.mp4");
 
+        [Test]
+        public void framework_version_test()
+        {
+            string actual = typeof(VideoFileWriter).Assembly.ImageRuntimeVersion;
+#if NET35
+            Assert.AreEqual("v2.0.50727", actual);
+#else
+            Assert.IsTrue(actual.StartsWith("v4"));
+#endif
+        }
 
         [Test]
         public void write_video_test()

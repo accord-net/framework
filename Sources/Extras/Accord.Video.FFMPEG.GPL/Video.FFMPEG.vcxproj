@@ -69,21 +69,33 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)'=='Debug'" Label="Configuration">
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+	<PlatformToolset>v141</PlatformToolset>
+	<DefineConstants>DEBUG</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)'=='net35'" Label="Configuration">
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+	<PlatformToolset>v90</PlatformToolset>
+	<DefineConstants>NET35</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)'=='net40'" Label="Configuration">
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+	<PlatformToolset>v141</PlatformToolset>
+	<DefineConstants>NET40</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)'=='net45'" Label="Configuration">
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+	<PlatformToolset>v141</PlatformToolset>
+	<DefineConstants>NET45</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)'=='net46'" Label="Configuration">
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+	<PlatformToolset>v141</PlatformToolset>
+	<DefineConstants>NET46</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)'=='net462'" Label="Configuration">
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+	<PlatformToolset>v141</PlatformToolset>
+	<DefineConstants>NET462</DefineConstants>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -110,7 +122,7 @@
   <ItemDefinitionGroup>
     <ClCompile>
       <AdditionalIncludeDirectories>$(SolutionDir)..\Externals\ffmpeg\ffmpeg-3.2.2-$(FFmpegPlatform)-dev\include</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;NDEBUG;__STDC_CONSTANT_MACROS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;__STDC_CONSTANT_MACROS;$(DefineConstants);%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -149,6 +161,13 @@
       <Profile>false</Profile>
     </Link>
   </ItemDefinitionGroup>
+  
+  <ItemDefinitionGroup Condition="'$(Configuration)'=='net35'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\Externals\msinttypes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  
   <ItemDefinitionGroup Condition="'$(Platform)'=='Win32'">
     <Link>
       <TargetMachine>MachineX86</TargetMachine>
