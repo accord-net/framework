@@ -100,9 +100,9 @@ namespace Accord.IO
             if (compression == SerializerCompression.GZip)
             {
 #if NET35 || NET40
-                using (var gzip = new GZipStream(stream, CompressionMode.Compress))
+                using (var gzip = new GZipStream(stream, CompressionMode.Compress, leaveOpen: true))
 #else
-                using (var gzip = new GZipStream(stream, CompressionLevel.Optimal))
+                using (var gzip = new GZipStream(stream, CompressionLevel.Optimal, leaveOpen: true))
 #endif
                     new BinaryFormatter().Serialize(gzip, obj);
             }
@@ -346,7 +346,7 @@ namespace Accord.IO
                     object obj;
                     if (compression == SerializerCompression.GZip)
                     {
-                        using (var gzip = new GZipStream(stream, CompressionMode.Decompress))
+                        using (var gzip = new GZipStream(stream, CompressionMode.Decompress, leaveOpen: true))
                             obj = formatter.Deserialize(gzip);
                     }
                     else if (compression == SerializerCompression.None)
