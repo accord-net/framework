@@ -77,6 +77,8 @@ namespace Accord.Statistics.Analysis
         private double[] rowProportion;
         private double[] colProportion;
 
+        private ConfusionMatrix[] matrices;
+
 
         /// <summary>
         ///   Gets the confusion matrix, in which each element e_ij 
@@ -94,7 +96,7 @@ namespace Accord.Statistics.Analysis
         /// </summary>
         /// 
         [DisplayName("Number of samples")]
-        public int Samples
+        public int Samples // TODO: Deprecate and rename to NumberOfSamples
         {
             get { return samples; }
         }
@@ -104,7 +106,7 @@ namespace Accord.Statistics.Analysis
         /// </summary>
         /// 
         [DisplayName("Number of classes")]
-        public int Classes
+        public int Classes // TODO: Deprecate and rename to NumberOfClasses
         {
             get { return classes; }
         }
@@ -136,7 +138,22 @@ namespace Accord.Statistics.Analysis
         ///   Creates a new Confusion Matrix.
         /// </summary>
         /// 
+        public GeneralConfusionMatrix(int[] expected, int[] predicted)
+        {
+            int classes = expected.Max() + 1;
+            compute(classes, expected, predicted);
+        }
+
+        /// <summary>
+        ///   Creates a new Confusion Matrix.
+        /// </summary>
+        /// 
         public GeneralConfusionMatrix(int classes, int[] expected, int[] predicted)
+        {
+            compute(classes, expected, predicted);
+        }
+
+        private void compute(int classes, int[] expected, int[] predicted)
         {
             if (expected.Length != predicted.Length)
                 throw new DimensionMismatchException("predicted",
@@ -669,6 +686,41 @@ namespace Accord.Statistics.Analysis
                         expected[i, j] = col[j] * row[j] / (double)Samples;
 
                 return expected;
+            }
+        }
+
+        /// <summary>
+        ///   Gets <see cref="ConfusionMatrix">binary confusion matrices</see> for each class in the multi-class 
+        ///   classification problem. You can use this property to obtain <see cref="ConfusionMatrix.Recall">recall</see>, 
+        ///   <see cref="ConfusionMatrix.Precision">precision</see> and other metrics for each of the classes.
+        /// </summary>
+        /// 
+        public ConfusionMatrix[] PerClassMatrices
+        {
+            get
+            {
+                if (matrices == null)
+                {
+                    int[] diagonal = Diagonal;
+                    int[] colSum = ColumnTotals;
+                    int[] rowSum = RowTotals;
+
+                    matrices = new ConfusionMatrix[classes];
+                    for (int i = 0; i < classes; i++)
+                    {
+                        int tp = diagonal[i];
+                        int fp = colSum[i] - diagonal[i];
+                        int fn = rowSum[i] - diagonal[i];
+                        int tn = matrix.Sum() - tp - fp - fn;
+
+                        matrices[i] = new ConfusionMatrix(
+                            truePositives: tp, trueNegatives: tn,
+                            falsePositives: fp, falseNegatives: fn);
+
+                    }
+                }
+
+                return matrices;
             }
         }
 

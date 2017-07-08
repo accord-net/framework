@@ -1510,7 +1510,7 @@ namespace Accord.Math
         ///   Combines two vectors horizontally.
         /// </summary>
         /// 
-        public static T[] Concatenate<T>(this T[] a, T[] b)
+        public static T[] Concatenate<T>(this T[] a, params T[] b)
         {
             T[] r = new T[a.Length + b.Length];
             for (int i = 0; i < a.Length; i++)

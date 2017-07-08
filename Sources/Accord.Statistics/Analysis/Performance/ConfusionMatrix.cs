@@ -25,6 +25,7 @@ namespace Accord.Statistics.Analysis
     using System;
     using System.ComponentModel;
     using Accord.Statistics.Testing;
+    using Accord.Math;
 
     /// <summary>
     ///   Binary decision confusion matrix.
@@ -104,6 +105,9 @@ namespace Accord.Statistics.Analysis
         /// 
         public ConfusionMatrix(int[,] matrix)
         {
+            if (matrix.Rows() != 2 || matrix.Columns() != 2)
+                throw new DimensionMismatchException("matrix");
+
             this.truePositives = matrix[0, 0];
             this.falseNegatives = matrix[0, 1];
 
@@ -172,13 +176,46 @@ namespace Accord.Statistics.Analysis
         /// 
         /// <param name="predicted">The values predicted by the model.</param>
         /// <param name="expected">The actual, truth values from the data.</param>
+        /// 
+        public ConfusionMatrix(int[] predicted, int[] expected)
+        {
+            int[] expectedSymbols = expected.Distinct();
+            if (expectedSymbols.Length != 2)
+            {
+                throw new Exception("The vector of expected values contains more than two possible symbols. Please make sure the " +
+                    "expected vector contains only values 0 or 1, or -1 and +1. If you have a multi-class decision problem, please" +
+                    "use GeneralConfusionMatrix instead.");
+            }
+
+            if (predicted.DistinctCount() > 2)
+                throw new Exception("The vector of predicted values contains more than two possible symbols. Please make sure the predicted vector contains only values 0 or 1, or -1 and +1.");
+
+            predicted = Classes.ToZeroOne(predicted);
+            expected = Classes.ToZeroOne(expected);
+
+            compute(predicted, expected, positiveValue: 1);
+        }
+
+        /// <summary>
+        ///   Constructs a new Confusion Matrix.
+        /// </summary>
+        /// 
+        /// <param name="predicted">The values predicted by the model.</param>
+        /// <param name="expected">The actual, truth values from the data.</param>
         /// <param name="positiveValue">The integer label which identifies a value as positive.</param>
         /// 
         public ConfusionMatrix(int[] predicted, int[] expected, int positiveValue = 1)
         {
+            compute(predicted, expected, positiveValue);
+        }
+
+        private void compute(int[] predicted, int[] expected, int positiveValue)
+        {
             // Initial argument checking
-            if (predicted == null) throw new ArgumentNullException("predicted");
-            if (expected == null) throw new ArgumentNullException("expected");
+            if (predicted == null)
+                throw new ArgumentNullException("predicted");
+            if (expected == null)
+                throw new ArgumentNullException("expected");
             if (predicted.Length != expected.Length)
                 throw new DimensionMismatchException("expected", "The size of the predicted and expected arrays must match.");
 
@@ -217,7 +254,6 @@ namespace Accord.Statistics.Analysis
                     }
                 }
             }
-
         }
 
 
@@ -287,7 +323,7 @@ namespace Accord.Statistics.Analysis
         {
             get
             {
-                return new int[,] 
+                return new int[,]
                 {
                     { truePositives, falseNegatives },
                     { falsePositives, trueNegatives },
@@ -310,7 +346,7 @@ namespace Accord.Statistics.Analysis
         {
             get
             {
-                return new int[] 
+                return new int[]
                 {
                     truePositives + falseNegatives, // ActualPositives
                     falsePositives + trueNegatives, // ActualNegatives
@@ -333,7 +369,7 @@ namespace Accord.Statistics.Analysis
         {
             get
             {
-                return new int[] 
+                return new int[]
                 {
                     truePositives + falsePositives, // PredictedPositives
                     falseNegatives + trueNegatives, // PredictedNegatives
@@ -500,6 +536,24 @@ namespace Accord.Statistics.Analysis
         public double Efficiency
         {
             get { return (Sensitivity + Specificity) / 2.0; }
+        }
+
+        /// <summary>
+        ///   Gets the number of errors between the expected and predicted values.
+        /// </summary>
+        /// 
+        public int Errors
+        {
+            get { return falseNegatives + falsePositives; }
+        }
+
+        /// <summary>
+        ///   Gets the number of hits between the expected and predicted values.
+        /// </summary>
+        /// 
+        public int Hits
+        {
+            get { return truePositives + trueNegatives; }
         }
 
         /// <summary>
@@ -941,7 +995,7 @@ namespace Accord.Statistics.Analysis
             // Create a new matrix assuming negative instances 
             // are class 0, and positive instances are class 1.
 
-            int[,] matrix = 
+            int[,] matrix =
             {
                 //   class 0          class 1
                 { trueNegatives,  falsePositives }, // class 0
