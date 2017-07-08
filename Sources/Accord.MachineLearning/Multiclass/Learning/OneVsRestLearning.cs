@@ -196,10 +196,6 @@ namespace Accord.MachineLearning
             // Save exceptions but process all machines
             var exceptions = new ConcurrentBag<Exception>();
 
-#if DEBUG
-            ParallelOptions.MaxDegreeOfParallelism = 1;
-#endif
-
             if (ParallelOptions.MaxDegreeOfParallelism == 1)
             {
                 // For each class k

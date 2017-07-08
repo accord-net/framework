@@ -48,6 +48,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         private bool useKernelEstimation = false;
         private bool useComplexityHeuristic = true;
         private bool useClassLabelProportion;
+        private bool hasKernelBeenSet;
 
         private double complexity = 1;
         private double positiveWeight = 1;
@@ -275,6 +276,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             {
                 this.kernel = value;
                 this.useKernelEstimation = false;
+                this.hasKernelBeenSet = true;
             }
         }
 
@@ -321,8 +323,22 @@ namespace Accord.MachineLearning.VectorMachines.Learning
                 initialized = true;
             }
 
-            if (!initialized && useKernelEstimation)
-                kernel = SupportVectorLearningHelper.EstimateKernel(kernel, x);
+            if (!initialized)
+            {
+                if (useKernelEstimation)
+                {
+                    kernel = SupportVectorLearningHelper.EstimateKernel(kernel, x);
+                }
+                else
+                {
+                    if (!hasKernelBeenSet)
+                    {
+                        Trace.TraceWarning("The Kernel property has not been set and the UseKernelEstimation property is set to false. Please" +
+                            " make sure that the default parameters of the kernel are suitable for your application, otherwise the learning" +
+                            " will result in a model with very poor performance.");
+                    }
+                }
+            }
 
             if (Model == null)
                 Model = Create(SupportVectorLearningHelper.GetNumberOfInputs(kernel, x), kernel);

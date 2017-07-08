@@ -403,10 +403,20 @@ namespace Accord.MachineLearning.VectorMachines
         public override bool[] Decide(TInput input, bool[] result)
         {
             Cache cache = createOrResetCache();
-            Parallel.For(0, Models.Length, ParallelOptions, i =>
+
+            if (ParallelOptions.MaxDegreeOfParallelism == 1)
             {
-                result[i] = Classes.Decide(distance(i, input, cache));
-            });
+                for (int i = 0; i < Models.Length; i++)
+                    result[i] = Classes.Decide(distance(i, input, cache));
+            }
+            else
+            {
+                Parallel.For(0, Models.Length, ParallelOptions, i =>
+                {
+                    result[i] = Classes.Decide(distance(i, input, cache));
+                });
+            }
+
             return result;
         }
 
@@ -464,25 +474,7 @@ namespace Accord.MachineLearning.VectorMachines
         /// to this classifier.</returns>
         public override int[] Decide(TInput[] input, int[] result)
         {
-            Parallel.For(0, Models.Length, ParallelOptions, i =>
-            {
-                TInput x = input[i];
-                int imax = 0;
-                double max = Double.NegativeInfinity;
-                for (int j = 0; j < Models.Length; j++)
-                {
-                    double output = Models[j].Score(x);
-                    if (output > max)
-                    {
-                        max = output;
-                        imax = j;
-                    }
-                }
-
-                result[i] = imax;
-            });
-
-            return result;
+            return Scores(input).ArgMax(dimension: 1, result: result);
         }
 
         [OnDeserialized]
