@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26606.0
+VisualStudioVersion = 15.0.26621.2
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Unit Tests", "Unit Tests", "{D059B679-8B38-44FE-BEC6-8DFF9271CE59}"
 	ProjectSection(SolutionItems) = preProject
@@ -2118,6 +2118,7 @@ Global
 		{FF31DD24-127D-4EB1-929C-F5738147E886}.mono|Win32.ActiveCfg = net46|Win32
 		{FF31DD24-127D-4EB1-929C-F5738147E886}.mono|x64.ActiveCfg = net46|x64
 		{FF31DD24-127D-4EB1-929C-F5738147E886}.net35|Any CPU.ActiveCfg = net35|Win32
+		{FF31DD24-127D-4EB1-929C-F5738147E886}.net35|Any CPU.Build.0 = net35|Win32
 		{FF31DD24-127D-4EB1-929C-F5738147E886}.net35|Win32.ActiveCfg = net35|Win32
 		{FF31DD24-127D-4EB1-929C-F5738147E886}.net35|x64.ActiveCfg = net35|x64
 		{FF31DD24-127D-4EB1-929C-F5738147E886}.net40|Any CPU.ActiveCfg = net40|Win32
@@ -2335,6 +2336,7 @@ Global
 		{E688E7EB-64B0-41DA-A1A0-924B75727A4B}.mono|Win32.ActiveCfg = mono|Win32
 		{E688E7EB-64B0-41DA-A1A0-924B75727A4B}.mono|x64.ActiveCfg = mono|x64
 		{E688E7EB-64B0-41DA-A1A0-924B75727A4B}.net35|Any CPU.ActiveCfg = net35|Win32
+		{E688E7EB-64B0-41DA-A1A0-924B75727A4B}.net35|Any CPU.Build.0 = net35|Win32
 		{E688E7EB-64B0-41DA-A1A0-924B75727A4B}.net35|Win32.ActiveCfg = net35|Win32
 		{E688E7EB-64B0-41DA-A1A0-924B75727A4B}.net35|x64.ActiveCfg = net35|x64
 		{E688E7EB-64B0-41DA-A1A0-924B75727A4B}.net40|Any CPU.ActiveCfg = net40|Win32
@@ -2676,6 +2678,9 @@ Global
 		{9221B048-1B8B-4492-90CB-DFECBBDCE14C} = {54EB52AC-52D0-4046-BDB6-276A5C7ED0F4}
 		{D501DE22-0988-4954-BF9E-D3816DF20A13} = {D059B679-8B38-44FE-BEC6-8DFF9271CE59}
 		{1D82508D-DE4D-4696-AE0F-163A52B11278} = {37C746F0-45A1-4481-966C-BB3F24C199C9}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AF2DC4B0-8B4C-4742-A09C-458BBF0447A0}
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = Accord.NET.vsmdi
