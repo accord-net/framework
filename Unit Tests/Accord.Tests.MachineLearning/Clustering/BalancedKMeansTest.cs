@@ -560,5 +560,66 @@ namespace Accord.Tests.MachineLearning
                 Assert.AreEqual(hist[i], 50);
         }
 
+        [Test]
+        public void gh_684()
+        {
+            // https://github.com/accord-net/framework/issues/684
+            Accord.Math.Random.Generator.Seed = 0;
+
+            var balancedKMeans = new Accord.MachineLearning.BalancedKMeans(3);
+
+            balancedKMeans.MaxIterations = 1;
+
+            var matrix = new double[34][];
+            matrix[00] = new double[] { 1, 1, 26524 };
+            matrix[01] = new double[] { 1, 1, 87 };
+            matrix[02] = new double[] { 1, 1, 260 };
+            matrix[03] = new double[] { 1, 1, 1179 };
+            matrix[04] = new double[] { 1, 1, 264 };
+            matrix[05] = new double[] { 1, 1, 227 };
+            matrix[06] = new double[] { 1, 1, 176 };
+            matrix[07] = new double[] { 1, 1, 16 };
+            matrix[08] = new double[] { 1, 1, 995 };
+            matrix[09] = new double[] { 1, 1, 438 };
+            matrix[10] = new double[] { 1, 1, 28 };
+            matrix[11] = new double[] { 1, 1, 957 };
+            matrix[12] = new double[] { 1, 1, 91 };
+            matrix[13] = new double[] { 1, 1, 666 };
+            matrix[14] = new double[] { 1, 1, 1157 };
+            matrix[15] = new double[] { 1, 1, 968 };
+            matrix[16] = new double[] { 1, 1, 34 };
+            matrix[17] = new double[] { 1, 1, 1385 };
+            matrix[18] = new double[] { 1, 1, 430 };
+            matrix[19] = new double[] { 1, 1, 1247 };
+            matrix[20] = new double[] { 1, 1, 1536 };
+            matrix[21] = new double[] { 1, 1, 1074 };
+            matrix[22] = new double[] { 1, 1, 1316 };
+            matrix[23] = new double[] { 1, 1, 217 };
+            matrix[24] = new double[] { 1, 1, 475 };
+            matrix[25] = new double[] { 1, 1, 1036 };
+            matrix[26] = new double[] { 1, 1, 343 };
+            matrix[27] = new double[] { 1, 1, 987 };
+            matrix[28] = new double[] { 1, 1, 189 };
+            matrix[29] = new double[] { 1, 1, 157 };
+            matrix[30] = new double[] { 1, 1, 903 };
+            matrix[31] = new double[] { 1, 1, 17 };
+            matrix[32] = new double[] { 1, 1, 1323 };
+            matrix[33] = new double[] { 1, 1, 668 };
+
+            var clusters = balancedKMeans.Learn(matrix);
+
+            Assert.AreEqual(3, clusters.NumberOfClasses);
+            Assert.AreEqual(3, clusters.NumberOfInputs);
+            Assert.AreEqual(3, clusters.NumberOfOutputs);
+            Assert.AreEqual(3, clusters.Proportions.Length);
+            Assert.AreEqual(0.3235294117647059, clusters.Proportions[0], 1e-6);
+            Assert.AreEqual(0.35294117647058826, clusters.Proportions[1], 1e-6);
+            Assert.AreEqual(0.3235294117647059, clusters.Proportions[2], 1e-6);
+            Assert.IsTrue(balancedKMeans.ComputeCovariances);
+            Assert.IsTrue(balancedKMeans.ComputeError);
+
+            for (int i = 0; i < clusters.Covariances.Length; i++)
+                Assert.IsNotNull(clusters.Covariances[i]);
+        }
     }
 }
