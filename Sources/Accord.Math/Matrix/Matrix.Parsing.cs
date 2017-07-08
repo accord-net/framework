@@ -29,7 +29,7 @@ namespace Accord.Math
 
         #region ToString
         /// <summary>
-        ///   Returns a <see cref="System.String"/> represents a matrix.
+        ///   Returns a <see cref="System.String"/> representation of a given matrix.
         /// </summary>
         /// <param name="matrix">The matrix.</param>
         /// <returns>
@@ -49,7 +49,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Returns a <see cref="System.String"/> represents a matrix.
+        ///   Returns a <see cref="System.String"/> representation of a given matrix.
         /// </summary>
         /// <param name="matrix">The matrix.</param>
         /// <returns>
@@ -69,7 +69,27 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents a matrix.
+        ///   Returns a <see cref="System.String"/> representation of a given matrix.
+        /// </summary>
+        /// <param name="matrix">The matrix.</param>
+        /// <returns>
+        ///   A <see cref="System.String"/> that represents this instance.
+        /// </returns>
+        /// 
+        /// <example>
+        ///   Please see <see cref="CSharpMatrixFormatProvider"/>,
+        ///   <see cref="CSharpJaggedMatrixFormatProvider"/>, <see cref="CSharpArrayFormatProvider"/>,
+        ///   <see cref="OctaveMatrixFormatProvider"/>, or <see cref="OctaveArrayFormatProvider"/> 
+        ///   for more details.
+        /// </example>
+        /// 
+        public static string ToOctave<T>(this T[,] matrix)
+        {
+            return ToString(matrix, OctaveMatrixFormatProvider.InvariantCulture);
+        }
+
+        /// <summary>
+        ///   Returns a <see cref="System.String"/> representation of a given matrix.
         /// </summary>
         /// 
         /// <param name="matrix">The matrix.</param>
@@ -110,7 +130,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents a matrix.
+        ///   Returns a <see cref="System.String"/> representation of a given matrix.
         /// </summary>
         /// 
         /// <param name="matrix">The matrix.</param>
@@ -139,7 +159,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents a matrix.
+        ///   Returns a <see cref="System.String"/> representation of a given matrix.
         /// </summary>
         /// 
         /// <param name="matrix">The matrix.</param>
@@ -170,7 +190,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents a matrix.
+        ///   Returns a <see cref="System.String"/> representation of a given matrix.
         /// </summary>
         /// 
         /// <param name="matrix">The matrix.</param>
@@ -197,7 +217,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents a matrix.
+        ///   Returns a <see cref="System.String"/> representation of a given matrix.
         /// </summary>
         /// 
         /// <param name="matrix">The matrix.</param>
@@ -220,7 +240,30 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents a matrix.
+        ///   Returns a <see cref="System.String"/> representation of a given matrix.
+        /// </summary>
+        /// 
+        /// <param name="matrix">The matrix.</param>
+        /// 
+        /// <returns>
+        ///   A <see cref="System.String"/> that represents this instance.
+        /// </returns>
+        /// 
+        /// <example>
+        ///   Please see <see cref="CSharpMatrixFormatProvider"/>,
+        ///   <see cref="CSharpJaggedMatrixFormatProvider"/>, <see cref="CSharpArrayFormatProvider"/>,
+        ///   <see cref="OctaveMatrixFormatProvider"/>, or <see cref="OctaveArrayFormatProvider"/> 
+        ///   for more details.
+        /// </example>
+        /// 
+        /// 
+        public static string ToOctave<T>(this T[][] matrix)
+        {
+            return ToString(matrix, OctaveMatrixFormatProvider.InvariantCulture);
+        }
+
+        /// <summary>
+        ///   Returns a <see cref="System.String"/> representation of a given matrix.
         /// </summary>
         /// 
         /// <param name="matrix">The matrix.</param>
@@ -243,7 +286,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents a matrix.
+        ///   Returns a <see cref="System.String"/> representation of a given matrix.
         /// </summary>
         /// 
         /// <param name="matrix">The matrix.</param>
@@ -271,7 +314,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents a matrix.
+        ///   Returns a <see cref="System.String"/> representation of a given matrix.
         /// </summary>
         /// <param name="matrix">The matrix.</param>
         /// <param name="format">
@@ -301,7 +344,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents a matrix.
+        ///   Returns a <see cref="System.String"/> representation of a given matrix.
         /// </summary>
         /// 
         /// <param name="matrix">The matrix.</param>
@@ -327,7 +370,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents an array.
+        ///   Returns a <see cref="System.String"/> representation of a a given array.
         /// </summary>
         /// 
         /// <param name="array">The array.</param>
@@ -348,7 +391,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents an array.
+        ///   Returns a <see cref="System.String"/> representation of a a given array.
         /// </summary>
         /// 
         /// <param name="array">The array.</param>
@@ -369,7 +412,28 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents an array.
+        ///   Returns a <see cref="System.String"/> representation of a a given array.
+        /// </summary>
+        /// 
+        /// <param name="array">The array.</param>
+        /// 
+        /// <returns>
+        ///   A <see cref="System.String"/> that represents this instance.
+        /// </returns>
+        /// 
+        /// <example>
+        ///   Please see <see cref="CSharpMatrixFormatProvider"/>,
+        ///   <see cref="OctaveArrayFormatProvider"/> or <see cref="DefaultArrayFormatProvider"/>
+        ///   for examples and more details.
+        /// </example>
+        /// 
+        public static string ToOctave<T>(this T[] array)
+        {
+            return ToString(array, OctaveArrayFormatProvider.InvariantCulture);
+        }
+
+        /// <summary>
+        ///   Returns a <see cref="System.String"/> representation of a a given array.
         /// </summary>
         /// 
         /// <param name="array">The array.</param>
@@ -396,7 +460,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents an array.
+        ///   Returns a <see cref="System.String"/> representation of a a given array.
         /// </summary>
         /// 
         /// <param name="matrix">The matrix.</param>
@@ -427,7 +491,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents an array.
+        ///   Returns a <see cref="System.String"/> representation of a a given array.
         /// </summary>
         /// 
         /// <param name="array">The array.</param>
