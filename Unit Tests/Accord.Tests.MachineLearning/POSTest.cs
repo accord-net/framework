@@ -84,7 +84,7 @@ namespace Accord.Tests.MachineLearning
 
             double acc = cm.Accuracy;
 #if NET35
-            Assert.AreEqual(0.93904215125482826d, acc, 1e-10);
+            Assert.AreEqual(0.51725520822339954d, acc, 1e-10);
 #else
             Assert.AreEqual(0.43987588914452158, acc, 1e-10);
 #endif

@@ -27,6 +27,7 @@
     <ProjectReference Include="..\..\Sources\Accord.MachineLearning\Accord.MachineLearning (NETStandard).csproj" />
     <ProjectReference Include="..\..\Sources\Accord.Math.Core\Accord.Math.Core (NETStandard).csproj" />
     <ProjectReference Include="..\..\Sources\Accord.Math\Accord.Math (NETStandard).csproj" />
+    <ProjectReference Include="..\Accord.Tests.Statistics\Accord.Tests.Statistics (NETStandard).csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -34,11 +34,11 @@ namespace Accord.Tests.Imaging
     using System.IO;
     using System.Linq;
     using System.Runtime.Serialization.Formatters.Binary;
-    using MachineLearning.VectorMachines;
-    using MachineLearning.VectorMachines.Learning;
-    using Statistics.Kernels;
-    using Math.Optimization.Losses;
-    using Math.Metrics;
+    using Accord.MachineLearning.VectorMachines;
+    using Accord.MachineLearning.VectorMachines.Learning;
+    using Accord.Statistics.Kernels;
+    using Accord.Math.Optimization.Losses;
+    using Accord.Math.Metrics;
     using Accord.Tests.Vision.Properties;
 #if NETSTANDARD2_0
     using Resources = Accord.Tests.Vision.Properties.Resources_Standard;
