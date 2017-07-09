@@ -138,7 +138,6 @@
       <ImageHasSafeExceptionHandlers />
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <LanguageStandard>stdcpplatest</LanguageStandard>
-      <TargetMachine>MachineX64</TargetMachine>
       <SubSystem>Windows</SubSystem>
     </Link>
     <Xdcmake>
@@ -171,6 +170,11 @@
   <ItemDefinitionGroup Condition="'$(Platform)'=='Win32'">
     <Link>
       <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Platform)'=='x64'">
+    <Link>
+      <TargetMachine>MachineX64</TargetMachine>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
