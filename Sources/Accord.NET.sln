@@ -5,6 +5,7 @@ VisualStudioVersion = 15.0.26621.2
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Unit Tests", "Unit Tests", "{D059B679-8B38-44FE-BEC6-8DFF9271CE59}"
 	ProjectSection(SolutionItems) = preProject
+		Accord.NET.testrunconfig = Accord.NET.testrunconfig
 		..\Unit Tests\Accord.Tests.targets = ..\Unit Tests\Accord.Tests.targets
 	EndProjectSection
 EndProject
@@ -16,9 +17,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Accord.NET.psess = Accord.NET.psess
 		Accord.NET.ruleset = Accord.NET.ruleset
 		Accord.NET.targets = Accord.NET.targets
-		Accord.NET.testrunconfig = Accord.NET.testrunconfig
 		Accord.NET.vsmdi = Accord.NET.vsmdi
-		..\Unit Tests\Accord.Tests.targets = ..\Unit Tests\Accord.Tests.targets
 		Building.txt = Building.txt
 		..\Contributors.txt = ..\Contributors.txt
 		..\Copyright.txt = ..\Copyright.txt
@@ -2120,6 +2119,7 @@ Global
 		{FF31DD24-127D-4EB1-929C-F5738147E886}.net35|Any CPU.ActiveCfg = net35|Win32
 		{FF31DD24-127D-4EB1-929C-F5738147E886}.net35|Any CPU.Build.0 = net35|Win32
 		{FF31DD24-127D-4EB1-929C-F5738147E886}.net35|Win32.ActiveCfg = net35|Win32
+		{FF31DD24-127D-4EB1-929C-F5738147E886}.net35|Win32.Build.0 = net35|Win32
 		{FF31DD24-127D-4EB1-929C-F5738147E886}.net35|x64.ActiveCfg = net35|x64
 		{FF31DD24-127D-4EB1-929C-F5738147E886}.net40|Any CPU.ActiveCfg = net40|Win32
 		{FF31DD24-127D-4EB1-929C-F5738147E886}.net40|Any CPU.Build.0 = net40|Win32
@@ -2338,6 +2338,7 @@ Global
 		{E688E7EB-64B0-41DA-A1A0-924B75727A4B}.net35|Any CPU.ActiveCfg = net35|Win32
 		{E688E7EB-64B0-41DA-A1A0-924B75727A4B}.net35|Any CPU.Build.0 = net35|Win32
 		{E688E7EB-64B0-41DA-A1A0-924B75727A4B}.net35|Win32.ActiveCfg = net35|Win32
+		{E688E7EB-64B0-41DA-A1A0-924B75727A4B}.net35|Win32.Build.0 = net35|Win32
 		{E688E7EB-64B0-41DA-A1A0-924B75727A4B}.net35|x64.ActiveCfg = net35|x64
 		{E688E7EB-64B0-41DA-A1A0-924B75727A4B}.net40|Any CPU.ActiveCfg = net40|Win32
 		{E688E7EB-64B0-41DA-A1A0-924B75727A4B}.net40|Any CPU.Build.0 = net40|Win32
