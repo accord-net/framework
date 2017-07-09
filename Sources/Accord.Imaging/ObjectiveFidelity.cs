@@ -197,18 +197,13 @@ namespace Accord.Imaging
         public void Compute(Bitmap a, Bitmap b)
         {
             // lock source image
-            BitmapData dataOriginal = a.LockBits(
-                new Rectangle(0, 0, a.Width, a.Height),
-                ImageLockMode.ReadOnly, a.PixelFormat);
-
-            BitmapData dataReconstructed = b.LockBits(
-                new Rectangle(0, 0, b.Width, b.Height),
-                ImageLockMode.ReadOnly, b.PixelFormat);
+            BitmapData dataOriginal = a.LockBits(ImageLockMode.ReadOnly);
+            BitmapData dataReconstructed = b.LockBits(ImageLockMode.ReadOnly);
 
             Compute(new UnmanagedImage(dataOriginal), new UnmanagedImage(dataReconstructed));
 
             a.UnlockBits(dataOriginal);
-            a.UnlockBits(dataReconstructed);
+            b.UnlockBits(dataReconstructed);
         }
 
         /// <summary>
