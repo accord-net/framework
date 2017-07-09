@@ -267,9 +267,7 @@ namespace Accord.Tests.Statistics.Models.Fields
 
 
         [Test]
-#if DEBUG
         [Ignore("Intensive")]
-#endif
         public void learn_pendigits_normalization()
         {
             using (var travis = new KeepTravisAlive())
