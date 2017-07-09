@@ -69,6 +69,12 @@ namespace Accord.Statistics.Analysis
     ///    any other kernel function could have been used.</para>
     ///    
     /// <code source="Unit Tests\Accord.Tests.Statistics\Analysis\KernelPrincipalComponentAnalysisTest.cs" region="doc_learn_1" />
+    /// 
+    ///   <para>
+    ///   It is also possible to create a KPCA from a kernel matrix that already exists. The example
+    ///   below shows how this could be accomplished.</para>
+    ///   
+    /// <code source="Unit Tests\Accord.Tests.Statistics\Analysis\KernelPrincipalComponentAnalysisTest.cs" region="doc_learn_kernel_matrix" />
     /// </example>
     /// 
     [Serializable]

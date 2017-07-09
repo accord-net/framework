@@ -1062,6 +1062,138 @@ namespace Accord.Tests.Statistics
         }
 
         [Test]
+        public void learn_kernel_matrix()
+        {
+            #region doc_learn_kernel_matrix
+            // This example shows how to compute KPCA from an already existing kernel matrix. Note that, 
+            // in most cases, you can just pass your data samples and a choice of kernel function to KPCA 
+            // and it will compute the kernel matrix internally for you. However, if you have already computed 
+            // the kernel matrix, you can use the method shown below to avoid computing it twice.
+
+            // Let's say those were our original data points
+            double[][] data =
+            {
+                new double[] { 2.5,  2.4 },
+                new double[] { 0.5,  0.7 },
+                new double[] { 2.2,  2.9 },
+                new double[] { 1.9,  2.2 },
+                new double[] { 3.1,  3.0 },
+                new double[] { 2.3,  2.7 },
+                new double[] { 2.0,  1.6 },
+                new double[] { 1.0,  1.1 },
+                new double[] { 1.5,  1.6 },
+                new double[] { 1.1,  0.9 }
+            };
+
+            // Let's say we have already computed their kernel 
+            // matrix as part of some previous computation:
+            double[] mean = data.Mean(dimension: 0);
+            double[][] x = data.Subtract(mean, dimension: 0);
+
+            Linear kernel = new Linear();
+            double[][] K = kernel.ToJagged(x);
+
+
+            // Assuming that we already have the kernel matrix K at this point, we can create the KPCA as
+            var pca = new KernelPrincipalComponentAnalysis(kernel, PrincipalComponentMethod.KernelMatrix);
+
+            // Compute it
+            pca.Learn(K); // note: we pass the kernel matrix instead of the data points
+
+            // Those are the expected eigenvalues, in descending order:
+            double[] eigenvalues = pca.Eigenvalues.Divide(data.GetLength(0) - 1); //  { 1.28402771, 0.0490833989 };
+
+            // And this will be their proportion:
+            double[] proportions = pca.ComponentProportions; // { 0.963181314348646, 0.03681868565135403 };
+
+            // We can transform the inputs using
+            double[][] actual = pca.Transform(K);
+
+            // The output should be similar to
+            double[,] expected = new double[,]
+            {
+                {  0.827970186, -0.175115307 },
+                { -1.77758033,   0.142857227 },
+                {  0.992197494,  0.384374989 },
+                {  0.274210416,  0.130417207 },
+                {  1.67580142,  -0.209498461 },
+                {  0.912949103,  0.175282444 },
+                { -0.099109437, -0.349824698 },
+                { -1.14457216,   0.046417258 },
+                { -0.438046137,  0.017764629 },
+                { -1.22382056,  -0.162675287 },
+            }.Multiply(-1);
+
+            
+
+            // Now we can transform new data using KPCA by 
+            // again feeding a kernel matrix manually:
+            double[][] newData =
+            {
+                new double[] { 2.2,  2.7 },
+                new double[] { 1.2,  4.9 },
+                new double[] { 1.8,  0.2 },
+            };
+
+            // Subtract the mean before computing a kernel matrix
+            double[][] y = newData.Subtract(mean, dimension: 0);
+
+            // Create the kernel matrix for new data
+            double[][] newK = kernel.ToJagged2(y, x);
+
+            // Transform using the new kernel matrix
+            double[][] output = pca.Transform(newK);
+
+            // Output will be similar to
+            // output = 
+            // {
+            //     new double[] { -0.845161763306007, -0.24880030917481 },
+            //     new double[] { -1.78468140697569,  -2.47530044148084 },
+            //     new double[] {  1.26393423496622,   1.15181172492746 }
+            // };
+
+            // We can project to just its first components by 
+            // setting NumberOfOutputs to the desired components:
+
+            pca.NumberOfOutputs = 1;
+
+            // And then calling transform again:
+            double[][] output2 = pca.Transform(newK);
+
+            // We can also limit to 80% of explained variance:
+            pca.ExplainedVariance = 0.8;
+
+            // And then call transform again:
+            double[][] output3 = pca.Transform(newK);
+            #endregion
+
+            // Everything is correct (up to 8 decimal places)
+            Assert.IsTrue(expected.IsEqual(actual, atol: 1e-8));
+
+            double[] expectedEigenvalues = { 1.28402771, 0.0490833989 };
+            double[] expectedProportions = eigenvalues.Divide(eigenvalues.Sum());
+
+            Assert.IsTrue(proportions.IsEqual(expectedProportions, rtol: 1e-9));
+            Assert.IsTrue(eigenvalues.IsEqual(expectedEigenvalues, rtol: 1e-5));
+
+            var reference = new PrincipalComponentAnalysis(PrincipalComponentMethod.Center);
+
+            reference.Learn(data);
+
+            double[][] expected1 = reference.Transform(newData).Multiply(-1);
+
+            reference.NumberOfOutputs = 1;
+            double[][] expected2 = reference.Transform(newData).Multiply(-1);
+
+            reference.ExplainedVariance = 0.8;
+            double[][] expected3 = reference.Transform(newData).Multiply(-1);
+
+            Assert.IsTrue(expected1.IsEqual(output, 1e-6));
+            Assert.IsTrue(expected2.IsEqual(output2, 1e-6));
+            Assert.IsTrue(expected3.IsEqual(output3, 1e-6));
+        }
+
+        [Test]
         public void learn_whiten_success()
         {
             double[,] data =
@@ -1120,7 +1252,7 @@ namespace Accord.Tests.Statistics
         [Category("Serialization")]
         public void SerializeTest()
         {
-            double[][] actual, expected = new double[][] 
+            double[][] actual, expected = new double[][]
             {
                 new double[] { -0.57497881446526, 0.0385634996866008 },
                 new double[] { 0.615576484818799, 0.463702189462175 },

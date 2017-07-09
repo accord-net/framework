@@ -362,7 +362,8 @@ namespace Accord.Statistics.Kernels
         /// 
         public static double[][] Center(double[][] kernelMatrix, out double[] rowMean, out double mean, double[][] result = null)
         {
-            result = (result == null) ? Jagged.CreateAs(kernelMatrix) : kernelMatrix;
+            if (result == null)
+                result = Jagged.CreateAs(kernelMatrix);
 
             rowMean = kernelMatrix.Mean(dimension: 1);
 #if DEBUG
@@ -391,12 +392,15 @@ namespace Accord.Statistics.Kernels
         /// 
         public static double[,] Center(double[,] kernelMatrix, double[] rowMean, double mean, double[,] result = null)
         {
-            result = (result == null) ? Matrix.CreateAs(kernelMatrix) : kernelMatrix;
+            if (result == null)
+                result = Matrix.CreateAs(kernelMatrix);
 
-            int samples = kernelMatrix.GetLength(0);
+            int rows = kernelMatrix.Rows();
+            int cols = kernelMatrix.Columns();
+
             double[] rowMean1 = kernelMatrix.Mean(1);
-            for (int i = 0; i < samples; i++)
-                for (int j = 0; j < rowMean.Length; j++)
+            for (int i = 0; i < rows; i++)
+                for (int j = 0; j < cols; j++)
                     result[i, j] = kernelMatrix[i, j] - rowMean1[i] - rowMean[j] + mean;
 
             return result;
@@ -413,12 +417,21 @@ namespace Accord.Statistics.Kernels
         /// 
         public static double[][] Center(double[][] kernelMatrix, double[] rowMean, double mean, double[][] result = null)
         {
-            result = (result == null) ? Jagged.CreateAs(kernelMatrix) : kernelMatrix;
+            if (result == null)
+                result = Jagged.CreateAs(kernelMatrix);
 
+            int cols = kernelMatrix.Columns();
+             
             double[] rowMean1 = kernelMatrix.Mean(1);
-            for (int i = 0; i < rowMean1.Length; i++)
-                for (int j = 0; j < rowMean.Length; j++)
+            for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < kernelMatrix[i].Length; j++)
                     result[i][j] = kernelMatrix[i][j] - rowMean1[i] - rowMean[j] + mean;
+
+#if DEBUG
+            double[,] r = Center(kernelMatrix.ToMatrix(), rowMean, mean);
+            if (!r.IsEqual(result, 1e-8))
+                throw new Exception();
+#endif
 
             return result;
         }
