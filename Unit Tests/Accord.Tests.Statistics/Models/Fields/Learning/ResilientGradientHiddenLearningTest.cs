@@ -272,107 +272,110 @@ namespace Accord.Tests.Statistics.Models.Fields
 #endif
         public void learn_pendigits_normalization()
         {
-            #region doc_learn_pendigits
-            // Ensure we get reproducible results
-            Accord.Math.Random.Generator.Seed = 0;
-
-            // Download the PENDIGITS dataset from UCI ML repository
-            var pendigits = new Pendigits(path: Path.GetTempPath());
-
-            // Get and pre-process the training set
-            double[][][] trainInputs = pendigits.Training.Item1;
-            int[] trainOutputs = pendigits.Training.Item2;
-
-            // Pre-process the digits so each of them is centered and scaled
-            trainInputs = trainInputs.Apply(Accord.Statistics.Tools.ZScores);
-            trainInputs = trainInputs.Apply((x) => x.Subtract(x.Min())); // make them positive
-
-            // Create some prior distributions to help initialize our parameters
-            var priorC = new WishartDistribution(dimension: 2, degreesOfFreedom: 5);
-            var priorM = new MultivariateNormalDistribution(dimension: 2);
-
-            // Create a new learning algorithm for creating continuous hidden Markov model classifiers
-            var teacher1 = new HiddenMarkovClassifierLearning<MultivariateNormalDistribution, double[]>()
+            using (var travis = new KeepTravisAlive())
             {
-                // This tells the generative algorithm how to train each of the component models. Note: The learning
-                // algorithm is more efficient if all generic parameters are specified, including the fitting options
-                Learner = (i) => new BaumWelchLearning<MultivariateNormalDistribution, double[], NormalOptions>()
+                #region doc_learn_pendigits
+                // Ensure we get reproducible results
+                Accord.Math.Random.Generator.Seed = 0;
+
+                // Download the PENDIGITS dataset from UCI ML repository
+                var pendigits = new Pendigits(path: Path.GetTempPath());
+
+                // Get and pre-process the training set
+                double[][][] trainInputs = pendigits.Training.Item1;
+                int[] trainOutputs = pendigits.Training.Item2;
+
+                // Pre-process the digits so each of them is centered and scaled
+                trainInputs = trainInputs.Apply(Accord.Statistics.Tools.ZScores);
+                trainInputs = trainInputs.Apply((x) => x.Subtract(x.Min())); // make them positive
+
+                // Create some prior distributions to help initialize our parameters
+                var priorC = new WishartDistribution(dimension: 2, degreesOfFreedom: 5);
+                var priorM = new MultivariateNormalDistribution(dimension: 2);
+
+                // Create a new learning algorithm for creating continuous hidden Markov model classifiers
+                var teacher1 = new HiddenMarkovClassifierLearning<MultivariateNormalDistribution, double[]>()
                 {
-                    Topology = new Forward(5), // Each model will have a forward topology with 5 states
-
-                    // Their emissions will be multivariate Normal distributions initialized using the prior distributions
-                    Emissions = (j) => new MultivariateNormalDistribution(mean: priorM.Generate(), covariance: priorC.Generate()),
-
-                    // We will train until the relative change in the average log-likelihood is less than 1e-6 between iterations
-                    Tolerance = 1e-6,
-                    MaxIterations = 1000, // or until we perform 1000 iterations (which is unlikely for this dataset)
-
-                    // We will prevent our covariance matrices from becoming degenerate by adding a small 
-                    // regularization value to their diagonal until they become positive-definite again:
-                    FittingOptions = new NormalOptions()
+                    // This tells the generative algorithm how to train each of the component models. Note: The learning
+                    // algorithm is more efficient if all generic parameters are specified, including the fitting options
+                    Learner = (i) => new BaumWelchLearning<MultivariateNormalDistribution, double[], NormalOptions>()
                     {
-                        Regularization = 1e-6
+                        Topology = new Forward(5), // Each model will have a forward topology with 5 states
+
+                        // Their emissions will be multivariate Normal distributions initialized using the prior distributions
+                        Emissions = (j) => new MultivariateNormalDistribution(mean: priorM.Generate(), covariance: priorC.Generate()),
+
+                        // We will train until the relative change in the average log-likelihood is less than 1e-6 between iterations
+                        Tolerance = 1e-6,
+                        MaxIterations = 1000, // or until we perform 1000 iterations (which is unlikely for this dataset)
+
+                        // We will prevent our covariance matrices from becoming degenerate by adding a small 
+                        // regularization value to their diagonal until they become positive-definite again:
+                        FittingOptions = new NormalOptions()
+                        {
+                            Regularization = 1e-6
+                        }
                     }
-                }
-            };
+                };
 
-            //// The following line is only needed to ensure reproducible results. Please remove it to enable full parallelization
-            //teacher1.ParallelOptions.MaxDegreeOfParallelism = 1; // (Remove, comment, or change this line to enable full parallelism)
+                //// The following line is only needed to ensure reproducible results. Please remove it to enable full parallelization
+                //teacher1.ParallelOptions.MaxDegreeOfParallelism = 1; // (Remove, comment, or change this line to enable full parallelism)
 
-            // Use the learning algorithm to create a classifier
-            var hmmc = teacher1.Learn(trainInputs, trainOutputs);
+                // Use the learning algorithm to create a classifier
+                var hmmc = teacher1.Learn(trainInputs, trainOutputs);
 
-            // Create a new learning algorithm for creating HCRFs
-            var teacher2 = new HiddenResilientGradientLearning<double[]>()
-            {
-                Function = new MarkovMultivariateFunction(hmmc),
+                // Create a new learning algorithm for creating HCRFs
+                var teacher2 = new HiddenResilientGradientLearning<double[]>()
+                {
+                    Function = new MarkovMultivariateFunction(hmmc),
 
-                MaxIterations = 10
-            };
+                    MaxIterations = 10
+                };
 
-            //// The following line is only needed to ensure reproducible results. Please remove it to enable full parallelization
-            //teacher2.ParallelOptions.MaxDegreeOfParallelism = 1; // (Remove, comment, or change this line to enable full parallelism)
+                //// The following line is only needed to ensure reproducible results. Please remove it to enable full parallelization
+                //teacher2.ParallelOptions.MaxDegreeOfParallelism = 1; // (Remove, comment, or change this line to enable full parallelism)
 
-            // Use the learning algorithm to create a classifier
-            var hcrf = teacher2.Learn(trainInputs, trainOutputs);
+                // Use the learning algorithm to create a classifier
+                var hcrf = teacher2.Learn(trainInputs, trainOutputs);
 
-            // Compute predictions for the training set
-            int[] trainPredicted = hcrf.Decide(trainInputs);
+                // Compute predictions for the training set
+                int[] trainPredicted = hcrf.Decide(trainInputs);
 
-            // Check the performance of the classifier by comparing with the ground-truth:
-            var m1 = new GeneralConfusionMatrix(predicted: trainPredicted, expected: trainOutputs);
-            double trainAcc = m1.Accuracy; // should be 0.81532304173813608
+                // Check the performance of the classifier by comparing with the ground-truth:
+                var m1 = new GeneralConfusionMatrix(predicted: trainPredicted, expected: trainOutputs);
+                double trainAcc = m1.Accuracy; // should be 0.81532304173813608
 
 
-            // Prepare the testing set
-            double[][][] testInputs = pendigits.Testing.Item1;
-            int[] testOutputs = pendigits.Testing.Item2;
+                // Prepare the testing set
+                double[][][] testInputs = pendigits.Testing.Item1;
+                int[] testOutputs = pendigits.Testing.Item2;
 
-            // Apply the same normalizations
-            testInputs = testInputs.Apply(Accord.Statistics.Tools.ZScores);
-            testInputs = testInputs.Apply((x) => x.Subtract(x.Min())); // make them positive
+                // Apply the same normalizations
+                testInputs = testInputs.Apply(Accord.Statistics.Tools.ZScores);
+                testInputs = testInputs.Apply((x) => x.Subtract(x.Min())); // make them positive
 
-            // Compute predictions for the test set
-            int[] testPredicted = hcrf.Decide(testInputs);
+                // Compute predictions for the test set
+                int[] testPredicted = hcrf.Decide(testInputs);
 
-            // Check the performance of the classifier by comparing with the ground-truth:
-            var m2 = new GeneralConfusionMatrix(predicted: testPredicted, expected: testOutputs);
-            double testAcc = m2.Accuracy; // should be 0.77061649319455561
-            #endregion
+                // Check the performance of the classifier by comparing with the ground-truth:
+                var m2 = new GeneralConfusionMatrix(predicted: testPredicted, expected: testOutputs);
+                double testAcc = m2.Accuracy; // should be 0.77061649319455561
+                #endregion
 
-            var loss = new Accord.Math.Optimization.Losses.ZeroOneLoss(testOutputs).Loss(testPredicted);
-            Assert.AreEqual(1.0 - loss, m2.Accuracy);
+                var loss = new Accord.Math.Optimization.Losses.ZeroOneLoss(testOutputs).Loss(testPredicted);
+                Assert.AreEqual(1.0 - loss, m2.Accuracy);
 
-            Assert.AreEqual(10, m1.Classes);
-            Assert.AreEqual(10, m2.Classes);
+                Assert.AreEqual(10, m1.Classes);
+                Assert.AreEqual(10, m2.Classes);
 
 #if NET35
             Assert.AreEqual(0.89594053744997137d, trainAcc, 1e-5);
             Assert.AreEqual(0.89605017347211102d, testAcc, 1e-5);
 #else
-            Assert.IsTrue(trainAcc.IsEqual(0.81532304173813608, 1e-5) || trainAcc.IsEqual(0.81532304173813608, 1e-5));
-            Assert.IsTrue(testAcc.IsEqual(0.77061649319455561, 1e-5) || testAcc.IsEqual(0.77061649319455561, 1e-5));
+                Assert.IsTrue(trainAcc.IsEqual(0.81532304173813608, 1e-5) || trainAcc.IsEqual(0.81532304173813608, 1e-5));
+                Assert.IsTrue(testAcc.IsEqual(0.77061649319455561, 1e-5) || testAcc.IsEqual(0.77061649319455561, 1e-5));
 #endif
+            }
         }
     }
 }

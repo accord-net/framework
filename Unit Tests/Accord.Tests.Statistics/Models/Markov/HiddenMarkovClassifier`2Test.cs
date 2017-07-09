@@ -799,42 +799,45 @@ namespace Accord.Tests.Statistics
 #endif
         public void learn_pendigits()
         {
-            Accord.Math.Random.Generator.Seed = 0;
-
-            var pendigits = new Pendigits(path: Path.Combine(Path.GetTempPath(), "learn_pendigits"));
-
-            double[][][] inputs = pendigits.Training.Item1;
-            int[] outputs = pendigits.Training.Item2;
-
-            var teacher = new HiddenMarkovClassifierLearning<MultivariateNormalDistribution, double[]>()
+            using (var travis = new KeepTravisAlive())
             {
-                Learner = (i) => new BaumWelchLearning<MultivariateNormalDistribution, double[]>()
+                Accord.Math.Random.Generator.Seed = 0;
+
+                var pendigits = new Pendigits(path: Path.Combine(Path.GetTempPath(), "learn_pendigits"));
+
+                double[][][] inputs = pendigits.Training.Item1;
+                int[] outputs = pendigits.Training.Item2;
+
+                var teacher = new HiddenMarkovClassifierLearning<MultivariateNormalDistribution, double[]>()
                 {
-                    Topology = new Forward(5),
-                    Emissions = (j) => new MultivariateNormalDistribution(dimension: 2),
-
-                    Tolerance = 1e-6,
-                    MaxIterations = 1000,
-
-                    FittingOptions = new NormalOptions()
+                    Learner = (i) => new BaumWelchLearning<MultivariateNormalDistribution, double[]>()
                     {
-                        Regularization = 1e-5
+                        Topology = new Forward(5),
+                        Emissions = (j) => new MultivariateNormalDistribution(dimension: 2),
+
+                        Tolerance = 1e-6,
+                        MaxIterations = 1000,
+
+                        FittingOptions = new NormalOptions()
+                        {
+                            Regularization = 1e-5
+                        }
                     }
-                }
-            };
+                };
 
-            var hmmc = teacher.Learn(inputs, outputs);
+                var hmmc = teacher.Learn(inputs, outputs);
 
-            int[] predicted = hmmc.Decide(inputs);
+                int[] predicted = hmmc.Decide(inputs);
 
-            var cm = new GeneralConfusionMatrix(predicted: predicted, expected: outputs);
+                var cm = new GeneralConfusionMatrix(predicted: predicted, expected: outputs);
 
-            double acc = cm.Accuracy;
+                double acc = cm.Accuracy;
 #if NET35
             Assert.AreEqual(0.53030303030303028d, acc, 1e-10);
 #else
-            Assert.AreEqual(0.53030303030303028d, acc, 1e-10);
+                Assert.AreEqual(0.53030303030303028d, acc, 1e-10);
 #endif
+            }
         }
 
         [Test]

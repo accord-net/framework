@@ -177,6 +177,10 @@
       <Project>{FD8101DD-C95D-42D6-AD44-AE01C25F2811}</Project>
       <Name>Accord.Statistics</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Accord.Tests.Statistics\Accord.Tests.Statistics.csproj">
+      <Project>{49679C95-28CE-4D35-8F38-3D67A511A3C1}</Project>
+      <Name>Accord.Tests.Statistics</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

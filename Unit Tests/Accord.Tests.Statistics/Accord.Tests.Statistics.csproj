@@ -106,6 +106,7 @@
     <Compile Include="Kernels\BSplineTest.cs" />
     <Compile Include="MinimumMeanDistanceClassifierTest.cs" />
     <Compile Include="Models\Fields\Learning\ForwardBackwardGradientTest.cs" />
+    <Compile Include="Models\Fields\Learning\KeepTravisAlive.cs" />
     <Compile Include="Models\Markov\HiddenMarkovClassifier`2Test.cs" />
     <Compile Include="Models\Markov\HiddenMarkovModel`2Test.cs" />
     <Compile Include="Models\Regression\LogarithmRegressionTest.cs" />
