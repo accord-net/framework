@@ -1181,5 +1181,88 @@ namespace Accord.Tests.Statistics
                 Assert.AreEqual(1, pls.Factors.Count);
             }
         }
+
+        [Test]
+        public void matlab_herve_example()
+        {
+            // Example from https://stackoverflow.com/questions/40685649/pls-regression-coefficients-in-matlab-and-c-sharp-accord-net
+
+            double[][] inputs = new double[][]
+            {
+                //      Wine | Price | Sugar | Alcohol | Acidity
+                new double[] {   7,     7,      13,        7 },
+                new double[] {   4,     3,      14,        7 },
+                new double[] {  10,     5,      12,        5 },
+                new double[] {  16,     7,      11,        3 },
+                new double[] {  13,     3,      10,        3 },
+            };
+
+            double[][] outputs = new double[][]
+            {
+                //             Wine | Hedonic | Goes with meat | Goes with dessert
+                new double[] {           14,          7,                 8 },
+                new double[] {           10,          7,                 6 },
+                new double[] {            8,          5,                 5 },
+                new double[] {            2,          4,                 7 },
+                new double[] {            6,          2,                 4 },
+            };
+
+            // Create the Partial Least Squares Analysis
+            var pls = new PartialLeastSquaresAnalysis()
+            {
+                Method = AnalysisMethod.Center,
+                Algorithm = PartialLeastSquaresAlgorithm.SIMPLS,
+            };
+
+            // Learn the analysis
+            var regression = pls.Learn(inputs, outputs);
+
+            // Create a regression with just 1 component
+            var regression1 = pls.CreateRegression(factors: 1);
+
+            // Get the matrix of weights and intercept
+            double[][] w = regression1.Weights.Transpose();
+            double[] b = regression1.Intercepts;
+            double[][] coeffs = (w.InsertColumn(b, index: 0)).Transpose();
+
+            // Show results in Octave format
+            string str = coeffs.ToOctave();
+
+            double[][] expected =
+            {
+                new[] { 1.0484e+01 ,  6.1899e+00,   6.2841e+00 },
+                new[] { -6.3488e-01, -3.0405e-01, -7.2608e-02 },
+                new[] { 2.1949e-02 ,  1.0512e-02,   2.5102e-03 },
+                new[] { 1.9226e-01 ,  9.2078e-02,   2.1988e-02 },
+                new[] { 2.8948e-01 ,  1.3864e-01,   3.3107e-02 },
+            };
+
+            Assert.IsTrue(expected.IsEqual(coeffs, 1e-3));
+
+            pls = new PartialLeastSquaresAnalysis()
+            {
+                Method = AnalysisMethod.Center,
+                Algorithm = PartialLeastSquaresAlgorithm.SIMPLS,
+                NumberOfLatentFactors = 1
+            };
+
+            var regression2 = pls.Learn(inputs, outputs);
+
+            Assert.IsTrue(regression1.Weights.IsEqual(regression2.Weights));
+            Assert.IsTrue(regression1.Intercepts.IsEqual(regression2.Intercepts));
+
+            Assert.Throws<InvalidOperationException>(() => pls.NumberOfOutputs = -1);
+            Assert.Throws<ArgumentOutOfRangeException>(() => pls.NumberOfLatentFactors = -1);
+            Assert.Throws<ArgumentOutOfRangeException>(() => pls.NumberOfLatentFactors = 5);
+
+            pls.NumberOfLatentFactors = 4;
+
+            var regression3 = pls.CreateRegression();
+            Assert.IsTrue(regression.Weights.IsEqual(regression3.Weights));
+            Assert.IsTrue(regression.Intercepts.IsEqual(regression3.Intercepts));
+
+            Assert.IsFalse(regression1.Weights.IsEqual(regression3.Weights));
+            Assert.IsFalse(regression1.Intercepts.IsEqual(regression3.Intercepts));
+        }
     }
 }

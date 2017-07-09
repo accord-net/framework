@@ -160,6 +160,7 @@ namespace Accord.Statistics.Analysis
         private PartialLeastSquaresVariables outputVariables;
 
         private bool overwriteSourceMatrix;
+        private int numberOfFactors;
 
 
         /// <summary>
@@ -351,6 +352,40 @@ namespace Accord.Statistics.Analysis
         }
 
         /// <summary>
+        ///   Gets or sets the number of latent factors that can be considered in this model.
+        /// </summary>
+        /// 
+        public int NumberOfLatentFactors
+        {
+            get { return this.numberOfFactors; }
+            set
+            {
+                if (value < 0 || (MaximumNumberOfFactors > 0 && value > MaximumNumberOfFactors))
+                    throw new ArgumentOutOfRangeException("value", "Number of latent factors should be less than or equal the number of columns in the input data {0}.".Format(MaximumNumberOfFactors));
+                this.numberOfFactors = value;
+            }
+        }
+
+        public override int NumberOfInputs
+        {
+            get { return base.NumberOfInputs; }
+            set { throw new InvalidOperationException("This property is read-only."); }
+        }
+
+        public override int NumberOfOutputs
+        {
+            get { return base.NumberOfOutputs; }
+            set { throw new InvalidOperationException("This property is read-only."); }
+        }
+
+        /// <summary>
+        ///   Gets the maximum number of latent factors that can be considered in this model.
+        /// </summary>
+        /// 
+        public int MaximumNumberOfFactors { get; private set; }
+
+
+        /// <summary>
         /// Learns a model that can map the given inputs to the given outputs.
         /// </summary>
         /// <param name="x">The model inputs.</param>
@@ -365,13 +400,15 @@ namespace Accord.Statistics.Analysis
                 throw new ArgumentException(Accord.Properties.Resources.NotSupportedWeights, "weights");
 
             // maxFactors = min(rows-1, cols)
-            int factors = System.Math.Min(x.Rows() - 1, x.Columns());
+            MaximumNumberOfFactors = System.Math.Min(x.Rows() - 1, x.Columns());
 
             this.inputVariables = new PartialLeastSquaresVariables(this, true);
             this.outputVariables = new PartialLeastSquaresVariables(this, false);
 
-            this.NumberOfInputs = x.Columns();
-            this.NumberOfOutputs = factors;
+            base.NumberOfInputs = x.Columns();
+            base.NumberOfOutputs = y.Columns();
+            if (this.NumberOfLatentFactors == 0 || this.NumberOfLatentFactors > MaximumNumberOfFactors)
+                this.NumberOfLatentFactors = MaximumNumberOfFactors;
 
             meanX = x.Mean(dimension: 0);
             meanY = y.Mean(dimension: 0);
@@ -386,20 +423,20 @@ namespace Accord.Statistics.Analysis
             // Run selected algorithm
             if (algorithm == PartialLeastSquaresAlgorithm.SIMPLS)
             {
-                simpls(inputs, outputs, factors);
+                simpls(inputs, outputs, MaximumNumberOfFactors);
             }
             else
             {
-                nipals(inputs, outputs, factors, 0);
+                nipals(inputs, outputs, MaximumNumberOfFactors, 0);
             }
 
 
             // Calculate cumulative proportions
-            this.cumulativeProportionX = new double[factors];
-            this.cumulativeProportionY = new double[factors];
+            this.cumulativeProportionX = new double[MaximumNumberOfFactors];
+            this.cumulativeProportionY = new double[MaximumNumberOfFactors];
             this.cumulativeProportionX[0] = this.componentProportionX[0];
             this.cumulativeProportionY[0] = this.componentProportionY[0];
-            for (int i = 1; i < factors; i++)
+            for (int i = 1; i < MaximumNumberOfFactors; i++)
             {
                 this.cumulativeProportionX[i] = this.cumulativeProportionX[i - 1] + this.componentProportionX[i];
                 this.cumulativeProportionY[i] = this.cumulativeProportionY[i - 1] + this.componentProportionY[i];
@@ -407,11 +444,11 @@ namespace Accord.Statistics.Analysis
 
 
             // Compute Variable Importance in Projection (VIP)
-            this.vip = ComputeVariableImportanceInProjection(factors);
+            this.vip = ComputeVariableImportanceInProjection(MaximumNumberOfFactors);
 
 
             // Create the object-oriented structure to hold the partial least squares factors
-            var array = new PartialLeastSquaresFactor[factors];
+            var array = new PartialLeastSquaresFactor[MaximumNumberOfFactors];
             for (int i = 0; i < array.Length; i++)
                 array[i] = new PartialLeastSquaresFactor(this, i);
             this.factorCollection = new PartialLeastSquaresFactorCollection(array);
@@ -620,7 +657,7 @@ namespace Accord.Statistics.Analysis
         /// 
         public MultivariateLinearRegression CreateRegression()
         {
-            return CreateRegression(factorCollection.Count);
+            return CreateRegression(NumberOfLatentFactors);
         }
 
         /// <summary>
@@ -643,9 +680,11 @@ namespace Accord.Statistics.Analysis
 
             // Divide by standard deviation if X has been normalized
             if (analysisMethod == AnalysisMethod.Standardize)
+            {
                 for (int i = 0; i < B.Length; i++)
                     for (int j = 0; j < B[i].Length; j++)
                         B[i][j] = B[i][j] / stdDevX[i];
+            }
 
             // Compute regression intercepts A as A = meanY - meanX'*B
             double[] A = new double[loadingsY.Length];
