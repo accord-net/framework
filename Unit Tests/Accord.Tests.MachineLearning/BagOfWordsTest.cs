@@ -249,7 +249,7 @@ namespace Accord.Tests.MachineLearning
             {
                 Learner = (p) => new SequentialMinimalOptimization<ChiSquare, double[]>()
                 {
-                    //Complexity = 100000 
+                    Complexity = 1
                 }
             };
 
@@ -260,8 +260,8 @@ namespace Accord.Tests.MachineLearning
             int[] trainPredicted = svm.Decide(trainVectors);
 
             // Check the performance of the classifier by comparing with the ground-truth:
-            var m1 = new ConfusionMatrix(predicted: trainPredicted, expected: trainOutputs);
-            double trainAcc = m1.Accuracy; // should be 0.971
+            var m1 = new GeneralConfusionMatrix(predicted: trainPredicted, expected: trainOutputs);
+            double trainAcc = m1.Accuracy; // should be 0.690
 
 
             // Prepare the testing set
@@ -277,16 +277,16 @@ namespace Accord.Tests.MachineLearning
             int[] testPredicted = svm.Decide(testVectors);
 
             // Check the performance of the classifier by comparing with the ground-truth:
-            var m2 = new ConfusionMatrix(predicted: testPredicted, expected: testOutputs);
-            double testAcc = m2.Accuracy; // should be 0.969
+            var m2 = new GeneralConfusionMatrix(predicted: testPredicted, expected: testOutputs);
+            double testAcc = m2.Accuracy; // should be 0.600
             #endregion
 
 #if NET35
             Assert.AreEqual(0.89594053744997137d, trainAcc, 1e-10);
             Assert.AreEqual(0.89605017347211102d, testAcc, 1e-10);
 #else
-            Assert.AreEqual(0.94110920526014863, trainAcc, 1e-10);
-            Assert.AreEqual(0.92127034961302379, testAcc, 1e-10);
+            Assert.AreEqual(0.69039451114922812, trainAcc, 1e-10);
+            Assert.AreEqual(0.600880704563651, testAcc, 1e-10);
 #endif
         }
 

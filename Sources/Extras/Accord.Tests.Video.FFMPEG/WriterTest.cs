@@ -99,7 +99,7 @@ namespace Accord.Tests.Video
         public void reencode_vp9()
         {
             var fileInput = new FileInfo(fireplace_mp4);
-            var fileOutput = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "fireplace_output.webm"));
+            var fileOutput = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "fireplace_output_webm.webm"));
             reencode(fileInput, fileOutput, VideoCodec.VP9);
         }
 
@@ -107,7 +107,7 @@ namespace Accord.Tests.Video
         public void reencode_ogg()
         {
             var fileInput = new FileInfo(fireplace_mp4);
-            var fileOutput = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "fireplace_output.ogg"));
+            var fileOutput = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "fireplace_output_ogg.ogg"));
             reencode(fileInput, fileOutput, VideoCodec.Theora);
         }
 
@@ -115,7 +115,7 @@ namespace Accord.Tests.Video
         public void reencode_ogm()
         {
             var fileInput = new FileInfo(fireplace_mp4);
-            var fileOutput = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, @"fireplace_output.ogm"));
+            var fileOutput = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, @"fireplace_output_ogm.ogm"));
             reencode(fileInput, fileOutput, VideoCodec.Theora);
         }
 
@@ -123,7 +123,7 @@ namespace Accord.Tests.Video
         public void reencode_h264_mp4()
         {
             var fileInput = new FileInfo(fireplace_mp4);
-            var fileOutput = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, @"fireplace_output.mp4"));
+            var fileOutput = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, @"fireplace_output_mp4.mp4"));
             reencode(fileInput, fileOutput, VideoCodec.H264);
         }
 

@@ -453,8 +453,8 @@ namespace Accord.Tests.MachineLearning
                 }
             };
 
-            // Configure parallel execution options
-            teacher.ParallelOptions.MaxDegreeOfParallelism = 1;
+            // The following line is only needed to ensure reproducible results. Please remove it to enable full parallelization
+            teacher.ParallelOptions.MaxDegreeOfParallelism = 1; // (Remove, comment, or change this line to enable full parallelism)
 
             // Learn a machine
             var machine = teacher.Learn(inputs, outputs);
@@ -521,8 +521,8 @@ namespace Accord.Tests.MachineLearning
                 }
             };
 
-            // Configure parallel execution options
-            teacher.ParallelOptions.MaxDegreeOfParallelism = 1;
+            // The following line is only needed to ensure reproducible results. Please remove it to enable full parallelization
+            teacher.ParallelOptions.MaxDegreeOfParallelism = 1; // (Remove, comment, or change this line to enable full parallelism)
 
             // Learn a machine
             var machine = teacher.Learn(inputs, outputs);
@@ -1122,8 +1122,8 @@ namespace Accord.Tests.MachineLearning
                 }
             };
 
-            // Configure parallel execution options
-            teacher.ParallelOptions.MaxDegreeOfParallelism = 1;
+            // The following line is only needed to ensure reproducible results. Please remove it to enable full parallelization
+            teacher.ParallelOptions.MaxDegreeOfParallelism = 1; // (Remove, comment, or change this line to enable full parallelism)
 
             // Learn a machine
             var machine = teacher.Learn(inputs, outputs);
@@ -1160,9 +1160,10 @@ namespace Accord.Tests.MachineLearning
 
             var actual = svm.Decide(x);
 
-            var cm = new ConfusionMatrix(actual, y);
+            var cm = new GeneralConfusionMatrix(actual, y);
 
-            Assert.AreEqual(0.999, cm.Accuracy, 1e-2);
+            Assert.IsTrue(cm.Accuracy.IsEqual(0.95676429567642962d, 1e-5)
+                || cm.Accuracy.IsEqual(0.94421199442119941d, 1e-5));
         }
 
         [Test]

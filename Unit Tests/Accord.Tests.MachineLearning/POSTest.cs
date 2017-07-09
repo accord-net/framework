@@ -78,7 +78,7 @@ namespace Accord.Tests.MachineLearning
             int[][] predY = markov.Decide(testX);
 
             // Check the accuracy of the model:
-            var cm = new ConfusionMatrix(
+            var cm = new GeneralConfusionMatrix(
                 predicted: predY.Concatenate(),
                 expected: testY.Concatenate());
 
@@ -86,7 +86,7 @@ namespace Accord.Tests.MachineLearning
 #if NET35
             Assert.AreEqual(0.93904215125482826d, acc, 1e-10);
 #else
-            Assert.AreEqual(0.99983114169322662, acc, 1e-10);
+            Assert.AreEqual(0.43987588914452158, acc, 1e-10);
 #endif
         }
 

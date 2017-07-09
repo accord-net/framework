@@ -556,8 +556,8 @@ namespace Accord.Tests.MachineLearning
                 }
             };
 
-            // Configure parallel execution options
-            teacher.ParallelOptions.MaxDegreeOfParallelism = 1;
+            // The following line is only needed to ensure reproducible results. Please remove it to enable full parallelization
+            teacher.ParallelOptions.MaxDegreeOfParallelism = 1; // (Remove, comment, or change this line to enable full parallelism)
 
             // Learn a machine
             var machine = teacher.Learn(inputs, outputs);
@@ -620,8 +620,8 @@ namespace Accord.Tests.MachineLearning
                 }
             };
 
-            // Configure parallel execution options
-            teacher.ParallelOptions.MaxDegreeOfParallelism = 1;
+            // The following line is only needed to ensure reproducible results. Please remove it to enable full parallelization
+            teacher.ParallelOptions.MaxDegreeOfParallelism = 1; // (Remove, comment, or change this line to enable full parallelism)
 
             // Learn a machine
             var machine = teacher.Learn(inputs, outputs);

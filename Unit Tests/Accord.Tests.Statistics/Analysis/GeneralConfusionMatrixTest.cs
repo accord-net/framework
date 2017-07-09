@@ -26,25 +26,12 @@ namespace Accord.Tests.Statistics
     using NUnit.Framework;
     using Accord.Math;
     using System;
+    using Accord.Statistics.Filters;
+    using System.Data;
 
     [TestFixture]
     public class GeneralConfusionMatrixTest
     {
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
 
 
         [Test]
@@ -61,7 +48,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(3, target.Classes);
             Assert.AreEqual(12, target.Samples);
 
-            int[,] expectedMatrix = 
+            int[,] expectedMatrix =
             {
                 { 4, 0, 0 },
                 { 0, 4, 0 },
@@ -73,10 +60,122 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(expectedMatrix.IsEqual(actualMatrix));
         }
 
+
+        [Test]
+        public void class_confusion_matrices()
+        {
+            int[] expected = { 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2 };
+            int[] predicted = { 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1 };
+
+            var target = new GeneralConfusionMatrix(expected, predicted);
+
+            Assert.AreEqual(3, target.Classes);
+            Assert.AreEqual(12, target.Samples);
+
+            ConfusionMatrix actual1 = target.PerClassMatrices[0];
+            ConfusionMatrix actual2 = target.PerClassMatrices[1];
+            ConfusionMatrix actual3 = target.PerClassMatrices[2];
+
+            ConfusionMatrix expected1 = new ConfusionMatrix(predicted, expected, positiveValue: 0);
+            ConfusionMatrix expected2 = new ConfusionMatrix(predicted, expected, positiveValue: 1);
+            ConfusionMatrix expected3 = new ConfusionMatrix(predicted, expected, positiveValue: 2);
+
+            Assert.IsTrue(actual1.Matrix.IsEqual(expected1.Matrix));
+            Assert.IsTrue(actual2.Matrix.IsEqual(expected2.Matrix));
+            Assert.IsTrue(actual3.Matrix.IsEqual(expected3.Matrix));
+        }
+
+        [Test]
+        public void class_confusion_matrices_larger()
+        {
+            int[] expected = { 0, 0, 0, 1, 1, 1, 1, 1, 2, 4, 4, 3, 2, 2 };
+            int[] predicted = { 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1 };
+
+            var target = new GeneralConfusionMatrix(expected, predicted);
+
+            Assert.AreEqual(5, target.Classes);
+            Assert.AreEqual(14, target.Samples);
+
+            ConfusionMatrix actual1 = target.PerClassMatrices[0];
+            ConfusionMatrix actual2 = target.PerClassMatrices[1];
+            ConfusionMatrix actual3 = target.PerClassMatrices[2];
+
+            ConfusionMatrix expected1 = new ConfusionMatrix(predicted, expected, positiveValue: 0);
+            ConfusionMatrix expected2 = new ConfusionMatrix(predicted, expected, positiveValue: 1);
+            ConfusionMatrix expected3 = new ConfusionMatrix(predicted, expected, positiveValue: 2);
+
+            Assert.IsTrue(actual1.Matrix.IsEqual(expected1.Matrix));
+            Assert.IsTrue(actual2.Matrix.IsEqual(expected2.Matrix));
+            Assert.IsTrue(actual3.Matrix.IsEqual(expected3.Matrix));
+        }
+
+        [Test]
+        public void gh669()
+        {
+            // Example for https://github.com/accord-net/framework/issues/669
+            string[] expectedLabels = { "A", "A", "B", "C", "A", "B", "B" };
+            string[] predictedLabels = { "A", "B", "C", "C", "A", "C", "B" };
+
+            // Create a codification object to translate char into symbols
+            var codification = new Codification("Labels", expectedLabels);
+            int[] expected = codification.Transform(expectedLabels);   // ground truth data
+            int[] predicted = codification.Transform(predictedLabels); // predicted from OCR
+
+            // Create a new confusion matrix for multi-class problems
+            var cm = new GeneralConfusionMatrix(expected, predicted);
+
+            // Obtain relevant measures
+            int[,] matrix = cm.Matrix;
+            int[] error = cm.PerClassMatrices.Apply(x => x.Errors);
+            double[] recall = cm.PerClassMatrices.Apply(x => x.Recall);
+            int[] total = cm.PerClassMatrices.Apply(x => x.Samples);
+            int[] tp = cm.PerClassMatrices.Apply(x => x.TruePositives);
+            int[] tn = cm.PerClassMatrices.Apply(x => x.TrueNegatives);
+            int[] fp = cm.PerClassMatrices.Apply(x => x.FalsePositives);
+            int[] fn = cm.PerClassMatrices.Apply(x => x.FalseNegatives);
+            double[] precision = cm.PerClassMatrices.Apply(x => x.Precision);
+            double[] fscore = cm.PerClassMatrices.Apply(x => x.FScore);
+
+            // Create a matrix with all measures
+            double[,] values = matrix.ToDouble()
+                .InsertColumn(error)
+                .InsertColumn(recall)
+                .InsertColumn(total)
+                .InsertColumn(tp)
+                .InsertColumn(tn)
+                .InsertColumn(tp)
+                .InsertColumn(fn)
+                .InsertColumn(precision)
+                .InsertColumn(fscore);
+            
+            // Name of each of the columns in order to create a data table
+            string[] columnNames = codification.Columns[0].Values.Concatenate(
+                "Error", "Recall", "Total", "TP", "TN", "FP", "FN", "Precision", "F-Score");
+
+            // Create a table from the matrix and columns
+            DataTable table = values.ToTable(columnNames);
+
+
+            string[] actualNames;
+            double[,] actual = table.ToMatrix(out actualNames);
+
+            double[,] expectedMatrix = new double[,]
+            {
+                { 2, 1, 0, 1, 0.666666666666667, 7, 2, 4, 2, 1, 1, 0.8 },
+                { 0, 1, 2, 3, 0.333333333333333, 7, 1, 3, 1, 2, 0.5, 0.4 },
+                { 0, 0, 1, 2, 1, 7, 1, 4, 1, 0, 0.333333333333333, 0.5 }
+            };
+
+            //string str = actual.ToCSharp();
+
+            Assert.AreEqual(new[] { "A", "B", "C", "Error", "Recall", "Total", "TP", "TN", "FP", "FN", "Precision", "F-Score" }, actualNames);
+            Assert.IsTrue(expectedMatrix.IsEqual(actual, 1e-5));
+        }
+
         [Test]
         public void GeneralConfusionMatrixConstructorTest2()
         {
-            int[,] matrix = 
+            int[,] matrix =
             {
                 { 4, 0, 0 },
                 { 0, 4, 4 },
@@ -127,7 +226,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(2, target.Classes);
             Assert.AreEqual(70, target.Samples);
 
-            double[,] p = 
+            double[,] p =
             {
                 { 0.343, 0.200 },
                 { 0.114, 0.343 }
@@ -426,7 +525,7 @@ namespace Accord.Tests.Statistics
         [Test]
         public void TotalTest()
         {
-            int[,] matrix = 
+            int[,] matrix =
             {
                 { 1, 2, 3 },
                 { 4, 5, 6 },
@@ -450,10 +549,10 @@ namespace Accord.Tests.Statistics
         [Test]
         public void GeometricAgreementTest()
         {
-            int[,] matrix = 
+            int[,] matrix =
             {
-                { 462,	241 },
-                { 28,	 59 },
+                { 462,  241 },
+                { 28,    59 },
             };
 
             GeneralConfusionMatrix target = new GeneralConfusionMatrix(matrix);

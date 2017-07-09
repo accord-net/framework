@@ -509,11 +509,11 @@ namespace Accord.Tests.MachineLearning
                 int[] test_predicted = validationInputs.Apply(knn.Compute);
 
                 // Compute classification error
-                var cmTrain = new ConfusionMatrix(train_predicted, trainingOutputs);
+                var cmTrain = new GeneralConfusionMatrix(3, train_predicted, trainingOutputs);
                 double trainingAcc = cmTrain.Accuracy;
 
                 // Now we can compute the validation error on the validation data:
-                var cmTest = new ConfusionMatrix(test_predicted, validationOutputs);
+                var cmTest = new GeneralConfusionMatrix(3, test_predicted, validationOutputs);
                 double validationAcc = cmTest.Accuracy;
 
                 // Return a new information structure containing the model and the errors achieved.
