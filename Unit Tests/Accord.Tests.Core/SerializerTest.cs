@@ -20,6 +20,7 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
+using System;
 using Accord.IO;
 using Accord.Math;
 using NUnit.Framework;
@@ -159,6 +160,23 @@ namespace Accord.Tests
 
             foreach (int k in e.Keys)
                 Assert.AreEqual(e[k], a[k]);
+        }
+
+        [Test]
+        public void compression_test_stream()
+        {
+            using (var stream = new MemoryStream())
+            {
+                var e = new byte[] {1, 2, 3};
+                Serializer.Save(e, stream, compression: SerializerCompression.GZip);
+
+                stream.Position = 0;
+
+                byte[] a;
+                Serializer.Load(stream, out a, compression: SerializerCompression.GZip);
+
+                CollectionAssert.AreEqual(e, a);
+            }
         }
     }
 }
