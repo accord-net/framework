@@ -1162,9 +1162,7 @@ namespace Accord.Tests.MachineLearning
 
             var cm = new GeneralConfusionMatrix(actual, y);
 
-            Assert.IsTrue(cm.Accuracy.IsEqual(0.95676429567642962d, 1e-5)
-                || cm.Accuracy.IsEqual(0.94421199442119941d, 1e-5)
-                || cm.Accuracy.IsEqual(0.95536959553695955, 1e-5));
+            Assert.AreEqual(0.95, cm.Accuracy, 0.01);
         }
 
         [Test]
