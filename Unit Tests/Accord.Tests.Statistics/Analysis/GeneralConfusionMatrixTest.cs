@@ -173,6 +173,28 @@ namespace Accord.Tests.Statistics
         }
 
         [Test]
+        public void gh669_predicted_label_not_in_expected_set()
+        {
+            // Example for https://github.com/accord-net/framework/issues/669
+            string[] expectedLabels = { "A", "A", "B", "C", "A", "B", "B", "B" };
+            string[] predictedLabels = { "A", "B", "C", "C", "A", "C", "B", "F" };
+
+            // Create a codification object to translate char into symbols
+            var codification = new Codification("Labels", expectedLabels.Concatenate(predictedLabels));
+            int[] expected = codification.Transform(expectedLabels);   // ground truth data
+            int[] predicted = codification.Transform(predictedLabels); // predicted from OCR
+
+            // Create a new confusion matrix for multi-class problems
+            var cm = new GeneralConfusionMatrix(expected, predicted);
+
+            Assert.AreEqual(4, cm.Classes);
+            Assert.AreEqual(8, cm.Samples);
+            Assert.AreEqual(0.5, cm.Accuracy);
+            Assert.AreEqual(4, cm.PerClassMatrices.Length);
+        }
+
+
+        [Test]
         public void GeneralConfusionMatrixConstructorTest2()
         {
             int[,] matrix =

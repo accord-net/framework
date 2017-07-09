@@ -140,7 +140,7 @@ namespace Accord.Statistics.Analysis
         /// 
         public GeneralConfusionMatrix(int[] expected, int[] predicted)
         {
-            int classes = expected.Max() + 1;
+            int classes = Math.Max(expected.Max(), predicted.Max()) + 1;
             compute(classes, expected, predicted);
         }
 
@@ -158,6 +158,17 @@ namespace Accord.Statistics.Analysis
             if (expected.Length != predicted.Length)
                 throw new DimensionMismatchException("predicted",
                     "The number of expected and predicted observations must match.");
+
+            for (int i = 0; i < expected.Length; i++)
+            {
+                if (expected[i] < 0)
+                    throw new ArgumentOutOfRangeException("expected", "Negative class labels are not supported for the moment. If you need" +
+                        " this functionality in your application, please open an issue report in the project issue tracker.");
+
+                if (predicted[i] < 0)
+                    throw new ArgumentOutOfRangeException("predicted", "Negative class labels are not supported for the moment. If you need" +
+                        " this functionality in your application, please open an issue report in the project issue tracker.");
+            }
 
             this.samples = expected.Length;
             this.classes = classes;
