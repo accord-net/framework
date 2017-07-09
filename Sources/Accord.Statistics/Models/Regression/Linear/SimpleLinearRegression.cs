@@ -192,12 +192,16 @@ namespace Accord.Statistics.Models.Regression.Linear
         /// 
         /// <returns>The R² (r-squared) coefficient for the given data.</returns>
         /// 
-        public double CoefficientOfDetermination(double[] inputs, double[] outputs, bool adjust)
+        public double CoefficientOfDetermination(double[] inputs, double[] outputs, bool adjust, double[] weights = null)
         {
-            return new RSquaredLoss(NumberOfInputs, outputs)
-            {
-                Adjust = adjust
-            }.Loss(Transform(inputs));
+            var rsquared = new RSquaredLoss(NumberOfInputs, outputs);
+
+            rsquared.Adjust = adjust;
+
+            if (weights != null)
+                rsquared.Weights = weights;
+
+            return rsquared.Loss(Transform(inputs));
         }
 
         /// <summary>
@@ -219,9 +223,9 @@ namespace Accord.Statistics.Models.Regression.Linear
         /// 
         /// <returns>The R² (r-squared) coefficient for the given data.</returns>
         /// 
-        public double CoefficientOfDetermination(double[] inputs, double[] outputs)
+        public double CoefficientOfDetermination(double[] inputs, double[] outputs, double[] weights = null)
         {
-            return CoefficientOfDetermination(inputs, outputs, false);
+            return CoefficientOfDetermination(inputs, outputs, false, weights);
         }
 
 

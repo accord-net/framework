@@ -117,7 +117,7 @@ namespace Accord.Tests.Statistics
         public void prediction_test()
         {
             // example data from http://www.real-statistics.com/regression/confidence-and-prediction-intervals/
-            double[][] input = 
+            double[][] input =
             {
                 new double[] { 5, 80 },
                 new double[] { 23, 78 },
@@ -215,5 +215,63 @@ namespace Accord.Tests.Statistics
                 Assert.AreEqual(expected, actual);
             }
         }
+
+        [Test]
+        public void weight_test()
+        {
+            SimpleLinearRegression reference;
+            double referenceR2;
+
+            {
+                double[][] data =
+                {
+                    new[] { 1.0, 10.7, 2.4 }, // 
+                    new[] { 1.0, 10.7, 2.4 }, // 
+                    new[] { 1.0, 10.7, 2.4 }, // 
+                    new[] { 1.0, 10.7, 2.4 }, // 
+                    new[] { 1.0, 10.7, 2.4 }, // 5 times weight 1
+                    new[] { 1.0, 12.5, 3.6 },
+                    new[] { 1.0, 43.2, 7.6 },
+                    new[] { 1.0, 10.2, 1.1 },
+                };
+
+                double[] x = data.GetColumn(1);
+                double[] y = data.GetColumn(2);
+
+                var ols = new OrdinaryLeastSquares();
+                reference = ols.Learn(x, y);
+                referenceR2 = reference.CoefficientOfDetermination(x, y);
+            }
+
+            SimpleLinearRegression target;
+            double targetR2;
+
+            {
+                double[][] data =
+                {
+                    new[] { 5.0, 10.7, 2.4 }, // 1 times weight 5
+                    new[] { 1.0, 12.5, 3.6 },
+                    new[] { 1.0, 43.2, 7.6 },
+                    new[] { 1.0, 10.2, 1.1 },
+                };
+
+                double[] weights = data.GetColumn(0);
+                double[] x = data.GetColumn(1);
+                double[] y = data.GetColumn(2);
+
+                OrdinaryLeastSquares ols = new OrdinaryLeastSquares();
+                target = ols.Learn(x, y, weights);
+                targetR2 = target.CoefficientOfDetermination(x, y, weights);
+            }
+
+            Assert.AreEqual(reference.Slope, target.Slope);
+            Assert.AreEqual(reference.Intercept, target.Intercept, 1e-8);
+            Assert.AreEqual(0.16387475666214069, target.Slope, 1e-6);
+            Assert.AreEqual(0.59166925681755056, target.Intercept, 1e-6);
+
+            Assert.AreEqual(referenceR2, targetR2, 1e-8);
+            Assert.AreEqual(0.91476129548901486, targetR2);
+        }
     }
+
 }

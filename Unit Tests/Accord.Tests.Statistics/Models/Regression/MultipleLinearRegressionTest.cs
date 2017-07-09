@@ -37,7 +37,7 @@ namespace Accord.Tests.Statistics
         {
             MultipleLinearRegression target = new MultipleLinearRegression(1, true);
 
-            double[][] inputs = 
+            double[][] inputs =
             {
                 new double[] { 80 },
                 new double[] { 60 },
@@ -76,7 +76,7 @@ namespace Accord.Tests.Statistics
 
             Assert.IsFalse(target.HasIntercept);
 
-            double[][] inputs = 
+            double[][] inputs =
             {
                 new double[] { 80, 1 },
                 new double[] { 60, 1 },
@@ -119,7 +119,7 @@ namespace Accord.Tests.Statistics
             var target = new MultipleLinearRegression(2, true);
 
             // Now suppose you have some points
-            double[][] inputs = 
+            double[][] inputs =
             {
                 new double[] { 1, 1 },
                 new double[] { 0, 1 },
@@ -174,7 +174,7 @@ namespace Accord.Tests.Statistics
             };
 
             // Now suppose you have some points
-            double[][] inputs = 
+            double[][] inputs =
             {
                 new double[] { 1, 1 },
                 new double[] { 0, 1 },
@@ -349,7 +349,7 @@ namespace Accord.Tests.Statistics
         {
             MultipleLinearRegression target = new MultipleLinearRegression(2, false);
 
-            double[][] inputs = 
+            double[][] inputs =
             {
                 new double[] { 0, 0 },
                 new double[] { 0, 0 },
@@ -433,6 +433,63 @@ namespace Accord.Tests.Statistics
             DoubleRange pi = regression.GetPredictionInterval(x0, mse, x.Length, im);
             Assert.AreEqual(pi.Min, 7.8428783761994554, 1e-5);
             Assert.AreEqual(pi.Max, 17.892482376434273, 1e-5);
+        }
+
+        [Test]
+        public void weight_test()
+        {
+            MultipleLinearRegression reference;
+            double referenceR2;
+
+            {
+                double[][] data =
+                {
+                    new[] { 1.0, 10.7, 2.4 }, // 
+                    new[] { 1.0, 10.7, 2.4 }, // 
+                    new[] { 1.0, 10.7, 2.4 }, // 
+                    new[] { 1.0, 10.7, 2.4 }, // 
+                    new[] { 1.0, 10.7, 2.4 }, // 5 times weight 1
+                    new[] { 1.0, 12.5, 3.6 },
+                    new[] { 1.0, 43.2, 7.6 },
+                    new[] { 1.0, 10.2, 1.1 },
+                };
+
+                double[][] x = Jagged.ColumnVector(data.GetColumn(1));
+                double[] y = data.GetColumn(2);
+
+                var ols = new OrdinaryLeastSquares();
+                reference = ols.Learn(x, y);
+                referenceR2 = reference.CoefficientOfDetermination(x, y);
+            }
+
+            MultipleLinearRegression target;
+            double targetR2;
+
+            {
+                double[][] data =
+                {
+                    new[] { 5.0, 10.7, 2.4 }, // 1 times weight 5
+                    new[] { 1.0, 12.5, 3.6 },
+                    new[] { 1.0, 43.2, 7.6 },
+                    new[] { 1.0, 10.2, 1.1 },
+                };
+
+                double[] weights = data.GetColumn(0);
+                double[][] x = Jagged.ColumnVector(data.GetColumn(1));
+                double[] y = data.GetColumn(2);
+
+                OrdinaryLeastSquares ols = new OrdinaryLeastSquares();
+                target = ols.Learn(x, y, weights);
+                targetR2 = target.CoefficientOfDetermination(x, y, weights: weights);
+            }
+
+            Assert.IsTrue(reference.Weights.IsEqual(target.Weights));
+            Assert.AreEqual(reference.Intercept, target.Intercept, 1e-8);
+            Assert.AreEqual(0.16387475666214069, target.Weights[0], 1e-6);
+            Assert.AreEqual(0.59166925681755056, target.Intercept, 1e-6);
+
+            Assert.AreEqual(referenceR2, targetR2, 1e-8);
+            Assert.AreEqual(0.91476129548901486, targetR2);
         }
     }
 }
