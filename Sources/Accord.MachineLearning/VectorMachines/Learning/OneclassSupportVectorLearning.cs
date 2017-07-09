@@ -383,7 +383,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
                     }
                 }
 
-                Model.Threshold = s.Rho;
+                Model.Threshold = -s.Rho;
 
                 if (success == false)
                 {
