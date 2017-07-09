@@ -1,3 +1,18 @@
+Accord.NET Framework 3.6.1-alpha release notes
+-----------------------------------------
+10.07.2017.
+
+Version updates and fixes:
+  - GH-662: 64-bit FFMPEG binaries not in output after installing with NuGet;
+  - GH-676: DoubleArrayChromosome CreateNew ignores Balancer properties;
+  - GH-594: FFMPEG net35 not working;
+  - GH-684: BalancedKMeans gets stuck;
+  - GH-669: Confusion Matrix;
+  - GH-693: One-class SVM decision rule;
+
+
+
+
 Accord.NET Framework 3.6.0 release notes
 -----------------------------------------
 09.07.2017.
