@@ -36,11 +36,12 @@ namespace Accord.Tests.Statistics
         {
             task = Task.Run(() =>
             {
-                if (stop)
-                    return;
-                Console.WriteLine("Keep Alive: " + DateTime.Now);
-                Thread.Sleep(60 * 1000); // sleep for 1 min
-                });
+                while (!stop)
+                {
+                    Console.WriteLine("Keep Alive: " + DateTime.Now);
+                    Thread.Sleep(60 * 1000); // sleep for 1 min
+                }
+            });
         }
 
         public void Dispose()
