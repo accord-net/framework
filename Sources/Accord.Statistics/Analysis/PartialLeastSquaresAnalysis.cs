@@ -222,8 +222,8 @@ namespace Accord.Statistics.Analysis
             this.stdDevX = Measures.StandardDeviation(inputs, meanX);
             this.stdDevY = Measures.StandardDeviation(outputs, meanY);
 
-            this.NumberOfInputs = sourceX.Columns();
-            this.NumberOfOutputs = NumberOfInputs;
+            base.NumberOfInputs = sourceX.Columns();
+            base.NumberOfOutputs = NumberOfInputs;
 
             this.inputVariables = new PartialLeastSquaresVariables(this, true);
             this.outputVariables = new PartialLeastSquaresVariables(this, false);
@@ -474,9 +474,9 @@ namespace Accord.Statistics.Analysis
         public void Compute()
         {
             // maxFactors = min(rows-1,cols)
-            int maxFactors = System.Math.Min(sourceX.GetLength(0) - 1, sourceX.GetLength(1));
+            MaximumNumberOfFactors = System.Math.Min(sourceX.GetLength(0) - 1, sourceX.GetLength(1));
 
-            Compute(maxFactors);
+            Compute(MaximumNumberOfFactors);
         }
 
         /// <summary>
@@ -493,17 +493,18 @@ namespace Accord.Statistics.Analysis
         {
 #pragma warning disable 612, 618
             // maxFactors = min(rows-1,cols)
-            int maxFactors = System.Math.Min(sourceX.GetLength(0) - 1, sourceX.GetLength(1));
+            MaximumNumberOfFactors = System.Math.Min(sourceX.GetLength(0) - 1, sourceX.GetLength(1));
 
-            if (factors > maxFactors)
+            if (factors > MaximumNumberOfFactors)
                 throw new ArgumentOutOfRangeException("factors");
 
             // Initialize and prepare the data
             double[,] inputs = Adjust(sourceX, meanX, stdDevX, Overwrite);
             double[,] outputs = Adjust(sourceY, meanY, null, Overwrite);
 
-            this.NumberOfInputs = sourceX.Columns();
-            this.NumberOfOutputs = factors;
+            this.NumberOfLatentFactors = factors;
+            base.NumberOfInputs = sourceX.Columns();
+            base.NumberOfOutputs = sourceY.Columns();
 
             // Run selected algorithm
             if (algorithm == PartialLeastSquaresAlgorithm.SIMPLS)

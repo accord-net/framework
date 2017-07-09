@@ -1163,7 +1163,8 @@ namespace Accord.Tests.MachineLearning
             var cm = new GeneralConfusionMatrix(actual, y);
 
             Assert.IsTrue(cm.Accuracy.IsEqual(0.95676429567642962d, 1e-5)
-                || cm.Accuracy.IsEqual(0.94421199442119941d, 1e-5));
+                || cm.Accuracy.IsEqual(0.94421199442119941d, 1e-5)
+                || cm.Accuracy.IsEqual(0.95536959553695955, 1e-5));
         }
 
         [Test]
@@ -1189,8 +1190,8 @@ namespace Accord.Tests.MachineLearning
 
 
 
-            double[][][] inputs = Sequences.Select(x=>x.Values).ToArray(); // X,Y values sequences from attached file.
-            int[] outputs = Sequences.Select(x=>x.ClassID).ToArray();      // Class 0,1,2
+            double[][][] inputs = Sequences.Select(x => x.Values).ToArray(); // X,Y values sequences from attached file.
+            int[] outputs = Sequences.Select(x => x.ClassID).ToArray();      // Class 0,1,2
 
 
             // Create the learning algorithm to teach the multiple class classifier
@@ -1206,12 +1207,12 @@ namespace Accord.Tests.MachineLearning
             var svm = teacher.Learn(inputs, outputs);
 
             // Compute predicted values (at once)
-            int[] predicted = svm.Decide(inputs);  
+            int[] predicted = svm.Decide(inputs);
 
             // Compute individual values and compare
             for (int i = 0; i < inputs.Length; i++)
             {
-                int outClass = svm.Decide(inputs[i]); 
+                int outClass = svm.Decide(inputs[i]);
                 Assert.AreEqual(predicted[i], outClass);
             }
 

@@ -420,6 +420,10 @@ namespace Accord.Statistics.Kernels
             if (result == null)
                 result = Jagged.CreateAs(kernelMatrix);
 
+#if DEBUG
+            double[,] r = Center(kernelMatrix.ToMatrix(), rowMean, mean);
+#endif
+
             int cols = kernelMatrix.Columns();
              
             double[] rowMean1 = kernelMatrix.Mean(1);
@@ -428,7 +432,6 @@ namespace Accord.Statistics.Kernels
                     result[i][j] = kernelMatrix[i][j] - rowMean1[i] - rowMean[j] + mean;
 
 #if DEBUG
-            double[,] r = Center(kernelMatrix.ToMatrix(), rowMean, mean);
             if (!r.IsEqual(result, 1e-8))
                 throw new Exception();
 #endif
