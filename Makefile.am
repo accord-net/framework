@@ -80,8 +80,8 @@ docs:
 
 # target: test - Run unit tests
 test: build
-	$(MONO) --runtime=v4.0 ${NUNIT} -noxml -nodots -labels -process=single \
-		-exclude:Serialization,Intensive,WinForms,Office,MonoNotSupported,Random \
+	$(MONO) --runtime=v4.0 ${NUNIT}  \
+		--where "cat != Serialization && cat != Intensive && cat != WinForms && cat != Office && cat != MonoNotSupported && cat != Random" \
 		${TESTFILES}
 
 # target: clean - remove all obj and bin directories
