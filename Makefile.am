@@ -79,8 +79,9 @@ docs:
 	mdoc export-html -o htmldocs docfiles
 
 # target: test - Run unit tests
+# timeout: 30 min = 30 * 60 * 10000 = 1800000
 test: build
-	$(MONO) --runtime=v4.0 ${NUNIT}  \
+	$(MONO) --runtime=v4.0 ${NUNIT} --labels=All timeout=1800000 \
 		--where "cat != Serialization && cat != Intensive && cat != WinForms && cat != Office && cat != MonoNotSupported && cat != Random" \
 		${TESTFILES}
 
