@@ -16,7 +16,7 @@ install:
 script:
   - ./autogen.sh
   - make
-  - make test
+  - travis_wait 30 make test
   - make check
     
 matrix:
