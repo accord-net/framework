@@ -147,7 +147,7 @@ namespace Accord.Tests.Statistics
                 .InsertColumn(fn)
                 .InsertColumn(precision)
                 .InsertColumn(fscore);
-            
+
             // Name of each of the columns in order to create a data table
             string[] columnNames = codification.Columns[0].Values.Concatenate(
                 "Error", "Recall", "Total", "TP", "TN", "FP", "FN", "Precision", "F-Score");
@@ -646,6 +646,112 @@ namespace Accord.Tests.Statistics
 
             Assert.AreEqual(0, target.GeometricAgreement);
             Assert.AreEqual(matrix.Diagonal().Sum() / (double)target.Samples, target.OverallAgreement);
+        }
+
+
+        [Test]
+        public void example()
+        {
+            // Example for https://github.com/accord-net/framework/issues/669
+            // >>>>> Note: Suggestions on how to improve this API are welcome!
+            // If you find the method below too confusing, please suggest new
+            // ways on how the same could be accomplished, even if they would
+            // require new APIs.
+
+            string[] expectedLabels = { "A", "A", "B", "C", "A", "B", "B" };
+            string[] predictedLabels = { "A", "B", "C", "C", "A", "C", "B" };
+
+            // Create a codification object to translate char into symbols
+            var codification = new Codification("Labels", expectedLabels);
+            int[] expected = codification.Transform(expectedLabels);   // ground truth data
+            int[] predicted = codification.Transform(predictedLabels); // predicted from OCR
+
+            // Create a new confusion matrix for multi-class problems
+            var cm = new GeneralConfusionMatrix(expected, predicted);
+
+            int[] rowErrors = cm.RowErrors;
+            int[] colErrors = cm.ColumnErrors;
+
+            double[] rowPrecision = cm.Precision;
+            double[] colRecall = cm.Recall;
+
+            int[] colTotal = cm.ColumnTotals;
+            int[] rowTotal = cm.RowTotals;
+
+            // Obtain relevant measures
+            int[,] matrix = cm.Matrix;
+            int[] tp = cm.PerClassMatrices.Apply(x => x.TruePositives);
+            int[] tn = cm.PerClassMatrices.Apply(x => x.TrueNegatives);
+            int[] fp = cm.PerClassMatrices.Apply(x => x.FalsePositives);
+            int[] fn = cm.PerClassMatrices.Apply(x => x.FalseNegatives);
+            double[] precision2 = cm.PerClassMatrices.Apply(x => x.Precision);
+            double[] recall2 = cm.PerClassMatrices.Apply(x => x.Recall);
+            double[] fscore = cm.PerClassMatrices.Apply(x => x.FScore);
+
+            object[,] column01 = Matrix.ColumnVector(codification.Columns[0].Values).ToObject();
+            object[,] columns2_to_4 = matrix.ToObject();
+            object[,] column05 = Matrix.ColumnVector(colErrors).ToObject();
+            object[,] column06 = Matrix.ColumnVector(colRecall).ToObject();
+            object[,] column07 = Matrix.ColumnVector(colTotal).ToObject();
+            object[,] column08 = Matrix.ColumnVector(tp).ToObject();
+            object[,] column09 = Matrix.ColumnVector(tn).ToObject();
+            object[,] column10 = Matrix.ColumnVector(tp).ToObject();
+            object[,] column11 = Matrix.ColumnVector(fn).ToObject();
+            object[,] column12 = Matrix.ColumnVector(precision2).ToObject();
+            object[,] column13 = Matrix.ColumnVector(recall2).ToObject();
+            object[,] column14 = Matrix.ColumnVector(fscore).ToObject();
+
+            object[,] values = Matrix.Concatenate(
+                column01,
+                columns2_to_4,
+                column05,
+                column06,
+                column07,
+                column08,
+                column09,
+                column10,
+                column11,
+                column12,
+                column13,
+                column14
+            );
+
+            object[] row05 = Matrix.Concatenate<object>("Error", colErrors.ToObject());
+            object[] row06 = Matrix.Concatenate<object>("Precision", rowPrecision.ToObject());
+            object[] row07 = Matrix.Concatenate<object>("Total", colTotal.ToObject());
+
+            values = values.InsertRow(row05)
+                .InsertRow(row06)
+                .InsertRow(row07);
+
+
+            // Name of each of the columns in order to create a data table
+            string[] columnNames = "Label".Concatenate(codification.Columns[0].Values.Concatenate(
+                "Error", "Recall", "Total", "TP", "TN", "FP", "FN", "Precision2", "Recall2", "F-Score"));
+
+            // Create a table from the matrix and columns
+            DataTable table = values.ToTable(columnNames);
+
+
+            string[] actualNames;
+            object[,] actualTable = table.ToMatrix<object>(out actualNames);
+
+            actualTable = actualTable.InsertRow(columnNames, 0);
+
+            string str = actualTable.ToCSharp();
+
+            object[,] expectedTable =
+            {
+                { "Label",    "A", "B", "C", "Error", "Recall", "Total", "TP", "TN", "FP", "FN",    "Precision2",     "Recall2",       "F-Score" },
+                {   "A",       2,   1,   0,    0,        0,       2,      2,    4,    2,    1,  1.000000000000000, 66666666666666663,     0.8   },
+                {   "B",       0,   1,   2,    1,        0,       2,      1,    3,    1,    2,  0.500000000000000, 0.333333333333333,     0.4   },
+                {   "C",       0,   0,   1,    2,        1,       3,      1,    4,    1,    0,  0.333333333333333, 1.000000000000000,     0.5   },
+                { "Error",     0,   1,   2,   null,     null,    null,   null, null, null, null,        null,           null,             null  },
+                { "Precision", 1,   0,   0,   null,     null,    null,   null, null, null, null,        null,           null,             null  },
+                { "Total",     2,   2,   3,   null,     null,    null,   null, null, null, null,        null,           null,             null  }
+            };
+
+            Assert.IsTrue(expectedTable.IsEqual(actualTable, atol: 1e-10));
         }
 
     }

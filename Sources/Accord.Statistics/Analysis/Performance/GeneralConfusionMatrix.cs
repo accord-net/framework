@@ -74,8 +74,14 @@ namespace Accord.Statistics.Analysis
         private int[] rowSum;
         private int[] colSum;
 
+        private int[] rowErrors;
+        private int[] colErrors;
+
         private double[] rowProportion;
         private double[] colProportion;
+
+        private double[] precision;
+        private double[] recall;
 
         private ConfusionMatrix[] matrices;
 
@@ -228,6 +234,36 @@ namespace Accord.Statistics.Analysis
         }
 
         /// <summary>
+        ///   Gets the row errors.
+        /// </summary>
+        /// 
+        [DisplayName("Row Errors")]
+        public int[] RowErrors
+        {
+            get
+            {
+                if (rowErrors == null)
+                    rowErrors = RowTotals.Subtract(Diagonal);
+                return rowErrors;
+            }
+        }
+
+        /// <summary>
+        ///   Gets the col errors.
+        /// </summary>
+        /// 
+        [DisplayName("Column Errors")]
+        public int[] ColumnErrors
+        {
+            get
+            {
+                if (colErrors == null)
+                    colErrors = ColumnTotals.Subtract(Diagonal);
+                return colErrors;
+            }
+        }
+
+        /// <summary>
         ///   Gets the row marginals (proportions).
         /// </summary>
         /// 
@@ -254,6 +290,48 @@ namespace Accord.Statistics.Analysis
                 if (colProportion == null)
                     colProportion = ProportionMatrix.Sum(0);
                 return colProportion;
+            }
+        }
+
+        /// <summary>
+        ///   Gets the row precision.
+        /// </summary>
+        /// 
+        [DisplayName("Precision")]
+        public double[] Precision
+        {
+            get
+            {
+                if (precision == null)
+                {
+                    var diagonal = Diagonal;
+                    var colTotals = ColumnTotals;
+                    precision = new double[Classes];
+                    for (int i = 0; i < precision.Length; i++)
+                        precision[i] = diagonal[i] == 0 ? 0 : diagonal[i] / colTotals[i];
+                }
+                return precision;
+            }
+        }
+
+        /// <summary>
+        ///   Gets the column recall.
+        /// </summary>
+        /// 
+        [DisplayName("Recall")]
+        public double[] Recall
+        {
+            get
+            {
+                if (recall == null)
+                {
+                    var diagonal = Diagonal;
+                    var rowTotals = RowTotals;
+                    recall = new double[Classes];
+                    for (int i = 0; i < precision.Length; i++)
+                        recall[i] = diagonal[i] == 0 ? 0 : diagonal[i] / rowTotals[i];
+                }
+                return recall;
             }
         }
 

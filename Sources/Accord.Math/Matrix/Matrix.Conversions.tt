@@ -52,6 +52,7 @@ namespace Accord.Math
         new string[] { "decimal", "Decimal", "decimal fixed-point" },
         new string[] { "bool", "Boolean", "boolean" },
 		new string[] { "object", "Object", "object" },
+		new string[] { "string", "String", "string" },
     };
 
     foreach (string[] a in types)
@@ -68,8 +69,8 @@ namespace Accord.Math
             string b_name = b[1];
             string b_desc = b[2];
 
-			bool a_blittable = a_type != "object";
-			bool b_blittable = b_type != "object";
+			bool a_blittable = a_type != "object" && a_type != "string";
+			bool b_blittable = b_type != "object" && b_type != "string";
 
             string begin = String.Format("({0})", b_name);
             string end = "";
@@ -93,12 +94,31 @@ namespace Accord.Math
 				}
             }
 
+			if (a_type == "string")
+            {
+				if (b_type == "object")
+				{
+					begin = String.Format("({0})System.Convert.ChangeType(", b_name);
+					end = String.Format(", typeof({0}))", b_name);
+				}
+				else
+				{
+					begin = String.Format("{0}.Parse(", b_name);
+					end = ");";
+				}
+            }
+
+			if (b_type == "string")
+            {
+                begin = "";
+                end = ".ToString();";
+            }
+
 			if (a_type == "object")
             {
                 begin = String.Format("({0})System.Convert.ChangeType(", b_name);
                 end = String.Format(", typeof({0}))", b_name);
             }
-            
 
 #>
         /// <summary>

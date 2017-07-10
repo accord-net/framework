@@ -721,6 +721,44 @@ namespace Accord.Math
         /// 
         public static DataTable ToTable(this object[,] values)
         {
+            var columnNames = new string[values.Columns()];
+            for (int i = 0; i < columnNames.Length; i++)
+                columnNames[i] = "Column " + i;
+            return ToTable(values, columnNames);
+        }
+
+        /// <summary>
+        ///   Converts an array of values into a <see cref="DataTable"/>,
+        ///   attempting to guess column types by inspecting the data.
+        /// </summary>
+        /// 
+        /// <param name="values">The values to be converted.</param>
+        /// <param name="columnNames">The column names to use in the data table.</param>
+        /// 
+        /// <returns>A <see cref="DataTable"/> containing the given values.</returns>
+        /// 
+        /// <example>
+        /// <code>
+        /// // Specify some data in a table format
+        /// //
+        /// object[,] data = 
+        /// {
+        ///     { "Id", "IsSmoker", "Age" },
+        ///     {   0,       1,        10  },
+        ///     {   1,       1,        15  },
+        ///     {   2,       0,        40  },
+        ///     {   3,       1,        20  },
+        ///     {   4,       0,        70  },
+        ///     {   5,       0,        55  },
+        /// };
+        /// 
+        /// // Create a new table with the data
+        /// DataTable dataTable = data.ToTable();
+        /// </code>
+        /// </example>
+        /// 
+        public static DataTable ToTable(this object[,] values, string[] columnNames)
+        {
             DataTable table = new DataTable();
             table.Locale = System.Globalization.CultureInfo.InvariantCulture;
 
@@ -749,7 +787,7 @@ namespace Accord.Math
                 object[] first = values.GetRow(1);
 
                 for (int i = 0; i < first.Length; i++)
-                    table.Columns.Add("Column " + i, first[i].GetType());
+                    table.Columns.Add(columnNames[i], first[i].GetType());
 
                 int rows = values.GetLength(0);
                 for (int i = 0; i < rows; i++)
