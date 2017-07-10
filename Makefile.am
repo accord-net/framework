@@ -8,7 +8,7 @@ LIBDIR = $(srcdir)/Release/mono
 ACCORD_ASSEMBLY_PC = $(srcdir)/$(PACKAGE_NAME).pc
 
 DIR_TEST = "$(srcdir)/Unit Tests/bin/mono/AnyCPU"
-NUNIT    = "$(srcdir)/Externals/NUnit/NUnit.Console-3.6.1/nunit-console-x86.exe"
+NUNIT    = "$(srcdir)/Externals/NUnit/NUnit.Console-3.6.1/nunit3-console.exe"
 
 LIBFILES = \
 	$(LIBDIR)/Accord.Vision.dll \
