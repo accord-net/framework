@@ -233,7 +233,7 @@ namespace Accord.Neuro.Learning
                 // error of the neuron
                 e = desiredOutput[i] - output;
                 // error multiplied with activation function's derivative
-                errors[i] = e * (network.Layers[layersCount - 1].Neurons[i] as ActivationNeuron).ActivationFunction.Derivative2(output);
+                errors[i] = e * (layer.Neurons[i] as ActivationNeuron).ActivationFunction.Derivative2(output);
                 // squre the error and sum it
                 error += (e * e);
             }
