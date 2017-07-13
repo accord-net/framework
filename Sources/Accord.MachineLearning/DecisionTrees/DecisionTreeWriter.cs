@@ -60,7 +60,7 @@ namespace Accord.MachineLearning.DecisionTrees
             writer.WriteLine("namespace DecisionTrees");
             writer.WriteLine("{");
             writer.WriteLine("    using System.CodeDom.Compiler;");
-            writer.WriteLine("    using System.Collections.Generic;");
+            writer.WriteLine("    using System;");
             writer.WriteLine();
             writer.WriteLine("    /// <summary>");
             writer.WriteLine("    ///   Automatically generated decision tree.");
