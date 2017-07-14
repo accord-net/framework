@@ -30,6 +30,7 @@ namespace Accord.Statistics.Models.Regression.Linear
     using System.Threading.Tasks;
     using System.Threading;
     using Math;
+    using Accord.Math.Decompositions;
 
     /// <summary>
     ///   Polynomial Least-Squares.
@@ -69,6 +70,14 @@ namespace Accord.Statistics.Models.Regression.Linear
         }
 
         /// <summary>
+        ///   Gets or sets whether to always use a robust Least-Squares 
+        ///   estimate using the <see cref="SingularValueDecomposition"/>.
+        ///   Default is false.
+        /// </summary>
+        /// 
+        public bool IsRobust { get; set; }
+
+        /// <summary>
         ///   Gets or sets the polynomial degree to use
         ///   in the polynomial regression.
         /// </summary>
@@ -102,7 +111,8 @@ namespace Accord.Statistics.Models.Regression.Linear
 
             var lls = new OrdinaryLeastSquares()
             {
-                UseIntercept = true
+                UseIntercept = true,
+                IsRobust = IsRobust
             };
 
             var linear = lls.Learn(z, y, weights);

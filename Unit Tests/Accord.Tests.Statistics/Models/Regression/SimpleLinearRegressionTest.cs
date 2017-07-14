@@ -217,7 +217,7 @@ namespace Accord.Tests.Statistics
         }
 
         [Test]
-        public void weight_test()
+        public void weight_test_linear()
         {
             SimpleLinearRegression reference;
             double referenceR2;
