@@ -261,7 +261,7 @@
     <PresentationStyle>VS2013</PresentationStyle>
     <SyntaxFilters>C#, Visual Basic</SyntaxFilters>
     <NamingMethod>MemberName</NamingMethod>
-    <HelpFileVersion>3.6.1.0</HelpFileVersion>
+    <HelpFileVersion>3.6.2.0</HelpFileVersion>
     <FrameworkVersion>.NET Framework 4.6</FrameworkVersion>
     <VisibleItems>Attributes, InheritedMembers, InheritedFrameworkMembers, Protected</VisibleItems>
     <PlugInNamespaces>ms.vsipcc+, ms.vsexpresscc+</PlugInNamespaces>
