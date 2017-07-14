@@ -1,0 +1,30 @@
+﻿<Dictionary>
+  <Words>
+    <Unrecognized>
+      <Word></Word>
+    </Unrecognized>
+    <Recognized>
+      <Word>Homography</Word>
+      <Word>Ransac</Word>
+      <Word>Laplacian</Word>
+      <Word>x</Word>
+      <Word>y</Word>
+      <Word>Mu</Word>
+      <Word>Hu</Word>
+    </Recognized>
+    <Deprecated>
+      <Term PreferredAlternate=""></Term>
+    </Deprecated>
+    <Compound>
+      <Term CompoundAlternate=""></Term>
+    </Compound>
+    <DiscreteExceptions>
+      <Term></Term>
+    </DiscreteExceptions>
+  </Words>
+  <Acronyms>
+    <CasingExceptions>
+      <Acronym>RANSAC</Acronym>
+    </CasingExceptions>
+  </Acronyms>
+</Dictionary>

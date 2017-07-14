@@ -1,0 +1,262 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Accord.Imaging.Filters.Blend">
+    <Position X="1" Y="0.5" Width="2" />
+    <Members>
+      <Field Name="alphaOnly" Hidden="true" />
+      <Field Name="center" Hidden="true" />
+      <Field Name="fillColor" Hidden="true" />
+      <Field Name="formatTranslations" Hidden="true" />
+      <Field Name="gradient" Hidden="true" />
+      <Field Name="homography" Hidden="true" />
+      <Field Name="imageSize" Hidden="true" />
+      <Field Name="offset" Hidden="true" />
+      <Field Name="overlayImage" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAiAAAAMAABADAAAQAAACAAAYEAAAAAACAwAAggAAAA=</HashCode>
+      <FileName>Filters\Blend.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.Imaging.Filters.CombineChannel">
+    <Position X="3.25" Y="0.5" Width="1.75" />
+    <Members>
+      <Field Name="baseHeight" Hidden="true" />
+      <Field Name="baseWidth" Hidden="true" />
+      <Field Name="channels" Hidden="true" />
+      <Field Name="formatTranslations" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAAAAAAAAAABACAAAQAAAAAAAAAQQAAAAAAA=</HashCode>
+      <FileName>Filters\CombineChannel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.Imaging.Filters.CompassConvolution">
+    <Position X="5.25" Y="0.5" Width="1.75" />
+    <Members>
+      <Field Name="formatTranslations" Hidden="true" />
+      <Field Name="masks" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAACAAAQAAABAAAAAQAAAAAAAA=</HashCode>
+      <FileName>Filters\CompassConvolution.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.Imaging.Filters.Concatenate">
+    <Position X="1" Y="3.75" Width="2" />
+    <Members>
+      <Field Name="formatTranslations" Hidden="true" />
+      <Field Name="overlayImage" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAACAAAQAAAAAAAAAwAAgAAAAA=</HashCode>
+      <FileName>Filters\Concatenate.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.Imaging.Filters.Exponential">
+    <Position X="5.25" Y="2.5" Width="1.75" />
+    <Members>
+      <Field Name="formatTranslations" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAACAAAQAAAAAAAAAQAAAAAAAA=</HashCode>
+      <FileName>Filters\Exponential.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.Imaging.Filters.FeaturesMarker">
+    <Position X="13.75" Y="7.75" Width="2.25" />
+    <Members>
+      <Field Name="formatTranslations" Hidden="true" />
+      <Field Name="points" Hidden="true" />
+      <Field Name="toRGB" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAQACAAAAAgAAAAAAACAAAQAAAAAAAAAQAAAAAAAA=</HashCode>
+      <FileName>Filters\FeaturesMarker.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.Imaging.Filters.GaborFilter">
+    <Position X="7.25" Y="0.5" Width="1.75" />
+    <Members>
+      <Field Name="formatTranslations" Hidden="true" />
+      <Field Name="gamma" Hidden="true" />
+      <Field Name="kernel" Hidden="true" />
+      <Field Name="lambda" Hidden="true" />
+      <Field Name="psi" Hidden="true" />
+      <Field Name="recompute" Hidden="true" />
+      <Field Name="sigma" Hidden="true" />
+      <Field Name="size" Hidden="true" />
+      <Field Name="theta" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAkAAAIIAAACgAAAAIAACAAAQDAAAAAwAARAAAABAAI=</HashCode>
+      <FileName>Filters\GaborFilter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.Imaging.Filters.GrayWorld">
+    <Position X="3.25" Y="4.5" Width="1.75" />
+    <Members>
+      <Field Name="formatTranslations" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAACAAAQAAAAAAAAAQAAAAAAAA=</HashCode>
+      <FileName>Filters\GrayWorld.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.Imaging.Filters.KirschEdgeDetector">
+    <Position X="5.25" Y="4.5" Width="1.75" />
+    <Members>
+      <Field Name="convolution" Hidden="true" />
+      <Field Name="East" Hidden="true" />
+      <Field Name="North" Hidden="true" />
+      <Field Name="Northeast" Hidden="true" />
+      <Field Name="Northwest" Hidden="true" />
+      <Field Name="South" Hidden="true" />
+      <Field Name="Southeast" Hidden="true" />
+      <Field Name="Southwest" Hidden="true" />
+      <Field Name="West" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>ACCCABABAAAAAAAAAAAACAAAUAAAAAAAAAAAACABAAQ=</HashCode>
+      <FileName>Filters\KirschEdgeDetector.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.Imaging.Filters.Kuwahara">
+    <Position X="9.25" Y="0.5" Width="1.75" />
+    <Members>
+      <Field Name="blockSize" Hidden="true" />
+      <Field Name="formatTranslations" Hidden="true" />
+      <Field Name="kernelSize" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAQgAAAAAAACAAAQAAAAAAAIAQEACAAAAA=</HashCode>
+      <FileName>Filters\Kuwahara.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.Imaging.Filters.LineMarker">
+    <Position X="11.25" Y="7.75" Width="2.25" />
+    <Members>
+      <Field Name="formatTranslations" Hidden="true" />
+      <Field Name="line" Hidden="true" />
+      <Field Name="markerColor" Hidden="true" />
+      <Field Name="width" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAgAAAAQAAACEAAQAAgAAAAAAQAAAABAAA=</HashCode>
+      <FileName>Filters\LineMarker.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.Imaging.Filters.Logarithm">
+    <Position X="3.25" Y="2.5" Width="1.75" />
+    <Members>
+      <Field Name="formatTranslations" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAACAAAQAAAAAAAAAQAAAAAAAA=</HashCode>
+      <FileName>Filters\Logarithm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.Imaging.Filters.PairsMarker">
+    <Position X="8.75" Y="7.75" Width="2.25" />
+    <Members>
+      <Field Name="formatTranslations" Hidden="true" />
+      <Field Name="markerColor" Hidden="true" />
+      <Field Name="points1" Hidden="true" />
+      <Field Name="points2" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AwAAAAAAAAAgAAAAAAAACAAAQAAgAAAAAAQAAAMAAAA=</HashCode>
+      <FileName>Filters\PairsMarker.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.Imaging.Filters.PointsMarker">
+    <Position X="6.25" Y="7.75" Width="2.25" />
+    <Members>
+      <Field Name="formatTranslations" Hidden="true" />
+      <Field Name="markerColor" Hidden="true" />
+      <Field Name="points" Hidden="true" />
+      <Field Name="width" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAAAggAAAQAAACEAAQAAgAAAAAAQAAAAAAAA=</HashCode>
+      <FileName>Filters\PointsMarker.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.Imaging.Filters.RectanglesMarker">
+    <Position X="3.5" Y="7.75" Width="2.5" />
+    <Members>
+      <Field Name="fillColor" Hidden="true" />
+      <Field Name="formatTranslations" Hidden="true" />
+      <Field Name="markerColor" Hidden="true" />
+      <Field Name="rectangles" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAEAAAABAAAgAAAAAAAACAAAQAAgAAAACAQAAAgAAAA=</HashCode>
+      <FileName>Filters\RectanglesMarker.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.Imaging.Filters.Rectification">
+    <Position X="11.25" Y="0.5" Width="2.25" />
+    <Members>
+      <Field Name="fillColor" Hidden="true" />
+      <Field Name="formatTranslations" Hidden="true" />
+      <Field Name="homography" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIAAAACAAAAAAACAAAQAAAAAAACAQAAggAAAA=</HashCode>
+      <FileName>Filters\Rectification.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.Imaging.Filters.RobinsonEdgeDetector">
+    <Position X="13.75" Y="2.75" Width="2" />
+    <Members>
+      <Field Name="convolution" Hidden="true" />
+      <Field Name="East" Hidden="true" />
+      <Field Name="North" Hidden="true" />
+      <Field Name="Northeast" Hidden="true" />
+      <Field Name="Northwest" Hidden="true" />
+      <Field Name="South" Hidden="true" />
+      <Field Name="Southeast" Hidden="true" />
+      <Field Name="Southwest" Hidden="true" />
+      <Field Name="West" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>ACCCABABAAAAAAAAAAAACAAAUAAAAAAAAAAAACABAAQ=</HashCode>
+      <FileName>Filters\RobinsonEdgeDetector.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.Imaging.Filters.Variance">
+    <Position X="13.75" Y="0.5" Width="2" />
+    <Members>
+      <Field Name="formatTranslations" Hidden="true" />
+      <Field Name="radius" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAIAAAACAAAAAAAAAAACAAAQAAAAAAAAAQAAAAAAAA=</HashCode>
+      <FileName>Filters\Variance.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.Imaging.Filters.WaveletTransform">
+    <Position X="16" Y="0.5" Width="2.5" />
+    <Members>
+      <Field Name="backward" Hidden="true" />
+      <Field Name="formatTranslations" Hidden="true" />
+      <Field Name="wavelet" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAgAAACAAAAAgAAAAAAACAAAQAAAAAAAAAQAAAAIAAA=</HashCode>
+      <FileName>Filters\WaveletTransform.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.Imaging.Filters.WhitePatch">
+    <Position X="7.25" Y="3.75" Width="1.75" />
+    <Members>
+      <Field Name="formatTranslations" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAACAAAQAAAAAAAAAQAAAAAAAA=</HashCode>
+      <FileName>Filters\WhitePatch.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
