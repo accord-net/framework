@@ -216,6 +216,8 @@ namespace Accord.Tests.MachineLearning
         [Test]
         public void learn_pendigits_normalization()
         {
+            Console.WriteLine("Starting BagOfWordsTest.learn_pendigits_normalization");
+
             using (var travis = new KeepTravisAlive())
             {
                 #region doc_learn_pendigits

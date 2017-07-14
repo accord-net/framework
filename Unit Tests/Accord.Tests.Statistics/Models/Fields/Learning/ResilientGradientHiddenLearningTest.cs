@@ -270,6 +270,8 @@ namespace Accord.Tests.Statistics.Models.Fields
         [Ignore("Intensive")]
         public void learn_pendigits_normalization()
         {
+            Console.WriteLine("Starting ResilientGradientHiddenLearningTest.learn_pendigits_normalization");
+
             using (var travis = new KeepTravisAlive())
             {
                 #region doc_learn_pendigits

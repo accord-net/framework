@@ -799,6 +799,8 @@ namespace Accord.Tests.Statistics
 #endif
         public void learn_pendigits()
         {
+            Console.WriteLine("Starting HiddenMarkovClassifier`2Test.learn_pendigits");
+
             using (var travis = new KeepTravisAlive())
             {
                 Accord.Math.Random.Generator.Seed = 0;
@@ -846,7 +848,9 @@ namespace Accord.Tests.Statistics
 #endif
         public void learn_pendigits_normalization()
         {
-#region doc_learn_pendigits
+            Console.WriteLine("Starting HiddenMarkovClassifier`2Test.learn_pendigits_normalization");
+
+            #region doc_learn_pendigits
             // Ensure we get reproducible results
             Accord.Math.Random.Generator.Seed = 0;
 

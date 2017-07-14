@@ -35,6 +35,7 @@ namespace Accord.Tests.Statistics.Models.Fields
     using Accord.Statistics.Models.Markov.Learning;
     using Accord.Statistics.Models.Markov.Topology;
     using NUnit.Framework;
+    using System;
     using System.IO;
 
     [TestFixture]
@@ -99,6 +100,8 @@ namespace Accord.Tests.Statistics.Models.Fields
         [Ignore("Intensive")]
         public void learn_pendigits_normalization()
         {
+            Console.WriteLine("Starting NormalQuasiNewtonHiddenLearningTest.learn_pendigits_normalization");
+
             using (var travis = new KeepTravisAlive())
             {
                 #region doc_learn_pendigits
