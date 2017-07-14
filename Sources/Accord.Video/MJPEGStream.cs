@@ -423,6 +423,8 @@ namespace Accord.Video
             byte[] jpegMagic = new byte[] { 0xFF, 0xD8, 0xFF };
             int jpegMagicLength = 3;
 
+            CancellationTokenSource tokenSource = new CancellationTokenSource( );
+
             ASCIIEncoding encoding = new ASCIIEncoding( );
 
             while ( !stopEvent.WaitOne( 0, false ) )
@@ -472,9 +474,11 @@ namespace Accord.Video
                     // set login and password
 					if ( ( login != null ) && ( password != null ) && ( login != string.Empty ) )
                         request.Credentials = new NetworkCredential( login, password );
-					// set connection group name
-					if ( useSeparateConnectionGroup )
+#if !NETSTANDARD2_0
+                    // set connection group name
+                    if ( useSeparateConnectionGroup )
                         request.ConnectionGroupName = GetHashCode( ).ToString( );
+#endif
                     // force basic authentication through extra headers if required
                     if ( forceBasicAuthentication )
                     {
@@ -528,19 +532,44 @@ namespace Accord.Video
 
 					// get response stream
                     stream = response.GetResponseStream( );
-                    stream.ReadTimeout = requestTimeout;
+                    if (stream.CanTimeout)
+                    {
+                        stream.ReadTimeout = requestTimeout;
+                    }
 
-					// loop
-					while ( ( !stopEvent.WaitOne( 0, false ) ) && ( !reloadEvent.WaitOne( 0, false ) ) )
+                    // loop
+                    while ( ( !stopEvent.WaitOne( 0, false ) ) && ( !reloadEvent.WaitOne( 0, false ) ) )
 					{
 						// check total read
 						if ( total > bufSize - readSize )
 						{
 							total = pos = todo = 0;
-						}
+                        }
 
-						// read next portion from stream
-						if ( ( read = stream.Read( buffer, total, readSize ) ) == 0 )
+                        if (stream.CanTimeout)
+                        {
+                            // read next portion from stream
+                            read = stream.Read(buffer, total, readSize);
+                        }
+                        else
+                        {
+                            try
+                            {
+                                // set timeout cancellation token
+                                tokenSource.CancelAfter(requestTimeout);
+                                // read next portion from stream, enforce timeout
+                                read = stream.ReadAsync(buffer, total, readSize, tokenSource.Token).Result;
+                            }
+                            catch (Exception)
+                            {
+                                // reset canceled token source
+                                tokenSource = new CancellationTokenSource( );
+                                throw new TimeoutException("The operation has timed out.");
+                            }
+                        }
+
+                        // read next portion from stream
+                        if (read == 0 )
 							throw new ApplicationException( );
 
 						total += read;
