@@ -23,6 +23,8 @@
 namespace Accord.Statistics.Models.Regression
 {
     using Accord.MachineLearning;
+    using Accord.Math.Optimization;
+    using Accord.Statistics.Models.Regression.Fitting;
     using System;
 
     /// <summary>
