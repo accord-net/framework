@@ -948,10 +948,6 @@ namespace Accord.Neuro.Learning
         /// 
         private double CalculateDerivatives(double[] input, double[] desiredOutput, int outputIndex)
         {
-            // Assume all network neurons have the same activation function
-            var function = (network.Layers[0].Neurons[0] as ActivationNeuron).ActivationFunction;
-
-
             // Start by the output layer first
             int outputLayerIndex = network.Layers.Length - 1;
             ActivationLayer outputLayer = network.Layers[outputLayerIndex] as ActivationLayer;
@@ -974,7 +970,7 @@ namespace Accord.Neuro.Learning
 
             double output = outputNeuron.Output;
             double error = desiredOutput[outputIndex] - output;
-            double derivative = function.Derivative2(output);
+            double derivative = outputNeuron.ActivationFunction.Derivative2(output);
 
             // Set derivative for each weight in the neuron
             for (int i = 0; i < neuronWeightDerivatives.Length; i++)
@@ -1030,7 +1026,7 @@ namespace Accord.Neuro.Learning
                     }
 
                     // Continue forming the chain-rule statement
-                    derivative = sum * function.Derivative2(neuron.Output);
+                    derivative = sum * neuron.ActivationFunction.Derivative2(neuron.Output);
 
                     // Set derivative for each weight in the neuron
                     for (int wi = 0; wi < neuronWeightDerivatives.Length; wi++)
