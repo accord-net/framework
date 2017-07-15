@@ -65,6 +65,18 @@ namespace Accord.Statistics.Models.Regression
     ///   Nonlinear Regression.
     /// </summary>
     /// 
+    /// <example>
+    /// <para>
+    ///   The first example shows how to fit a non-linear regression with <see cref="LevenbergMarquardt"/>.</para>
+    /// <code source="Unit Tests\Accord.Tests.Statistics\Models\Regression\NonlinearLeastSquaresTest.cs" region="doc_learn_lm" />
+    /// 
+    /// <para>
+    ///   The second example shows how to fit a non-linear regression with <see cref="GaussNewton"/>.</para>
+    /// <code source="Unit Tests\Accord.Tests.Statistics\Models\Regression\NonlinearLeastSquaresTest.cs" region="doc_learn_gn" />
+    /// </example>
+    /// 
+    /// <seealso cref="NonlinearLeastSquares"/>
+    /// 
     [Serializable]
     public class NonlinearRegression : TransformBase<double[], double>, ICloneable
     {

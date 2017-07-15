@@ -29,6 +29,7 @@ namespace Accord.Math.Optimization
     using System.Text.RegularExpressions;
     using System.Text;
     using System.Collections.ObjectModel;
+    using System.Reflection;
 
     /// <summary>
     ///   Constraint with only linear terms.
@@ -329,13 +330,61 @@ namespace Accord.Math.Optimization
             }
 
             var left = expression.Left;
+
+            // Try to determine the right side of the constraint expression. Normally
+            // this should be a constant, a variable (field), or a property. Other cases
+            // are not supported for the moment.
+
+            value = Double.NaN;
+            bool rightSideParsed = false;
+
             var right = expression.Right as ConstantExpression;
+            if (right != null)
+            {
+                // Right side is a constant
+                value = (Double)right.Value;
+                rightSideParsed = true;
+            }
+            else
+            {
+                // Right side is not a constant, try to determine what it is
+                var variableRight = expression.Right as MemberExpression;
+                if (variableRight != null)
+                {
+                    // Right side is a member variable: a field, a property or something else
+                    var field = variableRight.Member as FieldInfo;
+                    if (field != null)
+                    {
+                        // Right side is a field
+                        var constant = variableRight.Expression as ConstantExpression;
+                        value = (double)field.GetValue(constant.Value);
+                        rightSideParsed = true;
+                    }
+                    else
+                    {
+                        // Right side is not a field, try to determine what it is
+                        var prop = variableRight.Member as PropertyInfo;
+                        if (prop != null)
+                        {
+                            // Right side is a property
+                            var constant = variableRight.Expression as ConstantExpression;
+                            value = (double)prop.GetValue(constant.Value);
+                            rightSideParsed = true;
+                        }
+                    }
+                }
+            }
+
+            if (!rightSideParsed)
+            {
+                throw new ArgumentException("The right side of the expression could not be parsed. Please post the code you are trying to execute as a new issue in Accord.NET's issue tracker.");
+            }
 
             var functionExpression = Expression.Lambda(left, constraint.Parameters.ToArray());
 
             function = functionExpression.Compile() as Func<double[], double>;
 
-            value = (Double)right.Value;
+
         }
 
 
