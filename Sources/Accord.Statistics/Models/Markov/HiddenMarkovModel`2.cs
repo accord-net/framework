@@ -149,6 +149,17 @@ namespace Accord.Statistics.Models.Markov
     /// 
     /// <code source="Unit Tests\Accord.Tests.Statistics\Models\Markov\HiddenMarkovModel`2Test.cs" region="doc_learn" />
     /// 
+    /// <para>
+    ///   Markov models can also be trained without having, in fact, "hidden" parts. The following example shows 
+    ///   how hidden Markov models trained using Maximum Likelihood Learning can be used in the context of fraud 
+    ///   analysis, in which we actually know in advance the class labels for each state in the sequences we are
+    ///   trying to learn:</para>
+    ///   
+    /// <code source="Unit Tests\Accord.Tests.Statistics\Models\Markov\MaximumLikelihoodLearning`1Test.cs" region="doc_learn_fraud_analysis"/>
+    /// 
+    /// <para>
+    ///   Where the transform function is defined as:</para>
+    /// <code source="Unit Tests\Accord.Tests.Statistics\Models\Markov\MaximumLikelihoodLearning`1Test.cs" region="doc_learn_fraud_transform"/>
     /// </example>
     /// 
     /// <seealso cref="BaumWelchLearning{T}">Baum-Welch, one of the most famous 
@@ -363,7 +374,7 @@ namespace Accord.Statistics.Models.Markov
         /// <param name="emissions">A initial distribution to be copied to all states in the model.</param>
         /// 
         public HiddenMarkovModel(int states, Func<int, TDistribution> emissions)
-            : this(new Topology.Ergodic(states), (i) => (TDistribution)emissions.Clone())
+            : this(new Topology.Ergodic(states), (i) => (TDistribution)emissions(i).Clone())
         {
         }
 

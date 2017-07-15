@@ -138,6 +138,8 @@ namespace Accord.Statistics.Models.Markov.Learning
             if (Model == null)
                 Model = Create(x, numberOfClasses: y.Max() + 1);
 
+            MarkovHelperMethods.CheckObservationDimensions(x, Model);
+
             // Grab model information
             var model = Model;
             var fittingOptions = FittingOptions;

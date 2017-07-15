@@ -293,6 +293,8 @@ namespace Accord.Statistics.Models.Markov.Learning
             if (Model == null)
                 Model = Create(x);
 
+            MarkovHelperMethods.CheckObservationDimensions(x, Model);
+
             if (MaxIterations > 0 && CurrentIteration >= MaxIterations)
                 return Model;
 
