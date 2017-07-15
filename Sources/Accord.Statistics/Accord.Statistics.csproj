@@ -337,8 +337,6 @@
     <Compile Include="Accord.MachineLearning\Learning\IUnsupervisedLearning.cs" />
     <Compile Include="Accord.MachineLearning\Learning\BinaryLearningBase.cs" />
     <Compile Include="Accord.MachineLearning\Learning\MulticlassLearningBase.cs" />
-    <Compile Include="Accord.MachineLearning\Learning\ParallelMulticlassLearningBase.cs" />
-    <Compile Include="Accord.MachineLearning\Learning\ParallelLearningBase.cs" />
     <Compile Include="Measures\Tools.Misc.cs" />
     <Compile Include="Models\Accord.Statistics.Models.cs" />
     <Compile Include="Models\Fields\Accord.Statistics.Models.Fields.cs" />
@@ -414,7 +412,6 @@
     <Compile Include="Models\Fields\Potential Functions\Base\IPotentialFunction.cs" />
     <Compile Include="Models\Fields\Potential Functions\Base\PotentialFunctionBase.cs" />
     <Compile Include="Models\Fields\HiddenConditionalRandomField`1.cs" />
-    <Compile Include="Models\IConvergenceLearning.cs" />
     <Compile Include="Models\Fields\Gradient\ForwardBackwardGradient.cs" />
     <Compile Include="Models\Fields\Learning\Hidden\IHiddenConditionalRandomFieldLearning.cs" />
     <Compile Include="Models\Fields\Learning\Visible\IConditionalRandomFieldLearning.cs" />

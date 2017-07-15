@@ -74,10 +74,7 @@ namespace Accord.Statistics.Models.Regression
         // TODO: implement a way to serialize the function and gradient
         // functions, most likely using serializable expression trees.
 
-        [NonSerialized]
         RegressionFunction function;
-
-        [NonSerialized]
         RegressionGradientFunction gradient;
 
 
@@ -145,7 +142,7 @@ namespace Accord.Statistics.Models.Regression
         /// 
         /// <param name="parameters">The number of variables (free parameters) in the model.</param>
         /// <param name="function">The regression function implementing the regression model.</param>
-        /// <param name="gradient">The function that computes the gradient for <paramref name="function"/>.</param>
+        /// <param name="gradient">The function that computes the gradient for <paramref name="function"/> (optional).</param>
         /// 
         public NonlinearRegression(int parameters, RegressionFunction function, RegressionGradientFunction gradient)
             : this(parameters, function)

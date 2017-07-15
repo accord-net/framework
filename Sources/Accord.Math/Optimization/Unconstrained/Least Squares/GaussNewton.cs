@@ -26,6 +26,8 @@ namespace Accord.Math.Optimization
     using Accord.Math;
     using Accord.Math.Decompositions;
     using System.Threading;
+    using System.Threading.Tasks;
+    using Accord.Statistics.Models;
 
     /// <summary>
     ///   Gauss-Newton algorithm for solving Least-Squares problems.
@@ -37,71 +39,19 @@ namespace Accord.Math.Optimization
     ///   optimization methods, such as <see cref="LevenbergMarquardt"/>.
     /// </remarks>
     /// 
-    public class GaussNewton : ILeastSquaresMethod
+    /// <seealso cref="LevenbergMarquardt"/>
+    /// 
+    public class GaussNewton : BaseLeastSquaresMethod, ILeastSquaresMethod, IConvergenceLearning
     {
-        [NonSerialized]
-        CancellationToken token = new CancellationToken();
 
-        private int numberOfParameters;
-
-        private double[] weights;
-        
         private double[] gradient;
         private double[] errors;
         private double[] deltas;
 
-        private double[,] hessian;
-        private double[,] jacobian;
+        private double[][] hessian;
+        private double[][] jacobian;
 
-        private SingularValueDecomposition decomposition;
-
-
-        /// <summary>
-        ///   Gets or sets a parameterized model function mapping input vectors
-        ///   into output values, whose optimum parameters must be found.
-        /// </summary>
-        /// 
-        /// <value>
-        ///   The function to be optimized.
-        /// </value>
-        /// 
-        public LeastSquaresFunction Function { get; set; }
-
-
-        /// <summary>
-        ///   Gets or sets a function that computes the gradient vector in respect
-        ///   to the function parameters, given a set of input and output values.
-        /// </summary>
-        /// 
-        /// <value>
-        ///   The gradient function.
-        /// </value>
-        /// 
-        public LeastSquaresGradientFunction Gradient { get; set; }
-
-        /// <summary>
-        ///   Gets or sets a cancellation token that can be used to
-        ///   stop the learning algorithm while it is running.
-        /// </summary>
-        /// 
-        public CancellationToken Token
-        {
-            get { return token; }
-            set { token = value; }
-        }
-
-        /// <summary>
-        ///   Gets the number of variables (free parameters) in the optimization problem.
-        /// </summary>
-        /// 
-        /// <value>
-        ///   The number of parameters.
-        /// </value>
-        /// 
-        public int NumberOfVariables
-        {
-            get { return numberOfParameters; }
-        }
+        private JaggedSingularValueDecomposition decomposition;
 
         /// <summary>
         ///   Gets the approximate Hessian matrix of second derivatives
@@ -115,25 +65,9 @@ namespace Accord.Math.Optimization
         /// </para>
         /// </remarks>
         /// 
-        public double[,] Hessian
+        public double[][] Hessian
         {
             get { return hessian; }
-        }
-
-        /// <summary>
-        ///   Gets the solution found, the values of the parameters which
-        ///   optimizes the function, in a least squares sense.
-        /// </summary>
-        /// 
-        public double[] Solution
-        {
-            get { return weights; }
-            set
-            {
-                if (value.Length != numberOfParameters)
-                    throw new ArgumentException("Parameter vectors must have the same length", "value");
-                this.weights = value;
-            }
         }
 
         /// <summary>
@@ -153,7 +87,7 @@ namespace Accord.Math.Optimization
         ///   last iteration.
         /// </summary>
         /// 
-        public double[,] Jacobian
+        public double[][] Jacobian
         {
             get { return jacobian; }
         }
@@ -177,11 +111,13 @@ namespace Accord.Math.Optimization
         }
 
         /// <summary>
-        /// Gets the value at the solution found. This should be
-        /// the minimum value found for the objective function.
+        /// Initializes a new instance of the <see cref="GaussNewton" /> class.
         /// </summary>
         /// 
-        public double Value { get; set; }
+        public GaussNewton()
+        {
+
+        }
 
         /// <summary>
         ///   Initializes a new instance of the <see cref="GaussNewton"/> class.
@@ -191,12 +127,21 @@ namespace Accord.Math.Optimization
         ///   in the objective function.</param>
         /// 
         public GaussNewton(int parameters)
+            : this()
         {
-            this.numberOfParameters = parameters;
+            this.NumberOfParameters = parameters;
+        }
 
-            this.hessian = new double[numberOfParameters, numberOfParameters];
-            this.gradient = new double[numberOfParameters];
-            this.weights = new double[numberOfParameters];
+        /// <summary>
+        /// This method should be implemented by child classes to initialize
+        /// their fields once the <see cref="BaseLeastSquaresMethod.NumberOfParameters" /> is known.
+        /// </summary>
+        /// 
+        protected override void Initialize()
+        {
+            this.hessian = Jagged.Zeros(NumberOfParameters, NumberOfParameters);
+            this.gradient = new double[NumberOfParameters];
+            this.jacobian = new double[NumberOfParameters][];
         }
 
 
@@ -212,71 +157,77 @@ namespace Accord.Math.Optimization
         /// 
         public double Minimize(double[][] inputs, double[] outputs)
         {
-            Array.Clear(hessian, 0, hessian.Length);
-            Array.Clear(gradient, 0, gradient.Length);
+            Convergence.CurrentIteration = 0;
 
-
-            errors = new double[inputs.Length];
-            jacobian = new double[inputs.Length, numberOfParameters];
-
-
-            for (int i = 0; i < inputs.Length; i++)
-                errors[i] = outputs[i] - Function(weights, inputs[i]);
-
-            var g = new double[numberOfParameters];
-            for (int i = 0; i < inputs.Length; i++)
+            do
             {
-                Gradient(weights, inputs[i], result: g);
+                Convergence.NewValue = iterate(inputs, outputs);
+            } while (!Convergence.HasConverged);
 
-                for (int j = 0; j < gradient.Length; j++)
-                    jacobian[i, j] = -g[j];
+            return Value = Convergence.NewValue;
+        }
 
-                if (Token.IsCancellationRequested)
-                    break;
+        private double iterate(double[][] inputs, double[] outputs)
+        {
+            if (errors == null || inputs.Length != errors.Length)
+            {
+                this.errors = new double[inputs.Length];
+                for (int i = 0; i < jacobian.Length; i++)
+                    this.jacobian[i] = new double[inputs.Length];
+            }
+
+            for (int i = 0; i < inputs.Length; i++)
+                this.errors[i] = outputs[i] - Function(Solution, inputs[i]);
+
+            if (ParallelOptions.MaxDegreeOfParallelism == 1)
+            {
+                for (int i = 0; i < inputs.Length; i++)
+                {
+                    Gradient(Solution, inputs[i], result: gradient);
+
+                    for (int j = 0; j < gradient.Length; j++)
+                        jacobian[j][i] = -gradient[j];
+
+                    if (Token.IsCancellationRequested)
+                        break;
+                }
+            }
+            else
+            {
+                Parallel.For(0, inputs.Length, ParallelOptions,
+
+                    () => new double[NumberOfParameters],
+
+                    (i, state, gradient) =>
+                    {
+                        Gradient(Solution, inputs[i], result: gradient);
+
+                        for (int j = 0; j < gradient.Length; j++)
+                            jacobian[j][i] = -gradient[j];
+
+                        return gradient;
+                    },
+
+                    (gradient) => { }
+                );
             }
 
 
             // Compute error gradient using Jacobian
-            jacobian.TransposeAndDot(errors, result: gradient);
+            this.jacobian.Dot(errors, result: gradient);
 
             // Compute Quasi-Hessian Matrix approximation
-            jacobian.TransposeAndDot(jacobian, result: hessian);
+            this.jacobian.DotWithTransposed(jacobian, result: hessian);
 
-            decomposition = new SingularValueDecomposition(hessian,
+            this.decomposition = new JaggedSingularValueDecomposition(hessian,
                 computeLeftSingularVectors: true, computeRightSingularVectors: true, autoTranspose: true);
 
-            deltas = decomposition.Solve(gradient);
+            this.deltas = decomposition.Solve(gradient);
 
             for (int i = 0; i < deltas.Length; i++)
-                weights[i] -= deltas[i];
+                Solution[i] -= this.deltas[i];
 
-            return Value = ComputeError(inputs, outputs);
-        }
-
-
-
-        /// <summary>
-        ///   Compute model error for a given data set.
-        /// </summary>
-        /// 
-        /// <param name="input">The input points.</param>
-        /// <param name="output">The output points.</param>
-        /// 
-        /// <returns>The sum of squared errors for the data.</returns>
-        /// 
-        public double ComputeError(double[][] input, double[] output)
-        {
-            double sumOfSquaredErrors = 0;
-
-            for (int i = 0; i < input.Length; i++)
-            {
-                double y = Function(weights, input[i]);
-
-                double e = y - output[i];
-                sumOfSquaredErrors += e * e;
-            }
-
-            return sumOfSquaredErrors;
+            return ComputeError(inputs, outputs);
         }
 
     }

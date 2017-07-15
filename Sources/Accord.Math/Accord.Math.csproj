@@ -55,7 +55,9 @@
     <Compile Include="..\Accord.Core\Properties\VersionInfo.cs">
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
+    <Compile Include="Accord.MachineLearning\Learning\ParallelLearningBase.cs" />
     <Compile Include="Accord.Statistics\Classes.cs" />
+    <Compile Include="Accord.Statistics\IConvergenceLearning.cs" />
     <Compile Include="Accord.Statistics\Measures.Histogram.cs" />
     <Compile Include="Accord.Statistics\Measures.Matrix.cs" />
     <Compile Include="Accord.Statistics\Measures.Matrix.Weighted.cs" />
@@ -230,6 +232,7 @@
     <Compile Include="Optimization\Losses\ZeroOneLoss.cs" />
     <Compile Include="Optimization\Munkres.cs" />
     <Compile Include="Optimization\Unconstrained\GradientDescent.cs" />
+    <Compile Include="Optimization\Base\BaseLeastSquaresMethod.cs" />
     <Compile Include="Optimization\Unconstrained\TrustRegionNewtonMethod.cs" />
     <Compile Include="Random\IRandomNumberGenerator.cs" />
     <Compile Include="Random\ZigguratExponentialGenerator.cs" />

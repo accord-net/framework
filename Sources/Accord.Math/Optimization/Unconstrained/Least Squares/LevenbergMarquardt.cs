@@ -27,12 +27,13 @@ namespace Accord.Math.Optimization
     using Accord.Math;
     using Accord.Math.Decompositions;
     using System.Threading;
+    using Accord.Statistics.Models;
 
     /// <summary>
     ///   Levenberg-Marquardt algorithm for solving Least-Squares problems.
     /// </summary>
     /// 
-    public class LevenbergMarquardt : ILeastSquaresMethod
+    public class LevenbergMarquardt : BaseLeastSquaresMethod, ILeastSquaresMethod, IConvergenceLearning
     {
         private const double lambdaMax = 1e25;
 
@@ -44,9 +45,9 @@ namespace Accord.Math.Optimization
         private double[] diagonal;
         private double[] gradient;
         private double[] weights;
-        private double[] solution;
         private double[] deltas;
         private double[] errors;
+
 
         // Levenberg damping factor
         private double lambda = 0.1;
@@ -55,8 +56,6 @@ namespace Accord.Math.Optimization
         // when searching the minimum error surface
         private double v = 10.0;
 
-        // Total of weights in the network
-        private int numberOfParameters;
 
         private int blocks = 1;
         private int outputCount = 1;
@@ -64,61 +63,6 @@ namespace Accord.Math.Optimization
         JaggedCholeskyDecomposition decomposition;
 
 
-        /// <summary>
-        ///   Gets or sets a parameterized model function mapping input vectors
-        ///   into output values, whose optimum parameters must be found.
-        /// </summary>
-        /// 
-        /// <value>
-        ///   The function to be optimized.
-        /// </value>
-        /// 
-        public LeastSquaresFunction Function { get; set; }
-
-
-        /// <summary>
-        ///   Gets or sets a function that computes the gradient vector in respect
-        ///   to the function parameters, given a set of input and output values.
-        /// </summary>
-        /// 
-        /// <value>
-        ///   The gradient function.
-        /// </value>
-        /// 
-        public LeastSquaresGradientFunction Gradient { get; set; }
-
-        /// <summary>
-        ///   Gets or sets parallelization options.
-        /// </summary>
-        /// 
-        public ParallelOptions ParallelOptions { get; set; }
-
-        /// <summary>
-        ///   Gets or sets a cancellation token that can be used to
-        ///   stop the learning algorithm while it is running.
-        /// </summary>
-        /// 
-        public CancellationToken Token
-        {
-            get { return ParallelOptions.CancellationToken; }
-            set { ParallelOptions.CancellationToken = value; }
-        }
-
-        /// <summary>
-        ///   Gets the solution found, the values of the parameters which
-        ///   optimizes the function, in a least squares sense.
-        /// </summary>
-        /// 
-        public double[] Solution
-        {
-            get { return solution; }
-            set
-            {
-                if (value.Length != numberOfParameters)
-                    throw new ArgumentException("Parameter vectors must have the same length", "value");
-                this.solution = value;
-            }
-        }
 
         /// <summary>
         ///   Levenberg's damping factor, also known as lambda.
@@ -149,20 +93,6 @@ namespace Accord.Math.Optimization
         {
             get { return v; }
             set { v = value; }
-        }
-
-
-        /// <summary>
-        ///   Gets the number of variables (free parameters) in the optimization problem.
-        /// </summary>
-        /// 
-        /// <value>
-        ///   The number of parameters.
-        /// </value>
-        /// 
-        public int NumberOfVariables
-        {
-            get { return numberOfParameters; }
         }
 
 
@@ -218,12 +148,15 @@ namespace Accord.Math.Optimization
             get { return decomposition.InverseDiagonal().Sqrt(); }
         }
 
+
+
         /// <summary>
-        /// Gets the value at the solution found. This should be
-        /// the minimum value found for the objective function.
+        /// Initializes a new instance of the <see cref="LevenbergMarquardt" /> class.
         /// </summary>
-        /// 
-        public double Value { get; set; }
+        public LevenbergMarquardt()
+        {
+
+        }
 
         /// <summary>
         ///   Initializes a new instance of the <see cref="LevenbergMarquardt"/> class.
@@ -232,20 +165,26 @@ namespace Accord.Math.Optimization
         /// <param name="parameters">The number of free parameters in the optimization problem.</param>
         /// 
         public LevenbergMarquardt(int parameters)
+            : this()
         {
-            this.numberOfParameters = parameters;
+            this.NumberOfParameters = parameters;
+        }
 
-            this.weights = new double[numberOfParameters];
-            this.diagonal = new double[numberOfParameters];
-            this.gradient = new double[numberOfParameters];
-            this.solution = new double[numberOfParameters];
+        /// <summary>
+        /// This method should be implemented by child classes to initialize
+        /// their fields once the <see cref="BaseLeastSquaresMethod.NumberOfParameters" /> is known.
+        /// </summary>
+        /// 
+        protected override void Initialize()
+        {
+            this.weights = new double[NumberOfParameters];
+            this.diagonal = new double[NumberOfParameters];
+            this.gradient = new double[NumberOfParameters];
 
-            this.jacobian = new double[numberOfParameters][];
-            this.hessian = new double[numberOfParameters][];
+            this.jacobian = new double[NumberOfParameters][];
+            this.hessian = Jagged.Zeros(NumberOfParameters, NumberOfParameters);
             for (int i = 0; i < hessian.Length; i++)
-                hessian[i] = new double[numberOfParameters];
-
-            this.ParallelOptions = new ParallelOptions();
+                hessian[i] = new double[NumberOfParameters];
         }
 
 
@@ -261,15 +200,8 @@ namespace Accord.Math.Optimization
         /// 
         public double Minimize(double[][] inputs, double[] outputs)
         {
-            double sumOfSquaredErrors = 0.0;
-
-            // Set upper triangular Hessian to zero
-            for (int i = 0; i < hessian.Length; i++)
-                Array.Clear(hessian[i], i, hessian.Length - i);
-
-            // Set Gradient vector to zero
-            Array.Clear(gradient, 0, gradient.Length);
-
+            if (NumberOfParameters == 0)
+                throw new InvalidOperationException("Please set the NumberOfVariables property first.");
 
             // Divide the problem into blocks. Instead of computing
             // a single Jacobian and a single error vector, we will
@@ -292,7 +224,27 @@ namespace Accord.Math.Optimization
             if (errors == null || errors.Length < jacobianSize)
                 errors = new double[jacobianSize];
 
+            Convergence.CurrentIteration = 0;
 
+            do
+            {
+                Convergence.NewValue = iterate(inputs, outputs, blockSize, finalBlock, jacobianSize);
+            } while (!Convergence.HasConverged);
+
+
+            return Value = Convergence.NewValue;
+        }
+
+        private double iterate(double[][] inputs, double[] outputs, int blockSize, int finalBlock, int jacobianSize)
+        {
+            double sumOfSquaredErrors = 0;
+
+            // Set upper triangular Hessian to zero
+            for (int i = 0; i < hessian.Length; i++)
+                Array.Clear(hessian[i], i, hessian.Length - i);
+
+            // Set Gradient vector to zero
+            Array.Clear(gradient, 0, gradient.Length);
 
             // For each block
             for (int s = 0; s <= Blocks; s++)
@@ -361,8 +313,8 @@ namespace Accord.Math.Optimization
                 diagonal[i] = hessian[i][i];
 
             // Create the initial weights vector
-            for (int i = 0; i < solution.Length; i++)
-                weights[i] = solution[i];
+            for (int i = 0; i < Solution.Length; i++)
+                weights[i] = Solution[i];
 
 
             // Define the objective function:
@@ -371,7 +323,7 @@ namespace Accord.Math.Optimization
 
 
             // Begin of the main Levenberg-Marquardt method
-            lambda /= v;
+            this.lambda /= this.v;
 
             // We'll try to find a direction with less error
             //  (or where the objective function is smaller)
@@ -380,7 +332,7 @@ namespace Accord.Math.Optimization
                 if (Token.IsCancellationRequested)
                     break;
 
-                lambda *= v;
+                this.lambda *= this.v;
 
                 // Update diagonal (Levenberg-Marquardt)
                 for (int i = 0; i < diagonal.Length; i++)
@@ -389,11 +341,11 @@ namespace Accord.Math.Optimization
 
                 // Decompose to solve the linear system. The Cholesky decomposition
                 // is done in place, occupying the Hessian's lower-triangular part.
-                decomposition = new JaggedCholeskyDecomposition(hessian, robust: true, inPlace: true);
+                this.decomposition = new JaggedCholeskyDecomposition(hessian, robust: true, inPlace: true);
 
 
                 // Check if the decomposition exists
-                if (decomposition.IsUndefined)
+                if (this.decomposition.IsUndefined)
                 {
                     // The Hessian is singular. Continue to the next
                     // iteration until the diagonal update transforms
@@ -403,12 +355,12 @@ namespace Accord.Math.Optimization
 
 
                 // Solve using Cholesky decomposition
-                deltas = decomposition.Solve(gradient);
+                this.deltas = this.decomposition.Solve(gradient);
 
 
                 // Update weights using the calculated deltas
-                for (int i = 0; i < solution.Length; i++)
-                    solution[i] = weights[i] + deltas[i];
+                for (int i = 0; i < Solution.Length; i++)
+                    this.Solution[i] = this.weights[i] + this.deltas[i];
 
 
                 // Calculate the new error
@@ -423,35 +375,9 @@ namespace Accord.Math.Optimization
 
             // If this iteration caused a error drop, then next iteration
             //  will use a smaller damping factor.
-            lambda /= v;
+            this.lambda /= this.v;
 
-
-            return Value = sumOfSquaredErrors;
-        }
-
-        /// <summary>
-        ///   Compute model error for a given data set.
-        /// </summary>
-        /// 
-        /// <param name="input">The input points.</param>
-        /// <param name="output">The output points.</param>
-        /// 
-        /// <returns>The sum of squared errors for the data.</returns>
-        /// 
-        public double ComputeError(double[][] input, double[] output)
-        {
-            double sumOfSquaredErrors = 0;
-
-            for (int i = 0; i < input.Length; i++)
-            {
-                double actual = Function(solution, input[i]);
-                double expected = output[i];
-
-                double e = expected - actual;
-                sumOfSquaredErrors += e * e;
-            }
-
-            return sumOfSquaredErrors / 2.0;
+            return sumOfSquaredErrors;
         }
 
 
@@ -463,7 +389,7 @@ namespace Accord.Math.Optimization
             // for each input sample
             foreach (int i in block)
             {
-                double actual = Function(solution, input[i]);
+                double actual = Function(Solution, input[i]);
                 double expected = output[i];
 
                 double e = expected - actual;
@@ -477,14 +403,12 @@ namespace Accord.Math.Optimization
 
         private void computeJacobian(double[][] input, int[] block)
         {
-            double[] derivatives = new double[numberOfParameters];
+            double[] derivatives = new double[NumberOfParameters];
 
             // for each input sample
             foreach (int i in block)
             {
-                // TODO: transpose the Jacobian to remove copying
-
-                Gradient(solution, input[i], derivatives);
+                Gradient(Solution, input[i], derivatives);
 
                 // copy the gradient vector into the Jacobian
                 for (int j = 0; j < derivatives.Length; j++)
