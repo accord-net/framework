@@ -32,10 +32,6 @@
     <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject>
-    </StartupObject>
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="nunit.framework">
       <SpecificVersion>False</SpecificVersion>
