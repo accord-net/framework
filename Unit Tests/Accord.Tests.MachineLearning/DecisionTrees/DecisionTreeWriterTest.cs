@@ -9,6 +9,7 @@ namespace Accord.Tests.MachineLearning
     [TestFixture]
     public class DecisionTreeWriterTest
     {
+#if !NETSTANDARD2_0
         [Test]
         public void WriteTest()
         {
@@ -32,5 +33,6 @@ namespace Accord.Tests.MachineLearning
                 builder.AppendLine(error.ToString());
             return builder.ToString();
         }
+#endif
     }
 }
