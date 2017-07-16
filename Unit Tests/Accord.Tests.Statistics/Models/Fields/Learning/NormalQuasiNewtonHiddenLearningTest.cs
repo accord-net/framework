@@ -96,7 +96,7 @@ namespace Accord.Tests.Statistics.Models.Fields
             Assert.IsTrue(ll1 > ll0);
         }
 
-        [Test]
+        [Test, Category("Intensive")]
         [Ignore("Intensive")]
         public void learn_pendigits_normalization()
         {

@@ -213,7 +213,7 @@ namespace Accord.Tests.MachineLearning
             Assert.IsTrue(c2);
         }
 
-        [Test]
+        [Test, Category("Intensive")]
         public void learn_pendigits_normalization()
         {
             Console.WriteLine("Starting BagOfWordsTest.learn_pendigits_normalization");

@@ -266,7 +266,7 @@ namespace Accord.Tests.Statistics.Models.Fields
 
 
 
-        [Test]
+        [Test, Category("Intensive")]
         [Ignore("Intensive")]
         public void learn_pendigits_normalization()
         {

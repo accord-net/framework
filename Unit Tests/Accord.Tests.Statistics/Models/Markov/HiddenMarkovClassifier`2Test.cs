@@ -793,7 +793,7 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        [Test]
+        [Test, Category("Intensive")]
 #if DEBUG
         [Ignore("Intensive")]
 #endif
@@ -842,7 +842,7 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        [Test]
+        [Test, Category("Intensive")]
 #if DEBUG
         [Ignore("Intensive")]
 #endif
