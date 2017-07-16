@@ -546,13 +546,13 @@ namespace Accord.Video
 							total = pos = todo = 0;
                         }
 
-#if !NET35
+#if !NET35 && !NET40
                         if (stream.CanTimeout)
                         {
 #endif
                             // read next portion from stream
                             read = stream.Read(buffer, total, readSize);
-#if !NET35
+#if !NET35 && !NET40
                     }
                         else
                         {
