@@ -794,7 +794,7 @@ namespace Accord.Tests.Statistics
         }
 
         [Test, Category("Intensive")]
-#if DEBUG
+#if DEBUG || NET35
         [Ignore("Intensive")]
 #endif
         public void learn_pendigits()
@@ -843,7 +843,7 @@ namespace Accord.Tests.Statistics
         }
 
         [Test, Category("Intensive")]
-#if DEBUG
+#if DEBUG || NET35
         [Ignore("Intensive")]
 #endif
         public void learn_pendigits_normalization()

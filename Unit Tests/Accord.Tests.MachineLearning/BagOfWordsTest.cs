@@ -214,6 +214,9 @@ namespace Accord.Tests.MachineLearning
         }
 
         [Test, Category("Intensive")]
+#if NET35
+        [Ignore("Random")]
+#endif
         public void learn_pendigits_normalization()
         {
             Console.WriteLine("Starting BagOfWordsTest.learn_pendigits_normalization");

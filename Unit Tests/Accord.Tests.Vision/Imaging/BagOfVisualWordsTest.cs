@@ -557,6 +557,9 @@ namespace Accord.Tests.Imaging
         }
 
         [Test, Category("Random")]
+#if NET35
+        [Ignore("Random")]
+#endif
         public void custom_feature_test_lbp()
         {
             #region doc_feature_lbp
