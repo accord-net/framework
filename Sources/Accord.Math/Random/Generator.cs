@@ -60,6 +60,8 @@ namespace Accord.Math.Random
         private static int sourceLastUpdateTicks;
         private static readonly object sourceSeedLock = new Object();
 
+        private static bool accessed = false;
+
 
         [ThreadStatic]
         private static int threadLastUpdateTicks;
@@ -73,6 +75,20 @@ namespace Accord.Math.Random
         [ThreadStatic]
         private static Random threadRandom;
 
+
+        /// <summary>
+        ///   Gets a value indicating whether the random number generator has been used 
+        ///   during the execution of any past code. This can be useful to determine whether
+        ///   a method or learning algorithm is fully deterministic or not. Note that it is
+        ///   also possible for a method to be non-deterministic even if it uses the random
+        ///   number generator if it use multiple threads.
+        /// </summary>
+        /// 
+        public static bool HasBeenAccessed
+        {
+            get { return accessed; }
+            set { accessed = value; }
+        }
 
 
         private static int GetRandomSeed()
@@ -170,6 +186,8 @@ namespace Accord.Math.Random
         {
             get
             {
+                Generator.accessed = true;
+
                 if (Generator.threadOverriden)
                     return threadRandom;
 

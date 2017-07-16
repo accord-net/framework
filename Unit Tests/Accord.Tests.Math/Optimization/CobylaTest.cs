@@ -468,6 +468,8 @@ namespace Accord.Tests.Math
 
             double expectedMinimum = function.Function(cobyla.Solution);
             Assert.AreEqual(expectedMinimum, minimum);
+
+            Assert.IsTrue(Accord.Math.Random.Generator.HasBeenAccessed);
         }
 
         [Test]
