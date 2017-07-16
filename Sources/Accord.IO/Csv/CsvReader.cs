@@ -507,6 +507,33 @@ namespace Accord.IO
         }
 
         /// <summary>
+        ///   Reads the entire stream into a list of records.
+        /// </summary>
+        /// 
+        /// <returns>A list containing all records in the file.</returns>
+        /// 
+        public String[] ReadLine()
+        {
+            EnsureInitialize();
+
+            int fieldCount = this.FieldCount;
+
+            if (!this.ReadNextRecord())
+                throw new InvalidOperationException(ExceptionMessage.NoCurrentRecord);
+
+            var record = new string[fieldCount];
+
+            for (int i = 0; i < _fieldCount; i++)
+            {
+                if (!_parseErrorFlag)
+                    record[i] = this[i];
+            }
+
+            return record;
+        }
+
+
+        /// <summary>
         ///   Reads the entire stream into a multi-dimensional matrix.
         /// </summary>
         /// 
