@@ -422,9 +422,9 @@ namespace Accord.Video
             // JPEG magic number
             byte[] jpegMagic = new byte[] { 0xFF, 0xD8, 0xFF };
             int jpegMagicLength = 3;
-
+#if !NET35
             CancellationTokenSource tokenSource = new CancellationTokenSource( );
-
+#endif
             ASCIIEncoding encoding = new ASCIIEncoding( );
 
             while ( !stopEvent.WaitOne( 0, false ) )
@@ -546,11 +546,14 @@ namespace Accord.Video
 							total = pos = todo = 0;
                         }
 
+#if !NET35
                         if (stream.CanTimeout)
                         {
+#endif
                             // read next portion from stream
                             read = stream.Read(buffer, total, readSize);
-                        }
+#if !NET35
+                    }
                         else
                         {
                             try
@@ -564,9 +567,11 @@ namespace Accord.Video
                             {
                                 // reset canceled token source
                                 tokenSource = new CancellationTokenSource( );
+
                                 throw new TimeoutException("The operation has timed out.");
                             }
                         }
+#endif
 
                         // read next portion from stream
                         if (read == 0 )
