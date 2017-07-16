@@ -420,5 +420,66 @@ namespace Accord.Tests.Math
                 }
             }
         }
+
+        [Test]
+        public void vector_get()
+        {
+            int[] a = { 2, 7, 3, 5, 4 };
+
+            Assert.AreEqual(new[] { 7, 3 }, a.Get(1, 3));
+            Assert.AreEqual(new[] { 4 }, a.Get(-1, 0));
+            Assert.AreEqual(new[] { 3, 5, 4 }, a.Get(-3, 0));
+            Assert.AreEqual(new[] { 2, 7, 3, 5 }, a.Get(0, -1));
+        }
+
+        [Test]
+        public void matrix_get()
+        {
+            int[,] a =
+            {
+                { 2, 7, 3, 5, 4 },
+                { 1, 2, 6, 8, 9 }
+            };
+
+            int[,] actual;
+
+            actual = a.Get(0, 2, 1, 3);
+            Assert.IsTrue(new[,] { { 7, 3 },
+                                   { 2, 6 } }.IsEqual(actual));
+
+            actual = a.Get(0, -1, -1, 0);
+            Assert.IsTrue(new[,] { { 4 } }.IsEqual(actual));
+
+            actual = a.Get(0, 1, -3, 0);
+            Assert.IsTrue(new[,] { { 3, 5, 4 } }.IsEqual(actual));
+
+            actual = a.Get(-1, 0, 0, -1);
+            Assert.IsTrue(new[,] { { 1, 2, 6, 8 } }.IsEqual(actual));
+        }
+
+        [Test]
+        public void jagged_get()
+        {
+            int[][] a =
+            {
+                new[] { 2, 7, 3, 5, 4 },
+                new[] { 1, 2, 6, 8, 9 }
+            };
+
+            int[][] actual;
+
+            actual = a.Get(0, 2, 1, 3);
+            Assert.IsTrue(new[] { new[] { 7, 3 },
+                                    new[] { 2, 6 } }.IsEqual(actual));
+
+            actual = a.Get(0, -1, -1, 0);
+            Assert.IsTrue(new[] { new[] { 4 } }.IsEqual(actual));
+
+            actual = a.Get(0, 1, -3, 0);
+            Assert.IsTrue(new[] { new[] { 3, 5, 4 } }.IsEqual(actual));
+
+            actual = a.Get(-1, 0, 0, -1);
+            Assert.IsTrue(new[] { new[] { 1, 2, 6, 8 } }.IsEqual(actual));
+        }
     }
 }

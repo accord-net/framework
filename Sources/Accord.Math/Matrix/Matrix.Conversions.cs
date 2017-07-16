@@ -732,7 +732,7 @@ namespace Accord.Math
         ///   attempting to guess column types by inspecting the data.
         /// </summary>
         /// 
-        /// <param name="values">The values to be converted.</param>
+        /// <param name="matrix">The values to be converted.</param>
         /// <param name="columnNames">The column names to use in the data table.</param>
         /// 
         /// <returns>A <see cref="DataTable"/> containing the given values.</returns>
@@ -757,47 +757,74 @@ namespace Accord.Math
         /// </code>
         /// </example>
         /// 
-        public static DataTable ToTable(this object[,] values, string[] columnNames)
+        public static DataTable ToTable(this object[,] matrix, string[] columnNames)
         {
             DataTable table = new DataTable();
             table.Locale = System.Globalization.CultureInfo.InvariantCulture;
 
-            object[] headers = values.GetRow(0);
+            object[] headers = matrix.GetRow(0);
 
             if (headers.All(x => x is String))
             {
                 // Get first data row to set types
-                object[] first = values.GetRow(1);
+                object[] first = matrix.GetRow(1);
 
                 // Assume first row is header row
                 for (int i = 0; i < first.Length; i++)
                     table.Columns.Add(headers[i] as String, first[i].GetType());
 
                 // Parse all the other rows
-                int rows = values.GetLength(0);
+                int rows = matrix.GetLength(0);
                 for (int i = 1; i < rows; i++)
                 {
-                    var row = values.GetRow(i);
+                    var row = matrix.GetRow(i);
                     table.Rows.Add(row);
                 }
             }
             else
             {
-                // Get first data row to set types
-                object[] first = values.GetRow(1);
+                for (int i = 0; i < matrix.Columns(); i++)
+                {
+                    Type columnType = GetHighestEnclosingType(matrix.GetColumn(i));
+                    table.Columns.Add(columnNames[i], columnType);
+                }
 
-                for (int i = 0; i < first.Length; i++)
-                    table.Columns.Add(columnNames[i], first[i].GetType());
-
-                int rows = values.GetLength(0);
+                int rows = matrix.GetLength(0);
                 for (int i = 0; i < rows; i++)
                 {
-                    var row = values.GetRow(i);
+                    var row = matrix.GetRow(i);
                     table.Rows.Add(row);
                 }
             }
 
             return table;
+        }
+
+        private static Type GetHighestEnclosingType(object[] values)
+        {
+            var types = values.Select(x => x != null ? x.GetType() : null);
+            if (types.Any(x => x == typeof(object)))
+                return typeof(object);
+            if (types.Any(x => x == typeof(string)))
+                return typeof(string);
+            if (types.Any(x => x == typeof(decimal)))
+                return typeof(decimal);
+            if (types.Any(x => x == typeof(double)))
+                return typeof(double);
+            if (types.Any(x => x == typeof(float)))
+                return typeof(float);
+            if (types.Any(x => x == typeof(int)))
+                return typeof(int);
+            if (types.Any(x => x == typeof(uint)))
+                return typeof(uint);
+            if (types.Any(x => x == typeof(short)))
+                return typeof(int);
+            if (types.Any(x => x == typeof(byte)))
+                return typeof(int);
+            if (types.Any(x => x == typeof(sbyte)))
+                return typeof(int);
+
+            return typeof(object);
         }
 
 

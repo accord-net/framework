@@ -144,55 +144,20 @@ namespace Accord.Math
 
 
 
-        /// <summary>
-        ///   Compares two matrices for equality.
-        /// </summary>
-        /// 
-        public static bool IsEqual<T>(this T[][] objA, T[][] objB)
-        {
-            // TODO: Make this method recursive, or create
-            // a enumerator to read all values from jagged
-            // matrices sequentially
-            if (objA == objB)
-                return true;
-
-            if (objA == null)
-                throw new ArgumentNullException("objA");
-
-            if (objB == null)
-                throw new ArgumentNullException("objB");
-
-            if (objA.Length != objB.Length)
-                return false;
-
-            for (int i = 0; i < objA.Length; i++)
-            {
-                if (objA[i] == objB[i])
-                    continue;
-
-                if (objA[i] == null || objB[i] == null)
-                    return false;
-
-                if (objA[i].Length != objB[i].Length)
-                    return false;
-
-                for (int j = 0; j < objA[i].Length; j++)
-                {
-                    var elemA = objA[i][j];
-                    var elemB = objB[i][j];
-
-                    if (!Object.Equals(elemA, elemB))
-                        return false;
-                }
-            }
-            return true;
-        }
-
         /// <summary>Compares two objects for equality, performing an elementwise comparison if the elements are vectors or matrices.</summary>
         public static bool IsEqual(this object objA, object objB, decimal atol = 0, decimal rtol = 0)
         {
             if (Object.Equals(objA, objB))
                 return true;
+
+            if (objA is DBNull)
+                objA = null;
+
+            if (objB is DBNull)
+                objB = null;
+
+            if (objA == null ^ objB == null)
+                return false;
 
             try
             {
@@ -265,7 +230,8 @@ namespace Accord.Math
                     if (arrA != null && arrB != null && IsEqual(arrA, arrB, atol, rtol))
                         continue;
 
-                    return IsEqual(a.Current, b.Current, (decimal)atol, (decimal)rtol);
+                    if (!IsEqual(a.Current, b.Current, (decimal)atol, (decimal)rtol))
+                        return false;
                 }
 
                 return true;
@@ -536,6 +502,10 @@ namespace Accord.Math
                 if (rows != cols)
                     throw new ArgumentException("Only square matrices can be transposed in place.", "matrix");
 
+#if DEBUG
+                T[,] expected = matrix.Transpose();
+#endif
+
                 for (int i = 0; i < rows; i++)
                 {
                     for (int j = i; j < cols; j++)
@@ -545,6 +515,11 @@ namespace Accord.Math
                         matrix[i, j] = element;
                     }
                 }
+
+#if DEBUG
+                if (!expected.IsEqual(matrix))
+                    throw new Exception();
+#endif
 
                 return matrix;
             }

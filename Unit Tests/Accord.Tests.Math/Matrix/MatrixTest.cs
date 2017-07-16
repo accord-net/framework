@@ -107,6 +107,43 @@ namespace Accord.Tests.Math
             actual = Matrix.IsEqual(matrix, 0.0);
             Assert.AreEqual(false, actual);
         }
+
+        [Test]
+        public void isequal_objects_small()
+        {
+            object[,] expectedTable =
+            {
+                { "Label",                 "6" },
+                { "Total",                2025 },
+            };
+
+            object[,] differentTable1 =
+            {
+                { "Label",                 "6"  },
+                { "Total",          /*m*/    1  },
+            };
+
+            Assert.IsFalse(expectedTable.IsEqual(differentTable1, atol: 1e-10));
+        }
+
+        [Test]
+        public void isequal_objects_null()
+        {
+            object[,] expectedTable =
+            {
+                { "Label",                 "6" },
+                { "Total",                null },
+            };
+
+            object[,] differentTable1 =
+            {
+                { "Label",                 "6"  },
+                { "Total",          /*m*/    0  },
+            };
+
+            Assert.IsFalse(expectedTable.IsEqual(differentTable1, atol: 1e-10));
+        }
+
         #endregion
 
         #region Matrix and vector creation
