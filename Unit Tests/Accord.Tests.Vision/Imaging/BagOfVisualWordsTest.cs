@@ -556,7 +556,7 @@ namespace Accord.Tests.Imaging
             Assert.AreEqual(error, 0);
         }
 
-        [Test]
+        [Test, Category("Random")]
         public void custom_feature_test_lbp()
         {
             #region doc_feature_lbp

@@ -35,7 +35,7 @@ namespace Accord.Tests.Vision
     public class TrackerTest
     {
 
-        [Test]
+        [Test, Category("Random")]
         public void ProcessFrame()
         {
             Bitmap frame = Accord.Imaging.Image.Clone(Resources.lena_color_small);
@@ -63,7 +63,7 @@ namespace Accord.Tests.Vision
             to = target.TrackingObject;
             window = target.SearchWindow;
 
-            Assert.AreEqual(0.9188701900796201, to.Angle, 0.001);
+            Assert.AreEqual(0.9188701900796201, to.Angle, 0.001); // Mono outputs 1.0796061754226685d
             Assert.AreEqual((int)47.57993716803177, to.Rectangle.Width, 0.01);
             Assert.AreEqual((int)57.3831709184114, to.Rectangle.Height, 0.05);
 

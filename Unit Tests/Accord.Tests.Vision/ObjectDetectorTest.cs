@@ -152,7 +152,7 @@ namespace Accord.Tests.Vision
             Assert.AreEqual(1, target.DetectedObjects.Length);
         }
 
-        [Test]
+        [Test, Category("Random")]
         public void MinSizeTest()
         {
             HaarCascade cascade = new FaceHaarCascade();
@@ -164,7 +164,7 @@ namespace Accord.Tests.Vision
 
             target.MinSize = new Size(10, 60);
             result = target.ProcessFrame(bmp);
-            Assert.AreEqual(3, result.Length);
+            Assert.AreEqual(3, result.Length); // Mono outputs 6 instead of 3
             foreach (var r in result)
             {
                 Assert.IsTrue(r.Width >= target.MinSize.Width);
