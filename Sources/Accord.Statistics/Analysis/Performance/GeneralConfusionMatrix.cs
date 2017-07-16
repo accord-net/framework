@@ -27,6 +27,18 @@ namespace Accord.Statistics.Analysis
     using Accord.Math;
     using Accord.Statistics.Testing;
 
+    /* 
+    // TODO: Implement arbitrary orientation for confusion matrices
+    public enum ConfusionMatrixOrientation
+    {
+        TitleAboveColumnsShouldBeCalledGroundTruth,
+        TitleAboveColumnsShouldBeCalledPrediction,
+
+        TitleOnTheLeftOfRowsShouldBeCalledGroundTruth = TitleAboveColumnsShouldBeCalledPrediction,
+        TitleOnTheLeftOfRowsShouldBeCalledPrediction = TitleAboveColumnsShouldBeCalledGroundTruth
+    }
+    */
+
     /// <summary>
     ///   General confusion matrix for multi-class decision problems.
     /// </summary>
@@ -50,7 +62,6 @@ namespace Accord.Statistics.Analysis
     [Serializable]
     public class GeneralConfusionMatrix
     {
-
         private int[,] matrix;
         private int samples;
         private int classes;
@@ -85,6 +96,19 @@ namespace Accord.Statistics.Analysis
 
         private ConfusionMatrix[] matrices;
 
+        /// <summary>
+        ///   Gets or sets the title that ought be displayed on top of the columns of 
+        ///   this <see cref="GeneralConfusionMatrix"/>. Default is "Expected (Ground-truth)".
+        /// </summary>
+        /// 
+        public string TitleAboveColumns { get; set; }
+
+        /// <summary>
+        ///   Gets or sets the title that ought be displayed on left side of this 
+        ///   <see cref="GeneralConfusionMatrix"/>. Default is "Actual (Prediction)".
+        /// </summary>
+        /// 
+        public string TitleOnTheLeftOfRows { get; set; }
 
         /// <summary>
         ///   Gets the confusion matrix, in which each element e_ij 
@@ -176,6 +200,9 @@ namespace Accord.Statistics.Analysis
                         " this functionality in your application, please open an issue report in the project issue tracker.");
             }
 
+            this.TitleAboveColumns = "Expected (Ground-Truth)";
+            this.TitleOnTheLeftOfRows = "Actual (Prediction)";
+
             this.samples = expected.Length;
             this.classes = classes;
             this.matrix = new int[classes, classes];
@@ -189,17 +216,16 @@ namespace Accord.Statistics.Analysis
                 // Make sure the expected and predicted
                 // values are from valid classes.
 
-                int i = expected[k];  // rows contain expected values
-                int j = predicted[k]; // cols contain predicted values
+                int p = predicted[k]; // cols contain expected values
+                int e = expected[k];  // rows contain predicted values
 
-                if (i < 0 || i >= classes)
-                    throw new ArgumentOutOfRangeException("expected");
-
-                if (j < 0 || j >= classes)
+                if (p < 0 || p >= classes)
                     throw new ArgumentOutOfRangeException("predicted");
 
+                if (e < 0 || e >= classes)
+                    throw new ArgumentOutOfRangeException("expected");
 
-                matrix[i, j]++;
+                matrix[p, e]++;
             }
         }
 
@@ -305,10 +331,10 @@ namespace Accord.Statistics.Analysis
                 if (precision == null)
                 {
                     var diagonal = Diagonal;
-                    var colTotals = ColumnTotals;
+                    var totals = ColumnTotals;
                     precision = new double[Classes];
                     for (int i = 0; i < precision.Length; i++)
-                        precision[i] = diagonal[i] == 0 ? 0 : diagonal[i] / colTotals[i];
+                        precision[i] = diagonal[i] == 0 ? 0 : diagonal[i] / (double)totals[i];
                 }
                 return precision;
             }
@@ -326,10 +352,10 @@ namespace Accord.Statistics.Analysis
                 if (recall == null)
                 {
                     var diagonal = Diagonal;
-                    var rowTotals = RowTotals;
+                    var totals = RowTotals;
                     recall = new double[Classes];
-                    for (int i = 0; i < precision.Length; i++)
-                        recall[i] = diagonal[i] == 0 ? 0 : diagonal[i] / rowTotals[i];
+                    for (int i = 0; i < recall.Length; i++)
+                        recall[i] = diagonal[i] == 0 ? 0 : diagonal[i] / (double)totals[i];
                 }
                 return recall;
             }
@@ -497,8 +523,7 @@ namespace Accord.Statistics.Analysis
                 if (kappaStdError0 == null)
                 {
                     double se;
-                    kappaVariance0 = KappaTest.AsymptoticKappaVariance(this,
-                        out se, nullHypothesis: true);
+                    kappaVariance0 = KappaTest.AsymptoticKappaVariance(this, out se, nullHypothesis: true);
                     kappaStdError0 = se;
                 }
 
@@ -541,9 +566,11 @@ namespace Accord.Statistics.Analysis
             {
                 if (tau == null)
                 {
+                    var diagonal = Diagonal;
+                    var rowTotals = RowTotals;
                     int directionSum = 0;
-                    for (int i = 0; i < RowTotals.Length; i++)
-                        directionSum += matrix[i, i] * RowTotals[i];
+                    for (int i = 0; i < rowTotals.Length; i++)
+                        directionSum += diagonal[i] * rowTotals[i];
 
                     double Po = OverallAgreement;
                     double Pr = directionSum / (double)(samples * samples);
@@ -586,12 +613,15 @@ namespace Accord.Statistics.Analysis
             {
                 if (chiSquare == null)
                 {
+                    var rowTotals = RowTotals;
+                    var colTotals = ColumnTotals;
+
                     double x = 0;
                     for (int i = 0; i < Classes; i++)
                     {
                         for (int j = 0; j < Classes; j++)
                         {
-                            double e = (RowTotals[i] * ColumnTotals[j]) / (double)samples;
+                            double e = (rowTotals[i] * colTotals[j]) / (double)samples;
                             double o = matrix[i, j];
 
                             x += ((o - e) * (o - e)) / e;
@@ -748,9 +778,12 @@ namespace Accord.Statistics.Analysis
         {
             get
             {
+                var rowTotals = RowTotals;
+                var colTotals = ColumnTotals;
+
                 double chance = 0;
                 for (int i = 0; i < classes; i++)
-                    chance += RowTotals[i] * ColumnTotals[i];
+                    chance += rowTotals[i] * colTotals[i];
                 return chance / (samples * samples);
             }
         }
@@ -798,8 +831,8 @@ namespace Accord.Statistics.Analysis
                     for (int i = 0; i < classes; i++)
                     {
                         int tp = diagonal[i];
-                        int fp = colSum[i] - diagonal[i];
-                        int fn = rowSum[i] - diagonal[i];
+                        int fp = rowSum[i] - diagonal[i];
+                        int fn = colSum[i] - diagonal[i];
                         int tn = matrix.Sum() - tp - fp - fn;
 
                         matrices[i] = new ConfusionMatrix(

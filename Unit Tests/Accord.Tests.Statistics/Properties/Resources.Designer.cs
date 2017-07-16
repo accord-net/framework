@@ -19,7 +19,7 @@ namespace Accord.Tests.Statistics.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -93,6 +93,15 @@ namespace Accord.Tests.Statistics.Properties {
             get {
                 object obj = ResourceManager.GetObject("ica_data", resourceCulture);
                 return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 4, 13, 7, 28, 26, 6, 14, 28, 3, 18, 17, 7, 8, 6, 9, 2, 10, 2, 13, 7, 26, 26, 7, 19, 28, 1, 18, 27, 8, 1, 8, 10, 9, 7, 2, 13, 7, 26, 26, 7, 28, 28, 4, 18, 27, 8, 1, 8, 10, 10, 5, 2, 13, 7, 26, 26, 7, 28, 28, 2, 18, 27, 8, 1, 4, 2, 10, 8, 4, 13, 7, 29, 26, 6, 14, 21, 7, 18, 17, 7, 6, 6, 6, 10, 4, 4, 13, 5, 25, 14, 13, 17, 17, 10, 18, 28, 7, 3, 6, 5, 8, 2, 2, 13, 7, 26, 26, 7, 28, 28, 2, 18, 27, 8, 2, 4, 9, 10, 2, 2, 16, 28, 15, 31, 2, 15, 17, 10, 18, 20, 14, 2, 1, 9, 10, 2, 2, 16, 28, 15, 31, 2, 15, 17, 2, 18 [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string labels {
+            get {
+                return ResourceManager.GetString("labels", resourceCulture);
             }
         }
         

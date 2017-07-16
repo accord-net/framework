@@ -28,6 +28,10 @@ namespace Accord.Tests.Statistics
     using System;
     using Accord.Statistics.Filters;
     using System.Data;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.IO;
+    using Accord.IO;
 
     [TestFixture]
     public class GeneralConfusionMatrixTest
@@ -50,9 +54,10 @@ namespace Accord.Tests.Statistics
 
             int[,] expectedMatrix =
             {
-                { 4, 0, 0 },
-                { 0, 4, 0 },
-                { 0, 4, 0 },
+                //              expected
+                /*predicted*/ { 4, 0, 0 },
+                              { 0, 4, 4 },
+                              { 0, 0, 0 },
             };
 
             int[,] actualMatrix = target.Matrix;
@@ -99,77 +104,17 @@ namespace Accord.Tests.Statistics
             ConfusionMatrix actual1 = target.PerClassMatrices[0];
             ConfusionMatrix actual2 = target.PerClassMatrices[1];
             ConfusionMatrix actual3 = target.PerClassMatrices[2];
+            ConfusionMatrix actual4 = target.PerClassMatrices[3];
 
             ConfusionMatrix expected1 = new ConfusionMatrix(predicted, expected, positiveValue: 0);
             ConfusionMatrix expected2 = new ConfusionMatrix(predicted, expected, positiveValue: 1);
             ConfusionMatrix expected3 = new ConfusionMatrix(predicted, expected, positiveValue: 2);
+            ConfusionMatrix expected4 = new ConfusionMatrix(predicted, expected, positiveValue: 3);
 
             Assert.IsTrue(actual1.Matrix.IsEqual(expected1.Matrix));
             Assert.IsTrue(actual2.Matrix.IsEqual(expected2.Matrix));
             Assert.IsTrue(actual3.Matrix.IsEqual(expected3.Matrix));
-        }
-
-        [Test]
-        public void gh669()
-        {
-            // Example for https://github.com/accord-net/framework/issues/669
-            string[] expectedLabels = { "A", "A", "B", "C", "A", "B", "B" };
-            string[] predictedLabels = { "A", "B", "C", "C", "A", "C", "B" };
-
-            // Create a codification object to translate char into symbols
-            var codification = new Codification("Labels", expectedLabels);
-            int[] expected = codification.Transform(expectedLabels);   // ground truth data
-            int[] predicted = codification.Transform(predictedLabels); // predicted from OCR
-
-            // Create a new confusion matrix for multi-class problems
-            var cm = new GeneralConfusionMatrix(expected, predicted);
-
-            // Obtain relevant measures
-            int[,] matrix = cm.Matrix;
-            int[] error = cm.PerClassMatrices.Apply(x => x.Errors);
-            double[] recall = cm.PerClassMatrices.Apply(x => x.Recall);
-            int[] total = cm.PerClassMatrices.Apply(x => x.Samples);
-            int[] tp = cm.PerClassMatrices.Apply(x => x.TruePositives);
-            int[] tn = cm.PerClassMatrices.Apply(x => x.TrueNegatives);
-            int[] fp = cm.PerClassMatrices.Apply(x => x.FalsePositives);
-            int[] fn = cm.PerClassMatrices.Apply(x => x.FalseNegatives);
-            double[] precision = cm.PerClassMatrices.Apply(x => x.Precision);
-            double[] fscore = cm.PerClassMatrices.Apply(x => x.FScore);
-
-            // Create a matrix with all measures
-            double[,] values = matrix.ToDouble()
-                .InsertColumn(error)
-                .InsertColumn(recall)
-                .InsertColumn(total)
-                .InsertColumn(tp)
-                .InsertColumn(tn)
-                .InsertColumn(tp)
-                .InsertColumn(fn)
-                .InsertColumn(precision)
-                .InsertColumn(fscore);
-
-            // Name of each of the columns in order to create a data table
-            string[] columnNames = codification.Columns[0].Values.Concatenate(
-                "Error", "Recall", "Total", "TP", "TN", "FP", "FN", "Precision", "F-Score");
-
-            // Create a table from the matrix and columns
-            DataTable table = values.ToTable(columnNames);
-
-
-            string[] actualNames;
-            double[,] actual = table.ToMatrix(out actualNames);
-
-            double[,] expectedMatrix = new double[,]
-            {
-                { 2, 1, 0, 1, 0.666666666666667, 7, 2, 4, 2, 1, 1, 0.8 },
-                { 0, 1, 2, 3, 0.333333333333333, 7, 1, 3, 1, 2, 0.5, 0.4 },
-                { 0, 0, 1, 2, 1, 7, 1, 4, 1, 0, 0.333333333333333, 0.5 }
-            };
-
-            //string str = actual.ToCSharp();
-
-            Assert.AreEqual(new[] { "A", "B", "C", "Error", "Recall", "Total", "TP", "TN", "FP", "FN", "Precision", "F-Score" }, actualNames);
-            Assert.IsTrue(expectedMatrix.IsEqual(actual, 1e-5));
+            Assert.IsTrue(actual4.Matrix.IsEqual(expected4.Matrix));
         }
 
         [Test]
@@ -649,85 +594,58 @@ namespace Accord.Tests.Statistics
         }
 
 
+
         [Test]
-        public void example()
+        public void random_search()
         {
-            // Example for https://github.com/accord-net/framework/issues/669
-            // >>>>> Note: Suggestions on how to improve this API are welcome!
-            // If you find the method below too confusing, please suggest new
-            // ways on how the same could be accomplished, even if they would
-            // require new APIs.
+            string[] labels = Vector.Range(35).To<string[]>();
+            var codification = new Codification("Labels", labels);
 
-            string[] expectedLabels = { "A", "A", "B", "C", "A", "B", "B" };
-            string[] predictedLabels = { "A", "B", "C", "C", "A", "C", "B" };
+            var csv = CsvReader.FromText(Properties.Resources.labels, hasHeaders: false);
+            int[] expected = csv.ReadLine().ToInt32();
+            int[] predicted = csv.ReadLine().ToInt32();
 
-            // Create a codification object to translate char into symbols
-            var codification = new Codification("Labels", expectedLabels);
-            int[] expected = codification.Transform(expectedLabels);   // ground truth data
-            int[] predicted = codification.Transform(predictedLabels); // predicted from OCR
+            check_large(codification, new GeneralConfusionMatrix(expected, predicted));
+        }
 
-            // Create a new confusion matrix for multi-class problems
-            var cm = new GeneralConfusionMatrix(expected, predicted);
+
+        private static void check_large(Codification codification, GeneralConfusionMatrix cm)
+        {
+            double[] precision = cm.Precision;
+            double[] recall = cm.Recall;
 
             int[] rowErrors = cm.RowErrors;
             int[] colErrors = cm.ColumnErrors;
-
-            double[] rowPrecision = cm.Precision;
-            double[] colRecall = cm.Recall;
 
             int[] colTotal = cm.ColumnTotals;
             int[] rowTotal = cm.RowTotals;
 
             // Obtain relevant measures
             int[,] matrix = cm.Matrix;
-            int[] tp = cm.PerClassMatrices.Apply(x => x.TruePositives);
-            int[] tn = cm.PerClassMatrices.Apply(x => x.TrueNegatives);
-            int[] fp = cm.PerClassMatrices.Apply(x => x.FalsePositives);
-            int[] fn = cm.PerClassMatrices.Apply(x => x.FalseNegatives);
-            double[] precision2 = cm.PerClassMatrices.Apply(x => x.Precision);
-            double[] recall2 = cm.PerClassMatrices.Apply(x => x.Recall);
-            double[] fscore = cm.PerClassMatrices.Apply(x => x.FScore);
-
             object[,] column01 = Matrix.ColumnVector(codification.Columns[0].Values).ToObject();
-            object[,] columns2_to_4 = matrix.ToObject();
-            object[,] column05 = Matrix.ColumnVector(colErrors).ToObject();
-            object[,] column06 = Matrix.ColumnVector(colRecall).ToObject();
-            object[,] column07 = Matrix.ColumnVector(colTotal).ToObject();
-            object[,] column08 = Matrix.ColumnVector(tp).ToObject();
-            object[,] column09 = Matrix.ColumnVector(tn).ToObject();
-            object[,] column10 = Matrix.ColumnVector(tp).ToObject();
-            object[,] column11 = Matrix.ColumnVector(fn).ToObject();
-            object[,] column12 = Matrix.ColumnVector(precision2).ToObject();
-            object[,] column13 = Matrix.ColumnVector(recall2).ToObject();
-            object[,] column14 = Matrix.ColumnVector(fscore).ToObject();
+            object[,] columns2_to_35 = matrix.ToObject();
+            object[,] column05 = Matrix.ColumnVector(rowErrors).ToObject();
+            object[,] column06 = Matrix.ColumnVector(recall).ToObject();
+            object[,] column07 = Matrix.ColumnVector(rowTotal).ToObject();
 
             object[,] values = Matrix.Concatenate(
                 column01,
-                columns2_to_4,
+                columns2_to_35,
                 column05,
                 column06,
-                column07,
-                column08,
-                column09,
-                column10,
-                column11,
-                column12,
-                column13,
-                column14
+                column07
             );
 
             object[] row05 = Matrix.Concatenate<object>("Error", colErrors.ToObject());
-            object[] row06 = Matrix.Concatenate<object>("Precision", rowPrecision.ToObject());
+            object[] row06 = Matrix.Concatenate<object>("Precision", precision.ToObject());
             object[] row07 = Matrix.Concatenate<object>("Total", colTotal.ToObject());
 
             values = values.InsertRow(row05)
                 .InsertRow(row06)
                 .InsertRow(row07);
 
-
             // Name of each of the columns in order to create a data table
-            string[] columnNames = "Label".Concatenate(codification.Columns[0].Values.Concatenate(
-                "Error", "Recall", "Total", "TP", "TN", "FP", "FN", "Precision2", "Recall2", "F-Score"));
+            string[] columnNames = "Label".Concatenate(codification.Columns[0].Values.Concatenate("Error", "Recall", "Total"));
 
             // Create a table from the matrix and columns
             DataTable table = values.ToTable(columnNames);
@@ -742,17 +660,91 @@ namespace Accord.Tests.Statistics
 
             object[,] expectedTable =
             {
-                { "Label",    "A", "B", "C", "Error", "Recall", "Total", "TP", "TN", "FP", "FN",    "Precision2",     "Recall2",       "F-Score" },
-                {   "A",       2,   1,   0,    0,        0,       2,      2,    4,    2,    1,  1.000000000000000, 66666666666666663,     0.8   },
-                {   "B",       0,   1,   2,    1,        0,       2,      1,    3,    1,    2,  0.500000000000000, 0.333333333333333,     0.4   },
-                {   "C",       0,   0,   1,    2,        1,       3,      1,    4,    1,    0,  0.333333333333333, 1.000000000000000,     0.5   },
-                { "Error",     0,   1,   2,   null,     null,    null,   null, null, null, null,        null,           null,             null  },
-                { "Precision", 1,   0,   0,   null,     null,    null,   null, null, null, null,        null,           null,             null  },
-                { "Total",     2,   2,   3,   null,     null,    null,   null, null, null, null,        null,           null,             null  }
+                { "Label",            "0",               "1",               "2",               "3",               "4",               "5",               "6",              "7",               "8",               "9",             "10",              "11",              "12",              "13",             "14",               "15",              "16",              "17",             "18",              "19",             "20",               "21",              "22",             "23",         "24",              "25",              "26",              "27",              "28",              "29",               "30",              "31",              "32",              "33",              "34", "Error",          "Recall",  "Total" },
+                { "0" ,                 0,                 0,                 2,                 1,                 0,                 0,                 0,                0,                 0,                 0,                0,                 1,                 0,                 1,                0,                  0,                 0,                 0,                0,                 0,                0,                  0,                 0,                0,            0,                 0,                 0,                 0,                 0,                 0,                  0,                 0,                 0,                 0,                 0,       5, 0.000000000000000,       5  },
+                { "1",                  0,              2095,                 0,                 0,                 0,                 0,                 0,                0,                 0,                 0,                0,                 0,                 0,                20,               23,                  0,                 0,                 1,                0,                 0,                0,                  0,                 0,                0,            5,                 0,                 0,                 0,                 0,                 0,                  0,                 0,                 0,                 0,                 0,      49, 0.977145522388060,    2144  },
+                { "2",                  0,                 0,              2755,                 0,                 0,                 0,                 0,                0,                 0,                 0,                0,                 0,                 0,                 0,                0,                  0,                 0,                 0,                0,                 0,                0,                  0,                 0,                0,            0,                 0,                 0,                 0,                 0,                 0,                  0,                 0,                 0,                 0,                 0,       0, 1.000000000000000,    2755  },
+                { "3",                  0,                 0,                 0,              2384,                 0,                 0,                 0,                0,                 1,                 0,                0,                 0,                 0,                 0,                0,                  0,                 0,                 0,                0,                 0,                0,                  0,                 0,                0,            0,                 0,                 0,                 0,                 0,                 0,                  0,                 0,                 0,                 0,                 0,       1, 0.999580712788260,    2385  },
+                { "4",                  0,                 0,                 0,                 0,              2483,                 0,                 0,                0,                 1,                 0,                0,                 0,                 0,                 0,                0,                  0,                 0,                 0,                0,                 0,                0,                  0,                 0,                0,            0,                 0,                 0,                 0,                 0,                 0,                  0,                 0,                 0,                 0,                 0,       1, 0.999597423510467,    2484  },
+                { "5",                  0,                 0,                10,                 0,                 0,              2239,                 0,                0,                 0,                 0,                0,                 0,                 0,                 0,                0,                  0,                 0,                 0,                0,                 0,                0,                  0,                 0,                0,            0,                 0,                 0,                 0,                 0,                 0,                  0,                 0,                 0,                 0,                 0,      10, 0.995553579368608,    2249  },
+                { "6",                  0,                 0,                 0,                 0,                 0,                 0,              1934,               53,                 0,                 0,                0,                 0,                 0,                 0,                0,                  0,                 0,                 0,                0,                 0,                0,                  0,                 1,                0,            0,                 0,                 0,                 4,                 0,                 0,                  0,                 0,                 0,                 0,                 0,      58, 0.970883534136546,    1992  },
+                { "7",                  0,                 0,                 0,                 0,                 0,                 0,                26,             2170,                 0,                 1,                0,                 0,                 0,                 0,                0,                  0,                 0,                 2,                0,                 0,                0,                  0,                 0,                0,            0,                 0,                 0,                 0,                 0,                 0,                  0,                 0,                 0,                 0,                 0,      29, 0.986812187357890,    2199  },
+                { "8",                  0,                 0,                 0,                 0,                 0,                 0,                 0,                0,              2041,                 0,                0,                 0,                 0,                 0,                0,                  0,                 0,                 0,                0,                 0,                1,                  0,                 0,                0,            0,                 0,                 0,                 0,                 0,                 0,                  0,                 0,                 0,                 0,                 0,       1, 0.999510284035260,    2042  },
+                { "9",                  0,                 0,                 0,                 0,                 1,                 0,                 2,               13,                 0,              1744,                1,                 0,                 2,                 0,                0,                  0,                 1,                 0,                0,                60,                0,                  0,                 0,                0,            0,                 0,                 0,                 0,                 0,                 1,                  0,                 0,                 0,                 0,                 0,      81, 0.955616438356164,    1825  },
+                { "10",                 0,                 0,                 0,                 0,                 0,                 2,                 0,                0,                 0,                 0,             1668,                 0,                 0,                 0,                0,                  0,                 0,                 0,                0,                10,                0,                  0,                 0,                0,            0,                 0,                 0,                 0,                 0,                 0,                  0,                 0,                 0,                 0,                 0,      12, 0.992857142857143,    1680  },
+                { "11",                 0,                 0,                 0,                 0,                 0,                 0,                 0,                0,                 0,                 0,                0,              1401,                 0,                 0,                0,                  0,                 0,                 0,                0,                 0,                0,                  0,                 0,                0,            0,                 0,                 0,                 0,                 0,                 0,                  0,                 0,                 0,                 0,                 0,       0, 1.000000000000000,    1401  },
+                { "12",                 0,                 0,                 0,                 0,                35,                 0,                59,              140,                 0,               139,              129,                 4,               572,                 0,               19,                 16,                 0,                 0,                0,                 2,                0,                  0,                 0,                0,            0,                 0,                 0,                 0,                 0,                 1,                  0,                 0,                 0,                 0,                 0,     544, 0.512544802867383,    1116  },
+                { "13",                 0,                 0,                 0,                 0,                 0,                 0,                 0,                0,                 0,                 0,                0,                 0,                 0,              1645,                0,                  0,                 0,                 0,                0,                 0,                0,                  0,                 0,                0,            0,                 0,                 0,                 0,                 0,                 0,                  0,                 0,                 0,                 0,                 0,       0, 1.000000000000000,    1645  },
+                { "14",                 0,                36,                 0,                 0,                 0,                 0,                 0,                0,                 0,                 0,                0,                 0,                 0,                13,              823,                  0,                 0,                 0,                0,                 0,                0,                  0,                 0,                0,            0,                 0,                 0,                 0,                 0,                 0,                  0,                 0,                 0,                 0,                 0,      49, 0.943807339449541,     872  },
+                { "15",                 0,                 0,                 0,                 0,                 0,                 0,                 0,                0,                 0,                 0,                0,                 0,                 0,                 0,                0,                801,                21,                 0,                0,                 0,                0,                  1,                 0,                0,            0,                 0,                 0,                 0,                 0,                 0,                  0,                 0,                 0,                 0,                 0,      22, 0.973268529769137,     823  },
+                { "16",                 0,                 0,                 1,                 0,                 0,                 0,                 0,                0,                 1,                 0,                0,                 0,                 0,                 0,                0,                  0,              1419,                 0,                0,                 0,                0,                  0,                 0,                0,            0,                 0,                 0,                 0,                 2,                 0,                  0,                 0,                 0,                 0,                 0,       4, 0.997189037245257,    1423  },
+                { "17",                 0,                 0,                 0,                 0,                 0,                 0,                 0,                0,                 0,                 0,                0,                 0,                 0,                11,                0,                  0,                 0,              1385,                0,                 0,                0,                  0,                 0,                0,            0,                 0,                 0,                 0,                 0,                 0,                  0,                 0,                 0,                 0,                 0,      11, 0.992120343839542,    1396  },
+                { "18",                 0,                 0,              1219,                 0,                 0,                 0,                 0,                0,                 0,                 0,                0,                 0,                 0,                 0,                0,                  0,                 0,                 0,              2210,                0,                0,                  0,                 0,                0,            0,                 0,                 0,                 0,                 0,                 0,                  0,                 0,                 0,                 0,                 0,    1219, 0.644502770487022,    3429  },
+                { "19",                 0,                 0,                 0,                 0,                 0,                 0,                 0,                0,                 0,                 0,                0,                 0,                 0,                 0,                0,                  0,                 0,                 0,                 0,              439,                0,                  0,                 0,                0,            0,                 0,                 0,                 0,                 0,                 0,                  0,                 0,                 0,                 0,                 0,       0, 1.000000000000000,     439  },
+                { "20",                 0,                 0,                 0,                 0,                 0,                 0,                 1,                0,                 0,                 0,                0,                 0,                 0,                 0,                0,                  0,                 0,                 0,                 0,                0,              797,                  0,                 0,                0,            0,                 0,                 0,                 0,                 0,                 0,                  0,                 0,                 0,                 0,                 0,       1, 0.99874686716791983,   798  },
+                { "21",                 0,                 0,                 0,                 0,                 0,                 0,                 0,                0,                 0,                 0,                0,                 0,                 0,                 0,                0,                  0,                 0,                 0,                 0,                0,                0,                337,                 0,                0,            0,                 0,                 0,                 0,                 0,                 0,                  0,                 0,                 0,                 0,                 0,       0, 1.000000000000000,     337  },
+                { "22",                 0,                 0,                 1,                 0,                 0,                 5,                 0,                0,                 0,                 0,                0,                 0,                 0,                 0,                0,                  0,                 1,                 0,               261,                0,                2,                  0,               604,                0,            0,                 0,                 0,                 0,                 0,                 0,                  0,                 0,                 1,                 0,                 0,     271, 0.690285714285714,     875  },
+                { "23",                 0,                 0,                 0,                 0,                 0,                 0,                 0,                0,                 0,                 0,                0,                 0,                 0,                 0,                0,                  0,                 0,                 0,                 3,                0,                0,                  0,                 0,             1075,            0,                 0,                 0,                 0,                 0,                 0,                  0,                 0,                 0,                 0,                 0,       3, 0.997217068645640,    1078  },
+                { "24",                 0,                 0,                 0,                 0,                 0,                 0,                 0,                0,                 0,                 0,                0,                 0,                 0,                 0,                0,                  0,                 0,                 0,                 0,                0,                0,                  0,                 0,                0,            0,                 0,                 0,                 0,                 0,                 0,                  0,                 0,                 0,                 0,                 0,       0, 0.000000000000000,       0  },
+                { "25",                 0,                 0,                 0,                 0,                 0,                 0,                 0,                0,                 0,                 0,                0,                 0,                 0,                 0,                0,                  0,                 0,                 0,                 0,                0,                0,                  0,                 0,                0,            0,               624,                 0,                 0,                 0,                 0,                  0,                 0,                 0,                 0,                 0,       0, 1.000000000000000,     624  },
+                { "26",                 0,                 0,                 0,                 0,                 0,                 0,                 0,                0,                 0,                 0,                0,                 0,                 1,                 0,                0,                  0,                 0,                 0,                 0,                0,               13,                  0,                 0,                0,            0,                36,              1008,                 0,                 1,                 0,                  0,                 0,                 0,                 0,                 0,      51, 0.951841359773371,    1059  },
+                { "27",                 0,                 0,                 0,                 0,                 0,                 0,                 3,                0,                 0,                 0,                0,                 0,                 0,                 0,                0,                  0,                 0,                 0,                 0,                0,                0,                  0,                 0,                0,            0,                 0,                 0,               446,                 0,                 0,                  0,                 0,                 0,                 0,                 0,       3, 0.993318485523385,     449  },
+                { "28",                 0,                 0,                 0,                 0,                 0,                 0,                 0,                0,                 0,                 0,                0,                 0,                 0,                 0,                0,                  0,                 0,                 0,                 0,                0,                0,                  0,                 0,                0,            0,                 0,                 1,                 0,               943,                 0,                  0,                 0,                 0,                 0,                 0,       1, 0.998940677966102,     944  },
+                { "29",                 0,                 0,                78,                 0,                 0,                 0,                 0,                0,                 0,                 0,                0,                 0,                 0,                 0,                0,                  0,                 0,                 0,                 1,              301,                0,                  0,                 0,                0,            0,                 0,                 0,                 0,                 0,               437,                  0,                 0,                 0,                 0,                 0,     380, 0.534883720930233,     817  },
+                { "30",                 0,                 0,                 0,                 0,                 0,                 0,                 0,                0,                 0,                 0,                0,                 0,                 0,                 0,                0,                  0,                 0,                 0,                 0,                0,                0,                  0,                 0,                0,            0,                 0,                 0,                 0,                 0,                 0,                 25,                 0,                 0,                 0,                 0,       0, 1.000000000000000,      25  },
+                { "31",                 0,                 0,                 0,                 0,                 0,                 0,                 0,                0,                 0,                 0,                0,                 0,                 0,                 0,                0,                  0,                 0,                 0,                 0,                0,                1,                  0,                 0,                0,            0,                 0,                 0,                 0,                 0,                 0,                  9,               472,                 0,                 0,                 0,      10, 0.979253112033195,     482  },
+                { "32",                 0,                 0,                 0,                 0,                 0,                 0,                 0,                0,                 0,                 0,                0,                 0,                 0,                 0,                0,                  0,                 0,                 0,                 1,                0,                0,                  0,                 0,                0,            0,                 0,                 0,                 0,                 0,                 0,                  9,                 0,               410,                 0,                 0,      10, 0.976190476190476,     420  },
+                { "33",                 0,                 0,                 0,                 0,                 0,                 0,                 0,                0,                 0,                 0,                0,                 0,                 0,                 0,                0,                  0,                 0,                 0,                 0,                0,                0,                  0,                 0,                0,            0,                 0,                 0,                 0,                 4,                 0,                215,                 0,                 0,               207,                 0,     219, 0.485915492957747,     426  },
+                { "34",                 0,                 0,                 0,                 2,                 0,                 0,                 0,                0,                 0,                 0,                0,                 0,                 0,                 0,                0,                  0,                 0,                 0,                 0,                0,                0,                  0,                 0,                0,            0,                 0,                 0,                 0,                 0,                 0,                  0,                 0,                 0,                 0,               284,       2, 0.993006993006993,     286  },
+                { "Error",              0,                36,              1311,                 3,                36,                 7,                91,               206,                3,               140,              130,                 5,                 3,                45,               42,                 16,                23,                 3,               266,              373,               17,                  1,                 1,                0,            5,                36,                 1,                 4,                 7,                 2,                233,                 0,                 1,                 0,                 0,    null,              null,    null  },
+                { "Precision",          0, 0.983106522759268, 0.677570093457944, 0.998743192291579, 0.985708614529575, 0.996883348174533, 0.955061728395062, 0.913299663299663, 0.99853228962818, 0.925690021231423, 0.92769744160178, 0.996443812233286, 0.994782608695652, 0.973372781065089, 0.951445086705202, 0.980416156670747, 0.984049930651872, 0.997838616714697, 0.892568659127625, 0.54064039408867, 0.979115479115479, 0.997041420118343, 0.998347107438017,                1,            0, 0.945454545454545, 0.999008919722498, 0.991111111111111, 0.992631578947368, 0.995444191343964, 0.0968992248062016, 1.000000000000000, 0.997566909975669, 1.000000000000000, 1.000000000000000,    null,              null,    null  },
+                { "Total",              0,              2131,              4066,              2387,              2519,              2246,              2025,              2376,             2044,              1884,             1798,              1406,               575,              1690,               865,               817,              1442,              1388,              2476,              812,               814,               338,               605,             1075,            5,               660,              1009,               450,               950,               439,                258,               472,               411,               207,               284,    null,              null,    null  }
             };
 
-            Assert.IsTrue(expectedTable.IsEqual(actualTable, atol: 1e-10));
-        }
+            var expectedMatrix = expectedTable.Get(1, 36, 1, 36);
+            for (int i = 0; i < expectedMatrix.Rows(); i++)
+            {
+                for (int j = 0; j < expectedMatrix.Columns(); j++)
+                {
+                    object e = expectedMatrix[i, j];
+                    object a = columns2_to_35[i, j];
+                    Assert.IsTrue(a.IsEqual(e));
+                }
+            }
 
+            var expectedSummaryRows = expectedTable.Get(-3, 0, 1, 36);
+            var actualSummaryRows = actualTable.Get(-3, 0, 1, 36);
+            for (int i = 0; i < expectedSummaryRows.Rows(); i++)
+            {
+                for (int j = 0; j < expectedSummaryRows.Columns(); j++)
+                {
+                    object e = expectedSummaryRows[i, j];
+                    object a = actualSummaryRows[i, j];
+                    Assert.IsTrue(a.IsEqual(e, atol: 1e-8M));
+                }
+            }
+
+            var expectedSummaryCols = expectedTable.Get(null, 36, 36 + 3);
+            var actualSummaryCols = actualTable.Get(null, 36, 36 + 3);
+            for (int i = 0; i < expectedSummaryCols.Rows(); i++)
+            {
+                for (int j = 0; j < expectedSummaryCols.Columns(); j++)
+                {
+                    object e = expectedSummaryCols[i, j];
+                    object a = actualSummaryCols[i, j];
+                    Assert.IsTrue(a.IsEqual(e, atol: 1e-8M));
+                }
+            }
+
+            for (int i = 0; i < expectedTable.Rows(); i++)
+            {
+                for (int j = 0; j < expectedTable.Columns(); j++)
+                {
+                    object e = expectedTable[i, j];
+                    object a = actualTable[i, j];
+                    Assert.IsTrue(a.IsEqual(e, atol: 1e-8M));
+                }
+            }
+        }
     }
 }
