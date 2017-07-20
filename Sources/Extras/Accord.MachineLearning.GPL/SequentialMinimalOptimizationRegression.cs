@@ -342,6 +342,9 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
             // Initialize variables
             int N = Inputs.Length;
+            
+            // Set the value of the ε parameter controlled the width of the ε-insensitive zone
+            epsilon = Epsilon;
 
             // Lagrange multipliers
             this.alpha_a = new double[N];
