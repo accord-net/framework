@@ -60,7 +60,13 @@ namespace Accord.MachineLearning
         ///   Use the kmeans++ seeding algorithm for generating initial centroids.
         /// </summary>
         /// 
-        KMeansPlusPlus
+        KMeansPlusPlus,
+
+        /// <summary>
+        ///   Use the PAM BUILD algorithm for generating initial centroids.
+        /// </summary>
+        /// 
+        PamBuild
     };
 
     /// <summary>
