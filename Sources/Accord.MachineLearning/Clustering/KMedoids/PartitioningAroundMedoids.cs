@@ -234,10 +234,7 @@ namespace Accord.MachineLearning
             // Perform a random initialization of the clusters
             // if the algorithm has not been initialized before.
             //
-            if (Clusters.Centroids[0] == null || K == 1)
-            {
-                Clusters.Randomize(x, Seeding.PamBuild, ParallelOptions);
-            }
+            Clusters.Randomize(x, Seeding.PamBuild, ParallelOptions);
 
             // Detect initial medoid indices
             var initialMedoidIndices = new HashSet<int>();
