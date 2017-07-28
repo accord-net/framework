@@ -62,10 +62,10 @@ namespace Accord.Tests.MachineLearning
             //  same cluster (thus having the same label). The same should
             //  happen to the next five observations.
 
-            Assert.AreEqual(labels[0], labels[1]);
             Assert.AreEqual(labels[0], labels[2]);
             Assert.AreEqual(labels[0], labels[3]);
 
+            Assert.AreEqual(labels[4], labels[1]);
             Assert.AreEqual(labels[4], labels[5]);
             Assert.AreEqual(labels[4], labels[6]);
             Assert.AreEqual(labels[4], labels[7]);
@@ -112,10 +112,10 @@ namespace Accord.Tests.MachineLearning
             int[] labels = clusters.Decide(observations);
             #endregion
 
-            Assert.AreEqual(labels[0], labels[1]);
             Assert.AreEqual(labels[0], labels[2]);
             Assert.AreEqual(labels[0], labels[3]);
 
+            Assert.AreEqual(labels[4], labels[1]);
             Assert.AreEqual(labels[4], labels[5]);
             Assert.AreEqual(labels[4], labels[6]);
             Assert.AreEqual(labels[4], labels[7]);

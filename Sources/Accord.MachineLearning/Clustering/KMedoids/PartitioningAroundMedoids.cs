@@ -33,6 +33,7 @@ namespace Accord.MachineLearning
     using System.Threading.Tasks;
     using System.Collections.Concurrent;
     using System.Linq;
+    using System.Diagnostics;
 
     /// <summary>
     ///   k-Medoids clustering using PAM (Partition Around Medoids) algorithm.
@@ -207,7 +208,8 @@ namespace Accord.MachineLearning
         [Obsolete("Please use Learn(x) instead.")]
         public int[] Compute(T[][] points)
         {
-            return Learn(points).Decide(points);
+            var clusters = Learn(points);
+            return clusters.Decide(points);
         }
 
         /// <summary>
@@ -231,22 +233,19 @@ namespace Accord.MachineLearning
             int rows = x.Length;
             int cols = x[0].Length;
 
-            // Perform a random initialization of the clusters
-            // if the algorithm has not been initialized before.
-            //
+            // Perform initialization of the clusters
             Clusters.Randomize(x, Seeding.PamBuild, ParallelOptions);
 
             // Detect initial medoid indices
-            var initialMedoidIndices = new HashSet<int>();
-            int[] initialMedoidIndicesArray = Enumerable.Repeat(-1, K).ToArray();
+            int[] currentMedoidIndicesArray = Enumerable.Repeat(-1, K).ToArray();
             Parallel.For(0, x.Length, ParallelOptions, i =>
             {
                 T[] point = x[i];
                 for (int j = 0; j < K; ++j)
                 {
-                    if (Clusters.Centroids[j].Equals(point))
+                    if (Clusters.Centroids[j].IsEqual(point))
                     {
-                        int prev = Interlocked.CompareExchange(ref initialMedoidIndicesArray[j], i, -1);
+                        int prev = Interlocked.CompareExchange(ref currentMedoidIndicesArray[j], i, -1);
                         if (prev != -1)
                             throw new Exception($"Duplicate medoid #{j} detected: {prev} and {i}");
                         break;
@@ -256,7 +255,7 @@ namespace Accord.MachineLearning
 
             for (int i = 0; i < K; ++i)
             {
-                if (initialMedoidIndicesArray[i] == -1)
+                if (currentMedoidIndicesArray[i] == -1)
                 {
                     throw new Exception($"Medoid #{i} not found.");
                 }
@@ -265,7 +264,6 @@ namespace Accord.MachineLearning
             Iterations = 0;
 
             ////////////////////////////////////////////////////////////////////////////////////////////////////////
-            int[] currentMedoidIndicesArray = initialMedoidIndices.ToArray();
             int[] pointClusterIndices = new int[x.Length];
 
             // Special case - one medoid
@@ -289,7 +287,7 @@ namespace Accord.MachineLearning
                 return Clusters;
             }
 
-            var currentMedoidIndices = new HashSet<int>(initialMedoidIndices);
+            var currentMedoidIndices = new HashSet<int>(currentMedoidIndicesArray);
             var secondClusterDistance = new double[x.Length];
 
             for (; Iterations < MaxIterations; Iterations++)
@@ -300,7 +298,8 @@ namespace Accord.MachineLearning
                     int secondMinCostClusterIndex = -1;
                     double secondMinCost = double.PositiveInfinity;
                     int minCostClusterIndex = 0;
-                    double minCost = Distance.Distance(x[pointIndex], x[currentMedoidIndicesArray[minCostClusterIndex]]);
+                    int medoidIndex = currentMedoidIndicesArray[minCostClusterIndex];
+                    double minCost = Distance.Distance(x[pointIndex], x[medoidIndex]);
                     for (int i = 1; i < currentMedoidIndicesArray.Length; i++)
                     {
                         int medoidPointIndex = currentMedoidIndicesArray[i];
@@ -387,6 +386,9 @@ namespace Accord.MachineLearning
                 currentMedoidIndices.Add(minTih.Item2);
                 currentMedoidIndicesArray[minTih.Item1] = minTih.Item2;
             }
+
+            for (int i = 0; i < K; ++i)
+                Clusters.Centroids[i] = x[currentMedoidIndicesArray[i]];
 
             if (ComputeError)
             {
