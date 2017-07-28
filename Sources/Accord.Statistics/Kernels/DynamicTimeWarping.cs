@@ -215,9 +215,6 @@ namespace Accord.Statistics.Kernels
         /// 
         public double Function(double[] x, double[] y)
         {
-            if (x == y)
-                return 1.0;
-
             double cos = k(x, y);
 
             if (degree == 1)
@@ -237,9 +234,6 @@ namespace Accord.Statistics.Kernels
         /// 
         public double Function(double[][] x, double[][] y)
         {
-            if (x == y)
-                return 1.0;
-
             double cos = k(x, y);
 
             if (degree == 1)
@@ -262,9 +256,6 @@ namespace Accord.Statistics.Kernels
         /// 
         public double Distance(double[] x, double[] y)
         {
-            if (x == y)
-                return 0.0;
-
             double cos = k(x, y);
 
             if (degree == 1)
@@ -287,9 +278,6 @@ namespace Accord.Statistics.Kernels
         /// 
         public double Distance(double[][] x, double[][] y)
         {
-            if (x == y)
-                return 0.0;
-
             double cos = k(x, y);
 
             if (degree == 1)

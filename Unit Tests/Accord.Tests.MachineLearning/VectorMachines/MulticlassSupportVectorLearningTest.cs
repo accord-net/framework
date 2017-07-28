@@ -1219,5 +1219,126 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(0, svm.NumberOfInputs);
             Assert.AreEqual(3, svm.NumberOfOutputs);
         }
+
+        [Test]
+        public void dynamic_time_warp_issue_717()
+        {
+            double[][][] gestures =
+       {
+                new double[][] // Swipe left
+                {
+                    new double[] { 1, 1, 1 },
+                    new double[] { 1, 2, 1 },
+                    new double[] { 1, 2, 2 },
+                    new double[] { 2, 2, 2 },
+                },
+
+                new double[][] // Swipe right
+                {
+                    new double[] { 1, 10, 6 },
+                    new double[] { 1, 5, 6 },
+                    new double[] { 6, 7, 1 },
+                },
+
+                new double[][] // Double tap
+                {
+                    new double[] { 8, 2, 5 },
+                    new double[] { 1, 50, 4 },
+                }
+            };
+
+            int[] outputs =
+            {
+                    0,  // Swipe left
+                    1,  // Swipe right
+                    2   // Double tap
+            };
+
+            var teacher = new MulticlassSupportVectorLearning<DynamicTimeWarping, double[][]>()
+            {
+                // Configure the learning algorithm to use SMO to train the
+                //  underlying SVMs in each of the binary class subproblems.
+                Learner = (param) => new SequentialMinimalOptimization<DynamicTimeWarping, double[][]>
+                {
+                    Complexity = 1.5,
+                    Kernel = new DynamicTimeWarping(alpha: 1, degree: 1),
+                    //UseKernelEstimation = true
+                }
+            };
+
+            // Learn a machine
+            var machine = teacher.Learn(gestures, outputs);
+
+            // Create the multi-class learning algorithm for the machine
+            var calibration = new MulticlassSupportVectorLearning<DynamicTimeWarping, double[][]>()
+            {
+                Model = machine, // We will start with an existing machine
+
+                // Configure the learning algorithm to use Platt's calibration
+                Learner = (param) => new ProbabilisticOutputCalibration<DynamicTimeWarping, double[][]>()
+                {
+                    Model = param.Model // Start with an existing machine
+                }
+            };
+
+            // Configure parallel execution options
+            calibration.ParallelOptions.MaxDegreeOfParallelism = 1;
+
+            // Learn a machine
+            calibration.Learn(gestures, outputs);
+
+
+            // Validate Results
+            double decision1, decision2, decision3, decision4, decision5, decision6;
+
+            // First create new instances for the gestures with the same values as in the sequences array
+            var swipeLeftGesture = new double[][]
+            {
+                new double[] { 1, 1, 1 },
+                new double[] { 1, 2, 1 },
+                new double[] { 1, 2, 2 },
+                new double[] { 2, 2, 2 },
+            };
+
+            var swipeRightGesture = new double[][]
+            {
+                new double[] { 1, 10, 6 },
+                new double[] { 1, 5, 6 },
+                new double[] { 6, 7, 1 },
+            };
+
+            var doubleTapGesture = new double[][]
+            {
+                new double[] { 8, 2, 5 },
+                new double[] { 1, 50, 4 },
+            };
+
+            // Check what are the decisions and probabilities of the original sequences array
+            var res1 = machine.Probability(gestures[0], out decision1); // decision 0 - Probability 0.66666666570779487 - Score 0.69314717840248374
+            var res2 = machine.Probability(gestures[1], out decision2); // decision 1 - Probability 0.57647717384694053 - Score 0.6931471784024833
+            var res3 = machine.Probability(gestures[2], out decision3); // decision 2 - Probability 0.66666666570779465 - Score 0.6931471784024833
+
+
+            // Check what are the decisions and probabilities of the newly created instances
+            var res4 = machine.Probability(swipeLeftGesture, out decision4);  // decision 0 - Probability 0.34881631999941815 - Score 0.035525143563626807
+            var res5 = machine.Probability(swipeRightGesture, out decision5); // decision 1 - Probability 0.38414838905152121 - Score 0.13802120233728751
+            var res6 = machine.Probability(doubleTapGesture, out decision6);  // decision 2 - Probability 0.607525583968486   - Score 0.56625552124018352
+
+            Assert.AreEqual(res1, res4);
+            Assert.AreEqual(res2, res5);
+            Assert.AreEqual(res3, res6);
+
+            res1 = machine.Score(gestures[0], out decision1); // decision 0 - Probability 0.66666666570779487 - Score 0.69314717840248374
+            res2 = machine.Score(gestures[1], out decision2); // decision 1 - Probability 0.57647717384694053 - Score 0.6931471784024833
+            res3 = machine.Score(gestures[2], out decision3); // decision 2 - Probability 0.66666666570779465 - Score 0.6931471784024833
+
+            res4 = machine.Score(swipeLeftGesture, out decision4);  // decision 0 - Probability 0.34881631999941815 - Score 0.035525143563626807
+            res5 = machine.Score(swipeRightGesture, out decision5); // decision 1 - Probability 0.38414838905152121 - Score 0.13802120233728751
+            res6 = machine.Score(doubleTapGesture, out decision6);  // decision 2 - Probability 0.607525583968486   - Score 0.56625552124018352
+
+            Assert.AreEqual(res1, res4, 1e-10);
+            Assert.AreEqual(res2, res5, 1e-10);
+            Assert.AreEqual(res3, res6, 1e-10);
+        }
     }
 }
