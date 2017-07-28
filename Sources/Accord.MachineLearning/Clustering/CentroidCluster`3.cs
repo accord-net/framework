@@ -67,23 +67,28 @@ namespace Accord.MachineLearning
             /// 
             /// <param name="points">The data to randomize the algorithm.</param>
             /// <param name="strategy">The seeding strategy to be used. Default is <see cref="Seeding.KMeansPlusPlus"/>.</param>
+            /// 
+            public virtual void Randomize(TData[] points, Seeding strategy = Seeding.KMeansPlusPlus)
+            {
+                Randomize(points, strategy, null);
+            }
+
+                /// <summary>
+            ///   Randomizes the clusters inside a dataset.
+            /// </summary>
+            /// 
+            /// <param name="points">The data to randomize the algorithm.</param>
+            /// <param name="strategy">The seeding strategy to be used. Default is <see cref="Seeding.KMeansPlusPlus"/>.</param>
             /// <param name="parallelOptions">The parallelization options for this procedure.
             /// Only relevant for the <see cref="Seeding.PamBuild"/>. </param>
             /// 
-            public virtual void Randomize(TData[] points, Seeding strategy = Seeding.KMeansPlusPlus, 
+            public virtual int[] Randomize(TData[] points, Seeding strategy = Seeding.KMeansPlusPlus, 
                 ParallelOptions parallelOptions = null)
             {
                 if (points == null)
                     throw new ArgumentNullException("points");
 
-                // If number of points equal to required number of centroids,
-                // then no need any seeding algorithm, just include them all.
-                if (points.Length == Centroids.Length)
-                {
-                    for (int i = 0; i < points.Length; ++i)
-                        Centroids[i] = (TData)points[i].Clone();
-                    return;
-                }
+                int[] result = null;
 
                 // Otherwise perform chosen algorithm
                 switch (strategy)
@@ -96,7 +101,7 @@ namespace Accord.MachineLearning
 
                     case Seeding.Uniform:
                     {
-                        DoUniformSeeding(points);
+                        result = DoUniformSeeding(points);
                         break;
                     }
 
@@ -113,12 +118,13 @@ namespace Accord.MachineLearning
                             parallelOptions = new ParallelOptions();
                             parallelOptions.MaxDegreeOfParallelism = 1;
                         }
-                        DoPamBuildSeeding(points, parallelOptions);
+                        result = DoPamBuildSeeding(points, parallelOptions);
                         break;
                     }
                 } // switch
 
                 Owner.NumberOfInputs = Tools.GetNumberOfInputs(points);
+                return result;
             } // Randomize()
 
             private void DoFixedSeeding(TData[] points)
@@ -131,11 +137,13 @@ namespace Accord.MachineLearning
                 }
             }
 
-            private void DoUniformSeeding(TData[] points)
+            private int[] DoUniformSeeding(TData[] points)
             {
-                Centroids = Vector.Sample(points, Centroids.Length);
+                int[] indices = Vector.Sample(Centroids.Length);
+                Centroids = points.Get(indices);
                 for (int i = 0; i < Centroids.Length; i++)
                     Centroids[i] = (TData)Centroids[i].Clone();
+                return indices;
             }
 
             private void DoKMeansPlusPlusSeeding(TData[] points)
@@ -218,7 +226,7 @@ namespace Accord.MachineLearning
 #endif
             }
 
-            private void DoPamBuildSeeding(TData[] points, ParallelOptions parallelOptions)
+            private int[] DoPamBuildSeeding(TData[] points, ParallelOptions parallelOptions)
             {
                 int firstMedoidIndex = SelectFirstMedoid(points);
                 if (Centroids.Length > 1)
@@ -264,12 +272,19 @@ namespace Accord.MachineLearning
                     }
 
                     int index = 0;
+                    int[] result = new int[Centroids.Length];
                     foreach (int medoidPointIndex in medoids)
-                        Centroids[index++] = (TData)points[medoidPointIndex].Clone();
+                    {
+                        result[index] = medoidPointIndex;
+                        Centroids[index] = (TData)points[medoidPointIndex].Clone();
+                        index++;
+                    }
+                    return result;
                 }
                 else
                 {
                     Centroids[0] = (TData)points[firstMedoidIndex].Clone();
+                    return new int[] { firstMedoidIndex };
                 }
             }
 

@@ -234,24 +234,27 @@ namespace Accord.MachineLearning
             int cols = x[0].Length;
 
             // Perform initialization of the clusters
-            Clusters.Randomize(x, Seeding.PamBuild, ParallelOptions);
+            int[] currentMedoidIndicesArray = Clusters.Randomize(x, Initialization, ParallelOptions);
 
             // Detect initial medoid indices
-            int[] currentMedoidIndicesArray = Enumerable.Repeat(-1, K).ToArray();
-            Parallel.For(0, x.Length, ParallelOptions, i =>
+            if (currentMedoidIndicesArray == null)
             {
-                T[] point = x[i];
-                for (int j = 0; j < K; ++j)
+                currentMedoidIndicesArray = Enumerable.Repeat(-1, K).ToArray();
+                Parallel.For(0, x.Length, ParallelOptions, i =>
                 {
-                    if (Clusters.Centroids[j].IsEqual(point))
+                    T[] point = x[i];
+                    for (int j = 0; j < K; ++j)
                     {
-                        int prev = Interlocked.CompareExchange(ref currentMedoidIndicesArray[j], i, -1);
-                        if (prev != -1)
-                            throw new Exception($"Duplicate medoid #{j} detected: {prev} and {i}");
-                        break;
+                        if (Clusters.Centroids[j].IsEqual(point))
+                        {
+                            int prev = Interlocked.CompareExchange(ref currentMedoidIndicesArray[j], i, -1);
+                            if (prev != -1)
+                                throw new Exception($"Duplicate medoid #{j} detected: {prev} and {i}");
+                            break;
+                        }
                     }
-                }
-            });
+                });
+            }
 
             for (int i = 0; i < K; ++i)
             {
@@ -259,6 +262,12 @@ namespace Accord.MachineLearning
                 {
                     throw new Exception($"Medoid #{i} not found.");
                 }
+            }
+
+            var currentMedoidIndices = new HashSet<int>(currentMedoidIndicesArray);
+            if (currentMedoidIndices.Count < currentMedoidIndicesArray.Length)
+            {
+                throw new Exception("Some medoids are not unique");
             }
 
             Iterations = 0;
@@ -287,7 +296,6 @@ namespace Accord.MachineLearning
                 return Clusters;
             }
 
-            var currentMedoidIndices = new HashSet<int>(currentMedoidIndicesArray);
             var secondClusterDistance = new double[x.Length];
 
             for (; Iterations < MaxIterations; Iterations++)

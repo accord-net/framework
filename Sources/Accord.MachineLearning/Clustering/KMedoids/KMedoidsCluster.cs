@@ -171,10 +171,11 @@ namespace Accord.MachineLearning
         /// <param name="strategy">The seeding strategy to be used. Default is <see cref="Seeding.PamBuild"/>.</param>
         /// <param name="parallelOptions">The parallelization options for this procedure.
         /// Only relevant for the <see cref="Seeding.PamBuild"/>. </param>
+        /// <returns>Array of point indices, if clusters were binded to points, null otherwise.</returns>
         /// 
-        public void Randomize(T[][] points, Seeding strategy = Seeding.PamBuild, ParallelOptions parallelOptions = null)
+        public int[] Randomize(T[][] points, Seeding strategy = Seeding.PamBuild, ParallelOptions parallelOptions = null)
         {
-            collection.Randomize(points, strategy, parallelOptions);
+            return collection.Randomize(points, strategy, parallelOptions);
         }
 
         /// <summary>
