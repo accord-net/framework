@@ -27,10 +27,10 @@ namespace Accord.Tests.MachineLearning
     using Accord.Math;
 
     [TestFixture]
-    public class KMedoidsPAMTest
+    public class KMedoidsVITest
     {
         [Test]
-        public void KMedoidsPartitionAroundMedoidsConstructorTest()
+        public void KMedoidsVoronoiIterationConstructorTest()
         {
             Accord.Math.Random.Generator.Seed = 0;
 
@@ -38,7 +38,7 @@ namespace Accord.Tests.MachineLearning
             int[][] observations = new int[][]
             {
                 new[] { 2, 6 }, // a
-                new[] { 3, 4 }, // b
+                new[] { 3, 4 }, // a
                 new[] { 3, 8 }, // a
                 new[] { 4, 7 }, // a
                 new[] { 6, 2 }, // b
@@ -51,26 +51,30 @@ namespace Accord.Tests.MachineLearning
 
             int[][] orig = observations.MemberwiseClone();
 
-            // Create a new K-Medoids PAM algorithm with 2 clusters 
-            PartitioningAroundMedoids kmedoidsPam = new PartitioningAroundMedoids(2);
+            // Create a new K-Medoids Vorinoi Iteration algorithm with 2 clusters 
+            VoronoiIteration kmedoidsVi = new VoronoiIteration(2);
+
+            // Set initial medoids
+            kmedoidsVi.Clusters.Centroids[0] = observations[1];
+            kmedoidsVi.Clusters.Centroids[1] = observations[7];
 
             // Compute the algorithm, retrieving an integer array
             // containing the labels for each of the observations
-            int[] labels = kmedoidsPam.Compute(observations);
+            int[] labels = kmedoidsVi.Compute(observations);
 
             // Check that points were associated into appropriate clusters
             // Cluster #1
+            Assert.AreEqual(labels[0], labels[1]);
             Assert.AreEqual(labels[0], labels[2]);
             Assert.AreEqual(labels[0], labels[3]);
             // Cluster #2
-            Assert.AreEqual(labels[4], labels[1]);
             Assert.AreEqual(labels[4], labels[5]);
             Assert.AreEqual(labels[4], labels[6]);
             Assert.AreEqual(labels[4], labels[7]);
             Assert.AreEqual(labels[4], labels[8]);
             Assert.AreEqual(labels[4], labels[9]);
 
-            int[] labels2 = kmedoidsPam.Clusters.Decide(observations);
+            int[] labels2 = kmedoidsVi.Clusters.Decide(observations);
             Assert.IsTrue(labels.IsEqual(labels2));
 
             // the data must not have changed!
@@ -88,7 +92,7 @@ namespace Accord.Tests.MachineLearning
             int[][] observations = new int[][]
             {
                 new[] { 2, 6 }, // a
-                new[] { 3, 4 }, // b
+                new[] { 3, 4 }, // a
                 new[] { 3, 8 }, // a
                 new[] { 4, 7 }, // a
                 new[] { 6, 2 }, // b
@@ -100,20 +104,24 @@ namespace Accord.Tests.MachineLearning
             };
 
             // Create a new 2-Medoids algorithm.
-            var kmedoidsPam = new PartitioningAroundMedoids(2);
-            kmedoidsPam.MaxIterations = 100;
+            var kmedoidsVi = new VoronoiIteration(2);
+            kmedoidsVi.MaxIterations = 100;
+
+            // Set initial medoids
+            kmedoidsVi.Clusters.Centroids[0] = observations[1];
+            kmedoidsVi.Clusters.Centroids[1] = observations[7];
 
             // Compute and retrieve the data centroids
-            var clusters = kmedoidsPam.Learn(observations);
+            var clusters = kmedoidsVi.Learn(observations);
 
             // Use the centroids to parition all the data
             int[] labels = clusters.Decide(observations);
             #endregion
 
+            Assert.AreEqual(labels[0], labels[1]);
             Assert.AreEqual(labels[0], labels[2]);
             Assert.AreEqual(labels[0], labels[3]);
 
-            Assert.AreEqual(labels[4], labels[1]);
             Assert.AreEqual(labels[4], labels[5]);
             Assert.AreEqual(labels[4], labels[6]);
             Assert.AreEqual(labels[4], labels[7]);

@@ -31,7 +31,7 @@ namespace Accord.MachineLearning
     using System.Linq;
 
     /// <summary>
-    ///   k-Medoids clustering using PAM (Partition Around Medoids) algorithm.
+    ///   k-Medoids clustering using Voronoi iteration algorithm.
     /// </summary>
     /// 
     /// <remarks>
@@ -45,26 +45,29 @@ namespace Accord.MachineLearning
     /// datapoints instead of L2. This method was proposed in 1987[1] for the work with L1 norm and other distances.
     /// </para>
     /// <para>
-    /// The most common realisation of k-medoid clustering is the Partitioning Around Medoids (PAM) algorithm.
-    /// PAM uses a greedy search which may not find the optimum solution, but it is faster than exhaustive search.
+    /// Voronoi iteration algorithm (or Lloyd algorithm) is one of possible implementations of the k-medoids
+    /// clustering. It was suggested in the [2] and [3].
     /// </para>
     /// <para>
     /// [1] Kaufman, L. and Rousseeuw, P.J. (1987), Clustering by means of Medoids, in Statistical Data Analysis 
     /// Based on the L1–Norm and Related Methods, edited by Y. Dodge, North-Holland, 405–416.
+    /// [2] T. Hastie, R. Tibshirani, and J.Friedman.The Elements of Statistical Learning, Springer (2001), 468–469.
+    /// [3] H.S.Park , C.H.Jun, A simple and fast algorithm for K-medoids clustering, Expert Systems with Applications,
+    /// 36, (2) (2009), 3336–3341.
     /// </para>
     /// </remarks>
     /// 
-    /// <seealso cref="PartitioningAroundMedoids"/>
+    /// <seealso cref="VoronoiIteration"/>
     /// <seealso cref="KMeans"/>
     /// <seealso cref="MeanShift"/>
     /// 
     /// <example>
-    ///   How to perform K-Medoids clustering with PAM algorithm.
-    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\Clustering\KMedoidsPAMTest.cs" region="doc_learn" />
+    ///   How to perform K-Medoids clustering with Voronoi iteration algorithm.
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\Clustering\KMedoidsVITest.cs" region="doc_learn" />
     /// </example>
     /// 
     [Serializable]
-    public class PartitioningAroundMedoids<T> : ParallelLearningBase,
+    public class VoronoiIteration<T> : ParallelLearningBase,
         IUnsupervisedLearning<KMedoidsClusterCollection<T>, T[], int>,
 #pragma warning disable 0618
         IClusteringAlgorithm<T[]>
@@ -150,13 +153,13 @@ namespace Accord.MachineLearning
         /// <summary>
         ///   Gets or sets the strategy used to initialize the
         ///   centroids of the clustering algorithm. Default is
-        ///   <see cref="Seeding.KMeansPlusPlus"/>.
+        ///   <see cref="Seeding.Uniform"/>.
         /// </summary>
         /// 
         public Seeding Initialization { get; set; }
 
         /// <summary>
-        ///   Initializes a new instance of PartitioningAroundMedoids algorithm
+        ///   Initializes a new instance of VoronoiIteration algorithm
         /// </summary>
         /// 
         /// <param name="k">The number of clusters to divide input data.</param>       
@@ -164,20 +167,20 @@ namespace Accord.MachineLearning
         /// use the <see cref="Accord.Math.Distance.SquareEuclidean(double[], double[])"/> distance.</param>
         /// 
         [Obsolete("Please specify the distance function using classes instead of lambda functions.")]
-        public PartitioningAroundMedoids(int k, Func<T[], T[], double> distance)
+        public VoronoiIteration(int k, Func<T[], T[], double> distance)
             : this(k, Accord.Math.Distance.GetDistance(distance))
         {
         }
 
         /// <summary>
-        ///   Initializes a new instance of PartitioningAroundMedoids algorithm
+        ///   Initializes a new instance of VoronoiIteration algorithm
         /// </summary>
         /// 
         /// <param name="k">The number of clusters to divide input data.</param>
         /// <param name="distance">The distance function to use. Default is to
         /// use the <see cref="Accord.Math.Distance.Manhattan(double[], double[])"/> distance.</param>
         /// 
-        public PartitioningAroundMedoids(int k, IDistance<T[]> distance)
+        public VoronoiIteration(int k, IDistance<T[]> distance)
         {
             if (k <= 0)
                 throw new ArgumentOutOfRangeException("k");
@@ -189,7 +192,7 @@ namespace Accord.MachineLearning
             //  information about the k-Medoids' clusters.
             clusters = new KMedoidsClusterCollection<T>(k, distance);
 
-            Initialization = Seeding.PamBuild;
+            Initialization = Seeding.Uniform;
             Tolerance = 1e-5;
             MaxIterations = 100;
         }
@@ -205,6 +208,49 @@ namespace Accord.MachineLearning
         {
             var clusters = Learn(points);
             return clusters.Decide(points);
+        }
+
+        /// <summary>
+        /// Helper class - cluster infromation.
+        /// </summary>
+        private class ClusterInfo
+        {
+            /// <summary>
+            /// Index of the medoid point for this cluster.
+            /// </summary>
+            public int MedoidIndex { get; set; }
+
+            /// <summary>
+            /// Cost of this cluster, i.e. sum of distances of all
+            /// cluster member points to the medoid point.
+            /// </summary>
+            public double Cost { get; set; }
+
+            /// <summary>
+            /// Set of member point indices.
+            /// </summary>
+            public HashSet<int> PointIndices { get; }
+
+            /// <summary>
+            /// Initializes new ClusterInfo object.
+            /// </summary>
+            /// <param name="medoidIndex"></param>
+            public ClusterInfo(int medoidIndex)
+            {
+                MedoidIndex = medoidIndex;
+                PointIndices = new HashSet<int>();
+                Reset();
+            }
+
+            /// <summary>
+            /// Reset object to the initial state.
+            /// </summary>
+            public void Reset()
+            {
+                Cost = 0.0;
+                PointIndices.Clear();
+                PointIndices.Add(MedoidIndex);
+            }
         }
 
         /// <summary>
@@ -227,7 +273,7 @@ namespace Accord.MachineLearning
 
             // Perform initialization of the clusters
             if (Initialization == Seeding.KMeansPlusPlus)
-                throw new Exception("PartitioningAroundMedoids algorithm doesn't support KMeansPlusPlus seeding.");
+                throw new Exception("VoronoiIteration algorithm doesn't support KMeansPlusPlus seeding.");
 
             int[] currentMedoidIndicesArray = Clusters.Randomize(x, Initialization, ParallelOptions);
 
@@ -263,8 +309,6 @@ namespace Accord.MachineLearning
 
             Iterations = 0;
 
-            ////////////////////////////////////////////////////////////////////////////////////////////////////////
-
             // Special case - one medoid.
             // Arrange point with minimal total cost as medoid.
             if (K == 1)
@@ -287,109 +331,111 @@ namespace Accord.MachineLearning
                 return Clusters;
             }
 
-            int[] labels = new int[x.Length];
-            var secondClusterDistance = new double[x.Length];
+            // ================ VI algorithm ==============================
+            var clusters = new ClusterInfo[K];
 
+            // Create clusters
+            int clusterIndex = 0;
+            foreach (var medoidIndex in currentMedoidIndices)
+            {
+                clusters[clusterIndex] = new ClusterInfo(medoidIndex);
+                clusterIndex++;
+            }
+
+            int[] labels = new int[x.Length];
+
+            ////////////////////////////////////////////////////////////////////////////////////////////////////////
             for (; Iterations < MaxIterations; Iterations++)
             {
-                // Assing points to clusters
+                // Prepare for the new iteration
+                currentMedoidIndices.Clear();
+                clusterIndex = 0;
+                foreach (ClusterInfo cluster in clusters)
+                {
+                    cluster.Reset();
+                    currentMedoidIndices.Add(cluster.MedoidIndex);
+                    labels[cluster.MedoidIndex] = clusterIndex;
+                    clusterIndex++;
+                }
+
+                // Assign points to clusters
                 Parallel.For(0, x.Length, ParallelOptions, pointIndex =>
                 {
-                    int secondMinCostClusterIndex = -1;
-                    double secondMinCost = double.PositiveInfinity;
+                    // Skip current medoids
+                    if (currentMedoidIndices.Contains(pointIndex)) return;
+
+                    // Find first cluster with minimum cost
+                    T[] point = x[pointIndex];
                     int minCostClusterIndex = 0;
-                    int medoidIndex = currentMedoidIndicesArray[minCostClusterIndex];
-                    double minCost = Distance.Distance(x[pointIndex], x[medoidIndex]);
-                    for (int i = 1; i < currentMedoidIndicesArray.Length; i++)
+                    double minCost = Distance.Distance(point, x[clusters[0].MedoidIndex]);
+                    for (int j = 1; j < clusters.Length; j++)
                     {
-                        int medoidPointIndex = currentMedoidIndicesArray[i];
-                        double cost = Distance.Distance(x[pointIndex], x[medoidPointIndex]);
+                        double cost = Distance.Distance(point, x[clusters[j].MedoidIndex]);
                         if (cost < minCost)
                         {
-                            secondMinCost = minCost;
                             minCost = cost;
-                            secondMinCostClusterIndex = minCostClusterIndex;
-                            minCostClusterIndex = i;
-                        }
-                        else if (cost < secondMinCost)
-                        {
-                            secondMinCost = cost;
-                            secondMinCostClusterIndex = medoidPointIndex;
+                            minCostClusterIndex = j;
                         }
                     }
                     labels[pointIndex] = minCostClusterIndex;
-                    secondClusterDistance[pointIndex] = secondMinCost;
-                });
 
-                // Compute total cost
-                var totalCost = 0.0;
-                Parallel.For(0, x.Length, i =>
-                {
-                    int clusterIndex = labels[i];
-                    int medoidPointIndex = currentMedoidIndicesArray[clusterIndex];
-                    double cost = Distance.Distance(x[i], x[medoidPointIndex]);
-                    InterlockedEx.Add(ref totalCost, cost);
-                });
-
-                // Item = i, Item2 = h, Item3 = T[i,h]
-                var minTih = Tuple.Create(-1, -1, double.PositiveInfinity);
-                Parallel.For(0, x.Length, ParallelOptions, h =>
-                {
-                    // Skip current medoids
-                    if (currentMedoidIndices.Contains(h)) return;
-
-                    for (var i = 0; i < currentMedoidIndicesArray.Length; i++)
+                    // Update cluster info
+                    ClusterInfo cluster = clusters[minCostClusterIndex];
+                    lock (cluster)
                     {
-                        var pointIIndex = currentMedoidIndicesArray[i];
-
-                        // Compute T[i, h]
-                        var tih = 0.0;
-                        Parallel.For(0, x.Length, ParallelOptions, j =>
-                        {
-                            // Skip current medoids and point #I
-                            if (j == h || currentMedoidIndices.Contains(j)) return;
-
-                            // Compute Kijh
-                            var m = currentMedoidIndicesArray[labels[j]];
-                            var dj = Distance.Distance(x[j], x[m]);
-                            var djh = Distance.Distance(x[j], x[h]);
-                            var dji = Distance.Distance(x[j], x[pointIIndex]);
-                            var kjih = (dji == dj)
-                                ? ((djh < secondClusterDistance[j]) ? djh - dj : secondClusterDistance[j] - dj)
-                                : ((djh < dj ? djh - dj : 0.0));
-                            InterlockedEx.Add(ref tih, kjih);
-                        });
-
-                        var currentMinTih = minTih;
-                        if (tih < currentMinTih.Item3)
-                        {
-                            var newMinTih = Tuple.Create(i, h, tih);
-                            do
-                            {
-                                var actualMinTih = Interlocked.CompareExchange(ref minTih, newMinTih, currentMinTih);
-                                if (actualMinTih == currentMinTih) break;
-                                currentMinTih = actualMinTih;
-                            }
-                            while (tih < currentMinTih.Item3);
-                        }
+                        cluster.PointIndices.Add(pointIndex);
+                        cluster.Cost += minCost;
                     }
                 });
 
-                // Check exit criteria
-                if (minTih.Item3 >= 0.0)
-                {
-                    break;
-                }
+                var initialTotalCost = clusters.Sum(cluster => cluster.Cost);
 
-                // Swap points
-                currentMedoidIndices.Remove(currentMedoidIndicesArray[minTih.Item1]);
-                currentMedoidIndices.Add(minTih.Item2);
-                currentMedoidIndicesArray[minTih.Item1] = minTih.Item2;
+                // Find best medoid in the each cluster
+                var improvementCount = 0;
+                Parallel.For(0, clusters.Length, ParallelOptions, i =>
+                {
+                    ClusterInfo cluster = clusters[i];
+                    int currentMedoidIndex = cluster.MedoidIndex;
+                    T[] currentMedoid = x[currentMedoidIndex];
+                    int minCostMedoidIndex = currentMedoidIndex;
+                    double minCost = cluster.Cost;
+                    foreach (int newMedoidIndex in cluster.PointIndices)
+                    {
+                        if (newMedoidIndex != currentMedoidIndex)
+                        {
+                            T[] newMedoid = x[newMedoidIndex];
+                            var newCost = cluster.PointIndices.Sum(pointIndex =>
+                                    Distance.Distance(x[pointIndex], newMedoid));
+                            if (newCost < minCost)
+                            {
+                                minCostMedoidIndex = newMedoidIndex;
+                                minCost = newCost;
+                            }
+                        }
+                    }
+                    if (minCostMedoidIndex != currentMedoidIndex)
+                    {
+                        cluster.PointIndices.Remove(minCostMedoidIndex);
+                        cluster.MedoidIndex = minCostMedoidIndex;
+                        cluster.PointIndices.Add(currentMedoidIndex);
+                        cluster.Cost = minCost;
+                        Interlocked.Increment(ref improvementCount);
+                    }
+                });
+
+                // Evaluate improvement
+                if (improvementCount == 0)
+                    break;
+
+                double finalTotalCost = clusters.Sum(cluster => cluster.Cost);
+                if (finalTotalCost >= initialTotalCost)
+                    break;
             }
+            // ===========================================================
 
             // Assign medoids
             for (int i = 0; i < K; ++i)
-                Clusters.Centroids[i] = x[currentMedoidIndicesArray[i]];
+                Clusters.Centroids[i] = x[clusters[i].MedoidIndex];
 
             // Miscellaneous final computations
 
@@ -423,7 +469,7 @@ namespace Accord.MachineLearning
     }
 
     /// <summary>
-    ///   k-Medoids clustering using PAM (Partition Around Medoids) algorithm.
+    ///   k-Medoids clustering using Voronoi iteration algorithm.
     /// </summary>
     /// 
     /// <remarks>
@@ -437,23 +483,22 @@ namespace Accord.MachineLearning
     /// datapoints instead of L2. This method was proposed in 1987[1] for the work with L1 norm and other distances.
     /// </para>
     /// <para>
-    /// The most common realisation of k-medoid clustering is the Partitioning Around Medoids (PAM) algorithm.
-    /// PAM uses a greedy search which may not find the optimum solution, but it is faster than exhaustive search.
+    /// Voronoi iteration algorithm (or Lloyd algorithm) is one of possible implementations of the k-medoids
+    /// clustering. It was suggested in the [2] and [3].
     /// </para>
     /// <para>
     /// [1] Kaufman, L. and Rousseeuw, P.J. (1987), Clustering by means of Medoids, in Statistical Data Analysis 
     /// Based on the L1–Norm and Related Methods, edited by Y. Dodge, North-Holland, 405–416.
-    /// </para>
-    /// <para>
-    ///   This is the specialized, non-generic version of the k-Medoids algorithm
-    ///   that is set to work on <see cref="T:System.Int32"/> arrays.
+    /// [2] T. Hastie, R. Tibshirani, and J.Friedman.The Elements of Statistical Learning, Springer (2001), 468–469.
+    /// [3] H.S.Park , C.H.Jun, A simple and fast algorithm for K-medoids clustering, Expert Systems with Applications,
+    /// 36, (2) (2009), 3336–3341.
     /// </para>
     /// </remarks>
     /// 
-    /// <seealso cref="PartitioningAroundMedoids{T}"/>
+    /// <seealso cref="VoronoiIteration{T}"/>
     /// 
     [Serializable]
-    public class PartitioningAroundMedoids : PartitioningAroundMedoids<int>
+    public class VoronoiIteration : VoronoiIteration<int>
     {
         /// <summary>
         ///   Initializes a new instance of k-Medoids algorithm
@@ -461,7 +506,7 @@ namespace Accord.MachineLearning
         /// 
         /// <param name="k">The number of clusters to divide input data.</param>    
         /// 
-        public PartitioningAroundMedoids(int k)
+        public VoronoiIteration(int k)
             : base(k, new Accord.Math.Distances.Manhattan())
         {
         }

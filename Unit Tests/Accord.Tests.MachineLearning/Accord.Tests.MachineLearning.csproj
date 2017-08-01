@@ -74,6 +74,7 @@
       <Link>VectorMachines\Liblinear\Train.cs</Link>
     </Compile>
     <Compile Include="Clustering\KMedoidsPAMTest.cs" />
+    <Compile Include="Clustering\KMedoidsVITest.cs" />
     <Compile Include="DecisionTrees\DecisionTreeWriterTest.cs" />
     <Compile Include="POSTest.cs" />
     <Compile Include="TFIDFTest.cs" />

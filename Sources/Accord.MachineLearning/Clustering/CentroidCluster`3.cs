@@ -2,8 +2,8 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2017
-// cesarsouza at gmail.com
+// Copyright © César Souza <cesarsouza at gmail.com>
+// and other contributors, 2009-2017.
 //
 //    This library is free software; you can redistribute it and/or
 //    modify it under the terms of the GNU Lesser General Public

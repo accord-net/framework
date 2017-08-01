@@ -59,6 +59,7 @@
     <Compile Include="Clustering\KMeans\BalancedKMeans.cs" />
     <Compile Include="Clustering\KMedoids\KMedoidsCluster.cs" />
     <Compile Include="Clustering\KMedoids\PartitioningAroundMedoids.cs" />
+    <Compile Include="Clustering\KMedoids\VoronoiIteration.cs" />
     <Compile Include="DecisionTrees\DecisionTreeHelper.cs" />
     <Compile Include="BaseKNearestNeighbors`2.cs" />
     <Compile Include="Performance\GridSearch\New\GridSearchRange.cs" />
