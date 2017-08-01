@@ -33,11 +33,11 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'net462|AnyCPU' ">
     <DefineConstants>TRACE;NET462</DefineConstants>
-	<TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'mono|AnyCPU'">
     <DefineConstants>TRACE;MONO</DefineConstants>
-<TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
@@ -86,13 +86,13 @@
     </None>
     <None Include="Matrix.Elementwise2.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Matrix.Elementwise2.txt</LastGenOutput>
       <LastOutputs>
 .\Matrix.Add.Generated.cs
 .\Matrix.Divide.Generated.cs
 .\Matrix.Multiply.Generated.cs
 .\Matrix.Subtract.Generated.cs
 </LastOutputs>
-      <LastGenOutput>Matrix.Elementwise2.txt</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>
