@@ -63,6 +63,7 @@ namespace Accord.MachineLearning
     /// 
     /// <seealso cref="Accord.MachineLearning.VectorMachines.Learning.MultilabelSupportVectorLearning"/>
     ///
+    [Serializable]
     public abstract class OneVsRestLearning<TInput, TBinary, TModel> :
         ParallelLearningBase,
         ISupervisedLearning<TModel, TInput, int>,
@@ -71,6 +72,8 @@ namespace Accord.MachineLearning
         where TBinary : IBinaryScoreClassifier<TInput>
         where TModel : OneVsRest<TBinary, TInput>
     {
+        private Func<InnerParameters<TBinary, TInput>, ISupervisedLearning<TBinary, TInput, bool>> learner;
+        private Dictionary<ClassPair, ISupervisedLearning<TBinary, TInput, bool>> teachers;
 
         /// <summary>
         ///   Gets or sets the model being learned.
@@ -84,7 +87,15 @@ namespace Accord.MachineLearning
         ///   needed by the one-vs-rest classification strategy.
         /// </summary>
         /// 
-        public Func<InnerParameters<TBinary, TInput>, ISupervisedLearning<TBinary, TInput, bool>> Learner { get; set; }
+        public Func<InnerParameters<TBinary, TInput>, ISupervisedLearning<TBinary, TInput, bool>> Learner
+        {
+            get { return learner; }
+            set
+            {
+                learner = value;
+                teachers = null; // reset the teaching algorithm cache
+            }
+        }
 
 
         /// <summary>
@@ -188,9 +199,13 @@ namespace Accord.MachineLearning
                 int numberOfInputs = SupportVectorLearningHelper.GetNumberOfInputs(new Linear(), x);
                 int numberOfClasses = y.Columns();
                 Model = Create(numberOfInputs, numberOfClasses);
+                teachers = null;
             }
 
-            int total = Model.NumberOfOutputs;
+            if (teachers == null)
+                teachers = new Dictionary<ClassPair, ISupervisedLearning<TBinary, TInput, bool>>();
+
+            int total = Model.NumberOfClasses;
             int progress = 0;
 
             // Save exceptions but process all machines
@@ -219,40 +234,48 @@ namespace Accord.MachineLearning
             return Model;
         }
 
-        private void TrainBinaryMachine(TInput[] x, bool[][] y, double[] weights, int i, int total, ref int progress, ConcurrentBag<Exception> exceptions)
+        private void TrainBinaryMachine(TInput[] x, bool[][] y, double[] weights, int k, int total, ref int progress, ConcurrentBag<Exception> exceptions)
         {
             if (ParallelOptions.CancellationToken.IsCancellationRequested)
                 return;
 
             // We will start the binary sub-problem
-            var args = new SubproblemEventArgs(i, -i);
-            args.Maximum = total;
+            var pair = new ClassPair(k, -k);
+            var args = new SubproblemEventArgs(k, -k)
+            {
+                Maximum = total
+            };
             OnSubproblemStarted(args);
+            
 
             // Retrieve the associated machine
-            TBinary model = Model.Models[i];
+            TBinary model = Model.Models[k];
 
             // Extract outputs for the given label
-            bool[] suby = y.GetColumn(i);
+            bool[] suby = y.GetColumn(k);
 
             // Train the machine on the two-class problem.
             try
             {
-                // Configure the machine on the two-class problem.
-                var subproblem = Learner(new InnerParameters<TBinary, TInput>(
-                    inputs: x,
-                    outputs: suby,
-                    pair: new ClassPair(i, -i),
-                    model: model
-                ));
+                // Configure the machine on the two-class problem. Check if the learner
+                // for this machine has already been created before, and re-use it if it
+                // was the case. This is necessary to support mini-batch/online learning.
 
-                if (subproblem != null)
+                ISupervisedLearning<TBinary, TInput, bool> subproblemTeacher;
+                if (!teachers.TryGetValue(pair, out subproblemTeacher))
+                {
+                    var p = new InnerParameters<TBinary, TInput>(inputs: x, outputs: suby, pair: pair, model: model);
+                    subproblemTeacher = Learner(p);
+                    teachers[pair] = subproblemTeacher;
+                }
+
+                if (subproblemTeacher != null)
                 {
                     // TODO: This check only exists to provide support to previous way of 
                     // using the library and should be removed after a few releases. In the
                     // current way (without using any Obsolete methods), subproblem should never be null.
-                    subproblem.Token = ParallelOptions.CancellationToken;
-                    Model[i] = subproblem.Learn(x, suby, weights);
+                    subproblemTeacher.Token = ParallelOptions.CancellationToken;
+                    Model[k] = subproblemTeacher.Learn(x, suby, weights);
                 }
             }
             catch (Exception ex)

@@ -32,7 +32,7 @@ namespace Accord.Statistics.Kernels
     /// 
     [Serializable]
     public struct Polynomial : IKernel, IDistance,
-        IReverseDistance, ICloneable, ITransform, 
+        IReverseDistance, ICloneable, ITransform,
         IKernel<Sparse<double>>, IDistance<Sparse<double>>
     {
         private int degree;
@@ -307,5 +307,6 @@ namespace Accord.Statistics.Kernels
 
             return features;
         }
-    } 
+
+    }
 }

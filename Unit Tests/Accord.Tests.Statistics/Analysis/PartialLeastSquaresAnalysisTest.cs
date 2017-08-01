@@ -500,7 +500,7 @@ namespace Accord.Tests.Statistics
             // Test X
             double[,] t = target.Predictors.Result;
             double[,] p = target.Predictors.FactorMatrix.ToMatrix();
-            double[,] tp = t.Multiply(p.Transpose());
+            double[,] tp = t.Dot(p.Transpose());
             for (int i = 0; i < tp.GetLength(0); i++)
                 for (int j = 0; j < tp.GetLength(1); j++)
                     tp[i, j] = tp[i, j] * xstdd[j] + xmean[j];
@@ -511,7 +511,7 @@ namespace Accord.Tests.Statistics
             double[] ystdd = target.Dependents.StandardDeviations;
             double[,] u = target.Dependents.Result;
             double[,] q = target.Dependents.FactorMatrix.ToMatrix();
-            double[,] uq = u.Multiply(q.Transpose());
+            double[,] uq = u.Dot(q.Transpose());
             for (int i = 0; i < uq.GetLength(0); i++)
             {
                 for (int j = 0; j < uq.GetLength(1); j++)
@@ -854,7 +854,7 @@ namespace Accord.Tests.Statistics
             // Test X
             double[,] t = target.Predictors.Result;
             double[,] p = target.Predictors.FactorMatrix.ToMatrix();
-            double[,] tp = t.Multiply(p.Transpose());
+            double[,] tp = t.Dot(p.Transpose());
             for (int i = 0; i < tp.GetLength(0); i++)
                 for (int j = 0; j < tp.GetLength(1); j++)
                     tp[i, j] = tp[i, j] * xstdd[j] + xmean[j];
@@ -865,7 +865,7 @@ namespace Accord.Tests.Statistics
             double[] ystdd = target.Dependents.StandardDeviations;
             double[,] u = target.Dependents.Result;
             double[,] q = target.Dependents.FactorMatrix.ToMatrix();
-            double[,] uq = u.Multiply(q.Transpose());
+            double[,] uq = u.Dot(q.Transpose());
             for (int i = 0; i < uq.GetLength(0); i++)
                 for (int j = 0; j < uq.GetLength(1); j++)
                     uq[i, j] = uq[i, j] * ystdd[j] + ymean[j];

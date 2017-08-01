@@ -49,6 +49,12 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// <see cref="LinearNewtonMethod"/>
     /// <see cref="LinearDualCoordinateDescent"/>
     /// 
+    /// <example>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\AveragedStochasticGradientDescentTest.cs" region="doc_learn_multiclass" />
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\AveragedStochasticGradientDescentTest.cs" region="doc_learn_multilabel" />
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\AveragedStochasticGradientDescentTest.cs" region="doc_learn_nonlinear" />
+    /// </example>
+    /// 
     public sealed class AveragedStochasticGradientDescent :
         BaseAveragedStochasticGradientDescent<
             SupportVectorMachine, Linear, double[], HingeLoss>
@@ -82,6 +88,12 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// <see cref="SequentialMinimalOptimization"/>
     /// <see cref="LinearNewtonMethod"/>
     /// <see cref="LinearDualCoordinateDescent"/>
+    /// 
+    /// <example>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\AveragedStochasticGradientDescentTest.cs" region="doc_learn_multiclass" />
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\AveragedStochasticGradientDescentTest.cs" region="doc_learn_multilabel" />
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\AveragedStochasticGradientDescentTest.cs" region="doc_learn_nonlinear" />
+    /// </example>
     /// 
     public sealed class AveragedStochasticGradientDescent<TKernel> :
         BaseAveragedStochasticGradientDescent<
@@ -130,6 +142,13 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         /// of this abstract class must define this method so new models
         /// can be created from the training data.
         /// </summary>
+        /// 
+        /// <example>
+        ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\AveragedStochasticGradientDescentTest.cs" region="doc_learn_multiclass" />
+        ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\AveragedStochasticGradientDescentTest.cs" region="doc_learn_multilabel" />
+        ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\AveragedStochasticGradientDescentTest.cs" region="doc_learn_nonlinear" />
+        /// </example>
+        /// 
         protected override SupportVectorMachine<TKernel, TInput> Create(int inputs, TKernel kernel)
         {
             return new SupportVectorMachine<TKernel, TInput>(inputs, kernel);
@@ -155,6 +174,12 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// <see cref="SequentialMinimalOptimization"/>
     /// <see cref="LinearNewtonMethod"/>
     /// <see cref="LinearDualCoordinateDescent"/>
+    /// 
+    /// <example>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\AveragedStochasticGradientDescentTest.cs" region="doc_learn_multiclass" />
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\AveragedStochasticGradientDescentTest.cs" region="doc_learn_multilabel" />
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\AveragedStochasticGradientDescentTest.cs" region="doc_learn_nonlinear" />
+    /// </example>
     /// 
     public sealed class AveragedStochasticGradientDescent<TKernel, TInput, TLoss> :
         BaseAveragedStochasticGradientDescent<
@@ -255,7 +280,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
         /// <summary>
         ///   Gets or sets the loss function to be used. 
-        ///   Default is to use the <see cref="HingeLoss"/>.
+        ///   Default is to use the <see cref="LogisticLoss"/>.
         /// </summary>
         /// 
         public TLoss Loss

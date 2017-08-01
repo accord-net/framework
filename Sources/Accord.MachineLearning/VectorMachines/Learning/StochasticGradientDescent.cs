@@ -47,6 +47,11 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// <see cref="LinearNewtonMethod"/>
     /// <see cref="LinearDualCoordinateDescent"/>
     /// 
+    /// <example>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\StochasticGradientDescentTest.cs" region="doc_learn_multiclass" />
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\StochasticGradientDescentTest.cs" region="doc_learn_multilabel" />
+    /// </example>
+    /// 
     public class StochasticGradientDescent :
         BaseStochasticGradientDescent<SupportVectorMachine, Linear, double[], LogisticLoss>
     {
@@ -79,6 +84,11 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// <see cref="SequentialMinimalOptimization"/>
     /// <see cref="LinearNewtonMethod"/>
     /// <see cref="LinearDualCoordinateDescent"/>
+    /// 
+    /// <example>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\StochasticGradientDescentTest.cs" region="doc_learn_multiclass" />
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\StochasticGradientDescentTest.cs" region="doc_learn_multilabel" />
+    /// </example>
     /// 
     public class StochasticGradientDescent<TKernel> :
         BaseStochasticGradientDescent<SupportVectorMachine<TKernel>, TKernel, double[], LogisticLoss>
@@ -114,6 +124,11 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// <see cref="LinearNewtonMethod"/>
     /// <see cref="LinearDualCoordinateDescent"/>
     /// 
+    /// <example>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\StochasticGradientDescentTest.cs" region="doc_learn_multiclass" />
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\StochasticGradientDescentTest.cs" region="doc_learn_multilabel" />
+    /// </example>
+    /// 
     public class StochasticGradientDescent<TKernel, TInput> :
         BaseStochasticGradientDescent<SupportVectorMachine<TKernel, TInput>, TKernel, TInput, LogisticLoss>
         where TKernel : struct, ILinear<TInput>
@@ -137,6 +152,48 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         protected override BaseStochasticGradientDescent<SupportVectorMachine<TKernel, TInput>, TKernel, TInput, LogisticLoss> InnerClone()
         {
             return new StochasticGradientDescent<TKernel, TInput>();
+        }
+    }
+
+
+    /// <summary>
+    ///   Stochastic Gradient Descent (SGD) for training linear support vector machines.
+    /// </summary>
+    /// 
+    /// <see cref="AveragedStochasticGradientDescent"/>
+    /// <see cref="SequentialMinimalOptimization"/>
+    /// <see cref="LinearNewtonMethod"/>
+    /// <see cref="LinearDualCoordinateDescent"/>
+    /// 
+    /// <example>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\StochasticGradientDescentTest.cs" region="doc_learn_multiclass" />
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\StochasticGradientDescentTest.cs" region="doc_learn_multilabel" />
+    /// </example>
+    /// 
+    public class StochasticGradientDescent<TKernel, TInput, TLoss> :
+        BaseStochasticGradientDescent<SupportVectorMachine<TKernel, TInput>, TKernel, TInput, TLoss>
+        where TKernel : struct, ILinear<TInput>
+        where TInput : ICloneable, IList
+        where TLoss : struct, IDifferentiableLoss<bool, double, double>
+    {
+        /// <summary>
+        /// Creates an instance of the model to be learned. Inheritors
+        /// of this abstract class must define this method so new models
+        /// can be created from the training data.
+        /// </summary>
+        protected override SupportVectorMachine<TKernel, TInput> Create(int inputs, TKernel kernel)
+        {
+            return new SupportVectorMachine<TKernel, TInput>(inputs, kernel);
+        }
+
+        /// <summary>
+        /// Inheritors should implement this function to produce a new instance
+        /// with the same characteristics of the current object.
+        /// </summary>
+        /// 
+        protected override BaseStochasticGradientDescent<SupportVectorMachine<TKernel, TInput>, TKernel, TInput, TLoss> InnerClone()
+        {
+            return new StochasticGradientDescent<TKernel, TInput, TLoss>();
         }
     }
 
@@ -196,7 +253,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
         /// <summary>
         ///   Gets or sets the loss function to be used. 
-        ///   Default is to use the <see cref="HingeLoss"/>.
+        ///   Default is to use the <see cref="LogisticLoss"/>.
         /// </summary>
         /// 
         public TLoss Loss

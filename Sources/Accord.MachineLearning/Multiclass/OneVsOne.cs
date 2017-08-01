@@ -316,10 +316,20 @@ namespace Accord.MachineLearning
             {
                 if (Track)
                 {
-                    Parallel.For(0, input.Length - 1, options, i =>
+                    if (options.MaxDegreeOfParallelism == 1)
                     {
-                        result[i] = DecideByElimination(input[i]);
-                    });
+                        for (int i = 0; i < input.Length - 1; i++)
+                        {
+                            result[i] = DecideByElimination(input[i]);
+                        }
+                    }
+                    else
+                    {
+                        Parallel.For(0, input.Length - 1, options, i =>
+                        {
+                            result[i] = DecideByElimination(input[i]);
+                        });
+                    }
                     result[result.Length - 1] = DecideByElimination(input[input.Length - 1], this.lastDecisionPath.Value);
                 }
                 else

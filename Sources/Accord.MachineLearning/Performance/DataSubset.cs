@@ -77,7 +77,15 @@ namespace Accord.MachineLearning.Performance
         /// </summary>
         public DataSubset()
         {
+        }
 
+        public DataSubset(int subsetSize, int totalSize)
+        {
+            this.Index = 0;
+            this.Proportion = subsetSize / (double)totalSize;
+            this.Indices = new int[subsetSize];
+            this.Inputs = new TInput[subsetSize];
+            this.Weights = Vector.Ones(subsetSize);
         }
 
         /// <summary>
@@ -119,9 +127,19 @@ namespace Accord.MachineLearning.Performance
         /// <summary>
         /// Initializes a new instance of the <see cref="DataSubset{TInput, TOutput}"/> class.
         /// </summary>
+        /// 
         public DataSubset()
         {
+        }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DataSubset{TInput, TOutput}"/> class.
+        /// </summary>
+        /// 
+        public DataSubset(int subsetSize, int totalSize)
+            : base(subsetSize, totalSize)
+        {
+            this.Outputs = new TOutput[subsetSize];
         }
 
         /// <summary>

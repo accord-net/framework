@@ -128,8 +128,8 @@ namespace Accord.Tests.Math
 
             var target = new SingularValueDecomposition(value, true, true, false);
 
-            double[,] actual = target.LeftSingularVectors.Multiply(
-                target.DiagonalMatrix).Multiply(target.RightSingularVectors.Transpose());
+            double[,] actual = target.LeftSingularVectors.Dot(
+                target.DiagonalMatrix).Dot(target.RightSingularVectors.Transpose());
 
             // Checking the decomposition
             Assert.IsTrue(Matrix.IsEqual(actual, value, 1e-2));

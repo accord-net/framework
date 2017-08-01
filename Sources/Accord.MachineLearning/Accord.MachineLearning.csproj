@@ -59,6 +59,8 @@
     <Compile Include="Clustering\KMeans\BalancedKMeans.cs" />
     <Compile Include="DecisionTrees\DecisionTreeHelper.cs" />
     <Compile Include="BaseKNearestNeighbors`2.cs" />
+    <Compile Include="MiniBatches.cs" />
+    <Compile Include="Performance\DataSubset.cs" />
     <Compile Include="Performance\GridSearch\New\GridSearchRange.cs" />
     <Compile Include="Performance\GridSearch\New\GridSearch`2.cs" />
     <Compile Include="Performance\GridSearch\New\GridSearch`3.cs" />
@@ -81,7 +83,6 @@
     <Compile Include="Performance\SplitResult.cs" />
     <Compile Include="Performance\CrossValidation\New\CrossValidation`2.cs" />
     <Compile Include="Performance\CrossValidation\New\CrossValidation`3.cs" />
-    <Compile Include="Performance\Data Splits\DataSubset.cs" />
     <Compile Include="Performance\SplitSet\New\SplitSetValidation`2.cs" />
     <Compile Include="Performance\SplitSet\New\SplitSetValidation`3.cs" />
     <Compile Include="Performance\Data Splits\TrainValDataSplit.cs" />
