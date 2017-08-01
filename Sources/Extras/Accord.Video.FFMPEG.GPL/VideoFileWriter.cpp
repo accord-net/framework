@@ -32,7 +32,7 @@
 #include <string>
 
 #if !NET35
-    #include <msclr\marshal_cppstd.h>
+#include <msclr\marshal_cppstd.h>
 #endif
 
 #define MAX_AUDIO_PACKET_SIZE (128 * 1024)
@@ -466,8 +466,14 @@ namespace Accord {
                     // open output file
                     if (!(outputFormat->flags & AVFMT_NOFILE))
                     {
-                        if (libffmpeg::avio_open(&data->FormatContext->pb, nativeFileName, AVIO_FLAG_WRITE) < 0)
-                            throw gcnew System::IO::IOException("Cannot open the video file.");
+                        int err = libffmpeg::avio_open(&data->FormatContext->pb, nativeFileName, AVIO_FLAG_WRITE);
+                        
+                        if (err < 0)
+                        {
+                            System::String^ msg = GetErrorMessage(err, fileName);
+                            throw gcnew System::IO::IOException("Cannot open the video file. Error code: " + err +
+                                ". Message: " + msg + " when trying to access: " + fileName);
+                        }
                     }
 
                     libffmpeg::avformat_write_header(data->FormatContext, nullptr);
@@ -478,6 +484,14 @@ namespace Accord {
                     if (!success)
                         Close();
                 }
+            }
+
+            System::String^ VideoFileWriter::GetErrorMessage(int err, System::String ^ fileName)
+            {
+                char buff[AV_ERROR_MAX_STRING_SIZE];
+                libffmpeg::av_make_error_string(&buff[0], AV_ERROR_MAX_STRING_SIZE, err);
+                System::String^ msg = System::Runtime::InteropServices::Marshal::PtrToStringAnsi((IntPtr)&buff[0]);
+                return msg;
             }
 
             // Close current video file

@@ -438,6 +438,9 @@ namespace Accord {
                 /// </summary>
                 /// 
                 void Close();
+
+            private:
+                System::String^ GetErrorMessage(int err, System::String ^ fileName);
             };
         }
     }
