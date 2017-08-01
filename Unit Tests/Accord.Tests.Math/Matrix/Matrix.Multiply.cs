@@ -35,7 +35,7 @@ namespace Accord.Tests.Math
         public void TransposeAndMultiplyByDiagonalTest()
         {
             double[,] a =
-            { 
+            {
                 { 3, 1, 0 },
                 { 5, 2, 1 }
             };
@@ -52,20 +52,20 @@ namespace Accord.Tests.Math
         public void MultiplyTwoMatrices()
         {
             double[,] a = new double[,]
-            { 
+            {
               { 3.000, 1.000, 0.000 },
               { 5.000, 2.000, 1.000}
             };
 
             double[,] b = new double[,]
-            { 
+            {
               { 2.000, 4.000 },
               { 4.000, 6.000 },
               { 1.000, 9.000 }
             };
 
             double[,] expected = new double[,]
-            { 
+            {
               { 10.000, 18.000 },
               { 19.000, 41.000 }
             };
@@ -79,21 +79,21 @@ namespace Accord.Tests.Math
         [Test]
         public void MultiplyTwoMatrices2()
         {
-            float[,] a = 
-            { 
+            float[,] a =
+            {
               { 3.000f, 1.000f, 0.000f },
               { 5.000f, 2.000f, 1.000f}
             };
 
-            float[,] b = 
-            { 
+            float[,] b =
+            {
               { 2.000f, 4.000f },
               { 4.000f, 6.000f },
               { 1.000f, 9.000f }
             };
 
             float[,] expected =
-            { 
+            {
               { 10.000f, 18.000f },
               { 19.000f, 41.000f }
             };
@@ -107,20 +107,20 @@ namespace Accord.Tests.Math
         public void MultiplyTwoMatrices3()
         {
             double[][] a = new double[,]
-            { 
+            {
               { 3.000, 1.000, 0.000 },
               { 5.000, 2.000, 1.000 }
             }.ToJagged();
 
             double[][] b = new double[,]
-            { 
+            {
               { 2.000, 4.000 },
               { 4.000, 6.000 },
               { 1.000, 9.000 }
             }.ToJagged();
 
             double[][] expected = new double[,]
-            { 
+            {
               { 10.000, 18.000 },
               { 19.000, 41.000 }
             }.ToJagged();
@@ -134,8 +134,8 @@ namespace Accord.Tests.Math
         public void MultiplyVectorMatrixTest()
         {
             double[] a = { 1.000, 2.000, 3.000 };
-            double[,] b = 
-            { 
+            double[,] b =
+            {
                 { 2.000, 1.000, 5.000, 2.000 },
                 { 2.000, 1.000, 2.000, 2.000 },
                 { 1.000, 1.000, 1.000, 1.000 },
@@ -150,7 +150,7 @@ namespace Accord.Tests.Math
         [Test]
         public void MultiplyMatrixVectorTest()
         {
-            double[,] a = 
+            double[,] a =
             {
                 { 4, 5, 1 },
                 { 5, 5, 5 },
@@ -168,13 +168,13 @@ namespace Accord.Tests.Math
         [Test]
         public void MultiplyByDiagonalTest()
         {
-            double[,] A = 
+            double[,] A =
             {
                 { 4, 1, 2 },
                 { 5, 6, 5 },
             };
 
-            double[,] B = 
+            double[,] B =
             {
                 { 1, 0, 0 },
                 { 0, 2, 0 },
@@ -277,6 +277,30 @@ namespace Accord.Tests.Math
             Assert.IsTrue(expected.IsEqual(actual));
         }
 
+        [Test]
+        public void DotAndDotTest()
+        {
+            for (int a = 1; a < 10; a++)
+            {
+                for (int b = 1; b < 10; b++)
+                {
+                    for (int i = 0; i < 10; i++)
+                    {
+                        double[] A = Vector.Random(a);
+                        double[,] C = Matrix.Random(a, b);
+                        double[] B = Vector.Random(b);
 
+                        double result1 = A.Dot(C).Dot(B);
+                        double result2 = A.DotAndDot(C, B);
+                        Assert.AreEqual(result1, result2, 1e-10);
+
+                        double result3 = A.Dot(C.ToJagged()).Dot(B);
+                        double result4 = A.DotAndDot(C.ToJagged(), B);
+                        Assert.AreEqual(result1, result3, 1e-10);
+                        Assert.AreEqual(result3, result4, 1e-10);
+                    }
+                }
+            }
+        }
     }
 }

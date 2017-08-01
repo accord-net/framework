@@ -59,7 +59,7 @@ namespace Accord.Tests.Statistics
             };
 
             // mix the source data
-            double[,] input = source.Multiply(mix);
+            double[,] input = source.Dot(mix);
 
             // Now, we can use ICA to identify any linear mixing between the variables, such
             // as the matrix multiplication we did above. After it has identified it, we will
@@ -119,7 +119,7 @@ namespace Accord.Tests.Statistics
             };
 
             // mix the source data
-            double[][] input = source.Multiply(mix);
+            double[][] input = source.Dot(mix);
 
             // Now, we can use ICA to identify any linear mixing between the variables, such
             // as the matrix multiplication we did above. After it has identified it, we will
@@ -192,7 +192,7 @@ namespace Accord.Tests.Statistics
             };
 
             // mix the source data
-            double[,] input = source.Multiply(mix);
+            double[,] input = source.Dot(mix);
 
             // Now, we can use ICA to identify any linear mixing between the variables, such
             // as the matrix multiplication we did above. After it has identified it, we will
@@ -249,7 +249,7 @@ namespace Accord.Tests.Statistics
 
             A = A.Divide(Norm.Norm1(A));
 
-            double[,] X = S.Multiply(A);
+            double[,] X = S.Dot(A);
 
             IndependentComponentAnalysis ica = new IndependentComponentAnalysis(X, IndependentComponentAlgorithm.Deflation);
 
@@ -325,7 +325,7 @@ namespace Accord.Tests.Statistics
                 { -0.25, 0.75 },    
             };
 
-            double[,] X = S.Multiply(A);
+            double[,] X = S.Dot(A);
 
             var ica = new IndependentComponentAnalysis(X);
 
@@ -384,7 +384,7 @@ namespace Accord.Tests.Statistics
                 { -0.25, 0.75 },    
             };
 
-            double[,] X = S.Multiply(A);
+            double[,] X = S.Dot(A);
 
             var ica = new IndependentComponentAnalysis(X);
 
@@ -411,7 +411,7 @@ namespace Accord.Tests.Statistics
                 { -0.25, 0.75 },    
             };
 
-            double[,] input = source.Multiply(mix);
+            double[,] input = source.Dot(mix);
 
             var ica = new IndependentComponentAnalysis(input);
 

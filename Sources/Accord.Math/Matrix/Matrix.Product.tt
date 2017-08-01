@@ -811,7 +811,7 @@ namespace Accord.Math
         /// </summary>
         /// 
         /// <param name="rowVector">The left vector <c>a</c>.</param>
-        /// <param name="b">The square matrix <c>B</c>.</param>
+        /// <param name="matrix">The square matrix <c>B</c>.</param>
         /// <param name="columnVector">The column vector <c>c</c>.</param>
         ///
         /// <returns>The product <c>a*B*c</c> of the given vector <c>a</c>,
@@ -820,17 +820,23 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static <#=c#> DotAndDot(this <#=a#>[] rowVector, <#=b#>[][] b, <#=c#>[] columnVector)
+        public static <#=t#> DotAndDot(this <#=a#>[] rowVector, <#=b#>[][] matrix, <#=c#>[] columnVector)
         {
 #if DEBUG
-            if (rowVector.Length != b.Rows() || b.Columns() != columnVector.Length)
+            if (rowVector.Length != matrix.Rows() || matrix.Columns() != columnVector.Length)
                 throw new DimensionMismatchException();
 #endif
-            var ab = rowVector.Dot(b);
-            <#=t#> result = (<#=t#>)0;
-            for (int i = 0; i < ab.Length; i++)
-                result += (<#=t#>)((<#=t#>)ab[i] * (<#=t#>)columnVector[i]);
-            return (<#=c#>)result;
+            <#=t#> sum = 0;
+            
+            for (int i = 0; i < rowVector.Length; i++)
+            {
+                <#=t#> s = 0;
+                for (int j = 0; j < columnVector.Length; j++)
+                    s += (<#=t#>)((<#=t#>)matrix[i][j] * (<#=t#>)columnVector[j]);
+                sum += (<#=t#>)((<#=t#>)rowVector[i] * (<#=t#>)s);
+            }
+
+            return sum;
         }
 
         /// <summary>
@@ -839,7 +845,7 @@ namespace Accord.Math
         /// </summary>
         /// 
         /// <param name="rowVector">The left vector <c>a</c>.</param>
-        /// <param name="b">The square matrix <c>B</c>.</param>
+        /// <param name="matrix">The square matrix <c>B</c>.</param>
         /// <param name="columnVector">The column vector <c>c</c>.</param>
         ///
         /// <returns>The product <c>a*B*c</c> of the given vector <c>a</c>,
@@ -848,20 +854,24 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static <#=c#> DotAndDot(this <#=a#>[] rowVector, <#=b#>[,] b, <#=c#>[] columnVector)
+        public static <#=t#> DotAndDot(this <#=a#>[] rowVector, <#=b#>[,] matrix, <#=c#>[] columnVector)
         {
 #if DEBUG
-            if (rowVector.Length != b.Rows() || b.Columns() != columnVector.Length)
+            if (rowVector.Length != matrix.Rows() || matrix.Columns() != columnVector.Length)
                 throw new DimensionMismatchException();
 #endif
-            var ab = rowVector.Dot(b);
-            <#=t#> result = (<#=t#>)0;
-            for (int i = 0; i < ab.Length; i++)
-                result += (<#=t#>)((<#=t#>)ab[i] * (<#=t#>)columnVector[i]);
-            return (<#=c#>)result;      
+            <#=t#> sum = 0;
+            
+            for (int i = 0; i < rowVector.Length; i++)
+            {
+                <#=t#> s = (<#=t#>)0;
+                for (int j = 0; j < columnVector.Length; j++)
+                    s += (<#=t#>)((<#=t#>)matrix[i, j] * (<#=t#>)columnVector[j]);
+                sum += (<#=t#>)((<#=t#>)rowVector[i] * (<#=t#>)s);
+            }
+
+            return sum;     
         }
-
-
 <#
             }
         }

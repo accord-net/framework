@@ -91,7 +91,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[] Divide(int[] a, int[] b)
+        public static double[] Divide(this int[] a, int[] b)
         {
             return Divide(a, b, new double[a.Length]);
         }     
@@ -106,7 +106,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(int[][] a, int[][] b)
+        public static double[][] Divide(this int[][] a, int[][] b)
         {
             return Divide(a, b, JaggedCreateAs<int, double>(a));
         }     
@@ -121,7 +121,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(int[,] a, int[,] b)
+        public static double[,] Divide(this int[,] a, int[,] b)
         {
             return Divide(a, b, MatrixCreateAs<int, double>(a));
         }     
@@ -136,7 +136,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(int[][] a, int[,] b)
+        public static double[][] Divide(this int[][] a, int[,] b)
         {
             return Divide(a, b, JaggedCreateAs<int, double>(a));
         }      
@@ -401,7 +401,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[] Divide(int[] a, float[] b)
+        public static float[] Divide(this int[] a, float[] b)
         {
             return Divide(a, b, new float[a.Length]);
         }     
@@ -416,7 +416,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Divide(int[][] a, float[][] b)
+        public static float[][] Divide(this int[][] a, float[][] b)
         {
             return Divide(a, b, JaggedCreateAs<int, float>(a));
         }     
@@ -431,7 +431,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[,] Divide(int[,] a, float[,] b)
+        public static float[,] Divide(this int[,] a, float[,] b)
         {
             return Divide(a, b, MatrixCreateAs<int, float>(a));
         }     
@@ -446,7 +446,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Divide(int[][] a, float[,] b)
+        public static float[][] Divide(this int[][] a, float[,] b)
         {
             return Divide(a, b, JaggedCreateAs<int, float>(a));
         }      
@@ -711,7 +711,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[] Divide(int[] a, double[] b)
+        public static double[] Divide(this int[] a, double[] b)
         {
             return Divide(a, b, new double[a.Length]);
         }     
@@ -726,7 +726,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(int[][] a, double[][] b)
+        public static double[][] Divide(this int[][] a, double[][] b)
         {
             return Divide(a, b, JaggedCreateAs<int, double>(a));
         }     
@@ -741,7 +741,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(int[,] a, double[,] b)
+        public static double[,] Divide(this int[,] a, double[,] b)
         {
             return Divide(a, b, MatrixCreateAs<int, double>(a));
         }     
@@ -756,7 +756,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(int[][] a, double[,] b)
+        public static double[][] Divide(this int[][] a, double[,] b)
         {
             return Divide(a, b, JaggedCreateAs<int, double>(a));
         }      
@@ -1021,7 +1021,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[] Divide(int[] a, byte[] b)
+        public static int[] Divide(this int[] a, byte[] b)
         {
             return Divide(a, b, new int[a.Length]);
         }     
@@ -1036,7 +1036,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Divide(int[][] a, byte[][] b)
+        public static int[][] Divide(this int[][] a, byte[][] b)
         {
             return Divide(a, b, JaggedCreateAs<int, int>(a));
         }     
@@ -1051,7 +1051,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[,] Divide(int[,] a, byte[,] b)
+        public static int[,] Divide(this int[,] a, byte[,] b)
         {
             return Divide(a, b, MatrixCreateAs<int, int>(a));
         }     
@@ -1066,7 +1066,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Divide(int[][] a, byte[,] b)
+        public static int[][] Divide(this int[][] a, byte[,] b)
         {
             return Divide(a, b, JaggedCreateAs<int, int>(a));
         }      
@@ -1331,7 +1331,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[] Divide(int[] a, decimal[] b)
+        public static int[] Divide(this int[] a, decimal[] b)
         {
             return Divide(a, b, new int[a.Length]);
         }     
@@ -1346,7 +1346,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Divide(int[][] a, decimal[][] b)
+        public static int[][] Divide(this int[][] a, decimal[][] b)
         {
             return Divide(a, b, JaggedCreateAs<int, int>(a));
         }     
@@ -1361,7 +1361,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[,] Divide(int[,] a, decimal[,] b)
+        public static int[,] Divide(this int[,] a, decimal[,] b)
         {
             return Divide(a, b, MatrixCreateAs<int, int>(a));
         }     
@@ -1376,7 +1376,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Divide(int[][] a, decimal[,] b)
+        public static int[][] Divide(this int[][] a, decimal[,] b)
         {
             return Divide(a, b, JaggedCreateAs<int, int>(a));
         }      
@@ -1641,7 +1641,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[] Divide(float[] a, int[] b)
+        public static float[] Divide(this float[] a, int[] b)
         {
             return Divide(a, b, new float[a.Length]);
         }     
@@ -1656,7 +1656,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Divide(float[][] a, int[][] b)
+        public static float[][] Divide(this float[][] a, int[][] b)
         {
             return Divide(a, b, JaggedCreateAs<float, float>(a));
         }     
@@ -1671,7 +1671,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[,] Divide(float[,] a, int[,] b)
+        public static float[,] Divide(this float[,] a, int[,] b)
         {
             return Divide(a, b, MatrixCreateAs<float, float>(a));
         }     
@@ -1686,7 +1686,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Divide(float[][] a, int[,] b)
+        public static float[][] Divide(this float[][] a, int[,] b)
         {
             return Divide(a, b, JaggedCreateAs<float, float>(a));
         }      
@@ -1951,7 +1951,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[] Divide(float[] a, float[] b)
+        public static float[] Divide(this float[] a, float[] b)
         {
             return Divide(a, b, new float[a.Length]);
         }     
@@ -1966,7 +1966,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Divide(float[][] a, float[][] b)
+        public static float[][] Divide(this float[][] a, float[][] b)
         {
             return Divide(a, b, JaggedCreateAs<float, float>(a));
         }     
@@ -1981,7 +1981,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[,] Divide(float[,] a, float[,] b)
+        public static float[,] Divide(this float[,] a, float[,] b)
         {
             return Divide(a, b, MatrixCreateAs<float, float>(a));
         }     
@@ -1996,7 +1996,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Divide(float[][] a, float[,] b)
+        public static float[][] Divide(this float[][] a, float[,] b)
         {
             return Divide(a, b, JaggedCreateAs<float, float>(a));
         }      
@@ -2261,7 +2261,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[] Divide(float[] a, double[] b)
+        public static double[] Divide(this float[] a, double[] b)
         {
             return Divide(a, b, new double[a.Length]);
         }     
@@ -2276,7 +2276,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(float[][] a, double[][] b)
+        public static double[][] Divide(this float[][] a, double[][] b)
         {
             return Divide(a, b, JaggedCreateAs<float, double>(a));
         }     
@@ -2291,7 +2291,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(float[,] a, double[,] b)
+        public static double[,] Divide(this float[,] a, double[,] b)
         {
             return Divide(a, b, MatrixCreateAs<float, double>(a));
         }     
@@ -2306,7 +2306,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(float[][] a, double[,] b)
+        public static double[][] Divide(this float[][] a, double[,] b)
         {
             return Divide(a, b, JaggedCreateAs<float, double>(a));
         }      
@@ -2571,7 +2571,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[] Divide(float[] a, byte[] b)
+        public static float[] Divide(this float[] a, byte[] b)
         {
             return Divide(a, b, new float[a.Length]);
         }     
@@ -2586,7 +2586,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Divide(float[][] a, byte[][] b)
+        public static float[][] Divide(this float[][] a, byte[][] b)
         {
             return Divide(a, b, JaggedCreateAs<float, float>(a));
         }     
@@ -2601,7 +2601,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[,] Divide(float[,] a, byte[,] b)
+        public static float[,] Divide(this float[,] a, byte[,] b)
         {
             return Divide(a, b, MatrixCreateAs<float, float>(a));
         }     
@@ -2616,7 +2616,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Divide(float[][] a, byte[,] b)
+        public static float[][] Divide(this float[][] a, byte[,] b)
         {
             return Divide(a, b, JaggedCreateAs<float, float>(a));
         }      
@@ -2881,7 +2881,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[] Divide(float[] a, decimal[] b)
+        public static float[] Divide(this float[] a, decimal[] b)
         {
             return Divide(a, b, new float[a.Length]);
         }     
@@ -2896,7 +2896,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Divide(float[][] a, decimal[][] b)
+        public static float[][] Divide(this float[][] a, decimal[][] b)
         {
             return Divide(a, b, JaggedCreateAs<float, float>(a));
         }     
@@ -2911,7 +2911,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[,] Divide(float[,] a, decimal[,] b)
+        public static float[,] Divide(this float[,] a, decimal[,] b)
         {
             return Divide(a, b, MatrixCreateAs<float, float>(a));
         }     
@@ -2926,7 +2926,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Divide(float[][] a, decimal[,] b)
+        public static float[][] Divide(this float[][] a, decimal[,] b)
         {
             return Divide(a, b, JaggedCreateAs<float, float>(a));
         }      
@@ -3191,7 +3191,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[] Divide(double[] a, int[] b)
+        public static double[] Divide(this double[] a, int[] b)
         {
             return Divide(a, b, new double[a.Length]);
         }     
@@ -3206,7 +3206,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(double[][] a, int[][] b)
+        public static double[][] Divide(this double[][] a, int[][] b)
         {
             return Divide(a, b, JaggedCreateAs<double, double>(a));
         }     
@@ -3221,7 +3221,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(double[,] a, int[,] b)
+        public static double[,] Divide(this double[,] a, int[,] b)
         {
             return Divide(a, b, MatrixCreateAs<double, double>(a));
         }     
@@ -3236,7 +3236,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(double[][] a, int[,] b)
+        public static double[][] Divide(this double[][] a, int[,] b)
         {
             return Divide(a, b, JaggedCreateAs<double, double>(a));
         }      
@@ -3501,7 +3501,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[] Divide(double[] a, float[] b)
+        public static double[] Divide(this double[] a, float[] b)
         {
             return Divide(a, b, new double[a.Length]);
         }     
@@ -3516,7 +3516,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(double[][] a, float[][] b)
+        public static double[][] Divide(this double[][] a, float[][] b)
         {
             return Divide(a, b, JaggedCreateAs<double, double>(a));
         }     
@@ -3531,7 +3531,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(double[,] a, float[,] b)
+        public static double[,] Divide(this double[,] a, float[,] b)
         {
             return Divide(a, b, MatrixCreateAs<double, double>(a));
         }     
@@ -3546,7 +3546,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(double[][] a, float[,] b)
+        public static double[][] Divide(this double[][] a, float[,] b)
         {
             return Divide(a, b, JaggedCreateAs<double, double>(a));
         }      
@@ -3811,7 +3811,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[] Divide(double[] a, double[] b)
+        public static double[] Divide(this double[] a, double[] b)
         {
             return Divide(a, b, new double[a.Length]);
         }     
@@ -3826,7 +3826,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(double[][] a, double[][] b)
+        public static double[][] Divide(this double[][] a, double[][] b)
         {
             return Divide(a, b, JaggedCreateAs<double, double>(a));
         }     
@@ -3841,7 +3841,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(double[,] a, double[,] b)
+        public static double[,] Divide(this double[,] a, double[,] b)
         {
             return Divide(a, b, MatrixCreateAs<double, double>(a));
         }     
@@ -3856,7 +3856,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(double[][] a, double[,] b)
+        public static double[][] Divide(this double[][] a, double[,] b)
         {
             return Divide(a, b, JaggedCreateAs<double, double>(a));
         }      
@@ -4121,7 +4121,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[] Divide(double[] a, byte[] b)
+        public static double[] Divide(this double[] a, byte[] b)
         {
             return Divide(a, b, new double[a.Length]);
         }     
@@ -4136,7 +4136,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(double[][] a, byte[][] b)
+        public static double[][] Divide(this double[][] a, byte[][] b)
         {
             return Divide(a, b, JaggedCreateAs<double, double>(a));
         }     
@@ -4151,7 +4151,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(double[,] a, byte[,] b)
+        public static double[,] Divide(this double[,] a, byte[,] b)
         {
             return Divide(a, b, MatrixCreateAs<double, double>(a));
         }     
@@ -4166,7 +4166,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(double[][] a, byte[,] b)
+        public static double[][] Divide(this double[][] a, byte[,] b)
         {
             return Divide(a, b, JaggedCreateAs<double, double>(a));
         }      
@@ -4431,7 +4431,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[] Divide(double[] a, decimal[] b)
+        public static double[] Divide(this double[] a, decimal[] b)
         {
             return Divide(a, b, new double[a.Length]);
         }     
@@ -4446,7 +4446,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(double[][] a, decimal[][] b)
+        public static double[][] Divide(this double[][] a, decimal[][] b)
         {
             return Divide(a, b, JaggedCreateAs<double, double>(a));
         }     
@@ -4461,7 +4461,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(double[,] a, decimal[,] b)
+        public static double[,] Divide(this double[,] a, decimal[,] b)
         {
             return Divide(a, b, MatrixCreateAs<double, double>(a));
         }     
@@ -4476,7 +4476,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(double[][] a, decimal[,] b)
+        public static double[][] Divide(this double[][] a, decimal[,] b)
         {
             return Divide(a, b, JaggedCreateAs<double, double>(a));
         }      
@@ -4741,7 +4741,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[] Divide(byte[] a, int[] b)
+        public static int[] Divide(this byte[] a, int[] b)
         {
             return Divide(a, b, new int[a.Length]);
         }     
@@ -4756,7 +4756,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Divide(byte[][] a, int[][] b)
+        public static int[][] Divide(this byte[][] a, int[][] b)
         {
             return Divide(a, b, JaggedCreateAs<byte, int>(a));
         }     
@@ -4771,7 +4771,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[,] Divide(byte[,] a, int[,] b)
+        public static int[,] Divide(this byte[,] a, int[,] b)
         {
             return Divide(a, b, MatrixCreateAs<byte, int>(a));
         }     
@@ -4786,7 +4786,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Divide(byte[][] a, int[,] b)
+        public static int[][] Divide(this byte[][] a, int[,] b)
         {
             return Divide(a, b, JaggedCreateAs<byte, int>(a));
         }      
@@ -5051,7 +5051,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[] Divide(byte[] a, float[] b)
+        public static float[] Divide(this byte[] a, float[] b)
         {
             return Divide(a, b, new float[a.Length]);
         }     
@@ -5066,7 +5066,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Divide(byte[][] a, float[][] b)
+        public static float[][] Divide(this byte[][] a, float[][] b)
         {
             return Divide(a, b, JaggedCreateAs<byte, float>(a));
         }     
@@ -5081,7 +5081,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[,] Divide(byte[,] a, float[,] b)
+        public static float[,] Divide(this byte[,] a, float[,] b)
         {
             return Divide(a, b, MatrixCreateAs<byte, float>(a));
         }     
@@ -5096,7 +5096,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Divide(byte[][] a, float[,] b)
+        public static float[][] Divide(this byte[][] a, float[,] b)
         {
             return Divide(a, b, JaggedCreateAs<byte, float>(a));
         }      
@@ -5361,7 +5361,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[] Divide(byte[] a, double[] b)
+        public static double[] Divide(this byte[] a, double[] b)
         {
             return Divide(a, b, new double[a.Length]);
         }     
@@ -5376,7 +5376,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(byte[][] a, double[][] b)
+        public static double[][] Divide(this byte[][] a, double[][] b)
         {
             return Divide(a, b, JaggedCreateAs<byte, double>(a));
         }     
@@ -5391,7 +5391,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(byte[,] a, double[,] b)
+        public static double[,] Divide(this byte[,] a, double[,] b)
         {
             return Divide(a, b, MatrixCreateAs<byte, double>(a));
         }     
@@ -5406,7 +5406,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(byte[][] a, double[,] b)
+        public static double[][] Divide(this byte[][] a, double[,] b)
         {
             return Divide(a, b, JaggedCreateAs<byte, double>(a));
         }      
@@ -5671,7 +5671,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[] Divide(byte[] a, byte[] b)
+        public static byte[] Divide(this byte[] a, byte[] b)
         {
             return Divide(a, b, new byte[a.Length]);
         }     
@@ -5686,7 +5686,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[][] Divide(byte[][] a, byte[][] b)
+        public static byte[][] Divide(this byte[][] a, byte[][] b)
         {
             return Divide(a, b, JaggedCreateAs<byte, byte>(a));
         }     
@@ -5701,7 +5701,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[,] Divide(byte[,] a, byte[,] b)
+        public static byte[,] Divide(this byte[,] a, byte[,] b)
         {
             return Divide(a, b, MatrixCreateAs<byte, byte>(a));
         }     
@@ -5716,7 +5716,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[][] Divide(byte[][] a, byte[,] b)
+        public static byte[][] Divide(this byte[][] a, byte[,] b)
         {
             return Divide(a, b, JaggedCreateAs<byte, byte>(a));
         }      
@@ -5981,7 +5981,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[] Divide(decimal[] a, int[] b)
+        public static int[] Divide(this decimal[] a, int[] b)
         {
             return Divide(a, b, new int[a.Length]);
         }     
@@ -5996,7 +5996,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Divide(decimal[][] a, int[][] b)
+        public static int[][] Divide(this decimal[][] a, int[][] b)
         {
             return Divide(a, b, JaggedCreateAs<decimal, int>(a));
         }     
@@ -6011,7 +6011,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[,] Divide(decimal[,] a, int[,] b)
+        public static int[,] Divide(this decimal[,] a, int[,] b)
         {
             return Divide(a, b, MatrixCreateAs<decimal, int>(a));
         }     
@@ -6026,7 +6026,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Divide(decimal[][] a, int[,] b)
+        public static int[][] Divide(this decimal[][] a, int[,] b)
         {
             return Divide(a, b, JaggedCreateAs<decimal, int>(a));
         }      
@@ -6291,7 +6291,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[] Divide(decimal[] a, float[] b)
+        public static float[] Divide(this decimal[] a, float[] b)
         {
             return Divide(a, b, new float[a.Length]);
         }     
@@ -6306,7 +6306,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Divide(decimal[][] a, float[][] b)
+        public static float[][] Divide(this decimal[][] a, float[][] b)
         {
             return Divide(a, b, JaggedCreateAs<decimal, float>(a));
         }     
@@ -6321,7 +6321,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[,] Divide(decimal[,] a, float[,] b)
+        public static float[,] Divide(this decimal[,] a, float[,] b)
         {
             return Divide(a, b, MatrixCreateAs<decimal, float>(a));
         }     
@@ -6336,7 +6336,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Divide(decimal[][] a, float[,] b)
+        public static float[][] Divide(this decimal[][] a, float[,] b)
         {
             return Divide(a, b, JaggedCreateAs<decimal, float>(a));
         }      
@@ -6601,7 +6601,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[] Divide(decimal[] a, double[] b)
+        public static double[] Divide(this decimal[] a, double[] b)
         {
             return Divide(a, b, new double[a.Length]);
         }     
@@ -6616,7 +6616,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(decimal[][] a, double[][] b)
+        public static double[][] Divide(this decimal[][] a, double[][] b)
         {
             return Divide(a, b, JaggedCreateAs<decimal, double>(a));
         }     
@@ -6631,7 +6631,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(decimal[,] a, double[,] b)
+        public static double[,] Divide(this decimal[,] a, double[,] b)
         {
             return Divide(a, b, MatrixCreateAs<decimal, double>(a));
         }     
@@ -6646,7 +6646,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(decimal[][] a, double[,] b)
+        public static double[][] Divide(this decimal[][] a, double[,] b)
         {
             return Divide(a, b, JaggedCreateAs<decimal, double>(a));
         }      
@@ -6911,7 +6911,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[] Divide(decimal[] a, decimal[] b)
+        public static decimal[] Divide(this decimal[] a, decimal[] b)
         {
             return Divide(a, b, new decimal[a.Length]);
         }     
@@ -6926,7 +6926,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[][] Divide(decimal[][] a, decimal[][] b)
+        public static decimal[][] Divide(this decimal[][] a, decimal[][] b)
         {
             return Divide(a, b, JaggedCreateAs<decimal, decimal>(a));
         }     
@@ -6941,7 +6941,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[,] Divide(decimal[,] a, decimal[,] b)
+        public static decimal[,] Divide(this decimal[,] a, decimal[,] b)
         {
             return Divide(a, b, MatrixCreateAs<decimal, decimal>(a));
         }     
@@ -6956,7 +6956,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[][] Divide(decimal[][] a, decimal[,] b)
+        public static decimal[][] Divide(this decimal[][] a, decimal[,] b)
         {
             return Divide(a, b, JaggedCreateAs<decimal, decimal>(a));
         }      
@@ -7183,7 +7183,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[,] Divide(int[][] a, int[,] b, int[,] result)
+        public static int[,] Divide(this int[][] a, int[,] b, int[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -7218,7 +7218,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[,] Divide(int[,] a, int[][] b, int[,] result)
+        public static int[,] Divide(this int[,] a, int[][] b, int[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -7253,7 +7253,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Divide(int[,] a, int[,] b, int[][] result)
+        public static int[][] Divide(this int[,] a, int[,] b, int[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -7288,7 +7288,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Divide(int[][] a, int[,] b, int[][] result)
+        public static int[][] Divide(this int[][] a, int[,] b, int[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -7321,7 +7321,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Divide(int[,] a, int[][] b, int[][] result)
+        public static int[][] Divide(this int[,] a, int[][] b, int[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -7353,7 +7353,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Divide(int[][] a, int[][] b, int[][] result)
+        public static int[][] Divide(this int[][] a, int[][] b, int[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -7378,7 +7378,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[,] Divide(int[,] a, int[,] b, int[,] result)
+        public static int[,] Divide(this int[,] a, int[,] b, int[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -7441,7 +7441,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Divide(int[,] a, int b, int[][] result)
+        public static int[][] Divide(this int[,] a, int b, int[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -7498,7 +7498,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[,] Divide(int[][] a, int b, int[,] result)
+        public static int[,] Divide(this int[][] a, int b, int[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -7679,7 +7679,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Divide(int[,] a, int b, int[][] result)
+        public static int[][] Divide(this int[,] a, int b, int[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -7712,7 +7712,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[,] Divide(int[][] a, int b, int[,] result)
+        public static int[,] Divide(this int[][] a, int b, int[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -8129,7 +8129,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(int[][] a, int[,] b, double[,] result)
+        public static double[,] Divide(this int[][] a, int[,] b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -8164,7 +8164,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(int[,] a, int[][] b, double[,] result)
+        public static double[,] Divide(this int[,] a, int[][] b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -8199,7 +8199,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(int[,] a, int[,] b, double[][] result)
+        public static double[][] Divide(this int[,] a, int[,] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -8234,7 +8234,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(int[][] a, int[,] b, double[][] result)
+        public static double[][] Divide(this int[][] a, int[,] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -8267,7 +8267,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(int[,] a, int[][] b, double[][] result)
+        public static double[][] Divide(this int[,] a, int[][] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -8299,7 +8299,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(int[][] a, int[][] b, double[][] result)
+        public static double[][] Divide(this int[][] a, int[][] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -8324,7 +8324,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(int[,] a, int[,] b, double[,] result)
+        public static double[,] Divide(this int[,] a, int[,] b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -8387,7 +8387,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(int[,] a, int b, double[][] result)
+        public static double[][] Divide(this int[,] a, int b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -8444,7 +8444,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(int[][] a, int b, double[,] result)
+        public static double[,] Divide(this int[][] a, int b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -8625,7 +8625,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(int[,] a, int b, double[][] result)
+        public static double[][] Divide(this int[,] a, int b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -8658,7 +8658,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(int[][] a, int b, double[,] result)
+        public static double[,] Divide(this int[][] a, int b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -9075,7 +9075,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[,] Divide(int[][] a, float[,] b, int[,] result)
+        public static int[,] Divide(this int[][] a, float[,] b, int[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -9110,7 +9110,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[,] Divide(int[,] a, float[][] b, int[,] result)
+        public static int[,] Divide(this int[,] a, float[][] b, int[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -9145,7 +9145,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Divide(int[,] a, float[,] b, int[][] result)
+        public static int[][] Divide(this int[,] a, float[,] b, int[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -9180,7 +9180,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Divide(int[][] a, float[,] b, int[][] result)
+        public static int[][] Divide(this int[][] a, float[,] b, int[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -9213,7 +9213,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Divide(int[,] a, float[][] b, int[][] result)
+        public static int[][] Divide(this int[,] a, float[][] b, int[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -9245,7 +9245,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Divide(int[][] a, float[][] b, int[][] result)
+        public static int[][] Divide(this int[][] a, float[][] b, int[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -9270,7 +9270,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[,] Divide(int[,] a, float[,] b, int[,] result)
+        public static int[,] Divide(this int[,] a, float[,] b, int[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -9333,7 +9333,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Divide(int[,] a, float b, int[][] result)
+        public static int[][] Divide(this int[,] a, float b, int[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -9390,7 +9390,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[,] Divide(int[][] a, float b, int[,] result)
+        public static int[,] Divide(this int[][] a, float b, int[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -9571,7 +9571,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Divide(int[,] a, float b, int[][] result)
+        public static int[][] Divide(this int[,] a, float b, int[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -9604,7 +9604,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[,] Divide(int[][] a, float b, int[,] result)
+        public static int[,] Divide(this int[][] a, float b, int[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -10021,7 +10021,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[,] Divide(int[][] a, float[,] b, float[,] result)
+        public static float[,] Divide(this int[][] a, float[,] b, float[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -10056,7 +10056,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[,] Divide(int[,] a, float[][] b, float[,] result)
+        public static float[,] Divide(this int[,] a, float[][] b, float[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -10091,7 +10091,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Divide(int[,] a, float[,] b, float[][] result)
+        public static float[][] Divide(this int[,] a, float[,] b, float[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -10126,7 +10126,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Divide(int[][] a, float[,] b, float[][] result)
+        public static float[][] Divide(this int[][] a, float[,] b, float[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -10159,7 +10159,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Divide(int[,] a, float[][] b, float[][] result)
+        public static float[][] Divide(this int[,] a, float[][] b, float[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -10191,7 +10191,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Divide(int[][] a, float[][] b, float[][] result)
+        public static float[][] Divide(this int[][] a, float[][] b, float[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -10216,7 +10216,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[,] Divide(int[,] a, float[,] b, float[,] result)
+        public static float[,] Divide(this int[,] a, float[,] b, float[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -10279,7 +10279,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Divide(int[,] a, float b, float[][] result)
+        public static float[][] Divide(this int[,] a, float b, float[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -10336,7 +10336,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[,] Divide(int[][] a, float b, float[,] result)
+        public static float[,] Divide(this int[][] a, float b, float[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -10517,7 +10517,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Divide(int[,] a, float b, float[][] result)
+        public static float[][] Divide(this int[,] a, float b, float[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -10550,7 +10550,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[,] Divide(int[][] a, float b, float[,] result)
+        public static float[,] Divide(this int[][] a, float b, float[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -10967,7 +10967,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(int[][] a, float[,] b, double[,] result)
+        public static double[,] Divide(this int[][] a, float[,] b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -11002,7 +11002,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(int[,] a, float[][] b, double[,] result)
+        public static double[,] Divide(this int[,] a, float[][] b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -11037,7 +11037,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(int[,] a, float[,] b, double[][] result)
+        public static double[][] Divide(this int[,] a, float[,] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -11072,7 +11072,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(int[][] a, float[,] b, double[][] result)
+        public static double[][] Divide(this int[][] a, float[,] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -11105,7 +11105,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(int[,] a, float[][] b, double[][] result)
+        public static double[][] Divide(this int[,] a, float[][] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -11137,7 +11137,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(int[][] a, float[][] b, double[][] result)
+        public static double[][] Divide(this int[][] a, float[][] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -11162,7 +11162,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(int[,] a, float[,] b, double[,] result)
+        public static double[,] Divide(this int[,] a, float[,] b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -11225,7 +11225,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(int[,] a, float b, double[][] result)
+        public static double[][] Divide(this int[,] a, float b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -11282,7 +11282,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(int[][] a, float b, double[,] result)
+        public static double[,] Divide(this int[][] a, float b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -11463,7 +11463,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(int[,] a, float b, double[][] result)
+        public static double[][] Divide(this int[,] a, float b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -11496,7 +11496,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(int[][] a, float b, double[,] result)
+        public static double[,] Divide(this int[][] a, float b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -11913,7 +11913,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[,] Divide(int[][] a, double[,] b, int[,] result)
+        public static int[,] Divide(this int[][] a, double[,] b, int[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -11948,7 +11948,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[,] Divide(int[,] a, double[][] b, int[,] result)
+        public static int[,] Divide(this int[,] a, double[][] b, int[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -11983,7 +11983,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Divide(int[,] a, double[,] b, int[][] result)
+        public static int[][] Divide(this int[,] a, double[,] b, int[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -12018,7 +12018,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Divide(int[][] a, double[,] b, int[][] result)
+        public static int[][] Divide(this int[][] a, double[,] b, int[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -12051,7 +12051,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Divide(int[,] a, double[][] b, int[][] result)
+        public static int[][] Divide(this int[,] a, double[][] b, int[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -12083,7 +12083,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Divide(int[][] a, double[][] b, int[][] result)
+        public static int[][] Divide(this int[][] a, double[][] b, int[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -12108,7 +12108,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[,] Divide(int[,] a, double[,] b, int[,] result)
+        public static int[,] Divide(this int[,] a, double[,] b, int[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -12171,7 +12171,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Divide(int[,] a, double b, int[][] result)
+        public static int[][] Divide(this int[,] a, double b, int[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -12228,7 +12228,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[,] Divide(int[][] a, double b, int[,] result)
+        public static int[,] Divide(this int[][] a, double b, int[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -12409,7 +12409,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Divide(int[,] a, double b, int[][] result)
+        public static int[][] Divide(this int[,] a, double b, int[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -12442,7 +12442,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[,] Divide(int[][] a, double b, int[,] result)
+        public static int[,] Divide(this int[][] a, double b, int[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -12859,7 +12859,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(int[][] a, double[,] b, double[,] result)
+        public static double[,] Divide(this int[][] a, double[,] b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -12894,7 +12894,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(int[,] a, double[][] b, double[,] result)
+        public static double[,] Divide(this int[,] a, double[][] b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -12929,7 +12929,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(int[,] a, double[,] b, double[][] result)
+        public static double[][] Divide(this int[,] a, double[,] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -12964,7 +12964,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(int[][] a, double[,] b, double[][] result)
+        public static double[][] Divide(this int[][] a, double[,] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -12997,7 +12997,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(int[,] a, double[][] b, double[][] result)
+        public static double[][] Divide(this int[,] a, double[][] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -13029,7 +13029,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(int[][] a, double[][] b, double[][] result)
+        public static double[][] Divide(this int[][] a, double[][] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -13054,7 +13054,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(int[,] a, double[,] b, double[,] result)
+        public static double[,] Divide(this int[,] a, double[,] b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -13117,7 +13117,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(int[,] a, double b, double[][] result)
+        public static double[][] Divide(this int[,] a, double b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -13174,7 +13174,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(int[][] a, double b, double[,] result)
+        public static double[,] Divide(this int[][] a, double b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -13355,7 +13355,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(int[,] a, double b, double[][] result)
+        public static double[][] Divide(this int[,] a, double b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -13388,7 +13388,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(int[][] a, double b, double[,] result)
+        public static double[,] Divide(this int[][] a, double b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -13805,7 +13805,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[,] Divide(int[][] a, byte[,] b, int[,] result)
+        public static int[,] Divide(this int[][] a, byte[,] b, int[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -13840,7 +13840,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[,] Divide(int[,] a, byte[][] b, int[,] result)
+        public static int[,] Divide(this int[,] a, byte[][] b, int[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -13875,7 +13875,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Divide(int[,] a, byte[,] b, int[][] result)
+        public static int[][] Divide(this int[,] a, byte[,] b, int[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -13910,7 +13910,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Divide(int[][] a, byte[,] b, int[][] result)
+        public static int[][] Divide(this int[][] a, byte[,] b, int[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -13943,7 +13943,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Divide(int[,] a, byte[][] b, int[][] result)
+        public static int[][] Divide(this int[,] a, byte[][] b, int[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -13975,7 +13975,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Divide(int[][] a, byte[][] b, int[][] result)
+        public static int[][] Divide(this int[][] a, byte[][] b, int[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -14000,7 +14000,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[,] Divide(int[,] a, byte[,] b, int[,] result)
+        public static int[,] Divide(this int[,] a, byte[,] b, int[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -14063,7 +14063,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Divide(int[,] a, byte b, int[][] result)
+        public static int[][] Divide(this int[,] a, byte b, int[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -14120,7 +14120,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[,] Divide(int[][] a, byte b, int[,] result)
+        public static int[,] Divide(this int[][] a, byte b, int[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -14301,7 +14301,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Divide(int[,] a, byte b, int[][] result)
+        public static int[][] Divide(this int[,] a, byte b, int[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -14334,7 +14334,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[,] Divide(int[][] a, byte b, int[,] result)
+        public static int[,] Divide(this int[][] a, byte b, int[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -14751,7 +14751,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[,] Divide(int[][] a, byte[,] b, byte[,] result)
+        public static byte[,] Divide(this int[][] a, byte[,] b, byte[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -14786,7 +14786,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[,] Divide(int[,] a, byte[][] b, byte[,] result)
+        public static byte[,] Divide(this int[,] a, byte[][] b, byte[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -14821,7 +14821,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[][] Divide(int[,] a, byte[,] b, byte[][] result)
+        public static byte[][] Divide(this int[,] a, byte[,] b, byte[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -14856,7 +14856,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[][] Divide(int[][] a, byte[,] b, byte[][] result)
+        public static byte[][] Divide(this int[][] a, byte[,] b, byte[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -14889,7 +14889,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[][] Divide(int[,] a, byte[][] b, byte[][] result)
+        public static byte[][] Divide(this int[,] a, byte[][] b, byte[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -14921,7 +14921,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[][] Divide(int[][] a, byte[][] b, byte[][] result)
+        public static byte[][] Divide(this int[][] a, byte[][] b, byte[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -14946,7 +14946,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[,] Divide(int[,] a, byte[,] b, byte[,] result)
+        public static byte[,] Divide(this int[,] a, byte[,] b, byte[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -15009,7 +15009,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[][] Divide(int[,] a, byte b, byte[][] result)
+        public static byte[][] Divide(this int[,] a, byte b, byte[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -15066,7 +15066,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[,] Divide(int[][] a, byte b, byte[,] result)
+        public static byte[,] Divide(this int[][] a, byte b, byte[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -15247,7 +15247,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[][] Divide(int[,] a, byte b, byte[][] result)
+        public static byte[][] Divide(this int[,] a, byte b, byte[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -15280,7 +15280,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[,] Divide(int[][] a, byte b, byte[,] result)
+        public static byte[,] Divide(this int[][] a, byte b, byte[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -15697,7 +15697,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(int[][] a, byte[,] b, double[,] result)
+        public static double[,] Divide(this int[][] a, byte[,] b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -15732,7 +15732,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(int[,] a, byte[][] b, double[,] result)
+        public static double[,] Divide(this int[,] a, byte[][] b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -15767,7 +15767,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(int[,] a, byte[,] b, double[][] result)
+        public static double[][] Divide(this int[,] a, byte[,] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -15802,7 +15802,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(int[][] a, byte[,] b, double[][] result)
+        public static double[][] Divide(this int[][] a, byte[,] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -15835,7 +15835,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(int[,] a, byte[][] b, double[][] result)
+        public static double[][] Divide(this int[,] a, byte[][] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -15867,7 +15867,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(int[][] a, byte[][] b, double[][] result)
+        public static double[][] Divide(this int[][] a, byte[][] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -15892,7 +15892,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(int[,] a, byte[,] b, double[,] result)
+        public static double[,] Divide(this int[,] a, byte[,] b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -15955,7 +15955,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(int[,] a, byte b, double[][] result)
+        public static double[][] Divide(this int[,] a, byte b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -16012,7 +16012,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(int[][] a, byte b, double[,] result)
+        public static double[,] Divide(this int[][] a, byte b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -16193,7 +16193,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(int[,] a, byte b, double[][] result)
+        public static double[][] Divide(this int[,] a, byte b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -16226,7 +16226,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(int[][] a, byte b, double[,] result)
+        public static double[,] Divide(this int[][] a, byte b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -16643,7 +16643,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[,] Divide(int[][] a, decimal[,] b, int[,] result)
+        public static int[,] Divide(this int[][] a, decimal[,] b, int[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -16678,7 +16678,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[,] Divide(int[,] a, decimal[][] b, int[,] result)
+        public static int[,] Divide(this int[,] a, decimal[][] b, int[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -16713,7 +16713,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Divide(int[,] a, decimal[,] b, int[][] result)
+        public static int[][] Divide(this int[,] a, decimal[,] b, int[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -16748,7 +16748,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Divide(int[][] a, decimal[,] b, int[][] result)
+        public static int[][] Divide(this int[][] a, decimal[,] b, int[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -16781,7 +16781,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Divide(int[,] a, decimal[][] b, int[][] result)
+        public static int[][] Divide(this int[,] a, decimal[][] b, int[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -16813,7 +16813,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Divide(int[][] a, decimal[][] b, int[][] result)
+        public static int[][] Divide(this int[][] a, decimal[][] b, int[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -16838,7 +16838,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[,] Divide(int[,] a, decimal[,] b, int[,] result)
+        public static int[,] Divide(this int[,] a, decimal[,] b, int[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -16901,7 +16901,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Divide(int[,] a, decimal b, int[][] result)
+        public static int[][] Divide(this int[,] a, decimal b, int[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -16958,7 +16958,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[,] Divide(int[][] a, decimal b, int[,] result)
+        public static int[,] Divide(this int[][] a, decimal b, int[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -17139,7 +17139,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Divide(int[,] a, decimal b, int[][] result)
+        public static int[][] Divide(this int[,] a, decimal b, int[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -17172,7 +17172,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[,] Divide(int[][] a, decimal b, int[,] result)
+        public static int[,] Divide(this int[][] a, decimal b, int[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -17589,7 +17589,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[,] Divide(int[][] a, decimal[,] b, decimal[,] result)
+        public static decimal[,] Divide(this int[][] a, decimal[,] b, decimal[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -17624,7 +17624,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[,] Divide(int[,] a, decimal[][] b, decimal[,] result)
+        public static decimal[,] Divide(this int[,] a, decimal[][] b, decimal[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -17659,7 +17659,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[][] Divide(int[,] a, decimal[,] b, decimal[][] result)
+        public static decimal[][] Divide(this int[,] a, decimal[,] b, decimal[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -17694,7 +17694,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[][] Divide(int[][] a, decimal[,] b, decimal[][] result)
+        public static decimal[][] Divide(this int[][] a, decimal[,] b, decimal[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -17727,7 +17727,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[][] Divide(int[,] a, decimal[][] b, decimal[][] result)
+        public static decimal[][] Divide(this int[,] a, decimal[][] b, decimal[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -17759,7 +17759,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[][] Divide(int[][] a, decimal[][] b, decimal[][] result)
+        public static decimal[][] Divide(this int[][] a, decimal[][] b, decimal[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -17784,7 +17784,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[,] Divide(int[,] a, decimal[,] b, decimal[,] result)
+        public static decimal[,] Divide(this int[,] a, decimal[,] b, decimal[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -17847,7 +17847,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[][] Divide(int[,] a, decimal b, decimal[][] result)
+        public static decimal[][] Divide(this int[,] a, decimal b, decimal[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -17904,7 +17904,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[,] Divide(int[][] a, decimal b, decimal[,] result)
+        public static decimal[,] Divide(this int[][] a, decimal b, decimal[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -18085,7 +18085,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[][] Divide(int[,] a, decimal b, decimal[][] result)
+        public static decimal[][] Divide(this int[,] a, decimal b, decimal[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -18118,7 +18118,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[,] Divide(int[][] a, decimal b, decimal[,] result)
+        public static decimal[,] Divide(this int[][] a, decimal b, decimal[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -18535,7 +18535,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(int[][] a, decimal[,] b, double[,] result)
+        public static double[,] Divide(this int[][] a, decimal[,] b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -18570,7 +18570,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(int[,] a, decimal[][] b, double[,] result)
+        public static double[,] Divide(this int[,] a, decimal[][] b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -18605,7 +18605,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(int[,] a, decimal[,] b, double[][] result)
+        public static double[][] Divide(this int[,] a, decimal[,] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -18640,7 +18640,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(int[][] a, decimal[,] b, double[][] result)
+        public static double[][] Divide(this int[][] a, decimal[,] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -18673,7 +18673,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(int[,] a, decimal[][] b, double[][] result)
+        public static double[][] Divide(this int[,] a, decimal[][] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -18705,7 +18705,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(int[][] a, decimal[][] b, double[][] result)
+        public static double[][] Divide(this int[][] a, decimal[][] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -18730,7 +18730,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(int[,] a, decimal[,] b, double[,] result)
+        public static double[,] Divide(this int[,] a, decimal[,] b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -18793,7 +18793,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(int[,] a, decimal b, double[][] result)
+        public static double[][] Divide(this int[,] a, decimal b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -18850,7 +18850,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(int[][] a, decimal b, double[,] result)
+        public static double[,] Divide(this int[][] a, decimal b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -19031,7 +19031,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(int[,] a, decimal b, double[][] result)
+        public static double[][] Divide(this int[,] a, decimal b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -19064,7 +19064,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(int[][] a, decimal b, double[,] result)
+        public static double[,] Divide(this int[][] a, decimal b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -19481,7 +19481,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[,] Divide(float[][] a, int[,] b, float[,] result)
+        public static float[,] Divide(this float[][] a, int[,] b, float[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -19516,7 +19516,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[,] Divide(float[,] a, int[][] b, float[,] result)
+        public static float[,] Divide(this float[,] a, int[][] b, float[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -19551,7 +19551,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Divide(float[,] a, int[,] b, float[][] result)
+        public static float[][] Divide(this float[,] a, int[,] b, float[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -19586,7 +19586,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Divide(float[][] a, int[,] b, float[][] result)
+        public static float[][] Divide(this float[][] a, int[,] b, float[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -19619,7 +19619,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Divide(float[,] a, int[][] b, float[][] result)
+        public static float[][] Divide(this float[,] a, int[][] b, float[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -19651,7 +19651,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Divide(float[][] a, int[][] b, float[][] result)
+        public static float[][] Divide(this float[][] a, int[][] b, float[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -19676,7 +19676,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[,] Divide(float[,] a, int[,] b, float[,] result)
+        public static float[,] Divide(this float[,] a, int[,] b, float[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -19739,7 +19739,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Divide(float[,] a, int b, float[][] result)
+        public static float[][] Divide(this float[,] a, int b, float[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -19796,7 +19796,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[,] Divide(float[][] a, int b, float[,] result)
+        public static float[,] Divide(this float[][] a, int b, float[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -19977,7 +19977,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Divide(float[,] a, int b, float[][] result)
+        public static float[][] Divide(this float[,] a, int b, float[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -20010,7 +20010,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[,] Divide(float[][] a, int b, float[,] result)
+        public static float[,] Divide(this float[][] a, int b, float[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -20427,7 +20427,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[,] Divide(float[][] a, int[,] b, int[,] result)
+        public static int[,] Divide(this float[][] a, int[,] b, int[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -20462,7 +20462,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[,] Divide(float[,] a, int[][] b, int[,] result)
+        public static int[,] Divide(this float[,] a, int[][] b, int[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -20497,7 +20497,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Divide(float[,] a, int[,] b, int[][] result)
+        public static int[][] Divide(this float[,] a, int[,] b, int[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -20532,7 +20532,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Divide(float[][] a, int[,] b, int[][] result)
+        public static int[][] Divide(this float[][] a, int[,] b, int[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -20565,7 +20565,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Divide(float[,] a, int[][] b, int[][] result)
+        public static int[][] Divide(this float[,] a, int[][] b, int[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -20597,7 +20597,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Divide(float[][] a, int[][] b, int[][] result)
+        public static int[][] Divide(this float[][] a, int[][] b, int[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -20622,7 +20622,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[,] Divide(float[,] a, int[,] b, int[,] result)
+        public static int[,] Divide(this float[,] a, int[,] b, int[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -20685,7 +20685,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Divide(float[,] a, int b, int[][] result)
+        public static int[][] Divide(this float[,] a, int b, int[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -20742,7 +20742,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[,] Divide(float[][] a, int b, int[,] result)
+        public static int[,] Divide(this float[][] a, int b, int[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -20923,7 +20923,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Divide(float[,] a, int b, int[][] result)
+        public static int[][] Divide(this float[,] a, int b, int[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -20956,7 +20956,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[,] Divide(float[][] a, int b, int[,] result)
+        public static int[,] Divide(this float[][] a, int b, int[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -21373,7 +21373,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(float[][] a, int[,] b, double[,] result)
+        public static double[,] Divide(this float[][] a, int[,] b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -21408,7 +21408,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(float[,] a, int[][] b, double[,] result)
+        public static double[,] Divide(this float[,] a, int[][] b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -21443,7 +21443,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(float[,] a, int[,] b, double[][] result)
+        public static double[][] Divide(this float[,] a, int[,] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -21478,7 +21478,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(float[][] a, int[,] b, double[][] result)
+        public static double[][] Divide(this float[][] a, int[,] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -21511,7 +21511,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(float[,] a, int[][] b, double[][] result)
+        public static double[][] Divide(this float[,] a, int[][] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -21543,7 +21543,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(float[][] a, int[][] b, double[][] result)
+        public static double[][] Divide(this float[][] a, int[][] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -21568,7 +21568,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(float[,] a, int[,] b, double[,] result)
+        public static double[,] Divide(this float[,] a, int[,] b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -21631,7 +21631,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(float[,] a, int b, double[][] result)
+        public static double[][] Divide(this float[,] a, int b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -21688,7 +21688,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(float[][] a, int b, double[,] result)
+        public static double[,] Divide(this float[][] a, int b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -21869,7 +21869,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(float[,] a, int b, double[][] result)
+        public static double[][] Divide(this float[,] a, int b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -21902,7 +21902,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(float[][] a, int b, double[,] result)
+        public static double[,] Divide(this float[][] a, int b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -22319,7 +22319,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[,] Divide(float[][] a, float[,] b, float[,] result)
+        public static float[,] Divide(this float[][] a, float[,] b, float[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -22354,7 +22354,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[,] Divide(float[,] a, float[][] b, float[,] result)
+        public static float[,] Divide(this float[,] a, float[][] b, float[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -22389,7 +22389,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Divide(float[,] a, float[,] b, float[][] result)
+        public static float[][] Divide(this float[,] a, float[,] b, float[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -22424,7 +22424,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Divide(float[][] a, float[,] b, float[][] result)
+        public static float[][] Divide(this float[][] a, float[,] b, float[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -22457,7 +22457,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Divide(float[,] a, float[][] b, float[][] result)
+        public static float[][] Divide(this float[,] a, float[][] b, float[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -22489,7 +22489,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Divide(float[][] a, float[][] b, float[][] result)
+        public static float[][] Divide(this float[][] a, float[][] b, float[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -22514,7 +22514,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[,] Divide(float[,] a, float[,] b, float[,] result)
+        public static float[,] Divide(this float[,] a, float[,] b, float[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -22577,7 +22577,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Divide(float[,] a, float b, float[][] result)
+        public static float[][] Divide(this float[,] a, float b, float[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -22634,7 +22634,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[,] Divide(float[][] a, float b, float[,] result)
+        public static float[,] Divide(this float[][] a, float b, float[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -22815,7 +22815,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Divide(float[,] a, float b, float[][] result)
+        public static float[][] Divide(this float[,] a, float b, float[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -22848,7 +22848,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[,] Divide(float[][] a, float b, float[,] result)
+        public static float[,] Divide(this float[][] a, float b, float[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -23265,7 +23265,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(float[][] a, float[,] b, double[,] result)
+        public static double[,] Divide(this float[][] a, float[,] b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -23300,7 +23300,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(float[,] a, float[][] b, double[,] result)
+        public static double[,] Divide(this float[,] a, float[][] b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -23335,7 +23335,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(float[,] a, float[,] b, double[][] result)
+        public static double[][] Divide(this float[,] a, float[,] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -23370,7 +23370,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(float[][] a, float[,] b, double[][] result)
+        public static double[][] Divide(this float[][] a, float[,] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -23403,7 +23403,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(float[,] a, float[][] b, double[][] result)
+        public static double[][] Divide(this float[,] a, float[][] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -23435,7 +23435,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(float[][] a, float[][] b, double[][] result)
+        public static double[][] Divide(this float[][] a, float[][] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -23460,7 +23460,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(float[,] a, float[,] b, double[,] result)
+        public static double[,] Divide(this float[,] a, float[,] b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -23523,7 +23523,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(float[,] a, float b, double[][] result)
+        public static double[][] Divide(this float[,] a, float b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -23580,7 +23580,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(float[][] a, float b, double[,] result)
+        public static double[,] Divide(this float[][] a, float b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -23761,7 +23761,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(float[,] a, float b, double[][] result)
+        public static double[][] Divide(this float[,] a, float b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -23794,7 +23794,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(float[][] a, float b, double[,] result)
+        public static double[,] Divide(this float[][] a, float b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -24211,7 +24211,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[,] Divide(float[][] a, double[,] b, float[,] result)
+        public static float[,] Divide(this float[][] a, double[,] b, float[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -24246,7 +24246,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[,] Divide(float[,] a, double[][] b, float[,] result)
+        public static float[,] Divide(this float[,] a, double[][] b, float[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -24281,7 +24281,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Divide(float[,] a, double[,] b, float[][] result)
+        public static float[][] Divide(this float[,] a, double[,] b, float[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -24316,7 +24316,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Divide(float[][] a, double[,] b, float[][] result)
+        public static float[][] Divide(this float[][] a, double[,] b, float[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -24349,7 +24349,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Divide(float[,] a, double[][] b, float[][] result)
+        public static float[][] Divide(this float[,] a, double[][] b, float[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -24381,7 +24381,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Divide(float[][] a, double[][] b, float[][] result)
+        public static float[][] Divide(this float[][] a, double[][] b, float[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -24406,7 +24406,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[,] Divide(float[,] a, double[,] b, float[,] result)
+        public static float[,] Divide(this float[,] a, double[,] b, float[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -24469,7 +24469,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Divide(float[,] a, double b, float[][] result)
+        public static float[][] Divide(this float[,] a, double b, float[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -24526,7 +24526,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[,] Divide(float[][] a, double b, float[,] result)
+        public static float[,] Divide(this float[][] a, double b, float[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -24707,7 +24707,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Divide(float[,] a, double b, float[][] result)
+        public static float[][] Divide(this float[,] a, double b, float[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -24740,7 +24740,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[,] Divide(float[][] a, double b, float[,] result)
+        public static float[,] Divide(this float[][] a, double b, float[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -25157,7 +25157,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(float[][] a, double[,] b, double[,] result)
+        public static double[,] Divide(this float[][] a, double[,] b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -25192,7 +25192,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(float[,] a, double[][] b, double[,] result)
+        public static double[,] Divide(this float[,] a, double[][] b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -25227,7 +25227,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(float[,] a, double[,] b, double[][] result)
+        public static double[][] Divide(this float[,] a, double[,] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -25262,7 +25262,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(float[][] a, double[,] b, double[][] result)
+        public static double[][] Divide(this float[][] a, double[,] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -25295,7 +25295,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(float[,] a, double[][] b, double[][] result)
+        public static double[][] Divide(this float[,] a, double[][] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -25327,7 +25327,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(float[][] a, double[][] b, double[][] result)
+        public static double[][] Divide(this float[][] a, double[][] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -25352,7 +25352,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(float[,] a, double[,] b, double[,] result)
+        public static double[,] Divide(this float[,] a, double[,] b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -25415,7 +25415,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(float[,] a, double b, double[][] result)
+        public static double[][] Divide(this float[,] a, double b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -25472,7 +25472,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(float[][] a, double b, double[,] result)
+        public static double[,] Divide(this float[][] a, double b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -25653,7 +25653,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(float[,] a, double b, double[][] result)
+        public static double[][] Divide(this float[,] a, double b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -25686,7 +25686,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(float[][] a, double b, double[,] result)
+        public static double[,] Divide(this float[][] a, double b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -26103,7 +26103,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[,] Divide(float[][] a, byte[,] b, float[,] result)
+        public static float[,] Divide(this float[][] a, byte[,] b, float[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -26138,7 +26138,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[,] Divide(float[,] a, byte[][] b, float[,] result)
+        public static float[,] Divide(this float[,] a, byte[][] b, float[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -26173,7 +26173,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Divide(float[,] a, byte[,] b, float[][] result)
+        public static float[][] Divide(this float[,] a, byte[,] b, float[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -26208,7 +26208,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Divide(float[][] a, byte[,] b, float[][] result)
+        public static float[][] Divide(this float[][] a, byte[,] b, float[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -26241,7 +26241,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Divide(float[,] a, byte[][] b, float[][] result)
+        public static float[][] Divide(this float[,] a, byte[][] b, float[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -26273,7 +26273,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Divide(float[][] a, byte[][] b, float[][] result)
+        public static float[][] Divide(this float[][] a, byte[][] b, float[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -26298,7 +26298,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[,] Divide(float[,] a, byte[,] b, float[,] result)
+        public static float[,] Divide(this float[,] a, byte[,] b, float[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -26361,7 +26361,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Divide(float[,] a, byte b, float[][] result)
+        public static float[][] Divide(this float[,] a, byte b, float[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -26418,7 +26418,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[,] Divide(float[][] a, byte b, float[,] result)
+        public static float[,] Divide(this float[][] a, byte b, float[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -26599,7 +26599,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Divide(float[,] a, byte b, float[][] result)
+        public static float[][] Divide(this float[,] a, byte b, float[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -26632,7 +26632,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[,] Divide(float[][] a, byte b, float[,] result)
+        public static float[,] Divide(this float[][] a, byte b, float[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -27049,7 +27049,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[,] Divide(float[][] a, byte[,] b, byte[,] result)
+        public static byte[,] Divide(this float[][] a, byte[,] b, byte[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -27084,7 +27084,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[,] Divide(float[,] a, byte[][] b, byte[,] result)
+        public static byte[,] Divide(this float[,] a, byte[][] b, byte[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -27119,7 +27119,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[][] Divide(float[,] a, byte[,] b, byte[][] result)
+        public static byte[][] Divide(this float[,] a, byte[,] b, byte[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -27154,7 +27154,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[][] Divide(float[][] a, byte[,] b, byte[][] result)
+        public static byte[][] Divide(this float[][] a, byte[,] b, byte[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -27187,7 +27187,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[][] Divide(float[,] a, byte[][] b, byte[][] result)
+        public static byte[][] Divide(this float[,] a, byte[][] b, byte[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -27219,7 +27219,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[][] Divide(float[][] a, byte[][] b, byte[][] result)
+        public static byte[][] Divide(this float[][] a, byte[][] b, byte[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -27244,7 +27244,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[,] Divide(float[,] a, byte[,] b, byte[,] result)
+        public static byte[,] Divide(this float[,] a, byte[,] b, byte[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -27307,7 +27307,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[][] Divide(float[,] a, byte b, byte[][] result)
+        public static byte[][] Divide(this float[,] a, byte b, byte[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -27364,7 +27364,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[,] Divide(float[][] a, byte b, byte[,] result)
+        public static byte[,] Divide(this float[][] a, byte b, byte[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -27545,7 +27545,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[][] Divide(float[,] a, byte b, byte[][] result)
+        public static byte[][] Divide(this float[,] a, byte b, byte[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -27578,7 +27578,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[,] Divide(float[][] a, byte b, byte[,] result)
+        public static byte[,] Divide(this float[][] a, byte b, byte[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -27995,7 +27995,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(float[][] a, byte[,] b, double[,] result)
+        public static double[,] Divide(this float[][] a, byte[,] b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -28030,7 +28030,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(float[,] a, byte[][] b, double[,] result)
+        public static double[,] Divide(this float[,] a, byte[][] b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -28065,7 +28065,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(float[,] a, byte[,] b, double[][] result)
+        public static double[][] Divide(this float[,] a, byte[,] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -28100,7 +28100,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(float[][] a, byte[,] b, double[][] result)
+        public static double[][] Divide(this float[][] a, byte[,] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -28133,7 +28133,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(float[,] a, byte[][] b, double[][] result)
+        public static double[][] Divide(this float[,] a, byte[][] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -28165,7 +28165,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(float[][] a, byte[][] b, double[][] result)
+        public static double[][] Divide(this float[][] a, byte[][] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -28190,7 +28190,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(float[,] a, byte[,] b, double[,] result)
+        public static double[,] Divide(this float[,] a, byte[,] b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -28253,7 +28253,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(float[,] a, byte b, double[][] result)
+        public static double[][] Divide(this float[,] a, byte b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -28310,7 +28310,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(float[][] a, byte b, double[,] result)
+        public static double[,] Divide(this float[][] a, byte b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -28491,7 +28491,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(float[,] a, byte b, double[][] result)
+        public static double[][] Divide(this float[,] a, byte b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -28524,7 +28524,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(float[][] a, byte b, double[,] result)
+        public static double[,] Divide(this float[][] a, byte b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -28941,7 +28941,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[,] Divide(float[][] a, decimal[,] b, float[,] result)
+        public static float[,] Divide(this float[][] a, decimal[,] b, float[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -28976,7 +28976,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[,] Divide(float[,] a, decimal[][] b, float[,] result)
+        public static float[,] Divide(this float[,] a, decimal[][] b, float[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -29011,7 +29011,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Divide(float[,] a, decimal[,] b, float[][] result)
+        public static float[][] Divide(this float[,] a, decimal[,] b, float[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -29046,7 +29046,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Divide(float[][] a, decimal[,] b, float[][] result)
+        public static float[][] Divide(this float[][] a, decimal[,] b, float[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -29079,7 +29079,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Divide(float[,] a, decimal[][] b, float[][] result)
+        public static float[][] Divide(this float[,] a, decimal[][] b, float[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -29111,7 +29111,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Divide(float[][] a, decimal[][] b, float[][] result)
+        public static float[][] Divide(this float[][] a, decimal[][] b, float[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -29136,7 +29136,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[,] Divide(float[,] a, decimal[,] b, float[,] result)
+        public static float[,] Divide(this float[,] a, decimal[,] b, float[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -29199,7 +29199,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Divide(float[,] a, decimal b, float[][] result)
+        public static float[][] Divide(this float[,] a, decimal b, float[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -29256,7 +29256,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[,] Divide(float[][] a, decimal b, float[,] result)
+        public static float[,] Divide(this float[][] a, decimal b, float[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -29437,7 +29437,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Divide(float[,] a, decimal b, float[][] result)
+        public static float[][] Divide(this float[,] a, decimal b, float[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -29470,7 +29470,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[,] Divide(float[][] a, decimal b, float[,] result)
+        public static float[,] Divide(this float[][] a, decimal b, float[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -29887,7 +29887,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[,] Divide(float[][] a, decimal[,] b, decimal[,] result)
+        public static decimal[,] Divide(this float[][] a, decimal[,] b, decimal[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -29922,7 +29922,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[,] Divide(float[,] a, decimal[][] b, decimal[,] result)
+        public static decimal[,] Divide(this float[,] a, decimal[][] b, decimal[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -29957,7 +29957,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[][] Divide(float[,] a, decimal[,] b, decimal[][] result)
+        public static decimal[][] Divide(this float[,] a, decimal[,] b, decimal[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -29992,7 +29992,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[][] Divide(float[][] a, decimal[,] b, decimal[][] result)
+        public static decimal[][] Divide(this float[][] a, decimal[,] b, decimal[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -30025,7 +30025,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[][] Divide(float[,] a, decimal[][] b, decimal[][] result)
+        public static decimal[][] Divide(this float[,] a, decimal[][] b, decimal[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -30057,7 +30057,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[][] Divide(float[][] a, decimal[][] b, decimal[][] result)
+        public static decimal[][] Divide(this float[][] a, decimal[][] b, decimal[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -30082,7 +30082,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[,] Divide(float[,] a, decimal[,] b, decimal[,] result)
+        public static decimal[,] Divide(this float[,] a, decimal[,] b, decimal[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -30145,7 +30145,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[][] Divide(float[,] a, decimal b, decimal[][] result)
+        public static decimal[][] Divide(this float[,] a, decimal b, decimal[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -30202,7 +30202,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[,] Divide(float[][] a, decimal b, decimal[,] result)
+        public static decimal[,] Divide(this float[][] a, decimal b, decimal[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -30383,7 +30383,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[][] Divide(float[,] a, decimal b, decimal[][] result)
+        public static decimal[][] Divide(this float[,] a, decimal b, decimal[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -30416,7 +30416,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[,] Divide(float[][] a, decimal b, decimal[,] result)
+        public static decimal[,] Divide(this float[][] a, decimal b, decimal[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -30833,7 +30833,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(float[][] a, decimal[,] b, double[,] result)
+        public static double[,] Divide(this float[][] a, decimal[,] b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -30868,7 +30868,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(float[,] a, decimal[][] b, double[,] result)
+        public static double[,] Divide(this float[,] a, decimal[][] b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -30903,7 +30903,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(float[,] a, decimal[,] b, double[][] result)
+        public static double[][] Divide(this float[,] a, decimal[,] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -30938,7 +30938,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(float[][] a, decimal[,] b, double[][] result)
+        public static double[][] Divide(this float[][] a, decimal[,] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -30971,7 +30971,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(float[,] a, decimal[][] b, double[][] result)
+        public static double[][] Divide(this float[,] a, decimal[][] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -31003,7 +31003,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(float[][] a, decimal[][] b, double[][] result)
+        public static double[][] Divide(this float[][] a, decimal[][] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -31028,7 +31028,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(float[,] a, decimal[,] b, double[,] result)
+        public static double[,] Divide(this float[,] a, decimal[,] b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -31091,7 +31091,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(float[,] a, decimal b, double[][] result)
+        public static double[][] Divide(this float[,] a, decimal b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -31148,7 +31148,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(float[][] a, decimal b, double[,] result)
+        public static double[,] Divide(this float[][] a, decimal b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -31329,7 +31329,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(float[,] a, decimal b, double[][] result)
+        public static double[][] Divide(this float[,] a, decimal b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -31362,7 +31362,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(float[][] a, decimal b, double[,] result)
+        public static double[,] Divide(this float[][] a, decimal b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -31779,7 +31779,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(double[][] a, int[,] b, double[,] result)
+        public static double[,] Divide(this double[][] a, int[,] b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -31814,7 +31814,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(double[,] a, int[][] b, double[,] result)
+        public static double[,] Divide(this double[,] a, int[][] b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -31849,7 +31849,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(double[,] a, int[,] b, double[][] result)
+        public static double[][] Divide(this double[,] a, int[,] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -31884,7 +31884,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(double[][] a, int[,] b, double[][] result)
+        public static double[][] Divide(this double[][] a, int[,] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -31917,7 +31917,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(double[,] a, int[][] b, double[][] result)
+        public static double[][] Divide(this double[,] a, int[][] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -31949,7 +31949,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(double[][] a, int[][] b, double[][] result)
+        public static double[][] Divide(this double[][] a, int[][] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -31974,7 +31974,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(double[,] a, int[,] b, double[,] result)
+        public static double[,] Divide(this double[,] a, int[,] b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -32037,7 +32037,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(double[,] a, int b, double[][] result)
+        public static double[][] Divide(this double[,] a, int b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -32094,7 +32094,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(double[][] a, int b, double[,] result)
+        public static double[,] Divide(this double[][] a, int b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -32275,7 +32275,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(double[,] a, int b, double[][] result)
+        public static double[][] Divide(this double[,] a, int b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -32308,7 +32308,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(double[][] a, int b, double[,] result)
+        public static double[,] Divide(this double[][] a, int b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -32725,7 +32725,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[,] Divide(double[][] a, int[,] b, int[,] result)
+        public static int[,] Divide(this double[][] a, int[,] b, int[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -32760,7 +32760,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[,] Divide(double[,] a, int[][] b, int[,] result)
+        public static int[,] Divide(this double[,] a, int[][] b, int[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -32795,7 +32795,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Divide(double[,] a, int[,] b, int[][] result)
+        public static int[][] Divide(this double[,] a, int[,] b, int[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -32830,7 +32830,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Divide(double[][] a, int[,] b, int[][] result)
+        public static int[][] Divide(this double[][] a, int[,] b, int[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -32863,7 +32863,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Divide(double[,] a, int[][] b, int[][] result)
+        public static int[][] Divide(this double[,] a, int[][] b, int[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -32895,7 +32895,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Divide(double[][] a, int[][] b, int[][] result)
+        public static int[][] Divide(this double[][] a, int[][] b, int[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -32920,7 +32920,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[,] Divide(double[,] a, int[,] b, int[,] result)
+        public static int[,] Divide(this double[,] a, int[,] b, int[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -32983,7 +32983,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Divide(double[,] a, int b, int[][] result)
+        public static int[][] Divide(this double[,] a, int b, int[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -33040,7 +33040,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[,] Divide(double[][] a, int b, int[,] result)
+        public static int[,] Divide(this double[][] a, int b, int[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -33221,7 +33221,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Divide(double[,] a, int b, int[][] result)
+        public static int[][] Divide(this double[,] a, int b, int[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -33254,7 +33254,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[,] Divide(double[][] a, int b, int[,] result)
+        public static int[,] Divide(this double[][] a, int b, int[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -33671,7 +33671,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(double[][] a, float[,] b, double[,] result)
+        public static double[,] Divide(this double[][] a, float[,] b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -33706,7 +33706,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(double[,] a, float[][] b, double[,] result)
+        public static double[,] Divide(this double[,] a, float[][] b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -33741,7 +33741,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(double[,] a, float[,] b, double[][] result)
+        public static double[][] Divide(this double[,] a, float[,] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -33776,7 +33776,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(double[][] a, float[,] b, double[][] result)
+        public static double[][] Divide(this double[][] a, float[,] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -33809,7 +33809,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(double[,] a, float[][] b, double[][] result)
+        public static double[][] Divide(this double[,] a, float[][] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -33841,7 +33841,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(double[][] a, float[][] b, double[][] result)
+        public static double[][] Divide(this double[][] a, float[][] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -33866,7 +33866,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(double[,] a, float[,] b, double[,] result)
+        public static double[,] Divide(this double[,] a, float[,] b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -33929,7 +33929,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(double[,] a, float b, double[][] result)
+        public static double[][] Divide(this double[,] a, float b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -33986,7 +33986,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(double[][] a, float b, double[,] result)
+        public static double[,] Divide(this double[][] a, float b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -34167,7 +34167,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(double[,] a, float b, double[][] result)
+        public static double[][] Divide(this double[,] a, float b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -34200,7 +34200,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(double[][] a, float b, double[,] result)
+        public static double[,] Divide(this double[][] a, float b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -34617,7 +34617,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[,] Divide(double[][] a, float[,] b, float[,] result)
+        public static float[,] Divide(this double[][] a, float[,] b, float[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -34652,7 +34652,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[,] Divide(double[,] a, float[][] b, float[,] result)
+        public static float[,] Divide(this double[,] a, float[][] b, float[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -34687,7 +34687,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Divide(double[,] a, float[,] b, float[][] result)
+        public static float[][] Divide(this double[,] a, float[,] b, float[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -34722,7 +34722,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Divide(double[][] a, float[,] b, float[][] result)
+        public static float[][] Divide(this double[][] a, float[,] b, float[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -34755,7 +34755,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Divide(double[,] a, float[][] b, float[][] result)
+        public static float[][] Divide(this double[,] a, float[][] b, float[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -34787,7 +34787,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Divide(double[][] a, float[][] b, float[][] result)
+        public static float[][] Divide(this double[][] a, float[][] b, float[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -34812,7 +34812,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[,] Divide(double[,] a, float[,] b, float[,] result)
+        public static float[,] Divide(this double[,] a, float[,] b, float[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -34875,7 +34875,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Divide(double[,] a, float b, float[][] result)
+        public static float[][] Divide(this double[,] a, float b, float[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -34932,7 +34932,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[,] Divide(double[][] a, float b, float[,] result)
+        public static float[,] Divide(this double[][] a, float b, float[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -35113,7 +35113,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Divide(double[,] a, float b, float[][] result)
+        public static float[][] Divide(this double[,] a, float b, float[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -35146,7 +35146,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[,] Divide(double[][] a, float b, float[,] result)
+        public static float[,] Divide(this double[][] a, float b, float[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -35563,7 +35563,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(double[][] a, double[,] b, double[,] result)
+        public static double[,] Divide(this double[][] a, double[,] b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -35598,7 +35598,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(double[,] a, double[][] b, double[,] result)
+        public static double[,] Divide(this double[,] a, double[][] b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -35633,7 +35633,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(double[,] a, double[,] b, double[][] result)
+        public static double[][] Divide(this double[,] a, double[,] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -35668,7 +35668,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(double[][] a, double[,] b, double[][] result)
+        public static double[][] Divide(this double[][] a, double[,] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -35701,7 +35701,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(double[,] a, double[][] b, double[][] result)
+        public static double[][] Divide(this double[,] a, double[][] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -35733,7 +35733,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(double[][] a, double[][] b, double[][] result)
+        public static double[][] Divide(this double[][] a, double[][] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -35758,7 +35758,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(double[,] a, double[,] b, double[,] result)
+        public static double[,] Divide(this double[,] a, double[,] b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -35821,7 +35821,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(double[,] a, double b, double[][] result)
+        public static double[][] Divide(this double[,] a, double b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -35878,7 +35878,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(double[][] a, double b, double[,] result)
+        public static double[,] Divide(this double[][] a, double b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -36059,7 +36059,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(double[,] a, double b, double[][] result)
+        public static double[][] Divide(this double[,] a, double b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -36092,7 +36092,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(double[][] a, double b, double[,] result)
+        public static double[,] Divide(this double[][] a, double b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -36509,7 +36509,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(double[][] a, byte[,] b, double[,] result)
+        public static double[,] Divide(this double[][] a, byte[,] b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -36544,7 +36544,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(double[,] a, byte[][] b, double[,] result)
+        public static double[,] Divide(this double[,] a, byte[][] b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -36579,7 +36579,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(double[,] a, byte[,] b, double[][] result)
+        public static double[][] Divide(this double[,] a, byte[,] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -36614,7 +36614,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(double[][] a, byte[,] b, double[][] result)
+        public static double[][] Divide(this double[][] a, byte[,] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -36647,7 +36647,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(double[,] a, byte[][] b, double[][] result)
+        public static double[][] Divide(this double[,] a, byte[][] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -36679,7 +36679,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(double[][] a, byte[][] b, double[][] result)
+        public static double[][] Divide(this double[][] a, byte[][] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -36704,7 +36704,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(double[,] a, byte[,] b, double[,] result)
+        public static double[,] Divide(this double[,] a, byte[,] b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -36767,7 +36767,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(double[,] a, byte b, double[][] result)
+        public static double[][] Divide(this double[,] a, byte b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -36824,7 +36824,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(double[][] a, byte b, double[,] result)
+        public static double[,] Divide(this double[][] a, byte b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -37005,7 +37005,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(double[,] a, byte b, double[][] result)
+        public static double[][] Divide(this double[,] a, byte b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -37038,7 +37038,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(double[][] a, byte b, double[,] result)
+        public static double[,] Divide(this double[][] a, byte b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -37455,7 +37455,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[,] Divide(double[][] a, byte[,] b, byte[,] result)
+        public static byte[,] Divide(this double[][] a, byte[,] b, byte[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -37490,7 +37490,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[,] Divide(double[,] a, byte[][] b, byte[,] result)
+        public static byte[,] Divide(this double[,] a, byte[][] b, byte[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -37525,7 +37525,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[][] Divide(double[,] a, byte[,] b, byte[][] result)
+        public static byte[][] Divide(this double[,] a, byte[,] b, byte[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -37560,7 +37560,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[][] Divide(double[][] a, byte[,] b, byte[][] result)
+        public static byte[][] Divide(this double[][] a, byte[,] b, byte[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -37593,7 +37593,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[][] Divide(double[,] a, byte[][] b, byte[][] result)
+        public static byte[][] Divide(this double[,] a, byte[][] b, byte[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -37625,7 +37625,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[][] Divide(double[][] a, byte[][] b, byte[][] result)
+        public static byte[][] Divide(this double[][] a, byte[][] b, byte[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -37650,7 +37650,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[,] Divide(double[,] a, byte[,] b, byte[,] result)
+        public static byte[,] Divide(this double[,] a, byte[,] b, byte[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -37713,7 +37713,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[][] Divide(double[,] a, byte b, byte[][] result)
+        public static byte[][] Divide(this double[,] a, byte b, byte[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -37770,7 +37770,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[,] Divide(double[][] a, byte b, byte[,] result)
+        public static byte[,] Divide(this double[][] a, byte b, byte[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -37951,7 +37951,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[][] Divide(double[,] a, byte b, byte[][] result)
+        public static byte[][] Divide(this double[,] a, byte b, byte[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -37984,7 +37984,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[,] Divide(double[][] a, byte b, byte[,] result)
+        public static byte[,] Divide(this double[][] a, byte b, byte[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -38401,7 +38401,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(double[][] a, decimal[,] b, double[,] result)
+        public static double[,] Divide(this double[][] a, decimal[,] b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -38436,7 +38436,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(double[,] a, decimal[][] b, double[,] result)
+        public static double[,] Divide(this double[,] a, decimal[][] b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -38471,7 +38471,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(double[,] a, decimal[,] b, double[][] result)
+        public static double[][] Divide(this double[,] a, decimal[,] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -38506,7 +38506,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(double[][] a, decimal[,] b, double[][] result)
+        public static double[][] Divide(this double[][] a, decimal[,] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -38539,7 +38539,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(double[,] a, decimal[][] b, double[][] result)
+        public static double[][] Divide(this double[,] a, decimal[][] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -38571,7 +38571,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(double[][] a, decimal[][] b, double[][] result)
+        public static double[][] Divide(this double[][] a, decimal[][] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -38596,7 +38596,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(double[,] a, decimal[,] b, double[,] result)
+        public static double[,] Divide(this double[,] a, decimal[,] b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -38659,7 +38659,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(double[,] a, decimal b, double[][] result)
+        public static double[][] Divide(this double[,] a, decimal b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -38716,7 +38716,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(double[][] a, decimal b, double[,] result)
+        public static double[,] Divide(this double[][] a, decimal b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -38897,7 +38897,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(double[,] a, decimal b, double[][] result)
+        public static double[][] Divide(this double[,] a, decimal b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -38930,7 +38930,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(double[][] a, decimal b, double[,] result)
+        public static double[,] Divide(this double[][] a, decimal b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -39347,7 +39347,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[,] Divide(double[][] a, decimal[,] b, decimal[,] result)
+        public static decimal[,] Divide(this double[][] a, decimal[,] b, decimal[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -39382,7 +39382,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[,] Divide(double[,] a, decimal[][] b, decimal[,] result)
+        public static decimal[,] Divide(this double[,] a, decimal[][] b, decimal[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -39417,7 +39417,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[][] Divide(double[,] a, decimal[,] b, decimal[][] result)
+        public static decimal[][] Divide(this double[,] a, decimal[,] b, decimal[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -39452,7 +39452,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[][] Divide(double[][] a, decimal[,] b, decimal[][] result)
+        public static decimal[][] Divide(this double[][] a, decimal[,] b, decimal[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -39485,7 +39485,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[][] Divide(double[,] a, decimal[][] b, decimal[][] result)
+        public static decimal[][] Divide(this double[,] a, decimal[][] b, decimal[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -39517,7 +39517,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[][] Divide(double[][] a, decimal[][] b, decimal[][] result)
+        public static decimal[][] Divide(this double[][] a, decimal[][] b, decimal[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -39542,7 +39542,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[,] Divide(double[,] a, decimal[,] b, decimal[,] result)
+        public static decimal[,] Divide(this double[,] a, decimal[,] b, decimal[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -39605,7 +39605,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[][] Divide(double[,] a, decimal b, decimal[][] result)
+        public static decimal[][] Divide(this double[,] a, decimal b, decimal[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -39662,7 +39662,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[,] Divide(double[][] a, decimal b, decimal[,] result)
+        public static decimal[,] Divide(this double[][] a, decimal b, decimal[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -39843,7 +39843,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[][] Divide(double[,] a, decimal b, decimal[][] result)
+        public static decimal[][] Divide(this double[,] a, decimal b, decimal[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -39876,7 +39876,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[,] Divide(double[][] a, decimal b, decimal[,] result)
+        public static decimal[,] Divide(this double[][] a, decimal b, decimal[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -40293,7 +40293,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[,] Divide(byte[][] a, int[,] b, byte[,] result)
+        public static byte[,] Divide(this byte[][] a, int[,] b, byte[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -40328,7 +40328,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[,] Divide(byte[,] a, int[][] b, byte[,] result)
+        public static byte[,] Divide(this byte[,] a, int[][] b, byte[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -40363,7 +40363,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[][] Divide(byte[,] a, int[,] b, byte[][] result)
+        public static byte[][] Divide(this byte[,] a, int[,] b, byte[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -40398,7 +40398,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[][] Divide(byte[][] a, int[,] b, byte[][] result)
+        public static byte[][] Divide(this byte[][] a, int[,] b, byte[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -40431,7 +40431,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[][] Divide(byte[,] a, int[][] b, byte[][] result)
+        public static byte[][] Divide(this byte[,] a, int[][] b, byte[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -40463,7 +40463,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[][] Divide(byte[][] a, int[][] b, byte[][] result)
+        public static byte[][] Divide(this byte[][] a, int[][] b, byte[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -40488,7 +40488,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[,] Divide(byte[,] a, int[,] b, byte[,] result)
+        public static byte[,] Divide(this byte[,] a, int[,] b, byte[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -40551,7 +40551,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[][] Divide(byte[,] a, int b, byte[][] result)
+        public static byte[][] Divide(this byte[,] a, int b, byte[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -40608,7 +40608,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[,] Divide(byte[][] a, int b, byte[,] result)
+        public static byte[,] Divide(this byte[][] a, int b, byte[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -40789,7 +40789,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[][] Divide(byte[,] a, int b, byte[][] result)
+        public static byte[][] Divide(this byte[,] a, int b, byte[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -40822,7 +40822,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[,] Divide(byte[][] a, int b, byte[,] result)
+        public static byte[,] Divide(this byte[][] a, int b, byte[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -41239,7 +41239,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[,] Divide(byte[][] a, int[,] b, int[,] result)
+        public static int[,] Divide(this byte[][] a, int[,] b, int[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -41274,7 +41274,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[,] Divide(byte[,] a, int[][] b, int[,] result)
+        public static int[,] Divide(this byte[,] a, int[][] b, int[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -41309,7 +41309,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Divide(byte[,] a, int[,] b, int[][] result)
+        public static int[][] Divide(this byte[,] a, int[,] b, int[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -41344,7 +41344,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Divide(byte[][] a, int[,] b, int[][] result)
+        public static int[][] Divide(this byte[][] a, int[,] b, int[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -41377,7 +41377,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Divide(byte[,] a, int[][] b, int[][] result)
+        public static int[][] Divide(this byte[,] a, int[][] b, int[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -41409,7 +41409,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Divide(byte[][] a, int[][] b, int[][] result)
+        public static int[][] Divide(this byte[][] a, int[][] b, int[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -41434,7 +41434,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[,] Divide(byte[,] a, int[,] b, int[,] result)
+        public static int[,] Divide(this byte[,] a, int[,] b, int[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -41497,7 +41497,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Divide(byte[,] a, int b, int[][] result)
+        public static int[][] Divide(this byte[,] a, int b, int[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -41554,7 +41554,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[,] Divide(byte[][] a, int b, int[,] result)
+        public static int[,] Divide(this byte[][] a, int b, int[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -41735,7 +41735,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Divide(byte[,] a, int b, int[][] result)
+        public static int[][] Divide(this byte[,] a, int b, int[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -41768,7 +41768,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[,] Divide(byte[][] a, int b, int[,] result)
+        public static int[,] Divide(this byte[][] a, int b, int[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -42185,7 +42185,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(byte[][] a, int[,] b, double[,] result)
+        public static double[,] Divide(this byte[][] a, int[,] b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -42220,7 +42220,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(byte[,] a, int[][] b, double[,] result)
+        public static double[,] Divide(this byte[,] a, int[][] b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -42255,7 +42255,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(byte[,] a, int[,] b, double[][] result)
+        public static double[][] Divide(this byte[,] a, int[,] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -42290,7 +42290,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(byte[][] a, int[,] b, double[][] result)
+        public static double[][] Divide(this byte[][] a, int[,] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -42323,7 +42323,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(byte[,] a, int[][] b, double[][] result)
+        public static double[][] Divide(this byte[,] a, int[][] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -42355,7 +42355,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(byte[][] a, int[][] b, double[][] result)
+        public static double[][] Divide(this byte[][] a, int[][] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -42380,7 +42380,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(byte[,] a, int[,] b, double[,] result)
+        public static double[,] Divide(this byte[,] a, int[,] b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -42443,7 +42443,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(byte[,] a, int b, double[][] result)
+        public static double[][] Divide(this byte[,] a, int b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -42500,7 +42500,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(byte[][] a, int b, double[,] result)
+        public static double[,] Divide(this byte[][] a, int b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -42681,7 +42681,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(byte[,] a, int b, double[][] result)
+        public static double[][] Divide(this byte[,] a, int b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -42714,7 +42714,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(byte[][] a, int b, double[,] result)
+        public static double[,] Divide(this byte[][] a, int b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -43131,7 +43131,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[,] Divide(byte[][] a, float[,] b, byte[,] result)
+        public static byte[,] Divide(this byte[][] a, float[,] b, byte[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -43166,7 +43166,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[,] Divide(byte[,] a, float[][] b, byte[,] result)
+        public static byte[,] Divide(this byte[,] a, float[][] b, byte[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -43201,7 +43201,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[][] Divide(byte[,] a, float[,] b, byte[][] result)
+        public static byte[][] Divide(this byte[,] a, float[,] b, byte[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -43236,7 +43236,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[][] Divide(byte[][] a, float[,] b, byte[][] result)
+        public static byte[][] Divide(this byte[][] a, float[,] b, byte[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -43269,7 +43269,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[][] Divide(byte[,] a, float[][] b, byte[][] result)
+        public static byte[][] Divide(this byte[,] a, float[][] b, byte[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -43301,7 +43301,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[][] Divide(byte[][] a, float[][] b, byte[][] result)
+        public static byte[][] Divide(this byte[][] a, float[][] b, byte[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -43326,7 +43326,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[,] Divide(byte[,] a, float[,] b, byte[,] result)
+        public static byte[,] Divide(this byte[,] a, float[,] b, byte[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -43389,7 +43389,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[][] Divide(byte[,] a, float b, byte[][] result)
+        public static byte[][] Divide(this byte[,] a, float b, byte[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -43446,7 +43446,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[,] Divide(byte[][] a, float b, byte[,] result)
+        public static byte[,] Divide(this byte[][] a, float b, byte[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -43627,7 +43627,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[][] Divide(byte[,] a, float b, byte[][] result)
+        public static byte[][] Divide(this byte[,] a, float b, byte[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -43660,7 +43660,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[,] Divide(byte[][] a, float b, byte[,] result)
+        public static byte[,] Divide(this byte[][] a, float b, byte[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -44077,7 +44077,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[,] Divide(byte[][] a, float[,] b, float[,] result)
+        public static float[,] Divide(this byte[][] a, float[,] b, float[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -44112,7 +44112,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[,] Divide(byte[,] a, float[][] b, float[,] result)
+        public static float[,] Divide(this byte[,] a, float[][] b, float[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -44147,7 +44147,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Divide(byte[,] a, float[,] b, float[][] result)
+        public static float[][] Divide(this byte[,] a, float[,] b, float[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -44182,7 +44182,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Divide(byte[][] a, float[,] b, float[][] result)
+        public static float[][] Divide(this byte[][] a, float[,] b, float[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -44215,7 +44215,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Divide(byte[,] a, float[][] b, float[][] result)
+        public static float[][] Divide(this byte[,] a, float[][] b, float[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -44247,7 +44247,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Divide(byte[][] a, float[][] b, float[][] result)
+        public static float[][] Divide(this byte[][] a, float[][] b, float[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -44272,7 +44272,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[,] Divide(byte[,] a, float[,] b, float[,] result)
+        public static float[,] Divide(this byte[,] a, float[,] b, float[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -44335,7 +44335,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Divide(byte[,] a, float b, float[][] result)
+        public static float[][] Divide(this byte[,] a, float b, float[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -44392,7 +44392,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[,] Divide(byte[][] a, float b, float[,] result)
+        public static float[,] Divide(this byte[][] a, float b, float[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -44573,7 +44573,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Divide(byte[,] a, float b, float[][] result)
+        public static float[][] Divide(this byte[,] a, float b, float[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -44606,7 +44606,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[,] Divide(byte[][] a, float b, float[,] result)
+        public static float[,] Divide(this byte[][] a, float b, float[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -45023,7 +45023,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(byte[][] a, float[,] b, double[,] result)
+        public static double[,] Divide(this byte[][] a, float[,] b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -45058,7 +45058,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(byte[,] a, float[][] b, double[,] result)
+        public static double[,] Divide(this byte[,] a, float[][] b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -45093,7 +45093,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(byte[,] a, float[,] b, double[][] result)
+        public static double[][] Divide(this byte[,] a, float[,] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -45128,7 +45128,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(byte[][] a, float[,] b, double[][] result)
+        public static double[][] Divide(this byte[][] a, float[,] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -45161,7 +45161,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(byte[,] a, float[][] b, double[][] result)
+        public static double[][] Divide(this byte[,] a, float[][] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -45193,7 +45193,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(byte[][] a, float[][] b, double[][] result)
+        public static double[][] Divide(this byte[][] a, float[][] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -45218,7 +45218,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(byte[,] a, float[,] b, double[,] result)
+        public static double[,] Divide(this byte[,] a, float[,] b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -45281,7 +45281,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(byte[,] a, float b, double[][] result)
+        public static double[][] Divide(this byte[,] a, float b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -45338,7 +45338,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(byte[][] a, float b, double[,] result)
+        public static double[,] Divide(this byte[][] a, float b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -45519,7 +45519,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(byte[,] a, float b, double[][] result)
+        public static double[][] Divide(this byte[,] a, float b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -45552,7 +45552,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(byte[][] a, float b, double[,] result)
+        public static double[,] Divide(this byte[][] a, float b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -45969,7 +45969,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[,] Divide(byte[][] a, double[,] b, byte[,] result)
+        public static byte[,] Divide(this byte[][] a, double[,] b, byte[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -46004,7 +46004,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[,] Divide(byte[,] a, double[][] b, byte[,] result)
+        public static byte[,] Divide(this byte[,] a, double[][] b, byte[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -46039,7 +46039,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[][] Divide(byte[,] a, double[,] b, byte[][] result)
+        public static byte[][] Divide(this byte[,] a, double[,] b, byte[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -46074,7 +46074,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[][] Divide(byte[][] a, double[,] b, byte[][] result)
+        public static byte[][] Divide(this byte[][] a, double[,] b, byte[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -46107,7 +46107,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[][] Divide(byte[,] a, double[][] b, byte[][] result)
+        public static byte[][] Divide(this byte[,] a, double[][] b, byte[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -46139,7 +46139,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[][] Divide(byte[][] a, double[][] b, byte[][] result)
+        public static byte[][] Divide(this byte[][] a, double[][] b, byte[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -46164,7 +46164,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[,] Divide(byte[,] a, double[,] b, byte[,] result)
+        public static byte[,] Divide(this byte[,] a, double[,] b, byte[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -46227,7 +46227,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[][] Divide(byte[,] a, double b, byte[][] result)
+        public static byte[][] Divide(this byte[,] a, double b, byte[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -46284,7 +46284,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[,] Divide(byte[][] a, double b, byte[,] result)
+        public static byte[,] Divide(this byte[][] a, double b, byte[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -46465,7 +46465,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[][] Divide(byte[,] a, double b, byte[][] result)
+        public static byte[][] Divide(this byte[,] a, double b, byte[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -46498,7 +46498,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[,] Divide(byte[][] a, double b, byte[,] result)
+        public static byte[,] Divide(this byte[][] a, double b, byte[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -46915,7 +46915,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(byte[][] a, double[,] b, double[,] result)
+        public static double[,] Divide(this byte[][] a, double[,] b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -46950,7 +46950,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(byte[,] a, double[][] b, double[,] result)
+        public static double[,] Divide(this byte[,] a, double[][] b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -46985,7 +46985,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(byte[,] a, double[,] b, double[][] result)
+        public static double[][] Divide(this byte[,] a, double[,] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -47020,7 +47020,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(byte[][] a, double[,] b, double[][] result)
+        public static double[][] Divide(this byte[][] a, double[,] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -47053,7 +47053,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(byte[,] a, double[][] b, double[][] result)
+        public static double[][] Divide(this byte[,] a, double[][] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -47085,7 +47085,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(byte[][] a, double[][] b, double[][] result)
+        public static double[][] Divide(this byte[][] a, double[][] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -47110,7 +47110,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(byte[,] a, double[,] b, double[,] result)
+        public static double[,] Divide(this byte[,] a, double[,] b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -47173,7 +47173,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(byte[,] a, double b, double[][] result)
+        public static double[][] Divide(this byte[,] a, double b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -47230,7 +47230,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(byte[][] a, double b, double[,] result)
+        public static double[,] Divide(this byte[][] a, double b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -47411,7 +47411,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(byte[,] a, double b, double[][] result)
+        public static double[][] Divide(this byte[,] a, double b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -47444,7 +47444,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(byte[][] a, double b, double[,] result)
+        public static double[,] Divide(this byte[][] a, double b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -47861,7 +47861,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[,] Divide(byte[][] a, byte[,] b, byte[,] result)
+        public static byte[,] Divide(this byte[][] a, byte[,] b, byte[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -47896,7 +47896,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[,] Divide(byte[,] a, byte[][] b, byte[,] result)
+        public static byte[,] Divide(this byte[,] a, byte[][] b, byte[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -47931,7 +47931,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[][] Divide(byte[,] a, byte[,] b, byte[][] result)
+        public static byte[][] Divide(this byte[,] a, byte[,] b, byte[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -47966,7 +47966,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[][] Divide(byte[][] a, byte[,] b, byte[][] result)
+        public static byte[][] Divide(this byte[][] a, byte[,] b, byte[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -47999,7 +47999,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[][] Divide(byte[,] a, byte[][] b, byte[][] result)
+        public static byte[][] Divide(this byte[,] a, byte[][] b, byte[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -48031,7 +48031,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[][] Divide(byte[][] a, byte[][] b, byte[][] result)
+        public static byte[][] Divide(this byte[][] a, byte[][] b, byte[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -48056,7 +48056,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[,] Divide(byte[,] a, byte[,] b, byte[,] result)
+        public static byte[,] Divide(this byte[,] a, byte[,] b, byte[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -48119,7 +48119,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[][] Divide(byte[,] a, byte b, byte[][] result)
+        public static byte[][] Divide(this byte[,] a, byte b, byte[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -48176,7 +48176,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[,] Divide(byte[][] a, byte b, byte[,] result)
+        public static byte[,] Divide(this byte[][] a, byte b, byte[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -48357,7 +48357,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[][] Divide(byte[,] a, byte b, byte[][] result)
+        public static byte[][] Divide(this byte[,] a, byte b, byte[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -48390,7 +48390,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[,] Divide(byte[][] a, byte b, byte[,] result)
+        public static byte[,] Divide(this byte[][] a, byte b, byte[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -48807,7 +48807,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(byte[][] a, byte[,] b, double[,] result)
+        public static double[,] Divide(this byte[][] a, byte[,] b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -48842,7 +48842,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(byte[,] a, byte[][] b, double[,] result)
+        public static double[,] Divide(this byte[,] a, byte[][] b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -48877,7 +48877,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(byte[,] a, byte[,] b, double[][] result)
+        public static double[][] Divide(this byte[,] a, byte[,] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -48912,7 +48912,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(byte[][] a, byte[,] b, double[][] result)
+        public static double[][] Divide(this byte[][] a, byte[,] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -48945,7 +48945,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(byte[,] a, byte[][] b, double[][] result)
+        public static double[][] Divide(this byte[,] a, byte[][] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -48977,7 +48977,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(byte[][] a, byte[][] b, double[][] result)
+        public static double[][] Divide(this byte[][] a, byte[][] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -49002,7 +49002,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(byte[,] a, byte[,] b, double[,] result)
+        public static double[,] Divide(this byte[,] a, byte[,] b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -49065,7 +49065,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(byte[,] a, byte b, double[][] result)
+        public static double[][] Divide(this byte[,] a, byte b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -49122,7 +49122,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(byte[][] a, byte b, double[,] result)
+        public static double[,] Divide(this byte[][] a, byte b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -49303,7 +49303,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(byte[,] a, byte b, double[][] result)
+        public static double[][] Divide(this byte[,] a, byte b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -49336,7 +49336,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(byte[][] a, byte b, double[,] result)
+        public static double[,] Divide(this byte[][] a, byte b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -49753,7 +49753,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[,] Divide(byte[][] a, decimal[,] b, byte[,] result)
+        public static byte[,] Divide(this byte[][] a, decimal[,] b, byte[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -49788,7 +49788,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[,] Divide(byte[,] a, decimal[][] b, byte[,] result)
+        public static byte[,] Divide(this byte[,] a, decimal[][] b, byte[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -49823,7 +49823,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[][] Divide(byte[,] a, decimal[,] b, byte[][] result)
+        public static byte[][] Divide(this byte[,] a, decimal[,] b, byte[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -49858,7 +49858,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[][] Divide(byte[][] a, decimal[,] b, byte[][] result)
+        public static byte[][] Divide(this byte[][] a, decimal[,] b, byte[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -49891,7 +49891,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[][] Divide(byte[,] a, decimal[][] b, byte[][] result)
+        public static byte[][] Divide(this byte[,] a, decimal[][] b, byte[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -49923,7 +49923,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[][] Divide(byte[][] a, decimal[][] b, byte[][] result)
+        public static byte[][] Divide(this byte[][] a, decimal[][] b, byte[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -49948,7 +49948,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[,] Divide(byte[,] a, decimal[,] b, byte[,] result)
+        public static byte[,] Divide(this byte[,] a, decimal[,] b, byte[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -50011,7 +50011,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[][] Divide(byte[,] a, decimal b, byte[][] result)
+        public static byte[][] Divide(this byte[,] a, decimal b, byte[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -50068,7 +50068,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[,] Divide(byte[][] a, decimal b, byte[,] result)
+        public static byte[,] Divide(this byte[][] a, decimal b, byte[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -50249,7 +50249,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[][] Divide(byte[,] a, decimal b, byte[][] result)
+        public static byte[][] Divide(this byte[,] a, decimal b, byte[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -50282,7 +50282,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[,] Divide(byte[][] a, decimal b, byte[,] result)
+        public static byte[,] Divide(this byte[][] a, decimal b, byte[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -50699,7 +50699,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[,] Divide(byte[][] a, decimal[,] b, decimal[,] result)
+        public static decimal[,] Divide(this byte[][] a, decimal[,] b, decimal[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -50734,7 +50734,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[,] Divide(byte[,] a, decimal[][] b, decimal[,] result)
+        public static decimal[,] Divide(this byte[,] a, decimal[][] b, decimal[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -50769,7 +50769,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[][] Divide(byte[,] a, decimal[,] b, decimal[][] result)
+        public static decimal[][] Divide(this byte[,] a, decimal[,] b, decimal[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -50804,7 +50804,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[][] Divide(byte[][] a, decimal[,] b, decimal[][] result)
+        public static decimal[][] Divide(this byte[][] a, decimal[,] b, decimal[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -50837,7 +50837,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[][] Divide(byte[,] a, decimal[][] b, decimal[][] result)
+        public static decimal[][] Divide(this byte[,] a, decimal[][] b, decimal[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -50869,7 +50869,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[][] Divide(byte[][] a, decimal[][] b, decimal[][] result)
+        public static decimal[][] Divide(this byte[][] a, decimal[][] b, decimal[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -50894,7 +50894,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[,] Divide(byte[,] a, decimal[,] b, decimal[,] result)
+        public static decimal[,] Divide(this byte[,] a, decimal[,] b, decimal[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -50957,7 +50957,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[][] Divide(byte[,] a, decimal b, decimal[][] result)
+        public static decimal[][] Divide(this byte[,] a, decimal b, decimal[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -51014,7 +51014,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[,] Divide(byte[][] a, decimal b, decimal[,] result)
+        public static decimal[,] Divide(this byte[][] a, decimal b, decimal[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -51195,7 +51195,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[][] Divide(byte[,] a, decimal b, decimal[][] result)
+        public static decimal[][] Divide(this byte[,] a, decimal b, decimal[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -51228,7 +51228,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[,] Divide(byte[][] a, decimal b, decimal[,] result)
+        public static decimal[,] Divide(this byte[][] a, decimal b, decimal[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -51645,7 +51645,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(byte[][] a, decimal[,] b, double[,] result)
+        public static double[,] Divide(this byte[][] a, decimal[,] b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -51680,7 +51680,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(byte[,] a, decimal[][] b, double[,] result)
+        public static double[,] Divide(this byte[,] a, decimal[][] b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -51715,7 +51715,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(byte[,] a, decimal[,] b, double[][] result)
+        public static double[][] Divide(this byte[,] a, decimal[,] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -51750,7 +51750,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(byte[][] a, decimal[,] b, double[][] result)
+        public static double[][] Divide(this byte[][] a, decimal[,] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -51783,7 +51783,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(byte[,] a, decimal[][] b, double[][] result)
+        public static double[][] Divide(this byte[,] a, decimal[][] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -51815,7 +51815,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(byte[][] a, decimal[][] b, double[][] result)
+        public static double[][] Divide(this byte[][] a, decimal[][] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -51840,7 +51840,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(byte[,] a, decimal[,] b, double[,] result)
+        public static double[,] Divide(this byte[,] a, decimal[,] b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -51903,7 +51903,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(byte[,] a, decimal b, double[][] result)
+        public static double[][] Divide(this byte[,] a, decimal b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -51960,7 +51960,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(byte[][] a, decimal b, double[,] result)
+        public static double[,] Divide(this byte[][] a, decimal b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -52141,7 +52141,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(byte[,] a, decimal b, double[][] result)
+        public static double[][] Divide(this byte[,] a, decimal b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -52174,7 +52174,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(byte[][] a, decimal b, double[,] result)
+        public static double[,] Divide(this byte[][] a, decimal b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -52591,7 +52591,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[,] Divide(decimal[][] a, int[,] b, decimal[,] result)
+        public static decimal[,] Divide(this decimal[][] a, int[,] b, decimal[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -52626,7 +52626,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[,] Divide(decimal[,] a, int[][] b, decimal[,] result)
+        public static decimal[,] Divide(this decimal[,] a, int[][] b, decimal[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -52661,7 +52661,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[][] Divide(decimal[,] a, int[,] b, decimal[][] result)
+        public static decimal[][] Divide(this decimal[,] a, int[,] b, decimal[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -52696,7 +52696,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[][] Divide(decimal[][] a, int[,] b, decimal[][] result)
+        public static decimal[][] Divide(this decimal[][] a, int[,] b, decimal[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -52729,7 +52729,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[][] Divide(decimal[,] a, int[][] b, decimal[][] result)
+        public static decimal[][] Divide(this decimal[,] a, int[][] b, decimal[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -52761,7 +52761,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[][] Divide(decimal[][] a, int[][] b, decimal[][] result)
+        public static decimal[][] Divide(this decimal[][] a, int[][] b, decimal[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -52786,7 +52786,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[,] Divide(decimal[,] a, int[,] b, decimal[,] result)
+        public static decimal[,] Divide(this decimal[,] a, int[,] b, decimal[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -52849,7 +52849,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[][] Divide(decimal[,] a, int b, decimal[][] result)
+        public static decimal[][] Divide(this decimal[,] a, int b, decimal[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -52906,7 +52906,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[,] Divide(decimal[][] a, int b, decimal[,] result)
+        public static decimal[,] Divide(this decimal[][] a, int b, decimal[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -53087,7 +53087,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[][] Divide(decimal[,] a, int b, decimal[][] result)
+        public static decimal[][] Divide(this decimal[,] a, int b, decimal[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -53120,7 +53120,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[,] Divide(decimal[][] a, int b, decimal[,] result)
+        public static decimal[,] Divide(this decimal[][] a, int b, decimal[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -53537,7 +53537,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[,] Divide(decimal[][] a, int[,] b, int[,] result)
+        public static int[,] Divide(this decimal[][] a, int[,] b, int[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -53572,7 +53572,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[,] Divide(decimal[,] a, int[][] b, int[,] result)
+        public static int[,] Divide(this decimal[,] a, int[][] b, int[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -53607,7 +53607,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Divide(decimal[,] a, int[,] b, int[][] result)
+        public static int[][] Divide(this decimal[,] a, int[,] b, int[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -53642,7 +53642,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Divide(decimal[][] a, int[,] b, int[][] result)
+        public static int[][] Divide(this decimal[][] a, int[,] b, int[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -53675,7 +53675,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Divide(decimal[,] a, int[][] b, int[][] result)
+        public static int[][] Divide(this decimal[,] a, int[][] b, int[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -53707,7 +53707,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Divide(decimal[][] a, int[][] b, int[][] result)
+        public static int[][] Divide(this decimal[][] a, int[][] b, int[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -53732,7 +53732,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[,] Divide(decimal[,] a, int[,] b, int[,] result)
+        public static int[,] Divide(this decimal[,] a, int[,] b, int[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -53795,7 +53795,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Divide(decimal[,] a, int b, int[][] result)
+        public static int[][] Divide(this decimal[,] a, int b, int[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -53852,7 +53852,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[,] Divide(decimal[][] a, int b, int[,] result)
+        public static int[,] Divide(this decimal[][] a, int b, int[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -54033,7 +54033,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Divide(decimal[,] a, int b, int[][] result)
+        public static int[][] Divide(this decimal[,] a, int b, int[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -54066,7 +54066,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[,] Divide(decimal[][] a, int b, int[,] result)
+        public static int[,] Divide(this decimal[][] a, int b, int[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -54483,7 +54483,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(decimal[][] a, int[,] b, double[,] result)
+        public static double[,] Divide(this decimal[][] a, int[,] b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -54518,7 +54518,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(decimal[,] a, int[][] b, double[,] result)
+        public static double[,] Divide(this decimal[,] a, int[][] b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -54553,7 +54553,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(decimal[,] a, int[,] b, double[][] result)
+        public static double[][] Divide(this decimal[,] a, int[,] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -54588,7 +54588,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(decimal[][] a, int[,] b, double[][] result)
+        public static double[][] Divide(this decimal[][] a, int[,] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -54621,7 +54621,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(decimal[,] a, int[][] b, double[][] result)
+        public static double[][] Divide(this decimal[,] a, int[][] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -54653,7 +54653,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(decimal[][] a, int[][] b, double[][] result)
+        public static double[][] Divide(this decimal[][] a, int[][] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -54678,7 +54678,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(decimal[,] a, int[,] b, double[,] result)
+        public static double[,] Divide(this decimal[,] a, int[,] b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -54741,7 +54741,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(decimal[,] a, int b, double[][] result)
+        public static double[][] Divide(this decimal[,] a, int b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -54798,7 +54798,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(decimal[][] a, int b, double[,] result)
+        public static double[,] Divide(this decimal[][] a, int b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -54979,7 +54979,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(decimal[,] a, int b, double[][] result)
+        public static double[][] Divide(this decimal[,] a, int b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -55012,7 +55012,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(decimal[][] a, int b, double[,] result)
+        public static double[,] Divide(this decimal[][] a, int b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -55429,7 +55429,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[,] Divide(decimal[][] a, float[,] b, decimal[,] result)
+        public static decimal[,] Divide(this decimal[][] a, float[,] b, decimal[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -55464,7 +55464,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[,] Divide(decimal[,] a, float[][] b, decimal[,] result)
+        public static decimal[,] Divide(this decimal[,] a, float[][] b, decimal[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -55499,7 +55499,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[][] Divide(decimal[,] a, float[,] b, decimal[][] result)
+        public static decimal[][] Divide(this decimal[,] a, float[,] b, decimal[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -55534,7 +55534,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[][] Divide(decimal[][] a, float[,] b, decimal[][] result)
+        public static decimal[][] Divide(this decimal[][] a, float[,] b, decimal[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -55567,7 +55567,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[][] Divide(decimal[,] a, float[][] b, decimal[][] result)
+        public static decimal[][] Divide(this decimal[,] a, float[][] b, decimal[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -55599,7 +55599,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[][] Divide(decimal[][] a, float[][] b, decimal[][] result)
+        public static decimal[][] Divide(this decimal[][] a, float[][] b, decimal[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -55624,7 +55624,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[,] Divide(decimal[,] a, float[,] b, decimal[,] result)
+        public static decimal[,] Divide(this decimal[,] a, float[,] b, decimal[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -55687,7 +55687,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[][] Divide(decimal[,] a, float b, decimal[][] result)
+        public static decimal[][] Divide(this decimal[,] a, float b, decimal[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -55744,7 +55744,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[,] Divide(decimal[][] a, float b, decimal[,] result)
+        public static decimal[,] Divide(this decimal[][] a, float b, decimal[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -55925,7 +55925,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[][] Divide(decimal[,] a, float b, decimal[][] result)
+        public static decimal[][] Divide(this decimal[,] a, float b, decimal[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -55958,7 +55958,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[,] Divide(decimal[][] a, float b, decimal[,] result)
+        public static decimal[,] Divide(this decimal[][] a, float b, decimal[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -56375,7 +56375,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[,] Divide(decimal[][] a, float[,] b, float[,] result)
+        public static float[,] Divide(this decimal[][] a, float[,] b, float[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -56410,7 +56410,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[,] Divide(decimal[,] a, float[][] b, float[,] result)
+        public static float[,] Divide(this decimal[,] a, float[][] b, float[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -56445,7 +56445,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Divide(decimal[,] a, float[,] b, float[][] result)
+        public static float[][] Divide(this decimal[,] a, float[,] b, float[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -56480,7 +56480,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Divide(decimal[][] a, float[,] b, float[][] result)
+        public static float[][] Divide(this decimal[][] a, float[,] b, float[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -56513,7 +56513,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Divide(decimal[,] a, float[][] b, float[][] result)
+        public static float[][] Divide(this decimal[,] a, float[][] b, float[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -56545,7 +56545,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Divide(decimal[][] a, float[][] b, float[][] result)
+        public static float[][] Divide(this decimal[][] a, float[][] b, float[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -56570,7 +56570,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[,] Divide(decimal[,] a, float[,] b, float[,] result)
+        public static float[,] Divide(this decimal[,] a, float[,] b, float[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -56633,7 +56633,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Divide(decimal[,] a, float b, float[][] result)
+        public static float[][] Divide(this decimal[,] a, float b, float[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -56690,7 +56690,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[,] Divide(decimal[][] a, float b, float[,] result)
+        public static float[,] Divide(this decimal[][] a, float b, float[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -56871,7 +56871,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Divide(decimal[,] a, float b, float[][] result)
+        public static float[][] Divide(this decimal[,] a, float b, float[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -56904,7 +56904,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[,] Divide(decimal[][] a, float b, float[,] result)
+        public static float[,] Divide(this decimal[][] a, float b, float[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -57321,7 +57321,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(decimal[][] a, float[,] b, double[,] result)
+        public static double[,] Divide(this decimal[][] a, float[,] b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -57356,7 +57356,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(decimal[,] a, float[][] b, double[,] result)
+        public static double[,] Divide(this decimal[,] a, float[][] b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -57391,7 +57391,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(decimal[,] a, float[,] b, double[][] result)
+        public static double[][] Divide(this decimal[,] a, float[,] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -57426,7 +57426,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(decimal[][] a, float[,] b, double[][] result)
+        public static double[][] Divide(this decimal[][] a, float[,] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -57459,7 +57459,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(decimal[,] a, float[][] b, double[][] result)
+        public static double[][] Divide(this decimal[,] a, float[][] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -57491,7 +57491,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(decimal[][] a, float[][] b, double[][] result)
+        public static double[][] Divide(this decimal[][] a, float[][] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -57516,7 +57516,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(decimal[,] a, float[,] b, double[,] result)
+        public static double[,] Divide(this decimal[,] a, float[,] b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -57579,7 +57579,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(decimal[,] a, float b, double[][] result)
+        public static double[][] Divide(this decimal[,] a, float b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -57636,7 +57636,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(decimal[][] a, float b, double[,] result)
+        public static double[,] Divide(this decimal[][] a, float b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -57817,7 +57817,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(decimal[,] a, float b, double[][] result)
+        public static double[][] Divide(this decimal[,] a, float b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -57850,7 +57850,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(decimal[][] a, float b, double[,] result)
+        public static double[,] Divide(this decimal[][] a, float b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -58267,7 +58267,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[,] Divide(decimal[][] a, double[,] b, decimal[,] result)
+        public static decimal[,] Divide(this decimal[][] a, double[,] b, decimal[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -58302,7 +58302,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[,] Divide(decimal[,] a, double[][] b, decimal[,] result)
+        public static decimal[,] Divide(this decimal[,] a, double[][] b, decimal[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -58337,7 +58337,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[][] Divide(decimal[,] a, double[,] b, decimal[][] result)
+        public static decimal[][] Divide(this decimal[,] a, double[,] b, decimal[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -58372,7 +58372,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[][] Divide(decimal[][] a, double[,] b, decimal[][] result)
+        public static decimal[][] Divide(this decimal[][] a, double[,] b, decimal[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -58405,7 +58405,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[][] Divide(decimal[,] a, double[][] b, decimal[][] result)
+        public static decimal[][] Divide(this decimal[,] a, double[][] b, decimal[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -58437,7 +58437,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[][] Divide(decimal[][] a, double[][] b, decimal[][] result)
+        public static decimal[][] Divide(this decimal[][] a, double[][] b, decimal[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -58462,7 +58462,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[,] Divide(decimal[,] a, double[,] b, decimal[,] result)
+        public static decimal[,] Divide(this decimal[,] a, double[,] b, decimal[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -58525,7 +58525,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[][] Divide(decimal[,] a, double b, decimal[][] result)
+        public static decimal[][] Divide(this decimal[,] a, double b, decimal[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -58582,7 +58582,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[,] Divide(decimal[][] a, double b, decimal[,] result)
+        public static decimal[,] Divide(this decimal[][] a, double b, decimal[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -58763,7 +58763,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[][] Divide(decimal[,] a, double b, decimal[][] result)
+        public static decimal[][] Divide(this decimal[,] a, double b, decimal[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -58796,7 +58796,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[,] Divide(decimal[][] a, double b, decimal[,] result)
+        public static decimal[,] Divide(this decimal[][] a, double b, decimal[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -59213,7 +59213,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(decimal[][] a, double[,] b, double[,] result)
+        public static double[,] Divide(this decimal[][] a, double[,] b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -59248,7 +59248,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(decimal[,] a, double[][] b, double[,] result)
+        public static double[,] Divide(this decimal[,] a, double[][] b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -59283,7 +59283,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(decimal[,] a, double[,] b, double[][] result)
+        public static double[][] Divide(this decimal[,] a, double[,] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -59318,7 +59318,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(decimal[][] a, double[,] b, double[][] result)
+        public static double[][] Divide(this decimal[][] a, double[,] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -59351,7 +59351,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(decimal[,] a, double[][] b, double[][] result)
+        public static double[][] Divide(this decimal[,] a, double[][] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -59383,7 +59383,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(decimal[][] a, double[][] b, double[][] result)
+        public static double[][] Divide(this decimal[][] a, double[][] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -59408,7 +59408,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(decimal[,] a, double[,] b, double[,] result)
+        public static double[,] Divide(this decimal[,] a, double[,] b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -59471,7 +59471,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(decimal[,] a, double b, double[][] result)
+        public static double[][] Divide(this decimal[,] a, double b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -59528,7 +59528,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(decimal[][] a, double b, double[,] result)
+        public static double[,] Divide(this decimal[][] a, double b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -59709,7 +59709,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(decimal[,] a, double b, double[][] result)
+        public static double[][] Divide(this decimal[,] a, double b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -59742,7 +59742,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(decimal[][] a, double b, double[,] result)
+        public static double[,] Divide(this decimal[][] a, double b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -60159,7 +60159,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[,] Divide(decimal[][] a, byte[,] b, decimal[,] result)
+        public static decimal[,] Divide(this decimal[][] a, byte[,] b, decimal[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -60194,7 +60194,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[,] Divide(decimal[,] a, byte[][] b, decimal[,] result)
+        public static decimal[,] Divide(this decimal[,] a, byte[][] b, decimal[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -60229,7 +60229,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[][] Divide(decimal[,] a, byte[,] b, decimal[][] result)
+        public static decimal[][] Divide(this decimal[,] a, byte[,] b, decimal[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -60264,7 +60264,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[][] Divide(decimal[][] a, byte[,] b, decimal[][] result)
+        public static decimal[][] Divide(this decimal[][] a, byte[,] b, decimal[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -60297,7 +60297,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[][] Divide(decimal[,] a, byte[][] b, decimal[][] result)
+        public static decimal[][] Divide(this decimal[,] a, byte[][] b, decimal[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -60329,7 +60329,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[][] Divide(decimal[][] a, byte[][] b, decimal[][] result)
+        public static decimal[][] Divide(this decimal[][] a, byte[][] b, decimal[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -60354,7 +60354,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[,] Divide(decimal[,] a, byte[,] b, decimal[,] result)
+        public static decimal[,] Divide(this decimal[,] a, byte[,] b, decimal[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -60417,7 +60417,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[][] Divide(decimal[,] a, byte b, decimal[][] result)
+        public static decimal[][] Divide(this decimal[,] a, byte b, decimal[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -60474,7 +60474,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[,] Divide(decimal[][] a, byte b, decimal[,] result)
+        public static decimal[,] Divide(this decimal[][] a, byte b, decimal[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -60655,7 +60655,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[][] Divide(decimal[,] a, byte b, decimal[][] result)
+        public static decimal[][] Divide(this decimal[,] a, byte b, decimal[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -60688,7 +60688,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[,] Divide(decimal[][] a, byte b, decimal[,] result)
+        public static decimal[,] Divide(this decimal[][] a, byte b, decimal[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -61105,7 +61105,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[,] Divide(decimal[][] a, byte[,] b, byte[,] result)
+        public static byte[,] Divide(this decimal[][] a, byte[,] b, byte[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -61140,7 +61140,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[,] Divide(decimal[,] a, byte[][] b, byte[,] result)
+        public static byte[,] Divide(this decimal[,] a, byte[][] b, byte[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -61175,7 +61175,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[][] Divide(decimal[,] a, byte[,] b, byte[][] result)
+        public static byte[][] Divide(this decimal[,] a, byte[,] b, byte[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -61210,7 +61210,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[][] Divide(decimal[][] a, byte[,] b, byte[][] result)
+        public static byte[][] Divide(this decimal[][] a, byte[,] b, byte[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -61243,7 +61243,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[][] Divide(decimal[,] a, byte[][] b, byte[][] result)
+        public static byte[][] Divide(this decimal[,] a, byte[][] b, byte[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -61275,7 +61275,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[][] Divide(decimal[][] a, byte[][] b, byte[][] result)
+        public static byte[][] Divide(this decimal[][] a, byte[][] b, byte[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -61300,7 +61300,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[,] Divide(decimal[,] a, byte[,] b, byte[,] result)
+        public static byte[,] Divide(this decimal[,] a, byte[,] b, byte[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -61363,7 +61363,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[][] Divide(decimal[,] a, byte b, byte[][] result)
+        public static byte[][] Divide(this decimal[,] a, byte b, byte[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -61420,7 +61420,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[,] Divide(decimal[][] a, byte b, byte[,] result)
+        public static byte[,] Divide(this decimal[][] a, byte b, byte[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -61601,7 +61601,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[][] Divide(decimal[,] a, byte b, byte[][] result)
+        public static byte[][] Divide(this decimal[,] a, byte b, byte[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -61634,7 +61634,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[,] Divide(decimal[][] a, byte b, byte[,] result)
+        public static byte[,] Divide(this decimal[][] a, byte b, byte[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -62051,7 +62051,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(decimal[][] a, byte[,] b, double[,] result)
+        public static double[,] Divide(this decimal[][] a, byte[,] b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -62086,7 +62086,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(decimal[,] a, byte[][] b, double[,] result)
+        public static double[,] Divide(this decimal[,] a, byte[][] b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -62121,7 +62121,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(decimal[,] a, byte[,] b, double[][] result)
+        public static double[][] Divide(this decimal[,] a, byte[,] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -62156,7 +62156,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(decimal[][] a, byte[,] b, double[][] result)
+        public static double[][] Divide(this decimal[][] a, byte[,] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -62189,7 +62189,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(decimal[,] a, byte[][] b, double[][] result)
+        public static double[][] Divide(this decimal[,] a, byte[][] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -62221,7 +62221,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(decimal[][] a, byte[][] b, double[][] result)
+        public static double[][] Divide(this decimal[][] a, byte[][] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -62246,7 +62246,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(decimal[,] a, byte[,] b, double[,] result)
+        public static double[,] Divide(this decimal[,] a, byte[,] b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -62309,7 +62309,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(decimal[,] a, byte b, double[][] result)
+        public static double[][] Divide(this decimal[,] a, byte b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -62366,7 +62366,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(decimal[][] a, byte b, double[,] result)
+        public static double[,] Divide(this decimal[][] a, byte b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -62547,7 +62547,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(decimal[,] a, byte b, double[][] result)
+        public static double[][] Divide(this decimal[,] a, byte b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -62580,7 +62580,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(decimal[][] a, byte b, double[,] result)
+        public static double[,] Divide(this decimal[][] a, byte b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -62997,7 +62997,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[,] Divide(decimal[][] a, decimal[,] b, decimal[,] result)
+        public static decimal[,] Divide(this decimal[][] a, decimal[,] b, decimal[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -63032,7 +63032,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[,] Divide(decimal[,] a, decimal[][] b, decimal[,] result)
+        public static decimal[,] Divide(this decimal[,] a, decimal[][] b, decimal[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -63067,7 +63067,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[][] Divide(decimal[,] a, decimal[,] b, decimal[][] result)
+        public static decimal[][] Divide(this decimal[,] a, decimal[,] b, decimal[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -63102,7 +63102,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[][] Divide(decimal[][] a, decimal[,] b, decimal[][] result)
+        public static decimal[][] Divide(this decimal[][] a, decimal[,] b, decimal[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -63135,7 +63135,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[][] Divide(decimal[,] a, decimal[][] b, decimal[][] result)
+        public static decimal[][] Divide(this decimal[,] a, decimal[][] b, decimal[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -63167,7 +63167,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[][] Divide(decimal[][] a, decimal[][] b, decimal[][] result)
+        public static decimal[][] Divide(this decimal[][] a, decimal[][] b, decimal[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -63192,7 +63192,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[,] Divide(decimal[,] a, decimal[,] b, decimal[,] result)
+        public static decimal[,] Divide(this decimal[,] a, decimal[,] b, decimal[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -63255,7 +63255,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[][] Divide(decimal[,] a, decimal b, decimal[][] result)
+        public static decimal[][] Divide(this decimal[,] a, decimal b, decimal[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -63312,7 +63312,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[,] Divide(decimal[][] a, decimal b, decimal[,] result)
+        public static decimal[,] Divide(this decimal[][] a, decimal b, decimal[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -63493,7 +63493,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[][] Divide(decimal[,] a, decimal b, decimal[][] result)
+        public static decimal[][] Divide(this decimal[,] a, decimal b, decimal[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -63526,7 +63526,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[,] Divide(decimal[][] a, decimal b, decimal[,] result)
+        public static decimal[,] Divide(this decimal[][] a, decimal b, decimal[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -63943,7 +63943,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(decimal[][] a, decimal[,] b, double[,] result)
+        public static double[,] Divide(this decimal[][] a, decimal[,] b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -63978,7 +63978,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(decimal[,] a, decimal[][] b, double[,] result)
+        public static double[,] Divide(this decimal[,] a, decimal[][] b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -64013,7 +64013,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(decimal[,] a, decimal[,] b, double[][] result)
+        public static double[][] Divide(this decimal[,] a, decimal[,] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -64048,7 +64048,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(decimal[][] a, decimal[,] b, double[][] result)
+        public static double[][] Divide(this decimal[][] a, decimal[,] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -64081,7 +64081,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(decimal[,] a, decimal[][] b, double[][] result)
+        public static double[][] Divide(this decimal[,] a, decimal[][] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -64113,7 +64113,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(decimal[][] a, decimal[][] b, double[][] result)
+        public static double[][] Divide(this decimal[][] a, decimal[][] b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -64138,7 +64138,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(decimal[,] a, decimal[,] b, double[,] result)
+        public static double[,] Divide(this decimal[,] a, decimal[,] b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -64201,7 +64201,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(decimal[,] a, decimal b, double[][] result)
+        public static double[][] Divide(this decimal[,] a, decimal b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -64258,7 +64258,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(decimal[][] a, decimal b, double[,] result)
+        public static double[,] Divide(this decimal[][] a, decimal b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -64439,7 +64439,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Divide(decimal[,] a, decimal b, double[][] result)
+        public static double[][] Divide(this decimal[,] a, decimal b, double[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -64472,7 +64472,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Divide(decimal[][] a, decimal b, double[,] result)
+        public static double[,] Divide(this decimal[][] a, decimal b, double[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))

@@ -253,7 +253,7 @@ namespace Accord.Math
         /// <returns>The product <c>A*B</c> of the given matrices <c>A</c> and <c>B</c>.</returns>
         /// 
         [Obsolete("Please use Dot instead.")]
-        public static double[,] Multiply(this double[,] a, double[,] b)
+        public static double[,] Multiply(double[,] a, double[,] b)
         {
             return Dot(a, b);
         }
@@ -267,7 +267,7 @@ namespace Accord.Math
         /// <returns>The product <c>A*B</c> of the given matrices <c>A</c> and <c>B</c>.</returns>
         /// 
         [Obsolete("Please use Dot instead.")]
-        public static double[][] Multiply(this double[][] a, double[][] b)
+        public static double[][] Multiply(double[][] a, double[][] b)
         {
             return Dot(a, b);
         }
@@ -281,7 +281,7 @@ namespace Accord.Math
         /// <returns>The product <c>A*B</c> of the given matrices <c>A</c> and <c>B</c>.</returns>
         /// 
         [Obsolete("Please use Dot instead.")]
-        public static float[][] Multiply(this float[][] a, float[][] b)
+        public static float[][] Multiply(float[][] a, float[][] b)
         {
             return Dot(a, b);
         }
@@ -295,7 +295,7 @@ namespace Accord.Math
         /// <returns>The product <c>A*B</c> of the given matrices <c>A</c> and <c>B</c>.</returns>
         /// 
         [Obsolete("Please use Dot instead.")]
-        public static double[][] Multiply(this float[][] a, double[][] b)
+        public static double[][] Multiply(float[][] a, double[][] b)
         {
             return Dot(a, b);
         }
@@ -310,7 +310,7 @@ namespace Accord.Math
         /// <returns>The product <c>A*B</c> of the given matrices <c>A</c> and <c>B</c>.</returns>
         /// 
         [Obsolete("Please use Dot instead.")]
-        public static float[,] Multiply(this float[,] a, float[,] b)
+        public static float[,] Multiply(float[,] a, float[,] b)
         {
             return Dot(a, b);
         }
@@ -326,7 +326,7 @@ namespace Accord.Math
         ///   of the given matrices <c>A</c> and <c>B</c>.</param>
         /// 
         [Obsolete("Please use Dot instead.")]
-        public static void Multiply(this double[,] a, double[,] b, double[,] result)
+        public static void Multiply(double[,] a, double[,] b, double[,] result)
         {
             Dot(a, b, result);
         }
@@ -342,7 +342,7 @@ namespace Accord.Math
         ///   of the given matrices <c>A</c> and <c>B</c>.</param>
         /// 
         [Obsolete("Please use Dot instead.")]
-        public static void Multiply(this double[][] a, double[][] b, double[][] result)
+        public static void Multiply(double[][] a, double[][] b, double[][] result)
         {
             Dot(a, b, result);
         }
@@ -358,7 +358,7 @@ namespace Accord.Math
         ///   of the given matrices <c>A</c> and <c>B</c>.</param>
         /// 
         [Obsolete("Please use Dot instead.")]
-        public static void Multiply(this double[,] a, double[,] b, double[][] result)
+        public static void Multiply(double[,] a, double[,] b, double[][] result)
         {
             Dot(a, b).CopyTo(result);
         }
@@ -374,7 +374,7 @@ namespace Accord.Math
         ///   of the given matrices <c>A</c> and <c>B</c>.</param>
         /// 
         [Obsolete("Please use Dot instead.")]
-        public static void Multiply(this float[][] a, float[][] b, float[][] result)
+        public static void Multiply(float[][] a, float[][] b, float[][] result)
         {
             Dot(a, b, result);
         }
@@ -390,7 +390,7 @@ namespace Accord.Math
         ///   of the given matrices <c>A</c> and <c>B</c>.</param>
         /// 
         [Obsolete("Please use Dot instead.")]
-        public static void Multiply(this float[][] a, double[][] b, double[][] result)
+        public static void Multiply(float[][] a, double[][] b, double[][] result)
         {
             Dot(a, b, result);
         }
@@ -406,7 +406,7 @@ namespace Accord.Math
         ///   of the given matrices <c>A</c> and <c>B</c>.</param>
         /// 
         [Obsolete("Please use Dot instead.")]
-        public static void Multiply(this float[,] a, float[,] b, float[,] result)
+        public static void Multiply(float[,] a, float[,] b, float[,] result)
         {
             Dot(a, b, result);
         }
@@ -812,7 +812,7 @@ namespace Accord.Math
         #endregion
 
 
-      
+
 
         #region Products
         /// <summary>
@@ -1014,9 +1014,9 @@ namespace Accord.Math
         [Obsolete("Please use the Elementwise class instead.")]
         public static double[,] AddToDiagonal(double[,] matrix, double scalar, bool inPlace = false)
         {
-			if (inPlace)
-				return Elementwise.AddToDiagonal(matrix, scalar, matrix);
-			return Elementwise.AddToDiagonal(matrix, scalar);
+            if (inPlace)
+                return Elementwise.AddToDiagonal(matrix, scalar, matrix);
+            return Elementwise.AddToDiagonal(matrix, scalar);
         }
 
         /// <summary>
@@ -1032,8 +1032,8 @@ namespace Accord.Math
         public static double[][] AddToDiagonal(double[][] matrix, double scalar, bool inPlace = false)
         {
             if (inPlace)
-				return Elementwise.AddToDiagonal(matrix, scalar, matrix);
-			return Elementwise.AddToDiagonal(matrix, scalar);
+                return Elementwise.AddToDiagonal(matrix, scalar, matrix);
+            return Elementwise.AddToDiagonal(matrix, scalar);
         }
 
         /// <summary>
@@ -1049,8 +1049,8 @@ namespace Accord.Math
         public static double[][] SubtractFromDiagonal(double[][] matrix, double scalar, bool inPlace = false)
         {
             if (inPlace)
-				return Elementwise.SubtractFromDiagonal(matrix, scalar, matrix);
-			return Elementwise.SubtractFromDiagonal(matrix, scalar);
+                return Elementwise.SubtractFromDiagonal(matrix, scalar, matrix);
+            return Elementwise.SubtractFromDiagonal(matrix, scalar);
         }
 
         #endregion

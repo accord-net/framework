@@ -52,8 +52,8 @@ namespace Accord.Tests.Statistics
 
 
 
-            double[,] CX = Matrix.Centering(3).Multiply(X); // Remove means from rows
-            double[,] XC = X.Multiply(Matrix.Centering(4)); // Remove means from columns
+            double[,] CX = Matrix.Centering(3).Dot(X); // Remove means from rows
+            double[,] XC = X.Dot(Matrix.Centering(4)); // Remove means from columns
 
             double[] colMean = Measures.Mean(X, 1);
             double[] rowMean = Measures.Mean(X, 0);
@@ -68,8 +68,8 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(Matrix.IsEqual(XC, Xc));
             Assert.IsTrue(Matrix.IsEqual(CX, Xr, 0.00001));
 
-            double[,] S1 = XC.Multiply(X.Transpose());
-            double[,] S2 = Xc.Multiply(Xc.Transpose());
+            double[,] S1 = XC.Dot(X.Transpose());
+            double[,] S2 = Xc.Dot(Xc.Transpose());
             double[,] S3 = Measures.Scatter(X, colMean, 1);
 
             Assert.IsTrue(Matrix.IsEqual(S1, S2));
@@ -1090,7 +1090,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(cov.IsEqual(I, 1e-10));
 
             // Check if we can transform the data
-            double[,] result = value.Multiply(T);
+            double[,] result = value.Dot(T);
             Assert.IsTrue(result.IsEqual(actual));
         }
 

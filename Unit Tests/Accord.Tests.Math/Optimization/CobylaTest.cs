@@ -444,6 +444,8 @@ namespace Accord.Tests.Math
         [Test]
         public void ConstructorTest7()
         {
+            Accord.Math.Random.Generator.Seed = 0;
+
             /// This problem is taken from Fletcher's book Practical Methods of
             /// Optimization and has the equation number (14.4.2).
             var function = new NonlinearObjectiveFunction(3, x => x[2]);

@@ -28,7 +28,6 @@ public class MatrixOperationTemplate : Template
         this.Com  = System.Globalization.CultureInfo
             .CurrentCulture.TextInfo.ToTitleCase(com);
         this.op   = op;
-        this.ext = ext ? "this " : "";
     }
 
 	public override string TransformText()
@@ -163,7 +162,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static <#=r#>[] <#=name#>(<#=ext#><#=a#>[] a, <#=b#>[] b)
+        public static <#=r#>[] <#=name#>(this <#=a#>[] a, <#=b#>[] b)
         {
             return <#=name#>(a, b, new <#=r#>[a.Length]);
         }     
@@ -178,7 +177,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static <#=r#>[][] <#=name#>(<#=ext#><#=a#>[][] a, <#=b#>[][] b)
+        public static <#=r#>[][] <#=name#>(this <#=a#>[][] a, <#=b#>[][] b)
         {
             return <#=name#>(a, b, JaggedCreateAs<<#=a#>, <#=r#>>(a));
         }     
@@ -193,7 +192,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static <#=r#>[,] <#=name#>(<#=ext#><#=a#>[,] a, <#=b#>[,] b)
+        public static <#=r#>[,] <#=name#>(this <#=a#>[,] a, <#=b#>[,] b)
         {
             return <#=name#>(a, b, MatrixCreateAs<<#=a#>, <#=r#>>(a));
         }     
@@ -208,7 +207,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static <#=r#>[][] <#=name#>(<#=ext#><#=a#>[][] a, <#=b#>[,] b)
+        public static <#=r#>[][] <#=name#>(this <#=a#>[][] a, <#=b#>[,] b)
         {
             return <#=name#>(a, b, JaggedCreateAs<<#=a#>, <#=r#>>(a));
         }      
@@ -465,7 +464,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static <#=r#>[,] <#=name#>(<#=ext#><#=a#>[][] a, <#=b#>[,] b, <#=r#>[,] result)
+        public static <#=r#>[,] <#=name#>(this <#=a#>[][] a, <#=b#>[,] b, <#=r#>[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -500,7 +499,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static <#=r#>[,] <#=name#>(<#=ext#><#=a#>[,] a, <#=b#>[][] b, <#=r#>[,] result)
+        public static <#=r#>[,] <#=name#>(this <#=a#>[,] a, <#=b#>[][] b, <#=r#>[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -535,7 +534,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static <#=r#>[][] <#=name#>(<#=ext#><#=a#>[,] a, <#=b#>[,] b, <#=r#>[][] result)
+        public static <#=r#>[][] <#=name#>(this <#=a#>[,] a, <#=b#>[,] b, <#=r#>[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -570,7 +569,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static <#=r#>[][] <#=name#>(<#=ext#><#=a#>[][] a, <#=b#>[,] b, <#=r#>[][] result)
+        public static <#=r#>[][] <#=name#>(this <#=a#>[][] a, <#=b#>[,] b, <#=r#>[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -603,7 +602,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static <#=r#>[][] <#=name#>(<#=ext#><#=a#>[,] a, <#=b#>[][] b, <#=r#>[][] result)
+        public static <#=r#>[][] <#=name#>(this <#=a#>[,] a, <#=b#>[][] b, <#=r#>[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -635,7 +634,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static <#=r#>[][] <#=name#>(<#=ext#><#=a#>[][] a, <#=b#>[][] b, <#=r#>[][] result)
+        public static <#=r#>[][] <#=name#>(this <#=a#>[][] a, <#=b#>[][] b, <#=r#>[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -660,7 +659,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static <#=r#>[,] <#=name#>(<#=ext#><#=a#>[,] a, <#=b#>[,] b, <#=r#>[,] result)
+        public static <#=r#>[,] <#=name#>(this <#=a#>[,] a, <#=b#>[,] b, <#=r#>[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(b.GetLength()) || !a.GetLength().IsEqual(result.GetLength()))
@@ -723,7 +722,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static <#=r#>[][] <#=name#>(<#=ext#><#=a#>[,] a, <#=b#> b, <#=r#>[][] result)
+        public static <#=r#>[][] <#=name#>(this <#=a#>[,] a, <#=b#> b, <#=r#>[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -780,7 +779,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static <#=r#>[,] <#=name#>(<#=ext#><#=a#>[][] a, <#=b#> b, <#=r#>[,] result)
+        public static <#=r#>[,] <#=name#>(this <#=a#>[][] a, <#=b#> b, <#=r#>[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -961,7 +960,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static <#=r#>[][] <#=name#>(<#=ext#><#=a#>[,] a, <#=b#> b, <#=r#>[][] result)
+        public static <#=r#>[][] <#=name#>(this <#=a#>[,] a, <#=b#> b, <#=r#>[][] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
@@ -994,7 +993,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static <#=r#>[,] <#=name#>(<#=ext#><#=a#>[][] a, <#=b#> b, <#=r#>[,] result)
+        public static <#=r#>[,] <#=name#>(this <#=a#>[][] a, <#=b#> b, <#=r#>[,] result)
         {
 #if CHECK
             if (!a.GetLength().IsEqual(result.GetLength()))
