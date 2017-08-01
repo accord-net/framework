@@ -151,8 +151,6 @@ namespace Accord.Tests.Math
             foreach (var node in t)
                 Assert.AreEqual(sorted[arrayIndex++], node.Value);
 
-
-
             // Start from min and go navigating up to max
             var min = t.Min();
             Assert.IsNotNull(min);

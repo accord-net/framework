@@ -102,7 +102,6 @@ namespace Accord.Tests.Statistics
                 // Initialize to some random values
                 StartValues = new[] { 4.2, 0.3, 1 },
 
-
                 // Let's assume a quadratic model function: ax² + bx + c
                 Function = (w, x) => w[0] * x[0] * x[0] + w[1] * x[0] + w[2],
 
@@ -127,7 +126,6 @@ namespace Accord.Tests.Statistics
             // Use the function to compute the input values
             double[] predict = regression.Transform(inputs);
             #endregion
-
 
             Assert.IsTrue(nls.Algorithm is LevenbergMarquardt);
 

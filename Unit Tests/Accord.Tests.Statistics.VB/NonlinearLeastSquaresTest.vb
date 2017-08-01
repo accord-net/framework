@@ -1,0 +1,158 @@
+﻿Imports NUnit.Framework
+Imports Accord.Math
+Imports Accord.Math.Optimization
+Imports Accord.Statistics.Models.Regression
+Imports Accord.Statistics.Models.Regression.Fitting
+Imports Accord.Math.Optimization.Losses
+
+Public Class NonlinearLeastSquaresTest
+
+    <Test>
+    Public Sub learn_test()
+
+#Region "doc_learn_lm"
+        ' Suppose we would Like to map the continuous values in the
+        ' second column to the integer values in the first column.
+        Dim data(,) As Double =
+        {
+            {-40, -21142.1111111111},
+            {-30, -21330.1111111111},
+            {-20, -12036.1111111111},
+            {-10, 7255.3888888889},
+            {0, 32474.8888888889},
+            {10, 32474.8888888889},
+            {20, 9060.8888888889},
+            {30, -11628.1111111111},
+            {40, -15129.6111111111}
+        }
+
+        ' Extract inputs And outputs
+        Dim inputs = data.GetColumn(0).ToJagged()
+        Dim outputs = data.GetColumn(1)
+
+        ' Create a Nonlinear regression using 
+        Dim nls As NonlinearLeastSquares = New NonlinearLeastSquares
+        With nls
+            .NumberOfParameters = 3
+
+            ' Initialize to some random values
+            .StartValues = {4.2, 0.3, 1}
+
+            ' Let's assume a quadratic model function: ax² + bx + c
+            .Function = Function(w, x) w(0) * x(0) * x(0) + w(1) * x(0) + w(2)
+
+            ' Derivative in respect to the weights
+            .Gradient = Sub(w, x, r)
+                            r(0) = 2 * w(0) ' w.r.t a:     2a  
+                            r(1) = w(1)     ' w.r.t b: b
+                            r(2) = w(2)     ' w.r.t c: 0
+                        End Sub
+        End With
+
+        Dim algorithm = New LevenbergMarquardt
+        With algorithm
+            .MaxIterations = 100
+            .Tolerance = 0
+        End With
+
+        nls.Algorithm = algorithm
+
+        Dim regression = nls.Learn(inputs, outputs)
+
+        ' Use the function to compute the input values
+        Dim predict As Double() = regression.Transform(inputs)
+#End Region
+
+
+        Assert.IsTrue(TypeOf nls.Algorithm Is LevenbergMarquardt)
+
+        Dim loss = New SquareLoss(outputs)
+        With loss
+            .Mean = False
+        End With
+
+        Dim err As Double = loss.Loss(predict) / 2.0
+
+        Assert.AreEqual(1318374605.8436923D, err)
+
+        Assert.AreEqual(-12.025250289329851, regression.Coefficients(0), 0.001)
+        Assert.AreEqual(-0.082208180694676766, regression.Coefficients(1), 0.001)
+        Assert.AreEqual(-0.27402726898225627, regression.Coefficients(2), 0.001)
+
+        Assert.AreEqual(-19237.386162968953, predict(0))
+        Assert.AreEqual(-10820.533042245008, predict(1))
+        Assert.AreEqual(-4808.7299793870288, predict(2))
+        Assert.AreEqual(-1203.6211380089139, predict(5))
+    End Sub
+
+
+    <Test>
+    Public Sub simple_gauss_newton_test()
+#Region "doc_learn_gn"
+        ' Suppose we would Like to map the continuous values in the
+        ' second row to the integer values in the first row.
+        Dim data As Double(,) =
+        {
+            {0.03, 0.1947, 0.425, 0.626, 1.253, 2.5, 3.74},
+            {0.05, 0.127, 0.094, 0.2122, 0.2729, 0.2665, 0.3317}
+        }
+
+        ' Extract inputs And outputs
+        Dim inputs = data.GetRow(0).ToJagged()
+        Dim outputs = data.GetRow(1)
+
+        ' Create a Nonlinear regression using 
+        Dim nls = New NonlinearLeastSquares
+        With nls
+            ' Initialize to some random values
+            .StartValues = {0.9, 0.2}
+
+            ' Let's assume a quadratic model function: ax² + bx + c
+            .Function = Function(w, x) w(0) * x(0) / (w(1) + x(0))
+
+            ' Derivative in respect to the weights
+            .Gradient = Sub(w, x, r)
+                            r(0) = -((-x(0)) / (w(1) + x(0)))
+                            r(1) = -((w(0) * x(0)) / System.Math.Pow(w(1) + x(0), 2))
+                        End Sub
+        End With
+
+        Dim algorithm = New GaussNewton
+        With algorithm
+            .MaxIterations = 0
+            .Tolerance = 0.00001
+        End With
+
+        nls.Algorithm = algorithm
+
+        Dim regression = nls.Learn(inputs, outputs)
+
+        ' Use the function to compute the input values
+        Dim predict = regression.Transform(inputs)
+#End Region
+
+        Dim alg = TryCast(nls.Algorithm, GaussNewton)
+        Assert.AreEqual(0, alg.MaxIterations)
+        Assert.AreEqual(0.00001, alg.Tolerance)
+        Assert.AreEqual(6, alg.CurrentIteration)
+
+        Dim loss = New SquareLoss(outputs)
+        With loss
+            .Mean = False
+        End With
+
+        Dim err = loss.Loss(predict) / 2.0
+
+        Assert.AreEqual(0.004048452937977628, err, 0.00000001)
+
+        Dim b1 = regression.Coefficients(0)
+        Dim b2 = regression.Coefficients(1)
+
+        Assert.AreEqual(0.362, b1, 0.001)
+        Assert.AreEqual(0.556, b2, 0.003)
+
+        Assert.AreEqual(1.23859, regression.StandardErrors(0), 0.001)
+        Assert.AreEqual(6.06352, regression.StandardErrors(1), 0.005)
+    End Sub
+
+End Class
