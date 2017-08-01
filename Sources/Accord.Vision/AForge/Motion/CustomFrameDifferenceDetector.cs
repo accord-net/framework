@@ -1,9 +1,30 @@
-﻿// AForge Vision Library
+﻿// Accord Vision Library
+// The Accord.NET Framework
+// http://accord-framework.net
+//
+// Copyright © César Souza, 2009-2017
+// cesarsouza at gmail.com
+//
+// AForge Image Processing Library
 // AForge.NET framework
 // http://www.aforgenet.com/framework/
 //
-// Copyright © AForge.NET, 2005-2011
+// Copyright © AForge.NET, 2005-2010
 // contacts@aforgenet.com
+//
+//    This library is free software; you can redistribute it and/or
+//    modify it under the terms of the GNU Lesser General Public
+//    License as published by the Free Software Foundation; either
+//    version 2.1 of the License, or (at your option) any later version.
+//
+//    This library is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+//    Lesser General Public License for more details.
+//
+//    You should have received a copy of the GNU Lesser General Public
+//    License along with this library; if not, write to the Free Software
+//    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
 namespace Accord.Vision.Motion
@@ -86,8 +107,8 @@ namespace Accord.Vision.Motion
 
         // binary erosion filter
         private BinaryErosion3x3 erosionFilter = new BinaryErosion3x3();
-        // binary dilatation filter
-        private BinaryDilatation3x3 dilatationFilter = new BinaryDilatation3x3();
+        // binary dilation filter
+        private BinaryDilation3x3 dilationFilter = new BinaryDilation3x3();
 
         // dummy object to lock for synchronization
         private object sync = new object();
@@ -206,7 +227,7 @@ namespace Accord.Vision.Motion
         /// </summary>
         /// 
         /// <remarks><para>The value specifies if additional filtering should be done
-        /// to restore objects' edges after noise suppression by applying 3x3 dilatation
+        /// to restore objects' edges after noise suppression by applying 3x3 dilation
         /// image processing filter.</para>
         /// 
         /// <para>Default value is set to <see langword="false"/>.</para>
@@ -336,7 +357,7 @@ namespace Accord.Vision.Motion
                         if (keepObjectEdges)
                         {
                             Accord.SystemTools.CopyUnmanagedMemory(tempFrame.ImageData, motionFrame.ImageData, frameSize);
-                            dilatationFilter.Apply(tempFrame, motionFrame);
+                            dilationFilter.Apply(tempFrame, motionFrame);
                         }
                     }
 

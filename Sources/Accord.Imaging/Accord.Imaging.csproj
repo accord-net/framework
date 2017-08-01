@@ -167,13 +167,13 @@
     <Compile Include="AForge.Imaging\Filters\IlluminationCorrection\FlatFieldCorrection.cs" />
     <Compile Include="AForge.Imaging\Filters\Morphology\BottomHat.cs" />
     <Compile Include="AForge.Imaging\Filters\Morphology\Closing.cs" />
-    <Compile Include="AForge.Imaging\Filters\Morphology\Dilatation.cs" />
+    <Compile Include="AForge.Imaging\Filters\Morphology\Dilation.cs" />
     <Compile Include="AForge.Imaging\Filters\Morphology\Erosion.cs" />
     <Compile Include="AForge.Imaging\Filters\Morphology\HitAndMiss.cs" />
     <Compile Include="AForge.Imaging\Filters\Morphology\Opening.cs" />
-    <Compile Include="AForge.Imaging\Filters\Morphology\Specific Optimizations\BinaryDilatation3x3.cs" />
+    <Compile Include="AForge.Imaging\Filters\Morphology\Specific Optimizations\BinaryDilation3x3.cs" />
     <Compile Include="AForge.Imaging\Filters\Morphology\Specific Optimizations\BinaryErosion3x3.cs" />
-    <Compile Include="AForge.Imaging\Filters\Morphology\Specific Optimizations\Dilatation3x3.cs" />
+    <Compile Include="AForge.Imaging\Filters\Morphology\Specific Optimizations\Dilation3x3.cs" />
     <Compile Include="AForge.Imaging\Filters\Morphology\Specific Optimizations\Erosion3.x3.cs" />
     <Compile Include="AForge.Imaging\Filters\Morphology\TopHat.cs" />
     <Compile Include="AForge.Imaging\Filters\Noise generation\AdditiveNoise.cs" />
