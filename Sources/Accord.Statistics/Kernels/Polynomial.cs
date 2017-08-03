@@ -69,7 +69,7 @@ namespace Accord.Statistics.Kernels
             get { return degree; }
             set
             {
-                if (degree <= 0)
+                if (value <= 0)
                     throw new ArgumentOutOfRangeException("value", "Degree must be positive.");
 
                 degree = value;
