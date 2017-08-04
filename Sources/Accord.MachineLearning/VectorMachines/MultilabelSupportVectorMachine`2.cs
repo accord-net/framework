@@ -439,14 +439,53 @@ namespace Accord.MachineLearning.VectorMachines
 
             Cache cache = createOrResetCache();
 
-            var d = decision;
-            Parallel.For(0, Models.Length, ParallelOptions, i =>
+            bool[] d = decision;
+
+            if (ParallelOptions.MaxDegreeOfParallelism == 1)
             {
-                result[i] = distance(i, input, cache);
-                d[i] = Classes.Decide(result[i]);
-            });
+                for (int i = 0; i < Models.Length; i++) 
+                {
+                    result[i] = distance(i, input, cache);
+                    d[i] = Classes.Decide(result[i]);
+                }
+            }
+            else
+            {
+                Parallel.For(0, Models.Length, ParallelOptions, i =>
+                {
+                    result[i] = distance(i, input, cache);
+                    d[i] = Classes.Decide(result[i]);
+                });
+            }
 
             decision = d;
+            return result;
+        }
+
+        /// <summary>
+        /// Predicts a class label vector for the given input vector, returning the
+        /// log-likelihoods of the input vector belonging to each possible class.
+        /// </summary>
+        /// <param name="input">The input vector.</param>
+        /// <param name="decision">The class label predicted by the classifier.</param>
+        /// <param name="result">An array where the log-likelihoods will be stored,
+        /// avoiding unnecessary memory allocations.</param>
+        public override double[] LogLikelihoods(TInput input, ref bool[] decision, double[] result)
+        {
+            this.Scores(input, ref decision, result);
+            for (int i = 0; i < result.Length; i++)
+            {
+#if DEBUG
+                double expectedScore = this.Models[i].Score(input);
+                Accord.Diagnostics.Debug.Assert(result[i].IsEqual(expectedScore, rtol: 1e-3));
+#endif
+                result[i] = -Special.Log1pexp(-result[i]);
+#if DEBUG
+                double expectedLogLikelihood = this.Models[i].LogLikelihood(input);
+                Accord.Diagnostics.Debug.Assert(result[i].IsEqual(expectedLogLikelihood, rtol: 1e-3));
+#endif
+
+            }
             return result;
         }
 
@@ -681,6 +720,6 @@ namespace Accord.MachineLearning.VectorMachines
             this.ParallelOptions = new ParallelOptions();
             initialize();
         }
-        
+
     }
 }
