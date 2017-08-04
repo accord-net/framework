@@ -737,23 +737,25 @@ Iris-virginica =: (2 > 2.45) && (3 > 1.75) && (0 <= 5.95) && (1 <= 3.05)
             teacher.Join = 3;
 
             double error = teacher.Run(inputs, outputs);
-            Assert.AreEqual(0.02, error, 1e-10);
+            Assert.AreEqual(0.00, error, 1e-10);
 
             DecisionSet rules = tree.ToRules();
 
             double newError = ComputeError(rules, inputs, outputs);
-            Assert.AreEqual(0.02, newError, 1e-10);
+            Assert.AreEqual(0.00, newError, 1e-10);
 
             string ruleText = rules.ToString(codebook,
                 System.Globalization.CultureInfo.InvariantCulture);
 
             string expected = @"0 =: (petal length <= 2.45)
-1 =: (petal length > 2.45) && (petal width <= 1.75) && (sepal length <= 7.05) && (petal length <= 4.95)
 1 =: (petal length > 2.45) && (petal width > 1.75) && (petal length <= 4.85) && (sepal length <= 5.95)
+1 =: (petal length > 2.45) && (petal width <= 1.75) && (sepal length <= 7.05) && (petal length <= 4.95) && (petal width <= 1.65)
+1 =: (petal length > 2.45) && (petal width <= 1.75) && (sepal length <= 7.05) && (petal length > 4.95) && (petal width > 1.55)
 2 =: (petal length > 2.45) && (petal width <= 1.75) && (sepal length > 7.05)
 2 =: (petal length > 2.45) && (petal width > 1.75) && (petal length > 4.85)
-2 =: (petal length > 2.45) && (petal width <= 1.75) && (sepal length <= 7.05) && (petal length > 4.95)
 2 =: (petal length > 2.45) && (petal width > 1.75) && (petal length <= 4.85) && (sepal length > 5.95)
+2 =: (petal length > 2.45) && (petal width <= 1.75) && (sepal length <= 7.05) && (petal length <= 4.95) && (petal width > 1.65)
+2 =: (petal length > 2.45) && (petal width <= 1.75) && (sepal length <= 7.05) && (petal length > 4.95) && (petal width <= 1.55)
 ";
             expected = expected.Replace("\r\n", Environment.NewLine);
 
@@ -857,6 +859,31 @@ Iris-virginica =: (2 > 2.45) && (3 > 1.75) && (0 <= 5.95) && (1 <= 3.05)
             });
 
             Assert.Throws<ArgumentException>(() => c45Learning.Learn(inputs, outputs, weights));
+        }
+
+        [Test]
+        public void max_height()
+        {
+            double[][] inputs =
+           {
+                new double[] { 1, 4 },
+                new double[] { 0, 2 },
+                new double[] { 2, 1 },
+                new double[] { 3, 7 },
+                new double[] { 0, 1 },
+            };
+
+            int[] outputs = { 1, 1, 2, 3, 1 };
+
+            var target = new C45Learning()
+            {
+                MaxHeight = 1   
+            };
+
+            var tree = target.Learn(inputs, outputs);
+
+            int height = tree.GetHeight();
+            Assert.AreEqual(1, height);
         }
     }
 }

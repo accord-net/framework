@@ -41,6 +41,7 @@
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -59,7 +60,9 @@
     <Compile Include="Clustering\KMeans\BalancedKMeans.cs" />
     <Compile Include="DecisionTrees\DecisionTreeHelper.cs" />
     <Compile Include="BaseKNearestNeighbors`2.cs" />
+    <Compile Include="DecisionTrees\Learning\Base\DecisionTreeLearningBase.cs" />
     <Compile Include="MiniBatches.cs" />
+    <Compile Include="Performance\CrossValidation\New\CrossValidation`4.cs" />
     <Compile Include="Performance\DataSubset.cs" />
     <Compile Include="Performance\GridSearch\New\GridSearchRange.cs" />
     <Compile Include="Performance\GridSearch\New\GridSearch`2.cs" />

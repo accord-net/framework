@@ -65,6 +65,10 @@ namespace Accord.MachineLearning.DecisionTrees
     ///   This example shows the simplest way to induce a decision tree with continuous variables.</para>
     ///   <code source="Unit Tests\Accord.Tests.MachineLearning\DecisionTrees\C45LearningTest.cs" region="doc_simplest" />
     ///   <para>For more examples with continuous variables, please see <see cref="C45Learning"/></para>
+    ///   
+    /// <para>
+    ///   The next example shows how to estimate the true performance of a decision tree model using cross-validation:</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\DecisionTrees\DecisionTreeTest.cs" region="doc_cross_validation" />
     /// </example>
     /// 
     /// <seealso cref="ID3Learning"/>
