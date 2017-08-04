@@ -70,9 +70,10 @@ namespace Accord.MachineLearning.Performance
     ///     <code source="Unit Tests\Accord.Tests.MachineLearning\GridSearchTest.cs" region="doc_create" />
     ///   
     ///   <para>
-    ///     Finally, it is also possible to combine grid-search with <see cref="CrossValidation{TModel, TInput, TOutput}"/>, as shown
-    ///     in the example below: </para>
+    ///     Finally, it is also possible to combine grid-search with <see cref="CrossValidation{TModel, TInput, TOutput}"/>, 
+    ///     as shown in the examples below: </para>
     ///     <code source="Unit Tests\Accord.Tests.MachineLearning\GridSearchTest.cs" region="doc_learn_cv" />
+    ///     <code source="Unit Tests\Accord.Tests.MachineLearning\GridSearchTest.cs" region="doc_learn_tree_cv" />
     /// </example>
     /// 
     public class GridSearch<TModel, TRange, TLearner, TInput, TOutput> 

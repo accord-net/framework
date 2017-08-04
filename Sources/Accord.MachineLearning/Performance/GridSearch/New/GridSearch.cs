@@ -22,6 +22,7 @@
 
 namespace Accord.MachineLearning.Performance
 {
+    using Accord.Math;
     using System;
 
     /// <summary>
@@ -62,9 +63,10 @@ namespace Accord.MachineLearning.Performance
     ///     <code source="Unit Tests\Accord.Tests.MachineLearning\GridSearchTest.cs" region="doc_create" />
     ///   
     ///   <para>
-    ///     Finally, it is also possible to combine grid-search with <see cref="CrossValidation{TModel, TInput, TOutput}"/>, as shown
-    ///     in the example below: </para>
+    ///     Finally, it is also possible to combine grid-search with <see cref="CrossValidation{TModel, TInput, TOutput}"/>, 
+    ///     as shown in the examples below: </para>
     ///     <code source="Unit Tests\Accord.Tests.MachineLearning\GridSearchTest.cs" region="doc_learn_cv" />
+    ///     <code source="Unit Tests\Accord.Tests.MachineLearning\GridSearchTest.cs" region="doc_learn_tree_cv" />
     /// </example>
     /// 
     public static class GridSearch
@@ -77,10 +79,45 @@ namespace Accord.MachineLearning.Performance
         /// 
         /// <param name="values">The values to be included in <see cref="GridSearch"/>.</param>
         /// 
-        public static GridSearchRange<T> Range<T>(params T[] values)
+        public static GridSearchRange<T> Values<T>(params T[] values)
         {
             return new GridSearchRange<T>() { Values = values };
         }
+
+#if !DISABLE_DYNAMIC
+        /// <summary>
+        ///   Creates a range of parameter values that should be searched during <see cref="GridSearch"/>.
+        /// </summary>
+        /// 
+        /// <typeparam name="T">The type of the parameter values.</typeparam>
+        /// 
+        public static GridSearchRange<T> Range<T>(T toExclusive)
+        {
+            return new GridSearchRange<T>() { Values = Vector.Range(n: (dynamic)toExclusive) };
+        }
+
+        /// <summary>
+        ///   Creates a range of parameter values that should be searched during <see cref="GridSearch"/>.
+        /// </summary>
+        /// 
+        /// <typeparam name="T">The type of the parameter values.</typeparam>
+        /// 
+        public static GridSearchRange<T> Range<T>(T fromInclusive, T toExclusive)
+        {
+            return new GridSearchRange<T>() { Values = Vector.Range(a: (dynamic)fromInclusive, b: (dynamic)toExclusive) };
+        }
+
+        /// <summary>
+        ///   Creates a range of parameter values that should be searched during <see cref="GridSearch"/>.
+        /// </summary>
+        /// 
+        /// <typeparam name="T">The type of the parameter values.</typeparam>
+        /// 
+        public static GridSearchRange<T> Range<T>(T fromInclusive, T toExclusive, T stepSize)
+        {
+            return new GridSearchRange<T>() { Values = Vector.Range(a: (dynamic)fromInclusive, b: (dynamic)toExclusive, stepSize: (dynamic)stepSize) };
+        }
+#endif
 
 
         /// <summary>
@@ -98,7 +135,6 @@ namespace Accord.MachineLearning.Performance
         /// <param name="fit">A function that specifies how to create a new model using the teacher learning algorirhm.</param>
         /// <param name="x">The input data to be used during training.</param>
         /// <param name="y">The output data to be used during training.</param>
-        /// <param name="weights">The weights of each instance in the trianing data.</param>
         /// 
         /// <example>
         ///   <code source="Unit Tests\Accord.Tests.MachineLearning\GridSearchTest.cs" region="doc_create" />
@@ -106,16 +142,16 @@ namespace Accord.MachineLearning.Performance
         /// 
         /// <returns>A grid-search algorithm that has been configured with the given parameters.</returns>
         /// 
-        public static GridSearchResult<TModel, TInput, TOutput> Create<TInput, TOutput, TModel, TLearner>(
+        public static GridSearch<TModel, TLearner, TInput, TOutput> Create<TInput, TOutput, TModel, TLearner>(
             GridSearchRange[] ranges,
             CreateLearnerFromParameter<TLearner, GridSearchParameterCollection> learner,
             ComputeLoss<TOutput, TModel> loss,
             LearnNewModel<TLearner, TInput, TOutput, TModel> fit,
-            TInput[] x, TOutput[] y, double[] weights = null)
+            TInput[] x, TOutput[] y)
         where TModel : class, ITransform<TInput, TOutput>
         where TLearner : ISupervisedLearning<TModel, TInput, TOutput>
         {
-            return GridSearch<TInput, TOutput>.Create(ranges, learner, loss, fit).Learn(x, y, weights);
+            return GridSearch<TInput, TOutput>.Create(ranges, learner, loss, fit);
         }
 
         /// <summary>
@@ -134,7 +170,6 @@ namespace Accord.MachineLearning.Performance
         /// <param name="fit">A function that specifies how to create a new model using the teacher learning algorirhm.</param>
         /// <param name="x">The input data to be used during training.</param>
         /// <param name="y">The output data to be used during training.</param>
-        /// <param name="weights">The weights of each instance in the trianing data.</param>
         /// 
         /// <example>
         ///   <code source="Unit Tests\Accord.Tests.MachineLearning\GridSearchTest.cs" region="doc_learn_strongly_typed" />
@@ -142,16 +177,16 @@ namespace Accord.MachineLearning.Performance
         /// 
         /// <returns>A grid-search algorithm that has been configured with the given parameters.</returns>
         /// 
-        public static GridSearchResult<TModel, TRange, TInput, TOutput> Create<TInput, TOutput, TRange, TModel, TLearner>(
+        public static GridSearch<TModel, TRange, TLearner, TInput, TOutput> Create<TInput, TOutput, TRange, TModel, TLearner>(
             TRange ranges,
             CreateLearnerFromParameter<TLearner, TRange> learner,
             ComputeLoss<TOutput, TModel> loss,
             LearnNewModel<TLearner, TInput, TOutput, TModel> fit,
-            TInput[] x, TOutput[] y, double[] weights = null)
+            TInput[] x, TOutput[] y)
         where TModel : class, ITransform<TInput, TOutput>
         where TLearner : ISupervisedLearning<TModel, TInput, TOutput>
         {
-            return GridSearch<TInput, TOutput>.Create(ranges, learner, loss, fit).Learn(x, y, weights);
+            return GridSearch<TInput, TOutput>.Create(ranges, learner, loss, fit);
         }
 
         /// <summary>
@@ -172,7 +207,6 @@ namespace Accord.MachineLearning.Performance
         /// <param name="folds">The number of folds in the k-fold cross-validation. Default is 10.</param>
         /// <param name="x">The input data to be used during training.</param>
         /// <param name="y">The output data to be used during training.</param>
-        /// <param name="weights">The weights of each instance in the trianing data.</param>
         /// 
         /// <example>
         ///   <code source="Unit Tests\Accord.Tests.MachineLearning\GridSearchTest.cs" region="doc_learn_strongly_typed" />
@@ -180,16 +214,17 @@ namespace Accord.MachineLearning.Performance
         /// 
         /// <returns>A grid-search algorithm that has been configured with the given parameters.</returns>
         /// 
-        public static GridSearchResult<CrossValidationResult<TModel, TInput, TOutput>, TRange, TInput, TOutput> CrossValidate<TInput, TOutput, TRange, TModel, TLearner>(
+        public static GridSearch<CrossValidationResult<TModel, TInput, TOutput>, TRange, CrossValidation<TModel, TInput, TOutput>, TInput, TOutput> 
+            CrossValidate<TInput, TOutput, TRange, TModel, TLearner>(
             TRange ranges,
             Func<TRange, DataSubset<TInput, TOutput>, TLearner> learner,
             ComputeLoss<TOutput, TModel> loss,
             LearnNewModel<TLearner, TInput, TOutput, TModel> fit, // necessary to auto-detect TModel,
-            TInput[] x, TOutput[] y, double[] weights = null, int folds = 10)
+            TInput[] x, TOutput[] y, int folds = 10)
         where TModel : class, ITransform<TInput, TOutput>
         where TLearner : ISupervisedLearning<TModel, TInput, TOutput>
         {
-            return GridSearch<TInput, TOutput>.CrossValidate(ranges, learner, loss, fit, folds).Learn(x, y, weights);
+            return GridSearch<TInput, TOutput>.CrossValidate(ranges, learner, loss, fit, folds);
         }
 
         /// <summary>
@@ -209,7 +244,6 @@ namespace Accord.MachineLearning.Performance
         /// <param name="folds">The number of folds in the k-fold cross-validation. Default is 10.</param>
         /// <param name="x">The input data to be used during training.</param>
         /// <param name="y">The output data to be used during training.</param>
-        /// <param name="weights">The weights of each instance in the trianing data.</param>
         /// 
         /// <example>
         ///   <code source="Unit Tests\Accord.Tests.MachineLearning\GridSearchTest.cs" region="doc_learn_strongly_typed" />
@@ -217,16 +251,16 @@ namespace Accord.MachineLearning.Performance
         /// 
         /// <returns>A grid-search algorithm that has been configured with the given parameters.</returns>
         /// 
-        public static GridSearchResult<CrossValidationResult<TModel, TInput, TOutput>, TInput, TOutput> CrossValidate<TInput, TOutput, TModel, TLearner>(
+        public static GridSearch<CrossValidationResult<TModel, TInput, TOutput>, CrossValidation<TModel, TInput, TOutput>, TInput, TOutput> CrossValidate<TInput, TOutput, TModel, TLearner>(
             GridSearchRange[] ranges,
             Func<GridSearchParameterCollection, DataSubset<TInput, TOutput>, TLearner> learner,
              ComputeLoss<TOutput, TModel> loss,
             LearnNewModel<TLearner, TInput, TOutput, TModel> fit, // necessary to auto-detect TModel,
-            TInput[] x, TOutput[] y, double[] weights = null, int folds = 10)
+            TInput[] x, TOutput[] y, int folds = 10)
         where TModel : class, ITransform<TInput, TOutput>
         where TLearner : ISupervisedLearning<TModel, TInput, TOutput>
         {
-            return GridSearch<TInput, TOutput>.CrossValidate(ranges, learner, loss, fit, folds).Learn(x, y, weights);
+            return GridSearch<TInput, TOutput>.CrossValidate(ranges, learner, loss, fit, folds);
         }
     }
 }

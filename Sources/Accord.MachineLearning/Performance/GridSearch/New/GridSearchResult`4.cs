@@ -132,7 +132,10 @@ namespace Accord.MachineLearning.Performance
         }
 
         /// <summary>
-        ///   Gets the minimum error found.
+        ///   Gets the minimum validation error found. If this
+        ///   result has been retrieved through Grid-Search Cross-Validation,
+        ///   this will correspond to the minimum average validation error
+        ///   for the different data splits (validation folds).
         /// </summary>
         /// 
         public double BestModelError
