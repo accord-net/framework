@@ -587,7 +587,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(distinct.IsEqual(new int[] { 2 }));
             Assert.IsTrue(kurtosis.IsEqual(new double[] { Double.NaN }));
             Assert.IsTrue(means.IsEqual(new double[] { 47 }));
-            Assert.IsTrue(medians.IsEqual(new double[] { 94 }));
+            Assert.IsTrue(medians.IsEqual(new double[] { 47 }));
             Assert.IsTrue(modes.IsEqual(new double[] { 52.0 })
                        || modes.IsEqual(new double[] { 42.0 }));
             Assert.IsTrue(samples == 2);
@@ -618,16 +618,16 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(56.799819922700266, confidence[0].Max);
 
             Assert.AreEqual(1, quartiles.Length);
-            Assert.AreEqual(73, quartiles[0].Min);
-            Assert.AreEqual(68, quartiles[0].Max);
+            Assert.AreEqual(44.5, quartiles[0].Min);
+            Assert.AreEqual(49.5, quartiles[0].Max);
 
             Assert.AreEqual(1, innerFence.Length);
-            Assert.AreEqual(80.5, innerFence[0].Min);
-            Assert.AreEqual(60.5, innerFence[0].Max);
+            Assert.AreEqual(37, innerFence[0].Min);
+            Assert.AreEqual(57, innerFence[0].Max);
 
             Assert.AreEqual(1, outerFence.Length);
-            Assert.AreEqual(88, outerFence[0].Min);
-            Assert.AreEqual(53, outerFence[0].Max);
+            Assert.AreEqual(29.5, outerFence[0].Min);
+            Assert.AreEqual(64.5, outerFence[0].Max);
         }
 
         [Test]
