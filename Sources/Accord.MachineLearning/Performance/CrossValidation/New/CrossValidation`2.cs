@@ -65,6 +65,7 @@ namespace Accord.MachineLearning.Performance
     /// <example>
     ///   <code source="Unit Tests\Accord.Tests.MachineLearning\CrossValidationTest.cs" region="doc_learn" />
     ///   <code source="Unit Tests\Accord.Tests.MachineLearning\CrossValidationTest.cs" region="doc_learn_hmm" />
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\DecisionTrees\DecisionTreeTest.cs" region="doc_cross_validation" />
     /// </example>
     /// 
     /// <seealso cref="Bootstrap{TModel, TInput, TOutput}"/>

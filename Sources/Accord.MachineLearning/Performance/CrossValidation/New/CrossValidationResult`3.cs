@@ -34,6 +34,11 @@ namespace Accord.MachineLearning.Performance
     /// <typeparam name="TInput">The type of the input data.</typeparam>
     /// <typeparam name="TOutput">The type of the output data or labels.</typeparam>
     /// 
+    /// <example>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\CrossValidationTest.cs" region="doc_learn" />
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\CrossValidationTest.cs" region="doc_learn_hmm" />
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\DecisionTrees\DecisionTreeTest.cs" region="doc_cross_validation" />
+    /// </example>
     /// 
     [Serializable]
     public class CrossValidationResult<TModel, TInput, TOutput> : TrainValSplit<CrossValidationStatistics>,
