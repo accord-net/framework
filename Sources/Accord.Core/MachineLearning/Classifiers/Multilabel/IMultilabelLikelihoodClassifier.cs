@@ -31,8 +31,8 @@ namespace Accord.MachineLearning
     /// <typeparam name="TInput">The data type for the input data. Default is double[].</typeparam>
     /// <typeparam name="TClasses">The data type for the class labels. Default is int[].</typeparam>
     /// 
-    public interface IMultilabelLikelihoodClassifier<TInput, TClasses> :
-        IMultilabelScoreClassifier<TInput, TClasses>
+    public interface IMultilabelLikelihoodClassifierBase<TInput, TClasses> :
+        IMultilabelScoreClassifierBase<TInput, TClasses>
     {
         /// <summary>
         ///   Predicts a class label vector for each input vector, returning the
@@ -89,7 +89,7 @@ namespace Accord.MachineLearning
     /// <typeparam name="TClasses">The data type for the class labels. Default is int[].</typeparam>
     /// 
     public interface IMultilabelOutLikelihoodClassifier<TInput, TClasses> :
-        IMultilabelLikelihoodClassifier<TInput, TClasses>,
+        IMultilabelLikelihoodClassifierBase<TInput, TClasses>,
         IMultilabelOutScoreClassifier<TInput, TClasses>
     {
         /// <summary>
@@ -157,7 +157,7 @@ namespace Accord.MachineLearning
     /// <typeparam name="TClasses">The data type for the class labels. Default is int[].</typeparam>
     /// 
     public interface IMultilabelRefLikelihoodClassifier<TInput, TClasses> :
-        IMultilabelLikelihoodClassifier<TInput, TClasses>,
+        IMultilabelLikelihoodClassifierBase<TInput, TClasses>,
         IMultilabelRefScoreClassifier<TInput, TClasses>
     {
         /// <summary>
@@ -209,6 +209,20 @@ namespace Accord.MachineLearning
 
     /// <summary>
     ///   Common interface for generative multi-label classifiers. A multi-label
+    ///   classifier can predict the occurrence of multiple class labels at once.
+    /// </summary>
+    /// 
+    /// <typeparam name="TInput">The data type for the input data. Default is double[].</typeparam>
+    /// <typeparam name="TClasses">The data type for the class labels. Default is int[].</typeparam>
+    /// 
+    public interface IMultilabelLikelihoodClassifier<TInput, TClasses> :
+        IMultilabelOutLikelihoodClassifier<TInput, TClasses>,
+        IMultilabelRefLikelihoodClassifier<TInput, TClasses[]>
+    {
+    }
+
+    /// <summary>
+    ///   Common interface for generative multi-label classifiers. A multi-label
     ///   classifier can predict the occurrence of multiple class labels at once,
     ///   as well as their probabilities.
     /// </summary>
@@ -216,11 +230,9 @@ namespace Accord.MachineLearning
     /// <typeparam name="TInput">The data type for the input data. Default is double[].</typeparam>
     /// 
     public interface IMultilabelLikelihoodClassifier<TInput> :
-        IMultilabelOutLikelihoodClassifier<TInput, int>,
-        IMultilabelOutLikelihoodClassifier<TInput, double>,
-        IMultilabelRefLikelihoodClassifier<TInput, int[]>,
+        IMultilabelLikelihoodClassifier<TInput, int>,
+        IMultilabelLikelihoodClassifier<TInput, double>,
         IMultilabelRefLikelihoodClassifier<TInput, bool[]>,
-        IMultilabelRefLikelihoodClassifier<TInput, double[]>,
         IMultilabelScoreClassifier<TInput>
     {
 
@@ -426,14 +438,24 @@ namespace Accord.MachineLearning
         double[][] Probabilities(TInput[] input, double[][] result);
 
 
-        ///// <summary>
-        ///// Views this instance as a multi-class generative classifier.
-        ///// </summary>
-        ///// 
-        ///// <returns>
-        ///// This instance seen as an <see cref="IMulticlassLikelihoodClassifier{TInput}" />.
-        ///// </returns>
-        ///// 
-        //new IMulticlassLikelihoodClassifier<TInput> ToMulticlass();
+        /// <summary>
+        /// Views this instance as a multi-class generative classifier.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// This instance seen as an <see cref="IMulticlassLikelihoodClassifier{TInput}" />.
+        /// </returns>
+        /// 
+        new IMulticlassLikelihoodClassifier<TInput> ToMulticlass();
+
+        /// <summary>
+        /// Views this instance as a multi-class generative classifier.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// This instance seen as an <see cref="IMulticlassLikelihoodClassifier{TInput}" />.
+        /// </returns>
+        /// 
+        new IMulticlassLikelihoodClassifier<TInput, T> ToMulticlass<T>();
     }
 }

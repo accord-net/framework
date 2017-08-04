@@ -29,11 +29,7 @@ namespace Accord.MachineLearning
     ///   from an input vector <c>x</c>.
     /// </summary>
     /// 
-    /// <typeparam name="TInput">The data type for the input data. Default is double[].</typeparam>
-    /// <typeparam name="TClasses">The data type for the class labels. Default is int.</typeparam>
-    /// 
-    public interface IClassifier<in TInput, TClasses> :
-        ITransform<TInput, TClasses>
+    public interface IClassifier
     {
         /// <summary>
         ///   Gets or sets the number of classes expected and recognized by the classifier.
@@ -44,6 +40,20 @@ namespace Accord.MachineLearning
             get;
             set;
         }
+    }
+
+    /// <summary>
+    ///   Common interface for classification models. Classification models
+    ///   learn how to produce a class-label (or a set of class labels) <c>y</c>
+    ///   from an input vector <c>x</c>.
+    /// </summary>
+    /// 
+    /// <typeparam name="TInput">The data type for the input data. Default is double[].</typeparam>
+    /// <typeparam name="TClasses">The data type for the class labels. Default is int.</typeparam>
+    /// 
+    public interface IClassifier<in TInput, TClasses> : IClassifier,
+        ITransform<TInput, TClasses>
+    {
 
         /// <summary>
         ///   Computes a class-label decision for a given <paramref name="input"/>.

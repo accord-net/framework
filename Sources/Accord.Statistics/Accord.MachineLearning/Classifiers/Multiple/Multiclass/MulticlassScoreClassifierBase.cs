@@ -87,7 +87,7 @@ namespace Accord.MachineLearning
         /// Computes a class-label decision for a given <paramref name="input" />.
         /// </summary>
         /// <param name="input">The input vector that should be classified into
-        /// one of the <see cref="IClassifier{TInput, TClasses}.NumberOfClasses" /> possible classes.</param>
+        /// one of the <see cref="IClassifier.NumberOfClasses" /> possible classes.</param>
         /// <returns>
         /// A class-label that best described <paramref name="input" /> according
         /// to this classifier.
@@ -470,17 +470,17 @@ namespace Accord.MachineLearning
             return Scores(input, ref decision, create<double>(input));
         }
 
-        double[][] IMultilabelScoreClassifier<TInput, int[]>.Scores(TInput[] input, ref int[][] decision)
+        double[][] IMultilabelScoreClassifierBase<TInput, int[]>.Scores(TInput[] input, ref int[][] decision)
         {
             return ToMultilabel().Scores(input, ref decision, create<double>(input));
         }
 
-        double[][] IMultilabelScoreClassifier<TInput, bool[]>.Scores(TInput[] input, ref bool[][] decision)
+        double[][] IMultilabelScoreClassifierBase<TInput, bool[]>.Scores(TInput[] input, ref bool[][] decision)
         {
             return ToMultilabel().Scores(input, ref decision, create<double>(input));
         }
 
-        double[][] IMultilabelScoreClassifier<TInput, double[]>.Scores(TInput[] input, ref double[][] decision)
+        double[][] IMultilabelScoreClassifierBase<TInput, double[]>.Scores(TInput[] input, ref double[][] decision)
         {
             return ToMultilabel().Scores(input, ref decision, create<double>(input));
         }
@@ -569,7 +569,7 @@ namespace Accord.MachineLearning
             return result;
         }
 
-        double[][] IMultilabelScoreClassifier<TInput, bool[]>.Scores(TInput[] input, ref bool[][] decision, double[][] result)
+        double[][] IMultilabelScoreClassifierBase<TInput, bool[]>.Scores(TInput[] input, ref bool[][] decision, double[][] result)
         {
             decision = createOrReuse(input, decision);
             for (int i = 0; i < input.Length; i++)
@@ -577,7 +577,7 @@ namespace Accord.MachineLearning
             return result;
         }
 
-        double[][] IMultilabelScoreClassifier<TInput, int[]>.Scores(TInput[] input, ref int[][] decision, double[][] result)
+        double[][] IMultilabelScoreClassifierBase<TInput, int[]>.Scores(TInput[] input, ref int[][] decision, double[][] result)
         {
             decision = createOrReuse(input, decision);
             int value;
@@ -589,7 +589,7 @@ namespace Accord.MachineLearning
             return result;
         }
 
-        double[][] IMultilabelScoreClassifier<TInput, double[]>.Scores(TInput[] input, ref double[][] decision, double[][] result)
+        double[][] IMultilabelScoreClassifierBase<TInput, double[]>.Scores(TInput[] input, ref double[][] decision, double[][] result)
         {
             decision = createOrReuse(input, decision);
             int value;
@@ -656,9 +656,20 @@ namespace Accord.MachineLearning
         /// <returns>
         /// This instance seen as an <see cref="IMulticlassLikelihoodClassifier{TInput}" />.
         /// </returns>
-        public IClassifier<TInput, int> ToMulticlass()
+        public IMulticlassScoreClassifier<TInput> ToMulticlass()
         {
-            return (IClassifier<TInput, int>)this;
+            return (IMulticlassScoreClassifier<TInput>)this;
+        }
+
+        /// <summary>
+        /// Views this instance as a multi-class generative classifier.
+        /// </summary>
+        /// <returns>
+        /// This instance seen as an <see cref="IMulticlassLikelihoodClassifier{TInput}" />.
+        /// </returns>
+        public IMulticlassScoreClassifier<TInput, T> ToMulticlass<T>()
+        {
+            return (IMulticlassScoreClassifier<TInput, T>)this;
         }
     }
 }

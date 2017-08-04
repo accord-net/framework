@@ -38,7 +38,9 @@ namespace Accord.MachineLearning.Rules
     [Serializable]
     public class AssociationRuleMatcher<T> :
         IMulticlassRefScoreClassifier<T[], T[][]>,
-        IMulticlassRefScoreClassifier<SortedSet<T>, SortedSet<T>[]>
+        IMulticlassRefScoreClassifier<SortedSet<T>, SortedSet<T>[]>,
+        ITransform<T[], T[][]>,
+        ITransform<SortedSet<T>, SortedSet<T>[]>
     {
         int items;
         AssociationRule<T>[] rules;

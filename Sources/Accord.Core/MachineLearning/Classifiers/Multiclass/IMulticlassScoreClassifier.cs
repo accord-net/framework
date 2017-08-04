@@ -33,8 +33,7 @@ namespace Accord.MachineLearning
     /// <typeparam name="TInput">The data type for the input data. Default is double[].</typeparam>
     /// <typeparam name="TClasses">The data type for the class labels. Default is int.</typeparam>
     /// 
-    public interface IMulticlassScoreClassifier<in TInput, TClasses>
-        : IClassifier<TInput, TClasses>
+    public interface IMulticlassScoreClassifierBase<in TInput, TClasses>
     {
         /// <summary>
         ///   Predicts a class label for each input vector, returning a
@@ -75,7 +74,7 @@ namespace Accord.MachineLearning
     /// <typeparam name="TClasses">The data type for the class labels. Default is int.</typeparam>
     /// 
     public interface IMulticlassOutScoreClassifier<TInput, TClasses> :
-        IMulticlassScoreClassifier<TInput, TClasses>,
+        IMulticlassScoreClassifierBase<TInput, TClasses>,
         IMultilabelOutScoreClassifier<TInput, TClasses>
     {
         /// <summary>
@@ -124,16 +123,54 @@ namespace Accord.MachineLearning
     /// </summary>
     /// 
     /// <typeparam name="TInput">The data type for the input data. Default is double[].</typeparam>
+    /// <typeparam name="TClasses">The data type for the class labels. Default is int.</typeparam>
+    /// 
+    public interface IMulticlassScoreClassifier<TInput, TClasses>
+        : IMulticlassOutScoreClassifier<TInput, TClasses>,
+          IMulticlassRefScoreClassifier<TInput, TClasses[]>,
+          IClassifier<TInput, TClasses>
+    {
+    }
+
+    /// <summary>
+    ///   Common interface for score-based multi-class classifiers. A multi-class
+    ///   classifier can predict to which class an instance belongs based
+    ///   on a decision score (a real number) that measures the association of the
+    ///   input with each class.
+    /// </summary>
+    /// 
+    /// <typeparam name="TInput">The data type for the input data. Default is double[].</typeparam>
     /// 
     public interface IMulticlassScoreClassifier<TInput> :
-        IMulticlassOutScoreClassifier<TInput, int>,
-        IMulticlassOutScoreClassifier<TInput, double>,
-        IMulticlassRefScoreClassifier<TInput, int[]>,
+        IMulticlassScoreClassifier<TInput, int>,
+        IMulticlassScoreClassifier<TInput, double>,
         IMulticlassRefScoreClassifier<TInput, bool[]>,
-        IMulticlassRefScoreClassifier<TInput, double[]>,
         IMultilabelScoreClassifier<TInput>,
         IMulticlassClassifier<TInput>
     {
+        /// <summary>
+        ///   Computes a class-label decision for a given <paramref name="input"/>.
+        /// </summary>
+        /// 
+        /// <param name="input">The input vector that should be classified into
+        ///   one of the <see cref="ITransform.NumberOfOutputs"/> possible classes.</param>
+        /// 
+        /// <returns>A class-label that best described <paramref name="input"/> according
+        /// to this classifier.</returns>
+        /// 
+        new int Decide(TInput input);
+
+        /// <summary>
+        ///   Computes class-label decisions for each vector in the given <paramref name="input"/>.
+        /// </summary>
+        /// 
+        /// <param name="input">The input vectors that should be classified into
+        ///   one of the <see cref="ITransform.NumberOfOutputs"/> possible classes.</param>
+        /// 
+        /// <returns>The class-labels that best describe each <paramref name="input"/> 
+        ///   vectors according to this classifier.</returns>
+        /// 
+        new int[] Decide(TInput[] input);
 
         /// <summary>
         ///   Computes a numerical score measuring the association between
@@ -176,5 +213,6 @@ namespace Accord.MachineLearning
         /// <returns>This instance seen as an <see cref="IMultilabelScoreClassifier{TInput}"/>.</returns>
         /// 
         new IMultilabelScoreClassifier<TInput> ToMultilabel();
+
     }
 }

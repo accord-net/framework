@@ -52,25 +52,29 @@ namespace Accord.MachineLearning
             return Decide(input).ToZeroOne();
         }
 
-        
         int IClassifier<TInput, int>.Decide(TInput input)
         {
             return Decide(input).ToZeroOne();
         }
+        int IMulticlassClassifier<TInput>.Decide(TInput input)
+        {
+            return ToMulticlass<int>().Decide(input);
+        }
 
-        
+        int[] IMulticlassClassifier<TInput>.Decide(TInput[] input)
+        {
+            return ToMulticlass<int>().Decide(input);
+        }
         bool[] IClassifier<TInput, bool[]>.Decide(TInput input)
         {
             return Decide(input, new bool[NumberOfOutputs]);
         }
 
-        
         int[] IClassifier<TInput, int[]>.Decide(TInput input)
         {
             return ToMulticlass().Decide(input, new int[NumberOfOutputs]);
         }
 
-        
         double[] IClassifier<TInput, double[]>.Decide(TInput input)
         {
             return ToMulticlass().Decide(input, new double[NumberOfOutputs]);
@@ -357,6 +361,19 @@ namespace Accord.MachineLearning
         public IMulticlassClassifier<TInput> ToMulticlass()
         {
             return (IMulticlassClassifier<TInput>)this;
+        }
+
+        /// <summary>
+        /// Views this instance as a multi-class classifier,
+        /// giving access to more advanced methods, such as the prediction
+        /// of integer labels.
+        /// </summary>
+        /// <returns>
+        /// This instance seen as an <see cref="IMulticlassClassifier{TInput}" />.
+        /// </returns>
+        public IMulticlassClassifier<TInput, T> ToMulticlass<T>()
+        {
+            return (IMulticlassClassifier<TInput, T>)this;
         }
 
         /// <summary>
