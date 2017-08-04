@@ -38,7 +38,7 @@ namespace Accord.DataSets
     ///   acknowledgements. Also, please cite one or more of:
     ///   
     ///   1. O. L. Mangasarian and W. H. Wolberg: "Cancer diagnosis via linear 
-    ///   programming", SIAM News, Volume 23, Number 5, September 1990, pp 1 & 18.
+    ///   programming", SIAM News, Volume 23, Number 5, September 1990, pp 1-18.
     ///   
     ///   2. William H. Wolberg and O.L. Mangasarian: "Multisurface method of 
     ///   pattern separation for medical diagnosis applied to breast cytology", 
@@ -50,9 +50,9 @@ namespace Accord.DataSets
     ///   in: "Large-scale numerical optimization", Thomas F. Coleman and Yuying
     ///   Li, editors, SIAM Publications, Philadelphia 1990, pp 22-30.
     ///   
-    ///   4. K. P. Bennett & O. L. Mangasarian: "Robust linear programming 
+    ///   4. K. P. Bennett and O. L. Mangasarian: "Robust linear programming 
     ///   discrimination of two linearly inseparable sets", Optimization Methods
-    ///   and Software 1, 1992, 23-34 (Gordon & Breach Science Publishers).
+    ///   and Software 1, 1992, 23-34 (Gordon and Breach Science Publishers).
     /// </para>
     ///  
 	/// <para>
@@ -76,10 +76,14 @@ namespace Accord.DataSets
         /// 
         public int?[][] Features { get; private set; }
 
+        /// <summary>
+        ///   Gets identifiers for each of the instances contained in Wisconsin's Breast Cancer dataset.
+        /// </summary>
+        /// 
         public int[] InstanceIds { get; private set; }
 
         /// <summary>
-        ///   Gets the class labels associated with each <see cref="Instances">instance</see>
+        ///   Gets the class labels associated with each <see cref="Features">instance</see>
         ///   in Wisconsin's Breast Cancer dataset.
         /// </summary>
         /// 

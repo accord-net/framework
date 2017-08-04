@@ -64,6 +64,10 @@ namespace Accord.DataSets
         /// 
         public double[][] Features { get; private set; }
 
+        /// <summary>
+        ///   Gets identifiers for each of the instances contained in Wisconsin's Breast Cancer dataset.
+        /// </summary>
+        /// 
         public int[] InstanceIds { get; private set; }
 
         /// <summary>
@@ -82,16 +86,16 @@ namespace Accord.DataSets
 
         /// <summary>
         ///   Gets the variable names in Wisconsin's Breast Cancer dataset: 
-        ///  "radius" (mean of distances from center to points on the perimeter),
-        ///  "texture" (standard deviation of gray-scale values),
-        ///  "perimeter",
-        ///  "area",
-        ///  "smoothness" (local variation in radius lengths),
-        ///  "compactness" (perimeter^2 / area - 1.0),
-        ///  "concavity" (severity of concave portions of the contour),
-        ///  "concave points" (number of concave portions of the contour),
-        ///  "symmetry",
-        ///  "fractal dimension" ("coastline approximation" - 1)
+        ///   "radius" (mean of distances from center to points on the perimeter),
+        ///   "texture" (standard deviation of gray-scale values),
+        ///   "perimeter",
+        ///   "area",
+        ///   "smoothness" (local variation in radius lengths),
+        ///   "compactness" (perimeter^2 / area - 1.0),
+        ///   "concavity" (severity of concave portions of the contour),
+        ///   "concave points" (number of concave portions of the contour),
+        ///   "symmetry",
+        ///   "fractal dimension" ("coastline approximation" - 1)
         /// </summary>
         /// 
         public string[] VariableNames { get; private set; }

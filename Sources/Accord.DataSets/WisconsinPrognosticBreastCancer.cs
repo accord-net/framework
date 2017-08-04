@@ -72,10 +72,27 @@ namespace Accord.DataSets
         /// 
         public double[][] Features { get; private set; }
 
+        /// <summary>
+        ///   Gets identifiers for each of the instances contained in Wisconsin's Breast Cancer dataset.
+        /// </summary>
+        /// 
         public int[] InstanceIds { get; private set; }
 
+        /// <summary>
+        ///   Gets the outcome for each of the data instances in the dataset. The outcomes can be either
+        ///   0 (Recurring) or 1 (Non-recurring) depending on what happened at the time instants stored 
+        ///   in <see cref="Time"/>.
+        /// </summary>
+        /// 
         public int[] Outcome { get; private set; }
 
+        /// <summary>
+        ///   Gets the time until a possible <see cref="Outcome"/> has been detected. If the outcome has been
+        ///   ruled as recurring (0), it means that the cancer reocurred after the given number of days after 
+        ///   the initial treatment performed for this patient. If the outcome is marker as non-recurring (1), 
+        ///   it means the cancer has not been observed until the given number of days marked in this array.
+        /// </summary>
+        /// 
         public int[] Time { get; private set; }
 
         /// <summary>
