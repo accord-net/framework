@@ -1196,6 +1196,68 @@ namespace Accord.Math
             return result;
         }
 
+		// TODO: AJC begin
+
+	    /// <summary>
+        ///   Multiplies a matrix <c>A</c> and a column vector <c>v</c>,
+        ///   giving the product <c>A*v</c>
+        /// </summary>
+        /// 
+        /// <param name="matrix">The matrix <c>A</c>.</param>
+        /// <param name="columnVector">The column vector <c>v</c>.</param>
+        /// <param name="result">The matrix <c>R</c> to store the product.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        unsafe public static <#=r#>[] DotNew(this <#=a#>[,] matrix, <#=b#>[] columnVector, <#=r#>[] result)
+        {
+            int cols = matrix.Columns();
+            int rows = matrix.Rows();
+
+#if DEBUG
+            if (cols != columnVector.Length || result.Length > rows)
+			{
+                throw new DimensionMismatchException();
+			}
+#endif
+
+            fixed (<#=a#>* pa = matrix)
+            fixed (<#=b#>* x = columnVector)
+            fixed (<#=r#>* r = result)
+            {
+                <#=a#>* pa1 = pa;
+                <#=a#>* pa2 = pa + cols;
+                <#=r#>* pr = r;
+
+                for (int i = 0; i < rows / 2; i++)
+                {
+                    <#=t#> ytemp1 = 0;
+                    <#=t#> ytemp2 = 0;
+                    <#=b#>* px = x;
+
+                    for (int j = 0; j < cols; j++)
+                    {
+                        ytemp1 += (<#=t#>)((<#=t#>)(*px) * (<#=t#>)(*pa1++));
+                        ytemp2 += (<#=t#>)((<#=t#>)(*px) * (<#=t#>)(*pa2++));
+                        px++;
+                    }
+
+                    *pr++ = (<#=r#>)ytemp1;
+                    *pr++ = (<#=r#>)ytemp2;
+                    
+                    // skip next row
+                    pa1 = pa2;
+                    pa2 += cols;
+                }
+            }
+
+			return result;
+        }
+
+
+
+
         /// <summary>
         ///   Computes the product <c>R = A*B</c> of two matrices <c>A</c>
         ///   and <c>B</c>, storing the result in matrix <c>R</c>.
