@@ -1258,7 +1258,9 @@ namespace Accord.Math
                     <#=b#>* px = x;
 
                     for (int j = 0; j < cols; j++)
-                        sum += (<#=t#>)((<#=t#>)(*pa1++) * (<#=t#>)(*px));
+                        sum += (<#=t#>)((<#=t#>)(*pa1++) * (<#=t#>)(*px++));
+
+                    *pr = (<#=r#>)sum;
                 }
             }
 
