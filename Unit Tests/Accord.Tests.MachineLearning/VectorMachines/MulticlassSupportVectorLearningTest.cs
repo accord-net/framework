@@ -347,6 +347,7 @@ namespace Accord.Tests.MachineLearning
         [Test]
         public void LinearTest()
         {
+            Accord.Math.Random.Generator.Seed = 0;
 
             // Let's say we have the following data to be classified
             // into three possible classes. Those are the samples:
@@ -405,6 +406,8 @@ namespace Accord.Tests.MachineLearning
                 double expected = outputs[i];
                 Assert.AreEqual(expected, error);
             }
+
+            Assert.IsTrue(Accord.Math.Random.Generator.HasBeenAccessed);
         }
 
 

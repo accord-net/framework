@@ -71,6 +71,7 @@ namespace Accord.MachineLearning
         private ClassPair[] pairs;
         private Func<InnerParameters<TBinary, TInput>, ISupervisedLearning<TBinary, TInput, bool>> learner;
         private Dictionary<ClassPair, ISupervisedLearning<TBinary, TInput, bool>> teachers;
+        private bool doNotStopAtExceptions = true;
 
         /// <summary>
         ///   Gets or sets the model being learned.
@@ -92,6 +93,18 @@ namespace Accord.MachineLearning
                 learner = value;
                 teachers = null; // reset the teaching algorithm cache
             }
+        }
+
+        /// <summary>
+        ///   Gets or sets a value indicating whether the entire training algorithm should stop
+        ///   in case an exception has been detected at just one of the inner binary learning
+        ///   problems. Default is true (execution will not be stopped).
+        /// </summary>
+        /// 
+        public bool DoNotStopAtExceptions
+        {
+            get { return doNotStopAtExceptions; }
+            set { doNotStopAtExceptions = value; }
         }
 
 
@@ -241,44 +254,52 @@ namespace Accord.MachineLearning
             if (weights != null)
                 subw = weights.Get(idx);
 
-#if !DEBUG
-            try
-#endif
+            if (doNotStopAtExceptions)
             {
-                // Configure the machine on the two-class problem. Check if the learner
-                // for this machine has already been created before, and re-use it if it
-                // was the case. This is necessary to support mini-batch/online learning.
-
-                ISupervisedLearning<TBinary, TInput, bool> subproblemTeacher;
-                if (!teachers.TryGetValue(pair, out subproblemTeacher))
+                try
                 {
-                    var p = new InnerParameters<TBinary, TInput>(inputs: subx, outputs: suby, pair: pair, model: model);
-                    subproblemTeacher = Learner(p);
-                    teachers[pair] = subproblemTeacher;
+                    TrainBinaryMachine(pair, i, j, model, subx, suby, subw);
                 }
-
-                if (subproblemTeacher != null)
+                catch (Exception ex)
                 {
-                    // TODO: This check only exists to provide support to previous way of 
-                    // using the library and should be removed after a few releases. In the
-                    // current way (without using any Obsolete methods), subproblem should never be null.
-                    subproblemTeacher.Token = ParallelOptions.CancellationToken;
-                    Model[i, j] = subproblemTeacher.Learn(subx, suby, subw);
+                    ex.Data["pair"] = pair;
+                    exceptions.Add(ex);
                 }
             }
-#if !DEBUG
-            catch (Exception ex)
+            else
             {
-                ex.Data["pair"] = pair;
-                exceptions.Add(ex);
+                TrainBinaryMachine(pair, i, j, model, subx, suby, subw);
             }
-#endif
 
             // Update and report progress
             args.Progress = Interlocked.Increment(ref progress);
             args.Maximum = pairs.Length;
 
             OnSubproblemFinished(args);
+        }
+
+        private void TrainBinaryMachine(ClassPair pair, int i, int j, TBinary model, TInput[] subx, bool[] suby, double[] subw)
+        {
+            // Configure the machine on the two-class problem. Check if the learner
+            // for this machine has already been created before, and re-use it if it
+            // was the case. This is necessary to support mini-batch/online learning.
+
+            ISupervisedLearning<TBinary, TInput, bool> subproblemTeacher;
+            if (!teachers.TryGetValue(pair, out subproblemTeacher))
+            {
+                var p = new InnerParameters<TBinary, TInput>(inputs: subx, outputs: suby, pair: pair, model: model);
+                subproblemTeacher = Learner(p);
+                teachers[pair] = subproblemTeacher;
+            }
+
+            if (subproblemTeacher != null)
+            {
+                // TODO: This check only exists to provide support to previous way of 
+                // using the library and should be removed after a few releases. In the
+                // current way (without using any Obsolete methods), subproblem should never be null.
+                subproblemTeacher.Token = ParallelOptions.CancellationToken;
+                Model[i, j] = subproblemTeacher.Learn(subx, suby, subw);
+            }
         }
 
         /// <summary>
