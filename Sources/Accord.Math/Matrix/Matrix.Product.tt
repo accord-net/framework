@@ -1222,33 +1222,43 @@ namespace Accord.Math
 			}
 #endif
 
-            fixed (<#=a#>* pa = matrix)
+            fixed (<#=a#>* a = matrix)
             fixed (<#=b#>* x = columnVector)
             fixed (<#=r#>* r = result)
             {
-                <#=a#>* pa1 = pa;
-                <#=a#>* pa2 = pa + cols;
+                <#=a#>* pa1 = a;
+                <#=a#>* pa2 = a + cols;
                 <#=r#>* pr = r;
 
+				// Process rows two at a time
                 for (int i = 0; i < rows / 2; i++)
                 {
-                    <#=t#> ytemp1 = 0;
-                    <#=t#> ytemp2 = 0;
+                    <#=t#> sum1 = 0, sum2 = 0;
                     <#=b#>* px = x;
 
                     for (int j = 0; j < cols; j++)
                     {
-                        ytemp1 += (<#=t#>)((<#=t#>)(*px) * (<#=t#>)(*pa1++));
-                        ytemp2 += (<#=t#>)((<#=t#>)(*px) * (<#=t#>)(*pa2++));
+                        sum1 += (<#=t#>)((<#=t#>)(*pa1++) * (<#=t#>)(*px));
+                        sum2 += (<#=t#>)((<#=t#>)(*pa2++) * (<#=t#>)(*px));
                         px++;
                     }
 
-                    *pr++ = (<#=r#>)ytemp1;
-                    *pr++ = (<#=r#>)ytemp2;
+                    *pr++ = (<#=r#>)sum1;
+                    *pr++ = (<#=r#>)sum2;
                     
-                    // skip next row
+                    // Now we skip a row
                     pa1 = pa2;
                     pa2 += cols;
+                }
+
+				// Process the remainder
+				for (int i = 0; i < rows % 2; i++)
+                {
+                    <#=t#> sum = 0;
+                    <#=b#>* px = x;
+
+                    for (int j = 0; j < cols; j++)
+                        sum += (<#=t#>)((<#=t#>)(*pa1++) * (<#=t#>)(*px));
                 }
             }
 
