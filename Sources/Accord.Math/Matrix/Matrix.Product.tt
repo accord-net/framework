@@ -1138,6 +1138,87 @@ namespace Accord.Math
             return result;
         }
 
+
+
+
+
+
+        /// <summary>
+        ///   Multiplies a row vector <c>v</c> and a matrix <c>A</c>,
+        ///   giving the product <c>v'*A</c>.
+        /// </summary>
+        /// 
+        /// <param name="rowVector">The row vector <c>v</c>.</param>
+        /// <param name="matrix">The matrix <c>A</c>.</param>
+        /// <param name="result">The matrix <c>R</c> to store the product.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public unsafe static <#=r#>[] DotNew(this <#=a#>[] rowVector, <#=b#>[,] matrix, <#=r#>[] result)
+        {
+			int cols = matrix.Columns();
+            int rows = matrix.Rows();
+
+#if DEBUG
+            if (rowVector.Length != rows || result.Length > cols)
+                throw new DimensionMismatchException();
+#endif
+
+            fixed (<#=b#>* a = matrix)
+            fixed (<#=a#>* x = rowVector)
+            fixed (<#=r#>* r = result)
+            {
+                <#=b#>* pa1 = a;
+                <#=b#>* pa2 = a + cols;
+
+                <#=a#>* px = x;
+                <#=r#>* pr = r;
+
+                for (int j = 0; j < cols; j++)
+                    *pr++ = 0;
+
+                // Process rows two at a time
+                for (int i = 0; i < rows / 2; i++)
+                {
+                    pr = r;
+                    <#=a#> x1 = *px++;
+                    <#=a#> x2 = *px++;
+                    for (int j = 0; j < cols; j++)
+                    {
+                        *pr += (<#=r#>)((<#=t#>)x1 * (<#=t#>)(*pa1++)); // todo NONONONO we are losing precision here :(
+                        *pr += (<#=r#>)((<#=t#>)x2 * (<#=t#>)(*pa2++)); // todo NONONONO we are losing precision here :(
+                        pr++;
+                    }
+
+                    // Now we skip a row
+                    pa1 = pa2;
+                    pa2 += cols;
+                }
+
+                // Process the remainder
+                for (int i = 0; i < rows % 2; i++)
+                {
+                    pr = r;
+                    <#=a#> x1 = *px++;
+                    for (int j = 0; j < cols; j++)
+                        *pr++ += (<#=r#>)((<#=t#>)x1 * (<#=t#>)(*pa1++)); // todo NONONONO we are losing precision here :(
+                }
+            }
+
+			return result;
+        }
+
+
+
+
+
+
+
+
+
+
+
         /// <summary>
         ///   Multiplies a matrix <c>A</c> and a column vector <c>v</c>,
         ///   giving the product <c>A*v</c>
