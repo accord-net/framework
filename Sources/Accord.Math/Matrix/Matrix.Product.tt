@@ -872,6 +872,83 @@ namespace Accord.Math
 
             return sum;     
         }
+
+
+
+
+
+        /// <summary>
+        ///   Computes the product <c>a*B*c</c> of a row vector <c>a</c>, 
+        ///   a square matrix <c>B</c> and a column vector <c>c</c>.
+        /// </summary>
+        /// 
+        /// <param name="rowVector">The left vector <c>a</c>.</param>
+        /// <param name="matrix">The square matrix <c>B</c>.</param>
+        /// <param name="columnVector">The column vector <c>c</c>.</param>
+        ///
+        /// <returns>The product <c>a*B*c</c> of the given vector <c>a</c>,
+        ///   matrix <c>B</c> and vector <c>c</c>.</returns>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public unsafe static <#=t#> DotAndDotNew(this <#=a#>[] rowVector, <#=b#>[,] matrix, <#=c#>[] columnVector)
+        {
+		    int cols = matrix.Columns();
+            int rows = matrix.Rows();
+#if DEBUG
+            if (rowVector.Length != rows || cols != columnVector.Length)
+                throw new DimensionMismatchException();
+#endif
+            <#=t#> result = 0;
+
+            fixed (<#=a#>* r = rowVector)
+            fixed (<#=b#>* a = matrix)
+            fixed (<#=c#>* c = columnVector)
+            {
+                <#=b#>* pa1 = a;
+                <#=b#>* pa2 = a + cols;
+                <#=a#>* pr = r;
+
+                // Process rows two at a time
+                for (int i = 0; i < rows / 2; i++)
+                {
+                    <#=t#> sum1 = 0, sum2 = 0;
+                    <#=c#>* pc = c;
+
+                    for (int j = 0; j < cols; j++)
+                    {
+                        sum1 += (<#=t#>)((<#=t#>)(*pa1++) * (<#=t#>)(*pc));
+                        sum2 += (<#=t#>)((<#=t#>)(*pa2++) * (<#=t#>)(*pc));
+                        pc++;
+                    }
+
+                    result += (<#=t#>)((<#=t#>)(*pr++) * sum1);
+                    result += (<#=t#>)((<#=t#>)(*pr++) * sum2);
+
+                    // Now we skip a row
+                    pa1 = pa2;
+                    pa2 += cols;
+                }
+
+                // Process the remainder
+                for (int i = 0; i < rows % 2; i++)
+                {
+                    <#=t#> sum = 0;
+                    <#=c#>* pc = c;
+
+                    for (int j = 0; j < cols; j++)
+                        sum += (<#=t#>)((<#=t#>)(*pa1++) * (<#=t#>)(*pc++));
+
+                    result += (<#=t#>)((<#=t#>)(*pr++) * sum);
+                }
+            }
+
+            return result; 
+        }
+
+
+
 <#
             }
         }
