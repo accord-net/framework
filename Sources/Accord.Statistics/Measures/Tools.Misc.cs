@@ -22,6 +22,7 @@
 
 namespace Accord.Statistics
 {
+    using Accord.Diagnostics;
     using Accord.Math;
     using Accord.Math.Decompositions;
     using Accord.Statistics.Kernels;
@@ -536,29 +537,6 @@ namespace Accord.Statistics
             return result;
         }
 
-        /// <summary>
-        ///   Computes the split information measure.
-        /// </summary>
-        /// 
-        /// <param name="samples">The total number of samples.</param>
-        /// <param name="partitions">The partitioning.</param>
-        /// 
-        /// <returns>The split information for the given partitions.</returns>
-        /// 
-        public static double SplitInformation(int samples, int[][] partitions)
-        {
-            double info = 0;
-
-            for (int i = 0; i < partitions.Length; i++)
-            {
-                double p = (double)partitions[i].Length / samples;
-
-                if (p != 0)
-                    info -= p * Math.Log(p, 2);
-            }
-
-            return info;
-        }
 
     }
 }

@@ -295,6 +295,9 @@ namespace Accord
         /// 
         public static T To<T>(this object value)
         {
+            if (value == null)
+                return (T)System.Convert.ChangeType(null, typeof(T));
+
             if (value is IConvertible)
                 return (T)System.Convert.ChangeType(value, typeof(T));
 

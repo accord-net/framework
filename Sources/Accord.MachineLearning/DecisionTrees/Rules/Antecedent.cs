@@ -90,6 +90,9 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
         {
             double x = input[Index];
 
+            if (Double.IsNaN(x))
+                return true;
+
             switch (Comparison)
             {
                 case ComparisonKind.Equal:

@@ -33,6 +33,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
     using Accord.MachineLearning;
     using Accord.Math.Optimization.Losses;
     using System.Collections;
+    using System.Diagnostics;
 
     /// <summary>
     ///   Base class for tree inducing (learning) algorithms.
@@ -63,7 +64,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             {
                 if (value < 0)
                 {
-                    throw new ArgumentOutOfRangeException("value", 
+                    throw new ArgumentOutOfRangeException("value",
                         "The height must be greater than or equal to zero.");
                 }
 
@@ -167,6 +168,48 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
         IEnumerator IEnumerable.GetEnumerator()
         {
             return attributes.GetEnumerator();
+        }
+
+        /// <summary>
+        ///   Computes the split information measure.
+        /// </summary>
+        /// 
+        /// <param name="samples">The total number of samples.</param>
+        /// <param name="partitions">The partitioning.</param>
+        /// <param name="missing">An extra partition containing only missing values.</param>
+        /// 
+        /// <returns>The split information for the given partitions.</returns>
+        /// 
+        public static double SplitInformation(int samples, IList<int>[] partitions, List<int> missing = null)
+        {
+            double info = 0;
+
+            for (int i = 0; i < partitions.Length; i++)
+            {
+                if (partitions[i] == null)
+                    continue;
+
+                double p = partitions[i].Count / (double)samples;
+
+                if (p != 0)
+                    info -= p * Math.Log(p, 2);
+            }
+
+            if (missing != null)
+            {
+                double p = missing.Count / (double)samples;
+
+                if (p != 0)
+                    info -= p * Math.Log(p, 2);
+            }
+
+#if DEBUG
+            int totalSum = partitions.Sum(x => x == null ? 0 : x.Count);
+            int missingSum = missing == null ? 0 : missing.Count;
+            Debug.Assert(samples == (totalSum + missingSum));
+#endif
+
+            return info;
         }
     }
 }

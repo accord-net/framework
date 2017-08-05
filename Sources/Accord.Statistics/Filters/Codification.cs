@@ -149,6 +149,12 @@ namespace Accord.Statistics.Filters
     ///   Codification class to perform such pre-processing.</para>
     ///   
     ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MulticlassSupportVectorLearningTest.cs" region="doc_learn_codification" />
+    ///   
+    /// <para>
+    ///   The codification filter can also work with missing values. The example below shows how a codification codebook
+    ///   can be created from a dataset that includes missing values and how to use this codebook to replace missing values
+    ///   by some other representation (in the case below, replacing <c>null</c> by <c>NaN</c> double numbers.</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\DecisionTrees\C45LearningTest.cs" region="doc_missing" />
     /// </example>
     /// 
     /// <seealso cref="Normalization"/>

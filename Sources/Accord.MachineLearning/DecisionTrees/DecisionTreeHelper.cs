@@ -141,6 +141,13 @@ namespace Accord.MachineLearning.DecisionTrees
             return Create(y, attributes);
         }
 
+        public static DecisionTree Create(int?[][] x, int[] y, IList<DecisionVariable> attributes)
+        {
+            if (attributes == null || attributes.Count == 0)
+                attributes = DecisionVariable.FromData(x);
+            return Create(y, attributes);
+        }
+
         private static DecisionTree Create(int[] y, IList<DecisionVariable> attributes)
         {
             int classes = y.Max() + 1;

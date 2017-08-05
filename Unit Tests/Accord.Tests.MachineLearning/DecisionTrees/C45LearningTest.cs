@@ -22,6 +22,7 @@
 
 namespace Accord.Tests.MachineLearning
 {
+    using Accord.DataSets;
     using Accord.MachineLearning.DecisionTrees;
     using Accord.MachineLearning.DecisionTrees.Learning;
     using Accord.MachineLearning.DecisionTrees.Rules;
@@ -396,6 +397,113 @@ namespace Accord.Tests.MachineLearning
             }
         }
 
+        [Test]
+        public void missing_values_test()
+        {
+            #region doc_missing
+            // In this example, we will be using a modified version of the famous Play Tennis 
+            // example by Tom Mitchell (1998), where some values have been replaced by missing 
+            // values. We will use NaN double values to represent values missing from the data.
+
+            // Note: this example uses DataTables to represent the input data, 
+            // but this is not required. The same could be performed using plain
+            // double[][] matrices and vectors instead.
+            DataTable data = new DataTable("Tennis Example with Missing Values");
+
+            data.Columns.Add("Day", typeof(string));
+            data.Columns.Add("Outlook", typeof(string));
+            data.Columns.Add("Temperature", typeof(string));
+            data.Columns.Add("Humidity", typeof(string));
+            data.Columns.Add("Wind", typeof(string));
+            data.Columns.Add("PlayTennis", typeof(string));
+
+            data.Rows.Add("D1",  "Sunny",    "Hot",   "High",    "Weak",    "No");
+            data.Rows.Add("D2",  null,       "Hot",   "High",    "Strong",  "No");
+            data.Rows.Add("D3",  null,        null,   "High",    null,      "Yes");
+            data.Rows.Add("D4",  "Rain",     "Mild",  "High",    "Weak",    "Yes");
+            data.Rows.Add("D5",  "Rain",     "Cool",  null,      "Weak",    "Yes");
+            data.Rows.Add("D6",  "Rain",     "Cool",  "Normal",  "Strong",  "No");
+            data.Rows.Add("D7",  "Overcast", "Cool",  "Normal",  "Strong",  "Yes");
+            data.Rows.Add("D8",  null,       "Mild",  "High",    null,	    "No");
+            data.Rows.Add("D9",  null,       "Cool",  "Normal",  "Weak",    "Yes");
+            data.Rows.Add("D10", null,       null,    "Normal",  null,      "Yes");
+            data.Rows.Add("D11", null,       "Mild",  "Normal",  null,      "Yes");
+            data.Rows.Add("D12", "Overcast", "Mild",  null,      "Strong",  "Yes");
+            data.Rows.Add("D13", "Overcast", "Hot",   null,      "Weak",    "Yes");
+            data.Rows.Add("D14", "Rain",     "Mild",  "High",    "Strong",  "No");
+
+            // Create a new codification codebook to convert 
+            // the strings above into numeric, integer labels:
+            var codebook = new Codification()
+            {
+                DefaultMissingValueReplacement = Double.NaN
+            };
+
+            // Learn the codebook
+            codebook.Learn(data);
+
+            // Use the codebook to convert all the data
+            DataTable symbols = codebook.Apply(data);
+
+            // Grab the training input and output instances:
+            string[] inputNames = new[] { "Outlook", "Temperature", "Humidity", "Wind" };
+            double[][] inputs = symbols.ToJagged(inputNames);
+            int[] outputs = symbols.ToArray<int>("PlayTennis");
+
+            // Create a new learning algorithm
+            var teacher = new C45Learning()
+            {
+                Attributes = DecisionVariable.FromCodebook(codebook, inputNames)
+            };
+
+            // Use the learning algorithm to induce a new tree:
+            DecisionTree tree = teacher.Learn(inputs, outputs);
+
+            // To get the estimated class labels, we can use
+            int[] predicted = tree.Decide(inputs);
+
+            // The classification error (~0.214) can be computed as 
+            double error = new ZeroOneLoss(outputs).Loss(predicted);
+
+            // Moreover, we may decide to convert our tree to a set of rules:
+            DecisionSet rules = tree.ToRules();
+
+            // And using the codebook, we can inspect the tree reasoning:
+            string ruleText = rules.ToString(codebook, "PlayTennis",
+                System.Globalization.CultureInfo.InvariantCulture);
+
+            // The output should be:
+            string expected = @"No =: (Outlook == Sunny)
+No =: (Outlook == Rain) && (Wind == Strong)
+Yes =: (Outlook == Overcast)
+Yes =: (Outlook == Rain) && (Wind == Weak)
+";
+            #endregion
+
+            expected = expected.Replace("\r\n", Environment.NewLine);
+            Assert.AreEqual(expected, ruleText);
+
+            Assert.AreEqual(14, codebook["Day"].NumberOfSymbols);
+            Assert.AreEqual(3, codebook["Outlook"].NumberOfSymbols);
+            Assert.AreEqual(3, codebook["Temperature"].NumberOfSymbols);
+            Assert.AreEqual(2, codebook["Humidity"].NumberOfSymbols);
+            Assert.AreEqual(2, codebook["Wind"].NumberOfSymbols);
+            Assert.AreEqual(2, codebook["PlayTennis"].NumberOfSymbols);
+
+            foreach (var col in codebook)
+            {
+                Assert.AreEqual(Double.NaN, col.MissingValueReplacement);
+                Assert.AreEqual(CodificationVariable.Ordinal, col.VariableType);
+            }
+
+            Assert.AreEqual(0.21428571428571427, error, 1e-10);
+            Assert.AreEqual(4, tree.NumberOfInputs);
+            Assert.AreEqual(2, tree.NumberOfOutputs);
+
+            double newError = ComputeError(rules, inputs, outputs);
+            Assert.AreEqual(0.21428571428571427, newError, 1e-10);
+        }
+
 
         [Test]
         public void ConsistencyTest1()
@@ -534,8 +642,8 @@ namespace Accord.Tests.MachineLearning
             // To get the estimated class labels, we can use
             int[] predicted = tree.Decide(inputs);
 
-            // And the classification error (of 0.0266) can be computed as 
-            double error = new ZeroOneLoss(outputs).Loss(tree.Decide(inputs));
+            // The classification error (0.0266) can be computed as 
+            double error = new ZeroOneLoss(outputs).Loss(predicted);
 
             // Moreover, we may decide to convert our tree to a set of rules:
             DecisionSet rules = tree.ToRules();
@@ -667,8 +775,8 @@ Iris-virginica =: (petal length > 2.45) && (petal width > 1.75) && (sepal length
             // To get the estimated class labels, we can use
             int[] predicted = tree.Decide(inputs);
 
-            // And the classification error (of 0.0266) can be computed as 
-            double error = new ZeroOneLoss(outputs).Loss(tree.Decide(inputs));
+            // The classification error (0.0266) can be computed as 
+            double error = new ZeroOneLoss(outputs).Loss(predicted);
 
             // Moreover, we may decide to convert our tree to a set of rules:
             DecisionSet rules = tree.ToRules();
@@ -792,6 +900,7 @@ Iris-virginica =: (2 > 2.45) && (3 > 1.75) && (0 <= 5.95) && (1 <= 3.05)
 
             DecisionTree decisionTree = new DecisionTree(variables, 2);
             C45Learning c45Learning = new C45Learning(decisionTree);
+            c45Learning.ParallelOptions.MaxDegreeOfParallelism = 1;
             c45Learning.Run(inputs, outputs); // System.AggregateException thrown here
 
             Assert.AreEqual(decisionTree.Decide(new[] { 0 }), 0);
@@ -877,13 +986,35 @@ Iris-virginica =: (2 > 2.45) && (3 > 1.75) && (0 <= 5.95) && (1 <= 3.05)
 
             var target = new C45Learning()
             {
-                MaxHeight = 1   
+                MaxHeight = 1
             };
 
             var tree = target.Learn(inputs, outputs);
 
             int height = tree.GetHeight();
             Assert.AreEqual(1, height);
+        }
+
+        [Test]
+        public void missing_values()
+        {
+            var dataset = new WisconsinOriginalBreastCancer();
+            int?[][] inputs = dataset.Features;
+            int[] outputs = dataset.ClassLabels;
+
+            var c45 = new C45Learning()
+            {
+            };
+
+            var tree = c45.Learn(inputs, outputs);
+
+            int height = tree.GetHeight();
+
+            Assert.AreEqual(4, height);
+            int[] predicted = tree.Decide(inputs);
+
+            double error = new ZeroOneLoss(outputs).Loss(predicted);
+            Assert.AreEqual(0.0028612303290414878, error, 1e-8);
         }
     }
 }

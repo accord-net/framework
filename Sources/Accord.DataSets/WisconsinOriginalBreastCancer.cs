@@ -113,7 +113,7 @@ namespace Accord.DataSets
         {
             int?[,] data =
             {
-                { 1000025,5,1,1,1,2,1,3,1,1,2          },
+                {1000025,5,1,1,1,2,1,3,1,1,2           },
                 {1002945,5,4,4,5,7,10,3,2,1,2          },
                 {1015425,3,1,1,1,2,2,3,1,1,2           },
                 {1016277,6,8,8,1,3,4,3,7,1,2           },
@@ -842,7 +842,7 @@ namespace Accord.DataSets
             {
                 Features[i] = new int?[9];
                 for (int j = 0; j < Features[i].Length; j++)
-                    Features[i][j] = data[i, j];
+                    Features[i][j] = data[i, j + 1];
                 ClassLabels[i] = data[i, 10] == 2 ? 0 : 1;
                 InstanceIds[i] = data[i, 0].Value;
             }

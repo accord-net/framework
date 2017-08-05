@@ -25,6 +25,7 @@ namespace Accord.MachineLearning.DecisionTrees
     using System;
     using System.Globalization;
     using System.IO;
+    using System.Reflection;
 
     /// <summary>
     ///   Decision Tree C# Writer.
@@ -66,7 +67,7 @@ namespace Accord.MachineLearning.DecisionTrees
             writer.WriteLine("    ///   Automatically generated decision tree.");
             writer.WriteLine("    /// </summary>");
             writer.WriteLine("    /// ");
-            writer.WriteLine("    [GeneratedCode(\"Accord.NET DecisionTree\", \"3.2\")]");
+            writer.WriteLine("    [GeneratedCode(\"Accord.NET DecisionTree\", \"{0}\")]".Format(Assembly.GetExecutingAssembly().GetName().Version));
             writer.WriteLine("    public static class {0}", className);
             writer.WriteLine("    {");
             writer.WriteLine();
@@ -76,6 +77,12 @@ namespace Accord.MachineLearning.DecisionTrees
             writer.WriteLine("        /// ");
             writer.WriteLine("        public static int Function(double[] input)");
             writer.WriteLine("        {");
+            writer.WriteLine("            for (int i = 0; i < input.Length; i++)");
+            writer.WriteLine("            {");
+            writer.WriteLine("                if (Double.IsNaN(input[i]));");
+            writer.WriteLine("                    throw new ArgumentException(\"Missing values are not supported at this time. Please open a new issue at the issue tracker if you need this feature.\");");
+            writer.WriteLine("            }");
+            writer.WriteLine("");
 
             create(tree.Root, 3);
 

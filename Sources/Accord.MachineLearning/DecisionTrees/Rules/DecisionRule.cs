@@ -132,7 +132,7 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
         ///   
         public bool Match(double[] input)
         {
-            foreach (var expr in Antecedents)
+            foreach (Antecedent expr in Antecedents)
             {
                 if (!expr.Match(input))
                     return false;
@@ -219,7 +219,7 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
         ///   A <see cref="System.String"/> that represents this instance.
         /// </returns>
         /// 
-        public string ToString(Codification codebook)
+        public string ToString(Codification<string> codebook)
         {
             return toString(codebook, null, CultureInfo.CurrentUICulture);
         }
@@ -245,7 +245,7 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
         ///   A <see cref="System.String"/> that represents this instance.
         /// </returns>
         /// 
-        public string ToString(Codification codebook, CultureInfo cultureInfo)
+        public string ToString(Codification<string> codebook, CultureInfo cultureInfo)
         {
             return toString(codebook, null, cultureInfo);
         }
@@ -258,7 +258,7 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
         ///   A <see cref="System.String"/> that represents this instance.
         /// </returns>
         /// 
-        public string ToString(Codification codebook, string outputColumn, CultureInfo cultureInfo)
+        public string ToString(Codification<string> codebook, string outputColumn, CultureInfo cultureInfo)
         {
             return toString(codebook, outputColumn, cultureInfo);
         }
@@ -358,7 +358,7 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
 
 
 
-        private string toString(Codification codebook, string outputColumn, CultureInfo culture)
+        private string toString(Codification<string> codebook, string outputColumn, CultureInfo culture)
         {
             StringBuilder sb = new StringBuilder();
 
@@ -375,7 +375,7 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
             return String.Format(culture, "{0} =: {1}", name, sb);
         }
 
-        private string toString(Antecedent antecedent, Codification codebook, CultureInfo culture)
+        private string toString(Antecedent antecedent, Codification<string> codebook, CultureInfo culture)
         {
             int index = antecedent.Index;
             String name = Variables[index].Name;

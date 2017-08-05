@@ -70,6 +70,8 @@ namespace Accord.Statistics.Filters
         [NonSerialized]
         private CancellationToken token;
 
+        private object defaultMissingValueReplacement = DBNull.Value;
+
         /// <summary>
         /// Gets the number of inputs accepted by the model.
         /// </summary>
@@ -171,6 +173,17 @@ namespace Accord.Statistics.Filters
             : this()
         {
             Columns.Add(new Options(columnName).Learn(values.Concatenate()));
+        }
+
+        /// <summary>
+        ///   Gets or sets the default value to be used as a replacement for missing values. 
+        ///   Default is to use <c>System.DBNull.Value</c>.
+        /// </summary>
+        /// 
+        public object DefaultMissingValueReplacement
+        {
+            get { return this.defaultMissingValueReplacement; }
+            set { this.defaultMissingValueReplacement = value; }
         }
 
         /// <summary>
@@ -486,7 +499,14 @@ namespace Accord.Statistics.Filters
                 {
                     // Change its type from string to integer
                     result.Columns[options.ColumnName].MaxLength = -1;
-                    result.Columns[options.ColumnName].DataType = typeof(int);
+                    if (options.HasMissingValue && options.MissingValueReplacement != null && options.MissingValueReplacement != DBNull.Value)
+                    {
+                        result.Columns[options.ColumnName].DataType = options.MissingValueReplacement.GetType();
+                    }
+                    else
+                    {
+                        result.Columns[options.ColumnName].DataType = typeof(int);
+                    }
                 }
 
                 // If we want to avoid implying an order relationship between them
@@ -566,14 +586,22 @@ namespace Accord.Statistics.Filters
                     {
                         var options = Columns[name];
                         var map = options.Mapping;
+                        var obj = inputRow[name];
 
                         // Retrieve string value
-                        T label = (T)inputRow[name];
+                        if (options.IsMissingValue(obj))
+                        {
+                            resultRow[name] = options.MissingValueReplacement;
+                            continue;
+                        }
+
+                        T label = (T)obj;
 
                         if (options.VariableType == CodificationVariable.Ordinal)
                         {
+                            int value = -1;
+
                             // Get its corresponding integer
-                            int value = 0;
                             try { value = map[label]; }
                             catch
                             {
@@ -611,11 +639,11 @@ namespace Accord.Statistics.Filters
                         }
                         else if (options.VariableType == CodificationVariable.Continuous)
                         {
-                            resultRow[name] = inputRow[name];
+                            resultRow[name] = obj;
                         }
                         else if (options.VariableType == CodificationVariable.Discrete)
                         {
-                            resultRow[name] = inputRow[name];
+                            resultRow[name] = obj;
                         }
                         else
                         {
@@ -697,7 +725,12 @@ namespace Accord.Statistics.Filters
                 if (!this.Columns.Contains(col.ColumnName))
                 {
                     if (col.DataType == typeof(T))
-                        Columns.Add(new Options(col.ColumnName));
+                    {
+                        Columns.Add(new Options(col.ColumnName)
+                        {
+                            MissingValueReplacement = DefaultMissingValueReplacement
+                        });
+                    }
                 }
             }
 

@@ -366,10 +366,8 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
         private double computeGainRatio(int[][] input, int[] output, int attributeIndex,
             double entropy, out int[][] partitions, out int[][] outputSubset)
         {
-            double infoGain = computeInfoGain(input, output, attributeIndex,
-                entropy, out partitions, out outputSubset);
-
-            double splitInfo = Statistics.Tools.SplitInformation(output.Length, partitions);
+            double infoGain = computeInfoGain(input, output, attributeIndex, entropy, out partitions, out outputSubset);
+            double splitInfo = SplitInformation(output.Length, partitions);
 
             return infoGain == 0 ? 0 : infoGain / splitInfo;
         }

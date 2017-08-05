@@ -252,6 +252,8 @@ namespace Accord.Tests.MachineLearning
 
             var forest2 = Serializer.Load<RandomForest>(bytes);
 
+            forest1.ParallelOptions.MaxDegreeOfParallelism = forest2.ParallelOptions.MaxDegreeOfParallelism = 1;
+
             Assert.IsTrue(forest1.Decide(inputs).IsEqual(forest2.Decide(inputs)));
             Assert.IsTrue(forest1.Transform(inputs).IsEqual(forest2.Transform(inputs)));
         }

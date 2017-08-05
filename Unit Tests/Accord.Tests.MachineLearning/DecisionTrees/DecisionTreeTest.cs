@@ -45,7 +45,6 @@ namespace Accord.Tests.MachineLearning
         [Test]
         public void ComputeTest()
         {
-
             DecisionTree tree;
             int[][] inputs;
             int[] outputs;

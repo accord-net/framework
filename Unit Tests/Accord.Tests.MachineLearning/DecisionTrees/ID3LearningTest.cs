@@ -807,7 +807,7 @@ namespace Accord.Tests.MachineLearning
             // behavior of the person has been registered and annotated, pretty much building our set of 
             // observation instances for learning:
 
-            // Note: this example uses DataTables to represent the inputdata , but this is not required.
+            // Note: this example uses DataTables to represent the input data , but this is not required.
             DataTable data = new DataTable("Mitchell's Tennis Example");
 
             data.Columns.Add("Day", "Outlook", "Temperature", "Humidity", "Wind", "PlayTennis");

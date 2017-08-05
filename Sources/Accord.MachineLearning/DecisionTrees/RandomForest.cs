@@ -153,11 +153,18 @@ namespace Accord.MachineLearning.DecisionTrees
         public override int Decide(double[] input)
         {
             int[] responses = new int[NumberOfOutputs];
-            Parallel.For(0, trees.Length, ParallelOptions, i =>
+            if (ParallelOptions.MaxDegreeOfParallelism == 1)
             {
-                int j = trees[i].Decide(input);
-                Interlocked.Increment(ref responses[j]);
-            });
+                for (int i = 0; i < trees.Length; i++)
+                    Interlocked.Increment(ref responses[trees[i].Decide(input)]);
+            }
+            else
+            {
+                Parallel.For(0, trees.Length, ParallelOptions, i =>
+                {
+                    Interlocked.Increment(ref responses[trees[i].Decide(input)]);
+                });
+            }
 
             return responses.ArgMax();
         }
