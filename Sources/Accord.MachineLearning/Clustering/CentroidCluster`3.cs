@@ -2,8 +2,8 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2017
-// cesarsouza at gmail.com
+// Copyright © César Souza <cesarsouza at gmail.com>
+// and other contributors, 2009-2017.
 //
 //    This library is free software; you can redistribute it and/or
 //    modify it under the terms of the GNU Lesser General Public
@@ -31,6 +31,7 @@ namespace Accord.MachineLearning
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Threading.Tasks;
+    using System.Linq;
 
     /// <summary>
     ///   Data cluster.
@@ -69,107 +70,244 @@ namespace Accord.MachineLearning
             /// 
             public virtual void Randomize(TData[] points, Seeding strategy = Seeding.KMeansPlusPlus)
             {
+                Randomize(points, strategy, null);
+            }
+
+                /// <summary>
+            ///   Randomizes the clusters inside a dataset.
+            /// </summary>
+            /// 
+            /// <param name="points">The data to randomize the algorithm.</param>
+            /// <param name="strategy">The seeding strategy to be used. Default is <see cref="Seeding.KMeansPlusPlus"/>.</param>
+            /// <param name="parallelOptions">The parallelization options for this procedure.
+            /// Only relevant for the <see cref="Seeding.PamBuild"/>. </param>
+            /// 
+            public virtual int[] Randomize(TData[] points, Seeding strategy = Seeding.KMeansPlusPlus, 
+                ParallelOptions parallelOptions = null)
+            {
                 if (points == null)
                     throw new ArgumentNullException("points");
 
-                if (strategy == Seeding.Fixed)
+                int[] result = null;
+
+                // Otherwise perform chosen algorithm
+                switch (strategy)
                 {
-                    int[] idx = Vector.Sample(points.Length);
-                    for (int i = 0; i < Centroids.Length; i++)
+                    case Seeding.Fixed:
                     {
-                        if (Centroids[i] != null)
-                            Centroids[i] = (TData)points[idx[i]].Clone();
-                    }
-                }
-                else if (strategy == Seeding.Uniform)
-                {
-                    Centroids = Vector.Sample(points, Centroids.Length);
-                    for (int i = 0; i < Centroids.Length; i++)
-                        Centroids[i] = (TData)Centroids[i].Clone();
-                }
-                else if (strategy == Seeding.KMeansPlusPlus)
-                {
-                    // Initialize using K-Means++
-                    // http://en.wikipedia.org/wiki/K-means%2B%2B
-
-                    var r = Accord.Math.Random.Generator.Random;
-
-                    // 1. Choose one center uniformly at random from among the data points.
-                    int idx = r.Next(0, points.Length);
-                    Centroids[0] = (TData)points[idx].Clone();
-
-                    for (int c = 1; c < Centroids.Length; c++)
-                    {
-                        // 2. For each data point x, compute D(x), the distance between
-                        //    x and the nearest center that has already been chosen.
-
-                        double sum = 0;
-                        var D = new double[points.Length];
-                        for (int i = 0; i < D.Length; i++)
-                        {
-                            var x = points[i];
-
-                            double min = Distance.Distance(x, Centroids[0]);
-                            for (int j = 1; j < c; j++)
-                            {
-                                double d = Distance.Distance(x, Centroids[j]);
-
-                                if (d < min)
-                                    min = d;
-                            }
-
-                            D[i] = min;
-                            sum += min;
-                        }
-
-                        // Note: the following checks could have been avoided if we added
-                        // a small value to each distance, but is kept as this to avoid 
-                        // breaking the random pattern in existing code.
-
-                        if (sum == 0)
-                        {
-                            // Degenerate case: all points are the same, chose any of them
-                            idx = r.Next(0, points.Length);
-                        }
-                        else
-                        {
-                            // Convert to probabilities
-                            for (int i = 0; i < D.Length; i++)
-                                D[i] /= sum;
-
-                            try
-                            {
-                                // Sample randomly using the probabilities
-                                idx = GeneralDiscreteDistribution.Random(D);
-                            }
-                            catch (InvalidOperationException)
-                            {
-                                // Degenerate case: numerical inaccuracy when normalizing 
-                                // the point-centroid distances to become probabilities
-                                idx = r.Next(0, points.Length);
-
-                                Trace.TraceWarning("Could not convert distances into probabilities that sum up to one during KMeans++ initialization.");
-                            }
-                        }
-
-                        // 3. Choose one new data point at random as a new center, using a weighted
-                        //    probability distribution where a point x is chosen with probability 
-                        //    proportional to D(x)^2.					
-                        Centroids[c] = (TData)points[idx].Clone();
+                        DoFixedSeeding(points);
+                        break;
                     }
 
-#if DEBUG
-                    // Make sure that centroids are not datapoints
-                    for (int i = 0; i < Centroids.Length; i++)
-                        for (int j = 0; j < points.Length; j++)
-                            if (Object.Equals(Centroids[i], points[j]))
-                                throw new Exception();
-#endif
-                }
+                    case Seeding.Uniform:
+                    {
+                        result = DoUniformSeeding(points);
+                        break;
+                    }
 
-                this.Owner.NumberOfInputs = Tools.GetNumberOfInputs(points);
+                    case Seeding.KMeansPlusPlus:
+                    {
+                        DoKMeansPlusPlusSeeding(points);
+                        break;
+                    }
+
+                    case Seeding.PamBuild:
+                    {
+                        if (parallelOptions == null)
+                        {
+                            parallelOptions = new ParallelOptions();
+                            parallelOptions.MaxDegreeOfParallelism = 1;
+                        }
+                        result = DoPamBuildSeeding(points, parallelOptions);
+                        break;
+                    }
+                } // switch
+
+                Owner.NumberOfInputs = Tools.GetNumberOfInputs(points);
+                return result;
+            } // Randomize()
+
+            private void DoFixedSeeding(TData[] points)
+            {
+                int[] idx = Vector.Sample(points.Length);
+                for (int i = 0; i < Centroids.Length; i++)
+                {
+                    if (Centroids[i] != null)
+                        Centroids[i] = (TData)points[idx[i]].Clone();
+                }
             }
 
+            private int[] DoUniformSeeding(TData[] points)
+            {
+                int[] indices = Vector.Sample(Centroids.Length);
+                Centroids = points.Get(indices);
+                for (int i = 0; i < Centroids.Length; i++)
+                    Centroids[i] = (TData)Centroids[i].Clone();
+                return indices;
+            }
+
+            private void DoKMeansPlusPlusSeeding(TData[] points)
+            {
+                // Initialize using K-Means++
+                // http://en.wikipedia.org/wiki/K-means%2B%2B
+
+                var r = Accord.Math.Random.Generator.Random;
+
+                // 1. Choose one center uniformly at random from among the data points.
+                int idx = r.Next(0, points.Length);
+                Centroids[0] = (TData)points[idx].Clone();
+
+                for (int c = 1; c < Centroids.Length; c++)
+                {
+                    // 2. For each data point x, compute D(x), the distance between
+                    //    x and the nearest center that has already been chosen.
+
+                    double sum = 0;
+                    var D = new double[points.Length];
+                    for (int i = 0; i < D.Length; i++)
+                    {
+                        var x = points[i];
+
+                        double min = Distance.Distance(x, Centroids[0]);
+                        for (int j = 1; j < c; j++)
+                        {
+                            double d = Distance.Distance(x, Centroids[j]);
+
+                            if (d < min)
+                                min = d;
+                        }
+
+                        D[i] = min;
+                        sum += min;
+                    }
+
+                    // Note: the following checks could have been avoided if we added
+                    // a small value to each distance, but is kept as this to avoid 
+                    // breaking the random pattern in existing code.
+
+                    if (sum == 0)
+                    {
+                        // Degenerate case: all points are the same, chose any of them
+                        idx = r.Next(0, points.Length);
+                    }
+                    else
+                    {
+                        // Convert to probabilities
+                        for (int i = 0; i < D.Length; i++)
+                            D[i] /= sum;
+
+                        try
+                        {
+                            // Sample randomly using the probabilities
+                            idx = GeneralDiscreteDistribution.Random(D);
+                        }
+                        catch (InvalidOperationException)
+                        {
+                            // Degenerate case: numerical inaccuracy when normalizing 
+                            // the point-centroid distances to become probabilities
+                            idx = r.Next(0, points.Length);
+
+                            Trace.TraceWarning("Could not convert distances into probabilities that sum up to one during KMeans++ initialization.");
+                        }
+                    }
+
+                    // 3. Choose one new data point at random as a new center, using a weighted
+                    //    probability distribution where a point x is chosen with probability 
+                    //    proportional to D(x)^2.
+                    Centroids[c] = (TData)points[idx].Clone();
+                }
+
+#if DEBUG
+                // Make sure that centroids are not datapoints
+                for (int i = 0; i < Centroids.Length; i++)
+                    for (int j = 0; j < points.Length; j++)
+                        if (Object.Equals(Centroids[i], points[j]))
+                            throw new Exception();
+#endif
+            }
+
+            private int[] DoPamBuildSeeding(TData[] points, ParallelOptions parallelOptions)
+            {
+                int firstMedoidIndex = SelectFirstMedoid(points);
+                if (Centroids.Length > 1)
+                {
+                    var medoids = new HashSet<int>();
+                    medoids.Add(firstMedoidIndex);
+                    var pointGains = new double[points.Length];
+                    while (medoids.Count < Centroids.Length)
+                    {
+                        Parallel.For(0, points.Length, parallelOptions, i =>
+                        {
+                            double gain = 0.0;
+                            if (!medoids.Contains(i))
+                            {
+                                Parallel.For(0, points.Length, parallelOptions, j =>
+                                {
+                                    // Skip selected points and point #I
+                                    if (j == i || medoids.Contains(j)) return;
+                                    double dj = medoids.Min(n => Distance.Distance(points[j], points[n]));
+                                    double dij = Distance.Distance(points[i], points[j]);
+                                    if (dj > dij)
+                                        InterlockedEx.Add(ref gain, dj - dij);
+                                });
+                            }
+                            pointGains[i] = gain;
+                        });
+
+                        int maxGainPointIndex = 0;
+                        while (medoids.Contains(maxGainPointIndex) && maxGainPointIndex < pointGains.Length)
+                            ++maxGainPointIndex;
+                        for (int i = maxGainPointIndex + 1; i < pointGains.Length; i++)
+                        {
+                            if (!medoids.Contains(i) && pointGains[i] < pointGains[maxGainPointIndex])
+                                maxGainPointIndex = i;
+                        }
+                        if (maxGainPointIndex < pointGains.Length)
+                            medoids.Add(maxGainPointIndex);
+                        else
+                        {
+                            // Should never happen.
+                            throw new Exception("Can't select medoids!");
+                        }
+                    }
+
+                    int index = 0;
+                    int[] result = new int[Centroids.Length];
+                    foreach (int medoidPointIndex in medoids)
+                    {
+                        result[index] = medoidPointIndex;
+                        Centroids[index] = (TData)points[medoidPointIndex].Clone();
+                        index++;
+                    }
+                    return result;
+                }
+                else
+                {
+                    Centroids[0] = (TData)points[firstMedoidIndex].Clone();
+                    return new int[] { firstMedoidIndex };
+                }
+            }
+
+            private int SelectFirstMedoid(TData[] points)
+            {
+                var costs = new double[points.Length];
+                for (int i = 0; i < points.Length; i++)
+                {
+                    double cost = 0.0;
+                    for (int j = 0; j < points.Length; j++)
+                        cost += Distance.Distance(points[i], points[j]);
+                    costs[i] = cost;
+                }
+
+                int minCostPointIndex = 0;
+                for (int i = 1; i < costs.Length; i++)
+                {
+                    if (costs[i] < costs[minCostPointIndex])
+                        minCostPointIndex = i;
+                }
+
+                return minCostPointIndex;
+            }
         }
     }
 }
