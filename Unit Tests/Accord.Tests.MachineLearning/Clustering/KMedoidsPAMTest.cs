@@ -25,59 +25,11 @@ namespace Accord.Tests.MachineLearning
     using NUnit.Framework;
     using Accord.MachineLearning;
     using Accord.Math;
+    using Accord.Math.Distances;
 
     [TestFixture]
     public class KMedoidsPAMTest
     {
-        [Test]
-        public void KMedoidsPartitionAroundMedoidsConstructorTest()
-        {
-            Accord.Math.Random.Generator.Seed = 0;
-
-            // Declare some observations
-            int[][] observations = new int[][]
-            {
-                new[] { 2, 6 }, // a
-                new[] { 3, 4 }, // b
-                new[] { 3, 8 }, // a
-                new[] { 4, 7 }, // a
-                new[] { 6, 2 }, // b
-                new[] { 6, 4 }, // b
-                new[] { 7, 3 }, // b
-                new[] { 7, 4 }, // b
-                new[] { 8, 5 }, // b
-                new[] { 7, 6 }  // b 
-            };
-
-            int[][] orig = observations.MemberwiseClone();
-
-            // Create a new K-Medoids PAM algorithm with 2 clusters 
-            PartitioningAroundMedoids kmedoidsPam = new PartitioningAroundMedoids(2);
-
-            // Compute the algorithm, retrieving an integer array
-            // containing the labels for each of the observations
-            int[] labels = kmedoidsPam.Compute(observations);
-
-            // Check that points were associated into appropriate clusters
-            // Cluster #1
-            Assert.AreEqual(labels[0], labels[2]);
-            Assert.AreEqual(labels[0], labels[3]);
-            // Cluster #2
-            Assert.AreEqual(labels[4], labels[1]);
-            Assert.AreEqual(labels[4], labels[5]);
-            Assert.AreEqual(labels[4], labels[6]);
-            Assert.AreEqual(labels[4], labels[7]);
-            Assert.AreEqual(labels[4], labels[8]);
-            Assert.AreEqual(labels[4], labels[9]);
-
-            int[] labels2 = kmedoidsPam.Clusters.Decide(observations);
-            Assert.IsTrue(labels.IsEqual(labels2));
-
-            // the data must not have changed!
-            Assert.IsTrue(orig.IsEqual(observations));
-        }
-
-
         [Test]
         public void doc_learn()
         {
@@ -100,7 +52,7 @@ namespace Accord.Tests.MachineLearning
             };
 
             // Create a new 2-Medoids algorithm.
-            var kmedoidsPam = new PartitioningAroundMedoids(2);
+            var kmedoidsPam = new PartitioningAroundMedoids<int>(2, new Manhattan());
             kmedoidsPam.MaxIterations = 100;
 
             // Compute and retrieve the data centroids

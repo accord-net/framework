@@ -32,14 +32,11 @@ namespace Accord.MachineLearning
     ///   k-Medoids cluster collection.
     /// </summary>
     /// 
-    /// <seealso cref="KMedoids{T}"/>
+    /// <seealso cref="PartitioningAroundMedoids{T}"/>
     /// 
     [Serializable]
     public class KMedoidsClusterCollection<T> : MulticlassScoreClassifierBase<T[]>,
-        ICentroidClusterCollection<T[], KMedoidsClusterCollection<T>.KMedoidsCluster>,
-    #pragma warning disable 0618
-        IClusterCollection<T[]>
-#pragma warning restore 0618
+        ICentroidClusterCollection<T[], KMedoidsClusterCollection<T>.KMedoidsCluster>
     {
         KMedoidsCluster.ClusterCollection collection;
 
@@ -53,14 +50,6 @@ namespace Accord.MachineLearning
         public class KMedoidsCluster : CentroidCluster<KMedoidsClusterCollection<T>, T[], KMedoidsCluster>
         {
         }
-
-
-        /// <summary>
-        ///   Gets the dimensionality of the data space.
-        /// </summary>
-        /// 
-        [Obsolete("Please use NumberOfInputs instead.")]
-        public int Dimension { get { return NumberOfInputs; } }
 
         /// <summary>
         ///   Initializes a new instance of the <see cref="KMedoidsClusterCollection{T}"/> class.

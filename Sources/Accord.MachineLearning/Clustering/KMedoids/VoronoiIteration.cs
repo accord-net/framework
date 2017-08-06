@@ -68,10 +68,7 @@ namespace Accord.MachineLearning
     /// 
     [Serializable]
     public class VoronoiIteration<T> : ParallelLearningBase,
-        IUnsupervisedLearning<KMedoidsClusterCollection<T>, T[], int>,
-#pragma warning disable 0618
-        IClusteringAlgorithm<T[]>
-#pragma warning restore 0618
+        IUnsupervisedLearning<KMedoidsClusterCollection<T>, T[], int>
     {
 
         private KMedoidsClusterCollection<T> clusters;
@@ -162,20 +159,6 @@ namespace Accord.MachineLearning
         ///   Initializes a new instance of VoronoiIteration algorithm
         /// </summary>
         /// 
-        /// <param name="k">The number of clusters to divide input data.</param>       
-        /// <param name="distance">The distance function to use. Default is to
-        /// use the <see cref="Accord.Math.Distance.SquareEuclidean(double[], double[])"/> distance.</param>
-        /// 
-        [Obsolete("Please specify the distance function using classes instead of lambda functions.")]
-        public VoronoiIteration(int k, Func<T[], T[], double> distance)
-            : this(k, Accord.Math.Distance.GetDistance(distance))
-        {
-        }
-
-        /// <summary>
-        ///   Initializes a new instance of VoronoiIteration algorithm
-        /// </summary>
-        /// 
         /// <param name="k">The number of clusters to divide input data.</param>
         /// <param name="distance">The distance function to use. Default is to
         /// use the <see cref="Accord.Math.Distance.Manhattan(double[], double[])"/> distance.</param>
@@ -197,18 +180,7 @@ namespace Accord.MachineLearning
             MaxIterations = 100;
         }
 
-        /// <summary>
-        ///   Divides the input data into K clusters. 
-        /// </summary>     
-        /// 
-        /// <param name="points">The data where to compute the algorithm.</param>
-        /// 
-        [Obsolete("Please use Learn(x) instead.")]
-        public int[] Compute(T[][] points)
-        {
-            var clusters = Learn(points);
-            return clusters.Decide(points);
-        }
+
 
         /// <summary>
         /// Helper class - cluster infromation.
@@ -280,7 +252,7 @@ namespace Accord.MachineLearning
             // Detect initial medoid indices
             if (currentMedoidIndicesArray == null)
             {
-                currentMedoidIndicesArray = Enumerable.Repeat(-1, K).ToArray();
+                currentMedoidIndicesArray = Vector.Create(size: K, value: -1);
                 Parallel.For(0, x.Length, ParallelOptions, i =>
                 {
                     T[] point = x[i];
@@ -297,7 +269,7 @@ namespace Accord.MachineLearning
                 });
             }
 
-            for (int i = 0; i < K; ++i)
+            for (int i = 0; i < currentMedoidIndicesArray.Length; ++i)
             {
                 if (currentMedoidIndicesArray[i] == -1)
                     throw new Exception($"Medoid #{i} not found.");
@@ -313,7 +285,7 @@ namespace Accord.MachineLearning
             // Arrange point with minimal total cost as medoid.
             if (K == 1)
             {
-                double[] costs = new double[x.Length];
+                var costs = new double[x.Length];
                 for (int i = 0; i < x.Length; i++)
                 {
                     double cost = 0.0;
@@ -321,12 +293,14 @@ namespace Accord.MachineLearning
                         cost += Distance.Distance(x[i], x[j]);
                     costs[i] = cost;
                 }
+
                 int minCostPointIndex = 0;
                 for (int i = 1; i < costs.Length; i++)
                 {
                     if (costs[i] < costs[minCostPointIndex])
                         minCostPointIndex = i;
                 }
+
                 Clusters.Centroids[0] = x[minCostPointIndex];
                 return Clusters;
             }
@@ -336,7 +310,7 @@ namespace Accord.MachineLearning
 
             // Create clusters
             int clusterIndex = 0;
-            foreach (var medoidIndex in currentMedoidIndices)
+            foreach (int medoidIndex in currentMedoidIndices)
             {
                 clusters[clusterIndex] = new ClusterInfo(medoidIndex);
                 clusterIndex++;
@@ -344,7 +318,6 @@ namespace Accord.MachineLearning
 
             int[] labels = new int[x.Length];
 
-            ////////////////////////////////////////////////////////////////////////////////////////////////////////
             for (; Iterations < MaxIterations; Iterations++)
             {
                 // Prepare for the new iteration
@@ -362,7 +335,8 @@ namespace Accord.MachineLearning
                 Parallel.For(0, x.Length, ParallelOptions, pointIndex =>
                 {
                     // Skip current medoids
-                    if (currentMedoidIndices.Contains(pointIndex)) return;
+                    if (currentMedoidIndices.Contains(pointIndex))
+                        return;
 
                     // Find first cluster with minimum cost
                     T[] point = x[pointIndex];
@@ -377,6 +351,7 @@ namespace Accord.MachineLearning
                             minCostClusterIndex = j;
                         }
                     }
+
                     labels[pointIndex] = minCostClusterIndex;
 
                     // Update cluster info
@@ -388,10 +363,10 @@ namespace Accord.MachineLearning
                     }
                 });
 
-                var initialTotalCost = clusters.Sum(cluster => cluster.Cost);
+                double initialTotalCost = clusters.Sum(cluster => cluster.Cost);
 
                 // Find best medoid in the each cluster
-                var improvementCount = 0;
+                int improvementCount = 0;
                 Parallel.For(0, clusters.Length, ParallelOptions, i =>
                 {
                     ClusterInfo cluster = clusters[i];
@@ -399,6 +374,7 @@ namespace Accord.MachineLearning
                     T[] currentMedoid = x[currentMedoidIndex];
                     int minCostMedoidIndex = currentMedoidIndex;
                     double minCost = cluster.Cost;
+
                     foreach (int newMedoidIndex in cluster.PointIndices)
                     {
                         if (newMedoidIndex != currentMedoidIndex)
@@ -413,6 +389,7 @@ namespace Accord.MachineLearning
                             }
                         }
                     }
+
                     if (minCostMedoidIndex != currentMedoidIndex)
                     {
                         cluster.PointIndices.Remove(minCostMedoidIndex);
@@ -454,18 +431,6 @@ namespace Accord.MachineLearning
             return Clusters;
         }
 
-#pragma warning disable 0618
-        IClusterCollection<T[]> IClusteringAlgorithm<T[]>.Clusters
-        {
-            get { return (IClusterCollection<T[]>)clusters; }
-        }
-
-        IClusterCollection<T[]> IUnsupervisedLearning<IClusterCollection<T[]>, T[], int>.Learn(T[][] x, double[] weights)
-        {
-            return (IClusterCollection<T[]>)Learn(x);
-        }
-#pragma warning restore 0618
-
     }
 
     /// <summary>
@@ -498,7 +463,7 @@ namespace Accord.MachineLearning
     /// <seealso cref="VoronoiIteration{T}"/>
     /// 
     [Serializable]
-    public class VoronoiIteration : VoronoiIteration<int>
+    public class VoronoiIteration : VoronoiIteration<double>
     {
         /// <summary>
         ///   Initializes a new instance of k-Medoids algorithm
@@ -507,7 +472,7 @@ namespace Accord.MachineLearning
         /// <param name="k">The number of clusters to divide input data.</param>    
         /// 
         public VoronoiIteration(int k)
-            : base(k, new Accord.Math.Distances.Manhattan())
+            : base(k, new Accord.Math.Distances.Euclidean())
         {
         }
     }

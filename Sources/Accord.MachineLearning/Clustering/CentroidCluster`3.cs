@@ -73,7 +73,7 @@ namespace Accord.MachineLearning
                 Randomize(points, strategy, null);
             }
 
-                /// <summary>
+            /// <summary>
             ///   Randomizes the clusters inside a dataset.
             /// </summary>
             /// 
@@ -82,52 +82,32 @@ namespace Accord.MachineLearning
             /// <param name="parallelOptions">The parallelization options for this procedure.
             /// Only relevant for the <see cref="Seeding.PamBuild"/>. </param>
             /// 
-            public virtual int[] Randomize(TData[] points, Seeding strategy = Seeding.KMeansPlusPlus, 
-                ParallelOptions parallelOptions = null)
+            public virtual int[] Randomize(TData[] points, Seeding strategy = Seeding.KMeansPlusPlus, ParallelOptions parallelOptions = null)
             {
                 if (points == null)
                     throw new ArgumentNullException("points");
 
-                int[] result = null;
+                Owner.NumberOfInputs = Tools.GetNumberOfInputs(points);
 
-                // Otherwise perform chosen algorithm
                 switch (strategy)
                 {
                     case Seeding.Fixed:
-                    {
-                        DoFixedSeeding(points);
-                        break;
-                    }
+                        return DoFixedSeeding(points);
 
                     case Seeding.Uniform:
-                    {
-                        result = DoUniformSeeding(points);
-                        break;
-                    }
+                        return DoUniformSeeding(points);
 
                     case Seeding.KMeansPlusPlus:
-                    {
-                        DoKMeansPlusPlusSeeding(points);
-                        break;
-                    }
+                        return DoKMeansPlusPlusSeeding(points);
 
                     case Seeding.PamBuild:
-                    {
-                        if (parallelOptions == null)
-                        {
-                            parallelOptions = new ParallelOptions();
-                            parallelOptions.MaxDegreeOfParallelism = 1;
-                        }
-                        result = DoPamBuildSeeding(points, parallelOptions);
-                        break;
-                    }
-                } // switch
+                        return DoPamBuildSeeding(points, parallelOptions);
+                }
 
-                Owner.NumberOfInputs = Tools.GetNumberOfInputs(points);
-                return result;
-            } // Randomize()
+                throw new ArgumentException("Uknown strategy: {0}".Format(strategy));
+            }
 
-            private void DoFixedSeeding(TData[] points)
+            private int[] DoFixedSeeding(TData[] points)
             {
                 int[] idx = Vector.Sample(points.Length);
                 for (int i = 0; i < Centroids.Length; i++)
@@ -135,23 +115,26 @@ namespace Accord.MachineLearning
                     if (Centroids[i] != null)
                         Centroids[i] = (TData)points[idx[i]].Clone();
                 }
+
+                return idx;
             }
 
             private int[] DoUniformSeeding(TData[] points)
             {
-                int[] indices = Vector.Sample(Centroids.Length);
-                Centroids = points.Get(indices);
+                int[] idx = Vector.Sample(Centroids.Length);
+                Centroids = points.Get(idx);
                 for (int i = 0; i < Centroids.Length; i++)
                     Centroids[i] = (TData)Centroids[i].Clone();
-                return indices;
+                return idx;
             }
 
-            private void DoKMeansPlusPlusSeeding(TData[] points)
+            private int[] DoKMeansPlusPlusSeeding(TData[] points)
             {
                 // Initialize using K-Means++
                 // http://en.wikipedia.org/wiki/K-means%2B%2B
 
-                var r = Accord.Math.Random.Generator.Random;
+                Random r = Accord.Math.Random.Generator.Random;
+                int[] indices = new int[Centroids.Length];
 
                 // 1. Choose one center uniformly at random from among the data points.
                 int idx = r.Next(0, points.Length);
@@ -215,6 +198,7 @@ namespace Accord.MachineLearning
                     //    probability distribution where a point x is chosen with probability 
                     //    proportional to D(x)^2.
                     Centroids[c] = (TData)points[idx].Clone();
+                    indices[c] = idx;
                 }
 
 #if DEBUG
@@ -224,68 +208,71 @@ namespace Accord.MachineLearning
                         if (Object.Equals(Centroids[i], points[j]))
                             throw new Exception();
 #endif
+
+                return indices;
             }
 
             private int[] DoPamBuildSeeding(TData[] points, ParallelOptions parallelOptions)
             {
+                if (parallelOptions == null)
+                    parallelOptions = new ParallelOptions();
+
                 int firstMedoidIndex = SelectFirstMedoid(points);
-                if (Centroids.Length > 1)
-                {
-                    var medoids = new HashSet<int>();
-                    medoids.Add(firstMedoidIndex);
-                    var pointGains = new double[points.Length];
-                    while (medoids.Count < Centroids.Length)
-                    {
-                        Parallel.For(0, points.Length, parallelOptions, i =>
-                        {
-                            double gain = 0.0;
-                            if (!medoids.Contains(i))
-                            {
-                                Parallel.For(0, points.Length, parallelOptions, j =>
-                                {
-                                    // Skip selected points and point #I
-                                    if (j == i || medoids.Contains(j)) return;
-                                    double dj = medoids.Min(n => Distance.Distance(points[j], points[n]));
-                                    double dij = Distance.Distance(points[i], points[j]);
-                                    if (dj > dij)
-                                        InterlockedEx.Add(ref gain, dj - dij);
-                                });
-                            }
-                            pointGains[i] = gain;
-                        });
 
-                        int maxGainPointIndex = 0;
-                        while (medoids.Contains(maxGainPointIndex) && maxGainPointIndex < pointGains.Length)
-                            ++maxGainPointIndex;
-                        for (int i = maxGainPointIndex + 1; i < pointGains.Length; i++)
-                        {
-                            if (!medoids.Contains(i) && pointGains[i] < pointGains[maxGainPointIndex])
-                                maxGainPointIndex = i;
-                        }
-                        if (maxGainPointIndex < pointGains.Length)
-                            medoids.Add(maxGainPointIndex);
-                        else
-                        {
-                            // Should never happen.
-                            throw new Exception("Can't select medoids!");
-                        }
-                    }
-
-                    int index = 0;
-                    int[] result = new int[Centroids.Length];
-                    foreach (int medoidPointIndex in medoids)
-                    {
-                        result[index] = medoidPointIndex;
-                        Centroids[index] = (TData)points[medoidPointIndex].Clone();
-                        index++;
-                    }
-                    return result;
-                }
-                else
+                if (Centroids.Length == 1)
                 {
                     Centroids[0] = (TData)points[firstMedoidIndex].Clone();
                     return new int[] { firstMedoidIndex };
                 }
+
+                var medoids = new HashSet<int>() { firstMedoidIndex };
+                var pointGains = new double[points.Length];
+                while (medoids.Count < Centroids.Length)
+                {
+                    Parallel.For(0, points.Length, parallelOptions, i =>
+                    {
+                        double gain = 0.0;
+                        if (!medoids.Contains(i))
+                        {
+                            Parallel.For(0, points.Length, parallelOptions, j =>
+                            {
+                                // Skip selected points and point #I
+                                if (j == i || medoids.Contains(j))
+                                    return;
+                                double dj = medoids.Min(n => Distance.Distance(points[j], points[n]));
+                                double dij = Distance.Distance(points[i], points[j]);
+                                if (dj > dij)
+                                    InterlockedEx.Add(ref gain, dj - dij);
+                            });
+                        }
+                        pointGains[i] = gain;
+                    });
+
+                    int maxGainPointIndex = 0;
+                    while (medoids.Contains(maxGainPointIndex) && maxGainPointIndex < pointGains.Length)
+                        ++maxGainPointIndex;
+
+                    for (int i = maxGainPointIndex + 1; i < pointGains.Length; i++)
+                    {
+                        if (!medoids.Contains(i) && pointGains[i] < pointGains[maxGainPointIndex])
+                            maxGainPointIndex = i;
+                    }
+
+                    if (maxGainPointIndex >= pointGains.Length)
+                        throw new Exception("Could not select medoids. Execution should never had reached this state."); 
+
+                    medoids.Add(maxGainPointIndex);
+                }
+
+                int index = 0;
+                int[] result = new int[Centroids.Length];
+                foreach (int medoidPointIndex in medoids)
+                {
+                    result[index] = medoidPointIndex;
+                    Centroids[index] = (TData)points[medoidPointIndex].Clone();
+                    index++;
+                }
+                return result;
             }
 
             private int SelectFirstMedoid(TData[] points)

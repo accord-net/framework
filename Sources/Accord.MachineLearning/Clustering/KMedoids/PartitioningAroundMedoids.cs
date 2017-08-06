@@ -65,10 +65,7 @@ namespace Accord.MachineLearning
     /// 
     [Serializable]
     public class PartitioningAroundMedoids<T> : ParallelLearningBase,
-        IUnsupervisedLearning<KMedoidsClusterCollection<T>, T[], int>,
-#pragma warning disable 0618
-        IClusteringAlgorithm<T[]>
-#pragma warning restore 0618
+        IUnsupervisedLearning<KMedoidsClusterCollection<T>, T[], int>
     {
 
         private KMedoidsClusterCollection<T> clusters;
@@ -150,7 +147,7 @@ namespace Accord.MachineLearning
         /// <summary>
         ///   Gets or sets the strategy used to initialize the
         ///   centroids of the clustering algorithm. Default is
-        ///   <see cref="Seeding.KMeansPlusPlus"/>.
+        ///   <see cref="Seeding.PamBuild"/>.
         /// </summary>
         /// 
         public Seeding Initialization { get; set; }
@@ -159,23 +156,9 @@ namespace Accord.MachineLearning
         ///   Initializes a new instance of PartitioningAroundMedoids algorithm
         /// </summary>
         /// 
-        /// <param name="k">The number of clusters to divide input data.</param>       
-        /// <param name="distance">The distance function to use. Default is to
-        /// use the <see cref="Accord.Math.Distance.SquareEuclidean(double[], double[])"/> distance.</param>
-        /// 
-        [Obsolete("Please specify the distance function using classes instead of lambda functions.")]
-        public PartitioningAroundMedoids(int k, Func<T[], T[], double> distance)
-            : this(k, Accord.Math.Distance.GetDistance(distance))
-        {
-        }
-
-        /// <summary>
-        ///   Initializes a new instance of PartitioningAroundMedoids algorithm
-        /// </summary>
-        /// 
         /// <param name="k">The number of clusters to divide input data.</param>
         /// <param name="distance">The distance function to use. Default is to
-        /// use the <see cref="Accord.Math.Distance.Manhattan(double[], double[])"/> distance.</param>
+        ///   use the <see cref="Accord.Math.Distance.Euclidean(double[], double[])"/> distance.</param>
         /// 
         public PartitioningAroundMedoids(int k, IDistance<T[]> distance)
         {
@@ -192,19 +175,6 @@ namespace Accord.MachineLearning
             Initialization = Seeding.PamBuild;
             Tolerance = 1e-5;
             MaxIterations = 100;
-        }
-
-        /// <summary>
-        ///   Divides the input data into K clusters. 
-        /// </summary>     
-        /// 
-        /// <param name="points">The data where to compute the algorithm.</param>
-        /// 
-        [Obsolete("Please use Learn(x) instead.")]
-        public int[] Compute(T[][] points)
-        {
-            var clusters = Learn(points);
-            return clusters.Decide(points);
         }
 
         /// <summary>
@@ -234,7 +204,7 @@ namespace Accord.MachineLearning
             // Detect initial medoid indices
             if (currentMedoidIndicesArray == null)
             {
-                currentMedoidIndicesArray = Enumerable.Repeat(-1, K).ToArray();
+                currentMedoidIndicesArray = Vector.Create(value: -1, size: K);
                 Parallel.For(0, x.Length, ParallelOptions, i =>
                 {
                     T[] point = x[i];
@@ -251,7 +221,7 @@ namespace Accord.MachineLearning
                 });
             }
 
-            for (int i = 0; i < K; ++i)
+            for (int i = 0; i < currentMedoidIndicesArray.Length; ++i)
             {
                 if (currentMedoidIndicesArray[i] == -1)
                     throw new Exception($"Medoid #{i} not found.");
@@ -288,7 +258,7 @@ namespace Accord.MachineLearning
             }
 
             int[] labels = new int[x.Length];
-            var secondClusterDistance = new double[x.Length];
+            double[] secondClusterDistance = new double[x.Length];
 
             for (; Iterations < MaxIterations; Iterations++)
             {
@@ -300,6 +270,7 @@ namespace Accord.MachineLearning
                     int minCostClusterIndex = 0;
                     int medoidIndex = currentMedoidIndicesArray[minCostClusterIndex];
                     double minCost = Distance.Distance(x[pointIndex], x[medoidIndex]);
+
                     for (int i = 1; i < currentMedoidIndicesArray.Length; i++)
                     {
                         int medoidPointIndex = currentMedoidIndicesArray[i];
@@ -317,12 +288,13 @@ namespace Accord.MachineLearning
                             secondMinCostClusterIndex = medoidPointIndex;
                         }
                     }
+
                     labels[pointIndex] = minCostClusterIndex;
                     secondClusterDistance[pointIndex] = secondMinCost;
                 });
 
                 // Compute total cost
-                var totalCost = 0.0;
+                double totalCost = 0.0;
                 Parallel.For(0, x.Length, i =>
                 {
                     int clusterIndex = labels[i];
@@ -336,25 +308,27 @@ namespace Accord.MachineLearning
                 Parallel.For(0, x.Length, ParallelOptions, h =>
                 {
                     // Skip current medoids
-                    if (currentMedoidIndices.Contains(h)) return;
+                    if (currentMedoidIndices.Contains(h))
+                        return;
 
-                    for (var i = 0; i < currentMedoidIndicesArray.Length; i++)
+                    for (int i = 0; i < currentMedoidIndicesArray.Length; i++)
                     {
-                        var pointIIndex = currentMedoidIndicesArray[i];
+                        int pointIIndex = currentMedoidIndicesArray[i];
 
                         // Compute T[i, h]
                         var tih = 0.0;
                         Parallel.For(0, x.Length, ParallelOptions, j =>
                         {
                             // Skip current medoids and point #I
-                            if (j == h || currentMedoidIndices.Contains(j)) return;
+                            if (j == h || currentMedoidIndices.Contains(j))
+                                return;
 
                             // Compute Kijh
-                            var m = currentMedoidIndicesArray[labels[j]];
-                            var dj = Distance.Distance(x[j], x[m]);
-                            var djh = Distance.Distance(x[j], x[h]);
-                            var dji = Distance.Distance(x[j], x[pointIIndex]);
-                            var kjih = (dji == dj)
+                            int m = currentMedoidIndicesArray[labels[j]];
+                            double dj = Distance.Distance(x[j], x[m]);
+                            double djh = Distance.Distance(x[j], x[h]);
+                            double dji = Distance.Distance(x[j], x[pointIIndex]);
+                            double kjih = (dji == dj)
                                 ? ((djh < secondClusterDistance[j]) ? djh - dj : secondClusterDistance[j] - dj)
                                 : ((djh < dj ? djh - dj : 0.0));
                             InterlockedEx.Add(ref tih, kjih);
@@ -367,7 +341,8 @@ namespace Accord.MachineLearning
                             do
                             {
                                 var actualMinTih = Interlocked.CompareExchange(ref minTih, newMinTih, currentMinTih);
-                                if (actualMinTih == currentMinTih) break;
+                                if (actualMinTih == currentMinTih)
+                                    break;
                                 currentMinTih = actualMinTih;
                             }
                             while (tih < currentMinTih.Item3);
@@ -408,18 +383,6 @@ namespace Accord.MachineLearning
             return Clusters;
         }
 
-#pragma warning disable 0618
-        IClusterCollection<T[]> IClusteringAlgorithm<T[]>.Clusters
-        {
-            get { return (IClusterCollection<T[]>)clusters; }
-        }
-
-        IClusterCollection<T[]> IUnsupervisedLearning<IClusterCollection<T[]>, T[], int>.Learn(T[][] x, double[] weights)
-        {
-            return (IClusterCollection<T[]>)Learn(x);
-        }
-#pragma warning restore 0618
-
     }
 
     /// <summary>
@@ -446,14 +409,14 @@ namespace Accord.MachineLearning
     /// </para>
     /// <para>
     ///   This is the specialized, non-generic version of the k-Medoids algorithm
-    ///   that is set to work on <see cref="T:System.Int32"/> arrays.
+    ///   that is set to work on <see cref="T:System.Double32"/> arrays.
     /// </para>
     /// </remarks>
     /// 
     /// <seealso cref="PartitioningAroundMedoids{T}"/>
     /// 
     [Serializable]
-    public class PartitioningAroundMedoids : PartitioningAroundMedoids<int>
+    public class PartitioningAroundMedoids : PartitioningAroundMedoids<double>
     {
         /// <summary>
         ///   Initializes a new instance of k-Medoids algorithm
@@ -462,7 +425,7 @@ namespace Accord.MachineLearning
         /// <param name="k">The number of clusters to divide input data.</param>    
         /// 
         public PartitioningAroundMedoids(int k)
-            : base(k, new Accord.Math.Distances.Manhattan())
+            : base(k, new Accord.Math.Distances.Euclidean())
         {
         }
     }
