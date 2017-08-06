@@ -210,7 +210,7 @@ namespace Accord.MachineLearning
                         {
                             int prev = Interlocked.CompareExchange(ref currentMedoidIndicesArray[j], i, -1);
                             if (prev != -1)
-                                throw new Exception($"Duplicate medoid #{j} detected: {prev} and {i}");
+                                throw new Exception("Duplicate medoid #{0} detected: {1} and {2}".Format(j, prev, i));
                             break;
                         }
                     }
@@ -220,10 +220,10 @@ namespace Accord.MachineLearning
             for (int i = 0; i < currentMedoidIndicesArray.Length; ++i)
             {
                 if (currentMedoidIndicesArray[i] == -1)
-                    throw new Exception($"Medoid #{i} not found.");
+                    throw new Exception("Medoid #{0} not found.".Format(i));
             }
 
-            
+
 
             Iterations = 0;
 
@@ -280,7 +280,7 @@ namespace Accord.MachineLearning
         {
             var currentMedoidIndices = new HashSet<int>(currentMedoidIndicesArray);
             if (currentMedoidIndices.Count < currentMedoidIndicesArray.Length)
-                throw new Exception("Some medoids are not unique");
+                throw new Exception("Some medoids are not unique.");
 
             double[] secondClusterDistance = new double[x.Length];
 
@@ -299,6 +299,7 @@ namespace Accord.MachineLearning
                     {
                         int medoidPointIndex = currentMedoidIndicesArray[i];
                         double cost = Distance.Distance(x[pointIndex], x[medoidPointIndex]);
+
                         if (cost < minCost)
                         {
                             secondMinCost = minCost;
@@ -319,71 +320,114 @@ namespace Accord.MachineLearning
 
                 // Compute total cost
                 double totalCost = 0.0;
-                Parallel.For(0, x.Length, i =>
-                {
-                    int clusterIndex = labels[i];
-                    int medoidPointIndex = currentMedoidIndicesArray[clusterIndex];
-                    double cost = Distance.Distance(x[i], x[medoidPointIndex]);
-                    InterlockedEx.Add(ref totalCost, cost);
-                });
+                Parallel.For(0, x.Length, ParallelOptions,
 
-                // Item = i, Item2 = h, Item3 = T[i,h]
-                var minTih = Tuple.Create(-1, -1, double.PositiveInfinity);
-                Parallel.For(0, x.Length, ParallelOptions, h =>
-                {
-                    // Skip current medoids
-                    if (currentMedoidIndices.Contains(h))
-                        return;
+                    () => 0.0,
 
-                    for (int i = 0; i < currentMedoidIndicesArray.Length; i++)
+                    (i, state, partialSum) =>
                     {
-                        int pointIIndex = currentMedoidIndicesArray[i];
+                        int clusterIndex = labels[i];
+                        int medoidPointIndex = currentMedoidIndicesArray[clusterIndex];
+                        double cost = Distance.Distance(x[i], x[medoidPointIndex]);
+                        return partialSum + cost;
+                    },
 
-                        // Compute T[i, h]
-                        var tih = 0.0;
-                        Parallel.For(0, x.Length, ParallelOptions, j =>
+                    (partialSum) =>
+                    {
+                        InterlockedEx.Add(ref totalCost, partialSum);
+                    });
+
+                int minI = -1;
+                int minH = -1;
+                double minTih = double.PositiveInfinity;
+                object lockObj = new object();
+
+                Parallel.For(0, x.Length, ParallelOptions,
+
+                    () => new { i = -1, h = -1, tih = Double.PositiveInfinity },
+
+                    (h, state1, partialMin) =>
+                    {
+                        // Skip current medoids
+                        if (currentMedoidIndices.Contains(h))
+                            return partialMin;
+
+                        int partialMinI = partialMin.i;
+                        int partialMinH = partialMin.h;
+                        double partialMinTih = partialMin.tih;
+
+                        for (int i = 0; i < currentMedoidIndicesArray.Length; i++)
                         {
-                            // Skip current medoids and point #I
-                            if (j == h || currentMedoidIndices.Contains(j))
-                                return;
+                            int pointIIndex = currentMedoidIndicesArray[i];
 
-                            // Compute Kijh
-                            int m = currentMedoidIndicesArray[labels[j]];
-                            double dj = Distance.Distance(x[j], x[m]);
-                            double djh = Distance.Distance(x[j], x[h]);
-                            double dji = Distance.Distance(x[j], x[pointIIndex]);
-                            double kjih = (dji == dj)
-                                ? ((djh < secondClusterDistance[j]) ? djh - dj : secondClusterDistance[j] - dj)
-                                : ((djh < dj ? djh - dj : 0.0));
-                            InterlockedEx.Add(ref tih, kjih);
-                        });
+                            // Compute T[i, h]
+                            double tih = 0.0;
 
-                        var currentMinTih = minTih;
-                        if (tih < currentMinTih.Item3)
-                        {
-                            var newMinTih = Tuple.Create(i, h, tih);
-                            do
+                            Parallel.For(0, x.Length, ParallelOptions,
+                                
+                                () => 0.0,
+
+                                (j, state2, partialSum) =>
+                                {
+                                    // Skip current medoids and point #I
+                                    if (j == h || currentMedoidIndices.Contains(j))
+                                        return partialSum;
+
+                                    // Compute Kijh
+                                    int m = currentMedoidIndicesArray[labels[j]];
+                                    double dj = Distance.Distance(x[j], x[m]);
+                                    double djh = Distance.Distance(x[j], x[h]);
+                                    double dji = Distance.Distance(x[j], x[pointIIndex]);
+                                    double kjih = (dji == dj)
+                                        ? ((djh < secondClusterDistance[j]) ? djh - dj : secondClusterDistance[j] - dj)
+                                        : ((djh < dj ? djh - dj : 0.0));
+                                    return partialSum + kjih;
+                                },
+
+                                (partialSum) =>
+                                {
+                                    InterlockedEx.Add(ref tih, partialSum);
+                                }
+                            );
+
+                            if (tih < partialMinTih)
                             {
-                                var actualMinTih = Interlocked.CompareExchange(ref minTih, newMinTih, currentMinTih);
-                                if (actualMinTih == currentMinTih)
-                                    break;
-                                currentMinTih = actualMinTih;
+                                partialMinI = i;
+                                partialMinH = h;
+                                partialMinTih = tih;
                             }
-                            while (tih < currentMinTih.Item3);
+                        }
+
+                        return new { i = partialMinI, h = partialMinH, tih = partialMinTih };
+                    },
+
+                    (partialMin) =>
+                    {
+                        if (partialMin.tih < minTih)
+                        {
+                            lock (lockObj)
+                            {
+                                if (partialMin.tih < minTih)
+                                {
+                                    minI = partialMin.i;
+                                    minH = partialMin.h;
+                                    minTih = partialMin.tih;
+                                }
+                            }
                         }
                     }
-                });
+                );
 
                 // Check exit criteria
-                if (minTih.Item3 >= 0.0)
+                if (minTih >= 0.0)
                 {
                     break;
                 }
 
                 // Swap points
-                currentMedoidIndices.Remove(currentMedoidIndicesArray[minTih.Item1]);
-                currentMedoidIndices.Add(minTih.Item2);
-                currentMedoidIndicesArray[minTih.Item1] = minTih.Item2;
+                currentMedoidIndices.Remove(currentMedoidIndicesArray[minI]);
+                currentMedoidIndices.Add(minH);
+                currentMedoidIndicesArray[minI] = minH;
             }
 
             // Assign medoids
