@@ -417,20 +417,20 @@ namespace Accord.Tests.MachineLearning
             data.Columns.Add("Wind", typeof(string));
             data.Columns.Add("PlayTennis", typeof(string));
 
-            data.Rows.Add("D1",  "Sunny",    "Hot",   "High",    "Weak",    "No");
-            data.Rows.Add("D2",  null,       "Hot",   "High",    "Strong",  "No");
-            data.Rows.Add("D3",  null,        null,   "High",    null,      "Yes");
-            data.Rows.Add("D4",  "Rain",     "Mild",  "High",    "Weak",    "Yes");
-            data.Rows.Add("D5",  "Rain",     "Cool",  null,      "Weak",    "Yes");
-            data.Rows.Add("D6",  "Rain",     "Cool",  "Normal",  "Strong",  "No");
-            data.Rows.Add("D7",  "Overcast", "Cool",  "Normal",  "Strong",  "Yes");
-            data.Rows.Add("D8",  null,       "Mild",  "High",    null,	    "No");
-            data.Rows.Add("D9",  null,       "Cool",  "Normal",  "Weak",    "Yes");
-            data.Rows.Add("D10", null,       null,    "Normal",  null,      "Yes");
-            data.Rows.Add("D11", null,       "Mild",  "Normal",  null,      "Yes");
-            data.Rows.Add("D12", "Overcast", "Mild",  null,      "Strong",  "Yes");
-            data.Rows.Add("D13", "Overcast", "Hot",   null,      "Weak",    "Yes");
-            data.Rows.Add("D14", "Rain",     "Mild",  "High",    "Strong",  "No");
+            data.Rows.Add("D1", "Sunny", "Hot", "High", "Weak", "No");
+            data.Rows.Add("D2", null, "Hot", "High", "Strong", "No");
+            data.Rows.Add("D3", null, null, "High", null, "Yes");
+            data.Rows.Add("D4", "Rain", "Mild", "High", "Weak", "Yes");
+            data.Rows.Add("D5", "Rain", "Cool", null, "Weak", "Yes");
+            data.Rows.Add("D6", "Rain", "Cool", "Normal", "Strong", "No");
+            data.Rows.Add("D7", "Overcast", "Cool", "Normal", "Strong", "Yes");
+            data.Rows.Add("D8", null, "Mild", "High", null, "No");
+            data.Rows.Add("D9", null, "Cool", "Normal", "Weak", "Yes");
+            data.Rows.Add("D10", null, null, "Normal", null, "Yes");
+            data.Rows.Add("D11", null, "Mild", "Normal", null, "Yes");
+            data.Rows.Add("D12", "Overcast", "Mild", null, "Strong", "Yes");
+            data.Rows.Add("D13", "Overcast", "Hot", null, "Weak", "Yes");
+            data.Rows.Add("D14", "Rain", "Mild", "High", "Strong", "No");
 
             // Create a new codification codebook to convert 
             // the strings above into numeric, integer labels:
@@ -504,6 +504,122 @@ Yes =: (Outlook == Rain) && (Wind == Weak)
             Assert.AreEqual(0.21428571428571427, newError, 1e-10);
         }
 
+        [Test]
+        public void missing_values_thresholds_test()
+        {
+            #region doc_missing_thresholds
+            // In this example, we will be using a modified version of the famous Play Tennis 
+            // example by Tom Mitchell (1998), where some values have been replaced by missing 
+            // values. We will use NaN double values to represent values missing from the data.
+
+            // Note: this example uses DataTables to represent the input data, 
+            // but this is not required. The same could be performed using plain
+            // double[][] matrices and vectors instead.
+            DataTable data = new DataTable("Tennis Example with Missing Values");
+
+            data.Columns.Add("Day", typeof(string));
+            data.Columns.Add("Outlook", typeof(string));
+            data.Columns.Add("Temperature", typeof(int));
+            data.Columns.Add("Humidity", typeof(string));
+            data.Columns.Add("Wind", typeof(string));
+            data.Columns.Add("PlayTennis", typeof(string));
+
+            data.Rows.Add("D1", "Sunny", 35, "High", "Weak", "No");
+            data.Rows.Add("D2", null, 32, "High", "Strong", "No");
+            data.Rows.Add("D3", null, null, "High", null, "Yes");
+            data.Rows.Add("D4", "Rain", 25, "High", "Weak", "Yes");
+            data.Rows.Add("D5", "Rain", 16, null, "Weak", "Yes");
+            data.Rows.Add("D6", "Rain", 12, "Normal", "Strong", "No");
+            data.Rows.Add("D7", "Overcast", "18", "Normal", "Strong", "Yes");
+            data.Rows.Add("D8", null, 27, "High", null, "No");
+            data.Rows.Add("D9", null, 17, "Normal", "Weak", "Yes");
+            data.Rows.Add("D10", null, null, "Normal", null, "Yes");
+            data.Rows.Add("D11", null, 23, "Normal", null, "Yes");
+            data.Rows.Add("D12", "Overcast", 25, null, "Strong", "Yes");
+            data.Rows.Add("D13", "Overcast", 33, null, "Weak", "Yes");
+            data.Rows.Add("D14", "Rain", 24, "High", "Strong", "No");
+
+            string[] inputNames = new[] { "Outlook", "Temperature", "Humidity", "Wind" };
+
+            // Create a new discretization codebook to convert 
+            // the numbers above into discrete, string labels:
+            var discretization = new Discretization<double, string>()
+            {
+                { "Temperature", x => x >= 30 && x < 50, "Hot" },
+                { "Temperature", x => x >= 20 && x < 30, "Mild" },
+                { "Temperature", x => x >= 00 && x < 20, "Cool" },
+            };
+
+            // Use the discretization to convert all the data
+            DataTable discrete = discretization.Apply(data);
+
+            // Create a new codification codebook to convert 
+            // the strings above into numeric, integer labels:
+            var codebook = new Codification()
+            {
+                DefaultMissingValueReplacement = Double.NaN
+            };
+
+            // Use the codebook to convert all the data
+            DataTable symbols = codebook.Apply(discrete);
+
+            // Grab the training input and output instances:
+            double[][] inputs = symbols.ToJagged(inputNames);
+            int[] outputs = symbols.ToArray<int>("PlayTennis");
+
+            // Create a new learning algorithm
+            var teacher = new C45Learning()
+            {
+                Attributes = DecisionVariable.FromCodebook(codebook, inputNames)
+            };
+
+            // Use the learning algorithm to induce a new tree:
+            DecisionTree tree = teacher.Learn(inputs, outputs);
+
+            // To get the estimated class labels, we can use
+            int[] predicted = tree.Decide(inputs);
+
+            // The classification error (~0.214) can be computed as 
+            double error = new ZeroOneLoss(outputs).Loss(predicted);
+
+            // Moreover, we may decide to convert our tree to a set of rules:
+            DecisionSet rules = tree.ToRules();
+
+            // And using the codebook, we can inspect the tree reasoning:
+            string ruleText = rules.ToString(codebook, "PlayTennis",
+                System.Globalization.CultureInfo.InvariantCulture);
+
+            // The output should be:
+            string expected = @"No =: (Outlook == Sunny)
+No =: (Outlook == Rain) && (Wind == Strong)
+Yes =: (Outlook == Overcast)
+Yes =: (Outlook == Rain) && (Wind == Weak)
+";
+            #endregion
+
+            expected = expected.Replace("\r\n", Environment.NewLine);
+            Assert.AreEqual(expected, ruleText);
+
+            Assert.AreEqual(14, codebook["Day"].NumberOfSymbols);
+            Assert.AreEqual(3, codebook["Outlook"].NumberOfSymbols);
+            Assert.AreEqual(3, codebook["Temperature"].NumberOfSymbols);
+            Assert.AreEqual(2, codebook["Humidity"].NumberOfSymbols);
+            Assert.AreEqual(2, codebook["Wind"].NumberOfSymbols);
+            Assert.AreEqual(2, codebook["PlayTennis"].NumberOfSymbols);
+
+            foreach (var col in codebook)
+            {
+                Assert.AreEqual(Double.NaN, col.MissingValueReplacement);
+                Assert.AreEqual(CodificationVariable.Ordinal, col.VariableType);
+            }
+
+            Assert.AreEqual(0.21428571428571427, error, 1e-10);
+            Assert.AreEqual(4, tree.NumberOfInputs);
+            Assert.AreEqual(2, tree.NumberOfOutputs);
+
+            double newError = ComputeError(rules, inputs, outputs);
+            Assert.AreEqual(0.21428571428571427, newError, 1e-10);
+        }
 
         [Test]
         public void ConsistencyTest1()

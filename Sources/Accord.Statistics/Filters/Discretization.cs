@@ -22,7 +22,10 @@
 
 namespace Accord.Statistics.Filters
 {
+    using Accord.MachineLearning;
+    using Accord.Math;
     using System;
+    using System.Collections.Generic;
     using System.Data;
 
     /// <summary>
@@ -59,7 +62,6 @@ namespace Accord.Statistics.Filters
     [Serializable]
     public class Discretization : BaseFilter<Discretization.Options>, IAutoConfigurableFilter
     {
-
         /// <summary>
         ///   Creates a new Discretization filter.
         /// </summary>
@@ -137,6 +139,8 @@ namespace Accord.Statistics.Filters
             }
         }
 
+
+
         /// <summary>
         ///   Options for the discretization filter.
         /// </summary>
@@ -188,4 +192,5 @@ namespace Accord.Statistics.Filters
             }
         }
     }
+
 }

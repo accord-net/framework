@@ -43,8 +43,6 @@ namespace Accord.Statistics.Filters
             IUnsupervisedLearning<Options, T, int>,
             IUnsupervisedLearning<Options, T, double[]>
         {
-            [NonSerialized]
-            private CancellationToken token;
 
             bool hasMissingValue;
             T missingValue;
@@ -114,19 +112,6 @@ namespace Accord.Statistics.Filters
             /// </summary>
             /// 
             public CodificationVariable VariableType { get; set; }
-
-            /// <summary>
-            /// Gets or sets a cancellation token that can be used to
-            /// stop the learning algorithm while it is running.
-            /// </summary>
-            /// 
-            /// <value>The token.</value>
-            /// 
-            public CancellationToken Token
-            {
-                get { return token; }
-                set { token = value; }
-            }
 
             /// <summary>
             ///   Gets the number of inputs accepted by the model (value will be 1).

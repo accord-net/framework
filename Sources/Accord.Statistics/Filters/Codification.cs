@@ -158,6 +158,8 @@ namespace Accord.Statistics.Filters
     /// </example>
     /// 
     /// <seealso cref="Normalization"/>
+    /// <seealso cref="Codification{T}"/>
+    /// <seealso cref="Discretization{TInput, TOutput}"/>
     /// 
     [Serializable]
     public class Codification : Codification<string>, IAutoConfigurableFilter, ITransform<string[], double[]>
