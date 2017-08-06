@@ -54,7 +54,7 @@ namespace Accord.MachineLearning
     /// </para>
     /// </remarks>
     /// 
-    /// <seealso cref="PartitioningAroundMedoids"/>
+    /// <seealso cref="KMedoids"/>
     /// <seealso cref="KMeans"/>
     /// <seealso cref="MeanShift"/>
     /// 
@@ -64,7 +64,7 @@ namespace Accord.MachineLearning
     /// </example>
     /// 
     [Serializable]
-    public class PartitioningAroundMedoids<T> : ParallelLearningBase,
+    public class KMedoids<T> : ParallelLearningBase,
         IUnsupervisedLearning<KMedoidsClusterCollection<T>, T[], int>
     {
 
@@ -134,7 +134,7 @@ namespace Accord.MachineLearning
         ///   last call to this class' Compute methods.
         /// </summary>
         /// 
-        public int Iterations { get; private set; }
+        public int Iterations { get; protected set; }
 
         /// <summary>
         ///   Gets the cluster distortion error (the average distance 
@@ -160,7 +160,7 @@ namespace Accord.MachineLearning
         /// <param name="distance">The distance function to use. Default is to
         ///   use the <see cref="Accord.Math.Distance.Euclidean(double[], double[])"/> distance.</param>
         /// 
-        public PartitioningAroundMedoids(int k, IDistance<T[]> distance)
+        public KMedoids(int k, IDistance<T[]> distance)
         {
             if (k <= 0)
                 throw new ArgumentOutOfRangeException("k");
@@ -196,9 +196,6 @@ namespace Accord.MachineLearning
                 throw new ArgumentException("Not enough points. There should be more points than the number K of clusters.");
 
             // Perform initialization of the clusters
-            if (Initialization == Seeding.KMeansPlusPlus)
-                throw new Exception("PartitioningAroundMedoids algorithm doesn't support KMeansPlusPlus seeding.");
-
             int[] currentMedoidIndicesArray = Clusters.Randomize(x, Initialization, ParallelOptions);
 
             // Detect initial medoid indices
@@ -207,10 +204,9 @@ namespace Accord.MachineLearning
                 currentMedoidIndicesArray = Vector.Create(value: -1, size: K);
                 Parallel.For(0, x.Length, ParallelOptions, i =>
                 {
-                    T[] point = x[i];
-                    for (int j = 0; j < K; ++j)
+                    for (int j = 0; j < Clusters.Centroids.Length; j++)
                     {
-                        if (Clusters.Centroids[j].IsEqual(point))
+                        if (Distance.Distance(Clusters.Centroids[j], x[i]) == 0)
                         {
                             int prev = Interlocked.CompareExchange(ref currentMedoidIndicesArray[j], i, -1);
                             if (prev != -1)
@@ -227,37 +223,65 @@ namespace Accord.MachineLearning
                     throw new Exception($"Medoid #{i} not found.");
             }
 
-            var currentMedoidIndices = new HashSet<int>(currentMedoidIndicesArray);
-            if (currentMedoidIndices.Count < currentMedoidIndicesArray.Length)
-                throw new Exception("Some medoids are not unique");
+            
 
             Iterations = 0;
 
-            ////////////////////////////////////////////////////////////////////////////////////////////////////////
+            int[] labels = new int[x.Length];
 
             // Special case - one medoid.
-            // Arrange point with minimal total cost as medoid.
             if (K == 1)
             {
-                double[] costs = new double[x.Length];
+                // Arrange point with minimal total cost as medoid.
+                int imin = -1;
+                double min = Double.PositiveInfinity;
                 for (int i = 0; i < x.Length; i++)
                 {
                     double cost = 0.0;
                     for (int j = 0; j < x.Length; j++)
                         cost += Distance.Distance(x[i], x[j]);
-                    costs[i] = cost;
+                    if (cost < min)
+                        imin = i;
                 }
-                int minCostPointIndex = 0;
-                for (int i = 1; i < costs.Length; i++)
-                {
-                    if (costs[i] < costs[minCostPointIndex])
-                        minCostPointIndex = i;
-                }
-                Clusters.Centroids[0] = x[minCostPointIndex];
-                return Clusters;
+
+                Clusters.Centroids[0] = x[imin];
+            }
+            else
+            {
+                Compute(x, labels, currentMedoidIndicesArray);
             }
 
-            int[] labels = new int[x.Length];
+            // Miscellaneous final computations
+            if (ComputeError)
+            {
+                // Compute the average error
+#if DEBUG
+                var expected = Clusters.Decide(x);
+                if (!expected.IsEqual(labels))
+                    throw new Exception();
+#endif
+
+                Error = Clusters.Distortion(x, labels);
+            }
+
+            Accord.Diagnostics.Debug.Assert(Clusters.NumberOfClasses == K);
+            Accord.Diagnostics.Debug.Assert(Clusters.NumberOfOutputs == K);
+            Accord.Diagnostics.Debug.Assert(Clusters.NumberOfInputs == x[0].Length);
+
+            // Return the classification result
+            return Clusters;
+        }
+
+        /// <summary>
+        ///   Implementation of the PAM algorithm.
+        /// </summary>
+        /// 
+        protected virtual int[] Compute(T[][] x, int[] labels, int[] currentMedoidIndicesArray)
+        {
+            var currentMedoidIndices = new HashSet<int>(currentMedoidIndicesArray);
+            if (currentMedoidIndices.Count < currentMedoidIndicesArray.Length)
+                throw new Exception("Some medoids are not unique");
+
             double[] secondClusterDistance = new double[x.Length];
 
             for (; Iterations < MaxIterations; Iterations++)
@@ -363,26 +387,11 @@ namespace Accord.MachineLearning
             }
 
             // Assign medoids
-            for (int i = 0; i < K; ++i)
+            for (int i = 0; i < Clusters.Centroids.Length; i++)
                 Clusters.Centroids[i] = x[currentMedoidIndicesArray[i]];
 
-            // Miscellaneous final computations
-
-            if (ComputeError)
-            {
-                // Compute the average error
-                Clusters.Decide(x, labels);
-                Error = Clusters.Distortion(x, labels);
-            }
-
-            Accord.Diagnostics.Debug.Assert(Clusters.NumberOfClasses == K);
-            Accord.Diagnostics.Debug.Assert(Clusters.NumberOfOutputs == K);
-            Accord.Diagnostics.Debug.Assert(Clusters.NumberOfInputs == x[0].Length);
-
-            // Return the classification result
-            return Clusters;
+            return labels;
         }
-
     }
 
     /// <summary>
@@ -413,10 +422,10 @@ namespace Accord.MachineLearning
     /// </para>
     /// </remarks>
     /// 
-    /// <seealso cref="PartitioningAroundMedoids{T}"/>
+    /// <seealso cref="KMedoids{T}"/>
     /// 
     [Serializable]
-    public class PartitioningAroundMedoids : PartitioningAroundMedoids<double>
+    public class KMedoids : KMedoids<double>
     {
         /// <summary>
         ///   Initializes a new instance of k-Medoids algorithm
@@ -424,7 +433,7 @@ namespace Accord.MachineLearning
         /// 
         /// <param name="k">The number of clusters to divide input data.</param>    
         /// 
-        public PartitioningAroundMedoids(int k)
+        public KMedoids(int k)
             : base(k, new Accord.Math.Distances.Euclidean())
         {
         }

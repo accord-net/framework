@@ -32,7 +32,7 @@ namespace Accord.MachineLearning
     ///   k-Medoids cluster collection.
     /// </summary>
     /// 
-    /// <seealso cref="PartitioningAroundMedoids{T}"/>
+    /// <seealso cref="KMedoids{T}"/>
     /// 
     [Serializable]
     public class KMedoidsClusterCollection<T> : MulticlassScoreClassifierBase<T[]>,
@@ -44,7 +44,7 @@ namespace Accord.MachineLearning
         ///   k-Medoids' cluster.
         /// </summary>
         /// 
-        /// <seealso cref="PartitioningAroundMedoids{T}"/>
+        /// <seealso cref="KMedoids{T}"/>
         /// 
         [Serializable]
         public class KMedoidsCluster : CentroidCluster<KMedoidsClusterCollection<T>, T[], KMedoidsCluster>

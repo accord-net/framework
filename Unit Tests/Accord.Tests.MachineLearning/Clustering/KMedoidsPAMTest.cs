@@ -52,7 +52,7 @@ namespace Accord.Tests.MachineLearning
             };
 
             // Create a new 2-Medoids algorithm.
-            var kmedoidsPam = new PartitioningAroundMedoids<int>(2, new Manhattan());
+            var kmedoidsPam = new KMedoids<int>(2, new Manhattan());
             kmedoidsPam.MaxIterations = 100;
 
             // Compute and retrieve the data centroids

@@ -67,93 +67,8 @@ namespace Accord.MachineLearning
     /// </example>
     /// 
     [Serializable]
-    public class VoronoiIteration<T> : ParallelLearningBase,
-        IUnsupervisedLearning<KMedoidsClusterCollection<T>, T[], int>
+    public class VoronoiIteration<T> : KMedoids<T>
     {
-
-        private KMedoidsClusterCollection<T> clusters;
-
-        /// <summary>
-        ///   Gets the clusters found by k-Medoids.
-        /// </summary>
-        /// 
-        public KMedoidsClusterCollection<T> Clusters
-        {
-            get { return clusters; }
-        }
-
-        /// <summary>
-        ///   Gets the number of clusters.
-        /// </summary>
-        /// 
-        public int K { get { return clusters.Count; } }
-
-        /// <summary>
-        ///   Gets the dimensionality of the data space.
-        /// </summary>
-        /// 
-        public int Dimension
-        {
-            get { return clusters.NumberOfInputs; }
-        }
-
-        /// <summary>
-        ///   Gets or sets whether the clustering distortion error (the
-        ///   average distance between all data points and the cluster
-        ///   centroids) should be computed at the end of the algorithm.
-        ///   The result will be stored in <see cref="Error"/>. Default is true.
-        /// </summary>
-        /// 
-        public bool ComputeError { get; set; }
-
-        /// <summary>
-        ///   Gets or sets the distance function used
-        ///   as a distance metric between data points.
-        /// </summary>
-        /// 
-        public IDistance<T[], T[]> Distance
-        {
-            get { return clusters.Distance; }
-            set { clusters.Distance = value; }
-        }
-
-        /// <summary>
-        ///   Gets or sets the maximum number of iterations to
-        ///   be performed by the method. If set to zero, no
-        ///   iteration limit will be imposed. Default is 0.
-        /// </summary>
-        /// 
-        public int MaxIterations { get; set; }
-
-        /// <summary>
-        ///   Gets or sets the relative convergence threshold
-        ///   for stopping the algorithm. Default is 1e-5.
-        /// </summary>
-        /// 
-        public double Tolerance { get; set; }
-
-        /// <summary>
-        ///   Gets the number of iterations performed in the
-        ///   last call to this class' Compute methods.
-        /// </summary>
-        /// 
-        public int Iterations { get; private set; }
-
-        /// <summary>
-        ///   Gets the cluster distortion error (the average distance 
-        ///   between data points and the cluster centroids) after the 
-        ///   last call to this class' Compute methods.
-        /// </summary>
-        /// 
-        public double Error { get; private set; }
-
-        /// <summary>
-        ///   Gets or sets the strategy used to initialize the
-        ///   centroids of the clustering algorithm. Default is
-        ///   <see cref="Seeding.Uniform"/>.
-        /// </summary>
-        /// 
-        public Seeding Initialization { get; set; }
 
         /// <summary>
         ///   Initializes a new instance of VoronoiIteration algorithm
@@ -164,17 +79,8 @@ namespace Accord.MachineLearning
         /// use the <see cref="Accord.Math.Distance.Manhattan(double[], double[])"/> distance.</param>
         /// 
         public VoronoiIteration(int k, IDistance<T[]> distance)
+            : base(k, distance)
         {
-            if (k <= 0)
-                throw new ArgumentOutOfRangeException("k");
-
-            if (distance == null)
-                throw new ArgumentNullException("distance");
-
-            // Create the object-oriented structure to hold
-            //  information about the k-Medoids' clusters.
-            clusters = new KMedoidsClusterCollection<T>(k, distance);
-
             Initialization = Seeding.Uniform;
             Tolerance = 1e-5;
             MaxIterations = 100;
@@ -226,86 +132,15 @@ namespace Accord.MachineLearning
         }
 
         /// <summary>
-        /// Learns a model that can map the given inputs to the desired outputs.
+        ///   Implementation of the Voronoi Iteration algorithm.
         /// </summary>
-        /// <param name="x">The model inputs.</param>
-        /// <param name="weights">The weight of importance for each input sample.</param>
-        /// <returns>A model that has learned how to produce suitable outputs
-        /// given the input data <paramref name="x" />.</returns>
-        /// <exception cref="ArgumentNullException">points</exception>
-        /// <exception cref="ArgumentException">Not enough points. There should be more points than the number K of clusters.</exception>
-        public KMedoidsClusterCollection<T> Learn(T[][] x, double[] weights = null)
+        /// 
+        protected override int[] Compute(T[][] x, int[] labels, int[] currentMedoidIndicesArray)
         {
-            // Initial argument checking
-            if (x == null)
-                throw new ArgumentNullException("points");
-
-            if (x.Length < K)
-                throw new ArgumentException("Not enough points. There should be more points than the number K of clusters.");
-
-            // Perform initialization of the clusters
-            if (Initialization == Seeding.KMeansPlusPlus)
-                throw new Exception("VoronoiIteration algorithm doesn't support KMeansPlusPlus seeding.");
-
-            int[] currentMedoidIndicesArray = Clusters.Randomize(x, Initialization, ParallelOptions);
-
-            // Detect initial medoid indices
-            if (currentMedoidIndicesArray == null)
-            {
-                currentMedoidIndicesArray = Vector.Create(size: K, value: -1);
-                Parallel.For(0, x.Length, ParallelOptions, i =>
-                {
-                    T[] point = x[i];
-                    for (int j = 0; j < K; ++j)
-                    {
-                        if (Clusters.Centroids[j].IsEqual(point))
-                        {
-                            int prev = Interlocked.CompareExchange(ref currentMedoidIndicesArray[j], i, -1);
-                            if (prev != -1)
-                                throw new Exception($"Duplicate medoid #{j} detected: {prev} and {i}");
-                            break;
-                        }
-                    }
-                });
-            }
-
-            for (int i = 0; i < currentMedoidIndicesArray.Length; ++i)
-            {
-                if (currentMedoidIndicesArray[i] == -1)
-                    throw new Exception($"Medoid #{i} not found.");
-            }
-
             var currentMedoidIndices = new HashSet<int>(currentMedoidIndicesArray);
             if (currentMedoidIndices.Count < currentMedoidIndicesArray.Length)
                 throw new Exception("Some medoids are not unique");
 
-            Iterations = 0;
-
-            // Special case - one medoid.
-            // Arrange point with minimal total cost as medoid.
-            if (K == 1)
-            {
-                var costs = new double[x.Length];
-                for (int i = 0; i < x.Length; i++)
-                {
-                    double cost = 0.0;
-                    for (int j = 0; j < x.Length; j++)
-                        cost += Distance.Distance(x[i], x[j]);
-                    costs[i] = cost;
-                }
-
-                int minCostPointIndex = 0;
-                for (int i = 1; i < costs.Length; i++)
-                {
-                    if (costs[i] < costs[minCostPointIndex])
-                        minCostPointIndex = i;
-                }
-
-                Clusters.Centroids[0] = x[minCostPointIndex];
-                return Clusters;
-            }
-
-            // ================ VI algorithm ==============================
             var clusters = new ClusterInfo[K];
 
             // Create clusters
@@ -315,8 +150,6 @@ namespace Accord.MachineLearning
                 clusters[clusterIndex] = new ClusterInfo(medoidIndex);
                 clusterIndex++;
             }
-
-            int[] labels = new int[x.Length];
 
             for (; Iterations < MaxIterations; Iterations++)
             {
@@ -380,8 +213,7 @@ namespace Accord.MachineLearning
                         if (newMedoidIndex != currentMedoidIndex)
                         {
                             T[] newMedoid = x[newMedoidIndex];
-                            var newCost = cluster.PointIndices.Sum(pointIndex =>
-                                    Distance.Distance(x[pointIndex], newMedoid));
+                            double newCost = cluster.PointIndices.Sum(pointIndex => Distance.Distance(x[pointIndex], newMedoid));
                             if (newCost < minCost)
                             {
                                 minCostMedoidIndex = newMedoidIndex;
@@ -408,29 +240,13 @@ namespace Accord.MachineLearning
                 if (finalTotalCost >= initialTotalCost)
                     break;
             }
-            // ===========================================================
 
             // Assign medoids
-            for (int i = 0; i < K; ++i)
+            for (int i = 0; i < Clusters.Centroids.Length; i++)
                 Clusters.Centroids[i] = x[clusters[i].MedoidIndex];
 
-            // Miscellaneous final computations
-
-            if (ComputeError)
-            {
-                // Compute the average error
-                Clusters.Decide(x, labels);
-                Error = Clusters.Distortion(x, labels);
-            }
-
-            Accord.Diagnostics.Debug.Assert(Clusters.NumberOfClasses == K);
-            Accord.Diagnostics.Debug.Assert(Clusters.NumberOfOutputs == K);
-            Accord.Diagnostics.Debug.Assert(Clusters.NumberOfInputs == x[0].Length);
-
-            // Return the classification result
-            return Clusters;
+            return labels;
         }
-
     }
 
     /// <summary>
