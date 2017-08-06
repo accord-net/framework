@@ -894,7 +894,7 @@ namespace Accord.Math
 #endif
         public unsafe static <#=t#> DotAndDotNew(this <#=a#>[] rowVector, <#=b#>[,] matrix, <#=c#>[] columnVector)
         {
-		    int cols = matrix.Columns();
+            int cols = matrix.Columns();
             int rows = matrix.Rows();
 #if DEBUG
             if (rowVector.Length != rows || cols != columnVector.Length)
@@ -1234,7 +1234,7 @@ namespace Accord.Math
 #endif
         public unsafe static <#=r#>[] DotNew(this <#=a#>[] rowVector, <#=b#>[,] matrix, <#=r#>[] result)
         {
-			int cols = matrix.Columns();
+            int cols = matrix.Columns();
             int rows = matrix.Rows();
 
 #if DEBUG
@@ -1283,7 +1283,7 @@ namespace Accord.Math
                 }
             }
 
-			return result;
+            return result;
         }
 
 
@@ -1354,9 +1354,9 @@ namespace Accord.Math
             return result;
         }
 
-		// TODO: AJC begin
+        // TODO: AJC begin
 
-	    /// <summary>
+        /// <summary>
         ///   Multiplies a matrix <c>A</c> and a column vector <c>v</c>,
         ///   giving the product <c>A*v</c>
         /// </summary>
@@ -1366,18 +1366,18 @@ namespace Accord.Math
         /// <param name="result">The matrix <c>R</c> to store the product.</param>
         /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        unsafe public static <#=r#>[] DotNew(this <#=a#>[,] matrix, <#=b#>[] columnVector, <#=r#>[] result)
+        public unsafe static <#=r#>[] DotNew(this <#=a#>[,] matrix, <#=b#>[] columnVector, <#=r#>[] result)
         {
             int cols = matrix.Columns();
             int rows = matrix.Rows();
 
 #if DEBUG
             if (cols != columnVector.Length || result.Length > rows)
-			{
+            {
                 throw new DimensionMismatchException();
-			}
+            }
 #endif
 
             fixed (<#=a#>* a = matrix)
@@ -1388,7 +1388,7 @@ namespace Accord.Math
                 <#=a#>* pa2 = a + cols;
                 <#=r#>* pr = r;
 
-				// Process rows two at a time
+                // Process rows two at a time
                 for (int i = 0; i < rows / 2; i++)
                 {
                     <#=t#> sum1 = 0, sum2 = 0;
@@ -1409,8 +1409,8 @@ namespace Accord.Math
                     pa2 += cols;
                 }
 
-				// Process the remainder
-				for (int i = 0; i < rows % 2; i++)
+                // Process the remainder
+                for (int i = 0; i < rows % 2; i++)
                 {
                     <#=t#> sum = 0;
                     <#=b#>* px = x;
@@ -1422,7 +1422,7 @@ namespace Accord.Math
                 }
             }
 
-			return result;
+            return result;
         }
 
 
@@ -2122,6 +2122,45 @@ namespace Accord.Math
                     result[i, j] = (<#=r#>)((<#=t#>)a[i] * (<#=t#>)b[j]);
             return result;
         }
+
+
+
+        /// <summary>
+        ///   Gets the outer product (matrix product) between two vectors (a*bT).
+        /// </summary>
+        /// 
+        /// <remarks>
+        ///   In linear algebra, the outer product typically refers to the tensor
+        ///   product of two vectors. The result of applying the outer product to
+        ///   a pair of vectors is a matrix. The name contrasts with the inner product,
+        ///   which takes as input a pair of vectors and produces a scalar.
+        /// </remarks>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public unsafe static <#=r#>[,] OuterNew(this <#=a#>[] a, <#=b#>[] b, <#=r#>[,] result)
+        {
+            fixed (<#=a#>* A = a)
+            fixed (<#=b#>* B = b)
+            fixed (<#=r#>* R = result)
+            {
+                <#=a#>* pa = A;
+                <#=r#>* pr = R;
+
+                for (int i = 0; i < a.Length; i++)
+                {
+                    <#=t#> x = (<#=t#>)(*pa++);
+                    <#=b#>* pb = B;
+
+                    for (int j = 0; j < b.Length; j++)
+                        *pr++ = (<#=r#>)(x * (<#=t#>)(*pb++));
+                }
+            }
+
+            return result;
+        }
+
 
 
         /// <summary>
