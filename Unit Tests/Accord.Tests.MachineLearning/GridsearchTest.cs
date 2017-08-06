@@ -350,10 +350,11 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(1, bestConstant, 1e-8);
         }
 
+#if !NET35
         [Test]
         public void learn_test_strongly_typed()
         {
-            #region doc_learn_strongly_typed
+        #region doc_learn_strongly_typed
             // Ensure results are reproducible
             Accord.Math.Random.Generator.Seed = 0;
 
@@ -432,7 +433,7 @@ namespace Accord.Tests.MachineLearning
             double bestC = result.BestParameters.Complexity;
             double bestTolerance = result.BestParameters.Tolerance;
             IKernel bestKernel = result.BestParameters.Kernel.Value;
-            #endregion
+        #endregion
 
             Assert.IsNotNull(svm);
             Assert.AreEqual(1e-8, bestC, 1e-10);
@@ -440,7 +441,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(0, bestTolerance, 1e-8);
             Assert.AreEqual(typeof(Gaussian), bestKernel.GetType());
         }
-
+#endif
 
         [Test]
         public void cross_validation_test()
@@ -543,10 +544,11 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(0, bestConstant, 1e-8);
         }
 
+#if !NET35
         [Test]
         public void cross_validation_decision_tree()
         {
-            #region doc_learn_tree_cv
+        #region doc_learn_tree_cv
             // Ensure results are reproducible
             Accord.Math.Random.Generator.Seed = 0;
 
@@ -621,7 +623,7 @@ namespace Accord.Tests.MachineLearning
 
             // Use the best parameters to create the final tree model:
             DecisionTree finalTree = bestTeacher.Learn(input, output);
-            #endregion
+        #endregion
 
             int height = finalTree.GetHeight();
             Assert.AreEqual(5, height);
@@ -634,7 +636,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(0.1076923076923077, bestAverageError, 1e-8);
             Assert.AreEqual(5, bestHeight, 1e-8);
         }
-
+#endif
 
 
         class Mapper : TransformBase<string, string>
