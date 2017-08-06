@@ -148,6 +148,35 @@ namespace Accord.Tests.Math
         }
 
         [Test]
+        public void MultiplyVectorMatrixBatchTest()
+        {
+            const double Tolerance = 1e-10;
+
+            for (int n = 1; n < 10; n++)
+            {
+                for (int m = 1; m < 10; m++)
+                {
+                    for (int i = 0; i < 10; i++)
+                    {
+                        double[] a = Vector.Random(n);
+                        double[,] B = Matrix.Random(n, m);
+                        double[] c = Vector.Random(m);
+
+                        double[] result1 = a.DotNew(B, c);
+                        double[] result2 = new double[B.Columns()];
+
+                        for (int k = 0; k < B.Columns(); k++)
+                        {
+                            result2[k] = a.Dot(B.GetColumn(k));
+                        }
+
+                        Assert.IsTrue(result1.IsEqual(result2, Tolerance));
+                    }
+                }
+            }
+        }
+
+        [Test]
         public void MultiplyMatrixVectorTest()
         {
             double[,] a =
@@ -163,6 +192,35 @@ namespace Accord.Tests.Math
 
             Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.0000001));
 
+        }
+
+        [Test]
+        public void MultiplyMatrixVectorBatchTest()
+        {
+            const double Tolerance = 1e-10;
+
+            for (int n = 1; n < 10; n++)
+            {
+                for (int m = 1; m < 10; m++)
+                {
+                    for (int i = 0; i < 10; i++)
+                    {
+                        double[,] A = Matrix.Random(n, m);
+                        double[] b = Vector.Random(m);
+                        double[] c = Vector.Random(n);
+
+                        double[] result1 = A.DotNew(b, c);
+                        double[] result2 = new double[A.Rows()];
+
+                        for (int k = 0; k < A.Rows(); k++)
+                        {
+                            result2[k] = A.GetRow(k).Dot(b);
+                        }
+
+                        Assert.IsTrue(result1.IsEqual(result2, Tolerance));
+                    }
+                }
+            }
         }
 
         [Test]
