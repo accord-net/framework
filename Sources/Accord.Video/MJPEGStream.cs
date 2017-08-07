@@ -15,6 +15,7 @@ namespace Accord.Video
     using System.Threading;
     using System.Net;
     using System.Security;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// MJPEG video source.
@@ -563,12 +564,17 @@ namespace Accord.Video
                                 // read next portion from stream, enforce timeout
                                 read = stream.ReadAsync(buffer, total, readSize, tokenSource.Token).Result;
                             }
-                            catch (Exception)
+                            catch (AggregateException ae)
                             {
-                                // reset canceled token source
-                                tokenSource = new CancellationTokenSource();
+                                if(ae.InnerException is TaskCanceledException)
+                                {
+                                    // reset canceled token source
+                                    tokenSource = new CancellationTokenSource();
 
-                                throw new TimeoutException("The operation has timed out.");
+                                    throw new TimeoutException("The operation has timed out.");
+                                }
+
+                                throw ae.InnerException;
                             }
                         }
 #endif
