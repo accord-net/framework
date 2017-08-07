@@ -191,7 +191,6 @@ namespace Accord.Tests.Math
             actual = Matrix.Multiply(a, b);
 
             Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.0000001));
-
         }
 
         [Test]
@@ -356,6 +355,71 @@ namespace Accord.Tests.Math
                         double result4 = A.DotAndDot(C.ToJagged(), B);
                         Assert.AreEqual(result1, result3, 1e-10);
                         Assert.AreEqual(result3, result4, 1e-10);
+                    }
+                }
+            }
+        }
+
+        [Test]
+        public void KroneckerTest()
+        {
+            double[,] a = new double[,]
+            {
+              { 3, 1 },
+              { 5, 2 }
+            };
+
+            double[,] b = new double[,]
+            {
+              { 2, 4 },
+              { 7, 6 },
+            };
+
+            double[,] expected = new double[,]
+            {
+              { 6,  12, 2, 4 },
+              { 21, 18, 7, 6 },
+              { 10, 20, 4, 8 },
+              { 35, 30, 14, 12 },
+            };
+
+            double[,] actual1 = a.Kronecker(b);
+            double[,] actual2 = a.Kronecker(b.ToJagged()).ToMatrix();
+            double[,] actual3 = a.ToJagged().Kronecker(b).ToMatrix();
+            double[,] actual4 = a.ToJagged().Kronecker(b.ToJagged()).ToMatrix();
+
+            Assert.IsTrue(expected.IsEqual(actual1));
+            Assert.IsTrue(expected.IsEqual(actual2));
+            Assert.IsTrue(expected.IsEqual(actual3));
+            Assert.IsTrue(expected.IsEqual(actual4));
+        }
+
+        [Test]
+        public void KroneckerTestBatch()
+        {
+            const double Tolerance = 1e-12;
+
+            for (int i = 1; i < 5; i++)
+            {
+                for (int j = 1; j < 5; j++)
+                {
+                    for (int k = 1; k < 5; k++)
+                    {
+                        for (int l = 1; l < 5; l++)
+                        {
+                            double[,] a = Matrix.Random(i, j);
+                            double[,] b = Matrix.Random(k, l);
+
+                            double[,] result1 = a.Kronecker(b);
+                            double[,] result2 = a.Kronecker(b.ToJagged()).ToMatrix();
+                            double[,] result3 = a.ToJagged().Kronecker(b).ToMatrix();
+                            double[,] result4 = a.ToJagged().Kronecker(b.ToJagged()).ToMatrix();
+
+                            Assert.IsTrue(result1.IsEqual(result1, Tolerance));
+                            Assert.IsTrue(result1.IsEqual(result2, Tolerance));
+                            Assert.IsTrue(result1.IsEqual(result3, Tolerance));
+                            Assert.IsTrue(result1.IsEqual(result4, Tolerance));
+                        }
                     }
                 }
             }

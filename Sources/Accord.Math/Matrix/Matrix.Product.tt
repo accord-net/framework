@@ -1263,8 +1263,8 @@ namespace Accord.Math
                     <#=a#> x2 = *px++;
                     for (int j = 0; j < cols; j++)
                     {
-                        *pr += (<#=r#>)((<#=t#>)x1 * (<#=t#>)(*pa1++)); // todo NONONONO we are losing precision here :(
-                        *pr += (<#=r#>)((<#=t#>)x2 * (<#=t#>)(*pa2++)); // todo NONONONO we are losing precision here :(
+                        *pr += (<#=r#>)((<#=t#>)x1 * (<#=t#>)(*pa1++)); <#// TODO: NONONONO we are losing precision here #>
+                        *pr += (<#=r#>)((<#=t#>)x2 * (<#=t#>)(*pa2++)); <#// TODO: NONONONO we are losing precision here #>
                         pr++;
                     }
 
@@ -1279,7 +1279,7 @@ namespace Accord.Math
                     pr = r;
                     <#=a#> x1 = *px++;
                     for (int j = 0; j < cols; j++)
-                        *pr++ += (<#=r#>)((<#=t#>)x1 * (<#=t#>)(*pa1++)); // todo NONONONO we are losing precision here :(
+                        *pr++ += (<#=r#>)((<#=t#>)x1 * (<#=t#>)(*pa1++)); <#// TODO: NONONONO we are losing precision here #>
                 }
             }
 
@@ -1597,7 +1597,7 @@ namespace Accord.Math
 #endif
         public static <#=r#>[] DotWithTransposed(this <#=a#>[] rowVector, <#=b#>[,] b, <#=r#>[] result)
         {
-            <#// TODO: Optimize this call#>
+            <#// TODO: Optimize this call: return b.Dot(rowVector); #>
             return rowVector.Dot(b.Transpose(), result);
         }
 
@@ -2289,7 +2289,18 @@ namespace Accord.Math
 #endif
         public static <#=r#>[][] Kronecker(this <#=a#>[][] a, <#=b#>[][] b, <#=r#>[][] result)
         {
-            throw new NotImplementedException();
+            int arows = a.Rows();
+            int acols = a.Columns();
+            int brows = b.Rows();
+            int bcols = b.Columns();
+
+            for (int i = 0; i < arows; i++)
+                for (int j = 0; j < acols; j++)
+                    for (int k = 0; k < brows; k++)
+                        for (int l = 0; l < bcols; l++)
+                            result[i * brows + k][j * bcols + l] = (<#=r#>)((<#=t#>)a[i][j] * (<#=t#>)b[k][l]);
+
+            return result;
         }
 
         /// <summary>
@@ -2308,7 +2319,18 @@ namespace Accord.Math
 #endif
         public static <#=r#>[][] Kronecker(this <#=a#>[][] a, <#=b#>[,] b, <#=r#>[][] result)
         {
-            throw new NotImplementedException();
+            int arows = a.Rows();
+            int acols = a.Columns();
+            int brows = b.Rows();
+            int bcols = b.Columns();
+
+            for (int i = 0; i < arows; i++)
+                for (int j = 0; j < acols; j++)
+                    for (int k = 0; k < brows; k++)
+                        for (int l = 0; l < bcols; l++)
+                            result[i * brows + k][j * bcols + l] = (<#=r#>)((<#=t#>)a[i][j] * (<#=t#>)b[k, l]);
+
+            return result;
         }
 
         /// <summary>
@@ -2327,7 +2349,18 @@ namespace Accord.Math
 #endif
         public static <#=r#>[][] Kronecker(this <#=a#>[,] a, <#=b#>[][] b, <#=r#>[][] result)
         {
-            throw new NotImplementedException();
+            int arows = a.Rows();
+            int acols = a.Columns();
+            int brows = b.Rows();
+            int bcols = b.Columns();
+
+            for (int i = 0; i < arows; i++)
+                for (int j = 0; j < acols; j++)
+                    for (int k = 0; k < brows; k++)
+                        for (int l = 0; l < bcols; l++)
+                            result[i * brows + k][j * bcols + l] = (<#=r#>)((<#=t#>)a[i, j] * (<#=t#>)b[k][l]);
+
+            return result;
         }
 
         /// <summary>
