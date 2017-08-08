@@ -424,5 +424,19 @@ namespace Accord.Tests.Math
                 }
             }
         }
+
+        [Test]
+        public void CrossProductTest()
+        {
+            double[] u = { 3, -3, 1 };
+            double[] v = { 4, +9, 2 };
+            double[] r = Vector.Zeros(3);
+
+            double[] expected = { -15, -2, 39 };
+            double[] actual = Matrix.Cross(u, v, r);
+
+            Assert.IsTrue(expected.IsEqual(actual));
+            Assert.AreEqual(actual, r);
+        }
     }
 }
