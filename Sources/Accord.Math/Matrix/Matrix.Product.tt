@@ -2199,7 +2199,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static <#=r#>[] Cross(<#=a#>[] a, <#=b#>[] b, <#=r#>[] result)
+        public static <#=r#>[] Cross(this <#=a#>[] a, <#=b#>[] b, <#=r#>[] result)
         {
             result[0] = (<#=r#>)((<#=t#>)a[1]*(<#=t#>)b[2] - (<#=t#>)a[2]*(<#=t#>)b[1]);
             result[1] = (<#=r#>)((<#=t#>)a[2]*(<#=t#>)b[0] - (<#=t#>)a[0]*(<#=t#>)b[2]);
