@@ -1268,6 +1268,34 @@ namespace Accord.Tests.Math
         }
 
         [Test]
+        public void OuterProductTestDifferentOverloads()
+        {
+            double[] a = { 1, 2, 3 };
+            double[] b = { 4, 5 };
+
+            double[,] expected = new double[,]
+            {
+              {  4,  5 },
+              {  8, 10 },
+              { 12, 15 },
+            };
+
+            double[,] actual2 = Matrix.Random(a.Length, b.Length);
+            double[][] actual3 = actual2.ToJagged();
+
+            double[,] actual1 = a.Outer(b);
+            double[,] actual2a = a.OuterNew(b, actual2);
+            double[][] actual3a = a.Outer(b, actual3);
+
+            Assert.AreSame(actual2, actual2a);
+            Assert.AreSame(actual3, actual3a);
+
+            Assert.IsTrue(expected.IsEqual(actual1));
+            Assert.IsTrue(expected.IsEqual(actual2));
+            Assert.IsTrue(expected.IsEqual(actual3));
+        }
+
+        [Test]
         public void CartesianProductTest()
         {
             int[][] sequences =
