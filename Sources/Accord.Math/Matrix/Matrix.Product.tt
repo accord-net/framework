@@ -1446,16 +1446,11 @@ namespace Accord.Math
             if (rowVector.Length != matrix.Length || result.Length > matrix.Columns())
                 throw new DimensionMismatchException();
 #endif
-            var t = new <#=b#>[rowVector.Length];
-
             for (int j = 0; j < result.Length; j++)
             {
-                for (int k = 0; k < rowVector.Length; k++)
-                    t[k] = matrix[k][j];
-
                 <#=t#> s = (<#=t#>)0;
-                for (int k = 0; k < t.Length; k++)
-                    s += (<#=t#>)((<#=t#>)rowVector[k] * (<#=t#>)t[k]);
+                for (int k = 0; k < rowVector.Length; k++)
+                    s += (<#=t#>)((<#=t#>)rowVector[k] * (<#=t#>)matrix[k][j]);
                 result[j] = (<#=r#>)s;
             }
 
