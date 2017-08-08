@@ -892,7 +892,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public unsafe static <#=t#> DotAndDotNew(this <#=a#>[] rowVector, <#=b#>[,] matrix, <#=c#>[] columnVector)
+        public static unsafe <#=t#> DotAndDotNew(this <#=a#>[] rowVector, <#=b#>[,] matrix, <#=c#>[] columnVector)
         {
             int cols = matrix.Columns();
             int rows = matrix.Rows();
@@ -1232,7 +1232,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public unsafe static <#=r#>[] DotNew(this <#=a#>[] rowVector, <#=b#>[,] matrix, <#=r#>[] result)
+        public static unsafe <#=r#>[] DotNew(this <#=a#>[] rowVector, <#=b#>[,] matrix, <#=r#>[] result)
         {
             int cols = matrix.Columns();
             int rows = matrix.Rows();
@@ -1368,7 +1368,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public unsafe static <#=r#>[] DotNew(this <#=a#>[,] matrix, <#=b#>[] columnVector, <#=r#>[] result)
+        public static unsafe <#=r#>[] DotNew(this <#=a#>[,] matrix, <#=b#>[] columnVector, <#=r#>[] result)
         {
             int cols = matrix.Columns();
             int rows = matrix.Rows();
@@ -2139,7 +2139,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public unsafe static <#=r#>[,] OuterNew(this <#=a#>[] a, <#=b#>[] b, <#=r#>[,] result)
+        public static unsafe <#=r#>[,] OuterNew(this <#=a#>[] a, <#=b#>[] b, <#=r#>[,] result)
         {
             fixed (<#=a#>* A = a)
             fixed (<#=b#>* B = b)
