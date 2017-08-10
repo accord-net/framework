@@ -324,27 +324,23 @@ namespace Accord.Tests.Math
         }
 
         [Test]
-        public void DotWithTransposeTest_Jagged1()
+        public void DotWithTransposeBatchTest()
         {
-            double[][] a = Jagged.Random(5, 3);
-            double[,] b = Matrix.Random(2, 3);
+            double Tolerance = 1e-12;
 
-            double[][] expected = Matrix.Dot(a, b.Transpose());
-            double[][] actual = Matrix.DotWithTransposed(a, b);
+            for (int i = 1; i < 10; i++)
+                for (int j = 1; j < 10; j++)
+                    for (int k = 1; k < 10; k++)
+                    {
+                        double[,] a = Matrix.Random(i, k);
+                        double[,] b = Matrix.Random(j, k);
+                        double[,] actual = Matrix.Random(i, j);
 
-            Assert.IsTrue(expected.IsEqual(actual));
-        }
+                        double[,] expected = a.Dot(b.Transpose());
+                        a.DotWithTransposed(b, actual);
 
-        [Test]
-        public void DotWithTransposeTest_Jagged2()
-        {
-            double[,] a = Matrix.Random(5, 3);
-            double[][] b = Jagged.Random(2, 3);
-
-            double[][] expected = Matrix.Dot(a, b.Transpose());
-            double[][] actual = Matrix.DotWithTransposed(a, b);
-
-            Assert.IsTrue(expected.IsEqual(actual));
+                        Assert.IsTrue(expected.IsEqual(actual, Tolerance));
+                    }
         }
 
         [Test]
@@ -353,9 +349,9 @@ namespace Accord.Tests.Math
             double[][] a = Jagged.Random(5, 3);
             double[][] b = Jagged.Random(2, 3);
 
-            double[][] expected = Matrix.Dot(a, b.Transpose());
-            double[][] actual = Matrix.DotWithTransposed(a, b);
-            double[][] actual2 = Matrix.DotWithTransposedNew(a, b, Matrix.CreateAs(actual).ToJagged());
+            double[][] expected = a.Dot(b.Transpose());
+            double[][] actual = a.DotWithTransposed(b);
+            double[][] actual2 = a.DotWithTransposedNew(b, Matrix.CreateAs(actual).ToJagged());
 
             Assert.IsTrue(expected.IsEqual(actual));
             Assert.IsTrue(expected.IsEqual(actual2));
@@ -371,6 +367,74 @@ namespace Accord.Tests.Math
                     for (int k = 1; k < 10; k++)
                     {
                         double[][] a = Jagged.Random(i, k);
+                        double[][] b = Jagged.Random(j, k);
+                        double[][] actual = Jagged.Random(i, j);
+
+                        double[][] expected = a.Dot(b.Transpose());
+                        a.DotWithTransposedNew(b, actual);
+
+                        Assert.IsTrue(expected.IsEqual(actual, Tolerance));
+                    }
+        }
+
+        [Test]
+        public void DotWithTransposeTest_Jagged1()
+        {
+            double[][] a = Jagged.Random(5, 3);
+            double[,] b = Matrix.Random(2, 3);
+
+            double[][] expected = a.Dot(b.Transpose());
+            double[][] actual = a.DotWithTransposed(b);
+            double[][] actual2 = a.DotWithTransposedNew(b, Matrix.CreateAs(actual).ToJagged());
+
+            Assert.IsTrue(expected.IsEqual(actual));
+            Assert.IsTrue(expected.IsEqual(actual2));
+        }
+
+        [Test]
+        public void DotWithTransposeBatchTest_Jagged1()
+        {
+            double Tolerance = 1e-12;
+
+            for (int i = 1; i < 10; i++)
+                for (int j = 1; j < 10; j++)
+                    for (int k = 1; k < 10; k++)
+                    {
+                        double[][] a = Jagged.Random(i, k);
+                        double[,] b = Matrix.Random(j, k);
+                        double[][] actual = Jagged.Random(i, j);
+
+                        double[][] expected = a.Dot(b.Transpose());
+                        a.DotWithTransposedNew(b, actual);
+
+                        Assert.IsTrue(expected.IsEqual(actual, Tolerance));
+                    }
+        }
+
+        [Test]
+        public void DotWithTransposeTest_Jagged2()
+        {
+            double[,] a = Matrix.Random(5, 3);
+            double[][] b = Jagged.Random(2, 3);
+
+            double[][] expected = a.Dot(b.Transpose());
+            double[][] actual = a.DotWithTransposed(b);
+            double[][] actual2 = a.DotWithTransposedNew(b, Matrix.CreateAs(actual).ToJagged());
+
+            Assert.IsTrue(expected.IsEqual(actual));
+            Assert.IsTrue(expected.IsEqual(actual2));
+        }
+
+        [Test]
+        public void DotWithTransposeBatchTest_Jagged2()
+        {
+            double Tolerance = 1e-12;
+
+            for (int i = 1; i < 10; i++)
+                for (int j = 1; j < 10; j++)
+                    for (int k = 1; k < 10; k++)
+                    {
+                        double[,] a = Matrix.Random(i, k);
                         double[][] b = Jagged.Random(j, k);
                         double[][] actual = Jagged.Random(i, j);
 
@@ -440,7 +504,6 @@ namespace Accord.Tests.Math
             Assert.IsTrue(expected.IsEqual(actual3));
             Assert.IsTrue(expected.IsEqual(actual4));
         }
-
 
         [Test]
         public void KroneckerVectorTest()
