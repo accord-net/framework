@@ -1,9 +1,30 @@
+// Accord Imaging Library
+// The Accord.NET Framework
+// http://accord-framework.net
+//
 // AForge Image Processing Library
 // AForge.NET framework
 // http://www.aforgenet.com/framework/
 //
 // Copyright © Andrew Kirillov, 2005-2009
 // andrew.kirillov@aforgenet.com
+//
+// Copyright © César Souza, 2009-2017
+// cesarsouza at gmail.com
+//
+//    This library is free software; you can redistribute it and/or
+//    modify it under the terms of the GNU Lesser General Public
+//    License as published by the Free Software Foundation; either
+//    version 2.1 of the License, or (at your option) any later version.
+//
+//    This library is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+//    Lesser General Public License for more details.
+//
+//    You should have received a copy of the GNU Lesser General Public
+//    License along with this library; if not, write to the Free Software
+//    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
 namespace Accord.Imaging
@@ -77,14 +98,14 @@ namespace Accord.Imaging
         public float SimilarityThreshold
         {
             get { return similarityThreshold; }
-            set { similarityThreshold = Math.Min( 1, Math.Max( 0, value ) ); }
+            set { similarityThreshold = Math.Min(1, Math.Max(0, value)); }
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ExhaustiveTemplateMatching"/> class.
         /// </summary>
         /// 
-        public ExhaustiveTemplateMatching( ) { }
+        public ExhaustiveTemplateMatching() { }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ExhaustiveTemplateMatching"/> class.
@@ -92,7 +113,7 @@ namespace Accord.Imaging
         /// 
         /// <param name="similarityThreshold">Similarity threshold.</param>
         /// 
-        public ExhaustiveTemplateMatching( float similarityThreshold )
+        public ExhaustiveTemplateMatching(float similarityThreshold)
         {
             this.similarityThreshold = similarityThreshold;
         }
@@ -110,9 +131,9 @@ namespace Accord.Imaging
         /// <exception cref="UnsupportedImageFormatException">The source image has incorrect pixel format.</exception>
         /// <exception cref="InvalidImagePropertiesException">Template image is bigger than source image.</exception>
         /// 
-        public TemplateMatch[] ProcessImage( Bitmap image, Bitmap template )
+        public TemplateMatch[] ProcessImage(Bitmap image, Bitmap template)
         {
-            return ProcessImage( image, template, new Rectangle( 0, 0, image.Width, image.Height ) );
+            return ProcessImage(image, template, new Rectangle(0, 0, image.Width, image.Height));
         }
 
         /// <summary>
@@ -129,30 +150,30 @@ namespace Accord.Imaging
         /// <exception cref="UnsupportedImageFormatException">The source image has incorrect pixel format.</exception>
         /// <exception cref="InvalidImagePropertiesException">Template image is bigger than source image.</exception>
         /// 
-        public TemplateMatch[] ProcessImage( Bitmap image, Bitmap template, Rectangle searchZone )
+        public TemplateMatch[] ProcessImage(Bitmap image, Bitmap template, Rectangle searchZone)
         {
             // check image format
             if (
-                ( ( image.PixelFormat != PixelFormat.Format8bppIndexed ) &&
-                  ( image.PixelFormat != PixelFormat.Format24bppRgb ) ) ||
-                ( image.PixelFormat != template.PixelFormat ) )
+                ((image.PixelFormat != PixelFormat.Format8bppIndexed) &&
+                  (image.PixelFormat != PixelFormat.Format24bppRgb)) ||
+                (image.PixelFormat != template.PixelFormat))
             {
-                throw new UnsupportedImageFormatException( "Unsupported pixel format of the source or template image." );
+                throw new UnsupportedImageFormatException("Unsupported pixel format of the source or template image.");
             }
 
             // check template's size
-            if ( ( template.Width > image.Width ) || ( template.Height > image.Height ) )
+            if ((template.Width > image.Width) || (template.Height > image.Height))
             {
-                throw new InvalidImagePropertiesException( "Template's size should be smaller or equal to source image's size." );
+                throw new InvalidImagePropertiesException("Template's size should be smaller or equal to source image's size.");
             }
 
             // lock source and template images
             BitmapData imageData = image.LockBits(
-                new Rectangle( 0, 0, image.Width, image.Height ),
-                ImageLockMode.ReadOnly, image.PixelFormat );
+                new Rectangle(0, 0, image.Width, image.Height),
+                ImageLockMode.ReadOnly, image.PixelFormat);
             BitmapData templateData = template.LockBits(
-                new Rectangle( 0, 0, template.Width, template.Height ),
-                ImageLockMode.ReadOnly, template.PixelFormat );
+                new Rectangle(0, 0, template.Width, template.Height),
+                ImageLockMode.ReadOnly, template.PixelFormat);
 
             TemplateMatch[] matchings;
 
@@ -160,15 +181,15 @@ namespace Accord.Imaging
             {
                 // process the image
                 matchings = ProcessImage(
-                    new UnmanagedImage( imageData ),
-                    new UnmanagedImage( templateData ),
-                    searchZone );
+                    new UnmanagedImage(imageData),
+                    new UnmanagedImage(templateData),
+                    searchZone);
             }
             finally
             {
                 // unlock images
-                image.UnlockBits( imageData );
-                template.UnlockBits( templateData );
+                image.UnlockBits(imageData);
+                template.UnlockBits(templateData);
             }
 
             return matchings;
@@ -187,10 +208,10 @@ namespace Accord.Imaging
         /// <exception cref="UnsupportedImageFormatException">The source image has incorrect pixel format.</exception>
         /// <exception cref="InvalidImagePropertiesException">Template image is bigger than source image.</exception>
         /// 
-        public TemplateMatch[] ProcessImage( BitmapData imageData, BitmapData templateData )
+        public TemplateMatch[] ProcessImage(BitmapData imageData, BitmapData templateData)
         {
-            return ProcessImage( new UnmanagedImage( imageData ), new UnmanagedImage( templateData ),
-                new Rectangle( 0, 0, imageData.Width, imageData.Height ) );
+            return ProcessImage(new UnmanagedImage(imageData), new UnmanagedImage(templateData),
+                new Rectangle(0, 0, imageData.Width, imageData.Height));
         }
 
         /// <summary>
@@ -207,9 +228,9 @@ namespace Accord.Imaging
         /// <exception cref="UnsupportedImageFormatException">The source image has incorrect pixel format.</exception>
         /// <exception cref="InvalidImagePropertiesException">Template image is bigger than source image.</exception>
         /// 
-        public TemplateMatch[] ProcessImage( BitmapData imageData, BitmapData templateData, Rectangle searchZone )
+        public TemplateMatch[] ProcessImage(BitmapData imageData, BitmapData templateData, Rectangle searchZone)
         {
-            return ProcessImage( new UnmanagedImage( imageData ), new UnmanagedImage( templateData ), searchZone );
+            return ProcessImage(new UnmanagedImage(imageData), new UnmanagedImage(templateData), searchZone);
         }
 
         /// <summary>
@@ -225,9 +246,9 @@ namespace Accord.Imaging
         /// <exception cref="UnsupportedImageFormatException">The source image has incorrect pixel format.</exception>
         /// <exception cref="InvalidImagePropertiesException">Template image is bigger than source image.</exception>
         ///
-        public TemplateMatch[] ProcessImage( UnmanagedImage image, UnmanagedImage template )
+        public TemplateMatch[] ProcessImage(UnmanagedImage image, UnmanagedImage template)
         {
-            return ProcessImage( image, template, new Rectangle( 0, 0, image.Width, image.Height ) );
+            return ProcessImage(image, template, new Rectangle(0, 0, image.Width, image.Height));
         }
 
         /// <summary>
@@ -244,43 +265,43 @@ namespace Accord.Imaging
         /// <exception cref="UnsupportedImageFormatException">The source image has incorrect pixel format.</exception>
         /// <exception cref="InvalidImagePropertiesException">Template image is bigger than search zone.</exception>
         ///
-        public TemplateMatch[] ProcessImage( UnmanagedImage image, UnmanagedImage template, Rectangle searchZone )
+        public TemplateMatch[] ProcessImage(UnmanagedImage image, UnmanagedImage template, Rectangle searchZone)
         {
             // check image format
             if (
-                ( ( image.PixelFormat != PixelFormat.Format8bppIndexed ) &&
-                  ( image.PixelFormat != PixelFormat.Format24bppRgb ) ) ||
-                ( image.PixelFormat != template.PixelFormat ) )
+                ((image.PixelFormat != PixelFormat.Format8bppIndexed) &&
+                  (image.PixelFormat != PixelFormat.Format24bppRgb)) ||
+                (image.PixelFormat != template.PixelFormat))
             {
-                throw new UnsupportedImageFormatException( "Unsupported pixel format of the source or template image." );
+                throw new UnsupportedImageFormatException("Unsupported pixel format of the source or template image.");
             }
 
             // clip search zone
             Rectangle zone = searchZone;
-            zone.Intersect( new Rectangle( 0, 0, image.Width, image.Height ) );
+            zone.Intersect(new Rectangle(0, 0, image.Width, image.Height));
 
             // search zone's starting point
             int startX = zone.X;
             int startY = zone.Y;
 
             // get source and template image size
-            int sourceWidth    = zone.Width;
-            int sourceHeight   = zone.Height;
-            int templateWidth  = template.Width;
+            int sourceWidth = zone.Width;
+            int sourceHeight = zone.Height;
+            int templateWidth = template.Width;
             int templateHeight = template.Height;
 
             // check template's size
-            if ( ( templateWidth > sourceWidth ) || ( templateHeight > sourceHeight ) )
+            if ((templateWidth > sourceWidth) || (templateHeight > sourceHeight))
             {
-                throw new InvalidImagePropertiesException( "Template's size should be smaller or equal to search zone." );
+                throw new InvalidImagePropertiesException("Template's size should be smaller or equal to search zone.");
             }
 
-            int pixelSize = ( image.PixelFormat == PixelFormat.Format8bppIndexed ) ? 1 : 3;
+            int pixelSize = (image.PixelFormat == PixelFormat.Format8bppIndexed) ? 1 : 3;
             int sourceStride = image.Stride;
 
             // similarity map. its size is increased by 4 from each side to increase
             // performance of non-maximum suppresion
-            int mapWidth  = sourceWidth - templateWidth + 1;
+            int mapWidth = sourceWidth - templateWidth + 1;
             int mapHeight = sourceHeight - templateHeight + 1;
             int[,] map = new int[mapHeight + 4, mapWidth + 4];
 
@@ -288,7 +309,7 @@ namespace Accord.Imaging
             int maxDiff = templateWidth * templateHeight * pixelSize * 255;
 
             // integer similarity threshold
-            int threshold = (int) ( similarityThreshold * maxDiff );
+            int threshold = (int)(similarityThreshold * maxDiff);
 
             // width of template in bytes
             int templateWidthInBytes = templateWidth * pixelSize;
@@ -296,32 +317,32 @@ namespace Accord.Imaging
             // do the job
             unsafe
             {
-                byte* baseSrc = (byte*) image.ImageData.ToPointer( );
-                byte* baseTpl = (byte*) template.ImageData.ToPointer( );
+                byte* baseSrc = (byte*)image.ImageData.ToPointer();
+                byte* baseTpl = (byte*)template.ImageData.ToPointer();
 
                 int sourceOffset = image.Stride - templateWidth * pixelSize;
                 int templateOffset = template.Stride - templateWidth * pixelSize;
 
                 // for each row of the source image
-                for ( int y = 0; y < mapHeight; y++ )
+                for (int y = 0; y < mapHeight; y++)
                 {
                     // for each pixel of the source image
-                    for ( int x = 0; x < mapWidth; x++ )
+                    for (int x = 0; x < mapWidth; x++)
                     {
-                        byte* src = baseSrc + sourceStride * ( y + startY ) + pixelSize * ( x + startX );
+                        byte* src = baseSrc + sourceStride * (y + startY) + pixelSize * (x + startX);
                         byte* tpl = baseTpl;
 
                         // compare template with source image starting from current X,Y
                         int dif = 0;
 
                         // for each row of the template
-                        for ( int i = 0; i < templateHeight; i++ )
+                        for (int i = 0; i < templateHeight; i++)
                         {
                             // for each pixel of the template
-                            for ( int j = 0; j < templateWidthInBytes; j++, src++, tpl++ )
+                            for (int j = 0; j < templateWidthInBytes; j++, src++, tpl++)
                             {
                                 int d = *src - *tpl;
-                                if ( d > 0 )
+                                if (d > 0)
                                 {
                                     dif += d;
                                 }
@@ -337,30 +358,30 @@ namespace Accord.Imaging
                         // templates similarity
                         int sim = maxDiff - dif;
 
-                        if ( sim >= threshold )
+                        if (sim >= threshold)
                             map[y + 2, x + 2] = sim;
                     }
                 }
             }
 
             // collect interesting points - only those points, which are local maximums
-            List<TemplateMatch> matchingsList = new List<TemplateMatch>( );
+            List<TemplateMatch> matchingsList = new List<TemplateMatch>();
 
             // for each row
-            for ( int y = 2, maxY = mapHeight + 2; y < maxY; y++ )
+            for (int y = 2, maxY = mapHeight + 2; y < maxY; y++)
             {
                 // for each pixel
-                for ( int x = 2, maxX = mapWidth + 2; x < maxX; x++ )
+                for (int x = 2, maxX = mapWidth + 2; x < maxX; x++)
                 {
                     int currentValue = map[y, x];
 
                     // for each windows' row
-                    for ( int i = -2; ( currentValue != 0 ) && ( i <= 2 ); i++ )
+                    for (int i = -2; (currentValue != 0) && (i <= 2); i++)
                     {
                         // for each windows' pixel
-                        for ( int j = -2; j <= 2; j++ )
+                        for (int j = -2; j <= 2; j++)
                         {
-                            if ( map[y + i, x + j] > currentValue )
+                            if (map[y + i, x + j] > currentValue)
                             {
                                 currentValue = 0;
                                 break;
@@ -369,20 +390,20 @@ namespace Accord.Imaging
                     }
 
                     // check if this point is really interesting
-                    if ( currentValue != 0 )
+                    if (currentValue != 0)
                     {
-                        matchingsList.Add( new TemplateMatch(
-                            new Rectangle( x - 2 + startX, y - 2 + startY, templateWidth, templateHeight ),
-                            (float) currentValue / maxDiff ) );
+                        matchingsList.Add(new TemplateMatch(
+                            new Rectangle(x - 2 + startX, y - 2 + startY, templateWidth, templateHeight),
+                            (float)currentValue / maxDiff));
                     }
                 }
             }
 
             // convert list to array
             TemplateMatch[] matchings = new TemplateMatch[matchingsList.Count];
-            matchingsList.CopyTo( matchings );
+            matchingsList.CopyTo(matchings);
             // sort in descending order
-            Array.Sort( matchings, new MatchingsSorter( ) );
+            Array.Sort(matchings, new MatchingsSorter());
 
             return matchings;
         }
@@ -390,11 +411,11 @@ namespace Accord.Imaging
         // Sorter of found matchings
         private class MatchingsSorter : System.Collections.IComparer
         {
-            public int Compare( Object x, Object y )
+            public int Compare(Object x, Object y)
             {
-                float diff = ( (TemplateMatch) y ).Similarity - ( (TemplateMatch) x ).Similarity;
+                float diff = ((TemplateMatch)y).Similarity - ((TemplateMatch)x).Similarity;
 
-                return ( diff > 0 ) ? 1 : ( diff < 0 ) ? -1 : 0;
+                return (diff > 0) ? 1 : (diff < 0) ? -1 : 0;
             }
         }
     }
