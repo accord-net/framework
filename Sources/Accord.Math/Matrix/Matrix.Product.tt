@@ -1184,6 +1184,54 @@ namespace Accord.Math
 #endif
             return result;
         }
+		
+        /// <summary>
+        ///   Computes the product <c>R = A*B</c> of two matrices <c>A</c>
+        ///   and <c>B</c>, storing the result in matrix <c>R</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The left matrix <c>A</c>.</param>
+        /// <param name="b">The right matrix <c>B</c>.</param>
+        /// <param name="result">The matrix <c>R</c> to store the product.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static unsafe <#=r#>[][] DotNew(this <#=a#>[,] a, <#=b#>[][] b, <#=r#>[][] result)
+        {
+#if DEBUG
+            if (a.Columns() != b.Length || result.Length > a.Length || result.Columns() > b.Columns())
+                throw new DimensionMismatchException();
+            var C = Matrix.CreateAs(result).To<double[,]>();
+            C = Dot(a.To<double[,]>(), b.ToMatrix().To<double[,]>(), C);
+#endif
+            int N = result.Length;
+            int K = a.Columns();
+            int M = result.Columns();
+
+            var t = new <#=b#>[K];
+
+			fixed (<#=a#>* A = a)
+            for (int j = 0; j < M; j++)
+            {
+                for (int k = 0; k < t.Length; k++)
+                    t[k] = b[k][j];
+
+				<#=a#>* pa = A;
+                for (int i = 0; i < N; i++)
+                {
+                    <#=t#> s = (<#=t#>)0;
+                    for (int k = 0; k < t.Length; k++)
+                        s += (<#=t#>)((<#=t#>)(*pa++) * (<#=t#>)t[k]);
+                    result[i][j] = (<#=r#>)s;
+                }
+            }
+#if DEBUG
+            if (!Matrix.IsEqual(C, result.ToMatrix().To<double[,]>(), 1e-4))
+                throw new Exception();
+#endif
+            return result;
+        }
 
         /// <summary>
         ///   Multiplies a row vector <c>v</c> and a matrix <c>A</c>,
@@ -1575,6 +1623,46 @@ namespace Accord.Math
         {
             <#// TODO: Optimize this call#>
             return a.Dot(b.Transpose(), result);
+        }
+
+        /// <summary>
+        ///   Computes the product <c>A*B'</c> of matrix <c>A</c> and
+        ///   transpose of <c>B</c>, storing the result in matrix <c>R</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The left matrix <c>A</c>.</param>
+        /// <param name="b">The transposed right matrix <c>B</c>.</param>
+        /// <param name="result">The matrix <c>R</c> to store the product <c>R = A*B'</c>
+        ///   of the given matrices <c>A</c> and <c>B</c>.</param>
+        ///    
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static <#=r#>[][] DotWithTransposedNew(this <#=a#>[][] a, <#=b#>[][] b, <#=r#>[][] result)
+        {
+#if DEBUG
+            if (a.Columns() != b.Columns() || result.Rows() > a.Rows() || result.Columns() > b.Rows())
+                throw new DimensionMismatchException();
+            var C = Matrix.CreateAs(result).To<double[,]>();
+            C = Dot(a.To<double[,]>(), b.Transpose().To<double[,]>(), C);
+#endif
+			for (int i = 0; i < a.Length; i++)
+            {
+                <#=a#>[] arow = a[i];
+                for (int j = 0; j < b.Length; j++)
+                {
+                    <#=t#> sum = 0;
+                    <#=b#>[] brow = b[j];
+                    for (int k = 0; k < arow.Length; k++)
+                        sum += (<#=t#>)((<#=t#>)arow[k] * (<#=t#>)brow[k]);
+                    result[i][j] = (<#=r#>)sum;
+                }
+            }
+#if DEBUG
+            if (!Matrix.IsEqual(C, result.To<double[,]>(), 1e-4))
+                throw new Exception();
+#endif
+            return result;
         }
 
         /// <summary>

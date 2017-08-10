@@ -355,8 +355,30 @@ namespace Accord.Tests.Math
 
             double[][] expected = Matrix.Dot(a, b.Transpose());
             double[][] actual = Matrix.DotWithTransposed(a, b);
+            double[][] actual2 = Matrix.DotWithTransposedNew(a, b, Matrix.CreateAs(actual).ToJagged());
 
             Assert.IsTrue(expected.IsEqual(actual));
+            Assert.IsTrue(expected.IsEqual(actual2));
+        }
+
+        [Test]
+        public void DotWithTransposeBatchTest_Jagged()
+        {
+            double Tolerance = 1e-12;
+
+            for (int i = 1; i < 10; i++)
+                for (int j = 1; j < 10; j++)
+                    for (int k = 1; k < 10; k++)
+                    {
+                        double[][] a = Jagged.Random(i, k);
+                        double[][] b = Jagged.Random(j, k);
+                        double[][] actual = Jagged.Random(i, j);
+
+                        double[][] expected = a.Dot(b.Transpose());
+                        a.DotWithTransposedNew(b, actual);
+
+                        Assert.IsTrue(expected.IsEqual(actual, Tolerance));
+                    }
         }
 
         [Test]
@@ -438,7 +460,7 @@ namespace Accord.Tests.Math
         }
 
         [Test]
-        public void KroneckerVectorTestBatch()
+        public void KroneckerVectorBatchTest()
         {
             const double Tolerance = 1e-12;
 
@@ -458,7 +480,7 @@ namespace Accord.Tests.Math
         }
 
         [Test]
-        public void KroneckerTestBatch()
+        public void KroneckerBatchTest()
         {
             const double Tolerance = 1e-12;
 
