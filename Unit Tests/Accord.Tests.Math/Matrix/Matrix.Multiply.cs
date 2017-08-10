@@ -394,6 +394,44 @@ namespace Accord.Tests.Math
             Assert.IsTrue(expected.IsEqual(actual4));
         }
 
+
+        [Test]
+        public void KroneckerVectorTest()
+        {
+            double[] a = { 3, 1 };
+            double[] b = { 4, 7, 2 };
+
+            double[] expected = { 12, 21, 6, 4, 7, 2 };
+            double[] result = Vector.Random(a.Length * b.Length);
+
+            double[] actual1 = a.Kronecker(b);
+            double[] actual2 = a.KroneckerNew(b, result);
+
+            Assert.IsTrue(expected.IsEqual(actual1));
+            Assert.IsTrue(expected.IsEqual(actual2));
+            Assert.AreSame(actual2, result);
+        }
+
+        [Test]
+        public void KroneckerVectorTestBatch()
+        {
+            const double Tolerance = 1e-12;
+
+            for (int i = 1; i < 5; i++)
+                for (int j = 1; j < 5; j++)
+                {
+                    double[] a = Vector.Random(i);
+                    double[] b = Vector.Random(j);
+                    double[] result = Vector.Random(a.Length * b.Length);
+                    double[] expected = a.Outer(b).Flatten();
+
+                    double[] actual = a.KroneckerNew(b, result);
+
+                    Assert.IsTrue(expected.IsEqual(actual, Tolerance));
+                    Assert.AreSame(actual, result);
+                }
+        }
+
         [Test]
         public void KroneckerTestBatch()
         {
