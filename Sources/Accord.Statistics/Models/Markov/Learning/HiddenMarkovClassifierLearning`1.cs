@@ -26,10 +26,11 @@ namespace Accord.Statistics.Models.Markov.Learning
 
     using System;
     using System.Threading;
-    using System.Threading.Tasks;
     using Accord.Math;
     using Accord.Statistics.Distributions;
     using Accord.Statistics.Models.Markov.Topology;
+    using Accord.Compat;
+    using System.Threading.Tasks;
 
     /// <summary>
     ///   Obsolete. Please use <see cref="HiddenMarkovClassifierLearning{TDistribution, TObservation}"/> instead.

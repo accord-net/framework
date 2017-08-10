@@ -136,6 +136,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Jagged.Product.tt</DependentUpon>
     </Compile>
+    <Compile Include="Matrix\Matrix.Comparisons.Generated.cs" >
+	<DependentUpon>Matrix.Comparisons.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Matrix\Matrix.Product.Generated.cs" />
     <Compile Include="Matrix\Matrix.Set.cs" />
     <Compile Include="Matrix\Matrix.Linear.Generated.cs">
       <DependentUpon>Matrix.Linear.tt</DependentUpon>
@@ -186,11 +192,6 @@
     <Compile Include="Distances\Euclidean.cs" />
     <Compile Include="Distances\Base\IDistance.cs" />
     <Compile Include="Matrix\Jagged.Common.cs" />
-    <Compile Include="Matrix\Matrix.Comparisons1.Generated.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Matrix.Comparisons.tt</DependentUpon>
-    </Compile>
     <Compile Include="Matrix\Matrix.Conversions.Generated.cs">
       <DependentUpon>Matrix.Conversions.tt</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -202,11 +203,6 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Matrix\Jagged.MinMax.cs" />
-    <Compile Include="Matrix\Matrix.Product1.Generated.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Matrix.Product.tt</DependentUpon>
-    </Compile>
     <Compile Include="Matrix\Jagged.Random.Generated.cs">
       <DependentUpon>Jagged.Random.tt</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -578,8 +574,8 @@
     <None Include="Integration\Accord.Math.Integration.cd" />
     <None Include="Matrix\Matrix.Comparisons.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastOutputs>.\Matrix.Comparisons1.Generated.cs</LastOutputs>
-      <LastGenOutput>Matrix.Comparisons1.Generated.cs</LastGenOutput>
+      <LastOutputs>.\Matrix.Comparisons.Generated.cs</LastOutputs>
+      <LastGenOutput>Matrix.Comparisons.Generated.cs</LastGenOutput>
     </None>
     <None Include="Matrix\Matrix.Conversions.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -593,8 +589,8 @@
     </None>
     <None Include="Matrix\Matrix.Product.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Matrix.Product1.Generated.cs</LastGenOutput>
-      <LastOutputs>.\Matrix.Product1.Generated.cs</LastOutputs>
+      <LastGenOutput>Matrix.Product.Generated.cs</LastGenOutput>
+      <LastOutputs>.\Matrix.Product.Generated.cs</LastOutputs>
     </None>
     <None Include="Matrix\Jagged.Random.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

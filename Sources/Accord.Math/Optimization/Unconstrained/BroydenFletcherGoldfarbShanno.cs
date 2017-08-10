@@ -56,6 +56,7 @@ namespace Accord.Math.Optimization
 {
     using System;
     using System.ComponentModel;
+    using Accord.Compat;
 
     /// <summary>
     ///   Status codes for the <see cref="BroydenFletcherGoldfarbShanno"/>

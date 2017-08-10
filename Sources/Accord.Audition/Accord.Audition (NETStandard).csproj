@@ -3,19 +3,11 @@
   <PropertyGroup>
     <AssemblyName>Accord.Audition</AssemblyName>
     <RootNamespace>Accord.Audition</RootNamespace>
+    <TargetFrameworks>netstandard2.0;netstandard1.4</TargetFrameworks>
   </PropertyGroup>
-  
+
   <Import Project="$(SolutionDir)Accord.NET (NETStandard).targets" />
   
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DefineConstants>TRACE;DEBUG;NETSTANDARD2_0</DefineConstants>
-    <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
-    <OutputPath>$(SolutionDir)..\Debug\</OutputPath>
-    <DocumentationFile></DocumentationFile>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='netstandard2.0|AnyCPU'">
-    <DefineConstants>TRACE;RELEASE;NETSTANDARD2_0</DefineConstants>
-  </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Accord.Audio\Accord.Audio (NETStandard).csproj" />
     <ProjectReference Include="..\Accord.Core\Accord.Core (NETStandard).csproj" />

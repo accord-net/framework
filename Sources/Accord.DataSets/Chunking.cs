@@ -23,12 +23,11 @@
 namespace Accord.DataSets
 {
     using Accord.DataSets.Base;
-    using Accord.IO;
-    using Accord.Math;
     using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using Accord.Compat;
 
     /// <summary>
     ///   Chunking data set used in CoNLL-2000's shared task session. This is 

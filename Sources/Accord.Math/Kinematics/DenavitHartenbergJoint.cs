@@ -27,7 +27,7 @@ namespace Accord.Math.Kinematics
 {
     using System;
     using System.Collections.Generic;
-    using AForge.Math;
+    using Accord.Compat;
 
     /// <summary>
     ///   Denavit-Hartenberg Model Joint.

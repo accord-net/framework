@@ -24,7 +24,9 @@ namespace Accord.Statistics.Filters
 {
     using System;
     using System.Collections.ObjectModel;
+#if !NETSTANDARD1_4
     using System.Data;
+#endif
 
     /// <summary>
     ///   Sample processing filter interface.
@@ -37,7 +39,7 @@ namespace Accord.Statistics.Filters
     /// 
     public interface IFilter
     {
-
+#if !NETSTANDARD1_4
         /// <summary>
         ///   Applies the filter to a <see cref="System.Data.DataTable"/>.
         /// </summary>
@@ -51,8 +53,6 @@ namespace Accord.Statistics.Filters
         /// the result of the table processing filter as new data table.</remarks> 
         ///
         DataTable Apply(DataTable data);
-
+#endif
     }
-
-
 }

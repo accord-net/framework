@@ -28,6 +28,7 @@ namespace Accord.Statistics.Distributions.Univariate
     using Accord.Statistics.Distributions.Fitting;
     using Accord.Statistics.Distributions.Multivariate;
     using AForge;
+    using Accord.Compat;
 
     /// <summary>
     ///   Normal (Gaussian) distribution.

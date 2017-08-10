@@ -23,6 +23,7 @@
 namespace Accord.Statistics.Distributions.Fitting
 {
     using System;
+    using Accord.Compat;
 
     /// <summary>
     ///   Estimation options for <see cref="Accord.Statistics.Distributions.Multivariate.Independent{T}">

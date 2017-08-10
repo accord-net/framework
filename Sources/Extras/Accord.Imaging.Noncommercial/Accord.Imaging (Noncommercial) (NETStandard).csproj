@@ -1,26 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <Import Project="$(SolutionDir)Accord.NET (NETStandard).targets" />
-
   <PropertyGroup>
     <AssemblyName>Accord.Imaging.Noncommercial</AssemblyName>
     <RootNamespace>Accord.Imaging</RootNamespace>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DefineConstants>TRACE;DEBUG;NETSTANDARD2_0</DefineConstants>
-    <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
-    <OutDir>$(SolutionDir)..\Debug\Noncommercial</OutDir>
-    <DocumentationFile></DocumentationFile>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='netstandard2.0|AnyCPU'">
-    <DefineConstants>TRACE;DEBUG;NETSTANDARD2_0</DefineConstants>
-    <OutDir>$(SolutionDir)..\Release\$(Configuration)\Noncommercial</OutDir>
-    <DocumentationFile>$(SolutionDir)..\Release\$(Configuration)\Noncommercial\$(AssemblyName).XML</DocumentationFile>
-    <CodeAnalysisLogFile>$(SolutionDir)..\Release\$(Configuration)\Noncommercial\$(AssemblyName).dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
-  </PropertyGroup>
+  <Import Project="$(SolutionDir)Accord.NET (NETStandard).targets" />
 
   <ItemGroup>
     <ProjectReference Include="..\..\Accord.Core\Accord.Core (NETStandard).csproj" />

@@ -29,12 +29,11 @@ namespace Accord.MachineLearning.VectorMachines
     using Accord.Statistics.Kernels;
     using System;
     using System.Collections.Generic;
-    using System.IO;
-    using System.Runtime.CompilerServices;
     using System.Runtime.Serialization;
-    using System.Runtime.Serialization.Formatters.Binary;
+    using Accord.Compat;
     using System.Threading;
     using System.Threading.Tasks;
+    using System.Runtime.CompilerServices;
 
     /// <summary>
     ///   One-against-one Multi-class Kernel Support Vector Machine Classifier.

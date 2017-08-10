@@ -25,6 +25,7 @@ namespace Accord.Statistics.Running
     using System;
     using Accord.Math;
     using Accord.Statistics.Models.Markov;
+    using Accord.Compat;
 
     /// <summary>
     ///   Common interface for running Markov filters.

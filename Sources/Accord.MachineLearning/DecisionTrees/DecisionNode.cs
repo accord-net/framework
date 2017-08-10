@@ -27,6 +27,7 @@ namespace Accord.MachineLearning.DecisionTrees
     using System.Runtime.Serialization;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using Accord.Compat;
 
     /// <summary>
     ///   Decision Tree (DT) Node.

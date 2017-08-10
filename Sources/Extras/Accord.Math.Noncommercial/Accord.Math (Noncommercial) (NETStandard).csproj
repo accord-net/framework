@@ -5,21 +5,7 @@
   <PropertyGroup>
     <AssemblyName>Accord.Math.Noncommercial</AssemblyName>
     <RootNamespace>Accord.Math</RootNamespace>
-    <TargetFramework>netstandard2.0</TargetFramework>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DefineConstants>TRACE;DEBUG;NETSTANDARD2_0</DefineConstants>
-    <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
-    <OutDir>$(SolutionDir)..\Debug\Noncommercial</OutDir>
-    <DocumentationFile></DocumentationFile>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='netstandard2.0|AnyCPU'">
-    <DefineConstants>TRACE;DEBUG;NETSTANDARD2_0</DefineConstants>
-    <OutDir>$(SolutionDir)..\Release\$(Configuration)\Noncommercial</OutDir>
-    <DocumentationFile>$(SolutionDir)..\Release\$(Configuration)\Noncommercial\$(AssemblyName).XML</DocumentationFile>
-    <CodeAnalysisLogFile>$(SolutionDir)..\Release\$(Configuration)\Noncommercial\$(AssemblyName).dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <TargetFrameworks>netstandard2.0;netstandard1.4</TargetFrameworks>
   </PropertyGroup>
 
   <ItemGroup>

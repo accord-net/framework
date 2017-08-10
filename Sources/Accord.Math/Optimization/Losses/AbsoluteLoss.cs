@@ -23,6 +23,7 @@
 namespace Accord.Math.Optimization.Losses
 {
     using System;
+    using Accord.Compat;
 
     /// <summary>
     ///   Absolute loss, also known as L1-loss. 

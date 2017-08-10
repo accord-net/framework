@@ -23,11 +23,11 @@
 namespace Accord.Math.Optimization
 {
     using System;
-    using System.Threading.Tasks;
     using Accord.Math;
     using Accord.Math.Decompositions;
-    using System.Threading;
     using Accord.Statistics.Models;
+    using Accord.Compat;
+    using System.Threading.Tasks;
 
     /// <summary>
     ///   Levenberg-Marquardt algorithm for solving Least-Squares problems.

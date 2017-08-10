@@ -29,6 +29,7 @@ namespace Accord.MachineLearning.Bayes
     using System.Collections.Generic;
     using Accord.Statistics.Distributions;
     using Accord.Statistics.Distributions.Fitting;
+    using Accord.Compat;
 
     /// <summary>
     ///   Naïve Bayes learning algorithm.

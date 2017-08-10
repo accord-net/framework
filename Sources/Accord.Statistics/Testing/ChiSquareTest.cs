@@ -28,6 +28,7 @@ namespace Accord.Statistics.Testing
     using Accord.Statistics.Visualizations;
     using Accord.Statistics.Distributions;
     using Accord.Math;
+    using Accord.Compat;
 
     /// <summary>
     ///   Two-Sample (Goodness-of-fit) Chi-Square Test (Upper Tail)

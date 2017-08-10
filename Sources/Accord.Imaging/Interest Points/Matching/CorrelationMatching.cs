@@ -56,7 +56,6 @@ namespace Accord.Imaging
     using System.Drawing.Imaging;
     using System.Linq;
     using Accord.Math;
-    using AForge;
     using Accord.Imaging.Filters;
 
     /// <summary>

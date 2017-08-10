@@ -23,7 +23,9 @@
 namespace Accord.IO
 {
     using System;
+#if !NETSTANDARD1_4
     using System.Data;
+#endif
     using System.Globalization;
     using System.IO;
     using System.Text;
@@ -125,7 +127,7 @@ namespace Accord.IO
         /// <param name="path">The path to the file to be written.</param>
         /// 
         public CsvWriter(String path)
-            : this(new StreamWriter(path), CsvReader.DefaultDelimiter)
+            : this(new StreamWriter(new FileStream(path, FileMode.Create)), CsvReader.DefaultDelimiter)
         {
         }
 
@@ -192,6 +194,7 @@ namespace Accord.IO
             write(headers, String.Empty);
         }
 
+#if !NETSTANDARD1_4
         /// <summary>
         ///   Writes the column names of a data table as the headers of the CSV file.
         /// </summary>
@@ -206,7 +209,7 @@ namespace Accord.IO
 
             write(headers, String.Empty);
         }
-
+#endif
 
         /// <summary>
         ///   Writes the specified matrix in CSV format.
@@ -255,6 +258,7 @@ namespace Accord.IO
             Writer.Flush();
         }
 
+#if !NETSTANDARD1_4
         /// <summary>
         ///   Writes the specified table in a CSV format.
         /// </summary>
@@ -277,6 +281,7 @@ namespace Accord.IO
 
             Writer.Flush();
         }
+#endif
 
         /// <summary>
         ///   Writes the specified fields in a CSV format.

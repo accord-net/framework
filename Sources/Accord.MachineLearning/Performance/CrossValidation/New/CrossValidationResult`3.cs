@@ -24,6 +24,7 @@ namespace Accord.MachineLearning.Performance
 {
     using System;
     using System.Linq;
+    using Accord.Compat;
 
     /// <summary>
     ///   Class for representing results acquired through a 

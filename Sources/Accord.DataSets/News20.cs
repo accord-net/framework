@@ -25,6 +25,7 @@ namespace Accord.DataSets
     using Accord.DataSets.Base;
     using Accord.Math;
     using System;
+    using Accord.Compat;
 
     /// <summary>
     ///   20 Newsgroups dataset.

@@ -24,6 +24,7 @@ namespace Accord.Statistics.Kernels
 {
     using Accord.Math.Distances;
     using System;
+    using Accord.Compat;
 
     /// <summary>
     ///   Pearson VII universal kernel (PUK).

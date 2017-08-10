@@ -41,7 +41,7 @@ namespace Accord.Tests.MachineLearning
     public class DecisionTreeTest
     {
 
-
+#if !NO_DATA_TABLE
         [Test]
         public void ComputeTest()
         {
@@ -60,7 +60,6 @@ namespace Accord.Tests.MachineLearning
                 int y = tree.Compute(inputs[i].ToDouble());
                 Assert.AreEqual(outputs[i], y);
             }
-
         }
 
         [Test]
@@ -102,7 +101,6 @@ namespace Accord.Tests.MachineLearning
             int[] outputs;
 
             ID3LearningTest.CreateMitchellExample(out tree, out inputs, out outputs);
-
 
             {
                 DecisionNode[] expected =
@@ -167,6 +165,7 @@ namespace Accord.Tests.MachineLearning
                 Assert.AreEqual(expected.Length, i);
             }
         }
+#endif
 
         //[Test]
         //public void SerializationTest1()
@@ -180,12 +179,16 @@ namespace Accord.Tests.MachineLearning
         //    Serializer.Save(tree, @"C:\Users\CésarRoberto\Desktop\tree.bin");
         //}
 
+#if !NO_BINARY_SERIALIZATION
         [Test]
+#if NETCORE
+        [Ignore("Models created in .NET desktop cannot be de-serialized in .NET Core/Standard (yet)")]
+#endif
         public void DeserializationTest1()
         {
-            MemoryStream stream = new MemoryStream(Properties.Resources.tree);
+            string fileName = Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources", "tree.bin");
 
-            DecisionTree tree = Serializer.Load<DecisionTree>(stream);
+            DecisionTree tree = Serializer.Load<DecisionTree>(fileName);
 
             Assert.AreEqual(4, tree.InputCount);
             Assert.AreEqual(2, tree.OutputClasses);
@@ -222,6 +225,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(expected.Length, c);
 
         }
+#endif
 
         [Test]
         public void CrossValidationTest()

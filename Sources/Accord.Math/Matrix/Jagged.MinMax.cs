@@ -23,10 +23,10 @@
 namespace Accord.Math
 {
     using Accord.Math.Comparers;
-    using AForge;
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Accord.Compat;
 
     public static partial class Matrix
     {

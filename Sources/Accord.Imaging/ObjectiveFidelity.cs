@@ -22,13 +22,10 @@
 
 namespace Accord.Imaging
 {
-    using Accord.Imaging;
     using System;
-    using System.Collections.Generic;
     using System.Drawing;
     using System.Drawing.Imaging;
-    using System.Linq;
-    using System.Text;
+    using Accord.Compat;
     using System.Threading.Tasks;
 
     /// <summary>

@@ -24,17 +24,15 @@ namespace Accord.Imaging
 {
     using Accord.MachineLearning;
     using Accord.Math;
-    using Accord.Imaging;
     using System;
     using System.Collections.Generic;
     using System.Drawing;
-    using System.Drawing.Imaging;
     using System.IO;
-    using System.Runtime.Serialization.Formatters.Binary;
     using System.Threading;
+    using System.Linq;
+    using Accord.Compat;
     using System.Threading.Tasks;
     using System.Collections.Concurrent;
-    using System.Linq;
 
     /// <summary>
     ///   Base class for Bag of Visual Words implementations.

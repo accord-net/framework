@@ -25,8 +25,8 @@ namespace Accord.Statistics.Models.Markov.Hybrid
     using System;
     using Accord.Math;
     using System.Collections.Generic;
+    using Accord.Compat;
 
-   
     /// <summary>
     ///   Hybrid Markov classifier for arbitrary state-observation functions.
     /// </summary>

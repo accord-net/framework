@@ -26,6 +26,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
     using Accord.Math;
     using Accord.Math.Decompositions;
     using Accord.MachineLearning;
+    using Accord.Compat;
     using System.Threading;
 
     /// <summary>

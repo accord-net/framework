@@ -33,6 +33,9 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     using Accord.Math.Optimization.Losses;
     using Accord.Statistics;
     using System.Collections;
+#if NETSTANDARD1_4
+    using Trace = Accord.Diagnostics.Trace;
+#endif
 
     /// <summary>
     ///   Base class for <see cref="SupportVectorMachine"/> learning algorithms.

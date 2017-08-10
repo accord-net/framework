@@ -25,6 +25,7 @@ namespace Accord.Audio
     using System;
     using System.Runtime.InteropServices;
     using Accord.Math;
+    using Accord.Compat;
     using System.Numerics;
 
     /// <summary>
@@ -180,7 +181,9 @@ namespace Accord.Audio
 
             GCHandle handle = GCHandle.Alloc(array, GCHandleType.Pinned);
             IntPtr pointer = handle.AddrOfPinnedObject();
+#pragma warning disable CS0618 // Type or member is obsolete
             Marshal.Copy(RawData, 0, pointer, array.Length * Marshal.SizeOf(typeof(Complex)));
+#pragma warning restore CS0618 // Type or member is obsolete
             handle.Free();
 
             return array;
@@ -421,7 +424,9 @@ namespace Accord.Audio
             }
 
 
+#pragma warning disable CS0618 // Type or member is obsolete
             byte[] buffer = new byte[array.Length * Marshal.SizeOf(typeof(Complex))];
+#pragma warning restore CS0618 // Type or member is obsolete
 
             GCHandle handle = GCHandle.Alloc(array, GCHandleType.Pinned);
             Marshal.Copy(handle.AddrOfPinnedObject(), buffer, 0, buffer.Length);

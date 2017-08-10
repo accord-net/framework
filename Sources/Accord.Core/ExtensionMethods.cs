@@ -22,12 +22,10 @@
 
 namespace Accord
 {
-    using Accord.IO;
     using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.ComponentModel;
-    using System.Data;
     using System.Globalization;
     using System.Linq;
     using System.IO;
@@ -35,6 +33,9 @@ namespace Accord
     using System.Runtime.InteropServices;
     using System.Runtime.Serialization;
     using System.Runtime.Serialization.Formatters.Binary;
+    using Accord.Compat;
+    using Accord.IO;
+    using System.Data;
 
     /// <summary>
     ///   Static class for utility extension methods.
@@ -42,7 +43,7 @@ namespace Accord
     /// 
     public static class ExtensionMethods
     {
-
+#if !NETSTANDARD1_4
         /// <summary>
         ///   Creates and adds multiple <see cref="System.Data.DataColumn"/>
         ///   objects with the given names at once.
@@ -67,6 +68,7 @@ namespace Accord
             for (int i = 0; i < columnNames.Length; i++)
                 collection.Add(columnNames[i]);
         }
+#endif
 
         /// <summary>
         ///   Gets a the value of a <see cref="DescriptionAttribute"/>
@@ -80,7 +82,11 @@ namespace Accord
         /// 
         public static string GetDescription<T>(this T source)
         {
+#if NETSTANDARD1_4
+            FieldInfo fi = source.GetType().GetRuntimeField(source.ToString());
+#else
             FieldInfo fi = source.GetType().GetField(source.ToString());
+#endif
 
             DescriptionAttribute[] attributes =
                 (DescriptionAttribute[])fi.GetCustomAttributes(typeof(DescriptionAttribute), false);
@@ -100,7 +106,9 @@ namespace Accord
         {
             var type = typeof(T);
 
+#pragma warning disable CS0618 // Type or member is obsolete
             int size = Marshal.SizeOf(type);
+#pragma warning restore CS0618 // Type or member is obsolete
             byte[] buffer = new byte[size];
             if (stream.Read(buffer, 0, buffer.Length) == 0)
             {
@@ -109,7 +117,9 @@ namespace Accord
             }
 
             GCHandle handle = GCHandle.Alloc(buffer, GCHandleType.Pinned);
+#pragma warning disable CS0618 // Type or member is obsolete
             structure = (T)Marshal.PtrToStructure(handle.AddrOfPinnedObject(), typeof(T));
+#pragma warning restore CS0618 // Type or member is obsolete
             handle.Free();
 
             return true;
@@ -124,7 +134,9 @@ namespace Accord
             where T : struct
         {
             var type = typeof(T);
+#pragma warning disable CS0618 // Type or member is obsolete
             int size = Marshal.SizeOf(type);
+#pragma warning restore CS0618 // Type or member is obsolete
             byte[] buffer = new byte[size * array.Length];
 
             Buffer.BlockCopy(array, 0, buffer, 0, buffer.Length);
@@ -141,7 +153,9 @@ namespace Accord
             where T : struct
         {
             var type = typeof(T);
+#pragma warning disable CS0618 // Type or member is obsolete
             int size = Marshal.SizeOf(type);
+#pragma warning restore CS0618 // Type or member is obsolete
             byte[] buffer = new byte[size * array[0].Length];
 
             for (int i = 0; i < array.Length; i++)
@@ -161,7 +175,9 @@ namespace Accord
             where T : struct
         {
             var type = typeof(T);
+#pragma warning disable CS0618 // Type or member is obsolete
             int size = Marshal.SizeOf(type);
+#pragma warning restore CS0618 // Type or member is obsolete
             byte[] buffer = new byte[size * array.Length];
 
             Buffer.BlockCopy(array, 0, buffer, 0, buffer.Length);
@@ -178,7 +194,9 @@ namespace Accord
             where T : struct
         {
             var type = typeof(T);
+#pragma warning disable CS0618 // Type or member is obsolete
             int size = Marshal.SizeOf(type);
+#pragma warning restore CS0618 // Type or member is obsolete
             var buffer = new byte[size * columns];
             T[][] matrix = new T[rows][];
             for (int i = 0; i < matrix.Length; i++)
@@ -209,7 +227,9 @@ namespace Accord
         /// 
         public static Array ReadMatrix(this BinaryReader stream, Type type, params int[] lengths)
         {
+#pragma warning disable CS0618 // Type or member is obsolete
             int size = Marshal.SizeOf(type);
+#pragma warning restore CS0618 // Type or member is obsolete
             int total = 1;
             for (int i = 0; i < lengths.Length; i++)
                 total *= lengths[i];
@@ -235,7 +255,7 @@ namespace Accord
         {
             // http://stackoverflow.com/a/17457085/262032
 
-#if NETSTANDARD2_0
+#if NETSTANDARD1_4 || NETSTANDARD2_0
             var type = reader.GetType().GetTypeInfo();
             char[] charBuffer = (char[])type.GetDeclaredField("_charBuffer").GetValue(reader);
             int charPos = (int)type.GetDeclaredField("_charPos").GetValue(reader);
@@ -264,7 +284,7 @@ namespace Accord
         }
 
 
-
+#if !NETSTANDARD1_4
         /// <summary>
         ///   Deserializes the specified stream into an object graph, but locates
         ///   types by searching all loaded assemblies and ignoring their versions.
@@ -280,6 +300,7 @@ namespace Accord
         {
             return Serializer.Load<T>(stream);
         }
+#endif
 
         /// <summary>
         ///   Converts an object into another type, irrespective of whether
@@ -302,11 +323,20 @@ namespace Accord
                 return (T)System.Convert.ChangeType(value, typeof(T));
 
             Type type = value.GetType();
+
+#if !NETSTANDARD1_4
             MethodInfo[] methods = type.GetMethods(BindingFlags.Public | BindingFlags.Static);
-            foreach (var m in methods)
+#else
+            MethodInfo[] methods = type.GetTypeInfo().DeclaredMethods.ToArray();
+#endif
+
+            foreach (MethodInfo m in methods)
             {
-                if ((m.Name == "op_Implicit" || m.Name == "op_Explicit") && m.ReturnType == typeof(T))
-                    return (T)m.Invoke(null, new[] { value });
+                if (m.IsPublic && m.IsStatic)
+                {
+                    if ((m.Name == "op_Implicit" || m.Name == "op_Explicit") && m.ReturnType == typeof(T))
+                        return (T)m.Invoke(null, new[] { value });
+                }
             }
 
             return (T)System.Convert.ChangeType(value, typeof(T));
@@ -322,7 +352,16 @@ namespace Accord
         /// 
         public static bool HasDefaultConstructor(this Type t)
         {
+#if NETSTANDARD1_4
+            var info = t.GetTypeInfo();
+            if (info.IsValueType)
+                return true;
+
+            ConstructorInfo ctors = info.DeclaredConstructors.Where(x => x.GetParameters().Length == 0).FirstOrDefault();
+            return ctors != null;
+#else
             return t.IsValueType || t.GetConstructor(Type.EmptyTypes) != null;
+#endif
         }
 
 
@@ -343,6 +382,8 @@ namespace Accord
         {
             return String.Format(str, args);
         }
+
+#if !NETSTANDARD1_4
 
         /// <summary>
         ///   Checks whether two dictionaries have the same contents.
@@ -412,6 +453,8 @@ namespace Accord
                 return true;
             }
         }
+#endif
+
 
         /// <summary>
         ///   Determines whether <c>a > b</c>.

@@ -27,6 +27,7 @@ namespace Accord.MachineLearning
     using Accord.Math;
     using Accord.Collections;
     using Accord.Math.Distances;
+    using Accord.Compat;
 
     /// <summary>
     ///   K-Nearest Neighbor (k-NN) algorithm.

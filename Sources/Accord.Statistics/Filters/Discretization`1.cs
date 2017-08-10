@@ -26,8 +26,9 @@ namespace Accord.Statistics.Filters
     using Accord.Math;
     using System;
     using System.Collections.Generic;
-    using System.Data;
     using System.Linq.Expressions;
+    using System.Data;
+    using Accord.Compat;
 
     /// <summary>
     ///   Value discretization preprocessing filter.
@@ -38,6 +39,7 @@ namespace Accord.Statistics.Filters
     ///   according to a set of rules. Please see the examples below to see how
     ///   this filter can be used in practice.</remarks>
     /// 
+    /// <example>
     /// <para>
     ///   The discretization filter can be used to convert any range of values into another representation. For example,
     ///   let's say we have a dataset where a column represents percentages using floating point numbers, but we would 
@@ -84,6 +86,7 @@ namespace Accord.Statistics.Filters
         {
         }
 
+#if !NETSTANDARD1_4
         /// <summary>
         ///   Creates a new Discretization Filter.
         /// </summary>
@@ -93,6 +96,7 @@ namespace Accord.Statistics.Filters
         {
             this.Learn(data);
         }
+#endif
 
         /// <summary>
         ///   Creates a new Discretization Filter.
@@ -127,6 +131,7 @@ namespace Accord.Statistics.Filters
                 Columns.Add(new Options(columns[i])).Learn(data.GetColumn(i));
         }
 
+#if !NETSTANDARD1_4
         /// <summary>
         ///   Creates a new Discretization Filter.
         /// </summary>
@@ -137,6 +142,7 @@ namespace Accord.Statistics.Filters
             for (int i = 0; i < columns.Length; i++)
                 Columns.Add(new Options(columns[i]).Learn(data));
         }
+#endif
 
         /// <summary>
         ///   Translates a value of a given variable into its codeword representation.
@@ -215,6 +221,7 @@ namespace Accord.Statistics.Filters
             return result;
         }
 
+#if !NETSTANDARD1_4
         /// <summary>
         ///   Translates an array of values into their codeword representation, 
         ///   assuming values are given in original order of columns.
@@ -231,6 +238,7 @@ namespace Accord.Statistics.Filters
                 result[i] = this.Columns[columnNames[i]].Transform(row);
             return result;
         }
+#endif
 
         /// <summary>
         ///   Translates a value of the given variables
@@ -317,7 +325,7 @@ namespace Accord.Statistics.Filters
         }
 
 
-
+#if !NETSTANDARD1_4
         /// <summary>
         ///   Processes the current filter.
         /// </summary>
@@ -380,7 +388,7 @@ namespace Accord.Statistics.Filters
 
             return result;
         }
-
+#endif
 
         /// <summary>
         /// Learns a model that can map the given inputs to the desired outputs.
@@ -421,6 +429,7 @@ namespace Accord.Statistics.Filters
             return this;
         }
 
+#if !NETSTANDARD1_4
         /// <summary>
         /// Learns a model that can map the given inputs to the desired outputs.
         /// </summary>
@@ -464,8 +473,16 @@ namespace Accord.Statistics.Filters
                 }
             }
         }
+#endif
 
-
+        /// <summary>
+        /// Adds the specified matching rule to a column.
+        /// </summary>
+        /// 
+        /// <param name="columnName">Name of the column.</param>
+        /// <param name="rule">The rule.</param>
+        /// <param name="output">The output that should be generated whenever a data sample matches with the rule.</param>
+        /// 
         public void Add(string columnName, Expression<Func<TInput, bool>> rule, TOutput output)
         {
             if (!this.Columns.Contains(columnName))
@@ -474,6 +491,14 @@ namespace Accord.Statistics.Filters
             this[columnName].Mapping.Add(rule, x => output);
         }
 
+        /// <summary>
+        /// Adds the specified matching rule to a column.
+        /// </summary>
+        /// 
+        /// <param name="columnName">Name of the column.</param>
+        /// <param name="rule">The rule.</param>
+        /// <param name="output">The output that should be generated whenever a data sample matches with the rule.</param>
+        /// 
         public void Add(string columnName, Expression<Func<TInput, bool>> rule, Expression<Func<TInput, TOutput>> output)
         {
             if (!this.Columns.Contains(columnName))

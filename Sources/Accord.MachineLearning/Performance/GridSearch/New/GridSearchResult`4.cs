@@ -23,6 +23,7 @@
 namespace Accord.MachineLearning.Performance
 {
     using System;
+    using Accord.Compat;
 
     /// <summary>
     ///   Contains results from the grid-search procedure.

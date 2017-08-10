@@ -33,7 +33,7 @@ namespace Accord.Tests.MachineLearning
     using Accord.Imaging.Filters;
     using Accord.Math.Geometry;
     using System.Diagnostics;
-#if NETSTANDARD2_0
+#if NO_BITMAP
     using Resources = Accord.Tests.Imaging.Properties.Resources_Standard;
 #endif
 

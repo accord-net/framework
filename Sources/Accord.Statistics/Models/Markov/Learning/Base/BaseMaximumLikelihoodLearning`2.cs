@@ -27,9 +27,8 @@ namespace Accord.Statistics.Models.Markov.Learning
     using Accord.Statistics.Distributions;
     using Accord.Statistics.Distributions.Fitting;
     using System.Collections.Generic;
-    using Accord.MachineLearning;
+    using Accord.Compat;
     using System.Threading;
-    using Accord.Statistics.Models.Markov.Topology;
 
     /// <summary>
     ///   Base class for observable Markov model learning algorithms.

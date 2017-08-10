@@ -25,6 +25,7 @@ namespace Accord.Math
     using Accord.Math.Comparers;
     using System;
     using System.Collections.Generic;
+    using Accord.Compat;
 
     /// <summary>
     ///   Static class Vector. Defines a set of extension methods
@@ -167,7 +168,11 @@ namespace Accord.Math
         /// </summary>
         /// 
         public static TList Shuffled<TList, T>(this TList array)
-            where TList : ICloneable, IList<T>
+            where TList :
+#if !NETSTANDARD1_4
+            ICloneable,
+#endif
+            IList<T>
         {
             var clone = (TList)array.Clone();
             Shuffle(clone);

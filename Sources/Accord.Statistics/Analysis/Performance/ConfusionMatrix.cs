@@ -26,6 +26,7 @@ namespace Accord.Statistics.Analysis
     using System.ComponentModel;
     using Accord.Statistics.Testing;
     using Accord.Math;
+    using Accord.Compat;
 
     /// <summary>
     ///   Binary decision confusion matrix.

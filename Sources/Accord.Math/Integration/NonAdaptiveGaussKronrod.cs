@@ -23,7 +23,10 @@
 namespace Accord.Math.Integration
 {
     using System;
-    using AForge;
+    using System.Diagnostics;
+#if NETSTANDARD1_4
+    using Trace = Accord.Diagnostics.Trace;
+#endif
 
     /// <summary>
     ///   Status codes for the <see cref="NonAdaptiveGaussKronrod"/>
@@ -507,7 +510,7 @@ namespace Accord.Math.Integration
             }
         L80:
             //throw new Exception("abnormal return from  qng ");
-            System.Diagnostics.Trace.Write("abnormal return from  qng");
+            Trace.Write("abnormal return from  qng");
 
         L999:
             return 0;

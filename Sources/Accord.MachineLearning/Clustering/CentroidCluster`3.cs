@@ -22,16 +22,15 @@
 
 namespace Accord.MachineLearning
 {
-    using Accord.IO;
     using Accord.Math;
     using Accord.Math.Distances;
     using Accord.Statistics.Distributions.Univariate;
     using System;
-    using System.Collections;
     using System.Collections.Generic;
     using System.Diagnostics;
-    using System.Threading.Tasks;
     using System.Linq;
+    using Accord.Compat;
+    using System.Threading.Tasks;
 
     /// <summary>
     ///   Data cluster.
@@ -41,7 +40,9 @@ namespace Accord.MachineLearning
     public class CentroidCluster<TCollection, TData, TCluster> : CentroidCluster<TCollection, TData, TData, TCluster>
         where TCollection : ICentroidClusterCollection<TData, TCluster>, IMulticlassScoreClassifier<TData, int>
         where TCluster : CentroidCluster<TCollection, TData, TCluster>, new()
+#if !NETSTANDARD1_4
         where TData : ICloneable
+#endif
     {
 
         [Serializable]

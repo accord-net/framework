@@ -22,6 +22,8 @@
 
 namespace Accord.MachineLearning.Bayes
 {
+#if !MONO
+
     using Accord.Math;
     using Accord.Math.Optimization.Losses;
     using Accord.Statistics.Distributions;
@@ -31,9 +33,9 @@ namespace Accord.MachineLearning.Bayes
     using System.Reflection;
     using System.Runtime.Serialization;
     using System.Runtime.Serialization.Formatters.Binary;
+    using Accord.Compat;
     using System.Threading.Tasks;
 
-#if !MONO
     /// <summary>
     ///   Naïve Bayes Classifier for arbitrary distributions.
     /// </summary>
@@ -348,7 +350,7 @@ namespace Accord.MachineLearning.Bayes
             responses = Special.Softmax(ll);
             return imax;
         }
-
+#if !NETSTANDARD1_4
         /// <summary>
         ///   Saves the Naïve Bayes model to a stream.
         /// </summary>
@@ -374,7 +376,7 @@ namespace Accord.MachineLearning.Bayes
         {
             Accord.IO.Serializer.Save(this, path);
         }
-
+#endif
         /// <summary>
         ///   Constructs a new Naïve Bayes Classifier.
         /// </summary>

@@ -26,6 +26,7 @@ namespace Accord.MachineLearning
     using System;
     using Accord.MachineLearning.Performance;
     using System.Collections.Generic;
+    using Accord.Compat;
 
     /// <summary>
     ///   Summary statistics for a cross-validation trial.

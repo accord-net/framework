@@ -498,6 +498,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(Matrix.IsEqual(scores, expected, 1e-6));
         }
 
+#if !NO_BINARY_SERIALIZATION
         [Test]
         [Category("Serialization")]
         public void SerializeTest()
@@ -544,5 +545,6 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(target.NumberOfInputs.Equals(copy.NumberOfInputs));
             Assert.IsTrue(target.NumberOfOutputs.Equals(copy.NumberOfOutputs));
         }
+#endif
     }
 }

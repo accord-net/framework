@@ -25,6 +25,7 @@ namespace Accord.Statistics.Analysis
     using System;
     using System.ComponentModel;
     using Accord.Statistics.Testing;
+    using Accord.Compat;
 
     /// <summary>
     ///   Weighted confusion matrix for multi-class decision problems.

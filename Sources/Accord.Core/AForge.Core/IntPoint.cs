@@ -10,6 +10,7 @@ namespace Accord
 {
     using System;
     using System.ComponentModel;
+    using Accord.Compat;
 
     /// <summary>
     /// Structure for representing a pair of coordinates of integer type.

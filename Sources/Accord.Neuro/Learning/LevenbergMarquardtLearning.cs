@@ -24,10 +24,11 @@ namespace Accord.Neuro.Learning
 {
     using System;
     using System.Threading;
-    using System.Threading.Tasks;
     using Accord.Math;
     using Accord.Math.Decompositions;
     using MachineLearning;
+    using Accord.Compat;
+    using System.Threading.Tasks;
 
     /// <summary>
     ///   The Jacobian computation method used by the Levenberg-Marquardt.

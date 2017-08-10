@@ -20,16 +20,12 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-using Accord.Audio;
 using NUnit.Framework;
-using AForge.Math;
-using Accord.Math;
-using Tools = Accord.Audio.Tools;
-using System.Numerics;
 using Accord.DirectSound;
-using System.Runtime.Versioning;
 using System.Reflection;
 using System;
+using Accord.Compat;
+using System.Numerics;
 using System.Linq;
 
 namespace Accord.Tests.Audio
@@ -46,19 +42,20 @@ namespace Accord.Tests.Audio
             Type type = typeof(SharpDX.Bool);
             Assembly asm = type.Assembly;
             Assert.AreEqual("v2.0.50727", asm.ImageRuntimeVersion);
-#else
+#elif NET40
             Type type = typeof(SharpDX.DirectSound.CaptureBufferCapabilities);
             Assembly asm = type.Assembly;
             Assert.AreEqual("v4.0.30319", asm.ImageRuntimeVersion);
-#if NETSTANDARD2_0
-            var targetFramework = (TargetFrameworkAttribute)asm
-                .GetCustomAttributes(typeof(TargetFrameworkAttribute)).First();
-            Assert.AreEqual(".NETCoreApp,Version=v1.0", targetFramework.FrameworkName);
-#else
+#elif NET46
             var targetFramework = (TargetFrameworkAttribute)asm
                 .GetCustomAttributes(typeof(TargetFrameworkAttribute)).First();
             Assert.AreEqual(".NETFramework,Version=v4.5", targetFramework.FrameworkName);
-#endif
+#elif NETCORE
+            Type type = typeof(SharpDX.DirectSound.CaptureBufferCapabilities);
+            Assembly asm = type.GetTypeInfo().Assembly;
+            var targetFramework = (System.Runtime.Versioning.TargetFrameworkAttribute)asm
+                .GetCustomAttributes(typeof(System.Runtime.Versioning.TargetFrameworkAttribute)).First();
+            Assert.AreEqual(".NETCoreApp,Version=v1.0", targetFramework.FrameworkName);
 #endif
         }
 

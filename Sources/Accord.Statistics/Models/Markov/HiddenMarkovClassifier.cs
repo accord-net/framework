@@ -31,6 +31,7 @@ namespace Accord.Statistics.Models.Markov
     using Accord.Statistics.Distributions.Univariate;
     using Accord.Statistics.Models.Markov.Learning;
     using Accord.Statistics.Models.Markov.Topology;
+    using Accord.Compat;
 
     /// <summary>
     ///   Discrete-density Hidden Markov Model Set for Sequence Classification.

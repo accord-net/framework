@@ -30,6 +30,10 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     using System.Collections;
     using System.Collections.Generic;
     using System.Threading;
+    using System.Diagnostics;
+#if NETSTANDARD1_4
+    using Trace = Accord.Diagnostics.Trace;
+#endif
 
     /// <summary>
     ///   Gets the selection strategy to be used in SMO.
@@ -76,8 +80,8 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     ///   by Keerthi et al.</para>
     ///   
     /// <para>
-    ///   This class can also be used in combination with <see cref="MulticlassSupportVectorLearning"/>
-    ///   or <see cref="MultilabelSupportVectorLearning"/> to learn <see cref="MulticlassSupportVectorMachine"/>s
+    ///   This class can also be used in combination with <see cref="MulticlassSupportVectorLearning{TKernel}"/>
+    ///   or <see cref="MultilabelSupportVectorLearning{TKernel}"/> to learn <see cref="MulticlassSupportVectorMachine{TKernel}"/>s
     ///   using the <c>one-vs-one</c> or <c>one-vs-all</c> multi-class decision strategies, respectively.</para>
     ///  
     /// <para>
@@ -120,10 +124,8 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// </example>
     /// 
     /// <seealso cref="SupportVectorMachine"/>
-    /// <seealso cref="KernelSupportVectorMachine"/>
-    /// 
     /// <seealso cref="ProbabilisticOutputCalibration"/>
-    /// <seealso cref="MulticlassSupportVectorLearning"/>
+    /// <seealso cref="MulticlassSupportVectorLearning{TKernel}"/>
     /// 
     //[Obsolete("Please use SequentialMinimalOptimization<TKernel> instead.")]
     public class SequentialMinimalOptimization :
@@ -252,7 +254,6 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             ISupportVectorMachine<double[]> svm = base.Learn(x, y, weights);
             return (SupportVectorMachine)svm;
         }
-
     }
 
     /// <summary>
@@ -270,8 +271,8 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     ///   by Keerthi et al.</para>
     ///   
     /// <para>
-    ///   This class can also be used in combination with <see cref="MulticlassSupportVectorLearning"/>
-    ///   or <see cref="MultilabelSupportVectorLearning"/> to learn <see cref="MulticlassSupportVectorMachine"/>s
+    ///   This class can also be used in combination with <see cref="MulticlassSupportVectorLearning{TKernel}"/>
+    ///   or <see cref="MultilabelSupportVectorLearning{TKernel}"/> to learn <see cref="MulticlassSupportVectorMachine{TKernel}"/>s
     ///   using the <c>one-vs-one</c> or <c>one-vs-all</c> multi-class decision strategies, respectively.</para>
     ///  
     /// <para>
@@ -314,10 +315,9 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// </example>
     /// 
     /// <seealso cref="SupportVectorMachine"/>
-    /// <seealso cref="KernelSupportVectorMachine"/>
     /// 
     /// <seealso cref="ProbabilisticOutputCalibration"/>
-    /// <seealso cref="MulticlassSupportVectorLearning"/>
+    /// <seealso cref="MulticlassSupportVectorLearning{TKernel}"/>
     /// 
     public class SequentialMinimalOptimization<TKernel> :
     BaseSequentialMinimalOptimization<
@@ -350,8 +350,8 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     ///   by Keerthi et al.</para>
     ///   
     /// <para>
-    ///   This class can also be used in combination with <see cref="MulticlassSupportVectorLearning"/>
-    ///   or <see cref="MultilabelSupportVectorLearning"/> to learn <see cref="MulticlassSupportVectorMachine"/>s
+    ///   This class can also be used in combination with <see cref="MulticlassSupportVectorLearning{TKernel}"/>
+    ///   or <see cref="MultilabelSupportVectorLearning{TKernel}"/> to learn <see cref="MulticlassSupportVectorMachine{TKernel}"/>s
     ///   using the <c>one-vs-one</c> or <c>one-vs-all</c> multi-class decision strategies, respectively.</para>
     ///  
     /// <para>
@@ -395,10 +395,9 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// </example>
     /// 
     /// <seealso cref="SupportVectorMachine"/>
-    /// <seealso cref="KernelSupportVectorMachine"/>
     /// 
     /// <seealso cref="ProbabilisticOutputCalibration"/>
-    /// <seealso cref="MulticlassSupportVectorLearning"/>
+    /// <seealso cref="MulticlassSupportVectorLearning{TKernel}"/>
     /// 
     public class SequentialMinimalOptimization<TKernel, TInput> :
         BaseSequentialMinimalOptimization<
@@ -1036,7 +1035,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
                 else if (Lobj < Hobj - epsilon) a2 = H;
                 else a2 = alph2;
 
-                System.Diagnostics.Trace.WriteLine("SMO: eta is zero.");
+                Trace.WriteLine("SMO: eta is zero.");
             }
 
             if (Math.Abs(a2 - alph2) < epsilon * (a2 + alph2 + epsilon))

@@ -28,6 +28,7 @@ namespace Accord.Math
     using System.Collections;
     using System.Reflection;
     using System.Runtime.CompilerServices;
+    using System.Linq;
 
     /// <summary>
     ///   Static class Distance. Defines a set of extension methods defining distance measures.
@@ -208,11 +209,19 @@ namespace Accord.Math
         /// 
         public static IDistance<T> GetDistance<T>(Func<T, T, double> func)
         {
+#if NETSTANDARD1_4
+            var methods = typeof(Distance).GetTypeInfo().DeclaredMethods.Where(m=>m.IsPublic && m.IsStatic);
+#else
             var methods = typeof(Distance).GetMethods(BindingFlags.Public | BindingFlags.Static);
-
+#endif
             foreach (var method in methods)
             {
-                if (func.Method == method)
+#if NETSTANDARD1_4
+                var methodInfo = func.GetMethodInfo();
+#else
+                var methodInfo = func.Method;
+#endif
+                if (methodInfo == method)
                 {
                     var t = Type.GetType("Accord.Math.Distances." + method.Name);
 
@@ -220,7 +229,7 @@ namespace Accord.Math
                     {
                         // TODO: Remove the following special case, as it is needed only
                         // for preserving compatibility for a few next releases more.
-                        if (func.Method.Name == "BitwiseHamming")
+                        if (methodInfo.Name == "BitwiseHamming")
                             return new Hamming() as IDistance<T>;
                     }
 

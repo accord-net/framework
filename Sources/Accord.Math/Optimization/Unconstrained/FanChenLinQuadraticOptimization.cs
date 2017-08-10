@@ -60,9 +60,10 @@ namespace Accord.Math.Optimization
 {
     using System;
     using System.Diagnostics;
+    using QFunc = System.Func<int, int[], int, double[], double[]>;
+    using Accord.Compat;
     using System.Runtime.CompilerServices;
     using System.Threading;
-    using QFunc = System.Func<int, int[], int, double[], double[]>;
 
     /// <summary>
     ///   General Sequential Minimal Optimization algorithm for Quadratic Programming problems.

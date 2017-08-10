@@ -31,6 +31,7 @@ namespace Accord.MachineLearning.VectorMachines
     using System.Collections.Generic;
     using System.Runtime.Serialization;
     using System.Threading;
+    using Accord.Compat;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -70,29 +71,29 @@ namespace Accord.MachineLearning.VectorMachines
     /// <para>
     ///   The following example shows how to learn a non-linear, multi-label (one-vs-rest) 
     ///   support vector machine using the <see cref="Gaussian"/> kernel and the 
-    ///   <see cref="SequentialMinimalOptimization"/> algorithm. </para>
+    ///   <see cref="SequentialMinimalOptimization{TKernel}"/> algorithm. </para>
     /// <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MultilabelSupportVectorLearningTest.cs" region="doc_learn_gaussian" />
     ///   
     /// <para>
     ///   Support vector machines can have their weights calibrated in order to produce probability 
     ///   estimates (instead of simple class separation distances). The following example shows how 
-    ///   to use <see cref="ProbabilisticOutputCalibration"/> within <see cref="MulticlassSupportVectorLearning"/> 
+    ///   to use <see cref="ProbabilisticOutputCalibration"/> within <see cref="MulticlassSupportVectorLearning{TKernel}"/> 
     ///   to generate a probabilistic SVM:</para>
     /// <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MultilabelSupportVectorLearningTest.cs" region="doc_learn_calibration" />
     /// </example>
     /// 
-    /// <seealso cref="MulticlassSupportVectorMachine"/>
-    /// <seealso cref="SupportVectorMachine"/>
-    /// <seealso cref="KernelSupportVectorMachine"/>
-    /// 
-    /// <seealso cref="MultilabelSupportVectorLearning"/>
-    /// <seealso cref="SequentialMinimalOptimization"/>
+    /// <seealso cref="SupportVectorMachine{TKernel}"/>
+    /// <seealso cref="MulticlassSupportVectorMachine{TKernel}"/>
+    /// <seealso cref="MultilabelSupportVectorLearning{TKernel}"/>
+    /// <seealso cref="SequentialMinimalOptimization{TKernel}"/>
     ///
     [Serializable]
     public class MultilabelSupportVectorMachine<TKernel, TInput> :
         MultilabelSupportVectorMachine<SupportVectorMachine<TKernel, TInput>, TKernel, TInput>
         where TKernel : IKernel<TInput>
+#if !NETSTANDARD1_4
         where TInput : ICloneable
+#endif
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="MultilabelSupportVectorMachine{TModel, TKernel, TInput}"/> class.
@@ -144,23 +145,20 @@ namespace Accord.MachineLearning.VectorMachines
     /// <para>
     ///   The following example shows how to learn a non-linear, multi-label (one-vs-rest) 
     ///   support vector machine using the <see cref="Gaussian"/> kernel and the 
-    ///   <see cref="SequentialMinimalOptimization"/> algorithm. </para>
+    ///   <see cref="SequentialMinimalOptimization{TKernel}"/> algorithm. </para>
     /// <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MultilabelSupportVectorLearningTest.cs" region="doc_learn_gaussian" />
     ///   
     /// <para>
     ///   Support vector machines can have their weights calibrated in order to produce probability 
     ///   estimates (instead of simple class separation distances). The following example shows how 
-    ///   to use <see cref="ProbabilisticOutputCalibration"/> within <see cref="MulticlassSupportVectorLearning"/> 
+    ///   to use <see cref="ProbabilisticOutputCalibration"/> within <see cref="MulticlassSupportVectorLearning{TKernel}"/> 
     ///   to generate a probabilistic SVM:</para>
     /// <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MultilabelSupportVectorLearningTest.cs" region="doc_learn_calibration" />
     /// </example>
     /// 
-    /// <seealso cref="MulticlassSupportVectorMachine"/>
-    /// <seealso cref="SupportVectorMachine"/>
-    /// <seealso cref="KernelSupportVectorMachine"/>
-    /// 
-    /// <seealso cref="MultilabelSupportVectorLearning"/>
-    /// <seealso cref="SequentialMinimalOptimization"/>
+    /// <seealso cref="MulticlassSupportVectorMachine{TKernel}"/>
+    /// <seealso cref="MultilabelSupportVectorLearning{TKernel}"/>
+    /// <seealso cref="SequentialMinimalOptimization{TKernel}"/>
     ///
     [Serializable]
     public class MultilabelSupportVectorMachine<TModel, TKernel, TInput> :
@@ -168,7 +166,9 @@ namespace Accord.MachineLearning.VectorMachines
         IDisposable
         where TKernel : IKernel<TInput>
         where TModel : SupportVectorMachine<TKernel, TInput>
+#if !NETSTANDARD1_4
         where TInput : ICloneable
+#endif
     {
 
         // Multi-label statistics
@@ -197,7 +197,7 @@ namespace Accord.MachineLearning.VectorMachines
         }
 
 
-        #region Properties
+#region Properties
 
 
         /// <summary>
@@ -263,7 +263,7 @@ namespace Accord.MachineLearning.VectorMachines
         }
 
 
-        #endregion
+#endregion
 
         /// <summary>
         ///   Gets or sets the parallelization options used
@@ -560,7 +560,7 @@ namespace Accord.MachineLearning.VectorMachines
 
 
 
-        #region Cache
+#region Cache
         private Cache createOrResetCache()
         {
             Cache cache = vectorCache.Value;
@@ -706,7 +706,7 @@ namespace Accord.MachineLearning.VectorMachines
             public SpinLock[] SyncObjects;
 #endif
         }
-        #endregion
+#endregion
 
 
         /// <summary>

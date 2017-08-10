@@ -36,12 +36,15 @@ namespace Accord.Tests.MachineLearning
     public class TSNETest
     {
 
+#if !NO_BINARY_SERIALIZATION
         [Test, Ignore("Test was not finished being written")]
         public void ConstructorTest()
         {
             Accord.Math.Random.Generator.Seed = 0;
 
-            IdxReader idxReader = new IdxReader(Resources.train_images_idx3_ubyte);
+            string mnistPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources", "mnist", "train-images-idx3-ubyte.gz");
+
+            IdxReader idxReader = new IdxReader(mnistPath);
             double[][] X = idxReader.ReadToEndAsVectors<double>();
 
             Assert.AreEqual(X.Length, 60000);
@@ -52,7 +55,9 @@ namespace Accord.Tests.MachineLearning
             //pca.Learn(X);
             //pca.Save(@"pca_v3_1.bin");
 
-            var pca = Serializer.Load<PrincipalComponentAnalysis>(Properties.Resources.pca_mnist_v3_1);
+            string pcaPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources", "mnist", "pca_mnist_v3_1.bin");
+
+            var pca = Serializer.Load<PrincipalComponentAnalysis>(pcaPath);
 
             X = pca.Transform(X);
 
@@ -61,7 +66,7 @@ namespace Accord.Tests.MachineLearning
 
             Assert.Fail();
         }
-
+#endif
 
         [Test, Ignore("Test was not finished being written")]
         public void learn_test()

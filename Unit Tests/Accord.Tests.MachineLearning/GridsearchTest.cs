@@ -30,16 +30,14 @@ namespace Accord.Tests.MachineLearning
     using Accord.Math.Optimization.Losses;
     using System;
     using Accord.MachineLearning.Performance;
-    using Accord.Math;
     using System.Threading;
     using System.Collections.Generic;
-    using System.Linq;
     using Accord.DataSets;
     using Accord.MachineLearning.DecisionTrees.Learning;
     using Accord.MachineLearning.DecisionTrees;
 
 #if NET35
-    using CancellationToken = Accord.CancellationToken;
+    using CancellationToken = Accord.Compat.CancellationToken;
 #endif
 
     [TestFixture]

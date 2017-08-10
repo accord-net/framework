@@ -22,13 +22,12 @@
 
 namespace Accord.DataSets.Base
 {
-    using Accord.Math;
-    using Accord.IO;
     using System;
     using System.IO;
     using System.Net;
     using ICSharpCode.SharpZipLib.BZip2;
     using ICSharpCode.SharpZipLib.GZip;
+    using Accord.Compat;
 
     /// <summary>
     ///   Base class for sparse datasets that can be downloaded from LIBSVM website.
@@ -95,7 +94,7 @@ namespace Accord.DataSets.Base
 
 
             // If the file is compressed, decompress it to disk
-            if (downloadedFileName.EndsWith(".bz2", StringComparison.InvariantCultureIgnoreCase))
+            if (endsWith(downloadedFileName, ".bz2"))
             {
                 uncompressedFileName = downloadedFileName.Remove(downloadedFileName.Length - 4);
                 if (!File.Exists(uncompressedFileName))
@@ -107,7 +106,7 @@ namespace Accord.DataSets.Base
                     }
                 }
             }
-            else if (downloadedFileName.EndsWith(".gz", StringComparison.InvariantCultureIgnoreCase))
+            else if (endsWith(downloadedFileName, ".gz"))
             {
                 uncompressedFileName = downloadedFileName.Remove(downloadedFileName.Length - 3);
                 if (!File.Exists(uncompressedFileName))
@@ -120,7 +119,7 @@ namespace Accord.DataSets.Base
                     }
                 }
             }
-            else if (downloadedFileName.EndsWith(".Z", StringComparison.InvariantCultureIgnoreCase))
+            else if (endsWith(downloadedFileName, ".Z"))
             {
                 uncompressedFileName = downloadedFileName.Remove(downloadedFileName.Length - 2);
                 if (!File.Exists(uncompressedFileName))
@@ -139,6 +138,15 @@ namespace Accord.DataSets.Base
             }
 
             return true;
+        }
+
+        private static bool endsWith(string str, string value)
+        {
+#if NETSTANDARD1_4
+            return str.EndsWith(value, StringComparison.OrdinalIgnoreCase);
+#else
+            return str.EndsWith(value, StringComparison.InvariantCultureIgnoreCase);
+#endif
         }
     }
 }

@@ -23,7 +23,7 @@
 namespace Accord.Statistics.Distributions.Fitting
 {
     using System;
-
+    using Accord.Compat;
 
     /// <summary>
     ///   Estimable parameters of <see cref="Accord.Statistics.Distributions.Univariate.

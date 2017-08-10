@@ -48,7 +48,9 @@ namespace Accord.Tests.Statistics
         {
             stop = true;
             task.Wait();
+#if !NETCORE
             task.Dispose();
+#endif
         }
     }
 }

@@ -24,6 +24,7 @@ namespace Accord.Audio.Formats
 {
     using System;
     using System.ComponentModel;
+    using Accord.Compat;
 
     /// <summary>
     ///   Information about a audio frame.

@@ -25,6 +25,7 @@
 
 namespace Accord.Math.Optimization
 {
+    using Accord.MachineLearning;
     using System;
     using System.Threading;
 
@@ -165,7 +166,7 @@ namespace Accord.Math.Optimization
     /// 
     public class ConjugateGradient : BaseGradientOptimizationMethod,
         IGradientOptimizationMethod, IOptimizationMethod<ConjugateGradientCode>, 
-        Accord.MachineLearning.ISupportsCancellation
+        ISupportsCancellation
     {
 
         private double[] g; // gradient at current solution

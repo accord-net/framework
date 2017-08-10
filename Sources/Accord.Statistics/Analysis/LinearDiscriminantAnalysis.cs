@@ -32,6 +32,7 @@ namespace Accord.Statistics.Analysis
     using System.Threading;
     using Accord.Statistics.Models.Regression.Linear;
     using Accord.Math.Distances;
+    using Accord.Compat;
 
     /// <summary>
     ///   Linear Discriminant Analysis (LDA).

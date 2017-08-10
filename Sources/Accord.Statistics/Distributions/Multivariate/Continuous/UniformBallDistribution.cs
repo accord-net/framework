@@ -30,6 +30,7 @@ namespace Accord.Statistics.Distributions.Multivariate
     using Accord.Statistics.Distributions.Univariate;
     using System.Runtime.CompilerServices;
     using Accord.Math.Random;
+    using Accord.Compat;
 
     /// <summary>
     ///   Uniform distribution inside a n-dimensional ball.

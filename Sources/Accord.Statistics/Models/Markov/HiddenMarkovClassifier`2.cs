@@ -30,6 +30,7 @@ namespace Accord.Statistics.Models.Markov
     using Accord.Statistics.Models.Markov.Topology;
     using Accord.Statistics.Models.Markov.Learning;
     using System.Collections.Generic;
+    using Accord.Compat;
 
     /// <summary>
     ///   Arbitrary-density Hidden Markov Model Set for Sequence Classification.

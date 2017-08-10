@@ -111,6 +111,7 @@ namespace Accord.Tests.MachineLearning
             Assert.IsTrue(error < 0.015);
         }
 
+#if !NO_DATA_TABLE
         [Test]
         public void LargeRunTest()
         {
@@ -222,7 +223,9 @@ namespace Accord.Tests.MachineLearning
             }
 
         }
+#endif
 
+#if !NO_BINARY_SERIALIZATION
         [Test]
         public void test_serialization()
         {
@@ -257,5 +260,6 @@ namespace Accord.Tests.MachineLearning
             Assert.IsTrue(forest1.Decide(inputs).IsEqual(forest2.Decide(inputs)));
             Assert.IsTrue(forest1.Transform(inputs).IsEqual(forest2.Transform(inputs)));
         }
+#endif
     }
 }

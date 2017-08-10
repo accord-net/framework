@@ -31,10 +31,6 @@
 
 #include <string>
 
-#if !NET35
-    #include <msclr\marshal_cppstd.h>
-#endif
-
 namespace libffmpeg
 {
     extern "C"
@@ -112,15 +108,11 @@ namespace Accord {
                 try
                 {
                     // convert specified managed String to UTF8 unmanaged string
-#if NET35
                     IntPtr ptr = System::Runtime::InteropServices::Marshal::StringToHGlobalUni(fileName);
                     wchar_t* nativeFileNameUnicode = (wchar_t*)ptr.ToPointer();
                     int utf8StringSize = WideCharToMultiByte(CP_UTF8, 0, nativeFileNameUnicode, -1, NULL, 0, NULL, NULL);
                     char* nativeFileName = new char[utf8StringSize];
                     WideCharToMultiByte(CP_UTF8, 0, nativeFileNameUnicode, -1, nativeFileName, utf8StringSize, NULL, NULL);
-#else
-                    auto nativeFileName = msclr::interop::marshal_as<std::string>(fileName).c_str();
-#endif
 
                     // open the specified video file
                     data->FormatContext = open_file(nativeFileName);

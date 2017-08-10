@@ -109,6 +109,7 @@ namespace Accord.Tests.IO
                 }));
         }
 
+#if !NO_DATA_TABLE
         [Test]
         public void write_table()
         {
@@ -153,6 +154,7 @@ namespace Accord.Tests.IO
 
             Assert.IsTrue(table.ToMatrix<string>().IsEqual(sameTable.ToMatrix<string>()));
         }
+#endif
 
         [Test]
         public void write_objects()

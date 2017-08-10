@@ -27,8 +27,8 @@ namespace Accord.MachineLearning
     using Accord.Math;
     using Accord.Math.Distances;
     using System.Threading;
+    using Accord.Compat;
     using System.Threading.Tasks;
-    using System.Linq;
 
     /// <summary>
     ///   k-Medoids clustering using PAM (Partition Around Medoids) algorithm.

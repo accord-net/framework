@@ -55,10 +55,8 @@
 namespace Accord.Statistics
 {
     using System;
-    using AForge;
     using Accord.Math;
-    using Accord.Statistics.Distributions.Univariate;
-    using AForge.Math;
+    using Accord.Compat;
     using System.Numerics;
 
     /// <summary>

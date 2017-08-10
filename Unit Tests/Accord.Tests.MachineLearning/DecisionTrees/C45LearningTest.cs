@@ -33,11 +33,15 @@ namespace Accord.Tests.MachineLearning
     using NUnit.Framework;
     using System;
     using System.Data;
+    using System.Globalization;
+#if NO_CULTURE
+    using CultureInfo = Accord.Compat.CultureInfo;
+#endif
 
     [TestFixture]
     public class C45LearningTest
     {
-
+#if !NO_DATA_TABLE
         public static void CreateMitchellExample(out DecisionTree tree, out double[][] inputs, out int[] outputs)
         {
             DataTable data = new DataTable("Mitchell's Tennis Example");
@@ -140,11 +144,10 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(ComparisonKind.Equal, tree.Root.Branches[0].Branches[2].Branches[1].Comparison);
         }
 
-
         [Test]
         public void LargeRunTest()
         {
-            #region doc_nursery
+        #region doc_nursery
             // This example uses the Nursery Database available from the University of
             // California Irvine repository of machine learning databases, available at
             //
@@ -230,7 +233,7 @@ namespace Accord.Tests.MachineLearning
             //   such as the 25-th example in the set, we can use
             //
             int y = tree.Decide(inputs[25]); // should be 1
-            #endregion
+        #endregion
 
             Assert.AreEqual(12960, lines.Length);
             Assert.AreEqual("usual,proper,complete,1,convenient,convenient,nonprob,recommended,recommend", lines[0]);
@@ -248,7 +251,7 @@ namespace Accord.Tests.MachineLearning
             }
 
 #if !NET35
-            #region doc_nursery_native
+        #region doc_nursery_native
             // Finally, we can also convert our tree to a native
             // function, improving efficiency considerably, with
             //
@@ -257,7 +260,7 @@ namespace Accord.Tests.MachineLearning
             // Again, to compute a new decision, we can just use
             //
             int z = func(inputs[25]);
-            #endregion
+        #endregion
 
             Assert.AreEqual(z, y);
 
@@ -400,7 +403,7 @@ namespace Accord.Tests.MachineLearning
         [Test]
         public void missing_values_test()
         {
-            #region doc_missing
+        #region doc_missing
             // In this example, we will be using a modified version of the famous Play Tennis 
             // example by Tom Mitchell (1998), where some values have been replaced by missing 
             // values. We will use NaN double values to represent values missing from the data.
@@ -478,7 +481,7 @@ No =: (Outlook == Rain) && (Wind == Strong)
 Yes =: (Outlook == Overcast)
 Yes =: (Outlook == Rain) && (Wind == Weak)
 ";
-            #endregion
+        #endregion
 
             expected = expected.Replace("\r\n", Environment.NewLine);
             Assert.AreEqual(expected, ruleText);
@@ -507,7 +510,7 @@ Yes =: (Outlook == Rain) && (Wind == Weak)
         [Test]
         public void missing_values_thresholds_test()
         {
-            #region doc_missing_thresholds
+        #region doc_missing_thresholds
             // In this example, we will be using a modified version of the famous Play Tennis 
             // example by Tom Mitchell (1998), where some values have been replaced by missing 
             // values. We will use NaN double values to represent values missing from the data.
@@ -595,7 +598,7 @@ No =: (Outlook == Rain) && (Wind == Strong)
 Yes =: (Outlook == Overcast)
 Yes =: (Outlook == Rain) && (Wind == Weak)
 ";
-            #endregion
+        #endregion
 
             expected = expected.Replace("\r\n", Environment.NewLine);
             Assert.AreEqual(expected, ruleText);
@@ -620,6 +623,7 @@ Yes =: (Outlook == Rain) && (Wind == Weak)
             double newError = ComputeError(rules, inputs, outputs);
             Assert.AreEqual(0.21428571428571427, newError, 1e-10);
         }
+#endif
 
         [Test]
         public void ConsistencyTest1()
@@ -936,7 +940,7 @@ Iris-virginica =: (2 > 2.45) && (3 > 1.75) && (0 <= 5.95) && (1 <= 3.05)
 
             double[][] inputs = new double[text.Length][];
             for (int i = 0; i < inputs.Length; i++)
-                inputs[i] = text[i].First(4).Convert(s => Double.Parse(s, System.Globalization.CultureInfo.InvariantCulture));
+                inputs[i] = text[i].First(4).Apply(s => Double.Parse(s, CultureInfo.InvariantCulture));
 
             string[] labels = text.GetColumn(4);
 

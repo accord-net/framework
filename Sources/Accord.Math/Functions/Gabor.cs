@@ -26,7 +26,7 @@
 namespace Accord.Math
 {
     using System;
-    using AForge.Math;
+    using Accord.Compat;
     using System.Numerics;
 
     /// <summary>

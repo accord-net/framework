@@ -26,6 +26,7 @@ namespace Accord.Statistics.Analysis
     using System.ComponentModel;
     using Accord.Math;
     using Accord.Statistics.Testing;
+    using Accord.Compat;
 
     /* 
     // TODO: Implement arbitrary orientation for confusion matrices

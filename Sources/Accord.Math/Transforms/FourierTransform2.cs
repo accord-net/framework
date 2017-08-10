@@ -49,10 +49,10 @@
 
 namespace Accord.Math.Transforms
 {
-    using AForge.Math;
     using System;
-    using System.Numerics;
     using System.Runtime.CompilerServices;
+    using Accord.Compat;
+    using System.Numerics;
 
     /// <summary>
     ///   Fourier Transform (for arbitrary size matrices).

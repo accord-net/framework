@@ -24,6 +24,7 @@ namespace Accord.Statistics.Distributions.Fitting
 {
     using System;
     using Accord.Statistics.Distributions.Univariate;
+    using Accord.Compat;
 
     /// <summary>
     ///   Smoothing rule function definition for <see cref="EmpiricalDistribution">

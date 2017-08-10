@@ -25,6 +25,7 @@ namespace Accord.Math.Distances
     using Accord.Math.Decompositions;
     using Accord.Statistics.Distributions.Multivariate;
     using System;
+    using Accord.Compat;
 
     /// <summary>
     ///   Log-likelihood distance between a sample and a statistical distribution.

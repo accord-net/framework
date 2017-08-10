@@ -23,14 +23,11 @@
 namespace Accord.DataSets
 {
     using Accord.DataSets.Base;
-    using Accord.Math;
-    using Collections;
-    using IO;
     using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
-    using System.Runtime.Serialization;
+    using Accord.Compat;
 
     /// <summary>
     ///   RCV1-v2/LYRL2004, a text categorization test collection originally 

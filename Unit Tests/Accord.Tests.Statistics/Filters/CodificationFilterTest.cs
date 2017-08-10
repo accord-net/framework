@@ -35,6 +35,7 @@ namespace Accord.Tests.Statistics
     public class CodificationFilterTest
     {
 
+#if !NO_DATA_TABLE
         // An extra example for the Codification filter is available
         // at the Accord.Tests.MachineLearning assembly in the file
         // CodificationFilterSvmTest.cs
@@ -116,7 +117,7 @@ namespace Accord.Tests.Statistics
                 for (int j = 0; j < actual.Columns.Count; j++)
                     Assert.AreEqual(expected.Rows[i][j], actual.Rows[i][j]);
         }
-
+#endif
 
         [Test]
         public void ApplyTest3()
@@ -146,7 +147,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual("elder", labelc);
         }
 
-#if !NETSTANDARD2_0
+#if !NO_EXCEL
         [Test]
         [Category("Office")]
         public void ApplyTest4()
@@ -170,6 +171,7 @@ namespace Accord.Tests.Statistics
         }
 #endif
 
+#if !NO_DATA_TABLE
         /// <summary>
         ///   Testing Codification.Translate(string, string)
         ///   This method tests, that the correct DataColumn is used 
@@ -314,7 +316,9 @@ namespace Accord.Tests.Statistics
 
             Assert.IsTrue(thrown);
         }
+#endif
 
+#if !NO_BINARY_SERIALIZATION
         [Test]
         [Category("Serialization")]
         public void SerializationTest()
@@ -346,6 +350,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual("adult", reloaded.Translate("Label", 1));
             Assert.AreEqual("elder", reloaded.Translate("Label", 2));
         }
+#endif
 
         [Test]
         public void StringApplyTest3()

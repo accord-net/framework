@@ -268,6 +268,9 @@ namespace Accord.Tests.MachineLearning
                 },
             };
 
+            learn.ParallelOptions.MaxDegreeOfParallelism = 1;
+            learn.AggregateExceptions = false;
+
             var svm = learn.Learn(inputs, outputs);
             Assert.AreEqual(20, svm.NumberOfClasses);
 

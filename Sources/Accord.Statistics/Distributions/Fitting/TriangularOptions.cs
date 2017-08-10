@@ -23,6 +23,7 @@
 namespace Accord.Statistics.Distributions.Fitting
 {
     using System;
+    using Accord.Compat;
 
     /// <summary>
     ///   Triangular distribution's mode estimation method.

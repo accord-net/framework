@@ -25,6 +25,7 @@ namespace Accord.Statistics.Distributions.Fitting
 
     using System;
     using System.Diagnostics.CodeAnalysis;
+    using Accord.Compat;
 
     /// <summary>
     ///   Common interface for distribution fitting option objects.

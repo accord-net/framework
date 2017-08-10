@@ -9,6 +9,7 @@
 namespace Accord.Math
 {
     using System;
+    using Accord.Compat;
 
     /// <summary>
     /// 4D Vector structure with X, Y, Z and W coordinates.

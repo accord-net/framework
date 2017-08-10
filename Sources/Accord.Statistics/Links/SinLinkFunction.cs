@@ -23,6 +23,7 @@
 namespace Accord.Statistics.Links
 {
     using System;
+    using Accord.Compat;
 
     /// <summary>
     ///   Sin link function.

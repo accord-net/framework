@@ -92,7 +92,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// </examples>
     /// 
     /// 
-    /// <seealso cref="SequentialMinimalOptimization"/>
+    /// <seealso cref="SequentialMinimalOptimization{TKernel}"/>
     /// <seealso cref="LinearDualCoordinateDescent"/>
     /// 
     public class LinearNewtonMethod :
@@ -196,7 +196,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// </examples>
     /// 
     /// 
-    /// <seealso cref="SequentialMinimalOptimization"/>
+    /// <seealso cref="SequentialMinimalOptimization{TKernel}"/>
     /// <seealso cref="LinearDualCoordinateDescent"/>
     /// 
     public class LinearNewtonMethod<TKernel, TInput> :
@@ -204,7 +204,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         where TKernel : struct, IKernel<TInput>, ILinear<TInput>
     {
         /// <summary>
-        ///   Initializes a new instance of the <see cref="LinearNewtonMethod"/> class.
+        ///   Initializes a new instance of the <see cref="LinearNewtonMethod{TKernel, TInput}"/> class.
         /// </summary>
         /// 
         public LinearNewtonMethod()
@@ -234,7 +234,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         where TModel : SupportVectorMachine<TKernel, double[]>
     {
         /// <summary>
-        ///   Initializes a new instance of the <see cref="LinearNewtonMethod"/> class.
+        ///   Initializes a new instance of the <see cref="BaseLinearNewtonMethod{TModel, TKernel}"/> class.
         /// </summary>
         /// 
         protected BaseLinearNewtonMethod()
@@ -281,7 +281,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// </para>
     /// </remarks>
     /// 
-    /// <seealso cref="SequentialMinimalOptimization"/>
+    /// <seealso cref="SequentialMinimalOptimization{TKernel}"/>
     /// <seealso cref="LinearDualCoordinateDescent"/>
     /// 
     public abstract class BaseLinearNewtonMethod<TModel, TKernel, TInput> :

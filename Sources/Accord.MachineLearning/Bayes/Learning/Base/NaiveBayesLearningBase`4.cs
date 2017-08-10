@@ -22,16 +22,17 @@
 
 namespace Accord.MachineLearning.Bayes
 {
+#if !MONO
     using System;
     using System.Linq;
-    using System.Collections.Generic;
     using Accord.MachineLearning;
     using Accord.Math;
     using Accord.Statistics.Distributions;
     using Accord.Statistics.Distributions.Fitting;
+    using Accord.Compat;
     using System.Threading;
     using System.Threading.Tasks;
-#if !MONO
+
     /// <summary>
     ///   Base class for Naive Bayes learning algorithms.
     /// </summary>

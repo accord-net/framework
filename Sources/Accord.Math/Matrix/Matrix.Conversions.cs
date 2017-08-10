@@ -25,7 +25,9 @@ namespace Accord.Math
     using System;
     using System.Collections;
     using System.Collections.Generic;
+#if !NETSTANDARD1_4
     using System.Data;
+#endif
     using System.Globalization;
     using System.Linq;
 
@@ -169,7 +171,7 @@ namespace Accord.Math
 
 
 
-        #region Type conversions
+#region Type conversions
 
         /// <summary>
         ///   Converts the values of a vector using the given converter expression.
@@ -187,6 +189,7 @@ namespace Accord.Math
             return result;
         }
 
+#if !NETSTANDARD1_4
         /// <summary>
         ///   Converts the values of a vector using the given converter expression.
         /// </summary>
@@ -319,6 +322,8 @@ namespace Accord.Math
 
             return result;
         }
+#endif
+
 
         /// <summary>
         ///  Gets the value at the specified position in the multidimensional System.Array.
@@ -422,6 +427,7 @@ namespace Accord.Math
             }
         }
 
+#if !NETSTANDARD1_4
         private static object convertValue(Type outputElementType, object inputValue)
         {
             object outputValue = null;
@@ -442,8 +448,10 @@ namespace Accord.Math
             }
             return outputValue;
         }
+#endif
 
-        #endregion
+
+#endregion
 
         /// <summary>
         ///   Creates a vector containing every index that can be used to
@@ -485,8 +493,8 @@ namespace Accord.Math
         }
 
 
-        #region DataTable Conversions
-
+#region DataTable Conversions
+#if !NETSTANDARD1_4
         /// <summary>
         ///   Converts a DataTable to a double[,] array.
         /// </summary>
@@ -1192,13 +1200,14 @@ namespace Accord.Math
 
             return m;
         }
-
-        #endregion
-
-
+#endif
+#endregion
 
 
-        #region Obsolete
+
+
+#region Obsolete
+#if !NETSTANDARD1_4
         /// <summary>
         ///   Converts a DataColumn to a int[] array.
         /// </summary>
@@ -1218,7 +1227,8 @@ namespace Accord.Math
         {
             return ToArray<int>(table, columnNames);
         }
-        #endregion
+#endif
+#endregion
 
 
     }

@@ -24,6 +24,7 @@ namespace Accord.Statistics.Links
 {
     using System;
     using Accord.Statistics.Distributions.Univariate;
+    using Accord.Compat;
 
     /// <summary>
     ///   Inverse link function.

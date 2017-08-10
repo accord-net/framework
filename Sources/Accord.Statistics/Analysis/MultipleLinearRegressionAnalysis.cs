@@ -29,9 +29,8 @@ namespace Accord.Statistics.Analysis
     using Accord.Math;
     using Accord.Statistics.Models.Regression.Linear;
     using Accord.Statistics.Testing;
-    using AForge;
     using Accord.MachineLearning;
-    using Accord.Statistics.Models.Regression;
+    using Accord.Compat;
     using System.Threading;
 
     /// <summary>

@@ -23,7 +23,9 @@
 namespace Accord.Statistics.Filters
 {
     using System;
+    using Accord.Compat;
     using System.Threading;
+
     /// <summary>
     ///   Column options for filter which have per-column settings.
     /// </summary>

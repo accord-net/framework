@@ -28,7 +28,7 @@ namespace Accord.Math
     using System.Globalization;
     using System.Linq;
     using System.Text;
-    using System.Threading.Tasks;
+    using Accord.Compat;
 
     /// <summary>
     ///   Sparse vector representation (in LibSVM format).
@@ -385,7 +385,7 @@ namespace Accord.Math
         /// </returns>
         public override string ToString()
         {
-            return ToString("g", CultureInfo.CurrentCulture);
+            return ToString("g", System.Globalization.CultureInfo.CurrentCulture);
         }
 
         /// <summary>

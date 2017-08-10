@@ -36,20 +36,25 @@
     <file src="..\..\Release\net45\Accord.Audio.xml"    target="lib\net45\Accord.Audio.xml" />
     <file src="..\..\Release\net45\Accord.Audition.dll" target="lib\net45\Accord.Audition.dll" />
     <file src="..\..\Release\net45\Accord.Audition.xml" target="lib\net45\Accord.Audition.xml" />
-	
-	<file src="..\..\Release\net46\Accord.Audio.dll"    target="lib\net46\Accord.Audio.dll" />
+
+    <file src="..\..\Release\net46\Accord.Audio.dll"    target="lib\net46\Accord.Audio.dll" />
     <file src="..\..\Release\net46\Accord.Audio.xml"    target="lib\net46\Accord.Audio.xml" />
     <file src="..\..\Release\net46\Accord.Audition.dll" target="lib\net46\Accord.Audition.dll" />
     <file src="..\..\Release\net46\Accord.Audition.xml" target="lib\net46\Accord.Audition.xml" />
-	
-	<file src="..\..\Release\net462\Accord.Audio.dll"    target="lib\net462\Accord.Audio.dll" />
+
+    <file src="..\..\Release\net462\Accord.Audio.dll"    target="lib\net462\Accord.Audio.dll" />
     <file src="..\..\Release\net462\Accord.Audio.xml"    target="lib\net462\Accord.Audio.xml" />
     <file src="..\..\Release\net462\Accord.Audition.dll" target="lib\net462\Accord.Audition.dll" />
     <file src="..\..\Release\net462\Accord.Audition.xml" target="lib\net462\Accord.Audition.xml" />
-	
-	<file src="..\..\Release\netstandard2.0\Accord.Audio.dll"    target="lib\netstandard2.0\Accord.Audio.dll" />
+
+    <file src="..\..\Release\netstandard2.0\Accord.Audio.dll"    target="lib\netstandard2.0\Accord.Audio.dll" />
     <file src="..\..\Release\netstandard2.0\Accord.Audio.xml"    target="lib\netstandard2.0\Accord.Audio.xml" />
     <file src="..\..\Release\netstandard2.0\Accord.Audition.dll" target="lib\netstandard2.0\Accord.Audition.dll" />
     <file src="..\..\Release\netstandard2.0\Accord.Audition.xml" target="lib\netstandard2.0\Accord.Audition.xml" />
+
+    <file src="..\..\Release\netstandard1.4\Accord.Audio.dll"    target="lib\netstandard1.4\Accord.Audio.dll" />
+    <file src="..\..\Release\netstandard1.4\Accord.Audio.xml"    target="lib\netstandard1.4\Accord.Audio.xml" />
+    <file src="..\..\Release\netstandard1.4\Accord.Audition.dll" target="lib\netstandard1.4\Accord.Audition.dll" />
+    <file src="..\..\Release\netstandard1.4\Accord.Audition.xml" target="lib\netstandard1.4\Accord.Audition.xml" />
   </files>
 </package>

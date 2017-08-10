@@ -30,6 +30,7 @@ namespace Accord.Statistics.Analysis
     using System;
     using System.ComponentModel;
     using System.Reflection;
+    using Accord.Compat;
 
     /// <summary>
     ///   Descriptive statistics analysis for circular data.

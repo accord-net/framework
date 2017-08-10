@@ -12,6 +12,7 @@ namespace Accord.Genetic
     using System.Collections;
     using System.Collections.Generic;
     using System.Text;
+    using Accord.Compat;
 
     /// <summary>
     /// Represents tree node of genetic programming tree.

@@ -24,7 +24,6 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
 {
     using System;
     using Accord.Math;
-    using System.Threading.Tasks;
     using Accord.Statistics;
     using Accord.Math.Optimization.Losses;
     using Accord.MachineLearning;
@@ -32,6 +31,8 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
     using System.Collections.Generic;
     using Statistics.Filters;
     using System.Collections;
+    using Accord.Compat;
+    using System.Threading.Tasks;
 
     /// <summary>
     ///   ID3 (Iterative Dichotomizer 3) learning algorithm

@@ -27,9 +27,10 @@ namespace Accord.Statistics.Models.Fields.Learning
     using System;
     using System.ComponentModel;
     using System.Threading;
-    using System.Threading.Tasks;
     using Accord.Math;
     using Accord.MachineLearning;
+    using Accord.Compat;
+    using System.Threading.Tasks;
 
     /// <summary>
     ///   Stochastic Gradient Descent learning algorithm for <see cref="HiddenConditionalRandomField{T}">

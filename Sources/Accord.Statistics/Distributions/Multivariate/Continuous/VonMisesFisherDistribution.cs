@@ -62,6 +62,7 @@ namespace Accord.Statistics.Distributions.Multivariate
     using Accord.Statistics.Distributions.Fitting;
     using Accord.Statistics.Distributions.Univariate;
     using Accord.Math.Random;
+    using Accord.Compat;
 
     /// <summary>
     ///   Von-Mises Fisher distribution.

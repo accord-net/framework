@@ -22,10 +22,7 @@
 
 namespace Accord.MachineLearning // TODO: Move those classes to the root Accord namespace
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
+    using Accord.Compat;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -40,21 +37,5 @@ namespace Accord.MachineLearning // TODO: Move those classes to the root Accord 
         /// </summary>
         /// 
         ParallelOptions ParallelOptions { get; set; }
-    }
-
-
-    /// <summary>
-    ///   Common interface for algorithms that can be canceled
-    ///   in the middle of execution.
-    /// </summary>
-    /// 
-    public interface ISupportsCancellation
-    {
-        /// <summary>
-        /// Gets or sets a cancellation token that can be used
-        /// to cancel the algorithm while it is running.
-        /// </summary>
-        /// 
-        CancellationToken Token { get; set; }
     }
 }

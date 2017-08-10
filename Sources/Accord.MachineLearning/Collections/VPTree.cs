@@ -22,6 +22,8 @@
 
 namespace Accord.Collections
 {
+#if !MONO
+
     using Accord;
     using Accord.Collections;
     using Accord.Math;
@@ -30,10 +32,8 @@ namespace Accord.Collections
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
-    using System.Threading.Tasks;
     using System.Collections;
 
-#if !MONO
     /// <summary>
     ///   Vantage-Point Tree.
     /// </summary>

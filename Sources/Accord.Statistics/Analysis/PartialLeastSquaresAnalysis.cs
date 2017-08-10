@@ -28,6 +28,7 @@ namespace Accord.Statistics.Analysis
     using Accord.Math.Decompositions;
     using Accord.Statistics.Models.Regression.Linear;
     using Accord.MachineLearning;
+    using Accord.Compat;
     using System.Threading;
 
     /// <summary>

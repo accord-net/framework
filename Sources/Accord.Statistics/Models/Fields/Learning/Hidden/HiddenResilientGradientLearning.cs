@@ -26,11 +26,11 @@ namespace Accord.Statistics.Models.Fields.Learning
 {
     using System;
     using System.ComponentModel;
-    using System.Threading;
-    using System.Threading.Tasks;
     using Accord.Math;
     using Accord.MachineLearning;
-    using Accord.Statistics.Models.Fields.Functions;
+    using Accord.Compat;
+    using System.Threading;
+    using System.Threading.Tasks;
 
     /// <summary>
     ///   Resilient Gradient Learning.

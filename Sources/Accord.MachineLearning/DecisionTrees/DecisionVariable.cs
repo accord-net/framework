@@ -23,12 +23,12 @@
 namespace Accord.MachineLearning.DecisionTrees
 {
     using Accord.Statistics.Filters;
-    using AForge;
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using Accord.Math;
     using System.Linq;
+    using Accord.Compat;
 
     /// <summary>
     ///   Attribute category.

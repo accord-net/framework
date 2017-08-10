@@ -594,7 +594,7 @@ namespace Accord.Tests.Statistics
         }
 
 
-
+#if !NO_DATA_TABLE
         [Test]
         public void random_search()
         {
@@ -607,7 +607,6 @@ namespace Accord.Tests.Statistics
 
             check_large(codification, new GeneralConfusionMatrix(expected, predicted));
         }
-
 
         private static void check_large(Codification codification, GeneralConfusionMatrix cm)
         {
@@ -746,5 +745,6 @@ namespace Accord.Tests.Statistics
                 }
             }
         }
+#endif
     }
 }

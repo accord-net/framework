@@ -25,10 +25,10 @@ namespace Accord.Statistics.Distributions.Univariate
     using Accord.Math;
     using Accord.Statistics.Distributions.Fitting;
     using Accord.Statistics.Distributions.Multivariate;
-    using AForge;
     using System;
     using System.Linq;
     using System.Text;
+    using Accord.Compat;
 
     /// <summary>
     ///   Mixture of univariate probability distributions.

@@ -33,7 +33,9 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         public static TModel Create<TModel, TInput, TKernel>(int inputs, TKernel kernel)
             where TModel : class, ISupportVectorMachine<TInput>
             where TKernel : IKernel<TInput>
+#if !NETSTANDARD1_4
             where TInput : ICloneable
+#endif
         {
             TModel result = null;
             var type = typeof(TModel);
@@ -43,10 +45,12 @@ namespace Accord.MachineLearning.VectorMachines.Learning
                 result = new SupportVectorMachine<IKernel>(inputs, kernel as IKernel) as TModel;
             if (type == typeof(SupportVectorMachine<IKernel<double[]>>))
                 result = new SupportVectorMachine<IKernel<double[]>>(inputs, kernel as IKernel<double[]>) as TModel;
+#if !NETSTANDARD1_4
 #pragma warning disable 0618
             else if (type == typeof(KernelSupportVectorMachine))
                 result = new KernelSupportVectorMachine(kernel as IKernel, inputs) as TModel;
 #pragma warning restore 0618
+#endif
             else if (type == typeof(SupportVectorMachine<TKernel, TInput>))
                 result = new SupportVectorMachine<TKernel, TInput>(inputs, kernel) as TModel;
             if (result == null)

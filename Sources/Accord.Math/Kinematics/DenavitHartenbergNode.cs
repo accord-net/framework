@@ -27,6 +27,7 @@ namespace Accord.Math.Kinematics
 {
     using System;
     using System.Collections.ObjectModel;
+    using Accord.Compat;
 
     /// <summary>
     ///   Denavit Hartenberg Model Combinator class to make combination

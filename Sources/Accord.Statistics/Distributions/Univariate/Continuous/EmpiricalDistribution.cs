@@ -25,8 +25,8 @@ namespace Accord.Statistics.Distributions.Univariate
     using System;
     using Accord.Math;
     using Accord.Statistics.Distributions.Fitting;
-    using AForge;
     using Tools = Statistics.Tools;
+    using Accord.Compat;
 
     /// <summary>
     ///   Empirical distribution.

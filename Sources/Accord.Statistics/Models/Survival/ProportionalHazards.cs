@@ -28,6 +28,7 @@ namespace Accord.Statistics.Models.Regression
     using Accord.Statistics.Testing;
     using Accord.Math;
     using Accord.MachineLearning;
+    using Accord.Compat;
 
     /// <summary>
     ///   Cox's Proportional Hazards Model.

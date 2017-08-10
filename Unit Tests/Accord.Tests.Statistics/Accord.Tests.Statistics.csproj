@@ -354,16 +354,24 @@
   <ItemGroup>
     <None Include="Accord.snk" />
     <None Include="app.config" />
-    <None Include="Resources\CircleWithWeights.xls" />
-    <None Include="Resources\ica_data.dat" />
+    <None Include="Resources\CircleWithWeights.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\ica_data.dat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Resources\examples.xls">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\hsbdemo.csv" />
+    <None Include="Resources\hsbdemo.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Resources\intrusion.xls">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\lr_3.2.3.bin" />
+    <None Include="Resources\lr_3.2.3.bin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Resources\sample.xls">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -372,11 +380,21 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\iris.scale.txt" />
-    <None Include="Resources\labels.txt" />
-    <None Include="Resources\logreg.txt" />
-    <None Include="Resources\linreg.txt" />
-    <None Include="Resources\regression.csv" />
+    <Content Include="Resources\iris.scale.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="Resources\labels.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\logreg.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\linreg.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\regression.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

@@ -32,6 +32,7 @@ namespace Accord.Statistics.Models.Fields
     using System;
     using System.IO;
     using System.Runtime.Serialization.Formatters.Binary;
+    using Accord.Compat;
     using System.Threading.Tasks;
 
     /// <summary>

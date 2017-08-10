@@ -24,8 +24,8 @@ namespace Accord.Statistics.Kernels
 {
     using System;
     using Accord.Math;
-    using AForge;
     using Accord.Math.Distances;
+    using Accord.Compat;
 
     /// <summary>
     ///   Sigmoid Kernel.

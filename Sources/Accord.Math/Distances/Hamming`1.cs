@@ -25,6 +25,7 @@ namespace Accord.Math.Distances
     using System;
     using System.Collections;
     using System.Runtime.CompilerServices;
+    using Accord.Compat;
 
     /// <summary>
     ///   Hamming distance.

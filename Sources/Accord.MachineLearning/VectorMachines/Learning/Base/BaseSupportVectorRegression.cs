@@ -23,14 +23,10 @@
 namespace Accord.MachineLearning.VectorMachines.Learning
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
     using Accord.Statistics.Kernels;
-    using System.Threading;
-    using System.Diagnostics;
     using Accord.Math.Optimization.Losses;
-    using System.Collections;
+    using Accord.Compat;
+    using System.Threading;
 
     /// <summary>
     ///   Base class for <see cref="SupportVectorMachine"/> regression learning algorithms.
@@ -40,7 +36,9 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         ISupervisedLearning<TModel, TInput, double>
         where TKernel : IKernel<TInput>
         where TModel : SupportVectorMachine<TKernel, TInput>, ISupportVectorMachine<TInput>
+#if !NETSTANDARD1_4
         where TInput : ICloneable
+#endif
     {
         [NonSerialized]
         CancellationToken token = new CancellationToken();

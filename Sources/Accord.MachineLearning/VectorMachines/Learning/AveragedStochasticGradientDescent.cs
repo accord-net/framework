@@ -32,11 +32,10 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     using System;
     using Accord.Math;
     using System.Diagnostics;
-    using System.Threading;
-    using Statistics.Models.Regression.Linear;
-    using Math.Optimization;
     using System.Collections;
     using Math.Optimization.Losses;
+    using Accord.Compat;
+    using System.Threading;
     using System.Threading.Tasks;
     using System.Runtime.CompilerServices;
 
@@ -45,7 +44,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// </summary>
     /// 
     /// <see cref="StochasticGradientDescent"/>
-    /// <see cref="SequentialMinimalOptimization"/>
+    /// <see cref="SequentialMinimalOptimization{TKernel}"/>
     /// <see cref="LinearNewtonMethod"/>
     /// <see cref="LinearDualCoordinateDescent"/>
     /// 
@@ -85,7 +84,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// </summary>
     /// 
     /// <see cref="StochasticGradientDescent"/>
-    /// <see cref="SequentialMinimalOptimization"/>
+    /// <see cref="SequentialMinimalOptimization{TKernel}"/>
     /// <see cref="LinearNewtonMethod"/>
     /// <see cref="LinearDualCoordinateDescent"/>
     /// 
@@ -127,7 +126,6 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// </summary>
     /// 
     /// <see cref="StochasticGradientDescent"/>
-    /// <see cref="SequentialMinimalOptimization"/>
     /// <see cref="LinearNewtonMethod"/>
     /// <see cref="LinearDualCoordinateDescent"/>
     /// 
@@ -135,7 +133,10 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         BaseAveragedStochasticGradientDescent<
             SupportVectorMachine<TKernel, TInput>, TKernel, TInput, HingeLoss>
         where TKernel : struct, ILinear<TInput>
-        where TInput : ICloneable, IList
+        where TInput : IList
+#if !NETSTANDARD1_4
+        , ICloneable
+#endif
     {
         /// <summary>
         /// Creates an instance of the model to be learned. Inheritors
@@ -171,7 +172,6 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// </summary>
     /// 
     /// <see cref="StochasticGradientDescent"/>
-    /// <see cref="SequentialMinimalOptimization"/>
     /// <see cref="LinearNewtonMethod"/>
     /// <see cref="LinearDualCoordinateDescent"/>
     /// 
@@ -185,7 +185,10 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         BaseAveragedStochasticGradientDescent<
             SupportVectorMachine<TKernel, TInput>, TKernel, TInput, TLoss>
         where TKernel : struct, ILinear<TInput>
-        where TInput : ICloneable, IList
+        where TInput : IList
+#if !NETSTANDARD1_4
+        , ICloneable
+#endif
         where TLoss : struct, IDifferentiableLoss<bool, double, double>
     {
         /// <summary>
@@ -234,7 +237,10 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         BinaryLearningBase<TModel, TInput>, ICloneable
         where TModel : SupportVectorMachine<TKernel, TInput>
         where TKernel : struct, ILinear<TInput>
-        where TInput : ICloneable, IList
+        where TInput : IList
+#if !NETSTANDARD1_4
+        , ICloneable
+#endif
         where TLoss : struct, IDifferentiableLoss<bool, double, double>
     {
 

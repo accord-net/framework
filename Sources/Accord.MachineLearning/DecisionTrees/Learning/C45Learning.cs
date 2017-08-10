@@ -26,14 +26,11 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
     using System.Collections.Generic;
     using System.Linq;
     using Accord.Math;
-    using AForge;
-    using Parallel = System.Threading.Tasks.Parallel;
     using Accord.Statistics;
-    using System.Threading.Tasks;
     using Accord.MachineLearning;
     using Accord.Math.Optimization.Losses;
-    using System.Collections;
-    using System.Diagnostics;
+    using Accord.Compat;
+    using System.Threading.Tasks;
 
     /// <summary>
     ///   C4.5 Learning algorithm for <see cref="DecisionTree">Decision Trees</see>.

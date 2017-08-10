@@ -24,10 +24,10 @@ namespace Accord.Statistics.Kernels
 {
     using Accord.Math;
     using System;
-    using System.Threading;
-    using System.Collections.Generic;
     using System.Runtime.Serialization;
     using Accord.Math.Distances;
+    using Accord.Compat;
+    using System.Threading;
 
     /// <summary>
     ///   Dynamic Time Warping Sequence Kernel.

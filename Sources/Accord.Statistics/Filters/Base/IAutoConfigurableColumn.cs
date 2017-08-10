@@ -24,7 +24,9 @@ namespace Accord.Statistics.Filters
 {
     using System;
     using System.Collections.ObjectModel;
+#if !NETSTANDARD1_4
     using System.Data;
+#endif
 
     /// <summary>
     ///   Indicates that a column filter supports automatic initialization.
@@ -32,6 +34,7 @@ namespace Accord.Statistics.Filters
     /// 
     public interface IAutoConfigurableColumn
     {
+#if !NETSTANDARD1_4
         /// <summary>
         ///   Auto detects the column options by analyzing a given <see cref="System.Data.DataColumn"/>.
         /// </summary> 
@@ -39,6 +42,6 @@ namespace Accord.Statistics.Filters
         /// <param name="column">The column to analyze.</param>
         /// 
         void Detect(DataColumn column);
+#endif
     }
-
 }

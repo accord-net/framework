@@ -25,8 +25,9 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     using Accord.Math.Optimization;
     using Accord.Statistics.Kernels;
     using Accord.Math;
-    using System;
     using Accord.Math.Optimization.Losses;
+    using System;
+    using Accord.Compat;
     using System.Threading;
 
     /// <summary>
@@ -39,10 +40,8 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// </example>
     /// 
     /// <seealso cref="SupportVectorMachine"/>
-    /// <seealso cref="KernelSupportVectorMachine"/>
-    /// 
     /// <seealso cref="ProbabilisticOutputCalibration"/>
-    /// <seealso cref="MulticlassSupportVectorLearning"/>
+    /// <seealso cref="MulticlassSupportVectorLearning{TKernel}"/>
     /// 
 #pragma warning disable 0618
     [Obsolete("Please use OneclassSupportVectorLearning<TKernel> instead.")]
@@ -90,10 +89,8 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// </example>
     /// 
     /// <seealso cref="SupportVectorMachine"/>
-    /// <seealso cref="KernelSupportVectorMachine"/>
-    /// 
     /// <seealso cref="ProbabilisticOutputCalibration"/>
-    /// <seealso cref="MulticlassSupportVectorLearning"/>
+    /// <seealso cref="MulticlassSupportVectorLearning{TKernel}"/>
     /// 
     public class OneclassSupportVectorLearning<TKernel>
         : BaseOneclassSupportVectorLearning<SupportVectorMachine<TKernel>, TKernel, double[]>
@@ -120,15 +117,15 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// </example>
     /// 
     /// <seealso cref="SupportVectorMachine"/>
-    /// <seealso cref="KernelSupportVectorMachine"/>
-    /// 
     /// <seealso cref="ProbabilisticOutputCalibration"/>
-    /// <seealso cref="MulticlassSupportVectorLearning"/>
+    /// <seealso cref="MulticlassSupportVectorLearning{TKernel}"/>
     /// 
     public class OneclassSupportVectorLearning<TKernel, TInput>
         : BaseOneclassSupportVectorLearning<SupportVectorMachine<TKernel, TInput>, TKernel, TInput>
         where TKernel : IKernel<TInput>
+#if !NETSTANDARD1_4
         where TInput : ICloneable
+#endif
     {
         /// <summary>
         /// Creates an instance of the model to be learned. Inheritors

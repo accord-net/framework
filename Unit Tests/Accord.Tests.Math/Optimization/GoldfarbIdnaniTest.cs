@@ -31,6 +31,9 @@ namespace Accord.Tests.Math
     using Accord.Tests.Math.Properties;
     using System.Globalization;
     using Accord.IO;
+#if NO_CULTURE
+    using CultureInfo = Accord.Compat.CultureInfo;
+#endif
 
     [TestFixture]
     public class GoldfarbIdnaniTest
@@ -1478,11 +1481,15 @@ namespace Accord.Tests.Math
                 for (int j = 0; j < parts.Length; j++)
                 {
                     string prt = parts[j];
-                    double prtdbl = double.Parse(prt, System.Globalization.CultureInfo.GetCultureInfo("en-US"));
+                    double prtdbl = double.Parse(prt, CultureInfo.GetCultureInfo("en-US"));
                     v[i, j] = prtdbl;
                 }
             }
+#if NETCORE
+            reader.Dispose();
+#else
             reader.Close();
+#endif
             return v;
         }
 
@@ -1500,10 +1507,14 @@ namespace Accord.Tests.Math
             for (int i = 0; i < str.Count; i++)
             {
                 parts = str[i].Split(sep);
-                double prtdbl = double.Parse(parts[0], System.Globalization.CultureInfo.GetCultureInfo("en-US"));
+                double prtdbl = double.Parse(parts[0], CultureInfo.GetCultureInfo("en-US"));
                 v[i] = prtdbl;
             }
+#if NETCORE
+            reader.Dispose();
+#else
             reader.Close();
+#endif
             return v;
         }
 

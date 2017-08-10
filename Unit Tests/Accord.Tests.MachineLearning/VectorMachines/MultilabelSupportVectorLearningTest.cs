@@ -249,6 +249,7 @@ namespace Accord.Tests.MachineLearning
             }
         }
 
+#if !NO_BINARY_SERIALIZATION
         [Test]
         [Category("Serialization")]
         public void SerializeTest1()
@@ -364,7 +365,8 @@ namespace Accord.Tests.MachineLearning
             };
 
             // Reload the machines
-            var target = Serializer.Load<MultilabelSupportVectorMachine>(Properties.Resources.ml_svm);
+            string fileName = Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources", "ml-svm.bin");
+            var target = Serializer.Load<MultilabelSupportVectorMachine>(fileName);
 
             double actual;
 
@@ -436,7 +438,6 @@ namespace Accord.Tests.MachineLearning
             Assert.IsTrue(svs.IsEqual(expectedSVs, rtol: 1e-8));
             Assert.IsTrue(weights.IsEqual(expectedWeights, rtol: 1e-8));
         }
-
 
         [Test]
         [Category("Serialization")]
@@ -512,6 +513,7 @@ namespace Accord.Tests.MachineLearning
                 Assert.IsTrue(a.SupportVectors.IsEqual(b.SupportVectors));
             }
         }
+#endif
 
         [Test]
         public void multilabel_linear_new_usage()

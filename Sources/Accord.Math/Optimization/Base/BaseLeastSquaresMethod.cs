@@ -23,10 +23,11 @@
 namespace Accord.Math.Optimization
 {
     using System;
-    using System.Threading.Tasks;
     using Accord.Math;
     using Accord.MachineLearning;
     using Accord.Statistics.Models;
+    using Accord.Compat;
+    using System.Threading.Tasks;
 
     /// <summary>
     ///   Base class for least-squares optimizers implementing the <see cref="ILeastSquaresMethod"/> interface.
