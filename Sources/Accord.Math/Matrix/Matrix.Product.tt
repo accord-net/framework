@@ -1710,6 +1710,66 @@ namespace Accord.Math
             return result;
         }
 
+		        /// <summary>
+        ///   Computes the product <c>A'*B</c> of matrix <c>A</c> transposed and matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The transposed left matrix <c>A</c>.</param>
+        /// <param name="b">The right matrix <c>B</c>.</param>
+        /// <param name="result">The matrix <c>R</c> to store the product <c>R = A'*B</c>
+        ///   of the given matrices <c>A</c> and <c>B</c>.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static unsafe <#=r#>[,] TransposeAndDotNew(this <#=a#>[,] a, <#=b#>[,] b, <#=r#>[,] result)
+        {
+            int n = a.Rows();
+            int m = a.Columns();
+            int p = b.Columns();
+
+#if DEBUG
+            if (n != b.Rows() || result.Rows() > m || result.Columns() > p)
+                throw new DimensionMismatchException();
+            var C = a.Transpose().To<double[,]>().Dot(b.To<double[,]>());
+#endif
+
+            fixed (<#=r#>* R = result)
+            fixed (<#=b#>* B = b)
+            fixed (<#=t#>* ptemp = new <#=t#>[p])
+            {
+                <#=r#>* pr = R;
+
+                for (int i = 0; i < m; i++)
+                {
+                    <#=t#>* pt = ptemp;
+                    <#=b#>* pb = B;
+
+                    for (int k = 0; k < n; k++)
+                    {
+                        <#=a#> aval = a[k, i];
+                        for (int j = 0; j < p; j++)
+                            *pt++ += (<#=t#>)((<#=t#>)aval * (<#=t#>)(*pb++));
+                        pt = ptemp;
+                    }
+
+                    // Update the results row and clear the cache
+                    for (int j = 0; j < p; j++)
+                    {
+                        *pr++ = (<#=r#>)*pt;
+                        *pt++ = 0;
+                    }
+                }
+            }
+
+#if DEBUG
+            if (!C.IsEqual(result.To<double[,]>(), 1e-4))
+                throw new Exception();
+#endif
+
+            return result;
+        }
+
         /// <summary>
         ///   Computes the product <c>A'*B</c> of matrix <c>A</c> transposed and matrix <c>B</c>.
         /// </summary>

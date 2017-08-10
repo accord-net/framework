@@ -275,14 +275,39 @@ namespace Accord.Tests.Math
         [Test]
         public void TransposeAndMultiplyTest()
         {
+            double Tolerance = 1e-12;
+
             double[,] a = Matrix.Random(2, 3);
             double[,] b = Matrix.Random(2, 4);
             double[,] actual = new double[3, 4];
+            double[,] actual2 = Matrix.Random(3, 4);
 
             double[,] expected = Matrix.Multiply(a.Transpose(), b);
-            Matrix.TransposeAndMultiply(a, b, actual);
+            a.TransposeAndMultiply(b, actual);
+            a.TransposeAndDotNew(b, actual2);
 
-            Assert.IsTrue(expected.IsEqual(actual));
+            Assert.IsTrue(expected.IsEqual(actual, Tolerance));
+            Assert.IsTrue(expected.IsEqual(actual2, Tolerance));
+        }
+
+        [Test]
+        public void TransposeAndDotBatchTest()
+        {
+            double Tolerance = 1e-12;
+
+            for (int i = 1; i < 10; i++)
+                for (int j = 1; j < 10; j++)
+                    for (int k = 1; k < 10; k++)
+                    {
+                        double[,] a = Matrix.Random(j, i);
+                        double[,] b = Matrix.Random(j, k);
+                        double[,] actual = Matrix.Random(i, k);
+
+                        double[,] expected = a.Transpose().Dot(b);
+                        a.TransposeAndDotNew(b, actual);
+
+                        Assert.IsTrue(expected.IsEqual(actual, Tolerance));
+                    }
         }
 
         [Test]
