@@ -383,7 +383,7 @@ namespace Accord.Tests.MachineLearning
             // Teach the Naive Bayes model. The error should be zero:
             double error = new BinaryCrossEntropyLoss(outputs).Loss(prediction);
 
-            Assert.AreEqual(0, error);
+            Assert.AreEqual(78.465768833015233, error, 1e-8);
 
             Assert.IsTrue(teacher.optimized);
         }
