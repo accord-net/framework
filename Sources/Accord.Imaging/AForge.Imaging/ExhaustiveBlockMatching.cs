@@ -321,7 +321,7 @@ namespace Accord.Imaging
                             int blockSearchX = searchStartX + searchWindowCol;
                             int blockSearchY = searchStartY + searchWindowRow;
 
-                            if ( ( blockSearchX < 0 ) || ( blockSearchY + blockSize >= width ) )
+                            if ( ( blockSearchX < 0 ) || ( blockSearchX + blockSize >= width ) )
                             {
                                 // skip column
                                 continue;
