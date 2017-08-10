@@ -2136,23 +2136,16 @@ namespace Accord.Math
 #endif
         public static unsafe <#=r#>[,] OuterNew(this <#=a#>[] a, <#=b#>[] b, <#=r#>[,] result)
         {
-            fixed (<#=a#>* A = a)
-            fixed (<#=b#>* B = b)
             fixed (<#=r#>* R = result)
             {
-                <#=a#>* pa = A;
                 <#=r#>* pr = R;
-
                 for (int i = 0; i < a.Length; i++)
                 {
-                    <#=t#> x = (<#=t#>)(*pa++);
-                    <#=b#>* pb = B;
-
+                    <#=t#> x = (<#=t#>)a[i];
                     for (int j = 0; j < b.Length; j++)
-                        *pr++ = (<#=r#>)(x * (<#=t#>)(*pb++));
+                        *pr++ = (<#=r#>)(x * (<#=t#>)b[j]);
                 }
             }
-
             return result;
         }
 
