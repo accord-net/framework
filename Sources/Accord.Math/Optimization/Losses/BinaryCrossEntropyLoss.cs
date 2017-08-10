@@ -34,9 +34,20 @@ namespace Accord.Math.Optimization.Losses
     /// <seealso cref="CategoryCrossEntropyLoss"/>
     /// 
     [Serializable]
-    public class BinaryCrossEntropyLoss : LossBase<bool[][]>, ILoss<int[]>,
-        ILoss<double[]>, ILoss<double[][]>
+    public class BinaryCrossEntropyLoss : LossBase<bool[][]>,
+        ILoss<int[]>, ILoss<double[]>, ILoss<double[][]>
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BinaryCrossEntropyLoss"/> class.
+        /// </summary>
+        /// 
+        /// <param name="expected">The expected outputs (ground truth).</param>
+        /// 
+        public BinaryCrossEntropyLoss(int[][] expected)
+        {
+            this.Expected = Classes.Decide(expected);
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="BinaryCrossEntropyLoss"/> class.
         /// </summary>

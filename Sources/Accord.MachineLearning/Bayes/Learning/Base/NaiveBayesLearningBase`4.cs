@@ -52,6 +52,7 @@ namespace Accord.MachineLearning.Bayes
         where TOptions : IndependentOptions, new()
         where TModel : NaiveBayes<TDistribution, TInput>
     {
+        internal bool optimized = false;
 
         /// <summary>
         /// Gets or sets the parallelization options for this algorithm.
@@ -187,9 +188,29 @@ namespace Accord.MachineLearning.Bayes
         ///   A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
         /// </returns>
         ///
+        public virtual TModel Learn(TInput[][] x, int[][] y, double[] weight = null)
+        {
+            return Learn(x, y.ToDouble(), weight);
+        }
+
+        /// <summary>
+        /// Learns a model that can map the given inputs to the given outputs.
+        /// </summary>
+        ///
+        /// <param name="x">The model inputs.</param>
+        /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
+        /// <param name="weight">The weight of importance for each input-output pair.</param>
+        /// 
+        /// <returns>
+        ///   A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
+        /// </returns>
+        ///
         public virtual TModel Learn(TInput[][] x, double[][] y, double[] weight = null)
         {
             CheckArgs(x, y);
+
+            if (Model == null)
+                Model = Create(x, y.Columns());
 
             // For efficiency
             x = x.Transpose();
@@ -224,7 +245,7 @@ namespace Accord.MachineLearning.Bayes
             if (Empirical)
                 Model.Priors[inputIndex] = target.Sum() / x.Length;
 
-            Fit(inputIndex, values: x, weights: target, transposed: false);
+            Fit(inputIndex, values: x, weights: target, transposed: true);
         }
 
         /// <summary>
@@ -234,7 +255,20 @@ namespace Accord.MachineLearning.Bayes
         protected virtual void Fit(int i, TInput[][] values, double[] weights, bool transposed)
         {
             Options.Transposed = transposed;
-            Model.Distributions[i].Fit(values, weights, Options);
+
+            var fit = Model.Distributions[i] as IFittableDistribution<TInput[], TOptions>;
+            if (fit != null)
+            {
+                // Use a more efficient call if available
+                fit.Fit(values, weights, Options);
+                this.optimized = true;
+            }
+            else
+            {
+                // Use a generic call (which might need type casting)
+                Model.Distributions[i].Fit(values, weights, Options);
+                this.optimized = false;
+            }
         }
 
         /// <summary>
