@@ -151,7 +151,7 @@ namespace SampleApp
 
 
             // Get only the input vector values
-            double[][] inputs = table.Get(null, 0, 1).ToJagged();
+            double[][] inputs = table.Get(null, 0, 2).ToJagged();
 
             // Get only the label outputs
             int[] expected = new int[table.GetLength(0)];
