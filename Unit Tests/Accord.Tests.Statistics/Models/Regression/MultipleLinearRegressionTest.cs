@@ -387,7 +387,9 @@ namespace Accord.Tests.Statistics
         [Test]
         public void prediction_test()
         {
+#if NETCORE
             CultureInfo.CurrentCulture = new CultureInfo("en-US");
+#endif
 
             // Example from http://www.real-statistics.com/multiple-regression/confidence-and-prediction-intervals/
             var dt = Accord.IO.CsvReader.FromText(Resources.linreg, true).ToTable();
