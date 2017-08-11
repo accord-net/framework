@@ -93,6 +93,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Performance", "Performance"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Accord.Perf.MachineLearning (NetCore)", "..\Tools\Performance\MachineLearning\Accord.Perf.MachineLearning (NetCore).csproj", "{03D05ED7-C675-4346-ACA4-6D502CED388E}"
 EndProject
+Project("{778DAE3C-4631-46EA-AA77-85C1314464D9}") = "Accord.Tests.Statistics.VB (NETStandard)", "..\Unit Tests\Accord.Tests.Statistics.VB\Accord.Tests.Statistics.VB (NETStandard).vbproj", "{D6FB590C-13EF-43A8-91F4-75EADBEC7027}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -236,6 +238,10 @@ Global
 		{03D05ED7-C675-4346-ACA4-6D502CED388E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{03D05ED7-C675-4346-ACA4-6D502CED388E}.Release|Any CPU.ActiveCfg = netstandard2.0|Any CPU
 		{03D05ED7-C675-4346-ACA4-6D502CED388E}.Release|Any CPU.Build.0 = netstandard2.0|Any CPU
+		{D6FB590C-13EF-43A8-91F4-75EADBEC7027}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6FB590C-13EF-43A8-91F4-75EADBEC7027}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6FB590C-13EF-43A8-91F4-75EADBEC7027}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6FB590C-13EF-43A8-91F4-75EADBEC7027}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -255,6 +261,7 @@ Global
 		{7C9B04E6-44A6-47CF-8270-418A5996F3A1} = {95173883-B2B4-46AC-95EE-4B8D094E74B7}
 		{24BFBF8E-715A-4569-9948-A20CD47986D0} = {95173883-B2B4-46AC-95EE-4B8D094E74B7}
 		{03D05ED7-C675-4346-ACA4-6D502CED388E} = {E75A8C71-42DE-497D-809E-9A66CA38D537}
+		{D6FB590C-13EF-43A8-91F4-75EADBEC7027} = {BFD784FF-6E86-4540-8DEC-2F6AD779E0F9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {995CECF4-8F4D-4000-82C9-2B59E91100E9}
