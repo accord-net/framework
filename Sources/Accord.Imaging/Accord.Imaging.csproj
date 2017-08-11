@@ -81,8 +81,8 @@
     <Compile Include="AForge.Imaging\DocumentSkewChecker.cs" />
     <Compile Include="AForge.Imaging\Drawing.cs" />
     <Compile Include="AForge.Imaging\Exceptions.cs" />
-    <Compile Include="AForge.Imaging\ExhaustiveBlockMatching.cs" />
-    <Compile Include="AForge.Imaging\ExhaustiveTemplateMatching.cs" />
+    <Compile Include="ExhaustiveBlockMatching.cs" />
+    <Compile Include="ExhaustiveTemplateMatching.cs" />
     <Compile Include="AForge.Imaging\Filters\2 Source filters\Add.cs" />
     <Compile Include="AForge.Imaging\Filters\2 Source filters\Difference.cs" />
     <Compile Include="AForge.Imaging\Filters\2 Source filters\Intersect.cs" />

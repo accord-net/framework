@@ -26,9 +26,7 @@ namespace Accord.Math.Random
     using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
     using System.Threading;
-#if NETSTANDARD1_4
-    using Trace = Accord.Diagnostics.Trace;
-#endif
+    using Accord.Compat;
 
     /// <summary>
     ///   Framework-wide random number generator. If you would like to always generate 

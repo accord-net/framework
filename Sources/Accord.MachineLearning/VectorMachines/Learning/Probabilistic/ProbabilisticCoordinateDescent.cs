@@ -61,9 +61,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     using Accord.Math;
     using Statistics.Models.Regression.Fitting;
     using Statistics.Models.Regression;
-#if NO_TRACE
-    using Trace = Accord.Diagnostics.Trace;
-#endif
+    using Accord.Compat;
 
     /// <summary>
     ///   L1-regularized logistic regression (probabilistic SVM) 

@@ -24,9 +24,7 @@ namespace Accord.Math.Integration
 {
     using System;
     using System.Diagnostics;
-#if NETSTANDARD1_4
-    using Trace = Accord.Diagnostics.Trace;
-#endif
+    using Accord.Compat;
 
     /// <summary>
     ///   Status codes for the <see cref="NonAdaptiveGaussKronrod"/>

@@ -64,9 +64,7 @@ namespace Accord.MachineLearning.Clustering
     using System.IO;
     using System.Linq;
     using Accord.Math;
-#if NETSTANDARD1_4
-    using Trace = Accord.Diagnostics.Trace;
-#endif
+    using Accord.Compat;
 
     /// <summary>
     ///   Barnes-Hutt t-SNE.

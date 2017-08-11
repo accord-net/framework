@@ -378,7 +378,9 @@ namespace Accord.Audio
                 for (int j = 0; j < channels; j++)
                     data[i, j] = new Complex(array[i, j], 0);
 
+#pragma warning disable CS0618 // Type or member is obsolete
             byte[] buffer = new byte[data.Length * Marshal.SizeOf(typeof(Complex))];
+#pragma warning restore CS0618 // Type or member is obsolete
 
             GCHandle handle = GCHandle.Alloc(data, GCHandleType.Pinned);
             Marshal.Copy(handle.AddrOfPinnedObject(), buffer, 0, buffer.Length);

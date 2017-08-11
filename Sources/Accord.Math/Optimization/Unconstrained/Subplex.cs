@@ -55,9 +55,7 @@ namespace Accord.Math.Optimization
     using System.Collections.Generic;
     using System.Diagnostics;
     using Accord.Math.Convergence;
-#if NETSTANDARD1_4
-    using Trace = Accord.Diagnostics.Trace;
-#endif
+    using Accord.Compat;
 
     /// <summary>
     ///   Subplex

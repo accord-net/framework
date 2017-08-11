@@ -39,6 +39,11 @@ namespace Accord.Compat
 
     internal static class Trace
     {
+        public static void Write(string value)
+        {
+            Console.Write(value);
+        }
+
         public static void WriteLine(string value)
         {
             Console.WriteLine(value);

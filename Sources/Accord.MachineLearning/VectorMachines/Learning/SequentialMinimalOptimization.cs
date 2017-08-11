@@ -31,9 +31,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     using System.Collections.Generic;
     using System.Threading;
     using System.Diagnostics;
-#if NETSTANDARD1_4
-    using Trace = Accord.Diagnostics.Trace;
-#endif
+    using Accord.Compat;
 
     /// <summary>
     ///   Gets the selection strategy to be used in SMO.
