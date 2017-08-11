@@ -32,23 +32,23 @@ namespace Accord.Tests.Math
     public class BinarySearchTest2
     {
         [Datapoint]
-        public int[] a = new[] { -3, -2, -1, 0, 1, 2, 3 };
+        public int[] a = { -3, -2, -1, 0, 1, 2, 3 };
         [Datapoint]
-        public int[] b = new[] { -3, -2, -1, 0, 1, 2, 3, 4, 5 };
+        public int[] b = { -3, -2, -1, 0, 1, 2, 3, 4, 5 };
         [Datapoint]
-        public int[] c = new[] { -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5 };
+        public int[] c = { -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5 };
         [Datapoint]
-        public int[] d = new[] { 3, 2, 1, 0, -1, -2, -3 };
+        public int[] d = { 3, 2, 1, 0, -1, -2, -3 };
         [Datapoint]
-        public int[] e = new[] { 3, 2, 1, 0, -1, -2, -3, -4, -5 };
+        public int[] e = { 3, 2, 1, 0, -1, -2, -3, -4, -5 };
         [Datapoint]
-        public int[] f = new[] { 5, 4, 3, 2, 1, 0, -1, -2, -3 };
+        public int[] f = { 5, 4, 3, 2, 1, 0, -1, -2, -3 };
         [Theory]
         public void AccordBinarySearchShouldWorkWithArray(int[] data)
         {
             var zeroIndex = data.ToList().FindIndex(v => v == 0);
             var index = new BinarySearch(i => data[i], 0, data.Length - 1).FindRoot();
-            Assert.AreEqual(index, zeroIndex);
+            Assert.AreEqual(zeroIndex,index,$"For {String.Join(",",data)}");
         }
     }
 

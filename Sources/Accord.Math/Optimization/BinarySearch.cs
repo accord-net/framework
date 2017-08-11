@@ -109,7 +109,8 @@ namespace Accord.Math.Optimization
 
 
         /// <summary>
-        ///   Finds a value of a function in the interval [a;b]
+        ///  Finds a value of a function in the interval [a;b]. The function can be monotonically 
+        ///  increasing or decreasing over the interface [a;b]. 
         /// </summary>
         /// 
         /// <param name="function">The function to have its root computed.</param>
@@ -124,8 +125,15 @@ namespace Accord.Math.Optimization
             int start = lowerBound;
             int end = upperBound;
 
+            // if sign is positive we assume an increasing function
+            // otherwise we assume a decreasing function.
+            int sign = function(start) < function(end) ? 1 : -1;
+
+            value = sign * value;
+
             int m = (int)(((long)start + (long)end) / 2);
-            double v = function(m);
+
+            double v = sign*function( m );
 
             while (end >= start)
             {
@@ -143,7 +151,7 @@ namespace Accord.Math.Optimization
                 }
 
                 m = (int)(((long)start + (long)end) / 2);
-                v = function(m);
+                v = sign*function(m);
             }
 
             if (v > value || m == upperBound)
