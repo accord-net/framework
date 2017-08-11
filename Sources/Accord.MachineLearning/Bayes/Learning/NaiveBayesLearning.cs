@@ -240,7 +240,7 @@ namespace Accord.MachineLearning.Bayes
     ///   a bug in the Mono compiler.
     /// </summary>
     /// 
-    [Obsolete("This class is not supported in Mono due to a bug in the Mono compiler.")]
+    [System.Obsolete("This class is not supported in Mono due to a bug in the Mono compiler.")]
     public class NaiveBayesLearning
     {
     }
