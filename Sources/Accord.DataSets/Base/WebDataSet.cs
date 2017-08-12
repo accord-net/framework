@@ -82,8 +82,8 @@ namespace Accord.DataSets.Base
         public static bool Download(string url, string localPath, out string uncompressedFileName)
         {
             string name = System.IO.Path.GetFileName(url);
-            string downloadedFileName = System.IO.Path.Combine(localPath, name);
-            return Download(url, localPath, downloadedFileName, out uncompressedFileName);
+            string localFileName = System.IO.Path.GetFileName(url);
+            return Download(url, localPath, localFileName, out uncompressedFileName);
         }
 
         /// <summary>
@@ -100,6 +100,15 @@ namespace Accord.DataSets.Base
         /// 
         public static bool Download(string url, string localPath, string localFileName, out string uncompressedFileName)
         {
+            if (String.IsNullOrEmpty(url))
+                throw new ArgumentNullException("url");
+
+            if (String.IsNullOrEmpty(localPath))
+                throw new ArgumentNullException("localPath");
+
+            if (String.IsNullOrEmpty(localFileName))
+                throw new ArgumentNullException("localFileName");
+
             string downloadedFullFilePath = System.IO.Path.Combine(localPath, localFileName);
 
             if (!File.Exists(downloadedFullFilePath))
