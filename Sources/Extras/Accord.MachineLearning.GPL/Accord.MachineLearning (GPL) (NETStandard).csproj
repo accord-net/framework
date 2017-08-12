@@ -4,9 +4,15 @@
     <AssemblyName>Accord.MachineLearning.GPL</AssemblyName>
     <RootNamespace>Accord.MachineLearning</RootNamespace>
     <TargetFrameworks>netstandard2.0;netstandard1.4</TargetFrameworks>
+    <OutputPath>bin\$(Configuration)\$(TargetFramework)\GPL</OutputPath>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
   </PropertyGroup>
 
   <Import Project="$(SolutionDir)Accord.NET (NETStandard).targets" />
+
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\GPL\$(AssemblyName).xml</DocumentationFile>
+  </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Accord.Core\Accord.Core (NETStandard).csproj" />

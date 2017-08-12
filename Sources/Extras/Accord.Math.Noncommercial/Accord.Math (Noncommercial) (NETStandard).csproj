@@ -1,12 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <Import Project="$(SolutionDir)Accord.NET (NETStandard).targets" />
-
   <PropertyGroup>
     <AssemblyName>Accord.Math.Noncommercial</AssemblyName>
     <RootNamespace>Accord.Math</RootNamespace>
     <TargetFrameworks>netstandard2.0;netstandard1.4</TargetFrameworks>
+    <OutputPath>bin\$(Configuration)\$(TargetFramework)\Noncommercial</OutputPath>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
   </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Noncommercial\$(AssemblyName).xml</DocumentationFile>
+  </PropertyGroup>
+
+  <Import Project="$(SolutionDir)Accord.NET (NETStandard).targets" />
 
   <ItemGroup>
     <ProjectReference Include="..\..\Accord.Core\Accord.Core (NETStandard).csproj" />
