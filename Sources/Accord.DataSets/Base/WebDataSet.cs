@@ -70,63 +70,95 @@ namespace Accord.DataSets.Base
 
         /// <summary>
         ///   Downloads a file from the specified <paramref name="url"/>, 
-        ///   storing in <paramref name="path"/>, under name <paramref name="uncompressedFileName"/>.
+        ///   storing in <paramref name="localPath"/>, under name <paramref name="uncompressedFileName"/>.
         /// </summary>
         /// 
         /// <param name="url">The URL where the file should be downloaded from.</param>
-        /// <param name="path">The path where the file will be stored localy.</param>
+        /// <param name="localPath">The path where the file will be stored localy.</param>
         /// <param name="uncompressedFileName">The generated name of the uncompressed file.</param>
         /// 
         /// <returns><c>true</c> if the download succeeded, <c>false</c> otherwise.</returns>
         /// 
-        public static bool Download(string url, string path, out string uncompressedFileName)
+        public static bool Download(string url, string localPath, out string uncompressedFileName)
         {
             string name = System.IO.Path.GetFileName(url);
-            string downloadedFileName = System.IO.Path.Combine(path, name);
+            string downloadedFileName = System.IO.Path.Combine(localPath, name);
+            return Download(url, localPath, downloadedFileName, out uncompressedFileName);
+        }
 
-            if (!File.Exists(downloadedFileName))
+        /// <summary>
+        ///   Downloads a file from the specified <paramref name="url"/>, 
+        ///   storing in <paramref name="localPath"/>, under name <paramref name="uncompressedFileName"/>.
+        /// </summary>
+        /// 
+        /// <param name="url">The URL where the file should be downloaded from.</param>
+        /// <param name="localPath">The path where the file will be stored localy.</param>
+        /// <param name="localFileName">The local file name to be used for the download.</param>
+        /// <param name="uncompressedFileName">The generated name of the uncompressed file.</param>
+        /// 
+        /// <returns><c>true</c> if the download succeeded, <c>false</c> otherwise.</returns>
+        /// 
+        public static bool Download(string url, string localPath, string localFileName, out string uncompressedFileName)
+        {
+            string downloadedFullFilePath = System.IO.Path.Combine(localPath, localFileName);
+
+            if (!File.Exists(downloadedFullFilePath))
             {
-                Directory.CreateDirectory(path);
+                Directory.CreateDirectory(localPath);
 
-                using (var client = new WebClient())
-                    client.DownloadFile(url, downloadedFileName);
+                int numberOfAttempts = 0;
+                bool success = false;
+                while (!success && numberOfAttempts <= 3)
+                {
+                    try
+                    {
+                        numberOfAttempts++;
+                        using (var client = new WebClient())
+                            client.DownloadFile(url, downloadedFullFilePath);
+                        success = true;
+                    }
+                    catch (WebException)
+                    {
+                        success = false;
+                    }
+                }
             }
 
 
             // If the file is compressed, decompress it to disk
-            if (endsWith(downloadedFileName, ".bz2"))
+            if (endsWith(localFileName, ".bz2"))
             {
-                uncompressedFileName = downloadedFileName.Remove(downloadedFileName.Length - 4);
+                uncompressedFileName = downloadedFullFilePath.Remove(downloadedFullFilePath.Length - 4);
                 if (!File.Exists(uncompressedFileName))
                 {
-                    using (var compressedFile = new FileStream(downloadedFileName, FileMode.Open))
-                    using (var uncompressedFile = new FileStream(uncompressedFileName, FileMode.CreateNew))
+                    using (var compressedFile = new FileStream(downloadedFullFilePath, FileMode.Open, FileAccess.Read))
+                    using (var uncompressedFile = new FileStream(uncompressedFileName, FileMode.CreateNew, FileAccess.Write))
                     {
                         BZip2.Decompress(compressedFile, uncompressedFile, false);
                     }
                 }
             }
-            else if (endsWith(downloadedFileName, ".gz"))
+            else if (endsWith(localFileName, ".gz"))
             {
-                uncompressedFileName = downloadedFileName.Remove(downloadedFileName.Length - 3);
+                uncompressedFileName = downloadedFullFilePath.Remove(downloadedFullFilePath.Length - 3);
                 if (!File.Exists(uncompressedFileName))
                 {
-                    using (var compressedFile = new FileStream(downloadedFileName, FileMode.Open))
+                    using (var compressedFile = new FileStream(downloadedFullFilePath, FileMode.Open, FileAccess.Read))
                     using (var decompressedFile = new GZipInputStream(compressedFile))
-                    using (var uncompressedFile = new FileStream(uncompressedFileName, FileMode.CreateNew))
+                    using (var uncompressedFile = new FileStream(uncompressedFileName, FileMode.CreateNew, FileAccess.Write))
                     {
                         decompressedFile.CopyTo(uncompressedFile);
                     }
                 }
             }
-            else if (endsWith(downloadedFileName, ".Z"))
+            else if (endsWith(downloadedFullFilePath, ".Z"))
             {
-                uncompressedFileName = downloadedFileName.Remove(downloadedFileName.Length - 2);
+                uncompressedFileName = downloadedFullFilePath.Remove(downloadedFullFilePath.Length - 2);
                 if (!File.Exists(uncompressedFileName))
                 {
-                    using (var compressedFile = new FileStream(downloadedFileName, FileMode.Open))
+                    using (var compressedFile = new FileStream(downloadedFullFilePath, FileMode.Open, FileAccess.Read))
                     using (var decompressedFile = new Accord.IO.Compression.LzwInputStream(compressedFile))
-                    using (var uncompressedFile = new FileStream(uncompressedFileName, FileMode.CreateNew))
+                    using (var uncompressedFile = new FileStream(uncompressedFileName, FileMode.CreateNew, FileAccess.Write))
                     {
                         decompressedFile.CopyTo(uncompressedFile);
                     }
@@ -134,7 +166,7 @@ namespace Accord.DataSets.Base
             }
             else
             {
-                uncompressedFileName = downloadedFileName;
+                uncompressedFileName = downloadedFullFilePath;
             }
 
             return true;

@@ -129,7 +129,8 @@ namespace Accord.Tests.MachineLearning
             string s786433 = "9:1 24:3 43:5 54:2 74:1 110:1 117:1 136:2 140:2 170:1 222:1 238:1 277:1 311:1 321:1 433:1 586:1 606:4 652:2 660:1 702:1 768:1 842:1 869:1 929:2 1059:1 1122:1 1160:1 1193:5 1336:1 1449:1 1679:2 1765:1 1802:2 1988:1 2250:2 2296:1 2409:1 2532:1 2555:1 2910:2 3006:3 3160:1 5988:1 6794:1 7761:1 8304:1 10497:1 13337:1 37313:1 39925:4";
             var expected = Sparse.Parse(s786433);
 
-            var rcv1v2 = new Accord.DataSets.RCV1v2(@"C:\Temp\", downloadTestingSet: false);
+            string path = Path.Combine(TestContext.CurrentContext.WorkDirectory, "tmp");
+            var rcv1v2 = new Accord.DataSets.RCV1v2(path, downloadTestingSet: false);
 
             string[][] trainWords = rcv1v2.Training.Item1;
             bool[] trainOutputs = rcv1v2.Training.Item2.Apply(x => x.Contains("CCAT"));
@@ -175,7 +176,8 @@ namespace Accord.Tests.MachineLearning
         [Ignore("This test can only be executed in x64")]
         public void learn_test2()
         {
-            var rcv1v2 = new Accord.DataSets.RCV1v2(@"C:\Temp\");
+            string path = Path.Combine(TestContext.CurrentContext.WorkDirectory, "tmp");
+            var rcv1v2 = new Accord.DataSets.RCV1v2(path, downloadTestingSet: false);
 
             // Note: Leon Bottou's SGD inverts training and 
             // testing when benchmarking in this dataset
@@ -223,7 +225,8 @@ namespace Accord.Tests.MachineLearning
         [Test]
         public void learn_test3()
         {
-            var rcv1v2 = new Accord.DataSets.RCV1v2(@"C:\Temp\", downloadTestingSet: false);
+            string path = Path.Combine(TestContext.CurrentContext.WorkDirectory, "tmp");
+            var rcv1v2 = new Accord.DataSets.RCV1v2(path, downloadTestingSet: false);
 
             string[][] trainWords = rcv1v2.Training.Item1;
 
