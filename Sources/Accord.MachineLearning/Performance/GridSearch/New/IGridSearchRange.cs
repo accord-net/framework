@@ -31,7 +31,6 @@ namespace Accord.MachineLearning.Performance
     /// 
     /// <seealso cref="GridSearch"/>
     /// <seealso cref="GridSearchRange{T}"/>
-    /// <seealso cref="System.ICloneable" />
     /// 
     public interface IGridSearchRange : ICloneable
     {

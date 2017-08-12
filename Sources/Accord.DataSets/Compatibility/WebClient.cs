@@ -31,17 +31,32 @@ namespace System.Net
 
         public async Task DownloadFileAsync(Uri requestUri, string filename)
         {
-            using (var httpClient = new HttpClient())
+            try
             {
-                using (var request = new HttpRequestMessage(HttpMethod.Get, requestUri))
+                using (var httpClient = new HttpClient())
                 {
-                    using (Stream contentStream = await (await httpClient.SendAsync(request)).Content.ReadAsStreamAsync(),
-                        stream = new FileStream(filename, FileMode.Create, FileAccess.Write, FileShare.None, 4096, true))
+                    using (var request = new HttpRequestMessage(HttpMethod.Get, requestUri))
                     {
-                        await contentStream.CopyToAsync(stream);
+                        using (Stream contentStream = await (await httpClient.SendAsync(request)).Content.ReadAsStreamAsync(),
+                            stream = new FileStream(filename, FileMode.Create, FileAccess.Write, FileShare.None, 4096, true))
+                        {
+                            await contentStream.CopyToAsync(stream);
+                        }
                     }
                 }
             }
+            catch (HttpRequestException ex)
+            {
+                throw new WebException(ex);
+            }
+        }
+    }
+
+    internal class WebException : HttpRequestException
+    {
+        public WebException(HttpRequestException ex)
+            : base("HttpRequestException", ex)
+        {
         }
     }
 }

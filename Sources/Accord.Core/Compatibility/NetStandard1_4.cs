@@ -89,7 +89,7 @@ namespace Accord.Compat
     public class SerializationInfo
     {
         /// <summary>
-        /// Performs an implicit conversion from <see cref="System.Runtime.Serialization.SerializationInfo" /> to <see cref="System.String" />.
+        /// Performs an implicit conversion from SerializationInfo to <see cref="System.String" />.
         /// </summary>
         /// <param name="info">The information.</param>
         /// <returns>The result of the conversion.</returns>
@@ -106,7 +106,7 @@ namespace Accord.Compat
     public class StreamingContext
     {
         /// <summary>
-        /// Performs an implicit conversion from <see cref="System.Runtime.Serialization.SerializationInfo" /> to <see cref="System.String" />.
+        /// Performs an implicit conversion from SerializationInfo to <see cref="System.String" />.
         /// </summary>
         /// <param name="info">The information.</param>
         /// <returns>The result of the conversion.</returns>

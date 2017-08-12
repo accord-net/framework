@@ -18,6 +18,9 @@
     <Configurations>Debug;Release;Mono</Configurations>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)'=='Debug'">
     <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
     <DocumentationFile></DocumentationFile>
@@ -57,7 +60,7 @@
 
 
 
-    <!-- Copy binaries, debug and all other generated files into the /Release or /Debug folders at the project's root -->
+  <!-- Copy binaries, debug and all other generated files into the /Release or /Debug folders at the project's root -->
   <ItemGroup>
     <OutputFiles Include="$(ProjectDir)bin\$(Configuration)\$(TargetFramework)\**\*.*" />
   </ItemGroup>

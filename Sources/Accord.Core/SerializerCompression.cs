@@ -22,10 +22,17 @@
 
 namespace Accord.IO
 {
+#if NETSTANDARD
+    /// <summary>
+    ///   Compression algorithms.
+    /// </summary>
+    /// 
+#else
     /// <summary>
     ///   Compression algorithms supported by the <see cref="Serializer"/>.
     /// </summary>
     /// 
+#endif
     public enum SerializerCompression
     {
         /// <summary>
