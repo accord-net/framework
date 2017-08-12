@@ -927,6 +927,7 @@ Iris-virginica =: (2 > 2.45) && (3 > 1.75) && (0 <= 5.95) && (1 <= 3.05)
 
 
         [Test]
+        [Category("Random")]
         public void AttributeReuseTest1()
         {
             string[][] text = Resources.iris_data
