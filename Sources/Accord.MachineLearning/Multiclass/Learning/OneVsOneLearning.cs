@@ -67,7 +67,7 @@ namespace Accord.MachineLearning
     {
         private ClassPair[] pairs;
         private Func<InnerParameters<TBinary, TInput>, ISupervisedLearning<TBinary, TInput, bool>> learner;
-        private Dictionary<ClassPair, ISupervisedLearning<TBinary, TInput, bool>> teachers;
+        private ConcurrentDictionary<ClassPair, ISupervisedLearning<TBinary, TInput, bool>> teachers;
         private bool aggregateExceptions = true;
 
         /// <summary>
@@ -186,16 +186,12 @@ namespace Accord.MachineLearning
             }
 
             if (teachers == null)
-                teachers = new Dictionary<ClassPair, ISupervisedLearning<TBinary, TInput, bool>>();
+                teachers = new ConcurrentDictionary<ClassPair, ISupervisedLearning<TBinary, TInput, bool>>();
 
             int progress = 0;
 
             // Save exceptions but process all machines
             var exceptions = new ConcurrentBag<Exception>();
-
-#if DEBUG
-            ParallelOptions.MaxDegreeOfParallelism = 1;
-#endif
 
             if (ParallelOptions.MaxDegreeOfParallelism == 1)
             {

@@ -59,6 +59,7 @@
     <Compile Include="Collections\Tree.cs" />
     <Compile Include="Collections\TreeNode.cs" />
     <Compile Include="Collections\TreeTraversal.cs" />
+    <Compile Include="Compatibility\ConcurrentDictionary.cs" />
     <Compile Include="Compatibility\Dummy.cs" />
     <Compile Include="Compatibility\EnumerableEx.cs" />
     <Compile Include="Compatibility\Stream.cs" />

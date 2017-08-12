@@ -46,16 +46,18 @@ namespace Accord.Tests.Audio
             Type type = typeof(SharpDX.DirectSound.CaptureBufferCapabilities);
             Assembly asm = type.Assembly;
             Assert.AreEqual("v4.0.30319", asm.ImageRuntimeVersion);
-#elif NET46
-            var targetFramework = (TargetFrameworkAttribute)asm
-                .GetCustomAttributes(typeof(TargetFrameworkAttribute)).First();
-            Assert.AreEqual(".NETFramework,Version=v4.5", targetFramework.FrameworkName);
 #elif NETCORE
             Type type = typeof(SharpDX.DirectSound.CaptureBufferCapabilities);
             Assembly asm = type.GetTypeInfo().Assembly;
             var targetFramework = (System.Runtime.Versioning.TargetFrameworkAttribute)asm
                 .GetCustomAttributes(typeof(System.Runtime.Versioning.TargetFrameworkAttribute)).First();
             Assert.AreEqual(".NETCoreApp,Version=v1.0", targetFramework.FrameworkName);
+#else
+            Type type = typeof(SharpDX.DirectSound.CaptureBufferCapabilities);
+            Assembly asm = type.Assembly;
+            var targetFramework = (System.Runtime.Versioning.TargetFrameworkAttribute)asm
+                .GetCustomAttributes(typeof(System.Runtime.Versioning.TargetFrameworkAttribute)).First();
+            Assert.AreEqual(".NETFramework,Version=v4.5", targetFramework.FrameworkName);
 #endif
         }
 
