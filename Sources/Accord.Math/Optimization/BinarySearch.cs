@@ -32,13 +32,13 @@ namespace Accord.Math.Optimization
     {
 
         /// <summary>
-        ///   Gets or sets the lower bound for the search interval <c>a</c>.
+        ///   Gets or sets the (inclusive) lower bound for the search interval <c>a</c>.
         /// </summary>
         /// 
         public int LowerBound { get; set; }
 
         /// <summary>
-        ///   Gets or sets the lower bound for the search interval <c>a</c>.
+        ///   Gets or sets the (exclusive) upper bound for the search interval <c>a</c>.
         /// </summary>
         /// 
         public int UpperBound { get; set; }
@@ -70,8 +70,8 @@ namespace Accord.Math.Optimization
         /// </summary>
         /// 
         /// <param name="function">The function to be searched.</param>
-        /// <param name="a">Start of search region.</param>
-        /// <param name="b">End of search region.</param>
+        /// <param name="a">Start of search region (inclusive).</param>
+        /// <param name="b">End of search region (exclusive).</param>
         /// 
         public BinarySearch(Func<int, double> function, int a, int b)
         {
@@ -82,7 +82,8 @@ namespace Accord.Math.Optimization
 
 
         /// <summary>
-        ///   Attempts to find a root in the interval [a;b] 
+        ///  Finds a value of a function in the interval [a;b). The function can 
+        ///  be monotonically increasing or decreasing over the interface [a;b). 
         /// </summary>
         /// 
         /// <returns>The location of the zero value in the given interval.</returns>
@@ -95,7 +96,8 @@ namespace Accord.Math.Optimization
         }
 
         /// <summary>
-        ///   Attempts to find a root in the interval [a;b] 
+        ///  Finds a value of a function in the interval [a;b). The function can 
+        ///  be monotonically increasing or decreasing over the interface [a;b). 
         /// </summary>
         /// 
         /// <returns>The location of the zero value in the given interval.</returns>
@@ -109,13 +111,13 @@ namespace Accord.Math.Optimization
 
 
         /// <summary>
-        ///  Finds a value of a function in the interval [a;b]. The function can be monotonically 
-        ///  increasing or decreasing over the interface [a;b]. 
+        ///  Finds a value of a function in the interval [a;b). The function can 
+        ///  be monotonically increasing or decreasing over the interface [a;b). 
         /// </summary>
         /// 
         /// <param name="function">The function to have its root computed.</param>
-        /// <param name="lowerBound">Start of search region.</param>
-        /// <param name="upperBound">End of search region.</param>
+        /// <param name="lowerBound">Start of search region (inclusive).</param>
+        /// <param name="upperBound">End of search region (exclusive).</param>
         /// <param name="value">The value to be looked for in the function.</param>
         /// 
         /// <returns>The location of the zero value in the given interval.</returns>
@@ -127,13 +129,13 @@ namespace Accord.Math.Optimization
 
             // if sign is positive we assume an increasing function
             // otherwise we assume a decreasing function.
-            int sign = function(start) < function(end) ? 1 : -1;
+            int sign = function(start) <= function(end - 1) ? 1 : -1;
 
             value = sign * value;
 
             int m = (int)(((long)start + (long)end) / 2);
 
-            double v = sign*function( m );
+            double v = sign * function(m);
 
             while (end >= start)
             {
@@ -151,7 +153,7 @@ namespace Accord.Math.Optimization
                 }
 
                 m = (int)(((long)start + (long)end) / 2);
-                v = sign*function(m);
+                v = sign * function(m);
             }
 
             if (v > value || m == upperBound)
