@@ -368,10 +368,15 @@ namespace Accord.Tests.Statistics
             double[] values = new double[] { 1, 3, 3, 4, 5, 6, 6, 7, 8, 8 };
             double q1, q3, actual;
 
+            //quantile(c(1, 3, 3, 4, 5, 6, 6, 7, 8, 8), type = 6)
+            //
+            //    0 % 25 % 50 % 75 % 100 %
+            //  1.00 3.00 5.50 7.25 8.00
+
             actual = Measures.Quartiles(values, out q1, out q3, false);
             Assert.AreEqual(3, q1);
             Assert.AreEqual(5.5, actual);
-            Assert.AreEqual(7, q3);
+            Assert.AreEqual(7.25, q3);
         }
 
         [Test]
@@ -386,7 +391,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(115, q3);
         }
 
-        
+
         public static IEnumerable<object[]> QuartilesTestValues = new List<object[]>
         {
             new object[] {new double[] {0.0}, 0.0, 0.0}, // correct
@@ -406,14 +411,12 @@ namespace Accord.Tests.Statistics
             }
         };
 
-        // TODO: Reenable those tests once the framework can support the same definitions
-        // for sample quartiles as the ones used by R.
-        [Ignore("Not supported yet")]
+        [Test]
         [TestCaseSource(nameof(QuartilesTestValues))]
         public void return_correct_q1_value_for_vector(double[] values, double expectedQ1, double expectedQ3)
         {
-            var q1 = values.LowerQuartile();
-            var q3 = values.UpperQuartile();
+            var q1 = values.LowerQuartile(type: QuantileMethod.R);
+            var q3 = values.UpperQuartile(type: QuantileMethod.R);
 
             Assert.AreEqual(expectedQ1, q1, 1e-6);
             Assert.AreEqual(expectedQ3, q3, 1e-6);
@@ -439,15 +442,36 @@ namespace Accord.Tests.Statistics
 
             values = new double[] { 3, 4 };
             actual = Measures.Quartiles(values, out q1, out q3, false);
-            Assert.AreEqual(3.25, q1);
+            Assert.AreEqual(3, q1);
             Assert.AreEqual(3.5, actual);
-            Assert.AreEqual(3.75, q3);
+            Assert.AreEqual(4, q3);
 
             values = new double[] { 4, 3 };
             actual = Measures.Quartiles(values, out q1, out q3, false);
-            Assert.AreEqual(3.25, q1);
+            Assert.AreEqual(3, q1);
             Assert.AreEqual(3.5, actual);
-            Assert.AreEqual(3.75, q3);
+            Assert.AreEqual(4, q3);
+        }
+
+        [Test]
+        public void QuartileMatrixTest()
+        {
+            double[][] values =
+            {
+                new [] { 52.0 },
+                new [] { 42.0 }
+            };
+
+            double[] q1, q3, actual;
+            actual = Measures.Quartiles(values, out q1, out q3);
+
+            // quantile(c(52, 42), type = 6)
+            //   0 % 25 % 50 % 75 % 100 %
+            //   42   42   47   52   52
+
+            Assert.AreEqual(47, actual[0]);
+            Assert.AreEqual(42, q1[0]);
+            Assert.AreEqual(52, q3[0]);
         }
 
         [Test]

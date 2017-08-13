@@ -646,9 +646,9 @@ namespace Accord.Statistics
         /// 
         /// <returns>The median of the given samples.</returns>
         /// 
-        public static double Quartiles(double[] samples, double length, out double q1, out double q3, bool wrap = true)
+        public static double Quartiles(double[] samples, double length, out double q1, out double q3, bool wrap = true, QuantileMethod type = QuantileMethod.Default)
         {
-            double q2 = Quartiles(ToRadians(samples, length), out q1, out q3, wrap);
+            double q2 = Quartiles(ToRadians(samples, length), out q1, out q3, wrap, type: type);
             q1 = ToCircular(q1, length, wrap);
             q3 = ToCircular(q3, length, wrap);
             return ToCircular(q2, length);
@@ -672,10 +672,10 @@ namespace Accord.Statistics
         /// 
         /// <returns>The median of the given samples.</returns>
         /// 
-        public static double Quartiles(double[] samples, double length, out double q1, out double q3, double median, bool wrap = true)
+        public static double Quartiles(double[] samples, double length, out double q1, out double q3, double median, bool wrap = true, QuantileMethod type = QuantileMethod.Default)
         {
             double angleMedian = Circular.ToRadians(median, length);
-            double q2 = Quartiles(ToRadians(samples, length), out q1, out q3, angleMedian, wrap);
+            double q2 = Quartiles(ToRadians(samples, length), out q1, out q3, angleMedian, wrap, type: type);
             q1 = ToCircular(q1, length, wrap);
             q3 = ToCircular(q3, length, wrap);
             return ToCircular(q2, length);
@@ -695,9 +695,9 @@ namespace Accord.Statistics
         /// 
         /// <returns>The median of the given angles.</returns>
         /// 
-        public static double Quartiles(double[] angles, out double q1, out double q3, bool wrap = true)
+        public static double Quartiles(double[] angles, out double q1, out double q3, bool wrap = true, QuantileMethod type = QuantileMethod.Default)
         {
-            return Quartiles(angles, out q1, out q3, Median(angles), wrap);
+            return Quartiles(angles, out q1, out q3, Median(angles), wrap, type: type);
         }
 
         /// <summary>
@@ -716,9 +716,9 @@ namespace Accord.Statistics
         /// 
         /// <returns>The median of the given samples.</returns>
         /// 
-        public static double Quartiles(double[] samples, double length, out DoubleRange range, bool wrap = true)
+        public static double Quartiles(double[] samples, double length, out DoubleRange range, bool wrap = true, QuantileMethod type = QuantileMethod.Default)
         {
-            double q2 = Quartiles(ToRadians(samples, length), out range, wrap);
+            double q2 = Quartiles(ToRadians(samples, length), out range, wrap, type: type);
             range.Min = ToCircular(range.Min, length, wrap);
             range.Max = ToCircular(range.Max, length, wrap);
             return ToCircular(q2, length);
@@ -741,10 +741,10 @@ namespace Accord.Statistics
         /// 
         /// <returns>The median of the given samples.</returns>
         /// 
-        public static double Quartiles(double[] samples, double length, out DoubleRange range, double median, bool wrap = true)
+        public static double Quartiles(double[] samples, double length, out DoubleRange range, double median, bool wrap = true, QuantileMethod type = QuantileMethod.Default)
         {
             double angleMedian = Circular.ToRadians(median, length);
-            double q2 = Quartiles(ToRadians(samples, length), out range, angleMedian, wrap);
+            double q2 = Quartiles(ToRadians(samples, length), out range, angleMedian, wrap, type: type);
             range.Min = ToCircular(range.Min, length, wrap);
             range.Max = ToCircular(range.Max, length, wrap);
             return ToCircular(q2, length);
@@ -763,9 +763,9 @@ namespace Accord.Statistics
         /// 
         /// <returns>The median of the given angles.</returns>
         /// 
-        public static double Quartiles(double[] angles, out DoubleRange range, bool wrap = true)
+        public static double Quartiles(double[] angles, out DoubleRange range, bool wrap = true, QuantileMethod type = QuantileMethod.Default)
         {
-            return Quartiles(angles, out range, Median(angles), wrap);
+            return Quartiles(angles, out range, Median(angles), wrap, type: type);
         }
 
         /// <summary>
@@ -782,10 +782,10 @@ namespace Accord.Statistics
         /// 
         /// <returns>The median of the given angles.</returns>
         /// 
-        public static double Quartiles(double[] angles, out DoubleRange range, double median, bool wrap = true)
+        public static double Quartiles(double[] angles, out DoubleRange range, double median, bool wrap = true, QuantileMethod type = QuantileMethod.Default)
         {
             double q1, q3;
-            double q2 = Quartiles(angles, out q1, out q3, median, wrap);
+            double q2 = Quartiles(angles, out q1, out q3, median, wrap, type: type);
 
             Accord.Diagnostics.Debug.Assert(q2 == median);
 
@@ -808,7 +808,7 @@ namespace Accord.Statistics
         /// 
         /// <returns>The median of the given angles.</returns>
         /// 
-        public static double Quartiles(double[] angles, out double q1, out double q3, double median, bool wrap = true)
+        public static double Quartiles(double[] angles, out double q1, out double q3, double median, bool wrap = true, QuantileMethod type = QuantileMethod.Default)
         {
             double[] x = new double[angles.Length];
             for (int i = 0; i < angles.Length; i++)
@@ -820,7 +820,7 @@ namespace Accord.Statistics
                 x[i] = (x[i] > +Math.PI) ? (x[i] - (2 * Math.PI)) : (x[i]);
             }
 
-            x.Quartiles(out q1, out q3, alreadySorted: false);
+            x.Quartiles(out q1, out q3, alreadySorted: false, type: type);
 
             q1 = q1 + median;
             q3 = q3 + median;

@@ -73,6 +73,7 @@ namespace Accord.Statistics.Analysis
 
         private string[] columnNames;
 
+        private QuantileMethod quantileMethod = QuantileMethod.Default;
         private DoubleRange[] ranges;
         private DoubleRange[] quartiles;
         private DoubleRange[] innerFences;
@@ -481,6 +482,18 @@ namespace Accord.Statistics.Analysis
         }
 
         /// <summary>
+        ///   Gets or sets the method to be used when computing quantiles (median and quartiles).
+        /// </summary>
+        /// 
+        /// <value>The quantile method.</value>
+        /// 
+        public QuantileMethod QuantileMethod
+        {
+            get { return quantileMethod; }
+            set { quantileMethod = value; }
+        }
+
+        /// <summary>
         ///   Gets or sets whether the properties of this class should
         ///   be computed only when necessary. If set to true, a copy
         ///   of the input data will be maintained inside an instance
@@ -767,7 +780,7 @@ namespace Accord.Statistics.Analysis
                     quartiles = new DoubleRange[variables];
                     for (int i = 0; i < variances.Length; i++)
                     {
-                        Circular.Quartiles(angles[i], out quartiles[i], angularMedians[i], wrap: useStrictRanges);
+                        Circular.Quartiles(angles[i], out quartiles[i], angularMedians[i], wrap: useStrictRanges, type: quantileMethod);
 
                         quartiles[i].Min = Circular.ToCircular(quartiles[i].Min, lengths[i], useStrictRanges);
                         quartiles[i].Max = Circular.ToCircular(quartiles[i].Max, lengths[i], useStrictRanges);

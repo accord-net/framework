@@ -61,6 +61,7 @@
     <Compile Include="Accord.Statistics\Measures.Histogram.cs" />
     <Compile Include="Accord.Statistics\Measures.Matrix.cs" />
     <Compile Include="Accord.Statistics\Measures.Matrix.Weighted.cs" />
+    <Compile Include="Accord.Statistics\Measures.Vectors.Quantiles.cs" />
     <Compile Include="Accord.Statistics\Measures.Vectors.cs" />
     <Compile Include="Accord.Statistics\Measures.Vectors.Weighted.cs" />
     <Compile Include="AForge.Math\ContinuousHistogram.cs" />
@@ -136,8 +137,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Jagged.Product.tt</DependentUpon>
     </Compile>
-    <Compile Include="Matrix\Matrix.Comparisons.Generated.cs" >
-	<DependentUpon>Matrix.Comparisons.tt</DependentUpon>
+    <Compile Include="Matrix\Matrix.Comparisons.Generated.cs">
+      <DependentUpon>Matrix.Comparisons.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>

@@ -82,6 +82,7 @@ namespace Accord.Statistics.Analysis
 
         private string[] columnNames;
 
+        private QuantileMethod quantileMethod = QuantileMethod.Default;
         private DoubleRange[] ranges;
         private DoubleRange[] quartiles;
         private DoubleRange[] innerFences;
@@ -400,6 +401,18 @@ namespace Accord.Statistics.Analysis
         }
 
         /// <summary>
+        ///   Gets or sets the method to be used when computing quantiles (median and quartiles).
+        /// </summary>
+        /// 
+        /// <value>The quantile method.</value>
+        /// 
+        public QuantileMethod QuantileMethod
+        {
+            get { return quantileMethod; }
+            set { quantileMethod = value; }
+        }
+
+        /// <summary>
         ///   Gets the column names from the variables in the data.
         /// </summary>
         /// 
@@ -619,8 +632,8 @@ namespace Accord.Statistics.Analysis
                 if (medians == null)
                 {
                     if (sourceMatrix != null)
-                        medians = sourceMatrix.Median();
-                    else medians = sourceArray.Median();
+                        medians = sourceMatrix.Median(type: quantileMethod);
+                    else medians = sourceArray.Median(type: quantileMethod);
                 }
 
                 return medians;
@@ -695,8 +708,8 @@ namespace Accord.Statistics.Analysis
                 if (quartiles == null)
                 {
                     if (sourceMatrix != null)
-                        this.medians = sourceMatrix.Quartiles(out this.quartiles);
-                    else this.medians = sourceArray.Quartiles(out this.quartiles);
+                        this.medians = sourceMatrix.Quartiles(out this.quartiles, type: quantileMethod);
+                    else this.medians = sourceArray.Quartiles(out this.quartiles, type: quantileMethod);
                 }
 
                 return quartiles;
