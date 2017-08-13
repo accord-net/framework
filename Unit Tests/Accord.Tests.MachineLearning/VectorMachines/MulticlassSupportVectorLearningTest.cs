@@ -1237,7 +1237,7 @@ namespace Accord.Tests.MachineLearning
         public void dynamic_time_warp_issue_717()
         {
             double[][][] gestures =
-       {
+            {
                 new double[][] // Swipe left
                 {
                     new double[] { 1, 1, 1 },
@@ -1352,6 +1352,34 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(res1, res4, 1e-8);
             Assert.AreEqual(res2, res5, 1e-8);
             Assert.AreEqual(res3, res6, 1e-8);
+        }
+
+        [Test]
+        public void no_samples_for_class()
+        {
+            double[][] inputs =
+            {
+                new double[] { 1, 1 }, // 0
+                new double[] { 1, 1 }, // 0
+                new double[] { 1, 1 }, // 2
+            };
+
+            int[] outputs =
+            {
+                0, 0, 2
+            };
+
+            var teacher = new MulticlassSupportVectorLearning<Gaussian>()
+            {
+                Learner = (param) => new SequentialMinimalOptimization<Gaussian>()
+                {
+                    UseKernelEstimation = true
+                }
+            };
+
+            Assert.Throws<ArgumentException>(() => teacher.Learn(inputs, outputs),
+                "There are no samples for class label {0}. Please make sure that class " +
+                "labels are contiguous and there is at least one training sample for each label.", 1);
         }
     }
 }

@@ -29,6 +29,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     using System;
     using Accord.Compat;
     using System.Threading;
+    using System.Diagnostics;
 
     /// <summary>
     ///   One-class Support Vector Machine learning algorithm.
@@ -152,6 +153,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         [NonSerialized]
         CancellationToken token = new CancellationToken();
 
+        private bool hasKernelBeenSet = false;
         private bool useKernelEstimation = false;
 
         private double[] alpha;
@@ -190,6 +192,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             {
                 this.kernel = value;
                 this.useKernelEstimation = false;
+                this.hasKernelBeenSet = true;
             }
         }
 
@@ -309,23 +312,40 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         /// </returns>
         public TModel Learn(TInput[] x, double[] weights = null)
         {
-            bool initialized = false;
-
-            SupportVectorLearningHelper.CheckArgs(x);
-
-            if (kernel == null)
+            Accord.MachineLearning.Tools.CheckArgs(x, weights, () =>
             {
-                kernel = SupportVectorLearningHelper.CreateKernel<TKernel, TInput>(x);
-                initialized = true;
-            }
+                bool initialized = false;
 
-            if (!initialized && useKernelEstimation)
-                kernel = SupportVectorLearningHelper.EstimateKernel(kernel, x);
+                if (kernel == null)
+                {
+                    kernel = SupportVectorLearningHelper.CreateKernel<TKernel, TInput>(x);
+                    initialized = true;
+                }
 
-            if (Model == null)
-                Model = Create(SupportVectorLearningHelper.GetNumberOfInputs(kernel, x), kernel);
+                if (!initialized)
+                {
+                    if (useKernelEstimation)
+                    {
+                        kernel = SupportVectorLearningHelper.EstimateKernel(kernel, x);
+                    }
+                    else
+                    {
+                        if (!hasKernelBeenSet)
+                        {
+                            Trace.TraceWarning("The Kernel property has not been set and the UseKernelEstimation property is set to false. Please" +
+                                " make sure that the default parameters of the kernel are suitable for your application, otherwise the learning" +
+                                " will result in a model with very poor performance.");
+                        }
+                    }
+                }
 
-            Model.Kernel = kernel;
+                if (Model == null)
+                    Model = Create(SupportVectorLearningHelper.GetNumberOfInputs(kernel, x), kernel);
+
+                Model.Kernel = kernel;
+
+                return Model;
+            });
 
             try
             {

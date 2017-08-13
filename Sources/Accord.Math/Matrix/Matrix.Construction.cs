@@ -298,7 +298,7 @@ namespace Accord.Math
 #endif
         public static T[,] OneHot<T>(int[] indices)
         {
-            return OneHot<T>(indices, indices.DistinctCount());
+            return OneHot<T>(indices, indices.Max() + 1);
         }
 
         /// <summary>
@@ -316,7 +316,7 @@ namespace Accord.Math
 #endif
         public static double[,] OneHot(int[] indices)
         {
-            return OneHot(indices, indices.DistinctCount());
+            return OneHot(indices, indices.Max() + 1);
         }
 
         /// <summary>

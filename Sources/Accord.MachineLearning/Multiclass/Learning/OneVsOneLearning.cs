@@ -166,17 +166,22 @@ namespace Accord.MachineLearning
         /// </returns>
         public TModel Learn(TInput[] x, int[] y, double[] weights = null)
         {
-            if (Model == null)
+            Accord.MachineLearning.Tools.CheckArgs(x, y, weights, () =>
             {
-                teachers = null;
-                int numberOfInputs = SupportVectorLearningHelper.GetNumberOfInputs(new Linear(), x);
-                int numberOfClasses = y.DistinctCount();
-                Model = Create(numberOfInputs, numberOfClasses);
-            }
+                if (Model == null)
+                {
+                    this.teachers = null;
+                    int numberOfInputs = Tools.GetNumberOfInputs(x);
+                    int numberOfClasses = y.DistinctCount();
+                    Model = Create(numberOfInputs, numberOfClasses);
+                }
+
+                return Model;
+            });
 
             if (pairs == null)
             {
-                teachers = null;
+                this.teachers = null;
                 int classes = Model.NumberOfClasses;
                 int total = (classes * (classes - 1)) / 2;
                 this.pairs = new ClassPair[total];

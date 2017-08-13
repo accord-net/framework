@@ -177,7 +177,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         /// <returns>
         /// A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
         /// </returns>
-        public TModel Learn(TInput[] x, int[] y, double[] weights=null)
+        public TModel Learn(TInput[] x, int[] y, double[] weights = null)
         {
             return Learn(x, Classes.Decide(y), weights);
         }
@@ -221,12 +221,18 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         /// </returns>
         public TModel Learn(TInput[] x, bool[] y, double[] weights = null)
         {
-            SupportVectorLearningHelper.CheckArgs(x, y);
-
-            if (machine == null)
+            Accord.MachineLearning.Tools.CheckArgs(x, y, weights, () =>
             {
-                this.machine = Create(SupportVectorLearningHelper.GetNumberOfInputs(kernel, x), Kernel);            
-            }
+                if (Model == null)
+                {
+                    int numberOfInputs = SupportVectorLearningHelper.GetNumberOfInputs(kernel, x);
+                    Model = Create(numberOfInputs, Kernel);
+                }
+
+                return Model;
+            }, 
+            
+            onlyBinary: true);
 
             InnerRun();
 

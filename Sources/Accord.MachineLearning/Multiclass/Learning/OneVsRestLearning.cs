@@ -203,13 +203,18 @@ namespace Accord.MachineLearning
         /// </returns>
         public virtual TModel Learn(TInput[] x, bool[][] y, double[] weights = null)
         {
-            if (Model == null)
+            Accord.MachineLearning.Tools.CheckArgs(x, y, weights, () =>
             {
-                int numberOfInputs = SupportVectorLearningHelper.GetNumberOfInputs(new Linear(), x);
-                int numberOfClasses = y.Columns();
-                Model = Create(numberOfInputs, numberOfClasses);
-                teachers = null;
-            }
+                if (Model == null)
+                {
+                    this.teachers = null;
+                    int numberOfInputs = Tools.GetNumberOfInputs(x);
+                    int numberOfClasses = y.Columns();
+                    Model = Create(numberOfInputs, numberOfClasses);
+                }
+
+                return Model;
+            });
 
             if (teachers == null)
                 teachers = new ConcurrentDictionary<ClassPair, ISupervisedLearning<TBinary, TInput, bool>>();

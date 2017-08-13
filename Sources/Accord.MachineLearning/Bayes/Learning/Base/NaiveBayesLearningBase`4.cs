@@ -143,21 +143,23 @@ namespace Accord.MachineLearning.Bayes
         ///
         public virtual TModel Learn(TInput[][] x, int[] y, double[] weight = null)
         {
-            CheckArgs(x, y);
-
-            if (Model == null)
-                Model = Create(x, y.DistinctCount());
+            Accord.MachineLearning.Tools.CheckArgs(x, y, weight, () =>
+            {
+                if (Model == null)
+                    Model = Create(x, y.DistinctCount());
+                return Model;
+            });
 
             if (ParallelOptions.MaxDegreeOfParallelism == 1)
             {
-                for (int classIndex = 0; classIndex < Model.NumberOfOutputs; classIndex++)
-                    InnerLearn(x, y, weight, classIndex);
+                for (int i = 0; i < Model.NumberOfOutputs; i++)
+                    InnerLearn(x, y, weight, i);
             }
             else
             {
                 // For each class
-                Parallel.For(0, Model.NumberOfOutputs, ParallelOptions, classIndex =>
-                    InnerLearn(x, y, weight, classIndex));
+                Parallel.For(0, Model.NumberOfOutputs, ParallelOptions, i =>
+                    InnerLearn(x, y, weight, i));
             }
 
             return Model;
@@ -207,10 +209,12 @@ namespace Accord.MachineLearning.Bayes
         ///
         public virtual TModel Learn(TInput[][] x, double[][] y, double[] weight = null)
         {
-            CheckArgs(x, y);
-
-            if (Model == null)
-                Model = Create(x, y.Columns());
+            Accord.MachineLearning.Tools.CheckArgs(x, y, weight, () =>
+            {
+                if (Model == null)
+                    Model = Create(x, y.Columns());
+                return Model;
+            });
 
             // For efficiency
             x = x.Transpose();
@@ -218,34 +222,34 @@ namespace Accord.MachineLearning.Bayes
             if (ParallelOptions.MaxDegreeOfParallelism == 1)
             {
                 // For each class
-                for (int classIndex = 0; classIndex < Model.NumberOfOutputs; classIndex++)
+                for (int i = 0; i < Model.NumberOfOutputs; i++)
                 {
-                    InnerLearn(x, y, weight, classIndex);
+                    InnerLearn(x, y, weight, i);
                 }
             }
             else
             {
                 // For each class
-                Parallel.For(0, Model.NumberOfOutputs, ParallelOptions, classIndex =>
-                    InnerLearn(x, y, weight, classIndex));
+                Parallel.For(0, Model.NumberOfOutputs, ParallelOptions, i =>
+                    InnerLearn(x, y, weight, i));
             }
 
             return Model;
         }
 
-        private void InnerLearn(TInput[][] x, double[][] y, double[] weight, int inputIndex)
+        private void InnerLearn(TInput[][] x, double[][] y, double[] weight, int classIndex)
         {
             // Estimate conditional distributions
             // Get variables values in class i
-            double[] target = y.GetColumn(inputIndex);
+            double[] target = y.GetColumn(classIndex);
 
             if (weight != null)
                 target.Multiply(weight, result: target);
 
             if (Empirical)
-                Model.Priors[inputIndex] = target.Sum() / x.Length;
+                Model.Priors[classIndex] = target.Sum() / x.Length;
 
-            Fit(inputIndex, values: x, weights: target, transposed: true);
+            Fit(classIndex, values: x, weights: target, transposed: true);
         }
 
         /// <summary>
@@ -271,24 +275,6 @@ namespace Accord.MachineLearning.Bayes
             }
         }
 
-        /// <summary>
-        ///   Performs argument checks.
-        /// </summary>
-        /// 
-        protected static void CheckArgs(Array x, Array y)
-        {
-            if (x == null)
-                throw new ArgumentNullException("x");
-
-            if (y == null)
-                throw new ArgumentNullException("y");
-
-            if (x.Length == 0)
-                throw new ArgumentException("The array has zero length.", "x");
-
-            if (y.Length != x.Length)
-                throw new DimensionMismatchException("y");
-        }
     }
 #endif
 }
