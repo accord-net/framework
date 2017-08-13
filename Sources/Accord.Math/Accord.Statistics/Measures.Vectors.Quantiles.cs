@@ -32,6 +32,25 @@ namespace Accord.Statistics
     ///   Different methods for computing quantiles.
     /// </summary>
     /// 
+    /// <remarks>
+    /// <para>
+    ///   When one has a sample drawn from an unknown population, the cumulative distribution function and quantile 
+    ///   function of the underlying population are not known and the task becomes that of estimating the quantiles. 
+    ///   There are several methods. Mathematica, Matlab, R and GNU Octave programming languages include
+    ///   nine sample quantile methods.SAS includes five sample quantile methods, SciPy and Maple both include eight, 
+    ///   EViews includes the six piecewise linear functions, STATA includes two, and Microsoft Excel includes two. 
+    ///   Mathematica supports an arbitrary parameter for methods that allows for other, non-standard, methods.</para>
+    ///   
+    /// <para>
+    ///   References:
+    ///   <list type="bullet">
+    ///     <item><description><a href="https://en.wikipedia.org/wiki/Quantile">
+    ///       Wikipedia contributors. Quantile. Wikipedia, The Free Encyclopedia. July 25, 2017, 21:56 UTC. 
+    ///       Available at: https://en.wikipedia.org/wiki/Quantile. </a>
+    ///       </description></item>
+    ///    </list></para>
+    /// </remarks>
+    /// 
     public enum QuantileMethod
     {
         /// <summary>
@@ -523,7 +542,7 @@ namespace Accord.Statistics
                 x.NthElement(n);
             }
 
-            double lowThreshold = 0.5 / (x.Length + 1);
+            double lowThreshold = 1.0 / (x.Length + 1);
             double highThreshold = x.Length / (double)(x.Length + 1);
 
             for (int j = 0; j < result.Length; j++)
