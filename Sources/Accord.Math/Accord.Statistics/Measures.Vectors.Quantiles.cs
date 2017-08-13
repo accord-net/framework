@@ -26,7 +26,12 @@ namespace Accord.Statistics
     using System.Collections.Generic;
     using System.Linq;
     using Accord.Math;
+    using System.Runtime.CompilerServices;
 
+    /// <summary>
+    ///   Different methods for computing quantiles.
+    /// </summary>
+    /// 
     public enum QuantileMethod
     {
         /// <summary>
@@ -112,11 +117,7 @@ namespace Accord.Statistics
         Type9 = 9
     }
 
-    /// <summary>
-    ///   Set of statistics measures, such as <see cref="Mean(double[])"/>,
-    ///   <see cref="Variance(double[])"/> and <see cref="StandardDeviation(double[], bool)"/>.
-    /// </summary>
-    /// 
+    
     public static partial class Measures
     {
         private static readonly double ONE_THIRD = 1.0 / 3.0;
@@ -129,11 +130,15 @@ namespace Accord.Statistics
         /// 
         /// <param name="values">An integer array containing the vector members.</param>
         /// <param name="alreadySorted">A boolean parameter informing if the given values have already been sorted.</param>
+        /// <param name="type">The quartile definition that should be used. See <see cref="QuantileMethod"/> for datails.</param>
+        /// <param name="inPlace">Pass true if the method is allowed to sort <paramref name="values"/> in place, overwriting the
+        ///   its original order.</param>
+        ///   
         /// <returns>The median of the given data.</returns>
         /// 
-        public static double Median(this double[] values, bool alreadySorted = false, QuantileMethod type = QuantileMethod.Default)
+        public static double Median(this double[] values, bool alreadySorted = false, QuantileMethod type = QuantileMethod.Default, bool inPlace = false)
         {
-            return Quantile(values, type: type, p: 0.5, alreadySorted: alreadySorted);
+            return Quantile(values, type: type, probabilities: 0.5, alreadySorted: alreadySorted, inPlace: inPlace);
         }
 
         /// <summary>
@@ -142,12 +147,16 @@ namespace Accord.Statistics
         /// 
         /// <param name="values">An integer array containing the vector members.</param>
         /// <param name="alreadySorted">A boolean parameter informing if the given values have already been sorted.</param>
+        /// <param name="type">The quartile definition that should be used. See <see cref="QuantileMethod"/> for datails.</param>
+        /// <param name="inPlace">Pass true if the method is allowed to sort <paramref name="values"/> in place, overwriting the
+        ///   its original order.</param>
+        ///   
         /// <returns>The median of the given data.</returns>
         /// 
-        public static double Median(this int[] values, bool alreadySorted = false, QuantileMethod type = QuantileMethod.Default)
+        public static double Median(this int[] values, bool alreadySorted = false, QuantileMethod type = QuantileMethod.Default, bool inPlace = false)
         {
             // TODO: Use T4 templates to generate separate implementations for each data type
-            return Quantile(values.ToDouble(), type: type, p: 0.5, alreadySorted: alreadySorted);
+            return Quantile(values.ToDouble(), type: type, probabilities: 0.5, alreadySorted: alreadySorted, inPlace: inPlace);
         }
 
         /// <summary>
@@ -157,11 +166,15 @@ namespace Accord.Statistics
         /// <param name="values">An integer array containing the vector members.</param>
         /// <param name="alreadySorted">A boolean parameter informing if the given values have already been sorted.</param>
         /// <param name="range">The inter-quartile range for the values.</param>
+        /// <param name="type">The quartile definition that should be used. See <see cref="QuantileMethod"/> for datails.</param>
+        /// <param name="inPlace">Pass true if the method is allowed to sort <paramref name="values"/> in place, overwriting the
+        ///   its original order.</param>
+        ///   
         /// <returns>The second quartile, the median of the given data.</returns>
         /// 
-        public static double Quartiles(this double[] values, out DoubleRange range, bool alreadySorted = false, QuantileMethod type = QuantileMethod.Default)
+        public static double Quartiles(this double[] values, out DoubleRange range, bool alreadySorted = false, QuantileMethod type = QuantileMethod.Default, bool inPlace = false)
         {
-            double[] result = Quantiles(values, type: type, p: new[] { 0.25, 0.5, 0.75 }, alreadySorted: alreadySorted);
+            double[] result = Quantiles(values, type: type, probabilities: new[] { 0.25, 0.5, 0.75 }, alreadySorted: alreadySorted, inPlace: inPlace);
             range = new DoubleRange(result[0], result[2]);
             return result[1];
         }
@@ -174,11 +187,15 @@ namespace Accord.Statistics
         /// <param name="q1">The first quartile.</param>
         /// <param name="q3">The third quartile.</param>
         /// <param name="alreadySorted">A boolean parameter informing if the given values have already been sorted.</param>
+        /// <param name="type">The quartile definition that should be used. See <see cref="QuantileMethod"/> for datails.</param>
+        /// <param name="inPlace">Pass true if the method is allowed to sort <paramref name="values"/> in place, overwriting the
+        ///   its original order.</param>
+        ///   
         /// <returns>The second quartile, the median of the given data.</returns>
         /// 
-        public static double Quartiles(this double[] values, out double q1, out double q3, bool alreadySorted = false, QuantileMethod type = QuantileMethod.Default)
+        public static double Quartiles(this double[] values, out double q1, out double q3, bool alreadySorted = false, QuantileMethod type = QuantileMethod.Default, bool inPlace = false)
         {
-            double[] result = Quantiles(values, type: type, p: new[] { 0.25, 0.5, 0.75 }, alreadySorted: alreadySorted);
+            double[] result = Quantiles(values, type: type, probabilities: new[] { 0.25, 0.5, 0.75 }, alreadySorted: alreadySorted, inPlace: inPlace);
             q1 = result[0];
             q3 = result[2];
             return result[1];
@@ -190,12 +207,15 @@ namespace Accord.Statistics
         /// 
         /// <param name="values">An integer array containing the vector members.</param>
         /// <param name="alreadySorted">A boolean parameter informing if the given values have already been sorted.</param>
-        /// 
+        /// <param name="type">The quartile definition that should be used. See <see cref="QuantileMethod"/> for datails.</param>
+        /// <param name="inPlace">Pass true if the method is allowed to sort <paramref name="values"/> in place, overwriting the
+        ///   its original order.</param>
+        ///   
         /// <returns>The first quartile of the given data.</returns>
         /// 
-        public static double LowerQuartile(this double[] values, bool alreadySorted = false, QuantileMethod type = QuantileMethod.Default)
+        public static double LowerQuartile(this double[] values, bool alreadySorted = false, QuantileMethod type = QuantileMethod.Default, bool inPlace = false)
         {
-            return Quantile(values, type: type, p: 0.25, alreadySorted: alreadySorted);
+            return Quantile(values, type: type, probabilities: 0.25, alreadySorted: alreadySorted, inPlace: inPlace);
         }
 
         /// <summary>
@@ -204,12 +224,15 @@ namespace Accord.Statistics
         /// 
         /// <param name="values">An integer array containing the vector members.</param>
         /// <param name="alreadySorted">A boolean parameter informing if the given values have already been sorted.</param>
-        /// 
+        /// <param name="type">The quartile definition that should be used. See <see cref="QuantileMethod"/> for datails.</param>
+        /// <param name="inPlace">Pass true if the method is allowed to sort <paramref name="values"/> in place, overwriting the
+        ///   its original order.</param>
+        ///   
         /// <returns>The third quartile of the given data.</returns>
         /// 
-        public static double UpperQuartile(this double[] values, bool alreadySorted = false, QuantileMethod type = QuantileMethod.Default)
+        public static double UpperQuartile(this double[] values, bool alreadySorted = false, QuantileMethod type = QuantileMethod.Default, bool inPlace = false)
         {
-            return Quantile(values, type: type, p: 0.75, alreadySorted: alreadySorted);
+            return Quantile(values, type: type, probabilities: 0.75, alreadySorted: alreadySorted, inPlace: inPlace);
         }
 
 
@@ -221,57 +244,64 @@ namespace Accord.Statistics
         ///   Computes single quantile for the given sequence.
         /// </summary>
         /// 
-        /// <param name="x">The sequence of observations.</param>
+        /// <param name="values">The sequence of observations.</param>
         /// <param name="type">The quantile type, 1...9.</param>
-        /// <param name="p">The auantile probability.</param>
+        /// <param name="probabilities">The auantile probability.</param>
         /// <param name="alreadySorted">A boolean parameter informing if the given values have already been sorted.</param>
-        /// 
+        /// <param name="inPlace">Pass true if the method is allowed to sort <paramref name="values"/> in place, overwriting the
+        ///   its original order.</param>
+        ///   
         /// <returns>Quantile value.</returns>
         /// 
-        public static double Quantile(this double[] x, double p, bool alreadySorted = false, QuantileMethod type = QuantileMethod.Default)
+        public static double Quantile(this double[] values, double probabilities, bool alreadySorted = false, QuantileMethod type = QuantileMethod.Default, bool inPlace = false)
         {
-            return Quantiles(x, new double[] { p }, alreadySorted: alreadySorted, type: type)[0];
+            return Quantiles(values, new double[] { probabilities }, alreadySorted: alreadySorted, type: type, inPlace: inPlace)[0];
         }
 
         /// <summary>
         ///   Computes multiple quantiles for the given sequence.
         /// </summary>
         /// 
-        /// <param name="x">The sequence of observations.</param>
-        /// <param name="p">The sequence of quantile probabilities.</param>
+        /// <param name="values">The sequence of observations.</param>
+        /// <param name="probabilities">The sequence of quantile probabilities.</param>
         /// <param name="type">The quantile type, 1...9.</param>
         /// <param name="alreadySorted">A boolean parameter informing if the given values have already been sorted.</param>
+        /// <param name="inPlace">Pass true if the method is allowed to sort <paramref name="values"/> in place, overwriting the
+        ///   its original order.</param>
         /// 
         /// <returns>Quantile value.</returns>
         /// 
-        public static double[] Quantiles(this double[] x, double[] p, bool alreadySorted = false, QuantileMethod type = QuantileMethod.Default)
+        public static double[] Quantiles(this double[] values, double[] probabilities, bool alreadySorted = false, QuantileMethod type = QuantileMethod.Default, bool inPlace = false)
         {
-            if (x == null)
-                throw new ArgumentNullException("Sequence of observations can't be null.", "x");
-            if (x.Length == 0)
-                throw new ArgumentException("Sequence of observations can't be empty.", "x");
+            if (values == null)
+                throw new ArgumentNullException("Sequence of observations can't be null.", "values");
+            if (values.Length == 0)
+                throw new ArgumentException("Sequence of observations can't be empty.", "values");
 
-            if (p == null)
-                throw new ArgumentNullException("Sequence of quantile probabilities can't be null.", "p");
-            if (p.Length == 0)
-                throw new ArgumentNullException("Sequence of quantile probabilities can't be empty.", "p");
+            if (probabilities == null)
+                throw new ArgumentNullException("Sequence of quantile probabilities can't be null.", "probabilities");
+            if (probabilities.Length == 0)
+                throw new ArgumentNullException("Sequence of quantile probabilities can't be empty.", "probabilities");
 
-            if (p.Any(pv => pv < 0.0 || pv > 1.0))
-                throw new ArgumentException("There is invalid probability in the sequence of quantile probabilities.", "p");
+            if (probabilities.Any(pv => pv < 0.0 || pv > 1.0))
+                throw new ArgumentException("There is invalid probability in the sequence of quantile probabilities.", "probabilities");
 
-            double[] result = new double[p.Length];
+            double[] result = new double[probabilities.Length];
+
+            if (!inPlace && !alreadySorted)
+                values = values.Copy();
 
             switch (type)
             {
-                case QuantileMethod.Type1: return Q1(x, p, alreadySorted, result);
-                case QuantileMethod.Type2: return Q2(x, p, alreadySorted, result);
-                case QuantileMethod.Type3: return Q3(x, p, alreadySorted, result);
-                case QuantileMethod.Type4: return Q4(x, p, alreadySorted, result);
-                case QuantileMethod.Type5: return Q5(x, p, alreadySorted, result);
-                case QuantileMethod.Type6: return Q6(x, p, alreadySorted, result);
-                case QuantileMethod.Type7: return Q7(x, p, alreadySorted, result);
-                case QuantileMethod.Type8: return Q8(x, p, alreadySorted, result);
-                case QuantileMethod.Type9: return Q9(x, p, alreadySorted, result);
+                case QuantileMethod.Type1: return Q1(values, probabilities, alreadySorted, result);
+                case QuantileMethod.Type2: return Q2(values, probabilities, alreadySorted, result);
+                case QuantileMethod.Type3: return Q3(values, probabilities, alreadySorted, result);
+                case QuantileMethod.Type4: return Q4(values, probabilities, alreadySorted, result);
+                case QuantileMethod.Type5: return Q5(values, probabilities, alreadySorted, result);
+                case QuantileMethod.Type6: return Q6(values, probabilities, alreadySorted, result);
+                case QuantileMethod.Type7: return Q7(values, probabilities, alreadySorted, result);
+                case QuantileMethod.Type8: return Q8(values, probabilities, alreadySorted, result);
+                case QuantileMethod.Type9: return Q9(values, probabilities, alreadySorted, result);
                 default:
                     throw new ArgumentException("Invalid quantile type, must be between 1 and 9 (inclusive)", "type");
             }

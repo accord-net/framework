@@ -490,6 +490,7 @@ namespace Accord.Statistics
         /// </summary>
         /// 
         /// <param name="matrix">A matrix whose medians will be calculated.</param>
+        /// <param name="type">The quartile definition that should be used. See <see cref="QuantileMethod"/> for datails.</param>
         /// 
         /// <returns>Returns a vector containing the medians of the given matrix.</returns>
         /// 
@@ -502,7 +503,7 @@ namespace Accord.Statistics
             double[] data = new double[rows];
 
             for (int i = 0; i < cols; i++)
-                medians[i] = matrix.GetColumn(i, result: data).Median(type: type);
+                medians[i] = matrix.GetColumn(i, result: data).Median(type: type, inPlace: true);
 
             return medians;
         }
@@ -512,6 +513,7 @@ namespace Accord.Statistics
         /// </summary>
         /// 
         /// <param name="matrix">A matrix whose medians will be calculated.</param>
+        /// <param name="type">The quartile definition that should be used. See <see cref="QuantileMethod"/> for datails.</param>
         /// 
         /// <returns>Returns a vector containing the medians of the given matrix.</returns>
         /// 
@@ -524,7 +526,7 @@ namespace Accord.Statistics
             double[] data = new double[rows];
 
             for (int i = 0; i < cols; i++)
-                medians[i] = matrix.GetColumn(i, result: data).Median(type: type);
+                medians[i] = matrix.GetColumn(i, result: data).Median(type: type, inPlace: true);
 
             return medians;
         }
@@ -536,6 +538,7 @@ namespace Accord.Statistics
         /// 
         /// <param name="matrix">A matrix whose medians and quartiles will be calculated.</param>
         /// <param name="range">The inter-quartile range for the values.</param>
+        /// <param name="type">The quartile definition that should be used. See <see cref="QuantileMethod"/> for datails.</param>
         /// 
         /// <returns>The second quartile, the median of the given data.</returns>
         /// 
@@ -557,6 +560,7 @@ namespace Accord.Statistics
         /// 
         /// <param name="matrix">A matrix whose medians and quartiles will be calculated.</param>
         /// <param name="range">The inter-quartile range for the values.</param>
+        /// <param name="type">The quartile definition that should be used. See <see cref="QuantileMethod"/> for datails.</param>
         /// 
         /// <returns>The second quartile, the median of the given data.</returns>
         /// 
@@ -580,6 +584,7 @@ namespace Accord.Statistics
         /// <param name="matrix">A matrix whose medians and quartiles will be calculated.</param>
         /// <param name="q1">The first quartile for each column.</param>
         /// <param name="q3">The third quartile for each column.</param>
+        /// <param name="type">The quartile definition that should be used. See <see cref="QuantileMethod"/> for datails.</param>
         /// 
         /// <returns>The second quartile, the median of the given data.</returns>
         /// 
@@ -597,7 +602,7 @@ namespace Accord.Statistics
 
             double[] data = new double[rows];
             for (int i = 0; i < cols; i++)
-                medians[i] = matrix.GetColumn(i, result: data).Quartiles(out q1[i], out q3[i], alreadySorted: false, type: type);
+                medians[i] = matrix.GetColumn(i, result: data).Quartiles(out q1[i], out q3[i], alreadySorted: false, type: type, inPlace: true);
 
             return medians;
         }
@@ -609,6 +614,7 @@ namespace Accord.Statistics
         /// <param name="matrix">A matrix whose medians and quartiles will be calculated.</param>
         /// <param name="q1">The first quartile for each column.</param>
         /// <param name="q3">The third quartile for each column.</param>
+        /// <param name="type">The quartile definition that should be used. See <see cref="QuantileMethod"/> for datails.</param>
         /// 
         /// <returns>The second quartile, the median of the given data.</returns>
         /// 
@@ -626,7 +632,7 @@ namespace Accord.Statistics
 
             double[] data = new double[rows];
             for (int i = 0; i < cols; i++)
-                medians[i]  = matrix.GetColumn(i, result: data).Quartiles(out q1[i], out q3[i], alreadySorted: false, type: type);
+                medians[i]  = matrix.GetColumn(i, result: data).Quartiles(out q1[i], out q3[i], alreadySorted: false, type: type, inPlace: true);
 
             return medians;
         }

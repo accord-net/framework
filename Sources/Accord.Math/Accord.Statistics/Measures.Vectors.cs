@@ -26,6 +26,7 @@ namespace Accord.Statistics
     using System.Collections.Generic;
     using System.Linq;
     using Accord.Math;
+    using System.Runtime.CompilerServices;
 
     /// <summary>
     ///   Set of statistics measures, such as <see cref="Mean(double[])"/>,

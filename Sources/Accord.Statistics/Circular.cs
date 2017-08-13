@@ -643,6 +643,7 @@ namespace Accord.Statistics
         ///   Whether range values should be wrapped to be contained in the circle. If 
         ///   set to false, range values could be returned outside the [+pi;-pi] range.
         /// </param>
+        /// <param name="type">The quartile definition that should be used. See <see cref="QuantileMethod"/> for datails.</param>
         /// 
         /// <returns>The median of the given samples.</returns>
         /// 
@@ -669,6 +670,7 @@ namespace Accord.Statistics
         ///   Whether range values should be wrapped to be contained in the circle. If 
         ///   set to false, range values could be returned outside the [+pi;-pi] range.
         /// </param>
+        /// <param name="type">The quartile definition that should be used. See <see cref="QuantileMethod"/> for datails.</param>
         /// 
         /// <returns>The median of the given samples.</returns>
         /// 
@@ -692,6 +694,7 @@ namespace Accord.Statistics
         ///   Whether range values should be wrapped to be contained in the circle. If 
         ///   set to false, range values could be returned outside the [+pi;-pi] range.
         /// </param>
+        /// <param name="type">The quartile definition that should be used. See <see cref="QuantileMethod"/> for datails.</param>
         /// 
         /// <returns>The median of the given angles.</returns>
         /// 
@@ -713,6 +716,7 @@ namespace Accord.Statistics
         ///   Whether range values should be wrapped to be contained in the circle. If 
         ///   set to false, range values could be returned outside the [+pi;-pi] range.
         /// </param>
+        /// <param name="type">The quartile definition that should be used. See <see cref="QuantileMethod"/> for datails.</param>
         /// 
         /// <returns>The median of the given samples.</returns>
         /// 
@@ -738,6 +742,7 @@ namespace Accord.Statistics
         ///   Whether range values should be wrapped to be contained in the circle. If 
         ///   set to false, range values could be returned outside the [+pi;-pi] range.
         /// </param>
+        /// <param name="type">The quartile definition that should be used. See <see cref="QuantileMethod"/> for datails.</param>
         /// 
         /// <returns>The median of the given samples.</returns>
         /// 
@@ -760,6 +765,7 @@ namespace Accord.Statistics
         ///   Whether range values should be wrapped to be contained in the circle. If 
         ///   set to false, range values could be returned outside the [+pi;-pi] range.
         /// </param>
+        /// <param name="type">The quartile definition that should be used. See <see cref="QuantileMethod"/> for datails.</param>
         /// 
         /// <returns>The median of the given angles.</returns>
         /// 
@@ -779,6 +785,7 @@ namespace Accord.Statistics
         ///   Whether range values should be wrapped to be contained in the circle. If 
         ///   set to false, range values could be returned outside the [+pi;-pi] range.
         /// </param>
+        /// <param name="type">The quartile definition that should be used. See <see cref="QuantileMethod"/> for datails.</param>
         /// 
         /// <returns>The median of the given angles.</returns>
         /// 
@@ -805,6 +812,7 @@ namespace Accord.Statistics
         ///   Whether range values should be wrapped to be contained in the circle. If 
         ///   set to false, range values could be returned outside the [+pi;-pi] range.
         /// </param>
+        /// <param name="type">The quartile definition that should be used. See <see cref="QuantileMethod"/> for datails.</param>
         /// 
         /// <returns>The median of the given angles.</returns>
         /// 
