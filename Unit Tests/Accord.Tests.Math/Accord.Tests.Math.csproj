@@ -59,6 +59,7 @@
   </ItemGroup>
  -->
   <ItemGroup>
+    <Compile Include="Accord.Statistics\QuantilesTest.cs" />
     <Compile Include="AForge\Geometry\ClosePointsMergingOptimizerTest.cs" />
     <Compile Include="AForge\Geometry\FlatAnglesOptimizerTest.cs" />
     <Compile Include="AForge\Geometry\GeometryToolsTest.cs" />
@@ -312,6 +313,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -2,8 +2,8 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2017
-// cesarsouza at gmail.com
+// Copyright © 2009-2017 César Souza <cesarsouza at gmail.com>
+// and other contrinbutors.
 //
 //    This library is free software; you can redistribute it and/or
 //    modify it under the terms of the GNU Lesser General Public
@@ -24,10 +24,8 @@ namespace Accord.Statistics
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using Accord.Math;
-    using Accord.Math.Decompositions;
-    using AForge;
-    using System.Runtime.CompilerServices;
 
     /// <summary>
     ///   Set of statistics measures, such as <see cref="Mean(double[])"/>,
@@ -1696,6 +1694,386 @@ namespace Accord.Statistics
         public static double Entropy(IList<int> values, int classes)
         {
             return Entropy(values, 0, classes - 1);
+        }
+
+        /// <summary>
+        /// Computes single quantile for the given sequence.
+        /// </summary>
+        /// <param name="x">The sequence of observations.</param>
+        /// <param name="type">The quantile type, 1...9.</param>
+        /// <param name="p">The auantile probability.</param>
+        /// <param name="alreadySorted">A boolean parameter informing if the given values have already been sorted.</param>
+        /// <returns>Quantile value.</returns>
+        public static double Quantile(this IEnumerable<double> x, int type, double p, bool alreadySorted = false)
+        {
+            return x.Quantiles(type, new double[] { p })[0];
+        }
+
+        /// <summary>
+        /// Computes multiple quantiles for the given sequence.
+        /// </summary>
+        /// <param name="x">The sequence of observations.</param>
+        /// <param name="p">The sequence of quantile probabilities.</param>
+        /// <param name="type">The quantile type, 1...9.</param>
+        /// <param name="alreadySorted">A boolean parameter informing if the given values have already been sorted.</param>
+        /// <returns>Quantile value.</returns>
+        public static double[] Quantiles(this IEnumerable<double> x, int type, IEnumerable<double> p, bool alreadySorted = false)
+        {
+            if (type < 1 || type > 9)
+                throw new ArgumentException("Invalid quantile type, must be 1...9", "type");
+            if (x == null)
+                throw new ArgumentNullException("Sequence of observations can't be null", "x");
+            if (x.Count() == 0)
+                throw new ArgumentException("Sequence of observations can't be empty", "x");
+            if (p == null)
+                throw new ArgumentNullException("Sequence of quantile probabilities can't be null", "p");
+            if (p.Count() == 0)
+                throw new ArgumentNullException("Sequence of quantile probabilities can't be empty", "p");
+            if (p.Any(pv => pv < 0.0 || pv > 1.0))
+                throw new ArgumentException("There is invalid probability in the sequence of quantile probabilities", "p");
+
+            switch (type)
+            {
+                case 1: return Q1(x, p, alreadySorted);
+                case 2: return Q2(x, p, alreadySorted);
+                case 3: return Q3(x, p, alreadySorted);
+                case 4: return Q4(x, p, alreadySorted);
+                case 5: return Q5(x, p, alreadySorted);
+                case 6: return Q6(x, p, alreadySorted);
+                case 7: return Q7(x, p, alreadySorted);
+                case 8: return Q8(x, p, alreadySorted);
+                case 9: return Q9(x, p, alreadySorted);
+                default: return null; // Should never happen, but just make C# Compiler happy.
+            }
+        }
+
+        /// <summary>
+        /// 1/3 constant.
+        /// </summary>
+        private static readonly double ONE_THIRD = 1.0 / 3;
+
+        /// <summary>
+        /// 2/3 constant.
+        /// </summary>
+        private static readonly double TWO_THIRDS = 2.0 / 3;
+
+        // +++ Checked, result matches to R
+        private static double[] Q1(IEnumerable<double> x, IEnumerable<double> p, bool alreadySorted = false)
+        {
+            double[] orderedX = x.ToArray();
+            if (!alreadySorted)
+            {
+                int n = (int)Math.Ceiling(orderedX.Length * p.Max());
+                if (n > 0) n--;
+                orderedX.NthElement(n);
+            }
+
+            double[] result = new double[p.Count()];
+            int resultIndex = 0;
+            foreach (double pv in p)
+            {
+                if (pv == 0.0)
+                {
+                    result[resultIndex] = orderedX[0];
+                }
+                else
+                {
+                    int i = (int)Math.Ceiling(orderedX.Length * pv);
+                    if (i > 0) i--;
+                    result[resultIndex] = orderedX[i];
+                }
+                resultIndex++;
+            }
+            return result;
+        }
+
+        // +++ Checked, result differs from R
+        private static double[] Q2(IEnumerable<double> x, IEnumerable<double> p, bool alreadySorted = false)
+        {
+            double[] orderedX = x.ToArray();
+            if (!alreadySorted)
+            {
+                int n = (int)Math.Ceiling(orderedX.Length * p.Max()) + 1;
+                if (n > orderedX.Length) n = orderedX.Length;
+                if (n > 0) --n;
+                orderedX.NthElement(n);
+            }
+
+            double[] result = new double[p.Count()];
+            int resultIndex = 0;
+            foreach (double pv in p)
+            {
+                if (pv == 0.0)
+                {
+                    result[resultIndex] = orderedX[0];
+                }
+                else if (pv == 1.0)
+                {
+                    result[resultIndex] = orderedX[orderedX.Length - 1];
+                }
+                else
+                {
+                    int i = (int)Math.Ceiling(orderedX.Length * pv);
+                    if (i > 0) --i;
+                    int i2 = i + 1;
+                    if (i2 == orderedX.Length) i2--;
+                    result[resultIndex] = (orderedX[i] + orderedX[i2]) / 2;
+                }
+                resultIndex++;
+            }
+            return result;
+        }
+
+        // +++ Checked, result matches to R
+        private static double[] Q3(IEnumerable<double> x, IEnumerable<double> p, bool alreadySorted = false)
+        {
+            double[] orderedX = x.ToArray();
+            if (!alreadySorted)
+            {
+                int n = (int)Math.Ceiling(orderedX.Length * p.Max());
+                if (n > 0) n--;
+                orderedX.NthElement(n);
+            }
+
+            double lowThreshold = 0.5 / orderedX.Length;
+
+            double[] result = new double[p.Count()];
+            int resultIndex = 0;
+            foreach (double pv in p)
+            {
+                if (pv <= lowThreshold)
+                    result[resultIndex] = orderedX[0];
+                else
+                {
+                    int i = (int)Math.Round(orderedX.Length * pv);
+                    if (i > 0) --i;
+                    result[resultIndex] = orderedX[i];
+                }
+                resultIndex++;
+            }
+            return result;
+        }
+
+        // +++ Checked, result matches to R
+        private static double[] Q4(IEnumerable<double> x, IEnumerable<double> p, bool alreadySorted = false)
+        {
+            double[] orderedX = x.ToArray();
+            if (!alreadySorted)
+            {
+                int n = (int)Math.Ceiling(orderedX.Length * p.Max()) + 1;
+                if (n > orderedX.Length) n = orderedX.Length;
+                if (n > 0) --n;
+                orderedX.NthElement(n);
+            }
+
+            double lowThreshold = 1.0 / orderedX.Length;
+
+            double[] result = new double[p.Count()];
+            int resultIndex = 0;
+            foreach (double pv in p)
+            {
+                if (pv < lowThreshold)
+                    result[resultIndex] = orderedX[0];
+                else if (pv == 1.0)
+                    result[resultIndex] = orderedX[orderedX.Length - 1];
+                else
+                {
+                    double h = orderedX.Length * pv;
+                    double hc = Math.Floor(h);
+                    int i = (int)hc;
+                    if (i > 0) --i;
+                    int i2 = i + 1;
+                    if (i2 == orderedX.Length) i2--;
+                    result[resultIndex] = orderedX[i] + (h - hc) * (orderedX[i2] - orderedX[i]);
+                }
+                resultIndex++;
+            }
+            return result;
+        }
+
+        // +++ Checked, result matches to R
+        private static double[] Q5(IEnumerable<double> x, IEnumerable<double> p, bool alreadySorted = false)
+        {
+            double[] orderedX = x.ToArray();
+            if (!alreadySorted)
+            {
+                int n = (int)Math.Ceiling(orderedX.Length * p.Max() + 0.5) + 1;
+                if (n > orderedX.Length) n = orderedX.Length;
+                if (n > 0) --n;
+                orderedX.NthElement(n);
+            }
+
+            double lowThreshold = 0.5 / orderedX.Length;
+            double highThreshold = (orderedX.Length - 0.5) / orderedX.Length;
+
+            double[] result = new double[p.Count()];
+            int resultIndex = 0;
+            foreach (double pv in p)
+            {
+                if (pv < lowThreshold)
+                    result[resultIndex] = orderedX[0];
+                else if (pv >= highThreshold)
+                    result[resultIndex] = orderedX[orderedX.Length - 1];
+                else
+                {
+                    double h = orderedX.Length * pv + 0.5;
+                    double hc = Math.Floor(h);
+                    int i = (int)hc;
+                    if (i > 0) --i;
+                    int i2 = i + 1;
+                    if (i2 == orderedX.Length) i2--;
+                    result[resultIndex] = orderedX[i] + (h - hc) * (orderedX[i2] - orderedX[i]);
+                }
+                resultIndex++;
+            }
+            return result;
+        }
+
+        // +++ Checked, result matches to R
+        private static double[] Q6(IEnumerable<double> x, IEnumerable<double> p, bool alreadySorted = false)
+        {
+            double[] orderedX = x.ToArray();
+            if (!alreadySorted)
+            {
+                int n = (int)Math.Ceiling((orderedX.Length + 1) * p.Max());
+                if (n > orderedX.Length) n = orderedX.Length;
+                if (n > 0) --n;
+                orderedX.NthElement(n);
+            }
+
+            double lowThreshold = 0.5 / (orderedX.Length + 1);
+            double highThreshold = orderedX.Length / (double)(orderedX.Length + 1);
+
+            double[] result = new double[p.Count()];
+            int resultIndex = 0;
+            foreach (double pv in p)
+            {
+                if (pv < lowThreshold)
+                    result[resultIndex] = orderedX[0];
+                else if (pv >= highThreshold)
+                    result[resultIndex] = orderedX[orderedX.Length - 1];
+                else
+                {
+                    double h = (orderedX.Length + 1) * pv;
+                    double hc = Math.Floor(h);
+                    int i = (int)hc;
+                    if (i > 0) --i;
+                    int i2 = i + 1;
+                    if (i2 == orderedX.Length) i2--;
+                    result[resultIndex] = orderedX[i] + (h - hc) * (orderedX[i2] - orderedX[i]);
+                }
+                resultIndex++;
+            }
+            return result;
+        }
+
+        // +++ Checked, result matches to R
+        private static double[] Q7(IEnumerable<double> x, IEnumerable<double> p, bool alreadySorted = false)
+        {
+            double[] orderedX = x.ToArray();
+            if (!alreadySorted)
+            {
+                int n = (int)Math.Ceiling((orderedX.Length - 1) * p.Max() + 1);
+                if (n > orderedX.Length) n = orderedX.Length;
+                if (n > 0) --n;
+                orderedX.NthElement(n);
+            }
+
+            double[] result = new double[p.Count()];
+            int resultIndex = 0;
+            foreach (double pv in p)
+            {
+                if (pv == 1.0)
+                    result[resultIndex] = orderedX[orderedX.Length - 1];
+                else
+                {
+                    double h = (orderedX.Length - 1) * pv + 1;
+                    double hc = Math.Floor(h);
+                    int i = (int)hc;
+                    if (i > 0) --i;
+                    int i2 = i + 1;
+                    if (i2 == orderedX.Length) i2--;
+                    result[resultIndex] = orderedX[i] + (h - hc) * (orderedX[i2] - orderedX[i]);
+                }
+                resultIndex++;
+            }
+            return result;
+        }
+
+        // +++ Checked, result matches to R
+        private static double[] Q8(IEnumerable<double> x, IEnumerable<double> p, bool alreadySorted = false)
+        {
+            double[] orderedX = x.ToArray();
+            if (!alreadySorted)
+            {
+                int n = (int)Math.Ceiling((orderedX.Length + ONE_THIRD) * p.Max() + ONE_THIRD);
+                if (n >= orderedX.Length) n = orderedX.Length;
+                if (n > 0) --n;
+                orderedX.NthElement(n);
+            }
+
+            double lowThreshold = TWO_THIRDS / (orderedX.Length + ONE_THIRD);
+            double highThreshold = (orderedX.Length - ONE_THIRD) / (orderedX.Length + ONE_THIRD);
+
+            double[] result = new double[p.Count()];
+            int resultIndex = 0;
+            foreach (double pv in p)
+            {
+                if (pv < lowThreshold)
+                    result[resultIndex] = orderedX[0];
+                else if (pv >= highThreshold)
+                    result[resultIndex] = orderedX[orderedX.Length - 1];
+                else
+                {
+                    double h = (orderedX.Length + ONE_THIRD) * pv + ONE_THIRD;
+                    double hc = Math.Floor(h);
+                    int i = (int)hc;
+                    if (i > 0) --i;
+                    int i2 = i + 1;
+                    if (i2 == orderedX.Length) i2--;
+                    result[resultIndex] = orderedX[i] + (h - hc) * (orderedX[i2] - orderedX[i]);
+                }
+                resultIndex++;
+            }
+            return result;
+        }
+
+        // +++ Checked, result matches to R
+        private static double[] Q9(IEnumerable<double> x, IEnumerable<double> p, bool alreadySorted = false)
+        {
+            double[] orderedX = x.ToArray();
+            if (!alreadySorted)
+            {
+                int n = (int)Math.Ceiling((orderedX.Length + 0.25) * p.Max() + 0.375);
+                if (n >= orderedX.Length) n = orderedX.Length;
+                if (n > 0) --n;
+                orderedX.NthElement(n);
+            }
+
+            double lowThreshold = 0.625 / (orderedX.Length + 0.25);
+            double highThreshold = (orderedX.Length - 0.375) / (orderedX.Length + 0.25);
+
+            double[] result = new double[p.Count()];
+            int resultIndex = 0;
+            foreach (double pv in p)
+            {
+                if (pv < lowThreshold)
+                    result[resultIndex] = orderedX[0];
+                else if (pv >= highThreshold)
+                    result[resultIndex] = orderedX[orderedX.Length - 1];
+                else
+                {
+                    double h = (orderedX.Length + 0.25) * pv + 0.375;
+                    double hc = Math.Floor(h);
+                    int i = (int)hc;
+                    if (i > 0) --i;
+                    int i2 = i + 1;
+                    if (i2 == orderedX.Length) i2--;
+                    result[resultIndex] = orderedX[i] + (h - hc) * (orderedX[i2] - orderedX[i]);
+                }
+                resultIndex++;
+            }
+            return result;
         }
 
     }
