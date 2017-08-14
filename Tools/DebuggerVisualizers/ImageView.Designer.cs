@@ -1,4 +1,4 @@
-﻿namespace AForge.DebuggerVisualizers
+﻿namespace Accord.DebuggerVisualizers
 {
     partial class ImageView
     {

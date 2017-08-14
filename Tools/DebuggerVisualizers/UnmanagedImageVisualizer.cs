@@ -14,12 +14,12 @@ using System.Runtime.Serialization.Formatters.Binary;
 using Microsoft.VisualStudio.DebuggerVisualizers;
 
 [assembly: System.Diagnostics.DebuggerVisualizer(
-    typeof( AForge.DebuggerVisualizers.UnmanagedImageVisualizer ),
-    typeof( AForge.DebuggerVisualizers.UnmanagedImageObjectSource ),
+    typeof(Accord.DebuggerVisualizers.UnmanagedImageVisualizer),
+    typeof(Accord.DebuggerVisualizers.UnmanagedImageObjectSource),
     Target = typeof( Accord.Imaging.UnmanagedImage ),
     Description = "Unmanaged Image Visualizer" )]
 
-namespace AForge.DebuggerVisualizers
+namespace Accord.DebuggerVisualizers
 {
     public class UnmanagedImageVisualizer : DialogDebuggerVisualizer
     {

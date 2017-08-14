@@ -15,7 +15,7 @@ using System.Drawing.Imaging;
 using System.Windows.Forms;
 using System.IO;
 
-namespace AForge.DebuggerVisualizers
+namespace Accord.DebuggerVisualizers
 {
     public partial class ImageView : Form
     {

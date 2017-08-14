@@ -15,12 +15,12 @@ using System.Runtime.Serialization.Formatters.Binary;
 using Microsoft.VisualStudio.DebuggerVisualizers;
 
 [assembly: System.Diagnostics.DebuggerVisualizer(
-    typeof( AForge.DebuggerVisualizers.BitmapDataVisualizer ),
-    typeof( AForge.DebuggerVisualizers.BitmapDataObjectSource ),
+    typeof( Accord.DebuggerVisualizers.BitmapDataVisualizer ),
+    typeof(Accord.DebuggerVisualizers.BitmapDataObjectSource ),
     Target = typeof( System.Drawing.Imaging.BitmapData ),
     Description = "Bitmap Data Visualizer" )]
 
-namespace AForge.DebuggerVisualizers
+namespace Accord.DebuggerVisualizers
 {
     class BitmapDataVisualizer : DialogDebuggerVisualizer
     {

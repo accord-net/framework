@@ -12,12 +12,12 @@ using System.Windows.Forms;
 using Microsoft.VisualStudio.DebuggerVisualizers;
 
 [assembly: System.Diagnostics.DebuggerVisualizer(
-    typeof( AForge.DebuggerVisualizers.ImageVisualizer ),
+    typeof(Accord.DebuggerVisualizers.ImageVisualizer ),
     typeof( VisualizerObjectSource ),
     Target = typeof( System.Drawing.Image ),
     Description = "Accord Image Visualizer" )]
 
-namespace AForge.DebuggerVisualizers
+namespace Accord.DebuggerVisualizers
 {
     public class ImageVisualizer : DialogDebuggerVisualizer
     {

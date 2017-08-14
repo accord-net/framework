@@ -12,12 +12,12 @@ using System.Windows.Forms;
 using Microsoft.VisualStudio.DebuggerVisualizers;
 
 [assembly: System.Diagnostics.DebuggerVisualizer(
-    typeof( AForge.DebuggerVisualizers.HistogramVisualizer ),
+    typeof(Accord.DebuggerVisualizers.HistogramVisualizer ),
     typeof( VisualizerObjectSource ),
     Target = typeof(Accord.Statistics.Visualizations.Histogram ),
     Description = "Histogram Visualizer" )]
 
-namespace AForge.DebuggerVisualizers
+namespace Accord.DebuggerVisualizers
 {
     public class HistogramVisualizer : DialogDebuggerVisualizer
     {

@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle( "AForge.DebuggerVisualizers" )]
+[assembly: AssemblyTitle("Accord.DebuggerVisualizers")]
 [assembly: AssemblyDescription( "Debugger visualizers for some AForge.NET types" )]
 [assembly: AssemblyConfiguration( "" )]
-[assembly: AssemblyCompany( "AForge" )]
-[assembly: AssemblyProduct( "AForge.NET" )]
-[assembly: AssemblyCopyright( "AForge © 2012" )]
+[assembly: AssemblyCompany("Accord")]
+[assembly: AssemblyProduct("Accord.NET")]
+[assembly: AssemblyCopyright("Accord © 2017")]
 [assembly: AssemblyTrademark( "" )]
 [assembly: AssemblyCulture( "" )]
 
