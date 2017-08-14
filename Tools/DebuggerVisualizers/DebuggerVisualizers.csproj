@@ -8,12 +8,12 @@
     <ProjectGuid>{E72A7F76-D6CF-498F-B995-2DAA847146A8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AForge.DebuggerVisualizers</RootNamespace>
-    <AssemblyName>AForge.DebuggerVisualizers %282010%29</AssemblyName>
+    <RootNamespace>Accord.DebuggerVisualizers</RootNamespace>
+    <AssemblyName>Accord.DebuggerVisualizers</AssemblyName>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>AForge.DebuggerVisualizers.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>Accord.DebuggerVisualizers.snk</AssemblyOriginatorKeyFile>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <UpgradeBackupLocation>
@@ -89,6 +89,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BitmapDataVisualizer.cs" />
+    <Compile Include="CustomToolStripProfessionalRenderer.cs" />
+    <Compile Include="Extensions.cs" />
+    <Compile Include="Helpers.cs" />
     <Compile Include="HistogramView.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -104,10 +107,16 @@
     </Compile>
     <Compile Include="ImageVisualizer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="UnmanagedImageVisualizer.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="AForge.DebuggerVisualizers.snk" />
+    <None Include="Accord.DebuggerVisualizers.snk" />
+    <None Include="Readme.md" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="HistogramView.resx">
@@ -115,6 +124,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ImageView.resx">
       <DependentUpon>ImageView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -138,6 +151,12 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\disk-black.png" />
+    <None Include="Resources\document-copy.png" />
+    <None Include="Resources\GitHub.png" />
+    <None Include="Resources\magnifier.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

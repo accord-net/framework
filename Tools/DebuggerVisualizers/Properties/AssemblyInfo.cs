@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Accord.DebuggerVisualizers")]
-[assembly: AssemblyDescription( "Debugger visualizers for some AForge.NET types" )]
+[assembly: AssemblyDescription( "Debugger visualizers for some Accord.NET types" )]
 [assembly: AssemblyConfiguration( "" )]
 [assembly: AssemblyCompany("Accord")]
 [assembly: AssemblyProduct("Accord.NET")]

@@ -6,29 +6,26 @@
 // contacts@aforgenet.com
 //
 
-using System;
 using System.Drawing;
-using System.Windows.Forms;
 using Microsoft.VisualStudio.DebuggerVisualizers;
 
 [assembly: System.Diagnostics.DebuggerVisualizer(
-    typeof(Accord.DebuggerVisualizers.ImageVisualizer ),
-    typeof( VisualizerObjectSource ),
-    Target = typeof( System.Drawing.Image ),
-    Description = "Accord Image Visualizer" )]
+    typeof(Accord.DebuggerVisualizers.ImageVisualizer),
+    typeof(VisualizerObjectSource),
+    Target = typeof(System.Drawing.Image),
+    Description = "Accord Image Visualizer")]
 
 namespace Accord.DebuggerVisualizers
 {
     public class ImageVisualizer : DialogDebuggerVisualizer
     {
-        override protected void Show( IDialogVisualizerService windowService, IVisualizerObjectProvider objectProvider )
+        override protected void Show(IDialogVisualizerService windowService, IVisualizerObjectProvider objectProvider)
         {
-            Image image = (Image) objectProvider.GetObject( );
+            Image image = (Image)objectProvider.GetObject();
 
-            ImageView imageViewer = new ImageView( );
-            imageViewer.SetImage( image );
+            ImageView imageViewer = new ImageView(image);
 
-            windowService.ShowDialog( imageViewer );
+            windowService.ShowDialog(imageViewer);
         }
     }
 }
