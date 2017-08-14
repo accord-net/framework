@@ -41,7 +41,7 @@ namespace AForge.DebuggerVisualizers
         {
             BinaryFormatter bf = new BinaryFormatter( );
             bf.Serialize( outgoingData,
-                ( new AForge.Imaging.UnmanagedImage( (BitmapData) target ) ).ToManagedImage( ) );
+                ( new Accord.Imaging.UnmanagedImage( (BitmapData) target ) ).ToManagedImage( ) );
         }
     }
 }

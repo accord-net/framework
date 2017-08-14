@@ -31,7 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager( typeof( ImageView ) );
             this.groupBox1 = new System.Windows.Forms.GroupBox( );
             this.imagePanel = new System.Windows.Forms.Panel( );
-            this.pictureBox = new AForge.Controls.PictureBox( );
+            this.pictureBox = new Accord.Controls.PictureBox( );
             this.groupBox2 = new System.Windows.Forms.GroupBox( );
             this.saveButton = new System.Windows.Forms.Button( );
             this.clipboardButton = new System.Windows.Forms.Button( );
@@ -143,7 +143,7 @@
 
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Panel imagePanel;
-        private AForge.Controls.PictureBox pictureBox;
+        private Accord.Controls.PictureBox pictureBox;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button clipboardButton;
         private System.Windows.Forms.Button saveButton;
