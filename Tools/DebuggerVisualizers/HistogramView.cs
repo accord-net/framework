@@ -12,21 +12,23 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
-using AForge.Math;
+using Accord.Math;
+using Accord.Controls;
+using Accord.Statistics;
 
 namespace AForge.DebuggerVisualizers
 {
     public partial class HistogramView : Form
     {
         private const int HistogramHeight = 100;
-        private Histogram histogram;
+        private Accord.Statistics.Visualizations.Histogram histogram;
 
         public HistogramView( )
         {
             InitializeComponent( );
         }
 
-        public void SetHistogram( Histogram histogram )
+        public void SetHistogram(Accord.Statistics.Visualizations.Histogram histogram )
         {
             this.histogram = histogram;
 
@@ -57,7 +59,7 @@ namespace AForge.DebuggerVisualizers
         }
 
         // Mouse cursor's position has changed within histogram control
-        private void histogramControl_PositionChanged( object sender, AForge.Controls.HistogramEventArgs e )
+        private void histogramControl_PositionChanged( object sender, Accord.Controls.HistogramEventArgs e )
         {
             if ( histogram != null )
             {
@@ -76,7 +78,7 @@ namespace AForge.DebuggerVisualizers
         }
 
         // Selection has changed within histogram control
-        private void histogramControl_SelectionChanged( object sender, AForge.Controls.HistogramEventArgs e )
+        private void histogramControl_SelectionChanged( object sender, Accord.Controls.HistogramEventArgs e )
         {
             if ( histogram != null )
             {
