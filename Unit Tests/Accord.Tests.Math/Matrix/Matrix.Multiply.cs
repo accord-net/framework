@@ -164,7 +164,7 @@ namespace Accord.Tests.Math
                         double[,] B = Matrix.Random(n, m);
                         double[] c = Vector.Random(m);
 
-                        double[] result1 = a.DotNew(B, c);
+                        double[] result1 = a.Dot(B, c);
                         double[] result2 = new double[B.Columns()];
 
                         for (int k = 0; k < B.Columns(); k++)
