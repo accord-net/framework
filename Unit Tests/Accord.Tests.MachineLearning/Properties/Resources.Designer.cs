@@ -39,7 +39,11 @@ namespace Accord.Tests.MachineLearning.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
+#if NETCORE
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Accord.Tests.MachineLearning.Properties.Resources", System.Reflection.IntrospectionExtensions.GetTypeInfo(typeof(Resources)).Assembly);
+#else
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Accord.Tests.MachineLearning.Properties.Resources", typeof(Resources).Assembly);
+#endif
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -57,36 +61,6 @@ namespace Accord.Tests.MachineLearning.Properties {
             }
             set {
                 resourceCulture = value;
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] a9a {
-            get {
-                object obj = ResourceManager.GetObject("a9a", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] a9a1 {
-            get {
-                object obj = ResourceManager.GetObject("a9a1", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] CircleWithWeights {
-            get {
-                object obj = ResourceManager.GetObject("CircleWithWeights", resourceCulture);
-                return ((byte[])(obj));
             }
         }
         
@@ -159,16 +133,6 @@ namespace Accord.Tests.MachineLearning.Properties {
         internal static string iris_scale {
             get {
                 return ResourceManager.GetString("iris_scale", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] kmeans {
-            get {
-                object obj = ResourceManager.GetObject("kmeans", resourceCulture);
-                return ((byte[])(obj));
             }
         }
         
@@ -444,36 +408,6 @@ namespace Accord.Tests.MachineLearning.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] ml_svm {
-            get {
-                object obj = ResourceManager.GetObject("ml_svm", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] nb {
-            get {
-                object obj = ResourceManager.GetObject("nb", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] nb2 {
-            get {
-                object obj = ResourceManager.GetObject("nb2", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to usual,proper,complete,1,convenient,convenient,nonprob,recommended,recommend
         ///usual,proper,complete,1,convenient,convenient,nonprob,priority,priority
         ///usual,proper,complete,1,convenient,convenient,nonprob,not_recom,not_recom
@@ -485,26 +419,6 @@ namespace Accord.Tests.MachineLearning.Properties {
         internal static string nursery {
             get {
                 return ResourceManager.GetString("nursery", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] pca_mnist {
-            get {
-                object obj = ResourceManager.GetObject("pca_mnist", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] pca_mnist_v3_1 {
-            get {
-                object obj = ResourceManager.GetObject("pca_mnist_v3_1", resourceCulture);
-                return ((byte[])(obj));
             }
         }
         
@@ -544,56 +458,6 @@ namespace Accord.Tests.MachineLearning.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] svm1 {
-            get {
-                object obj = ResourceManager.GetObject("svm1", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] svm2 {
-            get {
-                object obj = ResourceManager.GetObject("svm2", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] t10k_images_idx3_ubyte {
-            get {
-                object obj = ResourceManager.GetObject("t10k_images_idx3_ubyte", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] t10k_images_idx3_ubyte1 {
-            get {
-                object obj = ResourceManager.GetObject("t10k_images_idx3_ubyte1", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] t10k_labels_idx1_ubyte {
-            get {
-                object obj = ResourceManager.GetObject("t10k_labels_idx1_ubyte", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to instance,clasp.2.1.1_jumpy,clasp.2.1.1_trendy,ebminisat,glueminisat,lingeling,lrglshr,picosat,restartsat,circminisat,clasp1,cryptominisat_2011,eagleup,gnoveltyp2,march_rw,mphaseSAT,mphaseSATm,precosat,qutersat,sapperlot,sat4j.2.3.2,sattimep,sparrow,tnm,cryptominisat295,minisatPSM,sattime2011,ccasat,glucose_21,glucose_21_modified
         ////home/ymalitsky/data/SAT/Competitions/2006-SATRace/Competition/een-pico-prop01-75.cnf,3.46,1.45,1.27,1.07,5.59,1.11,1.53,1.54,0.99,2.03,4.07,5100,5100,5100.01,7.1,8.05,4.25,4.45,2.0 [rest of string was truncated]&quot;;.
         /// </summary>
@@ -604,41 +468,11 @@ namespace Accord.Tests.MachineLearning.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] train_images_idx3_ubyte {
-            get {
-                object obj = ResourceManager.GetObject("train_images_idx3_ubyte", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] train_labels_idx1_ubyte {
-            get {
-                object obj = ResourceManager.GetObject("train_labels_idx1_ubyte", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to label,pixel0,pixel1,pixel2,pixel3,pixel4,pixel5,pixel6,pixel7,pixel8,pixel9,pixel10,pixel11,pixel12,pixel13,pixel14,pixel15,pixel16,pixel17,pixel18,pixel19,pixel20,pixel21,pixel22,pixel23,pixel24,pixel25,pixel26,pixel27,pixel28,pixel29,pixel30,pixel31,pixel32,pixel33,pixel34,pixel35,pixel36,pixel37,pixel38,pixel39,pixel40,pixel41,pixel42,pixel43,pixel44,pixel45,pixel46,pixel47,pixel48,pixel49,pixel50,pixel51,pixel52,pixel53,pixel54,pixel55,pixel56,pixel57,pixel58,pixel59,pixel60,pixel61,pixel62,pixel63,pixe [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string trainingsample {
             get {
                 return ResourceManager.GetString("trainingsample", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] tree {
-            get {
-                object obj = ResourceManager.GetObject("tree", resourceCulture);
-                return ((byte[])(obj));
             }
         }
         

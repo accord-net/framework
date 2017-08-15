@@ -20,15 +20,13 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-using Accord.Audio;
-using NUnit.Framework;
-using AForge.Math;
-using Accord.Math;
-using Tools = Accord.Audio.Tools;
-using System.Numerics;
-
 namespace Accord.Tests.Audio
 {
+    using NUnit.Framework;
+    using Accord.Math;
+    using Tools = Accord.Audio.Tools;
+    using Accord.Compat;
+    using System.Numerics;
 
     [TestFixture]
     public class ToolsTest
@@ -39,7 +37,7 @@ namespace Accord.Tests.Audio
         {
             // http://mi.eng.cam.ac.uk/~ajr/SpeechAnalysis/node33.html
 
-            Complex[] source = 
+            Complex[] source =
             {
                 (Complex)(-1.0), (Complex)(+0.5),
                 (Complex)(+0.3), (Complex)(-0.4),
@@ -47,7 +45,7 @@ namespace Accord.Tests.Audio
                 (Complex)(-0.2), (Complex)(-0.5),
             };
 
-            double[] expected = 
+            double[] expected =
             {
                 0.3319, 0.1285, -0.0218, 0.2303, -0.2639, 0.2303, -0.0218, 0.1285
             };
@@ -60,7 +58,7 @@ namespace Accord.Tests.Audio
         [Test]
         public void InterleaveTest()
         {
-            float[,] channels = 
+            float[,] channels =
             {
                 {  0.1f, -5.1f },
                 { -0.2f, -6.0f },
@@ -69,7 +67,7 @@ namespace Accord.Tests.Audio
                 {  0.6f, -1.7f },
             };
 
-            float[] expected = 
+            float[] expected =
             {
                 0.1f, -5.1f,
                -0.2f, -6.0f,

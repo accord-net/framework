@@ -197,6 +197,90 @@ namespace Accord.Tests.MachineLearning
         }
 
         [Test]
+        public void learn_test_simple()
+        {
+            #region doc_learn_simple
+            // Ensure results are reproducible
+            Accord.Math.Random.Generator.Seed = 0;
+
+            // This is a sample code on how to use Cross-Validation
+            // to assess the performance of Support Vector Machines.
+
+            // Consider the example binary data. We will be trying
+            // to learn a XOR problem and see how well does SVMs
+            // perform on this data.
+
+            double[][] data =
+            {
+                new double[] { -1, -1 }, new double[] {  1, -1 },
+                new double[] { -1,  1 }, new double[] {  1,  1 },
+                new double[] { -1, -1 }, new double[] {  1, -1 },
+                new double[] { -1,  1 }, new double[] {  1,  1 },
+                new double[] { -1, -1 }, new double[] {  1, -1 },
+                new double[] { -1,  1 }, new double[] {  1,  1 },
+                new double[] { -1, -1 }, new double[] {  1, -1 },
+                new double[] { -1,  1 }, new double[] {  1,  1 },
+            };
+
+            int[] xor = // result of xor for the sample input data
+            {
+                -1,       1,
+                 1,      -1,
+                -1,       1,
+                 1,      -1,
+                -1,       1,
+                 1,      -1,
+                -1,       1,
+                 1,      -1,
+            };
+
+
+            // Create a new Cross-validation algorithm passing the data set size and the number of folds
+            var crossvalidation = CrossValidation.Create(
+                k: 3, // Use 3 folds in cross-validation
+
+                // Indicate how learning algorithms for the models should be created
+                learner: (s) => new SequentialMinimalOptimization<Linear>()
+                {
+                    Complexity = 100
+                },
+
+                // Indicate how the performance of those models will be measured
+                loss: (expected, actual, p) => new ZeroOneLoss(expected).Loss(actual),
+                
+                fit: (teacher, x, y, w) => teacher.Learn(x, y, w),
+                x: data, 
+                y: xor
+            );
+
+            // If needed, control the parallelization degree
+            crossvalidation.ParallelOptions.MaxDegreeOfParallelism = 1;
+
+            var result = crossvalidation.Learn(data, xor);
+
+            // Finally, access the measured performance.
+            double trainingErrors = result.Training.Mean;
+            double validationErrors = result.Validation.Mean;
+            #endregion
+
+            Assert.AreEqual(3, crossvalidation.K);
+            Assert.AreEqual(0.37575757575757579, result.Training.Mean, 1e-10);
+            Assert.AreEqual(0.75555555555555554, result.Validation.Mean, 1e-10);
+
+            Assert.AreEqual(0.00044077134986225924, result.Training.Variance, 1e-10);
+            Assert.AreEqual(0.0059259259259259334, result.Validation.Variance, 1e-10);
+
+            Assert.AreEqual(0.020994555243259126, result.Training.StandardDeviation, 1e-10);
+            Assert.AreEqual(0.076980035891950155, result.Validation.StandardDeviation, 1e-10);
+
+            Assert.AreEqual(0, result.Training.PooledStandardDeviation);
+            Assert.AreEqual(0, result.Validation.PooledStandardDeviation);
+
+            Assert.AreEqual(3, crossvalidation.Folds.Length);
+            Assert.AreEqual(3, result.Models.Length);
+        }
+
+        [Test]
         public void learn_test()
         {
             #region doc_learn
@@ -252,6 +336,7 @@ namespace Accord.Tests.MachineLearning
                 Stratify = false, // do not force balancing of classes
             };
 
+            // If needed, control the parallelization degree
             crossvalidation.ParallelOptions.MaxDegreeOfParallelism = 1;
 
             // Compute the cross-validation
@@ -339,6 +424,9 @@ namespace Accord.Tests.MachineLearning
 
                 Stratify = false,
             };
+
+            // If needed, control the parallelization degree
+            crossvalidation.ParallelOptions.MaxDegreeOfParallelism = 1;
 
             // Compute the cross-validation
             var result = crossvalidation.Learn(inputs, outputs);

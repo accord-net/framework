@@ -32,6 +32,7 @@ namespace Accord.MachineLearning.VectorMachines
     using Accord.MachineLearning;
     using Accord.Statistics;
     using Statistics.Models.Regression.Linear;
+    using Accord.Compat;
 
     /// <summary>
     ///  Sparse Kernel Support Vector Machine (kSVM)
@@ -78,11 +79,10 @@ namespace Accord.MachineLearning.VectorMachines
     /// </example>
     /// 
     /// <seealso cref="Accord.Statistics.Kernels"/>
-    /// <seealso cref="KernelSupportVectorMachine"/>
-    /// <seealso cref="MulticlassSupportVectorMachine"/>
-    /// <seealso cref="MultilabelSupportVectorMachine"/>
+    /// <seealso cref="MulticlassSupportVectorMachine{TKernel}"/>
+    /// <seealso cref="MultilabelSupportVectorMachine{TKernel}"/>
     /// 
-    /// <seealso cref="Accord.MachineLearning.VectorMachines.Learning.SequentialMinimalOptimization"/>
+    /// <seealso cref="Accord.MachineLearning.VectorMachines.Learning.SequentialMinimalOptimization{TKernel}"/>
     /// 
     [Serializable]
     public class SupportVectorMachine<TKernel, TInput> :

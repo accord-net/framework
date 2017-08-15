@@ -27,6 +27,7 @@ namespace Accord.MachineLearning
     using System.Linq;
     using Accord.Math;
     using Accord.MachineLearning.Performance;
+    using Accord.Compat;
 
     /// <summary>
     ///   Obsolete. Please refer to <see cref="SplitSetValidation{TModel, TInput, TOutput}"/> instead.

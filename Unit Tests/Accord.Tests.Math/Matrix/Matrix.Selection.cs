@@ -28,6 +28,7 @@ namespace Accord.Tests.Math
     using NUnit.Framework;
     using System;
     using System.Collections.Generic;
+    using Accord.Statistics;
 
     public partial class MatrixTest
     {
@@ -50,7 +51,7 @@ namespace Accord.Tests.Math
             Assert.IsTrue(a.IsEqual(new[] { 0, 1, 2, 3, 4, 5, 6, 7 }));
 
             a = new int[] { 2, 7, 3, 4, 5, 6, 1, 8 };
-            double expected = (int)Statistics.Measures.Median(a.Submatrix(4, 7));
+            double expected = (int)Measures.Median(a.Submatrix(4, 7));
             int actual = Matrix.Partition(a, 4, 7);
             Assert.AreEqual(actual, expected);
             //Assert.IsTrue(a.IsEqual(new[] { 2, 7, 3, 4, 5, 1, 6, 8 }));

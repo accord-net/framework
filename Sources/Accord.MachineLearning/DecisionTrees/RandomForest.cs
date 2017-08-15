@@ -26,19 +26,11 @@
 namespace Accord.MachineLearning.DecisionTrees
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
-    using System.Data;
     using System.Runtime.Serialization;
-    using System.Runtime.Serialization.Formatters.Binary;
-    using System.IO;
-    using Accord.Statistics.Filters;
     using Accord.Math;
-    using AForge;
-    using Accord.Statistics;
+    using Accord.Compat;
     using System.Threading;
+    using System.Threading.Tasks;
 
 
     /// <summary>
@@ -153,11 +145,18 @@ namespace Accord.MachineLearning.DecisionTrees
         public override int Decide(double[] input)
         {
             int[] responses = new int[NumberOfOutputs];
-            Parallel.For(0, trees.Length, ParallelOptions, i =>
+            if (ParallelOptions.MaxDegreeOfParallelism == 1)
             {
-                int j = trees[i].Decide(input);
-                Interlocked.Increment(ref responses[j]);
-            });
+                for (int i = 0; i < trees.Length; i++)
+                    Interlocked.Increment(ref responses[trees[i].Decide(input)]);
+            }
+            else
+            {
+                Parallel.For(0, trees.Length, ParallelOptions, i =>
+                {
+                    Interlocked.Increment(ref responses[trees[i].Decide(input)]);
+                });
+            }
 
             return responses.ArgMax();
         }

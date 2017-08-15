@@ -23,6 +23,7 @@
 namespace Accord.Statistics.Distributions.Fitting
 {
     using System;
+    using Accord.Compat;
 
     /// <summary>
     ///   BetaPERT's distribution estimation method.

@@ -24,6 +24,7 @@
 namespace Accord.Statistics.Kernels
 {
     using System;
+    using Accord.Compat;
 
     /// <summary>
     ///   Thin Spline Plate Kernel.

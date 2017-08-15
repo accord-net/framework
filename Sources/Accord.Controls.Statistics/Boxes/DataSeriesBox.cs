@@ -29,8 +29,8 @@ namespace Accord.Controls
     using System.Threading;
     using System.Windows.Forms;
     using Accord.Math;
-    using AForge;
     using ZedGraph;
+    using Accord.Compat;
 
     /// <summary>
     ///   Data Series Box for quickly displaying a form with a time

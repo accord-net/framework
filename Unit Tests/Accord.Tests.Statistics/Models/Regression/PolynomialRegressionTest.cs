@@ -27,6 +27,10 @@ namespace Accord.Tests.Statistics
     using Math.Optimization.Losses;
     using NUnit.Framework;
     using System;
+    using System.Globalization;
+#if NO_CULTURE
+    using CultureInfo = Accord.Compat.CultureInfo;
+#endif
 
     [TestFixture]
     public class PolynomialRegressionTest
@@ -59,6 +63,11 @@ namespace Accord.Tests.Statistics
         [Test]
         public void learn_test_2()
         {
+#if NETCORE
+            var culture = CultureInfo.CreateSpecificCulture("en-US");
+            CultureInfo.CurrentCulture = culture;
+#endif
+
             #region doc_learn
             // Let's say we would like to learn 2nd degree polynomial that 
             // can map the first column X into its second column Y. We have 
@@ -108,7 +117,7 @@ namespace Accord.Tests.Statistics
             string ex = weights.ToCSharp();
             double[] expected = { 1, 0 };
 
-            Assert.AreEqual(str, "y(x) = 1.0x^2 + 0.0x^1 + 0.0");
+            Assert.AreEqual("y(x) = 1.0x^2 + 0.0x^1 + 0.0", str);
             Assert.IsTrue(weights.IsEqual(expected, 1e-6));
             Assert.AreEqual(0, intercept, 1e-6);
         }
@@ -145,26 +154,26 @@ namespace Accord.Tests.Statistics
 
             {
                 string expected = "y(x) = 3x^2 + 1.99999999999998x^1 + 1.00000000000005";
-                expected = expected.Replace(".", System.Globalization.CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator);
+                expected = expected.Replace(".", CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator);
                 string actual = poly.ToString();
                 Assert.AreEqual(expected, actual);
             }
 
             {
                 string expected = "y(x) = 3x^2 + 1.99999999999998x^1 + 1.00000000000005";
-                string actual = poly.ToString(null, System.Globalization.CultureInfo.GetCultureInfo("en-US"));
+                string actual = poly.ToString(null, CultureInfo.GetCultureInfo("en-US"));
                 Assert.AreEqual(expected, actual);
             }
 
             {
                 string expected = "y(x) = 3.0x^2 + 2.0x^1 + 1.0";
-                string actual = poly.ToString("N1", System.Globalization.CultureInfo.GetCultureInfo("en-US"));
+                string actual = poly.ToString("N1", CultureInfo.GetCultureInfo("en-US"));
                 Assert.AreEqual(expected, actual);
             }
 
             {
                 string expected = "y(x) = 3,00x^2 + 2,00x^1 + 1,00";
-                string actual = poly.ToString("N2", System.Globalization.CultureInfo.GetCultureInfo("pt-BR"));
+                string actual = poly.ToString("N2", CultureInfo.GetCultureInfo("pt-BR"));
                 Assert.AreEqual(expected, actual);
             }
         }
@@ -193,26 +202,26 @@ namespace Accord.Tests.Statistics
 
             {
                 string expected = "y(x) = 3x^2 + 1.99999999999998x^1 + 1.00000000000005";
-                expected = expected.Replace(".", System.Globalization.CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator);
+                expected = expected.Replace(".", CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator);
                 string actual = poly.ToString();
                 Assert.AreEqual(expected, actual);
             }
 
             {
                 string expected = "y(x) = 3x^2 + 1.99999999999998x^1 + 1.00000000000005";
-                string actual = poly.ToString(null, System.Globalization.CultureInfo.GetCultureInfo("en-US"));
+                string actual = poly.ToString(null, CultureInfo.GetCultureInfo("en-US"));
                 Assert.AreEqual(expected, actual);
             }
 
             {
                 string expected = "y(x) = 3.0x^2 + 2.0x^1 + 1.0";
-                string actual = poly.ToString("N1", System.Globalization.CultureInfo.GetCultureInfo("en-US"));
+                string actual = poly.ToString("N1", CultureInfo.GetCultureInfo("en-US"));
                 Assert.AreEqual(expected, actual);
             }
 
             {
                 string expected = "y(x) = 3,00x^2 + 2,00x^1 + 1,00";
-                string actual = poly.ToString("N2", System.Globalization.CultureInfo.GetCultureInfo("pt-BR"));
+                string actual = poly.ToString("N2", CultureInfo.GetCultureInfo("pt-BR"));
                 Assert.AreEqual(expected, actual);
             }
         }

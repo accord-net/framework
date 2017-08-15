@@ -20,6 +20,7 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
+#if !NETSTANDARD1_4
 namespace Accord.IO
 {
     using System;
@@ -33,26 +34,6 @@ namespace Accord.IO
     using System.Runtime.Serialization;
     using System.Runtime.Serialization.Formatters.Binary;
     using System.Text;
-    using System.Threading.Tasks;
-
-    /// <summary>
-    ///   Compression algorithms supported by the <see cref="Serializer"/>.
-    /// </summary>
-    /// 
-    public enum SerializerCompression
-    {
-        /// <summary>
-        ///   No serialization.
-        /// </summary>
-        /// 
-        None = 0,
-
-        /// <summary>
-        ///   Use GZip serialization.
-        /// </summary>
-        /// 
-        GZip,
-    }
 
     /// <summary>
     ///   Model serializer. Can be used to serialize and deserialize (i.e. save and 
@@ -434,3 +415,4 @@ namespace Accord.IO
         }
     }
 }
+#endif

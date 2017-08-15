@@ -28,6 +28,7 @@ namespace Accord.MachineLearning
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using Accord.Compat;
 
     /// <summary>
     ///   k-Means cluster collection.

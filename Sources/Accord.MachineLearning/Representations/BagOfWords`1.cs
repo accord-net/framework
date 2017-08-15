@@ -25,6 +25,7 @@ namespace Accord.MachineLearning
     using Accord.MachineLearning.VectorMachines;
     using Accord.Statistics.Filters;
     using System;
+    using Accord.Compat;
 
     /// <summary>
     ///   Bag of words.

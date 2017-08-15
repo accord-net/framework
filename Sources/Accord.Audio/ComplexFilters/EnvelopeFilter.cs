@@ -24,6 +24,7 @@ namespace Accord.Audio.ComplexFilters
 {
     using System;
     using Accord.Audio;
+    using Accord.Compat;
     using System.Numerics;
 
     /// <summary>

@@ -26,9 +26,9 @@ namespace Accord.Statistics.Distributions.Univariate
     using Accord.Math.Optimization;
     using Accord.Statistics.Distributions;
     using Accord.Statistics.Distributions.Fitting;
-    using AForge;
     using System;
     using System.ComponentModel;
+    using Accord.Compat;
 
     /// <summary>
     ///   The 4-parameter Beta distribution.

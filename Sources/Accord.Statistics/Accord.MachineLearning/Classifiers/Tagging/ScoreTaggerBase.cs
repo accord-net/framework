@@ -26,6 +26,7 @@ namespace Accord.MachineLearning
     using Accord.Statistics;
     using Accord.MachineLearning;
     using System;
+    using Accord.Compat;
 
     /// <summary>
     /// Common base class for observation sequence taggers.

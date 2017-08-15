@@ -29,6 +29,7 @@ namespace Accord.Statistics.Models.Fields.Functions
     using Accord.Statistics.Models.Fields.Features;
     using Accord.Statistics.Models.Fields.Functions.Specialized;
     using Accord.Statistics.Models.Markov;
+    using Accord.Compat;
 
     /// <summary>
     ///   Potential function modeling <see cref="HiddenMarkovClassifier">Hidden Markov Classifiers</see>.

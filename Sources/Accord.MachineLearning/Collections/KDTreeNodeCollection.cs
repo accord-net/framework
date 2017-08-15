@@ -54,7 +54,7 @@ namespace Accord.Collections
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using AForge;
+    using Accord.Compat;
 
     /// <summary>
     ///   Collection of k-dimensional tree nodes.

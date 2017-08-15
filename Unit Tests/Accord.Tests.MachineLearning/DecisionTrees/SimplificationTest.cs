@@ -35,7 +35,7 @@ namespace Accord.Tests.MachineLearning
     [TestFixture]
     public class SimplificationTest
     {
-
+#if !NO_DATA_TABLE
         [Test]
         public void LargeRunTest()
         {
@@ -56,6 +56,7 @@ namespace Accord.Tests.MachineLearning
 
             Assert.AreEqual(0.067515432098765427, newError, 1e-6);
         }
+#endif
 
         [Test]
         public void LargeRunTest2()
@@ -151,8 +152,7 @@ namespace Accord.Tests.MachineLearning
         }
 
 
-
-
+#if !NO_DATA_TABLE
         private static DecisionTree createTree(out double[][] inputs, out int[] outputs)
         {
             string nurseryData = Resources.nursery;
@@ -238,6 +238,6 @@ namespace Accord.Tests.MachineLearning
 
             return tree;
         }
-
+#endif
     }
 }

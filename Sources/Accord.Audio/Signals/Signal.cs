@@ -24,6 +24,7 @@ namespace Accord.Audio
 {
     using System;
     using System.Runtime.InteropServices;
+    using Accord.Compat;
     using System.Numerics;
 
     /// <summary>

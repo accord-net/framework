@@ -25,6 +25,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     using Accord.Statistics.Kernels;
     using System;
     using System.Threading;
+    using Accord.Compat;
 
     /// <summary>
     ///   Common interface for Support Machine Vector learning algorithms.

@@ -52,6 +52,7 @@ namespace Accord.Tests.IO
             Assert.IsTrue(expected.IsEqual(actual));
         }
 
+#if !NO_DATA_TABLE
         [Test]
         public void CsvReader_Simple_WithHeaders()
         {
@@ -87,7 +88,7 @@ namespace Accord.Tests.IO
                 Assert.AreEqual("3", actual.Rows[0][2]);
             }
         }
-
+#endif
 
         [Test]
         public void CsvReader_Simple_clrf()

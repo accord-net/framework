@@ -31,6 +31,7 @@
 //    ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+#if !NETSTANDARD1_4
 namespace Accord.IO
 {
     using Accord.IO.Resources;
@@ -398,3 +399,4 @@ namespace Accord.IO
 
     }
 }
+#endif

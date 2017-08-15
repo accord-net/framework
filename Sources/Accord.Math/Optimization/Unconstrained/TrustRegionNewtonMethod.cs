@@ -61,6 +61,7 @@ namespace Accord.Math.Optimization
     using System;
     using System.Diagnostics;
     using System.Threading;
+    using Accord.Compat;
 
     /// <summary>
     ///   Simplified Trust Region Newton Method (TRON) for non-linear optimization.

@@ -37,6 +37,7 @@ namespace Accord.Math.Geometry
     using System;
     using System.Collections.Generic;
     using Accord.Math;
+    using Accord.Compat;
     using System.Numerics;
 
     /// <summary>

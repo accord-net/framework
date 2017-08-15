@@ -29,9 +29,9 @@ namespace Accord.Statistics.Distributions.Univariate
     using Accord.Math.Optimization;
     using Accord.Statistics.Distributions;
     using Accord.Statistics.Distributions.Fitting;
-    using AForge;
     using System;
     using System.ComponentModel;
+    using Accord.Compat;
 
     /// <summary>
     ///   Generalized Pareto distribution (three parameters).
@@ -201,6 +201,17 @@ namespace Accord.Statistics.Distributions.Univariate
             }
         }
 
+        /// <summary>
+        /// Gets the inverse of the cumulative distribution function (icdf) for
+        /// this distribution evaluated at probability <c>p</c>. This function
+        /// is also known as the Quantile function.
+        /// </summary>
+        /// <param name="p">A probability value between 0 and 1.</param>
+        /// <returns>A sample which could original the given probability
+        /// value when applied in the <see cref="UnivariateContinuousDistribution.DistributionFunction(double)" />.</returns>
+        /// <remarks>The Inverse Cumulative Distribution Function (ICDF) specifies, for
+        /// a given probability, the value which the random variable will be at,
+        /// or below, with that probability.</remarks>
         protected internal override double InnerInverseDistributionFunction(double p)
         {
             if (ksi == 0)

@@ -35,7 +35,7 @@ namespace Accord.Statistics.Models.Markov.Learning
     using Accord.Statistics.Models.Markov.Topology;
     using System.Threading;
     using System.Linq;
-    using System.Threading.Tasks;
+    using Accord.Compat;
 
     /// <summary>
     ///   Base class for implementations of the Baum-Welch learning algorithm.

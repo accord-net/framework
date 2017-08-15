@@ -23,6 +23,7 @@
 namespace Accord.Statistics.Testing
 {
     using System;
+    using Accord.Compat;
 
     /// <summary>
     ///   Z-Test for two sample proportions.

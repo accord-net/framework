@@ -36,7 +36,7 @@ namespace Accord.Tests.Statistics
     [TestFixture]
     public class CodificationFilterSvmTest
     {
-
+#if !NO_DATA_TABLE
         [Test]
         public void ApplyTest2()
         {
@@ -161,7 +161,6 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual("child", result1);
             Assert.AreEqual("adult", result2);
             Assert.AreEqual("elder", result3);
-
         }
 
         [Test]
@@ -285,6 +284,6 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual("elder", result3);
 
         }
-
+#endif
     }
 }

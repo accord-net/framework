@@ -25,12 +25,13 @@
 namespace Accord.Statistics.Models.Fields.Learning
 {
     using System;
-    using System.Threading;
-    using System.Threading.Tasks;
     using Accord.Math;
     using Accord.Statistics.Models.Fields.Features;
     using Accord.Statistics.Models.Fields.Functions;
     using Accord.MachineLearning;
+    using Accord.Compat;
+    using System.Threading.Tasks;
+    using System.Threading;
 
     /// <summary>
     ///   Linear Gradient calculator class for <see cref="HiddenConditionalRandomField{T}">

@@ -32,6 +32,8 @@ namespace Accord.IO
     using Accord.Statistics.Links;
     using Accord.MachineLearning;
     using Accord.Statistics.Kernels;
+    using System.Diagnostics;
+    using Accord.Compat;
 
     /// <summary>
     ///   Solver types allowed in LibSVM/Liblinear model files.
@@ -341,11 +343,11 @@ namespace Accord.IO
             writer.WriteLine();
 
             writer.WriteLine("nr_feature " + Dimension);
-            writer.WriteLine("bias " + Bias.ToString("G17", CultureInfo.InvariantCulture));
+            writer.WriteLine("bias " + Bias.ToString("G17", System.Globalization.CultureInfo.InvariantCulture));
             writer.WriteLine("w");
 
             for (int i = 0; i < Weights.Length; i++)
-                writer.WriteLine(Weights[i].ToString("G17", CultureInfo.InvariantCulture) + " ");
+                writer.WriteLine(Weights[i].ToString("G17", System.Globalization.CultureInfo.InvariantCulture) + " ");
 
             writer.Flush();
         }
@@ -397,7 +399,7 @@ namespace Accord.IO
                         model.Dimension = Int32.Parse(words[1]);
 
                     else if (words[0] == "bias")
-                        model.Bias = Double.Parse(words[1], CultureInfo.InvariantCulture);
+                        model.Bias = Double.Parse(words[1], System.Globalization.CultureInfo.InvariantCulture);
 
                     else if (words[0] == "w")
                         break;
@@ -410,7 +412,7 @@ namespace Accord.IO
                     }
                     else
                     {
-                        System.Diagnostics.Trace.WriteLine("Unknown field: " + words[0]);
+                        Trace.WriteLine("Unknown field: " + words[0]);
                     }
                 }
 
@@ -419,7 +421,7 @@ namespace Accord.IO
                 while (!reader.EndOfStream)
                 {
                     string line = reader.ReadLine();
-                    weights.Add(Double.Parse(line, CultureInfo.InvariantCulture));
+                    weights.Add(Double.Parse(line, System.Globalization.CultureInfo.InvariantCulture));
                 }
 
                 model.Weights = weights.ToArray();

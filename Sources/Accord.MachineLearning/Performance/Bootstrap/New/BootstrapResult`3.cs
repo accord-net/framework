@@ -26,6 +26,7 @@ namespace Accord.MachineLearning.Performance
     using System;
     using System.IO;
     using System.Runtime.Serialization.Formatters.Binary;
+    using Accord.Compat;
 
     /// <summary>
     ///   Bootstrap validation analysis results.

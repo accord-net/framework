@@ -10,7 +10,7 @@
 //
 
 #if NET35
-namespace System.Numerics
+namespace Accord.Compat
 {
     using System;
     using System.Text.RegularExpressions;
@@ -510,11 +510,7 @@ namespace System.Numerics
         /// 
         public static bool ApproxEqual(Complex a, Complex b, double tolerance)
         {
-            return
-                (
-                (System.Math.Abs(a.Real - b.Real) <= tolerance) &&
-                (System.Math.Abs(a.Imaginary - b.Imaginary) <= tolerance)
-                );
+            return ((System.Math.Abs(a.Real - b.Real) <= tolerance) && (System.Math.Abs(a.Imaginary - b.Imaginary) <= tolerance));
         }
 
         #region Public Static Parse Methods
@@ -1081,6 +1077,13 @@ namespace System.Numerics
             info.AddValue("Imaginary", this.Imaginary);
         }
         #endregion
+    }
+}
+
+namespace System.Numerics
+{
+    internal class Dummy
+    {
     }
 }
 #endif

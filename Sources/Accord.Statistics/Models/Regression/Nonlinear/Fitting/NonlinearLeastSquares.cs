@@ -25,8 +25,9 @@ namespace Accord.Statistics.Models.Regression.Fitting
     using System;
     using Accord.Math.Optimization;
     using Accord.MachineLearning;
-    using System.Threading;
     using Accord.Math;
+    using Accord.Compat;
+    using System.Threading;
 
     /// <summary>
     ///   Non-linear Least Squares for <see cref="NonlinearRegression"/> optimization.

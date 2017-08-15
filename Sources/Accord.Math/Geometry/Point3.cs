@@ -23,7 +23,7 @@
 namespace Accord.Math
 {
     using System;
-    using AForge.Math;
+    using Accord.Compat;
 
     /// <summary>
     ///   3D point structure with X, Y, and coordinates.

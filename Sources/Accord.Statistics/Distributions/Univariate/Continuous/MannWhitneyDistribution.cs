@@ -26,12 +26,10 @@ namespace Accord.Statistics.Distributions.Univariate
     using Accord.Math;
     using Accord.Statistics.Testing;
     using Accord.Statistics;
-    using AForge;
-    using System.Threading.Tasks;
-    using System.Threading;
     using System.Linq;
-    using System.Collections.Generic;
     using System.Diagnostics;
+    using Accord.Compat;
+    using System.Threading.Tasks;
 
     /// <summary>
     ///   Continuity correction to be used when aproximating

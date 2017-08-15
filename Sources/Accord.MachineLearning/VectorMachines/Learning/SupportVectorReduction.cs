@@ -28,6 +28,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     using Math.Optimization.Losses;
     using System;
     using System.Threading;
+    using Accord.Compat;
 
     /// <summary>
     ///   Exact support vector reduction through linear dependency elimination.
@@ -124,7 +125,9 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         : BaseSupportVectorCalibration<TModel, TKernel, TInput>
         where TModel : SupportVectorMachine<TKernel, TInput>
         where TKernel : IKernel<TInput>
+#if !NETSTANDARD1_4
         where TInput : ICloneable
+#endif
     {
         private double threshold = 1e-12;
 
@@ -205,7 +208,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
             // Retain only multipliers which are not zero
             int[] idx = alpha.Find(a => Math.Abs(a) > threshold);
-            Model.Weights = alpha.Get(idx);  
+            Model.Weights = alpha.Get(idx);
             Model.SupportVectors = supportVectors.Get(idx);
         }
 

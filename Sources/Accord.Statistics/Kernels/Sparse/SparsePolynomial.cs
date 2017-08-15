@@ -23,13 +23,14 @@
 namespace Accord.Statistics.Kernels.Sparse
 {
     using System;
+    using Accord.Compat;
 
     /// <summary>
     ///   Sparse Polynomial Kernel.
     /// </summary>
     /// 
     [Serializable]
-    [Obsolete("Please use the Polynomial kernel with Sparse<double> instead.")]
+    [Obsolete("Please use Polynomial<Sparse<double>> instead.")]
     public sealed class SparsePolynomial : KernelBase, IKernel
     {
         private int degree;

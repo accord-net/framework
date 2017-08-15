@@ -26,6 +26,7 @@ namespace Accord.Statistics.Models.Regression
     using Accord.Math.Optimization;
     using Accord.Statistics.Models.Regression.Fitting;
     using System;
+    using Accord.Compat;
 
     /// <summary>
     ///   Regression function delegate.

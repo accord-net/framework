@@ -30,7 +30,7 @@ namespace Accord.Statistics.Models.Fields.Learning
     using Accord.Statistics.Models.Fields.Functions;
     using System;
     using System.Linq;
-    using System.Threading;
+    using Accord.Compat;
     using System.Threading.Tasks;
 
     /// <summary>

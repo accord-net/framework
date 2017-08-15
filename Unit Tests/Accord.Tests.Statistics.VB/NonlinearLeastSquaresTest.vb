@@ -1,4 +1,6 @@
-﻿Imports NUnit.Framework
+﻿Option Strict On
+
+Imports NUnit.Framework
 Imports Accord.Math
 Imports Accord.Math.Optimization
 Imports Accord.Statistics.Models.Regression
@@ -27,8 +29,8 @@ Public Class NonlinearLeastSquaresTest
         }
 
         ' Extract inputs And outputs
-        Dim inputs = data.GetColumn(0).ToJagged()
-        Dim outputs = data.GetColumn(1)
+        Dim inputs As Double()() = data.GetColumn(0).ToJagged()
+        Dim outputs As Double() = data.GetColumn(1)
 
         ' Create a Nonlinear regression using 
         Dim nls As NonlinearLeastSquares = New NonlinearLeastSquares
@@ -49,7 +51,7 @@ Public Class NonlinearLeastSquaresTest
                         End Sub
         End With
 
-        Dim algorithm = New LevenbergMarquardt
+        Dim algorithm As LevenbergMarquardt = New LevenbergMarquardt
         With algorithm
             .MaxIterations = 100
             .Tolerance = 0
@@ -57,7 +59,7 @@ Public Class NonlinearLeastSquaresTest
 
         nls.Algorithm = algorithm
 
-        Dim regression = nls.Learn(inputs, outputs)
+        Dim regression As NonlinearRegression = nls.Learn(inputs, outputs)
 
         ' Use the function to compute the input values
         Dim predict As Double() = regression.Transform(inputs)
@@ -66,7 +68,7 @@ Public Class NonlinearLeastSquaresTest
 
         Assert.IsTrue(TypeOf nls.Algorithm Is LevenbergMarquardt)
 
-        Dim loss = New SquareLoss(outputs)
+        Dim loss As SquareLoss = New SquareLoss(outputs)
         With loss
             .Mean = False
         End With
@@ -98,11 +100,11 @@ Public Class NonlinearLeastSquaresTest
         }
 
         ' Extract inputs And outputs
-        Dim inputs = data.GetRow(0).ToJagged()
-        Dim outputs = data.GetRow(1)
+        Dim inputs As Double()() = data.GetRow(0).ToJagged()
+        Dim outputs As Double() = data.GetRow(1)
 
         ' Create a Nonlinear regression using 
-        Dim nls = New NonlinearLeastSquares
+        Dim nls As NonlinearLeastSquares = New NonlinearLeastSquares
         With nls
             ' Initialize to some random values
             .StartValues = {0.9, 0.2}
@@ -117,7 +119,7 @@ Public Class NonlinearLeastSquaresTest
                         End Sub
         End With
 
-        Dim algorithm = New GaussNewton
+        Dim algorithm As GaussNewton = New GaussNewton
         With algorithm
             .MaxIterations = 0
             .Tolerance = 0.00001
@@ -125,28 +127,28 @@ Public Class NonlinearLeastSquaresTest
 
         nls.Algorithm = algorithm
 
-        Dim regression = nls.Learn(inputs, outputs)
+        Dim regression As NonlinearRegression = nls.Learn(inputs, outputs)
 
         ' Use the function to compute the input values
-        Dim predict = regression.Transform(inputs)
+        Dim predict As Double() = regression.Transform(inputs)
 #End Region
 
-        Dim alg = TryCast(nls.Algorithm, GaussNewton)
+        Dim alg As GaussNewton = TryCast(nls.Algorithm, GaussNewton)
         Assert.AreEqual(0, alg.MaxIterations)
         Assert.AreEqual(0.00001, alg.Tolerance)
         Assert.AreEqual(6, alg.CurrentIteration)
 
-        Dim loss = New SquareLoss(outputs)
+        Dim loss As SquareLoss = New SquareLoss(outputs)
         With loss
             .Mean = False
         End With
 
-        Dim err = loss.Loss(predict) / 2.0
+        Dim err As Double = loss.Loss(predict) / 2.0
 
         Assert.AreEqual(0.004048452937977628, err, 0.00000001)
 
-        Dim b1 = regression.Coefficients(0)
-        Dim b2 = regression.Coefficients(1)
+        Dim b1 As Double = regression.Coefficients(0)
+        Dim b2 As Double = regression.Coefficients(1)
 
         Assert.AreEqual(0.362, b1, 0.001)
         Assert.AreEqual(0.556, b2, 0.003)

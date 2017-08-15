@@ -26,8 +26,9 @@ namespace Accord.Math.Optimization
     using Accord.Math;
     using Accord.Math.Decompositions;
     using System.Threading;
-    using System.Threading.Tasks;
     using Accord.Statistics.Models;
+    using Accord.Compat;
+    using System.Threading.Tasks;
 
     /// <summary>
     ///   Gauss-Newton algorithm for solving Least-Squares problems.

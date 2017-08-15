@@ -29,9 +29,9 @@ namespace Accord.MachineLearning.VectorMachines
 
     /// <summary>
     ///  Contains classes related to <see cref="SupportVectorMachine">Support Vector Machines</see> (SVMs). 
-    ///  Contains <see cref="SupportVectorMachine">linear machines</see>, <see cref="KernelSupportVectorMachine">
-    ///  kernel machines</see>, <see cref="MulticlassSupportVectorMachine">multi-class machines</see>, SVM-DAGs 
-    ///  (Directed Acyclic Graphs), <see cref="MultilabelSupportVectorMachine">multi-label classification</see>
+    ///  Contains <see cref="SupportVectorMachine">linear machines</see>, <see cref="SupportVectorMachine{TKernel}">
+    ///  kernel machines</see>, <see cref="MulticlassSupportVectorMachine{TKernel}">multi-class machines</see>, SVM-DAGs 
+    ///  (Directed Acyclic Graphs), <see cref="MultilabelSupportVectorMachine{TKernel}">multi-label classification</see>
     ///  and also offers support for the <see cref="ProbabilisticOutputCalibration">probabilistic output calibration
     ///  </see> of SVM outputs.
     /// </summary>
@@ -39,9 +39,9 @@ namespace Accord.MachineLearning.VectorMachines
     /// <remarks>
     /// <para>
     ///   This namespace contains both standard <see cref="SupportVectorMachine"/>s and the
-    ///   kernel extension given by <see cref="KernelSupportVectorMachine"/>s. For multiple
-    ///   classes or categories, the framework offers <see cref="MulticlassSupportVectorMachine"/>s
-    ///   and <see cref="MultilabelSupportVectorMachine"/>s. Multi-class machines can be used for
+    ///   kernel extension given by <see cref="SupportVectorMachine{TKernel}"/>s. For multiple
+    ///   classes or categories, the framework offers <see cref="MulticlassSupportVectorMachine{TKernel}"/>s
+    ///   and <see cref="MultilabelSupportVectorMachine{TKernel}"/>s. Multi-class machines can be used for
     ///   cases where a single class should be picked up from a list of several class labels, and
     ///   the multi-label machine for cases where multiple class labels might be detected for a 
     ///   single input vector. The multi-class machines also support two types of classification:
@@ -49,7 +49,7 @@ namespace Accord.MachineLearning.VectorMachines
     ///   based on a Voting scheme.</para>
     ///   
     /// <para>
-    ///   Learning can be achieved using the standard <see cref="SequentialMinimalOptimization"/>
+    ///   Learning can be achieved using the standard <see cref="SequentialMinimalOptimization{TKernel}"/>
     ///   (SMO) algorithm. However, the framework can also learn Least Squares SVMs (LS-SVMs) using <see 
     ///   cref="LeastSquaresLearning"/>, and even calibrate SVMs to produce probabilistic outputs
     ///   using <see cref="ProbabilisticOutputCalibration"/>. A <see cref="Accord.Statistics.Kernels">

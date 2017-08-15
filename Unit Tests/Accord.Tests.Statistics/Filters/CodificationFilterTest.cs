@@ -29,11 +29,13 @@ namespace Accord.Tests.Statistics
     using System;
     using System.Data;
     using System.IO;
+    using System.Linq.Expressions;
 
     [TestFixture]
     public class CodificationFilterTest
     {
 
+#if !NO_DATA_TABLE
         // An extra example for the Codification filter is available
         // at the Accord.Tests.MachineLearning assembly in the file
         // CodificationFilterSvmTest.cs
@@ -115,7 +117,7 @@ namespace Accord.Tests.Statistics
                 for (int j = 0; j < actual.Columns.Count; j++)
                     Assert.AreEqual(expected.Rows[i][j], actual.Rows[i][j]);
         }
-
+#endif
 
         [Test]
         public void ApplyTest3()
@@ -145,7 +147,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual("elder", labelc);
         }
 
-#if !NETSTANDARD2_0
+#if !NO_EXCEL
         [Test]
         [Category("Office")]
         public void ApplyTest4()
@@ -169,6 +171,7 @@ namespace Accord.Tests.Statistics
         }
 #endif
 
+#if !NO_DATA_TABLE
         /// <summary>
         ///   Testing Codification.Translate(string, string)
         ///   This method tests, that the correct DataColumn is used 
@@ -313,7 +316,9 @@ namespace Accord.Tests.Statistics
 
             Assert.IsTrue(thrown);
         }
+#endif
 
+#if !NO_BINARY_SERIALIZATION
         [Test]
         [Category("Serialization")]
         public void SerializationTest()
@@ -345,6 +350,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual("adult", reloaded.Translate("Label", 1));
             Assert.AreEqual("elder", reloaded.Translate("Label", 2));
         }
+#endif
 
         [Test]
         public void StringApplyTest3()
@@ -391,6 +397,66 @@ namespace Accord.Tests.Statistics
                 new double[] { 0.333333333333333, 0, 0, 0.333333333333333, 0, 0, 0.5, 0 },
                 new double[] { 0, 0.333333333333333, 0, 0, 0.333333333333333, 0, 0, 0.5 },
                 new double[] { 0, 0, 0.333333333333333, 0, 0, 0.333333333333333, 0.5, 0 }
+            };
+
+            Assert.IsTrue(features.IsEqual(expected, rtol: 1e-10));
+        }
+
+        [Test]
+        public void thresholds()
+        {
+            // Example for https://github.com/accord-net/framework/issues/737
+
+            // Let's say we have a dataset of US birds:
+            string[] names = { "State", "Bird", "Percentage" };
+
+            object[][] inputData =
+            {
+                new object[] { "Kansas", "Crow", 0.1 },
+                new object[] { "Ohio", "Pardal", 0.5 },
+                new object[] { "Hawaii", "Penguim", 0.7 }
+            };
+
+            // Discretize the continous data from a doubles to a string representation
+            var discretization = new Discretization<double, string>(names, inputData);
+            discretization["Percentage"].Mapping[x => x >= 0.00 && x < 0.25] = x => "Q1";
+            discretization["Percentage"].Mapping[x => x >= 0.25 && x < 0.50] = x => "Q2";
+            discretization["Percentage"].Mapping[x => x >= 0.50 && x < 0.75] = x => "Q3";
+            discretization["Percentage"].Mapping[x => x >= 0.75 && x < 1.09] = x => "Q4";
+
+            // Transform the data into discrete categories
+            string[][] discreteData = discretization.Transform(inputData);
+
+            // Codify the discrete data from strings to integers
+            var codebook = new Codification<string>(names, discreteData);
+
+            // Transform the data into integer symbols
+            int[][] values = codebook.Transform(discreteData);
+
+            // Transform the symbols into 1-of-K vectors
+            double[][] states = Jagged.OneHot(values.GetColumn(0));
+            double[][] birds = Jagged.OneHot(values.GetColumn(1));
+            double[][] colors = Jagged.OneHot(values.GetColumn(2));
+
+            // Normalize each variable separately if needed
+            states = states.Divide(codebook["State"].NumberOfSymbols);
+            birds = birds.Divide(codebook["Bird"].NumberOfSymbols);
+            colors = colors.Divide(codebook["Percentage"].NumberOfSymbols);
+
+            // Create final feature vectors
+            double[][] features = Matrix.Concatenate(states, birds, colors);
+
+            Assert.AreEqual(new[] { 3, 3 }, states.GetLength());
+            Assert.AreEqual(new[] { 3, 3 }, birds.GetLength());
+            Assert.AreEqual(new[] { 3, 2 }, colors.GetLength());
+            Assert.AreEqual(new[] { 3, 8 }, features.GetLength());
+
+            // string t = features.ToCSharp();
+            var expected = new double[][]
+            {
+                new double[] { 0.333333333333333, 0, 0, 0.333333333333333, 0, 0, 0.5, 0 },
+                new double[] { 0, 0.333333333333333, 0, 0, 0.333333333333333, 0, 0, 0.5 },
+                new double[] { 0, 0, 0.333333333333333, 0, 0, 0.333333333333333, 0, 0.5 }
             };
 
             Assert.IsTrue(features.IsEqual(expected, rtol: 1e-10));

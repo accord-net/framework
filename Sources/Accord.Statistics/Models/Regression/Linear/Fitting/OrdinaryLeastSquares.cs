@@ -24,13 +24,10 @@ namespace Accord.Statistics.Models.Regression.Linear
 {
     using MachineLearning;
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using Accord.Math;
-    using System.Text;
-    using System.Threading.Tasks;
-    using System.Threading;
     using Accord.Math.Decompositions;
+    using Accord.Compat;
+    using System.Threading;
 
     /// <summary>
     ///   Least Squares learning algorithm for linear regression models.

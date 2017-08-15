@@ -34,7 +34,9 @@ namespace Accord.Tests.MachineLearning
     using Accord.Statistics.Distributions.Univariate;
     using Accord.Statistics.Filters;
     using NUnit.Framework;
+    using System;
     using System.Data;
+    using System.IO;
     using System.Text;
 
     [TestFixture]
@@ -96,7 +98,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(0.6, target.Priors[1]);
         }
 
-
+#if !NO_DATA_TABLE
         [Test]
         public void ComputeTest_Obsolete()
         {
@@ -233,7 +235,7 @@ namespace Accord.Tests.MachineLearning
             Assert.IsFalse(double.IsNaN(probs[0]));
             Assert.AreEqual(2, probs.Length);
         }
-
+#endif
 
         [Test]
         public void ComputeTest2()
@@ -512,6 +514,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(symbols.Length, actual.GetLength(1));
         }
 
+#if !NO_BINARY_SERIALIZATION
         [Test]
         public void SerializeTest()
         {
@@ -527,7 +530,8 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(0.6, target.Priors[1]);
 
             //target.Save(@"C:\Projects\Accord.NET\framework\nb2.bin");
-            target = Serializer.Load<NaiveBayes>(Properties.Resources.nb2);
+            string fileName = Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources", "nb2.bin");
+            target = Serializer.Load<NaiveBayes>(fileName);
 
             Assert.AreEqual(2, target.NumberOfOutputs);
             Assert.AreEqual(3, target.NumberOfInputs);
@@ -535,6 +539,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(0.4, target.Priors[0]);
             Assert.AreEqual(0.6, target.Priors[1]);
         }
+#endif
 
         [Test]
         public void no_sample_test()
@@ -751,6 +756,51 @@ namespace Accord.Tests.MachineLearning
             }
         }
 
+        [Test]
+        public void no_samples_for_class_simple()
+        {
+            int[][] inputs =
+            {
+                new [] { 1, 1 }, // 0
+                new [] { 1, 1 }, // 0
+                new [] { 1, 1 }, // 2
+            };
+
+            int[] outputs =
+            {
+                0, 0, 2
+            };
+
+
+            var teacher = new NaiveBayesLearning();
+
+            Assert.Throws<ArgumentException>(() => teacher.Learn(inputs, outputs),
+               "There are no samples for class label {0}. Please make sure that class " +
+               "labels are contiguous and there is at least one training sample for each label.", 1);
+        }
+
+        [Test]
+        public void no_samples_for_class_double()
+        {
+            double[][] inputs =
+            {
+                new double[] { 1, 1 }, // 0
+                new double[] { 1, 1 }, // 0
+                new double[] { 1, 1 }, // 2
+            };
+
+            int[] outputs =
+            {
+                0, 0, 2
+            };
+
+
+            var teacher = new NaiveBayesLearning<NormalDistribution>();
+
+            Assert.Throws<ArgumentException>(() => teacher.Learn(inputs, outputs),
+               "There are no samples for class label {0}. Please make sure that class " +
+               "labels are contiguous and there is at least one training sample for each label.", 1);
+        }
     }
 }
 #endif

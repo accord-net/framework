@@ -23,10 +23,9 @@ namespace Accord.Math
 {
     using System;
     using System.Collections.Generic;
-    using AForge;
-    using System.Runtime.CompilerServices;
     using Accord.Math.Random;
-    using System.Collections;
+    using Accord.Compat;
+    using System.Runtime.CompilerServices;
 
     /// <summary>
     ///   Matrix major order. The default is to use C-style Row-Major order.
@@ -299,7 +298,7 @@ namespace Accord.Math
 #endif
         public static T[,] OneHot<T>(int[] indices)
         {
-            return OneHot<T>(indices, indices.DistinctCount());
+            return OneHot<T>(indices, indices.Max() + 1);
         }
 
         /// <summary>
@@ -317,7 +316,7 @@ namespace Accord.Math
 #endif
         public static double[,] OneHot(int[] indices)
         {
-            return OneHot(indices, indices.DistinctCount());
+            return OneHot(indices, indices.Max() + 1);
         }
 
         /// <summary>
@@ -1167,7 +1166,7 @@ namespace Accord.Math
             if (array.IsMatrix())
                 throw new Exception();
 
-            ArrayList list = new ArrayList();
+            var list = new List<object>();
             for (int i = 0; i < array.Length; i++)
             {
                 var element = array.GetValue(i);

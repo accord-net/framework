@@ -22,8 +22,8 @@
 namespace Accord.Statistics.Distributions.Univariate
 {
     using System;
-    using AForge;
     using System.ComponentModel;
+    using Accord.Compat;
 
     /// <summary>
     ///   Trapezoidal distribution.

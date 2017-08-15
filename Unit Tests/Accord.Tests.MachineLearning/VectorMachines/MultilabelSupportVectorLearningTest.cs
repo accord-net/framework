@@ -23,6 +23,7 @@
 namespace Accord.Tests.MachineLearning
 {
     using Accord.IO;
+    using Accord.MachineLearning;
     using Accord.MachineLearning.VectorMachines;
     using Accord.MachineLearning.VectorMachines.Learning;
     using Accord.Math;
@@ -30,6 +31,7 @@ namespace Accord.Tests.MachineLearning
     using Accord.Statistics;
     using Accord.Statistics.Kernels;
     using NUnit.Framework;
+    using System;
     using System.IO;
     using System.Threading.Tasks;
 
@@ -60,7 +62,7 @@ namespace Accord.Tests.MachineLearning
             int[][] outputs =
             { 
                 //       and   or   nand   xor
-                new[] {  -1,  -1,    +1,   +1 }, 
+                new[] {  -1,  -1,    +1,   +1 },
                 new[] {  -1,  +1,    +1,   -1 },
                 new[] {  -1,  +1,    +1,   -1 },
                 new[] {  +1,  +1,    -1,   +1 },
@@ -248,6 +250,7 @@ namespace Accord.Tests.MachineLearning
             }
         }
 
+#if !NO_BINARY_SERIALIZATION
         [Test]
         [Category("Serialization")]
         public void SerializeTest1()
@@ -363,7 +366,8 @@ namespace Accord.Tests.MachineLearning
             };
 
             // Reload the machines
-            var target = Serializer.Load<MultilabelSupportVectorMachine>(Properties.Resources.ml_svm);
+            string fileName = Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources", "ml-svm.bin");
+            var target = Serializer.Load<MultilabelSupportVectorMachine>(fileName);
 
             double actual;
 
@@ -398,28 +402,28 @@ namespace Accord.Tests.MachineLearning
                     new double[] { 3, 0, 1, 0, 1 },
                     new double[] { 0, 5, 5, 5, 5 },
                     new double[] { 1, 0, 0, 0, 0 },
-                    new double[] { 1, 0, 0, 0, 0 } 
+                    new double[] { 1, 0, 0, 0, 0 }
                 },
-                new double[][] 
+                new double[][]
                 {
                     new double[] { 3, 0, 1, 1, 1 },
                     new double[] { 1, 0, 0, 0, 0 },
                     new double[] { 3, 0, 1, 0, 1 },
                     new double[] { 1, 0, 0, 0, 0 },
-                    new double[] { 1, 5, 5, 5, 5 } 
+                    new double[] { 1, 5, 5, 5, 5 }
                 },
-                new double[][] 
+                new double[][]
                 {
                     new double[] { 1, 5, 5, 5, 5 },
                     new double[] { 1, 4, 2, 0, 1 },
-                    new double[] { 0, 5, 5, 5, 5 } 
+                    new double[] { 0, 5, 5, 5, 5 }
                 },
-                new double[][] 
+                new double[][]
                 {
                     new double[] { 1, 0, 0, 0, 0 },
                     new double[] { 3, 0, 1, 1, 1 },
                     new double[] { 1, 3, 2, 0, 1 },
-                    new double[] { 3, 0, 1, 0, 1 } 
+                    new double[] { 3, 0, 1, 0, 1 }
                 }
              };
 
@@ -427,7 +431,7 @@ namespace Accord.Tests.MachineLearning
                 new double[] { -0.0234960254651262, 0.39850600072147, -0.0378635563194698, -0.0921056339066905, -0.15657076610795, -0.0884700189222341 },
                 new double[] { 0.274739982272114, -0.161382051864791, 0.152130797418313, -0.209064650742987, -0.0564240770826484 },
                 new double[] { 0.0384615384615383, -0.0392011834319528, 0.000739644970414358 },
-                new double[] { 0.373020681418016, -0.00340179246301696, -0.079374696169365, -0.290244192785634 } 
+                new double[] { 0.373020681418016, -0.00340179246301696, -0.079374696169365, -0.290244192785634 }
             };
 
             //Matrix.IsEqual(
@@ -435,7 +439,6 @@ namespace Accord.Tests.MachineLearning
             Assert.IsTrue(svs.IsEqual(expectedSVs, rtol: 1e-8));
             Assert.IsTrue(weights.IsEqual(expectedWeights, rtol: 1e-8));
         }
-
 
         [Test]
         [Category("Serialization")]
@@ -511,6 +514,7 @@ namespace Accord.Tests.MachineLearning
                 Assert.IsTrue(a.SupportVectors.IsEqual(b.SupportVectors));
             }
         }
+#endif
 
         [Test]
         public void multilabel_linear_new_usage()
@@ -570,7 +574,7 @@ namespace Accord.Tests.MachineLearning
             #endregion
 
             Assert.AreEqual(0, error);
-            Assert.IsTrue(predicted.ArgMax(dimension:1 ).IsEqual(outputs));
+            Assert.IsTrue(predicted.ArgMax(dimension: 1).IsEqual(outputs));
         }
 
         [Test]
@@ -648,9 +652,9 @@ namespace Accord.Tests.MachineLearning
             string str = scores.ToCSharp();
 
             double[] expectedScores =
-            { 
+            {
                 1.00888999727541, 1.00303259868784, 1.00068403386636, 1.00888999727541,
-                1.00303259868784, 1.00831890183328, 1.00831890183328, 0.843757409449037, 
+                1.00303259868784, 1.00831890183328, 1.00831890183328, 0.843757409449037,
                 0.996768862332386, 0.996768862332386, 1.02627325826713, 1.00303259868784,
                 0.996967401312164, 0.961947708617365, 1.02627325826713
             };
@@ -671,7 +675,7 @@ namespace Accord.Tests.MachineLearning
                 new double[] { -1.00303259868784, -0.38657999872922, 1.00303259868784 },
                 new double[] { -0.996967401312164, -0.38657999872922, 0.996967401312164 },
                 new double[] { -0.479189991343958, -0.961947708617365, 0.961947708617365 },
-                new double[] { -1.02627325826713, -1.00323113766761, 1.02627325826713 } 
+                new double[] { -1.02627325826713, -1.00323113766761, 1.02627325826713 }
             };
 
             double[][] expectedProbs =
@@ -690,7 +694,7 @@ namespace Accord.Tests.MachineLearning
                 new double[] { 0.0972161784678357, 0.180077937396817, 0.722705884135347 },
                 new double[] { 0.0981785890979593, 0.180760971768703, 0.721060439133338 },
                 new double[] { 0.171157270099157, 0.105617610634377, 0.723225119266465 },
-                new double[] { 0.10192623206507, 0.104302095948601, 0.79377167198633 } 
+                new double[] { 0.10192623206507, 0.104302095948601, 0.79377167198633 }
             };
 
             Assert.AreEqual(0, error);
@@ -728,8 +732,8 @@ namespace Accord.Tests.MachineLearning
             int[] outputs = // those are the class labels
             {
                 0, 0, 0, 0, 0,
-                1, 1, 1, 
-                2, 2, 2, 2, 
+                1, 1, 1,
+                2, 2, 2, 2,
             };
 
             // Create the multi-class learning algorithm for the machine
@@ -802,39 +806,40 @@ namespace Accord.Tests.MachineLearning
                 new double[] { -2.14888646926108, -1.99399145231447, 1.33101148524982 },
                 new double[] { -2.12915064678299, -1.98592298465108, 1.3242171079396 },
                 new double[] { -1.47197826667149, -1.96368715704762, 0.843414180834243 },
-                new double[] { -2.14221021749314, -2.83117892529093, 2.61354519154994 } 
+                new double[] { -2.14221021749314, -2.83117892529093, 2.61354519154994 }
             };
 
             double[][] expectedLogL =
             {
-                new double[] { 1.85316017783605, -2.59688389729331, -2.32170102153988 },
-                new double[] { 1.84933597524124, -1.99399145231446, -2.2920299547693 },
-                new double[] { 1.44477953581274, -1.98592298465108, -2.27356092239125 },
-                new double[] { 1.85316017783605, -2.59688389729331, -2.32170102153988 },
-                new double[] { 1.84933597524124, -1.99399145231446, -2.2920299547693 },
-                new double[] { -2.40815576360914, 0.328362962196791, -0.932721757919691 },
-                new double[] { -2.13111157264226, 1.809192096031, -2.2920299547693 },
-                new double[] { -2.13111157264226, 1.809192096031, -2.2920299547693 },
-                new double[] { -2.14888646926108, -1.99399145231447, 1.33101148524982 },
-                new double[] { -2.12915064678299, -1.98592298465108, 1.3242171079396 },
-                new double[] { -1.47197826667149, -1.96368715704762, 0.843414180834243 },
-                new double[] { -2.14221021749314, -2.83117892529093, 2.61354519154994 } 
+                new double[] { -0.145606614365135, -2.66874434442222, -2.41528841111469 },
+                new double[] { -0.146125659911391, -2.12163759796483, -2.3883043096263 },
+                new double[] { -0.211716960454159, -2.11453945718522, -2.37154474995633 },
+                new double[] { -0.145606614365135, -2.66874434442222, -2.41528841111469 },
+                new double[] { -0.146125659911391, -2.12163759796483, -2.3883043096263 },
+                new double[] { -2.4943161092787, -0.542383360363463, -1.26452689970624 },
+                new double[] { -2.24328358118314, -0.151678833375872, -2.3883043096263 },
+                new double[] { -2.24328358118314, -0.151678833375872, -2.3883043096263 },
+                new double[] { -2.25918730624753, -2.12163759796483, -0.234447327588685 },
+                new double[] { -2.24153091066541, -2.11453945718522, -0.2358711195715 },
+                new double[] { -1.67856232802554, -2.0950136294762, -0.357841632335707 },
+                new double[] { -2.25321037906455, -2.88845047104229, -0.0707140798850236 }
             };
 
             double[][] expectedProbs =
             {
-                new double[] { 6.37994947365835, 0.0745053832890827, 0.0981065622139132 },
-                new double[] { 6.35559784678136, 0.136150899620619, 0.101061104020747 },
-                new double[] { 4.24091706941419, 0.137253872418087, 0.102944947658882 },
-                new double[] { 6.37994947365835, 0.0745053832890827, 0.0981065622139132 },
-                new double[] { 6.35559784678136, 0.136150899620619, 0.101061104020747 },
-                new double[] { 0.0899810880411361, 1.38869292386051, 0.393481290780948 },
-                new double[] { 0.118705270957796, 6.10551277113228, 0.101061104020747 },
-                new double[] { 0.118705270957796, 6.10551277113228, 0.101061104020747 },
-                new double[] { 0.116613938707895, 0.136150899620619, 3.78486979203385 },
-                new double[] { 0.118938271567046, 0.137253872418087, 3.75924112261421 },
-                new double[] { 0.229471080877097, 0.140340010119971, 2.3242889884131 },
-                new double[] { 0.11739508739354, 0.0589433229176013, 13.6473476521179 }             };
+                new double[] { 0.844913862516144, 0.0677684640174953, 0.0873176734663607 },
+                new double[] { 0.803266328757473, 0.111405242674824, 0.0853284285677024 },
+                new double[] { 0.790831391595502, 0.117950175028754, 0.0912184333757438 },
+                new double[] { 0.844913862516144, 0.0677684640174953, 0.0873176734663607 },
+                new double[] { 0.803266328757473, 0.111405242674824, 0.0853284285677024 },
+                new double[] { 0.0872387667998771, 0.614360294206236, 0.298400938993887 },
+                new double[] { 0.100372339295793, 0.812805149315815, 0.0868225113883914 },
+                new double[] { 0.100372339295793, 0.812805149315815, 0.0868225113883914 },
+                new double[] { 0.102863726210119, 0.11803188195247, 0.779104391837411 },
+                new double[] { 0.104532503226998, 0.118686968710368, 0.776780528062634 },
+                new double[] { 0.184996665350572, 0.121983586443407, 0.693019748206021 },
+                new double[] { 0.0961702585148881, 0.0509517983210315, 0.85287794316408 }
+            };
 
             int[] actual = predicted.ArgMax(dimension: 1);
             Assert.IsTrue(actual.IsEqual(outputs));
@@ -843,10 +848,81 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(0.5, machine[0].Kernel.Gamma);
             Assert.AreEqual(0.5, machine[1].Kernel.Gamma);
             Assert.AreEqual(0.5, machine[2].Kernel.Gamma);
-            Assert.AreEqual(-18.908706961799737, loss);
+            Assert.AreEqual(2.9395943260892361, loss);
             Assert.IsTrue(expectedScores.IsEqual(scores, 1e-10));
             Assert.IsTrue(expectedLogL.IsEqual(logl, 1e-10));
             Assert.IsTrue(expectedProbs.IsEqual(prob, 1e-10));
+            double[] rowSums = expectedProbs.Sum(1);
+            Assert.IsTrue(rowSums.IsEqual(Vector.Ones(expectedProbs.Length), 1e-10));
+
+            {
+                bool[][] predicted2 = null;
+                double[][] scores2 = machine.Scores(inputs, ref predicted2);
+                Assert.IsTrue(scores2.IsEqual(scores));
+                Assert.IsTrue(predicted2.IsEqual(predicted));
+
+                double[][] logl2 = machine.LogLikelihoods(inputs, ref predicted2);
+                Assert.IsTrue(logl2.IsEqual(logl));
+                Assert.IsTrue(predicted2.IsEqual(predicted));
+
+                double[][] prob2 = machine.Probabilities(inputs, ref predicted2);
+                Assert.IsTrue(prob2.IsEqual(prob));
+                Assert.IsTrue(predicted2.IsEqual(predicted));
+
+                bool[][] predicted3 = new bool[predicted2.Length][];
+                double[][] scores3 = inputs.ApplyWithIndex((x, i) => machine.Scores(x, ref predicted3[i]));
+                Assert.IsTrue(scores3.IsEqual(scores));
+                Assert.IsTrue(predicted3.IsEqual(predicted));
+
+                double[][] logl3 = inputs.ApplyWithIndex((x, i) => machine.LogLikelihoods(x, ref predicted3[i]));
+                Assert.IsTrue(logl3.IsEqual(logl));
+                Assert.IsTrue(predicted3.IsEqual(predicted));
+
+                double[][] prob3 = inputs.ApplyWithIndex((x, i) => machine.Probabilities(x, ref predicted3[i]));
+                Assert.IsTrue(prob3.IsEqual(prob));
+                Assert.IsTrue(predicted3.IsEqual(predicted));
+            }
+
+            {
+                double[] ed = new double[scores.Length];
+                double[] es = new double[scores.Length];
+                double[] el = new double[scores.Length];
+                double[] ep = new double[scores.Length];
+                for (int i = 0; i < expectedScores.Length; i++)
+                {
+                    int j = scores[i].ArgMax();
+                    ed[i] = j;
+                    es[i] = scores[i][j];
+                    el[i] = logl[i][j];
+                    ep[i] = prob[i][j];
+                }
+
+                int[] predicted2 = null;
+                double[] scores2 = machine.ToMulticlass().Score(inputs, ref predicted2);
+                Assert.IsTrue(scores2.IsEqual(es));
+                Assert.IsTrue(predicted2.IsEqual(ed));
+
+                double[] logl2 = machine.ToMulticlass().LogLikelihood(inputs, ref predicted2);
+                Assert.IsTrue(logl2.IsEqual(el));
+                Assert.IsTrue(predicted2.IsEqual(ed));
+
+                double[] prob2 = machine.ToMulticlass().Probability(inputs, ref predicted2);
+                Assert.IsTrue(prob2.IsEqual(ep));
+                Assert.IsTrue(predicted2.IsEqual(ed));
+
+                int[] predicted3 = new int[predicted2.Length];
+                double[] scores3 = inputs.ApplyWithIndex((x, i) => machine.ToMulticlass().Score(x, out predicted3[i]));
+                Assert.IsTrue(scores3.IsEqual(es));
+                Assert.IsTrue(predicted3.IsEqual(ed));
+
+                double[] logl3 = inputs.ApplyWithIndex((x, i) => machine.ToMulticlass().LogLikelihood(x, out predicted3[i]));
+                Assert.IsTrue(logl3.IsEqual(el));
+                Assert.IsTrue(predicted3.IsEqual(ed));
+
+                double[] prob3 = inputs.ApplyWithIndex((x, i) => machine.ToMulticlass().Probability(x, out predicted3[i]));
+                Assert.IsTrue(prob3.IsEqual(ep));
+                Assert.IsTrue(predicted3.IsEqual(ed));
+            }
         }
 
         [Test]
@@ -875,8 +951,8 @@ namespace Accord.Tests.MachineLearning
             int[] outputs = // those are the class labels
             {
                 0, 0, 0, 0, 0,
-                1, 1, 1, 
-                2, 2, 2, 2, 
+                1, 1, 1,
+                2, 2, 2, 2,
             };
 
             // Create the multi-class learning algorithm for the machine
@@ -943,39 +1019,40 @@ namespace Accord.Tests.MachineLearning
                 new double[] { -2.14888646926108, -1.99399145231447, 1.33101148524982 },
                 new double[] { -2.12915064678299, -1.98592298465108, 1.3242171079396 },
                 new double[] { -1.47197826667149, -1.96368715704762, 0.843414180834243 },
-                new double[] { -2.14221021749314, -2.83117892529093, 2.61354519154994 } 
+                new double[] { -2.14221021749314, -2.83117892529093, 2.61354519154994 }
             };
 
             double[][] expectedLogL =
             {
-                new double[] { 1.85316017783605, -2.59688389729331, -2.32170102153988 },
-                new double[] { 1.84933597524124, -1.99399145231446, -2.2920299547693 },
-                new double[] { 1.44477953581274, -1.98592298465108, -2.27356092239125 },
-                new double[] { 1.85316017783605, -2.59688389729331, -2.32170102153988 },
-                new double[] { 1.84933597524124, -1.99399145231446, -2.2920299547693 },
-                new double[] { -2.40815576360914, 0.328362962196791, -0.932721757919691 },
-                new double[] { -2.13111157264226, 1.809192096031, -2.2920299547693 },
-                new double[] { -2.13111157264226, 1.809192096031, -2.2920299547693 },
-                new double[] { -2.14888646926108, -1.99399145231447, 1.33101148524982 },
-                new double[] { -2.12915064678299, -1.98592298465108, 1.3242171079396 },
-                new double[] { -1.47197826667149, -1.96368715704762, 0.843414180834243 },
-                new double[] { -2.14221021749314, -2.83117892529093, 2.61354519154994 } 
+                new double[] { -0.145606614365135, -2.66874434442222, -2.41528841111469 },
+                new double[] { -0.146125659911391, -2.12163759796483, -2.3883043096263 },
+                new double[] { -0.211716960454159, -2.11453945718522, -2.37154474995633 },
+                new double[] { -0.145606614365135, -2.66874434442222, -2.41528841111469 },
+                new double[] { -0.146125659911391, -2.12163759796483, -2.3883043096263 },
+                new double[] { -2.4943161092787, -0.542383360363463, -1.26452689970624 },
+                new double[] { -2.24328358118314, -0.151678833375872, -2.3883043096263 },
+                new double[] { -2.24328358118314, -0.151678833375872, -2.3883043096263 },
+                new double[] { -2.25918730624753, -2.12163759796483, -0.234447327588685 },
+                new double[] { -2.24153091066541, -2.11453945718522, -0.2358711195715 },
+                new double[] { -1.67856232802554, -2.0950136294762, -0.357841632335707 },
+                new double[] { -2.25321037906455, -2.88845047104229, -0.0707140798850236 }
             };
 
             double[][] expectedProbs =
             {
-                new double[] { 6.37994947365835, 0.0745053832890827, 0.0981065622139132 },
-                new double[] { 6.35559784678136, 0.136150899620619, 0.101061104020747 },
-                new double[] { 4.24091706941419, 0.137253872418087, 0.102944947658882 },
-                new double[] { 6.37994947365835, 0.0745053832890827, 0.0981065622139132 },
-                new double[] { 6.35559784678136, 0.136150899620619, 0.101061104020747 },
-                new double[] { 0.0899810880411361, 1.38869292386051, 0.393481290780948 },
-                new double[] { 0.118705270957796, 6.10551277113228, 0.101061104020747 },
-                new double[] { 0.118705270957796, 6.10551277113228, 0.101061104020747 },
-                new double[] { 0.116613938707895, 0.136150899620619, 3.78486979203385 },
-                new double[] { 0.118938271567046, 0.137253872418087, 3.75924112261421 },
-                new double[] { 0.229471080877097, 0.140340010119971, 2.3242889884131 },
-                new double[] { 0.11739508739354, 0.0589433229176013, 13.6473476521179 }             };
+                new double[] { 0.844913862516144, 0.0677684640174953, 0.0873176734663607 },
+                new double[] { 0.803266328757473, 0.111405242674824, 0.0853284285677024 },
+                new double[] { 0.790831391595502, 0.117950175028754, 0.0912184333757438 },
+                new double[] { 0.844913862516144, 0.0677684640174953, 0.0873176734663607 },
+                new double[] { 0.803266328757473, 0.111405242674824, 0.0853284285677024 },
+                new double[] { 0.0872387667998771, 0.614360294206236, 0.298400938993887 },
+                new double[] { 0.100372339295793, 0.812805149315815, 0.0868225113883914 },
+                new double[] { 0.100372339295793, 0.812805149315815, 0.0868225113883914 },
+                new double[] { 0.102863726210119, 0.11803188195247, 0.779104391837411 },
+                new double[] { 0.104532503226998, 0.118686968710368, 0.776780528062634 },
+                new double[] { 0.184996665350572, 0.121983586443407, 0.693019748206021 },
+                new double[] { 0.0961702585148881, 0.0509517983210315, 0.85287794316408 }
+            };
 
             int[] actual = predicted.ArgMax(dimension: 1);
             Assert.IsTrue(actual.IsEqual(outputs));
@@ -985,10 +1062,19 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(0.5, ((Gaussian)machine[0].Kernel).Gamma);
             Assert.AreEqual(0.5, ((Gaussian)machine[1].Kernel).Gamma);
             Assert.AreEqual(0.5, ((Gaussian)machine[2].Kernel).Gamma);
-            Assert.AreEqual(-18.908706961799737, loss);
+            Assert.AreEqual(2.9395943260892361, loss);
             Assert.IsTrue(expectedScores.IsEqual(scores, 1e-10));
             Assert.IsTrue(expectedLogL.IsEqual(logl, 1e-10));
             Assert.IsTrue(expectedProbs.IsEqual(prob, 1e-10));
+
+            double[] probabilities = CorrectProbabilities(machine, inputs[0]);
+            double[] actualProb = machine.Probabilities(inputs[0]);
+            Assert.IsTrue(probabilities.IsEqual(actualProb, 1e-8));
+        }
+
+        public static double[] CorrectProbabilities(IMultilabelLikelihoodClassifier<double[]> machine, double[] input)
+        {
+            return Special.Softmax(machine.Scores(input).Apply(x => -Special.Log1pexp(-x)));
         }
 
         [Test]
@@ -1042,6 +1128,35 @@ namespace Accord.Tests.MachineLearning
             int[] actual = machine.Decide(inputs).ArgMax(dimension: 1);
             outputs[13] = 0;
             Assert.IsTrue(actual.IsEqual(outputs));
+        }
+
+
+        [Test]
+        public void no_samples_for_class()
+        {
+            double[][] inputs =
+            {
+                new double[] { 1, 1 }, // 0
+                new double[] { 1, 1 }, // 0
+                new double[] { 1, 1 }, // 2
+            };
+
+            int[] outputs =
+            {
+                0, 0, 2
+            };
+
+            var teacher = new MultilabelSupportVectorLearning<Gaussian>()
+            {
+                Learner = (param) => new SequentialMinimalOptimization<Gaussian>()
+                {
+                    UseKernelEstimation = true
+                }
+            };
+
+            Assert.Throws<ArgumentException>(() => teacher.Learn(inputs, outputs),
+                "There are no samples for class label {0}. Please make sure that class " +
+                "labels are contiguous and there is at least one training sample for each label.", 1);
         }
     }
 }

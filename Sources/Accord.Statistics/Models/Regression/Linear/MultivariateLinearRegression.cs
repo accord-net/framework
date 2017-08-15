@@ -29,6 +29,7 @@ namespace Accord.Statistics.Models.Regression.Linear
     using Accord.Statistics.Models.Regression.Fitting;
     using Accord.Math.Optimization.Losses;
     using Accord.Statistics.Testing;
+    using Accord.Compat;
 
     /// <summary>
     ///   Multivariate Linear Regression.

@@ -29,6 +29,8 @@ namespace Accord.Math.Decompositions
 {
     using System;
     using Accord.Math;
+	using System.Diagnostics;
+    using Accord.Compat;
 
     /// <summary>
     ///   Singular Value Decomposition for a rectangular matrix.
@@ -380,8 +382,7 @@ namespace Accord.Math.Decompositions
 
                     // throw new ArgumentException("Matrix should have more rows than columns.");
 
-                    System.Diagnostics.Trace.WriteLine(
-                        "WARNING: Computing SVD on a matrix with more columns than rows.");
+                    Trace.WriteLine("WARNING: Computing SVD on a matrix with more columns than rows.");
 
                     // Proceed anyway
                     a = inPlace ? value : (Single[][])value.MemberwiseClone();

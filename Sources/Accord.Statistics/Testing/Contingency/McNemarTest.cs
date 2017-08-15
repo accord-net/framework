@@ -24,6 +24,7 @@ namespace Accord.Statistics.Testing
 {
     using System;
     using Accord.Statistics.Analysis;
+    using Accord.Compat;
 
     /// <summary>
     ///   McNemar test of homogeneity for <c>2 x 2</c> contingency tables.

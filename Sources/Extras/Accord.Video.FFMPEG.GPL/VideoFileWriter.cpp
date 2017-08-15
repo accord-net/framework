@@ -31,10 +31,6 @@
 
 #include <string>
 
-#if !NET35
-#include <msclr\marshal_cppstd.h>
-#endif
-
 #define MAX_AUDIO_PACKET_SIZE (128 * 1024)
 
 namespace libffmpeg
@@ -410,15 +406,11 @@ namespace Accord {
                 try
                 {
                     // convert specified managed String to unmanaged string
-#if NET35
                     IntPtr ptr = System::Runtime::InteropServices::Marshal::StringToHGlobalUni(fileName);
                     wchar_t* nativeFileNameUnicode = (wchar_t*)ptr.ToPointer();
                     int utf8StringSize = WideCharToMultiByte(CP_UTF8, 0, nativeFileNameUnicode, -1, NULL, 0, NULL, NULL);
                     char* nativeFileName = new char[utf8StringSize];
                     WideCharToMultiByte(CP_UTF8, 0, nativeFileNameUnicode, -1, nativeFileName, utf8StringSize, NULL, NULL);
-#else
-                    auto nativeFileName = msclr::interop::marshal_as<std::string>(fileName).c_str();
-#endif
 
                     // guess about destination file format from its file name
                     libffmpeg::AVOutputFormat* outputFormat = libffmpeg::av_guess_format(nullptr,

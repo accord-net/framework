@@ -1,18 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <Import Project="$(SolutionDir)../Unit Tests/Accord.Tests (NETStandard).targets" />
-
-    <PropertyGroup>
+  <PropertyGroup>
     <RootNamespace>Accord.Tests.Audio</RootNamespace>
     <AssemblyName>Accord.Tests.Audio</AssemblyName>
+    <TargetFrameworks>netcoreapp2.0;netcoreapp1.1</TargetFrameworks>
   </PropertyGroup>
-  
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DefineConstants>TRACE;DEBUG;NETSTANDARD2_0</DefineConstants>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='netstandard2.0|AnyCPU'">
-    <DefineConstants>TRACE;RELEASE;NETSTANDARD2_0</DefineConstants>
-  </PropertyGroup>
+
+  <Import Project="$(SolutionDir)../Unit Tests/Accord.Tests (NETStandard).targets" />
 
   <ItemGroup>
     <PackageReference Include="SharpDX" Version="4.0.1" />
@@ -30,6 +24,10 @@
     <None Update="Resources\a.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-  </ItemGroup> 
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
 
 </Project>

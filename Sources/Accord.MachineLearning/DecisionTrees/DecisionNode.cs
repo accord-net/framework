@@ -26,6 +26,8 @@ namespace Accord.MachineLearning.DecisionTrees
     using System;
     using System.Runtime.Serialization;
     using System.Collections.Generic;
+    using System.Diagnostics;
+    using Accord.Compat;
 
     /// <summary>
     ///   Decision Tree (DT) Node.
@@ -153,6 +155,8 @@ namespace Accord.MachineLearning.DecisionTrees
         /// 
         public bool Compute(double x)
         {
+            Debug.Assert(!Double.IsNaN(x));
+
             switch (Comparison)
             {
                 case ComparisonKind.Equal:

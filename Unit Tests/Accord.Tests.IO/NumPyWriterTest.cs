@@ -33,6 +33,15 @@ namespace Accord.Tests.IO
     [TestFixture]
     public class NpyWriterTest
     {
+        public static byte[] GetNpy(string resourceName)
+        {
+            string fileName = Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources", "numpy", resourceName);
+            var fs = new FileStream(fileName, FileMode.Open, FileAccess.Read);
+            var ms = new MemoryStream();
+            fs.CopyTo(ms);
+            ms.Seek(0, SeekOrigin.Begin);
+            return ms.ToArray();
+        }
 
         [Test]
         public void WriteByteMatrixTest()
@@ -47,7 +56,7 @@ namespace Accord.Tests.IO
 
             // header should be
             // string header = "{ 'descr': '|i1', 'fortran_order': False, 'shape': (2, 3), }          \n";
-            byte[] expected = Resources.npy_byte;
+            byte[] expected = GetNpy("npy_byte.npy");
 
             for (int i = 0; i < expected.Length; i++)
                 Assert.AreEqual(actual[i], expected[i]);
@@ -65,8 +74,9 @@ namespace Accord.Tests.IO
             };
 
             byte[] actual = NpyFormat.Save(input);
+            byte[] expected = GetNpy("npy_byte.npy");
 
-            Assert.IsTrue(actual.IsEqual(Resources.npy_byte));
+            Assert.IsTrue(actual.IsEqual(expected));
         }
 
         [Test]
@@ -79,7 +89,7 @@ namespace Accord.Tests.IO
             };
 
             byte[] actual = NpyFormat.Save(input);
-            byte[] expected = Resources.npy_bool;
+            byte[] expected = GetNpy("npy_bool.npy");
 
             // Expected header
             // "{'descr': '|b1', 'fortran_order': False, 'shape': (2, 3), }          \n"
@@ -100,8 +110,9 @@ namespace Accord.Tests.IO
             };
 
             byte[] actual = NpyFormat.Save(input);
+            byte[] expected = GetNpy("npy_bool.npy");
 
-            Assert.IsTrue(actual.IsEqual(Resources.npy_bool));
+            Assert.IsTrue(actual.IsEqual(expected));
         }
 
         [Test]
@@ -114,8 +125,9 @@ namespace Accord.Tests.IO
             };
 
             byte[] actual = NpyFormat.Save(input);
+            byte[] expected = GetNpy("npy_integer.npy");
 
-            Assert.IsTrue(actual.IsEqual(Resources.npy_integer));
+            Assert.IsTrue(actual.IsEqual(expected));
         }
 
         [Test]
@@ -128,8 +140,9 @@ namespace Accord.Tests.IO
             };
 
             byte[] actual = NpyFormat.Save(value);
+            byte[] expected = GetNpy("npy_strings.npy");
 
-            Assert.IsTrue(actual.IsEqual(Resources.npy_strings));
+            Assert.IsTrue(actual.IsEqual(expected));
         }
 
         [Test]
@@ -142,8 +155,9 @@ namespace Accord.Tests.IO
             };
 
             byte[] actual = NpyFormat.Save(input);
+            byte[] expected = GetNpy("npy_strings_var.npy");
 
-            Assert.IsTrue(actual.IsEqual(Resources.npy_strings_var));
+            Assert.IsTrue(actual.IsEqual(expected));
         }
 
         [Test]
@@ -156,8 +170,9 @@ namespace Accord.Tests.IO
             };
 
             byte[] actual = NpyFormat.Save(input);
+            byte[] expected = GetNpy("npy_strings_var.npy");
 
-            Assert.IsTrue(actual.IsEqual(Resources.npy_strings_var));
+            Assert.IsTrue(actual.IsEqual(expected));
         }
 
         [Test]

@@ -27,6 +27,7 @@ namespace Accord.MachineLearning.Rules
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
+    using Accord.Compat;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -38,7 +39,9 @@ namespace Accord.MachineLearning.Rules
     [Serializable]
     public class AssociationRuleMatcher<T> :
         IMulticlassRefScoreClassifier<T[], T[][]>,
-        IMulticlassRefScoreClassifier<SortedSet<T>, SortedSet<T>[]>
+        IMulticlassRefScoreClassifier<SortedSet<T>, SortedSet<T>[]>,
+        ITransform<T[], T[][]>,
+        ITransform<SortedSet<T>, SortedSet<T>[]>
     {
         int items;
         AssociationRule<T>[] rules;

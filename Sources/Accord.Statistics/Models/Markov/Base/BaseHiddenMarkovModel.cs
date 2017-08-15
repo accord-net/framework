@@ -25,6 +25,7 @@ namespace Accord.Statistics.Models.Markov
     using System;
     using Accord.Statistics.Models.Markov.Topology;
     using Accord.Math;
+    using Accord.Compat;
 
     /// <summary>
     ///   Base class for Hidden Markov Models. This class cannot

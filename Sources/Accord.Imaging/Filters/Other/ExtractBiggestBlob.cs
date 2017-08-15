@@ -182,12 +182,30 @@ namespace Accord.Imaging.Filters
         ///
         public Bitmap Apply(BitmapData imageData)
         {
+            using (UnmanagedImage biggestBlob = Apply(new UnmanagedImage(imageData)))
+            {
+                // dispose unmanaged image of the biggest blob
+                return biggestBlob.ToManagedImage();
+            }
+        }
+
+        /// <summary>
+        /// Apply filter to an image (not implemented).
+        /// </summary>
+        /// 
+        /// <param name="image">Image in unmanaged memory.</param>
+        /// 
+        /// <returns>Returns filter's result obtained by applying the filter to
+        /// the source image.</returns>
+        /// 
+        public UnmanagedImage Apply(UnmanagedImage image)
+        {
             // check pixel format of the source image
-            if (!FormatTranslations.ContainsKey(imageData.PixelFormat))
+            if (!FormatTranslations.ContainsKey(image.PixelFormat))
                 throw new UnsupportedImageFormatException("Source pixel format is not supported by the filter.");
 
             // locate blobs in the source image
-            BlobCounter blobCounter = new BlobCounter(imageData);
+            BlobCounter blobCounter = new BlobCounter(image);
 
             // get information about blobs
             Blob[] blobs = blobCounter.GetObjectsInformation();
@@ -216,7 +234,7 @@ namespace Accord.Imaging.Filters
             // extract biggest blob's image
             if (originalImage == null)
             {
-                blobCounter.ExtractBlobsImage(new UnmanagedImage(imageData), biggestBlob, false);
+                blobCounter.ExtractBlobsImage(image, biggestBlob, false);
             }
             else
             {
@@ -233,34 +251,13 @@ namespace Accord.Imaging.Filters
                 }
 
                 // check its size
-                if ((originalImage.Width != imageData.Width) || (originalImage.Height != imageData.Height))
+                if ((originalImage.Width != image.Width) || (originalImage.Height != image.Height))
                     throw new InvalidImagePropertiesException("Original image must have the same size as passed source image.");
 
                 blobCounter.ExtractBlobsImage(originalImage, biggestBlob, false);
             }
 
-            Bitmap managedImage = biggestBlob.Image.ToManagedImage();
-
-            // dispose unmanaged image of the biggest blob
-            biggestBlob.Image.Dispose();
-
-            return managedImage;
-        }
-
-        /// <summary>
-        /// Apply filter to an image (not implemented).
-        /// </summary>
-        /// 
-        /// <param name="image">Image in unmanaged memory.</param>
-        /// 
-        /// <returns>Returns filter's result obtained by applying the filter to
-        /// the source image.</returns>
-        /// 
-        /// <exception cref="NotImplementedException">The method is not implemented.</exception>
-        /// 
-        public UnmanagedImage Apply(UnmanagedImage image)
-        {
-            throw new NotImplementedException("The method is not implemented for the filter.");
+            return biggestBlob.Image;
         }
 
         /// <summary>
@@ -270,11 +267,9 @@ namespace Accord.Imaging.Filters
         /// <param name="sourceImage">Source image to be processed.</param>
         /// <param name="destinationImage">Destination image to store filter's result.</param>
         /// 
-        /// <exception cref="NotImplementedException">The method is not implemented.</exception>
-        /// 
         public void Apply(UnmanagedImage sourceImage, UnmanagedImage destinationImage)
         {
-            throw new NotImplementedException("The method is not implemented filter.");
+            Apply(sourceImage).Copy(destinationImage);
         }
     }
 }

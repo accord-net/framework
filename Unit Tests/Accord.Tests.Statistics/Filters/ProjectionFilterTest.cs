@@ -20,6 +20,7 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
+#if !NO_DATA_TABLE
 namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Filters;
@@ -31,21 +32,6 @@ namespace Accord.Tests.Statistics
     [TestFixture]
     public class ProjectionFilterTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
 
         public static DataTable CreateTable()
         {
@@ -87,3 +73,4 @@ namespace Accord.Tests.Statistics
         }
     }
 }
+#endif

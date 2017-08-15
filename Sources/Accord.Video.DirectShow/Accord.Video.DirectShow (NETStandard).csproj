@@ -1,33 +1,18 @@
-﻿<Project Sdk="Microsoft.NET.Sdk"> 
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <AssemblyName>Accord.Video.DirectShow</AssemblyName>
     <RootNamespace>Accord.Video.DirectShow</RootNamespace>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
   </PropertyGroup>
 
   <Import Project="$(SolutionDir)Accord.NET (NETStandard).targets" />
 
-
-<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DefineConstants>TRACE;DEBUG;NETSTANDARD2_0</DefineConstants>
-	<CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
-    <OutputPath>$(SolutionDir)..\Debug\</OutputPath>
-    <DocumentationFile></DocumentationFile>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='netstandard2.0|AnyCPU'">
-    <DefineConstants>TRACE;RELEASE;NETSTANDARD2_0</DefineConstants>
-  </PropertyGroup>
-  <ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+    <PackageReference Include="CoreCompat.System.Drawing.v2" Version="5.2.0-preview1-r131" />
     <Compile Remove="VideoCaptureDeviceForm.cs" />
     <Compile Remove="VideoCaptureDeviceForm.Designer.cs" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Remove="VideoCaptureDeviceForm.resx" />
-  </ItemGroup>
-
-    <ItemGroup>
-    <PackageReference Include="CoreCompat.System.Drawing.v2" Version="5.2.0-preview1-r131" />
-    <PackageReference Include="SharpDX.DirectSound" Version="4.0.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -35,5 +20,4 @@
     <ProjectReference Include="..\Accord.Video\Accord.Video (NETStandard).csproj" />
   </ItemGroup>
 
-  
 </Project>

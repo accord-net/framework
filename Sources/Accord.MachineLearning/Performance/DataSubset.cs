@@ -75,10 +75,18 @@ namespace Accord.MachineLearning.Performance
         /// <summary>
         /// Initializes a new instance of the <see cref="DataSubset{TInput}"/> class.
         /// </summary>
+        /// 
         public DataSubset()
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DataSubset{TInput}"/> class.
+        /// </summary>
+        /// 
+        /// <param name="subsetSize">The size of the data subset.</param>
+        /// <param name="totalSize">The total size of the dataset that contains this subset.</param>
+        /// 
         public DataSubset(int subsetSize, int totalSize)
         {
             this.Index = 0;

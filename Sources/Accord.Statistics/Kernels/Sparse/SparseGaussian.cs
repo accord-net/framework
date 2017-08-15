@@ -23,8 +23,8 @@
 namespace Accord.Statistics.Kernels.Sparse
 {
     using System;
-    using AForge;
     using Accord.Math.Distances;
+    using Accord.Compat;
 
     /// <summary>
     ///   Sparse Gaussian Kernel.

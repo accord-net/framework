@@ -23,9 +23,12 @@
 namespace Accord.Statistics.Filters
 {
     using System;
-    using System.Data;
-    using System.Collections.ObjectModel;
     using System.ComponentModel;
+    using System.Collections.Generic;
+    using System.Collections;
+    using Accord.Compat;
+    using System.Threading;
+    using System.Data;
 
     /// <summary>
     ///   Base abstract class for the Data Table preprocessing filters.
@@ -33,8 +36,12 @@ namespace Accord.Statistics.Filters
     /// <typeparam name="T">The column options type.</typeparam>
     /// 
     [Serializable]
-    public abstract class BaseFilter<T> : IFilter where T : ColumnOptionsBase
+    public abstract class BaseFilter<T> : IFilter, IEnumerable<T>
+        where T : ColumnOptionsBase
     {
+        [NonSerialized]
+        private CancellationToken token;
+
         /// <summary>
         ///   Gets or sets whether this filter is active. An inactive
         ///   filter will repass the input table as output unchanged.
@@ -51,6 +58,19 @@ namespace Accord.Statistics.Filters
         public ColumnOptionCollection<T> Columns { get; private set; }
 
         /// <summary>
+        /// Gets or sets a cancellation token that can be used to
+        /// stop the learning algorithm while it is running.
+        /// </summary>
+        /// 
+        /// <value>The token.</value>
+        /// 
+        public CancellationToken Token
+        {
+            get { return token; }
+            set { token = value; }
+        }
+
+        /// <summary>
         ///   Creates a new DataTable Filter Base.
         /// </summary>
         /// 
@@ -60,6 +80,7 @@ namespace Accord.Statistics.Filters
             this.Active = true;
         }
 
+#if !NETSTANDARD1_4
         /// <summary>
         ///   Applies the Filter to a <see cref="System.Data.DataTable"/>.
         /// </summary>
@@ -111,7 +132,7 @@ namespace Accord.Statistics.Filters
         /// </summary>
         /// 
         protected abstract DataTable ProcessFilter(DataTable data);
-
+#endif
 
         /// <summary>
         ///   Gets options associated with a given variable (data column).
@@ -134,95 +155,44 @@ namespace Accord.Statistics.Filters
         {
             get { return Columns[index]; }
         }
-    }
-
-    /// <summary>
-    ///   Column options for filter which have per-column settings.
-    /// </summary>
-    /// 
-    [Serializable]
-    public abstract class ColumnOptionsBase
-    {
-        /// <summary>
-        ///   Gets or sets the name of the column that the options will apply to.
-        /// </summary>
-        /// 
-        public String ColumnName { get; set; }
 
         /// <summary>
-        ///   Gets or sets a user-determined object associated with this column.
+        /// Gets the number of inputs accepted by the model.
         /// </summary>
         /// 
-        public object Tag { get; set; }
-
-        /// <summary>
-        ///   Constructs the base class for Column Options.
-        /// </summary>
+        /// <value>The number of inputs.</value>
         /// 
-        /// <param name="column">Column's name.</param>
-        /// 
-        protected ColumnOptionsBase(string column)
+        public int NumberOfInputs
         {
-            this.ColumnName = column;
+            get { return this.Columns.Count; }
+            set { throw new InvalidOperationException("This property is read-only."); }
         }
 
         /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
+        /// Returns an enumerator that iterates through the collection.
         /// </summary>
-        /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public override string ToString()
+        /// <returns>An enumerator that can be used to iterate through the collection.</returns>
+        public IEnumerator<T> GetEnumerator()
         {
-            return this.ColumnName;
-        }
-    }
-
-    /// <summary>
-    ///   Column option collection.
-    /// </summary>
-    /// 
-    [Serializable]
-    public class ColumnOptionCollection<T> : KeyedCollection<String, T>
-        where T : ColumnOptionsBase
-    {
-        /// <summary>
-        ///   Extracts the key from the specified column options.
-        /// </summary>
-        /// 
-        protected override string GetKeyForItem(T item)
-        {
-            return item.ColumnName;
+            return Columns.GetEnumerator();
         }
 
         /// <summary>
-        ///   Adds a new column options definition to the collection.
+        /// Returns an enumerator that iterates through a collection.
         /// </summary>
-        /// 
-        /// <param name="options">The column options to be added.</param>
-        /// 
-        /// <returns>The added column options.</returns>
-        /// 
-        new public T Add(T options)
+        /// <returns>An <see cref="T:System.Collections.IEnumerator" /> object that can be used to iterate through the collection.</returns>
+        IEnumerator IEnumerable.GetEnumerator()
         {
-            base.Add(options);
-            return options;
+            return Columns.GetEnumerator();
         }
 
         /// <summary>
-        ///   Gets the associated options for the given column name.
+        ///   Add a new column options definition to the collection.
         /// </summary>
         /// 
-        /// <param name="columnName">The name of the column whose options should be retrieved.</param>
-        /// <param name="options">The retrieved options.</param>
-        /// 
-        /// <returns>True if the options was contained in the collection; false otherwise.</returns>
-        /// 
-        public bool TryGetValue(String columnName, out T options)
+        public void Add(T options)
         {
-            return base.Dictionary.TryGetValue(columnName, out options);
+            this.Columns.Add(options);
         }
     }
 }

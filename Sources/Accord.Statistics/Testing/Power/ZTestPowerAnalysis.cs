@@ -24,6 +24,7 @@ namespace Accord.Statistics.Testing.Power
 {
     using System;
     using Accord.Statistics.Distributions.Univariate;
+    using Accord.Compat;
 
     /// <summary>
     ///   Power analysis for one-sample Z-Tests.

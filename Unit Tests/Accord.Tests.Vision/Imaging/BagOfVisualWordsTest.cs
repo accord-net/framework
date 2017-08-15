@@ -40,7 +40,7 @@ namespace Accord.Tests.Imaging
     using Accord.Math.Optimization.Losses;
     using Accord.Math.Metrics;
     using Accord.Tests.Vision.Properties;
-#if NETSTANDARD2_0
+#if NO_BITMAP
     using Resources = Accord.Tests.Vision.Properties.Resources_Standard;
 #endif
 

@@ -26,10 +26,7 @@ namespace Accord.Math.Optimization
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq.Expressions;
-
-#if NET35 || NET40
-    using Accord.Collections;
-#endif
+    using Accord.Compat;
 
     /// <summary>
     ///   Quadratic objective function.

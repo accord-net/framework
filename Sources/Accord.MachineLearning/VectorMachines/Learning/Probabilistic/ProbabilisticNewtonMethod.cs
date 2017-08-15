@@ -98,7 +98,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\Probabilistic\ProbabilisticNewtonMethodTest.cs" region="doc_logreg"/>
     /// </examples>
     /// 
-    /// <seealso cref="SequentialMinimalOptimization"/>
+    /// <seealso cref="SequentialMinimalOptimization{TKernel}"/>
     /// <seealso cref="LinearDualCoordinateDescent"/>
     /// 
     public class ProbabilisticNewtonMethod :
@@ -168,7 +168,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\Probabilistic\ProbabilisticNewtonMethodTest.cs" region="doc_logreg"/>
     /// </examples>
     /// 
-    /// <seealso cref="SequentialMinimalOptimization"/>
+    /// <seealso cref="SequentialMinimalOptimization{TKernel}"/>
     /// <seealso cref="LinearDualCoordinateDescent"/>
     /// 
     public class ProbabilisticNewtonMethod<TKernel> :
@@ -221,7 +221,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\Probabilistic\ProbabilisticNewtonMethodTest.cs" region="doc_logreg"/>
     /// </examples>
     /// 
-    /// <seealso cref="SequentialMinimalOptimization"/>
+    /// <seealso cref="SequentialMinimalOptimization{TKernel}"/>
     /// <seealso cref="LinearDualCoordinateDescent"/>
     /// 
     public class ProbabilisticNewtonMethod<TKernel, TInput> :

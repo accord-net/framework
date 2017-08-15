@@ -24,8 +24,9 @@ namespace Accord.Statistics.Distributions.Fitting
 {
     using Accord.Math;
     using System;
-    using System.Threading.Tasks;
     using MachineLearning;
+    using Accord.Compat;
+    using System.Threading.Tasks;
 
     /// <summary>
     ///   Expectation Maximization algorithm for mixture model fitting.

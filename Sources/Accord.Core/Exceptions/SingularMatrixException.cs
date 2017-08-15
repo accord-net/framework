@@ -24,6 +24,7 @@ namespace Accord
 {
     using System;
     using System.Runtime.Serialization;
+    using Accord.Compat;
 
     /// <summary>
     ///   Singular Matrix Exception.

@@ -22,12 +22,6 @@
 
 namespace Accord.MachineLearning.Performance
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
-    using Accord.Math;
-    using Accord.Math.Optimization.Losses;
-    using Accord.Statistics;
 
     /// <summary>
     ///   Base class for performance measurement methods based on splitting the data into multiple sets,
@@ -46,9 +40,10 @@ namespace Accord.MachineLearning.Performance
     /// <seealso cref="Bootstrap{TModel, TInput, TOutput}"/>
     /// 
     public abstract class BaseSplitSetValidation<TResult, TModel, TInput, TOutput> : BaseSplitSetValidation<
-        TResult, 
-        TModel, 
-        ISupervisedLearning<TModel, TInput, TOutput>, TInput, TOutput>,
+            TResult, 
+            TModel, 
+            ISupervisedLearning<TModel, TInput, TOutput>,
+            TInput, TOutput>,
         ISupervisedLearning<TResult, TInput, TOutput>
         where TModel : class, ITransform<TInput, TOutput>
         where TResult : ITransform<TInput, TOutput>

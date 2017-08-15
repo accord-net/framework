@@ -26,10 +26,7 @@ namespace Accord.Statistics.Models.Regression
     using Accord.Math;
     using Accord.Statistics.Kernels;
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
+    using Accord.Compat;
 
     /// <summary>
     ///   Multivariate non-linear regression using Kernels.

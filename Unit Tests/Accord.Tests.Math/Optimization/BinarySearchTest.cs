@@ -19,12 +19,38 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
+using System.Linq;
+
 namespace Accord.Tests.Math
 {
     using Accord.Math.Optimization;
     using NUnit.Framework;
     using System;
     using Accord.Math;
+
+    [TestFixture]
+    public class BinarySearchTest2
+    {
+        [Datapoint]
+        public int[] a = { -3, -2, -1, 0, 1, 2, 3 };
+        [Datapoint]
+        public int[] b = { -3, -2, -1, 0, 1, 2, 3, 4, 5 };
+        [Datapoint]
+        public int[] c = { -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5 };
+        [Datapoint]
+        public int[] d = { 3, 2, 1, 0, -1, -2, -3 };
+        [Datapoint]
+        public int[] e = { 3, 2, 1, 0, -1, -2, -3, -4, -5 };
+        [Datapoint]
+        public int[] f = { 5, 4, 3, 2, 1, 0, -1, -2, -3 };
+        [Theory]
+        public void AccordBinarySearchShouldWorkWithArray(int[] data)
+        {
+            var zeroIndex = data.ToList().FindIndex(v => v == 0);
+            var index = new BinarySearch(i => data[i], 0, data.Length - 1).FindRoot();
+            Assert.AreEqual(zeroIndex,index,$"For {String.Join(",",data)}");
+        }
+    }
 
 
     [TestFixture]

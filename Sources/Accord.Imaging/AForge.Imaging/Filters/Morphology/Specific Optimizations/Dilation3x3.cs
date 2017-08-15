@@ -48,7 +48,7 @@ namespace Accord.Imaging.Filters
     /// </remarks>
     /// 
     /// <seealso cref="Dilation"/>
-    /// <seealso cref="Binarydilation3x3"/>
+    /// <seealso cref="BinaryDilation3x3"/>
     /// 
     public class Dilation3x3 : BaseUsingCopyPartialFilter
     {

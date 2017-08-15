@@ -16,7 +16,7 @@ using Microsoft.VisualStudio.DebuggerVisualizers;
 [assembly: System.Diagnostics.DebuggerVisualizer(
     typeof( AForge.DebuggerVisualizers.UnmanagedImageVisualizer ),
     typeof( AForge.DebuggerVisualizers.UnmanagedImageObjectSource ),
-    Target = typeof( AForge.Imaging.UnmanagedImage ),
+    Target = typeof( Accord.Imaging.UnmanagedImage ),
     Description = "Unmanaged Image Visualizer" )]
 
 namespace AForge.DebuggerVisualizers
@@ -39,7 +39,7 @@ namespace AForge.DebuggerVisualizers
         public override void GetData( object target, Stream outgoingData )
         {
             BinaryFormatter bf = new BinaryFormatter( );
-            bf.Serialize( outgoingData, ( (AForge.Imaging.UnmanagedImage) target ).ToManagedImage( ) );
+            bf.Serialize( outgoingData, ( (Accord.Imaging.UnmanagedImage) target ).ToManagedImage( ) );
         }
     }
 }

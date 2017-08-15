@@ -23,11 +23,11 @@
 namespace Accord.Statistics.Models.Markov.Learning
 {
     using System;
-    using System.Collections.Generic;
     using Accord.Math;
     using Accord.Statistics.Distributions;
     using Accord.Statistics.Distributions.Fitting;
     using Accord.MachineLearning;
+    using Accord.Compat;
     using System.Threading;
 
     /// <summary>

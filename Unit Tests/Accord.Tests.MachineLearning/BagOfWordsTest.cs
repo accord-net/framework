@@ -106,6 +106,7 @@ namespace Accord.Tests.MachineLearning
             }
         }
 
+#if !NO_BINARY_SERIALIZATION
         [Test]
         public void SerializationTest()
         {
@@ -129,7 +130,7 @@ namespace Accord.Tests.MachineLearning
 
             Assert.IsTrue(expected.IsEqual(actual));
         }
-
+#endif
         [Test]
         public void learn_test()
         {

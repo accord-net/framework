@@ -27,6 +27,9 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
     using Accord.Statistics.Filters;
     using System;
     using System.Globalization;
+    using Accord.Math;
+
+    // TODO: Implement the IClassifier interface / MulticlassClassifierBase base class
 
     /// <summary>
     ///   Decision rule set.
@@ -104,10 +107,24 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
         /// 
         public double? Compute(double[] input)
         {
-            foreach (DecisionRule rule in rules)
+            if (input.HasNaN())
             {
-                if (rule.Match(input))
-                    return rule.Output;
+                int[] outputs = new int[OutputClasses];
+                foreach (DecisionRule rule in rules)
+                {
+                    if (rule.Match(input))
+                        outputs[(int)rule.Output] += 1;
+                }
+
+                return outputs.ArgMax();
+            }
+            else
+            {
+                foreach (DecisionRule rule in rules)
+                {
+                    if (rule.Match(input))
+                        return rule.Output;
+                }
             }
 
             return null;
@@ -189,7 +206,7 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
         ///   A <see cref="System.String"/> that represents this instance.
         /// </returns>
         /// 
-        public string ToString(Codification codebook, CultureInfo cultureInfo)
+        public string ToString(Codification<string> codebook, CultureInfo cultureInfo)
         {
             return toString(codebook, null, cultureInfo);
         }
@@ -202,7 +219,7 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
         ///   A <see cref="System.String"/> that represents this instance.
         /// </returns>
         /// 
-        public string ToString(Codification codebook)
+        public string ToString(Codification<string> codebook)
         {
             return ToString(codebook, CultureInfo.CurrentUICulture);
         }
@@ -215,12 +232,12 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
         ///   A <see cref="System.String"/> that represents this instance.
         /// </returns>
         /// 
-        public string ToString(Codification codebook, string outputColumn, CultureInfo cultureInfo)
+        public string ToString(Codification<string> codebook, string outputColumn, CultureInfo cultureInfo)
         {
             return toString(codebook, outputColumn, CultureInfo.CurrentUICulture);
         }
 
-        private string toString(Codification codebook, string outputColumn, CultureInfo cultureInfo)
+        private string toString(Codification<string> codebook, string outputColumn, CultureInfo cultureInfo)
         {
             var rulesArray = new DecisionRule[this.rules.Count];
 

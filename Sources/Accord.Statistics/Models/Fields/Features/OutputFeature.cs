@@ -25,6 +25,7 @@ namespace Accord.Statistics.Models.Fields.Features
     using System;
     using Accord.Statistics.Models.Fields.Functions;
     using Accord.Math;
+    using Accord.Compat;
 
     /// <summary>
     ///   State feature for Hidden Markov Model output class symbol probabilities.

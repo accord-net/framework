@@ -28,7 +28,8 @@ namespace Accord.Statistics.Distributions.Multivariate
     using Accord.Statistics.Distributions.DensityKernels;
     using Accord.Statistics.Distributions.Fitting;
     using Tools = Accord.Statistics.Tools;
-using Accord.Math.Random;
+    using Accord.Math.Random;
+    using Accord.Compat;
 
     /// <summary>
     ///   Multivariate empirical distribution.

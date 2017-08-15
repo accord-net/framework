@@ -80,12 +80,10 @@
 
 namespace Accord.Math.Optimization
 {
-    using Accord.MachineLearning;
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
+    using Accord.Compat;
 
     /// <summary>
     ///   Hungarian method for solving the assignment problem, also known

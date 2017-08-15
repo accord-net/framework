@@ -60,9 +60,10 @@ namespace Accord.Math.Optimization
 {
     using System;
     using System.Diagnostics;
+    using QFunc = System.Func<int, int[], int, double[], double[]>;
+    using Accord.Compat;
     using System.Runtime.CompilerServices;
     using System.Threading;
-    using QFunc = System.Func<int, int[], int, double[], double[]>;
 
     /// <summary>
     ///   General Sequential Minimal Optimization algorithm for Quadratic Programming problems.
@@ -701,12 +702,10 @@ namespace Accord.Math.Optimization
             }
 
             int i = Gmax_idx;
-            double[] Q_i = null;
 
             if (i != -1)
             {
-                Q_i = new double[active_size];
-                Q(i, indices, active_size, Q_i); // NULL Q_i not accessed: Gmax=-INF if i=-1
+                Q(i, indices, active_size, temp); // NULL Q_i not accessed: Gmax=-INF if i=-1
             }
 
             for (int j = 0; j < active_size; j++)
@@ -722,7 +721,7 @@ namespace Accord.Math.Optimization
                         if (grad_diff > 0)
                         {
                             double obj_diff;
-                            double quad_coef = QD[i] + QD[j] - 2.0 * y[i] * Q_i[j];
+                            double quad_coef = QD[i] + QD[j] - 2.0 * y[i] * temp[j];
 
                             if (quad_coef > 0)
                                 obj_diff = -(grad_diff * grad_diff) / quad_coef;
@@ -748,7 +747,7 @@ namespace Accord.Math.Optimization
                         if (grad_diff > 0)
                         {
                             double obj_diff;
-                            double quad_coef = QD[i] + QD[j] + 2.0 * y[i] * Q_i[j];
+                            double quad_coef = QD[i] + QD[j] + 2.0 * y[i] * temp[j];
 
                             if (quad_coef > 0)
                                 obj_diff = -(grad_diff * grad_diff) / quad_coef;

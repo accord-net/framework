@@ -46,7 +46,7 @@ namespace Accord.Imaging.Filters
     /// separate objects or join objects.</para>
     /// 
     /// <para>For processing image with 3x3 structuring element, there are different optimizations
-    /// available, like <see cref="Dilation3x3"/> and <see cref="Binarydilation3x3"/>.</para>
+    /// available, like <see cref="Dilation3x3"/> and <see cref="BinaryDilation3x3"/>.</para>
     /// 
     /// <para>The filter accepts 8 and 16 bpp grayscale images and 24 and 48 bpp
     /// color images for processing.</para>
@@ -69,7 +69,7 @@ namespace Accord.Imaging.Filters
     /// <seealso cref="Closing"/>
     /// <seealso cref="Opening"/>
     /// <seealso cref="Dilation3x3"/>
-    /// <seealso cref="Binarydilation3x3"/>
+    /// <seealso cref="BinaryDilation3x3"/>
     /// 
     public class Dilation : BaseUsingCopyPartialFilter
     {

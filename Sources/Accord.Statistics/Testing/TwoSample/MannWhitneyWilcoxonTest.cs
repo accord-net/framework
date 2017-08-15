@@ -26,6 +26,7 @@ namespace Accord.Statistics.Testing
     using Accord.Math;
     using Accord.Statistics.Distributions.Univariate;
     using System.Diagnostics;
+    using Accord.Compat;
 
     /// <summary>
     ///   Mann-Whitney-Wilcoxon test for unpaired samples.

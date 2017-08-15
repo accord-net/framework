@@ -31,7 +31,7 @@ namespace Accord.MachineLearning
     ///   Obsolete. Please refer to <see cref="Bootstrap{TModel, TInput, TOutput}"/> instead.
     /// </summary>
     /// 
-    [Obsolete("Please refer to Bootstrap<TModel, TInput, TOutput> instead.")]
+    [Obsolete("Please use Bootstrap<TModel, TInput, TOutput> instead.")]
     public class BootstrapResult
     {
         /// <summary>
@@ -93,6 +93,7 @@ namespace Accord.MachineLearning
             this.Estimate = 0.632 * Validation.Mean + 0.368 * Training.Mean;
         }
 
+#if !NETSTANDARD1_4
         /// <summary>
         ///   Saves the result to a stream.
         /// </summary>
@@ -142,6 +143,6 @@ namespace Accord.MachineLearning
         {
             return Load(new FileStream(path, FileMode.Open));
         }
+#endif
     }
-
 }

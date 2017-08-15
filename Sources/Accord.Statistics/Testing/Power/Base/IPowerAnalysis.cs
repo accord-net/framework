@@ -23,6 +23,7 @@
 namespace Accord.Statistics.Testing.Power
 {
     using System;
+    using Accord.Compat;
 
     /// <summary>
     ///   Common interface for power analysis objects.

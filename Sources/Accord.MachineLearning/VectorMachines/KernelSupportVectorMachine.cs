@@ -33,15 +33,17 @@ namespace Accord.MachineLearning.VectorMachines
     using System.Reflection;
     using System.Runtime.Serialization;
     using System.Security.Permissions;
+    using Accord.Compat;
 
-    
     /// <summary>
     ///   Obsolete.
     /// </summary>
     /// 
     [Serializable]
     [Obsolete("Please use SupportVectorMachine<TKernel>.")]
+#if !NETSTANDARD1_4
     [SerializationBinder(typeof(KernelSupportVectorMachine.KernelSupportVectorMachineBinder))]
+#endif
     public class KernelSupportVectorMachine :
         SupportVectorMachine<IKernel<double[]>>,
         ISupportVectorMachine<double[]>
@@ -74,8 +76,8 @@ namespace Accord.MachineLearning.VectorMachines
 
 
 
-        #region Serialization backwards compatibility
-
+#region Serialization backwards compatibility
+#if !NETSTANDARD1_4
         internal class KernelSupportVectorMachineBinder : SerializationBinder
         {
             public override Type BindToType(string assemblyName, string typeName)
@@ -147,8 +149,8 @@ namespace Accord.MachineLearning.VectorMachines
 
 #pragma warning restore 0169
 #pragma warning restore 0649
-
-        #endregion
+#endif
+#endregion
 
         /// <summary>
         ///   Obsolete.
@@ -163,6 +165,5 @@ namespace Accord.MachineLearning.VectorMachines
             return clone;
         }
     }
-
 
 }

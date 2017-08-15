@@ -25,6 +25,7 @@ namespace Accord.Statistics.Kernels
     using Accord.Math;
     using Accord.Math.Distances;
     using System;
+    using Accord.Compat;
 
     /// <summary>
     ///   Base class for kernel functions. This class provides automatic

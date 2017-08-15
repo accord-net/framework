@@ -28,6 +28,7 @@ namespace Accord.Math.Optimization
     using System.Linq.Expressions;
     using System.Text;
     using System.Text.RegularExpressions;
+    using Accord.Compat;
 
     /// <summary>
     ///   Quadratic objective function.
@@ -215,7 +216,7 @@ namespace Accord.Math.Optimization
         /// the function in the form similar to "ax²+b".</param>
         /// 
         public QuadraticObjectiveFunction(string function)
-            : this(function, CultureInfo.InvariantCulture)
+            : this(function, System.Globalization.CultureInfo.InvariantCulture)
         {
         }
 
@@ -229,7 +230,7 @@ namespace Accord.Math.Optimization
         ///   numbers written in the <paramref name="function"/> should
         ///   be parsed. Default is CultureInfo.InvariantCulture.</param>
         /// 
-        public QuadraticObjectiveFunction(string function, CultureInfo culture)
+        public QuadraticObjectiveFunction(string function, System.Globalization.CultureInfo culture)
         {
             var terms = parseString(function, culture);
 
@@ -388,7 +389,7 @@ namespace Accord.Math.Optimization
 
 
 
-        private static Dictionary<Tuple<string, string>, double> parseString(string f, CultureInfo culture)
+        private static Dictionary<Tuple<string, string>, double> parseString(string f, System.Globalization.CultureInfo culture)
         {
             f = f.Replace("*", String.Empty).Replace(" ", String.Empty);
 
@@ -676,7 +677,7 @@ namespace Accord.Math.Optimization
         /// 
         public static bool TryParse(string str, out QuadraticObjectiveFunction function)
         {
-            return TryParse(str, CultureInfo.InvariantCulture, out function);
+            return TryParse(str, System.Globalization.CultureInfo.InvariantCulture, out function);
         }
 
         /// <summary>
@@ -693,7 +694,7 @@ namespace Accord.Math.Optimization
         /// <returns><c>true</c> if the function could be parsed
         ///   from the string, <c>false</c> otherwise.</returns>
         /// 
-        public static bool TryParse(string str, CultureInfo culture, out QuadraticObjectiveFunction function)
+        public static bool TryParse(string str, System.Globalization.CultureInfo culture, out QuadraticObjectiveFunction function)
         {
             // TODO: implement this method without the try-catch block.
 

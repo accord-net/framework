@@ -27,11 +27,12 @@ namespace Accord.Statistics.Models.Regression.Fitting
 {
     using System;
     using System.Collections.Generic;
-    using System.Threading;
     using Accord.Math;
     using Accord.Statistics.Models.Regression.Linear;
     using Accord.MachineLearning;
     using Accord.Math.Optimization.Losses;
+    using Accord.Compat;
+    using System.Threading;
 
     /// <summary>
     ///   Non-negative Least Squares for <see cref="MultipleLinearRegression"/> optimization.

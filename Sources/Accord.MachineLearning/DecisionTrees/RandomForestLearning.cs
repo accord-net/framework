@@ -29,7 +29,6 @@ namespace Accord.MachineLearning.DecisionTrees
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
-    using System.Threading.Tasks;
     using System.Data;
     using System.Runtime.Serialization;
     using System.Runtime.Serialization.Formatters.Binary;
@@ -39,6 +38,8 @@ namespace Accord.MachineLearning.DecisionTrees
     using AForge;
     using Accord.Statistics;
     using Accord.MachineLearning.DecisionTrees.Learning;
+    using Accord.Compat;
+    using System.Threading.Tasks;
 
     /// <summary>
     ///   Random Forest learning algorithm.

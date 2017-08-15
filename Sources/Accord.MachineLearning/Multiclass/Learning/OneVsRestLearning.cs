@@ -23,18 +23,15 @@
 namespace Accord.MachineLearning
 {
     using Accord.Math;
-    using Accord.MachineLearning;
     using System;
-    using System.Collections.Concurrent;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
     using System.Threading;
-    using System.Threading.Tasks;
     using Accord.MachineLearning.VectorMachines.Learning;
-    using Accord.MachineLearning.VectorMachines;
     using Accord.Statistics.Kernels;
     using Accord.Statistics;
+    using Accord.Compat;
+    using System.Collections.Concurrent;
+    using System.Threading.Tasks;
 
     /// <summary>
     ///   Base learning algorithm for <see cref="OneVsRest{TBinary, TModel}"/> multi-class classifiers.
@@ -43,7 +40,7 @@ namespace Accord.MachineLearning
     /// <typeparam name="TBinary">The type for the inner binary classifiers used in the one-vs-rest approach.</typeparam>
     /// <typeparam name="TModel">The type of the model being learned.</typeparam>
     /// 
-    /// <seealso cref="Accord.MachineLearning.VectorMachines.Learning.MultilabelSupportVectorLearning"/>
+    /// <seealso cref="Accord.MachineLearning.VectorMachines.Learning.MultilabelSupportVectorLearning{TKernel}"/>
     /// 
     public abstract class OneVsRestLearning<TBinary, TModel> :
         OneVsRestLearning<double[], TBinary, TModel>,
@@ -61,7 +58,7 @@ namespace Accord.MachineLearning
     /// <typeparam name="TBinary">The type for the inner binary classifiers used in the one-vs-rest approach.</typeparam>
     /// <typeparam name="TModel">The type of the model being learned.</typeparam>
     /// 
-    /// <seealso cref="Accord.MachineLearning.VectorMachines.Learning.MultilabelSupportVectorLearning"/>
+    /// <seealso cref="Accord.MachineLearning.VectorMachines.Learning.MultilabelSupportVectorLearning{TKernel}"/>
     ///
     [Serializable]
     public abstract class OneVsRestLearning<TInput, TBinary, TModel> :
@@ -73,7 +70,8 @@ namespace Accord.MachineLearning
         where TModel : OneVsRest<TBinary, TInput>
     {
         private Func<InnerParameters<TBinary, TInput>, ISupervisedLearning<TBinary, TInput, bool>> learner;
-        private Dictionary<ClassPair, ISupervisedLearning<TBinary, TInput, bool>> teachers;
+        private ConcurrentDictionary<ClassPair, ISupervisedLearning<TBinary, TInput, bool>> teachers;
+        private bool aggregateExceptions = true;
 
         /// <summary>
         ///   Gets or sets the model being learned.
@@ -97,6 +95,17 @@ namespace Accord.MachineLearning
             }
         }
 
+        /// <summary>
+        ///   Gets or sets a value indicating whether the entire training algorithm should stop
+        ///   in case an exception has been detected at just one of the inner binary learning
+        ///   problems. Default is true (execution will not be stopped).
+        /// </summary>
+        /// 
+        public bool AggregateExceptions
+        {
+            get { return aggregateExceptions; }
+            set { aggregateExceptions = value; }
+        }
 
         /// <summary>
         ///   Occurs when the learning of a subproblem has started.
@@ -194,16 +203,21 @@ namespace Accord.MachineLearning
         /// </returns>
         public virtual TModel Learn(TInput[] x, bool[][] y, double[] weights = null)
         {
-            if (Model == null)
+            Accord.MachineLearning.Tools.CheckArgs(x, y, weights, () =>
             {
-                int numberOfInputs = SupportVectorLearningHelper.GetNumberOfInputs(new Linear(), x);
-                int numberOfClasses = y.Columns();
-                Model = Create(numberOfInputs, numberOfClasses);
-                teachers = null;
-            }
+                if (Model == null)
+                {
+                    this.teachers = null;
+                    int numberOfInputs = Tools.GetNumberOfInputs(x);
+                    int numberOfClasses = y.Columns();
+                    Model = Create(numberOfInputs, numberOfClasses);
+                }
+
+                return Model;
+            });
 
             if (teachers == null)
-                teachers = new Dictionary<ClassPair, ISupervisedLearning<TBinary, TInput, bool>>();
+                teachers = new ConcurrentDictionary<ClassPair, ISupervisedLearning<TBinary, TInput, bool>>();
 
             int total = Model.NumberOfClasses;
             int progress = 0;
@@ -246,7 +260,7 @@ namespace Accord.MachineLearning
                 Maximum = total
             };
             OnSubproblemStarted(args);
-            
+
 
             // Retrieve the associated machine
             TBinary model = Model.Models[k];
@@ -254,33 +268,23 @@ namespace Accord.MachineLearning
             // Extract outputs for the given label
             bool[] suby = y.GetColumn(k);
 
-            // Train the machine on the two-class problem.
-            try
+            if (aggregateExceptions)
             {
-                // Configure the machine on the two-class problem. Check if the learner
-                // for this machine has already been created before, and re-use it if it
-                // was the case. This is necessary to support mini-batch/online learning.
-
-                ISupervisedLearning<TBinary, TInput, bool> subproblemTeacher;
-                if (!teachers.TryGetValue(pair, out subproblemTeacher))
+                try
                 {
-                    var p = new InnerParameters<TBinary, TInput>(inputs: x, outputs: suby, pair: pair, model: model);
-                    subproblemTeacher = Learner(p);
-                    teachers[pair] = subproblemTeacher;
+                    // Train the machine on the two-class problem.
+                    TrainBinaryMachine(pair, k, model, x, suby, weights);
                 }
-
-                if (subproblemTeacher != null)
+                catch (Exception ex)
                 {
-                    // TODO: This check only exists to provide support to previous way of 
-                    // using the library and should be removed after a few releases. In the
-                    // current way (without using any Obsolete methods), subproblem should never be null.
-                    subproblemTeacher.Token = ParallelOptions.CancellationToken;
-                    Model[k] = subproblemTeacher.Learn(x, suby, weights);
+                    ex.Data["pair"] = pair;
+                    exceptions.Add(ex);
                 }
             }
-            catch (Exception ex)
+            else
             {
-                exceptions.Add(ex);
+                // Train the machine on the two-class problem.
+                TrainBinaryMachine(pair, k, model, x, suby, weights);
             }
 
             // Update and report progress
@@ -288,6 +292,30 @@ namespace Accord.MachineLearning
             args.Maximum = total;
 
             OnSubproblemFinished(args);
+        }
+
+        private void TrainBinaryMachine(ClassPair pair, int k, TBinary model, TInput[] x, bool[] suby, double[] weights)
+        {
+            // Configure the machine on the two-class problem. Check if the learner
+            // for this machine has already been created before, and re-use it if it
+            // was the case. This is necessary to support mini-batch/online learning.
+
+            ISupervisedLearning<TBinary, TInput, bool> subproblemTeacher;
+            if (!teachers.TryGetValue(pair, out subproblemTeacher))
+            {
+                var p = new InnerParameters<TBinary, TInput>(inputs: x, outputs: suby, pair: pair, model: model);
+                subproblemTeacher = Learner(p);
+                teachers[pair] = subproblemTeacher;
+            }
+
+            if (subproblemTeacher != null)
+            {
+                // TODO: This check only exists to provide support to previous way of 
+                // using the library and should be removed after a few releases. In the
+                // current way (without using any Obsolete methods), subproblem should never be null.
+                subproblemTeacher.Token = ParallelOptions.CancellationToken;
+                Model[k] = subproblemTeacher.Learn(x, suby, weights);
+            }
         }
 
         /// <summary>

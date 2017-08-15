@@ -36,7 +36,7 @@ namespace Accord.Tests.MachineLearning
     [TestFixture]
     public class ReducedErrorPruningTest
     {
-
+#if !NO_DATA_TABLE
         [Test]
         public void RunTest()
         {
@@ -111,5 +111,6 @@ namespace Accord.Tests.MachineLearning
 
             return tree;
         }
+#endif
     }
 }

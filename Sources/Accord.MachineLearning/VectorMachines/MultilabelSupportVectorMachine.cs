@@ -26,7 +26,6 @@ namespace Accord.MachineLearning.VectorMachines
     using System.IO;
     using Accord.MachineLearning.VectorMachines.Learning;
     using System.Runtime.Serialization.Formatters.Binary;
-    using System.Threading.Tasks;
     using Accord.Math;
     using Accord.Statistics.Kernels;
     using System.Collections.Generic;
@@ -34,6 +33,8 @@ namespace Accord.MachineLearning.VectorMachines
     using System.Runtime.Serialization;
     using Accord.MachineLearning;
     using System.Reflection;
+    using Accord.Compat;
+    using System.Threading.Tasks;
 
     /// <summary>
     ///   One-against-all Multi-label Kernel Support Vector Machine Classifier.
@@ -88,7 +89,9 @@ namespace Accord.MachineLearning.VectorMachines
     /// 
     [Serializable]
     [Obsolete("Please use MultilabelSupportVectorMachine<TKernel> instead.")]
+#if !NETSTANDARD1_4
     [SerializationBinder(typeof(MultilabelSupportVectorMachine.MultilabelSupportVectorMachineBinder))]
+#endif
     public class MultilabelSupportVectorMachine :
         MultilabelSupportVectorMachine<IKernel<double[]>>
     {
@@ -138,6 +141,7 @@ namespace Accord.MachineLearning.VectorMachines
 
 
         #region Obsolete
+#if !NETSTANDARD1_4
         /// <summary>
         ///   Gets the classifier for class <paramref name="index"/>.
         /// </summary>
@@ -199,6 +203,7 @@ namespace Accord.MachineLearning.VectorMachines
         {
             return Accord.IO.Serializer.Load<MultilabelSupportVectorMachine>(path);
         }
+#endif
 
 
         /// <summary>
@@ -230,7 +235,7 @@ namespace Accord.MachineLearning.VectorMachines
         [Obsolete("Please use Models instead.")]
         public KernelSupportVectorMachine[] Machines
         {
-            get { return Models.Convert(x => (KernelSupportVectorMachine)x); }
+            get { return Models.Apply(x => (KernelSupportVectorMachine)x); }
         }
 #pragma warning restore 0618
 
@@ -289,7 +294,7 @@ namespace Accord.MachineLearning.VectorMachines
 
 
         #region Serialization backwards compatibility
-
+#if !NETSTANDARD1_4
         internal class MultilabelSupportVectorMachineBinder : SerializationBinder
         {
 
@@ -338,7 +343,7 @@ namespace Accord.MachineLearning.VectorMachines
 
 #pragma warning restore 0169
 #pragma warning restore 0649
-
+#endif
         #endregion
     }
 
@@ -379,25 +384,25 @@ namespace Accord.MachineLearning.VectorMachines
     /// <para>
     ///   The following example shows how to learn a non-linear, multi-label (one-vs-rest) 
     ///   support vector machine using the <see cref="Gaussian"/> kernel and the 
-    ///   <see cref="SequentialMinimalOptimization"/> algorithm. </para>
+    ///   <see cref="SequentialMinimalOptimization{TKernel}"/> algorithm. </para>
     /// <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MultilabelSupportVectorLearningTest.cs" region="doc_learn_gaussian" />
     ///   
     /// <para>
     ///   Support vector machines can have their weights calibrated in order to produce probability 
     ///   estimates (instead of simple class separation distances). The following example shows how 
-    ///   to use <see cref="ProbabilisticOutputCalibration"/> within <see cref="MulticlassSupportVectorLearning"/> 
+    ///   to use <see cref="ProbabilisticOutputCalibration"/> within <see cref="MulticlassSupportVectorLearning{TKernel}"/> 
     ///   to generate a probabilistic SVM:</para>
     /// <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MultilabelSupportVectorLearningTest.cs" region="doc_learn_calibration" />
     /// </example>
     /// 
-    /// <seealso cref="MultilabelSupportVectorLearning"/>
-    /// <seealso cref="MulticlassSupportVectorMachine"/>
+    /// <seealso cref="MultilabelSupportVectorLearning{TKernel}"/>
+    /// <seealso cref="MulticlassSupportVectorMachine{TKernel}"/>
     /// 
     [Serializable]
     public class MultilabelSupportVectorMachine<TKernel> :
         MultilabelSupportVectorMachine<
-            SupportVectorMachine<TKernel>, 
-            TKernel, 
+            SupportVectorMachine<TKernel>,
+            TKernel,
             double[]>
         where TKernel : IKernel<double[]>
     {

@@ -24,13 +24,14 @@ namespace Accord.Statistics.Analysis
 {
     using System;
     using System.Collections.ObjectModel;
-    using System.Threading.Tasks;
     using Accord.Math;
     using Accord.Math.Decompositions;
     using Accord.Statistics.Analysis.ContrastFunctions;
     using Accord.MachineLearning;
-    using System.Threading;
     using Accord.Statistics.Models.Regression.Linear;
+    using Accord.Compat;
+    using System.Threading;
+    using System.Threading.Tasks;
 
     /// <summary>
     ///   FastICA's algorithms to be used in Independent Component Analysis.

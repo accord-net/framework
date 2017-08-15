@@ -29,7 +29,7 @@ namespace Accord.Tests.Math
 
     public partial class MatrixTest
     {
-
+#if !NO_DATA_TABLE
         [Test]
         public void ToTableTest()
         {
@@ -96,7 +96,7 @@ namespace Accord.Tests.Math
 
             Assert.IsTrue(expected.IsEqual(actual));
         }
-
+#endif
 
         [Test]
         public void FromJaggedToMultidimensional()

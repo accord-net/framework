@@ -25,6 +25,7 @@ namespace Accord.Statistics.Distributions.Fitting
     using System;
     using Multivariate;
     using Univariate;
+    using Accord.Compat;
 
     /// <summary>
     ///   Estimation options for <see cref="Accord.Statistics.Distributions.Univariate.NormalDistribution">

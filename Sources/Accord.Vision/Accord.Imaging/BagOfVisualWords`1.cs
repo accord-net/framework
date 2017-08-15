@@ -32,6 +32,7 @@ namespace Accord.Imaging
     using System.IO;
     using System.Runtime.Serialization.Formatters.Binary;
     using System.Threading;
+    using Accord.Compat;
     using System.Threading.Tasks;
 
     /// <summary>

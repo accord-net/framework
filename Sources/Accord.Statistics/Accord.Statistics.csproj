@@ -87,6 +87,8 @@
     <Compile Include="Analysis\CircularDescriptiveAnalysis.cs" />
     <Compile Include="Analysis\DistributionAnalysis.cs" />
     <Compile Include="Analysis\BaseDiscriminantAnalysis.cs" />
+    <Compile Include="Analysis\GoodnessOfFit.cs" />
+    <Compile Include="Analysis\GoodnessOfFitCollection.cs" />
     <Compile Include="Analysis\MultinomialLogisticRegressionAnalysis.cs" />
     <Compile Include="Analysis\Performance\WeightedConfusionMatrix.cs" />
     <Compile Include="Analysis\ProcustesAnalysis.cs" />
@@ -239,12 +241,16 @@
     <Compile Include="Distributions\Univariate\Continuous\VonMisesDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\WeibullDistribution.cs" />
     <Compile Include="Filters\Base\BaseFilter.cs" />
+    <Compile Include="Filters\Base\ColumnOptionCollection.cs" />
+    <Compile Include="Filters\Base\ColumnOptionsBase.cs" />
     <Compile Include="Filters\Base\IInPlaceFilter.cs" />
     <Compile Include="Filters\Base\IAutoConfigurableColumn.cs" />
     <Compile Include="Filters\Base\IAutoConfigurableFilter.cs" />
     <Compile Include="Filters\Branching.cs" />
     <Compile Include="Filters\Codification`1.cs" />
     <Compile Include="Filters\Codification`1.Options.cs" />
+    <Compile Include="Filters\Discretization`1.Options.cs" />
+    <Compile Include="Filters\Discretization`1.cs" />
     <Compile Include="Filters\Identification.cs" />
     <Compile Include="Filters\Randomization.cs" />
     <Compile Include="Filters\Imputation.cs" />

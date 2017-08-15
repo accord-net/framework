@@ -149,13 +149,13 @@ namespace Accord.Math
         {
             if (Object.Equals(objA, objB))
                 return true;
-
+#if !NETSTANDARD1_4
             if (objA is DBNull)
                 objA = null;
 
             if (objB is DBNull)
                 objB = null;
-
+#endif
             if (objA == null ^ objB == null)
                 return false;
 
@@ -202,6 +202,8 @@ namespace Accord.Math
             // Check if there is already an optimized method to perform this comparison
             Type typeA = objA.GetType();
             Type typeB = objB.GetType();
+
+#if !NETSTANDARD1_4
             MethodInfo equals = typeof(Matrix).GetMethod("IsEqual", new Type[] {
                     typeA, typeB, typeof(double), typeof(double)
                 });
@@ -212,7 +214,7 @@ namespace Accord.Math
 
             if (equals != _this)
                 return (bool)equals.Invoke(null, new object[] { objA, objB, atol, rtol });
-
+#endif
 
             // Base case: arrays contain elements of same nature (both arrays, or both values)
             if (objA.GetType().GetElementType().IsArray == objB.GetType().GetElementType().IsArray)
@@ -463,10 +465,10 @@ namespace Accord.Math
             return false;
         }
 
-        #endregion
+#endregion
 
 
-        #region Transpose
+#region Transpose
 
         /// <summary>
         ///   Gets the transpose of a matrix.
@@ -593,7 +595,7 @@ namespace Accord.Math
         /// <returns>The transpose of the given tensor.</returns>
         /// 
         public static T Transpose<T>(this T array, int[] order)
-            where T : class, ICloneable, IList
+            where T : class, IList
         {
             Array arr = array as Array;
 
@@ -626,10 +628,10 @@ namespace Accord.Math
             return r;
         }
 
-        #endregion
+#endregion
 
 
-        #region Matrix Characteristics
+#region Matrix Characteristics
 
         /// <summary>
         /// Gets the total number of elements in the vector.
@@ -667,7 +669,11 @@ namespace Accord.Math
         /// 
         public static int GetSizeInBytes<T>(this T[] elements)
         {
+#if NETSTANDARD1_4
+            return elements.GetNumberOfElements() * Marshal.SizeOf<T>();
+#else
             return elements.GetNumberOfElements() * Marshal.SizeOf(typeof(T));
+#endif
         }
 
         /// <summary>
@@ -676,7 +682,11 @@ namespace Accord.Math
         /// 
         public static int GetSizeInBytes<T>(this T[][] elements)
         {
+#if NETSTANDARD1_4
+            return elements.GetNumberOfElements() * Marshal.SizeOf<T>();
+#else
             return elements.GetNumberOfElements() * Marshal.SizeOf(typeof(T));
+#endif
         }
 
         /// <summary>
@@ -685,7 +695,11 @@ namespace Accord.Math
         /// 
         public static int GetSizeInBytes<T>(this T[,] elements)
         {
+#if NETSTANDARD1_4
+            return elements.GetNumberOfElements() * Marshal.SizeOf<T>();
+#else
             return elements.GetNumberOfElements() * Marshal.SizeOf(typeof(T));
+#endif
         }
 
         /// <summary>
@@ -1320,11 +1334,11 @@ namespace Accord.Math
             return new CholeskyDecomposition(matrix).IsPositiveDefinite;
         }
 
-        #endregion
+#endregion
 
 
 
-        #region Operation Mapping (Apply)
+#region Operation Mapping (Apply)
 
         /// <summary>
         ///   Applies a function to every element of the array.
@@ -1491,10 +1505,10 @@ namespace Accord.Math
                 result[i] = func(vector[i]);
             return result;
         }
-        #endregion
+#endregion
 
 
-        #region Rounding and discretization
+#region Rounding and discretization
         /// <summary>
         ///   Rounds a double-precision floating-point matrix to a specified number of fractional digits.
         /// </summary>
@@ -1597,10 +1611,10 @@ namespace Accord.Math
             return result;
         }
 
-        #endregion
+#endregion
 
 
-        #region Morphological operations
+#region Morphological operations
 
         /// <summary>
         ///   Transforms a jagged array matrix into a single vector.
@@ -1795,7 +1809,7 @@ namespace Accord.Math
             return result;
         }
 
-        #endregion
+#endregion
 
         /// <summary>
         ///   Convolves an array with the given kernel.

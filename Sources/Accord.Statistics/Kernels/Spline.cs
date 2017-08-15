@@ -23,6 +23,7 @@
 namespace Accord.Statistics.Kernels
 {
     using System;
+    using Accord.Compat;
 
     /// <summary>
     ///   Infinite Spline Kernel function.

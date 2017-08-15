@@ -39,7 +39,11 @@ namespace Accord.Tests.IO.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
+#if NETCORE
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Accord.Tests.IO.Properties.Resources", System.Reflection.IntrospectionExtensions.GetTypeInfo(typeof(Resources)).Assembly);
+#else
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Accord.Tests.IO.Properties.Resources", typeof(Resources).Assembly);
+#endif
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -302,84 +306,5 @@ namespace Accord.Tests.IO.Properties {
             }
         }
         
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] npy_bool {
-            get {
-                object obj = ResourceManager.GetObject("npy_bool", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] npy_byte {
-            get {
-                object obj = ResourceManager.GetObject("npy_byte", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] npy_integer {
-            get {
-                object obj = ResourceManager.GetObject("npy_integer", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] npy_strings {
-            get {
-                object obj = ResourceManager.GetObject("npy_strings", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] npy_strings_var {
-            get {
-                object obj = ResourceManager.GetObject("npy_strings_var", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] pendigits_orig_tes {
-            get {
-                object obj = ResourceManager.GetObject("pendigits_orig_tes", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] spreadsheet_names {
-            get {
-                object obj = ResourceManager.GetObject("spreadsheet_names", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] t10k_images_idx3_ubyte {
-            get {
-                object obj = ResourceManager.GetObject("t10k_images_idx3_ubyte", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
     }
 }

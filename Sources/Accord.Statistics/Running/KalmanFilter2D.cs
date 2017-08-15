@@ -32,7 +32,7 @@ namespace Accord.Statistics.Running
 {
     using System;
     using Accord.Math;
-    using AForge;
+    using Accord.Compat;
 
     /// <summary>
     ///   Kalman filter for 2D coordinate systems.

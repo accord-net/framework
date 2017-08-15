@@ -15,7 +15,7 @@ using Microsoft.VisualStudio.DebuggerVisualizers;
     typeof( AForge.DebuggerVisualizers.ImageVisualizer ),
     typeof( VisualizerObjectSource ),
     Target = typeof( System.Drawing.Image ),
-    Description = "Image Visualizer" )]
+    Description = "Accord Image Visualizer" )]
 
 namespace AForge.DebuggerVisualizers
 {

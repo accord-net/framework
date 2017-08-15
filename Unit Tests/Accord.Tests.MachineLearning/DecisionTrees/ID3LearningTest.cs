@@ -36,7 +36,7 @@ namespace Accord.Tests.MachineLearning
     [TestFixture]
     public class ID3LearningTest
     {
-
+#if !NO_DATA_TABLE
         public static void CreateMitchellExample(out DecisionTree tree, out int[][] inputs, out int[] outputs)
         {
             DataTable data = new DataTable("Mitchell's Tennis Example");
@@ -115,6 +115,7 @@ namespace Accord.Tests.MachineLearning
                 Assert.AreEqual("No", answer);
             }
         }
+#endif
 
         public static void CreateXORExample(out DecisionTree tree, out int[][] inputs, out int[] outputs)
         {
@@ -345,7 +346,7 @@ namespace Accord.Tests.MachineLearning
         }
 
 
-
+#if !NO_DATA_TABLE
         [Test]
         public void RunTest2()
         {
@@ -389,6 +390,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(1, tree.Root.Branches[2].Branches[1].Value); // Wind = Strong
             Assert.IsTrue(tree.Root.Branches[2].Branches[1].IsLeaf);
         }
+#endif
 
         [Test]
         public void RunTest3()
@@ -425,7 +427,7 @@ namespace Accord.Tests.MachineLearning
             Assert.IsTrue(tree.Root.Branches[0].Branches[0].Branches[1].IsLeaf);
         }
 
-
+#if !NO_DATA_TABLE
         [Test]
         public void ConstantDiscreteVariableTest()
         {
@@ -562,6 +564,7 @@ namespace Accord.Tests.MachineLearning
                 Assert.AreEqual(outputs[i], y);
             }
         }
+#endif
 
         [Test]
         public void ArgumentCheck1()
@@ -794,6 +797,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(0, predicted[3]);
         }
 
+#if !NO_DATA_TABLE
         [Test]
         public void learn_doc2()
         {
@@ -807,7 +811,7 @@ namespace Accord.Tests.MachineLearning
             // behavior of the person has been registered and annotated, pretty much building our set of 
             // observation instances for learning:
 
-            // Note: this example uses DataTables to represent the inputdata , but this is not required.
+            // Note: this example uses DataTables to represent the input data , but this is not required.
             DataTable data = new DataTable("Mitchell's Tennis Example");
 
             data.Columns.Add("Day", "Outlook", "Temperature", "Humidity", "Wind", "PlayTennis");
@@ -876,7 +880,7 @@ namespace Accord.Tests.MachineLearning
             // The tree can now be queried for new examples through 
             // its decide method. For example, we can create a query
 
-            int[] query = codebook.Transform(new [,]
+            int[] query = codebook.Transform(new[,]
             {
                 { "Outlook",     "Sunny"  },
                 { "Temperature", "Hot"    },
@@ -895,5 +899,6 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual("No", answer);
             Assert.AreEqual(0, error);
         }
+#endif
     }
 }

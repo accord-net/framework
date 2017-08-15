@@ -39,7 +39,11 @@ namespace Accord.IO.Resources {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
+#if NETSTANDARD1_4
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Accord.IO.Resources.ExceptionMessage", System.Reflection.IntrospectionExtensions.GetTypeInfo(typeof(ExceptionMessage)).Assembly);
+#else
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Accord.IO.Resources.ExceptionMessage", typeof(ExceptionMessage).Assembly);
+#endif
                     resourceMan = temp;
                 }
                 return resourceMan;

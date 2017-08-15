@@ -23,13 +23,12 @@
 namespace Accord.MachineLearning
 {
     using System;
-    using System.Collections.Generic;
-    using System.Collections.ObjectModel;
-    using System.Threading.Tasks;
     using Accord.Math;
-    using System.Threading;
     using Accord.MachineLearning.VectorMachines.Learning;
     using Accord.Statistics.Kernels;
+    using Accord.Compat;
+    using System.Threading;
+    using System.Threading.Tasks;
 
     /// <summary>
     ///   Delegate for grid search fitting functions.

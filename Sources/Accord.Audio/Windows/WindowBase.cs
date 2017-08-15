@@ -22,6 +22,7 @@
 
 namespace Accord.Audio.Windows
 {
+    using Accord.Compat;
     using System.Numerics;
 
     /// <summary>
