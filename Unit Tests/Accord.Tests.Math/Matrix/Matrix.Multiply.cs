@@ -126,8 +126,10 @@ namespace Accord.Tests.Math
             }.ToJagged();
 
             double[][] actual = Matrix.Multiply(a, b);
+            double[][] actual2 = a.ToMatrix().Dot(b);
 
-            Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.0001));
+            Assert.IsTrue(expected.IsEqual(actual, 0.0001));
+            Assert.IsTrue(expected.IsEqual(actual2, 0.0001));
         }
 
         [Test]
@@ -208,7 +210,7 @@ namespace Accord.Tests.Math
                         double[] b = Vector.Random(m);
                         double[] c = Vector.Random(n);
 
-                        double[] result1 = A.DotNew(b, c);
+                        double[] result1 = A.Dot(b, c);
                         double[] result2 = new double[A.Rows()];
 
                         for (int k = 0; k < A.Rows(); k++)
@@ -280,14 +282,11 @@ namespace Accord.Tests.Math
             double[,] a = Matrix.Random(2, 3);
             double[,] b = Matrix.Random(2, 4);
             double[,] actual = new double[3, 4];
-            double[,] actual2 = Matrix.Random(3, 4);
 
             double[,] expected = Matrix.Multiply(a.Transpose(), b);
             a.TransposeAndMultiply(b, actual);
-            a.TransposeAndDotNew(b, actual2);
 
             Assert.IsTrue(expected.IsEqual(actual, Tolerance));
-            Assert.IsTrue(expected.IsEqual(actual2, Tolerance));
         }
 
         [Test]
@@ -304,7 +303,7 @@ namespace Accord.Tests.Math
                         double[,] actual = Matrix.Random(i, k);
 
                         double[,] expected = a.Transpose().Dot(b);
-                        a.TransposeAndDotNew(b, actual);
+                        a.TransposeAndDot(b, actual);
 
                         Assert.IsTrue(expected.IsEqual(actual, Tolerance));
                     }
@@ -351,10 +350,8 @@ namespace Accord.Tests.Math
 
             double[][] expected = a.Dot(b.Transpose());
             double[][] actual = a.DotWithTransposed(b);
-            double[][] actual2 = a.DotWithTransposedNew(b, Matrix.CreateAs(actual).ToJagged());
 
             Assert.IsTrue(expected.IsEqual(actual));
-            Assert.IsTrue(expected.IsEqual(actual2));
         }
 
         [Test]
@@ -371,7 +368,7 @@ namespace Accord.Tests.Math
                         double[][] actual = Jagged.Random(i, j);
 
                         double[][] expected = a.Dot(b.Transpose());
-                        a.DotWithTransposedNew(b, actual);
+                        a.DotWithTransposed(b, actual);
 
                         Assert.IsTrue(expected.IsEqual(actual, Tolerance));
                     }
@@ -385,10 +382,8 @@ namespace Accord.Tests.Math
 
             double[][] expected = a.Dot(b.Transpose());
             double[][] actual = a.DotWithTransposed(b);
-            double[][] actual2 = a.DotWithTransposedNew(b, Matrix.CreateAs(actual).ToJagged());
 
             Assert.IsTrue(expected.IsEqual(actual));
-            Assert.IsTrue(expected.IsEqual(actual2));
         }
 
         [Test]
@@ -405,7 +400,7 @@ namespace Accord.Tests.Math
                         double[][] actual = Jagged.Random(i, j);
 
                         double[][] expected = a.Dot(b.Transpose());
-                        a.DotWithTransposedNew(b, actual);
+                        a.DotWithTransposed(b, actual);
 
                         Assert.IsTrue(expected.IsEqual(actual, Tolerance));
                     }
@@ -419,10 +414,8 @@ namespace Accord.Tests.Math
 
             double[][] expected = a.Dot(b.Transpose());
             double[][] actual = a.DotWithTransposed(b);
-            double[][] actual2 = a.DotWithTransposedNew(b, Matrix.CreateAs(actual).ToJagged());
 
             Assert.IsTrue(expected.IsEqual(actual));
-            Assert.IsTrue(expected.IsEqual(actual2));
         }
 
         [Test]
@@ -439,7 +432,7 @@ namespace Accord.Tests.Math
                         double[][] actual = Jagged.Random(i, j);
 
                         double[][] expected = a.Dot(b.Transpose());
-                        a.DotWithTransposedNew(b, actual);
+                        a.DotWithTransposed(b, actual);
 
                         Assert.IsTrue(expected.IsEqual(actual, Tolerance));
                     }
@@ -515,11 +508,8 @@ namespace Accord.Tests.Math
             double[] result = Vector.Random(a.Length * b.Length);
 
             double[] actual1 = a.Kronecker(b);
-            double[] actual2 = a.KroneckerNew(b, result);
 
             Assert.IsTrue(expected.IsEqual(actual1));
-            Assert.IsTrue(expected.IsEqual(actual2));
-            Assert.AreSame(actual2, result);
         }
 
         [Test]
@@ -535,7 +525,7 @@ namespace Accord.Tests.Math
                     double[] result = Vector.Random(a.Length * b.Length);
                     double[] expected = a.Outer(b).Flatten();
 
-                    double[] actual = a.KroneckerNew(b, result);
+                    double[] actual = a.Kronecker(b, result);
 
                     Assert.IsTrue(expected.IsEqual(actual, Tolerance));
                     Assert.AreSame(actual, result);

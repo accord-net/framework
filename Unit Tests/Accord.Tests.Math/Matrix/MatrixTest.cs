@@ -1264,8 +1264,7 @@ namespace Accord.Tests.Math
                 { 4.000,  8.000, 12.000, 16.000 }
             };
 
-            double[,] actual;
-            actual = Matrix.OuterProduct(a, b);
+            double[,] actual = Matrix.OuterProduct(a, b);
             Assert.IsTrue(expected.IsEqual(actual));
         }
 
@@ -1286,14 +1285,11 @@ namespace Accord.Tests.Math
             double[][] actual3 = actual2.ToJagged();
 
             double[,] actual1 = a.Outer(b);
-            double[,] actual2a = a.OuterNew(b, actual2);
             double[][] actual3a = a.Outer(b, actual3);
 
-            Assert.AreSame(actual2, actual2a);
             Assert.AreSame(actual3, actual3a);
 
             Assert.IsTrue(expected.IsEqual(actual1));
-            Assert.IsTrue(expected.IsEqual(actual2));
             Assert.IsTrue(expected.IsEqual(actual3));
         }
 
