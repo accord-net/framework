@@ -16,7 +16,7 @@ using Accord.Math;
 using Accord.Controls;
 using Accord.Statistics;
 
-namespace AForge.DebuggerVisualizers
+namespace Accord.DebuggerVisualizers
 {
     public partial class HistogramView : Form
     {
