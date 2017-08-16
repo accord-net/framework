@@ -167,7 +167,7 @@ namespace Accord.Math.Optimization
     /// <seealso cref="BroydenFletcherGoldfarbShanno"/>
     /// <seealso cref="TrustRegionNewtonMethod"/>
     /// 
-    public partial class BoundedBroydenFletcherGoldfarbShanno : BaseGradientOptimizationMethod, 
+    public partial class BoundedBroydenFletcherGoldfarbShanno : BaseGradientOptimizationMethod,
         IGradientOptimizationMethod, IOptimizationMethod<BoundedBroydenFletcherGoldfarbShannoStatus>,
         ISupportsCancellation
     {
@@ -264,6 +264,12 @@ namespace Accord.Math.Optimization
         public double[] UpperBounds
         {
             get { return upperBound; }
+            set
+            {
+                if (value.Length != upperBound.Length)
+                    throw new DimensionMismatchException("value", "The bounds vector should have the same length as the number of variables to be optimized ({0}.".Format(NumberOfVariables));
+                upperBound = value;
+            }
         }
 
         /// <summary>
@@ -274,6 +280,12 @@ namespace Accord.Math.Optimization
         public double[] LowerBounds
         {
             get { return lowerBound; }
+            set
+            {
+                if (value.Length != lowerBound.Length)
+                    throw new DimensionMismatchException("value", "The bounds vector should have the same length as the number of variables to be optimized ({0}.".Format(NumberOfVariables));
+                lowerBound = value;
+            }
         }
 
         /// <summary>
@@ -461,10 +473,10 @@ namespace Accord.Math.Optimization
 
             iterations = 0;
 
-        // 
-        // c        ------- the beginning of the loop ----------
-        // 
-        L111:
+            // 
+            // c        ------- the beginning of the loop ----------
+            // 
+            L111:
             if (Token.IsCancellationRequested)
                 return false;
 
