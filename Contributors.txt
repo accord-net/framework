@@ -15,6 +15,7 @@
   - Ashley Messer
   - Benjamin Collins
   - Darko Juric 
+  - Darren Schroeder
   - David Durrleman
   - Doug Blank
   - Hans Wolff
