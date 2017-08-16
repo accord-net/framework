@@ -7,13 +7,8 @@
 //
 // Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
-//
-// AForge debugging visualizers
-// AForge.NET framework
-// http://www.aforgenet.com/framework/
-//
-// Copyright © AForge.NET, 2011
-// contacts@aforgenet.com
+// 
+// Copyright © Jaex
 //
 //    This program is free software; you can redistribute it and/or modify
 //    it under the terms of the GNU General Public License as published by
@@ -30,29 +25,27 @@
 //    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //
 
-using System;
-using System.Drawing;
 using System.Windows.Forms;
-using Microsoft.VisualStudio.DebuggerVisualizers;
-
-[assembly: System.Diagnostics.DebuggerVisualizer(
-    typeof(Accord.DebuggerVisualizers.HistogramVisualizer ),
-    typeof( VisualizerObjectSource ),
-    Target = typeof(Accord.Statistics.Visualizations.Histogram ),
-    Description = "Histogram Visualizer" )]
 
 namespace Accord.DebuggerVisualizers
 {
-    public class HistogramVisualizer : DialogDebuggerVisualizer
+    public static class Extensions
     {
-        override protected void Show( IDialogVisualizerService windowService, IVisualizerObjectProvider objectProvider )
+        public static int Between(this int num, int min, int max)
         {
-            Accord.Statistics.Visualizations.Histogram histogram = (Accord.Statistics.Visualizations.Histogram) objectProvider.GetObject( );
+            if (num <= min) return min;
+            if (num >= max) return max;
+            return num;
+        }
 
-            HistogramView histogramView = new HistogramView( );
-            histogramView.SetHistogram( histogram );
+        public static void HideImageMargin(this ToolStripDropDownItem tsddi)
+        {
+            ((ToolStripDropDownMenu)tsddi.DropDown).ShowImageMargin = false;
+        }
 
-            windowService.ShowDialog( histogramView );
+        public static bool IsValidImage(this PictureBox pb)
+        {
+            return pb.Image != null && pb.Image != pb.InitialImage && pb.Image != pb.ErrorImage;
         }
     }
 }
