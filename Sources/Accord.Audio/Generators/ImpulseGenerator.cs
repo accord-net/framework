@@ -23,6 +23,7 @@
 namespace Accord.Audio.Generators
 {
     using System;
+    using Accord.Compat;
     using System.Numerics;
 
     /// <summary>

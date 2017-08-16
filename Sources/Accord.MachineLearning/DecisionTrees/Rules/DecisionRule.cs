@@ -28,6 +28,7 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
     using System.Text;
     using Accord.Math;
     using Accord.Statistics.Filters;
+    using Accord.Compat;
 
     /// <summary>
     ///   Decision Rule.
@@ -208,7 +209,7 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
         /// 
         public override string ToString()
         {
-            return toString(null, null, CultureInfo.CurrentUICulture);
+            return toString(null, null, System.Globalization.CultureInfo.CurrentUICulture);
         }
 
         /// <summary>
@@ -221,7 +222,7 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
         /// 
         public string ToString(Codification<string> codebook)
         {
-            return toString(codebook, null, CultureInfo.CurrentUICulture);
+            return toString(codebook, null, System.Globalization.CultureInfo.CurrentUICulture);
         }
 
         /// <summary>
@@ -232,7 +233,7 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
         ///   A <see cref="System.String"/> that represents this instance.
         /// </returns>
         /// 
-        public string ToString(CultureInfo cultureInfo)
+        public string ToString(System.Globalization.CultureInfo cultureInfo)
         {
             return toString(null, null, cultureInfo);
         }
@@ -245,7 +246,7 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
         ///   A <see cref="System.String"/> that represents this instance.
         /// </returns>
         /// 
-        public string ToString(Codification<string> codebook, CultureInfo cultureInfo)
+        public string ToString(Codification<string> codebook, System.Globalization.CultureInfo cultureInfo)
         {
             return toString(codebook, null, cultureInfo);
         }
@@ -258,7 +259,7 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
         ///   A <see cref="System.String"/> that represents this instance.
         /// </returns>
         /// 
-        public string ToString(Codification<string> codebook, string outputColumn, CultureInfo cultureInfo)
+        public string ToString(Codification<string> codebook, string outputColumn, System.Globalization.CultureInfo cultureInfo)
         {
             return toString(codebook, outputColumn, cultureInfo);
         }
@@ -358,7 +359,7 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
 
 
 
-        private string toString(Codification<string> codebook, string outputColumn, CultureInfo culture)
+        private string toString(Codification<string> codebook, string outputColumn, System.Globalization.CultureInfo culture)
         {
             StringBuilder sb = new StringBuilder();
 
@@ -375,7 +376,7 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
             return String.Format(culture, "{0} =: {1}", name, sb);
         }
 
-        private string toString(Antecedent antecedent, Codification<string> codebook, CultureInfo culture)
+        private string toString(Antecedent antecedent, Codification<string> codebook, System.Globalization.CultureInfo culture)
         {
             int index = antecedent.Index;
             String name = Variables[index].Name;

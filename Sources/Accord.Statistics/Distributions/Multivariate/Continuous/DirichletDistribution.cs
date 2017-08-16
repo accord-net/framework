@@ -24,6 +24,7 @@ namespace Accord.Statistics.Distributions.Multivariate
 {
     using System;
     using Accord.Math;
+    using Accord.Compat;
 
     /// <summary>
     ///   Dirichlet distribution.

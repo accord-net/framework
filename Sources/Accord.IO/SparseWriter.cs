@@ -62,7 +62,19 @@ namespace Accord.IO
         /// 
         public SparseWriter(string path)
         {
-            this.writer = new StreamWriter(path);
+            this.writer = new StreamWriter(new FileStream(path, FileMode.Create));
+        }
+
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="SparseWriter"/> class.
+        /// </summary>
+        /// 
+        /// <param name="path">The complete file path to be written.</param>
+        /// <param name="encoding">The character encoding to use.</param>
+        /// 
+        public SparseWriter(String path, Encoding encoding)
+        {
+            this.writer = new StreamWriter(new FileStream(path, FileMode.Create), encoding);
         }
 
         /// <summary>
@@ -88,18 +100,6 @@ namespace Accord.IO
             this.writer = new StreamWriter(stream, encoding);
         }
 
-
-        /// <summary>
-        ///   Initializes a new instance of the <see cref="SparseWriter"/> class.
-        /// </summary>
-        /// 
-        /// <param name="path">The complete file path to be written.</param>
-        /// <param name="encoding">The character encoding to use.</param>
-        /// 
-        public SparseWriter(String path, Encoding encoding)
-        {
-            this.writer = new StreamWriter(path, false, encoding);
-        }
 
         /// <summary>
         ///   Writes the given feature vectors and associated output label/value to the file.

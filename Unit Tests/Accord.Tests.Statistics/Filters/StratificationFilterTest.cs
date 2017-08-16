@@ -25,28 +25,11 @@ namespace Accord.Tests.Statistics
     using Accord.Statistics.Filters;
     using NUnit.Framework;
     using System.Data;
-    
+
     [TestFixture]
     public class StratificationFilterTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
+#if !NO_DATA_TABLE
         [Test]
         public void ApplyTest()
         {
@@ -88,7 +71,7 @@ namespace Accord.Tests.Statistics
                 Assert.AreEqual(ec, ac);                    
                 
             }
-            
         }
+#endif
     }
 }

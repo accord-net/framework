@@ -496,6 +496,7 @@ namespace Accord.Tests.Statistics.Models.Fields
             Assert.AreEqual(4173, expected);
         }
 
+#if !NO_BINARY_SERIALIZATION
         [Test]
         public void SaveLoadTest()
         {
@@ -604,6 +605,6 @@ namespace Accord.Tests.Statistics.Models.Fields
             for (int i = 0; i < hcrf.Function.Weights.Length; i++)
                 Assert.AreEqual(hcrf.Function.Weights[i], target.Function.Weights[i]);
         }
-
+#endif
     }
 }

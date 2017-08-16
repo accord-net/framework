@@ -27,8 +27,8 @@ namespace Accord.MachineLearning
     using Accord.Statistics.Distributions.Multivariate;
     using Accord.Statistics.Distributions.Univariate;
     using System;
+    using Accord.Compat;
     using System.Threading.Tasks;
-    using System.Threading;
 
     /// <summary>
     ///   Gaussian mixture model clustering.

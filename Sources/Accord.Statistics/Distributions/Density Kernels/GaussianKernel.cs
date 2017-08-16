@@ -23,6 +23,7 @@
 namespace Accord.Statistics.Distributions.DensityKernels
 {
     using System;
+    using Accord.Compat;
 
     /// <summary>
     ///   Gaussian density kernel.

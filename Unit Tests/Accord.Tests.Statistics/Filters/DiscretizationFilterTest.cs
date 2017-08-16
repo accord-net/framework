@@ -31,7 +31,7 @@ namespace Accord.Tests.Statistics
     [TestFixture]
     public class DiscretizationFilterTest
     {
-
+#if !NO_DATA_TABLE
         [Test]
         public void ApplyTest1()
         {
@@ -155,6 +155,7 @@ namespace Accord.Tests.Statistics
                 Assert.AreEqual(ez, az);
             }
         }
+#endif
 
         [Test]
         public void thresholds()
@@ -181,7 +182,7 @@ namespace Accord.Tests.Statistics
                 { "Percentage", x => x >= 0.50 && x < 0.75, "medium" },
                 { "Percentage", x => x >= 0.75 && x < 1.00, "likely" },
             };
-            
+
             // Convert the data using the above conversion rules:
             object[][] output = discretization.Transform(data);
 
@@ -197,7 +198,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(output.IsEqual(expected));
         }
 
-
+#if !NO_DATA_TABLE
         [Test]
         public void missing_values_thresholds_test()
         {
@@ -274,5 +275,6 @@ namespace Accord.Tests.Statistics
                 }
             }
         }
+#endif
     }
 }

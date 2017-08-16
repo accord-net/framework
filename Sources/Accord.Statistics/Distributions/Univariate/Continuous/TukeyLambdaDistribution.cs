@@ -26,7 +26,7 @@ namespace Accord.Statistics.Distributions.Univariate
     using Accord.Math;
     using Accord.Math.Integration;
     using Accord.Math.Optimization;
-    using AForge;
+    using Accord.Compat;
 
     /// <summary>
     ///   Tukey-Lambda distribution.

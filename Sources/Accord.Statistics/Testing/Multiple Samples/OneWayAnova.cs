@@ -25,6 +25,7 @@ namespace Accord.Statistics.Testing
     using System;
     using System.Collections.Generic;
     using Accord.Math;
+    using Accord.Compat;
 
     /// <summary>
     ///   One-way Analysis of Variance (ANOVA).

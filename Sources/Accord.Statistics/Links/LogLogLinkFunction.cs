@@ -24,6 +24,7 @@ namespace Accord.Statistics.Links
 {
     using System;
     using Accord.Math;
+    using Accord.Compat;
 
     /// <summary>
     ///   Natural logarithm of natural logarithm link function.

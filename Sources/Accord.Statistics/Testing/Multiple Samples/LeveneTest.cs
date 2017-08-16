@@ -23,6 +23,7 @@
 namespace Accord.Statistics.Testing
 {
     using System;
+    using Accord.Compat;
 
     /// <summary>
     ///   Levene test computation methods.

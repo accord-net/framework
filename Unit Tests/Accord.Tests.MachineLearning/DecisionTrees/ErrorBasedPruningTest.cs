@@ -37,7 +37,7 @@ namespace Accord.Tests.MachineLearning
     public class ErrorBasedPruningTest
     {
 
-
+#if !NO_DATA_TABLE
         [Test]
         public void RunTest()
         {
@@ -130,5 +130,6 @@ namespace Accord.Tests.MachineLearning
             foreach (var node in tree)
                 nodeCount2++;
         }
+#endif
     }
 }

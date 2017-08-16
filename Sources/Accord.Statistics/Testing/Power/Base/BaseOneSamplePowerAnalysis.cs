@@ -24,6 +24,7 @@ namespace Accord.Statistics.Testing.Power
 {
     using System;
     using Accord.Math.Optimization;
+    using Accord.Compat;
 
     /// <summary>
     ///   Base class for one sample power analysis methods. 

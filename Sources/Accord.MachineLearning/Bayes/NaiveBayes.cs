@@ -25,12 +25,12 @@ namespace Accord.MachineLearning.Bayes
     using Accord.Math;
     using Accord.Math.Optimization.Losses;
     using Accord.Statistics.Distributions;
-    using Accord.Statistics.Distributions.Multivariate;
     using Accord.Statistics.Distributions.Univariate;
     using System;
     using System.IO;
     using System.Reflection;
     using System.Runtime.Serialization;
+    using Accord.Compat;
     using System.Threading.Tasks;
 
 #if !MONO
@@ -385,6 +385,7 @@ namespace Accord.MachineLearning.Bayes
             return imax;
         }
 
+#if !NETSTANDARD1_4
         /// <summary>
         ///   Saves the Naïve Bayes model to a stream.
         /// </summary>
@@ -474,7 +475,8 @@ namespace Accord.MachineLearning.Bayes
         {
             return Accord.IO.Serializer.Load<NaiveBayes<TDistribution>>(path);
         }
-        #endregion
+#endif
+#endregion
 
 
         #region Serialization backwards compatibility
@@ -533,12 +535,12 @@ namespace Accord.MachineLearning.Bayes
     }
 
 #else
-    /// <summary>
-    ///   This class is currently not supported in Mono due to
-    ///   a bug in the Mono compiler.
-    /// </summary>
-    /// 
-    [Obsolete("This class is not supported in Mono.")]
+        /// <summary>
+        ///   This class is currently not supported in Mono due to
+        ///   a bug in the Mono compiler.
+        /// </summary>
+        /// 
+        [Obsolete("This class is not supported in Mono.")]
     public class NaiveBayes
     {
         /// <summary>

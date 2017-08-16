@@ -26,6 +26,7 @@ namespace Accord.Statistics.Models.Markov
     using System;
     using System.Collections.Generic;
     using System.Runtime.Serialization;
+    using Accord.Compat;
     using System.Threading.Tasks;
 
     /// <summary>

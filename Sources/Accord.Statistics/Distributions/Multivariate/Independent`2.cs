@@ -28,6 +28,7 @@ namespace Accord.Statistics.Distributions.Multivariate
     using System.Text;
     using Accord.Math.Random;
     using Accord.Statistics.Distributions.Univariate;
+    using Accord.Compat;
 
     /// <summary>
     ///   Joint distribution assuming independence between vector components.

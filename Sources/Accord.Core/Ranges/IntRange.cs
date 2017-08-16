@@ -28,6 +28,7 @@ namespace Accord
     using Accord;
     using System;
     using System.Collections.Generic;
+    using Accord.Compat;
 
     /// <summary>
     ///   Represents an integer range with minimum and maximum values.

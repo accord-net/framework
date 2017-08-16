@@ -23,14 +23,14 @@
 namespace Accord.Neuro.Learning
 {
     using System;
-    using System.Threading;
-    using System.Threading.Tasks;
     using Accord.Neuro.Layers;
     using Accord.Neuro.Networks;
     using Accord.Neuro.Neurons;
     using Accord.Math;
     using Accord.Neuro.ActivationFunctions;
-
+    using Accord.Compat;
+    using System.Threading;
+    using System.Threading.Tasks;
 
     /// <summary>
     ///   Contrastive Divergence learning algorithm for Restricted Boltzmann Machines.

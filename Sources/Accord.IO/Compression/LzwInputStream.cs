@@ -118,7 +118,7 @@ namespace Accord.IO.Compression
 
         /// <summary>
         /// Get/set flag indicating ownership of underlying stream.
-        /// When the flag is true <see cref="Stream.Close"/> will close the underlying stream also.
+        /// When the flag is true <c>Stream.Close</c> will close the underlying stream also.
         /// </summary>
         /// <remarks>
         /// The default value is true.

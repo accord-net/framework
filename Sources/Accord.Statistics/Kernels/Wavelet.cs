@@ -24,6 +24,7 @@ namespace Accord.Statistics.Kernels
 {
     using Math.Distances;
     using System;
+    using Accord.Compat;
 
     /// <summary>
     ///   Wavelet Kernel.

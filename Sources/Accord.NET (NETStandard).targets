@@ -3,7 +3,6 @@
   <Import Project="$(SolutionDir)Version.targets" />
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
     <Authors>César Roberto de Souza, Accord.NET Authors</Authors>
@@ -16,21 +15,58 @@
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
     <CodeAnalysisRuleSet>$(SolutionDir)\Accord.NET.ruleset</CodeAnalysisRuleSet>
-
-    <Configurations>Debug;netstandard2.0</Configurations>
-
-    <OutDir>$(SolutionDir)..\Release\$(Configuration)</OutDir>
-    <DocumentationFile>$(SolutionDir)..\Release\$(Configuration)\$(AssemblyName).XML</DocumentationFile>
-    <CodeAnalysisLogFile>$(SolutionDir)..\Release\$(Configuration)\$(AssemblyName).dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <Configurations>Debug;Release;Mono</Configurations>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)'=='Debug'">
+    <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
+    <DocumentationFile></DocumentationFile>
+  </PropertyGroup>
+
+  <!--
   <Target Name="SpicNSpan"  AfterTargets="Clean">
     <RemoveDir Directories="$(BaseIntermediateOutputPath)" />
     <RemoveDir Directories="$(BaseOutputPath)" />
   </Target>
+  -->
 
   <ItemGroup>
     <Compile Remove="Properties\AssemblyInfo.cs" />
     <Compile Remove="Properties\VersionInfo.cs" />
   </ItemGroup>
+
+
+
+  <!-- Feature matrix -->
+  <PropertyGroup Condition="'$(TargetFramework)'=='netstandard2.0'
+                         OR '$(TargetFramework)'=='netstandard1.4'">
+    <DefineConstants>NETSTANDARD;NO_EXCEL;NO_CODE_PROVIDER;NO_BITMAP$(DefineConstants)</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)'=='netstandard1.4'">
+    <DefineConstants>NO_EXPRESSIONS;NO_BINARY_SERIALIZATION;NO_DATA_TABLE;NO_DEFAULT_ENCODING;NO_CULTURE;NO_TRACE;NO_PARALLEL;$(DefineConstants)</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)'=='netstandard2.0'">
+    <DefineConstants>$(DefineConstants)</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)'=='net35'">
+    <DefineConstants>NO_PARALLEL;$(DefineConstants)</DefineConstants>
+  </PropertyGroup>
+
+
+
+  <!-- Copy binaries, debug and all other generated files into the /Release or /Debug folders at the project's root -->
+  <ItemGroup>
+    <OutputFiles Include="$(ProjectDir)bin\$(Configuration)\$(TargetFramework)\**\*.*" />
+  </ItemGroup>
+
+  <Target Name="CopyToOutputDir" AfterTargets="Build">
+    <Copy SourceFiles="@(OutputFiles)" DestinationFiles="@(OutputFiles->'$(SolutionDir)..\$(Configuration)\$(TargetFramework)\%(RecursiveDir)%(Filename)%(Extension)')" ContinueOnError="false" />
+  </Target>
+
 </Project>

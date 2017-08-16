@@ -24,9 +24,10 @@ namespace Accord.MachineLearning
 {
     using System;
     using System.Collections.Generic;
-    using System.Threading.Tasks;
     using Accord.Math;
     using Accord.MachineLearning.Performance;
+    using Accord.Compat;
+    using System.Threading.Tasks;
 
     /// <summary>
     ///   Obsolete. Please use <see cref="CrossValidation{TModel, TInput, TOutput}"/> instead.

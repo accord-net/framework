@@ -24,8 +24,9 @@ namespace Accord.Statistics.Distributions.Fitting
 {
     using Accord.Math;
     using System;
-    using System.Threading.Tasks;
     using MachineLearning;
+    using Accord.Compat;
+    using System.Threading.Tasks;
 
     /// <summary>
     ///   Expectation Maximization algorithm for mixture model fitting in the log domain.
@@ -243,14 +244,6 @@ namespace Accord.Statistics.Distributions.Fitting
         {
             double logLikelihood = 0.0;
 
-#if NET35
-            for (int i = 0; i < observations.Length; i++)
-            {
-                var x = observations[i];
-                for (int k = 0; k < lnpi.Length; k++)
-                    logLikelihood = Special.LogSum(logLikelihood, lnpi[k] + pdf[k].LogProbabilityFunction(x));
-            }
-#else
             object syncObj = new object();
 
             Parallel.For(0, observations.Length, parallelOptions,
@@ -275,7 +268,6 @@ namespace Accord.Statistics.Distributions.Fitting
                     }
                 }
             );
-#endif
 
             Accord.Diagnostics.Debug.Assert(!Double.IsNaN(logLikelihood));
 

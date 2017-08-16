@@ -24,10 +24,11 @@ namespace Accord.MachineLearning.Performance
 {
     using System;
     using System.Collections.Generic;
-    using System.Threading.Tasks;
     using Accord.Math;
     using Accord.Math.Optimization.Losses;
     using Accord.Statistics;
+    using Accord.Compat;
+    using System.Threading.Tasks;
 
     /// <summary>
     ///   k-Fold cross-validation.

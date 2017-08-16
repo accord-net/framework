@@ -27,6 +27,7 @@ namespace Accord.MachineLearning
     using System;
     using System.Collections.Generic;
     using System.Threading;
+    using Accord.Compat;
 
     /// <summary>
     ///   k-Fold cross-validation. Please only use the static methods contained in this class,

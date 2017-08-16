@@ -48,6 +48,7 @@ namespace Accord.Math.Decompositions
 {
     using System;
     using System.Threading.Tasks;
+    using Accord.Compat;
 
     /// <summary>
     ///   Cholesky Decomposition of a symmetric, positive definite matrix.

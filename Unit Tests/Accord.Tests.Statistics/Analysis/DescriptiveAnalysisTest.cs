@@ -206,7 +206,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(q.Max, quartiles[0].Max);
 
             Assert.AreEqual(12, quartiles[0].Min);
-            Assert.AreEqual(62, quartiles[0].Max);
+            Assert.AreEqual(62.75, quartiles[0].Max);
         }
 
         [Test]
@@ -618,16 +618,16 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(56.799819922700266, confidence[0].Max);
 
             Assert.AreEqual(1, quartiles.Length);
-            Assert.AreEqual(44.5, quartiles[0].Min);
-            Assert.AreEqual(49.5, quartiles[0].Max);
+            Assert.AreEqual(42, quartiles[0].Min);
+            Assert.AreEqual(52, quartiles[0].Max);
 
             Assert.AreEqual(1, innerFence.Length);
-            Assert.AreEqual(37, innerFence[0].Min);
-            Assert.AreEqual(57, innerFence[0].Max);
+            Assert.AreEqual(27, innerFence[0].Min);
+            Assert.AreEqual(67, innerFence[0].Max);
 
             Assert.AreEqual(1, outerFence.Length);
-            Assert.AreEqual(29.5, outerFence[0].Min);
-            Assert.AreEqual(64.5, outerFence[0].Max);
+            Assert.AreEqual(12, outerFence[0].Min);
+            Assert.AreEqual(82, outerFence[0].Max);
         }
 
         [Test]

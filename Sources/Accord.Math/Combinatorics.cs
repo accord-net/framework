@@ -22,9 +22,10 @@
 
 namespace Accord.Math
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Accord.Compat;
+
 
     /// <summary>
     ///   Static class for combinatorics functions.

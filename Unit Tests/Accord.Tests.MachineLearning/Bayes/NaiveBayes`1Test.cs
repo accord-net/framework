@@ -111,6 +111,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(3, target.Distributions.GetLength(1));
         }
 
+#if !NO_DATA_TABLE
         [Test]
         public void ComputeTest()
         {
@@ -236,10 +237,10 @@ namespace Accord.Tests.MachineLearning
             double[] responses;
 
             // Compute the result for a sunny, cool, humid and windy day:
-            double[] instance = new double[] 
+            double[] instance = new double[]
             {
-                codebook.Translate(columnName:"Outlook", value:"Sunny"), 
-                12.0, 
+                codebook.Translate(columnName:"Outlook", value:"Sunny"),
+                12.0,
                 90.0,
                 codebook.Translate(columnName:"Wind", value:"Strong")
             };
@@ -259,7 +260,7 @@ namespace Accord.Tests.MachineLearning
 
             Assert.AreEqual(c, c2);
         }
-
+#endif
 
         [Test]
         public void ComputeTest3()
@@ -317,9 +318,81 @@ namespace Accord.Tests.MachineLearning
         }
 
         [Test]
+        public void gh_758()
+        {
+            // Let's say we have the following data to be classified into three 
+            // non -mutually-exclusive possible classes. Those are the samples:
+            //
+            double[][] inputs =
+            {
+                //               input         output
+                new double[] { 0, 1, 1, 0 }, //  0 
+                new double[] { 0, 1, 0, 0 }, //  0
+                new double[] { 0, 0, 1, 0 }, //  0
+                new double[] { 0, 1, 1, 0 }, //  0, 1
+                new double[] { 0, 1, 0, 0 }, //  0, 1
+                new double[] { 1, 0, 0, 0 }, //     1
+                new double[] { 1, 0, 0, 0 }, //     1
+                new double[] { 1, 0, 0, 1 }, //     1, 2
+                new double[] { 0, 0, 0, 1 }, //     1, 2
+                new double[] { 0, 0, 0, 1 }, //     1, 2
+                new double[] { 1, 1, 1, 1 }, //        2
+                new double[] { 1, 0, 1, 1 }, //        2
+                new double[] { 1, 1, 0, 1 }, //        2
+                new double[] { 0, 1, 1, 1 }, //        2
+                new double[] { 1, 1, 1, 1 }, //        2
+            };
+
+            int[][] outputs = // those are the class labels
+            {
+                new[] { 1, 0, 0 },
+                new[] { 1, 0, 0 },
+                new[] { 1, 0, 0 },
+                new[] { 1, 1, 0 },
+                new[] { 1, 1, 0 },
+                new[] { 0, 1, 0 },
+                new[] { 0, 1, 0 },
+                new[] { 0, 1, 1 },
+                new[] { 0, 1, 1 },
+                new[] { 0, 1, 1 },
+                new[] { 0, 0, 1 },
+                new[] { 0, 0, 1 },
+                new[] { 0, 0, 1 },
+                new[] { 0, 0, 1 },
+                new[] { 0, 0, 1 },
+            };
+
+            // Create a new Naive teacher for 4-dimensional Gaussian distributions
+            var teacher = new NaiveBayesLearning<NormalDistribution, NormalOptions, double>()
+            {
+                Options = new IndependentOptions<NormalOptions>()
+                {
+                    InnerOption = new NormalOptions()
+                    {
+                        Regularization = 1e-10
+                    }
+                }
+            };
+
+            teacher.ParallelOptions.MaxDegreeOfParallelism = 1;
+
+            var bayes = teacher.Learn(inputs, outputs);
+
+            double[][] prediction = bayes.Probabilities(inputs);
+
+            // Teach the Naive Bayes model. The error should be zero:
+            double error = new BinaryCrossEntropyLoss(outputs).Loss(prediction);
+
+            Assert.AreEqual(78.465768833015233, error, 1e-8);
+
+            Assert.IsTrue(teacher.optimized);
+        }
+
+#if !NO_DATA_TABLE
+        [Test]
         public void learn_test_mitchell()
         {
-#region doc_mitchell_1
+            #region doc_mitchell_1
             // We will represent Mitchell's Tennis example using a DataTable. However,
             // the use of a DataTable is not required in order to use the Naive Bayes. 
             // Please take a look at the other examples below for simpler approaches.
@@ -343,15 +416,15 @@ namespace Accord.Tests.MachineLearning
             data.Rows.Add("D12", "Overcast", 27.0, 97.0, "Strong", "Yes");
             data.Rows.Add("D13", "Overcast", 39.0, 41.0, "Weak", "Yes");
             data.Rows.Add("D14", "Rain", 23.0, 98.0, "Strong", "No");
-#endregion
+            #endregion
 
-#region doc_mitchell_2
+            #region doc_mitchell_2
             // Create a new codification codebook to
             // convert strings into discrete symbols
             Codification codebook = new Codification(data);
-#endregion
+            #endregion
 
-#region doc_mitchell_3
+            #region doc_mitchell_3
             // Some distributions require constructor parameters, and as such, cannot 
             // be automatically initialized by the learning algorithm. For this reason, 
             // we might need to specify how each component should be initialized:
@@ -377,14 +450,14 @@ namespace Accord.Tests.MachineLearning
 
             // Learn the Naive Bayes model
             var naiveBayes = learner.Learn(inputs, outputs);
-#endregion
+            #endregion
 
-#region doc_mitchell_4
+            #region doc_mitchell_4
             // Create an instance representing a "sunny, cool, humid and windy day":
-            double[] instance = new double[] 
+            double[] instance = new double[]
             {
                 codebook.Translate(columnName:"Outlook", value:"Sunny"), //n 0
-                12.0, 
+                12.0,
                 90.0,
                 codebook.Translate(columnName:"Wind", value:"Strong") // 1
             };
@@ -400,7 +473,7 @@ namespace Accord.Tests.MachineLearning
 
             // Finally, the result can be translated back using
             string result = codebook.Translate("PlayTennis", predicted); // Should be "No"
-#endregion
+            #endregion
 
             Assert.AreEqual("No", result);
             Assert.AreEqual(0, predicted);
@@ -409,13 +482,12 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(1, probabilities.Sum(), 1e-10);
             Assert.AreEqual(2, probabilities.Length);
         }
-
-
+#endif
 
         [Test]
         public void learn_test()
         {
-#region doc_learn
+            #region doc_learn
             // Let's say we have the following data to be classified
             // into three possible classes. Those are the samples:
             //
@@ -466,7 +538,7 @@ namespace Accord.Tests.MachineLearning
 
             // Now, let's test  the model output for the first input sample:
             int answer = bayes.Decide(new double[] { 1, 0, 0, 1 }); // should be 1
-#endregion
+            #endregion
 
             Assert.AreEqual(0, error);
             Assert.AreEqual(1, answer);
@@ -476,7 +548,7 @@ namespace Accord.Tests.MachineLearning
         [Test]
         public void learn_test_with_options()
         {
-#region doc_learn_options
+            #region doc_learn_options
             // Let's say we have the following data to be classified
             // into three possible classes. Those are the samples:
             //
@@ -524,7 +596,7 @@ namespace Accord.Tests.MachineLearning
 
             // Now, let's test  the model output for the first input sample:
             int answer = bayes.Decide(new double[] { 1, 0, 0, 1 }); // should be 1
-#endregion
+            #endregion
 
             Assert.AreEqual(0, error);
             Assert.AreEqual(1, answer);
@@ -545,7 +617,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(symbols.Length, actual.GetLength(1));
         }
 
-
+#if !NO_BINARY_SERIALIZATION
         [Test]
         public void SerializationTest()
         {
@@ -573,7 +645,9 @@ namespace Accord.Tests.MachineLearning
             Codification codebook = new Codification(data,
                 "Outlook", "Temperature", "Humidity", "Wind", "PlayTennis");
 
-            var target = Serializer.Load<NaiveBayes<GeneralDiscreteDistribution>>(new MemoryStream(Resources.nb));
+            string fileName = Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources", "nb.bin");
+
+            var target = Serializer.Load<NaiveBayes<GeneralDiscreteDistribution>>(fileName);
 
             Assert.AreEqual(target.InputCount, 4);
             Assert.AreEqual(target.ClassCount, 2);
@@ -594,7 +668,7 @@ namespace Accord.Tests.MachineLearning
             Assert.IsFalse(double.IsNaN(responses[0]));
             Assert.AreEqual(2, responses.Length);
         }
-
+#endif
     }
 
 #endif

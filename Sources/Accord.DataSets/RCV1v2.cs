@@ -23,14 +23,11 @@
 namespace Accord.DataSets
 {
     using Accord.DataSets.Base;
-    using Accord.Math;
-    using Collections;
-    using IO;
     using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
-    using System.Runtime.Serialization;
+    using Accord.Compat;
 
     /// <summary>
     ///   RCV1-v2/LYRL2004, a text categorization test collection originally 
@@ -117,25 +114,37 @@ namespace Accord.DataSets
 
             if (downloadTrainingSet)
             {
-                this.training = readData(new[]
+                this.training = readData(new Dictionary<string, string>
                 {
-                "http://jmlr.csail.mit.edu/papers/volume5/lewis04a/a12-token-files/lyrl2004_tokens_train.dat.gz"
-            });
+                    // "http://jmlr.csail.mit.edu/papers/volume5/lewis04a/a12-token-files/lyrl2004_tokens_train.dat.gz"
+                    { "https://onedrive.live.com/download?cid=808347681CC09388&resid=808347681CC09388%21529127&authkey=AF9sB4hwJ050wWI", "lyrl2004_tokens_train.dat.gz" }
+                    // { "https://onedrive.live.com/download?cid=808347681CC09388&resid=808347681CC09388%21529120&authkey=AEJar_-6N0UQ7MY", "lyrl2004_vectors_train.dat.gz" }
+                });
             }
 
             if (downloadTestingSet)
             {
-                this.testing = readData(new[]
+                this.testing = readData(new Dictionary<string, string>
                 {
-                    "http://jmlr.csail.mit.edu/papers/volume5/lewis04a/a12-token-files/lyrl2004_tokens_test_pt0.dat.gz",
-                    "http://jmlr.csail.mit.edu/papers/volume5/lewis04a/a12-token-files/lyrl2004_tokens_test_pt1.dat.gz",
-                    "http://jmlr.csail.mit.edu/papers/volume5/lewis04a/a12-token-files/lyrl2004_tokens_test_pt2.dat.gz",
-                    "http://jmlr.csail.mit.edu/papers/volume5/lewis04a/a12-token-files/lyrl2004_tokens_test_pt3.dat.gz",
+                    // "http://jmlr.csail.mit.edu/papers/volume5/lewis04a/a12-token-files/lyrl2004_tokens_test_pt0.dat.gz",
+                    // "http://jmlr.csail.mit.edu/papers/volume5/lewis04a/a12-token-files/lyrl2004_tokens_test_pt1.dat.gz",
+                    // "http://jmlr.csail.mit.edu/papers/volume5/lewis04a/a12-token-files/lyrl2004_tokens_test_pt2.dat.gz",
+                    // "http://jmlr.csail.mit.edu/papers/volume5/lewis04a/a12-token-files/lyrl2004_tokens_test_pt3.dat.gz",
+
+                    { "https://onedrive.live.com/download?cid=808347681CC09388&resid=808347681CC09388%21529130&authkey=AGdQKsNwmddL8yo", "lyrl2004_tokens_test_pt0.dat.gz" },
+                    { "https://onedrive.live.com/download?cid=808347681CC09388&resid=808347681CC09388%21529131&authkey=AH1m8AN6j5Z6-js", "lyrl2004_tokens_test_pt1.dat.gz" },
+                    { "https://onedrive.live.com/download?cid=808347681CC09388&resid=808347681CC09388%21529129&authkey=ANJ63koY7A3iYBU", "lyrl2004_tokens_test_pt2.dat.gz" },
+                    { "https://onedrive.live.com/download?cid=808347681CC09388&resid=808347681CC09388%21529128&authkey=AO8CdcH64kYnLAc", "lyrl2004_tokens_test_pt3.dat.gz" },
+
+                    //{ "https://onedrive.live.com/download?cid=808347681CC09388&resid=808347681CC09388%21529122&authkey=AIe7fmy1mHKNkwg", "lyrl2004_vectors_test_pt0.dat.gz" },
+                    //{ "https://onedrive.live.com/download?cid=808347681CC09388&resid=808347681CC09388%21529123&authkey=AE9VdmBSjRpPRoE", "lyrl2004_vectors_test_pt1.dat.gz" },
+                    //{ "https://onedrive.live.com/download?cid=808347681CC09388&resid=808347681CC09388%21529119&authkey=AKO6aa34fcR19yg", "lyrl2004_vectors_test_pt2.dat.gz" },
+                    //{ "https://onedrive.live.com/download?cid=808347681CC09388&resid=808347681CC09388%21529121&authkey=AOOMHflvx58qGEA", "lyrl2004_vectors_test_pt3.dat.gz" },
                 });
             }
         }
 
-        private Tuple<string[][], string[][]> readData(string[] urls)
+        private Tuple<string[][], string[][]> readData(Dictionary<string, string> urls)
         {
             var outputList = new List<string[]>();
             var inputList = new List<string[]>();
@@ -158,10 +167,12 @@ namespace Accord.DataSets
                 currentTokens = null;
             };
 
-            foreach (string url in urls)
+            foreach (KeyValuePair<string, string> pair in urls)
             {
+                string url = pair.Key;
+                string fullFileName = System.IO.Path.Combine(Path, pair.Value);
                 string train;
-                Download(url, Path, out train);
+                Download(url, Path, fullFileName, out train);
 
 #if NET35
                 var lines = File.ReadAllLines(train);
@@ -217,7 +228,8 @@ namespace Accord.DataSets
         private void readClasses()
         {
             string classesPath;
-            Download("http://jmlr.csail.mit.edu/papers/volume5/lewis04a/a08-topic-qrels/rcv1-v2.topics.qrels.gz", Path, out classesPath);
+            //Download("http://jmlr.csail.mit.edu/papers/volume5/lewis04a/a08-topic-qrels/rcv1-v2.topics.qrels.gz", Path, out classesPath);
+            Download("https://onedrive.live.com/download?cid=808347681CC09388&resid=808347681CC09388%21529118&authkey=AJrVXqi2QpwaHKQ", Path, "rcv1-v2.topics.qrels.gz", out classesPath);
 
 #if NET35
             var lines = File.ReadAllLines(classesPath);

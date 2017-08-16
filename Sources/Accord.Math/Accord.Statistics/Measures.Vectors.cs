@@ -2,8 +2,8 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2017
-// cesarsouza at gmail.com
+// Copyright © 2009-2017 César Souza <cesarsouza at gmail.com>
+// and other contrinbutors.
 //
 //    This library is free software; you can redistribute it and/or
 //    modify it under the terms of the GNU Lesser General Public
@@ -24,9 +24,8 @@ namespace Accord.Statistics
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using Accord.Math;
-    using Accord.Math.Decompositions;
-    using AForge;
     using System.Runtime.CompilerServices;
 
     /// <summary>
@@ -36,7 +35,6 @@ namespace Accord.Statistics
     /// 
     public static partial class Measures
     {
-
 
         /// <summary>
         ///   Computes the mean of the given values.
@@ -410,234 +408,7 @@ namespace Accord.Statistics
             return StandardError(values.Length, StandardDeviation(values));
         }
 
-        /// <summary>
-        ///   Computes the Median of the given values.
-        /// </summary>
-        /// 
-        /// <param name="values">An integer array containing the vector members.</param>
-        /// <param name="alreadySorted">A boolean parameter informing if the given values have already been sorted.</param>
-        /// <returns>The median of the given data.</returns>
-        /// 
-        public static double Median(this double[] values, bool alreadySorted = false)
-        {
-            return Median(values, 0, values.Length, alreadySorted);
-        }
-
-        /// <summary>
-        ///   Computes the Median of the given values.
-        /// </summary>
-        /// 
-        /// <param name="values">An integer array containing the vector members.</param>
-        /// <param name="alreadySorted">A boolean parameter informing if the given values have already been sorted.</param>
-        /// <returns>The median of the given data.</returns>
-        /// 
-        public static double Median(this int[] values, bool alreadySorted = false)
-        {
-            return Median(values, 0, values.Length, alreadySorted);
-        }
-
-        /// <summary>
-        ///   Computes the Median of the given values.
-        /// </summary>
-        /// 
-        /// <param name="values">An integer array containing the vector members.</param>
-        /// <param name="alreadySorted">A boolean parameter informing if the given values have already been sorted.</param>
-        /// <param name="length">The length of the subarray, starting at <paramref name="startIndex"/>.</param>
-        /// <param name="startIndex">The starting index of the array.</param>
-        /// 
-        /// <returns>The median of the given data.</returns>
-        /// 
-        public static double Median(this double[] values, int startIndex, int length, bool alreadySorted = false)
-        {
-            if (values.Length == 1)
-                return values[0];
-
-            if (!alreadySorted)
-            {
-                values = (double[])values.Clone();
-                Array.Sort(values);
-            }
-
-            int half = startIndex + length / 2;
-
-            if (length % 2 == 0)
-                return (values[half - 1] + values[half]) * 0.5; // N is even 
-            else return values[half];                           // N is odd
-        }
-
-        /// <summary>
-        ///   Computes the Median of the given values.
-        /// </summary>
-        /// 
-        /// <param name="values">An integer array containing the vector members.</param>
-        /// <param name="alreadySorted">A boolean parameter informing if the given values have already been sorted.</param>
-        /// <param name="length">The length of the subarray, starting at <paramref name="startIndex"/>.</param>
-        /// <param name="startIndex">The starting index of the array.</param>
-        /// 
-        /// <returns>The median of the given data.</returns>
-        /// 
-        public static double Median(this int[] values, int startIndex, int length, bool alreadySorted = false)
-        {
-            // TODO: Re-implement using nth_element
-            if (values.Length == 1)
-                return values[0];
-
-            if (!alreadySorted)
-            {
-                values = (int[])values.Clone();
-                Array.Sort(values);
-            }
-
-            int half = startIndex + length / 2;
-
-            if (length % 2 == 0)
-                return (values[half - 1] + values[half]) * 0.5; // N is even 
-            else return values[half];                           // N is odd
-        }
-
-        /// <summary>
-        ///   Computes the Quartiles of the given values.
-        /// </summary>
-        /// 
-        /// <param name="values">An integer array containing the vector members.</param>
-        /// <param name="alreadySorted">A boolean parameter informing if the given values have already been sorted.</param>
-        /// <param name="range">The inter-quartile range for the values.</param>
-        /// <returns>The second quartile, the median of the given data.</returns>
-        /// 
-        public static double Quartiles(this double[] values, out DoubleRange range, bool alreadySorted = false)
-        {
-            double q1, q3;
-            double median = Quartiles(values, out q1, out q3, alreadySorted);
-            range = new DoubleRange(q1, q3);
-            return median;
-        }
-
-        /// <summary>
-        ///   Computes the Quartiles of the given values.
-        /// </summary>
-        /// 
-        /// <param name="values">An integer array containing the vector members.</param>
-        /// <param name="q1">The first quartile.</param>
-        /// <param name="q3">The third quartile.</param>
-        /// <param name="alreadySorted">A boolean parameter informing if the given values have already been sorted.</param>
-        /// <returns>The second quartile, the median of the given data.</returns>
-        /// 
-        public static double Quartiles(this double[] values, out double q1, out double q3, bool alreadySorted = false)
-        {
-            // TODO: Re-implement using nth_element
-            double median;
-
-            if (values.Length == 1)
-            {
-                q1 = q3 = values[0];
-                return values[0];
-            }
-            else if (values.Length == 2)
-            {
-                double a, b;
-                if (alreadySorted)
-                {
-                    a = values[0];
-                    b = values[1];
-                }
-                else
-                {
-                    if (values[0] > values[1])
-                    {
-                        a = values[1];
-                        b = values[0];
-                    }
-                    else
-                    {
-                        a = values[0];
-                        b = values[1];
-                    }
-                }
-
-                median = (a + b) * 0.5;
-                q1 = (a + median) * 0.5;
-                q3 = (median + b) * 0.5;
-                return median;
-            }
-
-            if (!alreadySorted)
-            {
-                values = (double[])values.Clone();
-                Array.Sort(values);
-            }
-
-            int N = values.Length;
-            int half = N / 2;
-
-
-            if (N % 2 == 0)
-            {
-                // N is even 
-                median = (values[half - 1] + values[half]) * 0.5;
-
-                // Separate data in half. Do not include data[half]
-                // and data[half - 1] in the halves. 
-
-                int lowerStart = 0;
-                int lowerLength = half - 1;
-                int upperStart = half;
-                int upperLength = N - upperStart;
-
-                q1 = Median(values, lowerStart, lowerLength, alreadySorted: true);
-                q3 = Median(values, upperStart, upperLength, alreadySorted: true);
-            }
-            else
-            {
-                // N is odd
-                median = values[N / 2];
-
-                // Separate data in half. Do not include data[half]
-                // in the halves. 
-
-                int lowerStart = 0;
-                int lowerLength = half;
-                int upperStart = half + 1;
-                int upperLength = N - upperStart;
-
-                q1 = Median(values, lowerStart, lowerLength, alreadySorted: true);
-                q3 = Median(values, upperStart, upperLength, alreadySorted: true);
-            }
-
-            return median;
-        }
-
-        /// <summary>
-        ///   Computes the lower quartile (Q1) for the given data.
-        /// </summary>
-        /// 
-        /// <param name="values">An integer array containing the vector members.</param>
-        /// <param name="alreadySorted">A boolean parameter informing if the given values have already been sorted.</param>
-        /// 
-        /// <returns>The first quartile of the given data.</returns>
-        /// 
-        public static double LowerQuartile(this double[] values, bool alreadySorted = false)
-        {
-            double q1, q3;
-            double median = Quartiles(values, out q1, out q3, alreadySorted);
-            return q1;
-        }
-
-        /// <summary>
-        ///   Computes the upper quartile (Q3) for the given data.
-        /// </summary>
-        /// 
-        /// <param name="values">An integer array containing the vector members.</param>
-        /// <param name="alreadySorted">A boolean parameter informing if the given values have already been sorted.</param>
-        /// 
-        /// <returns>The third quartile of the given data.</returns>
-        /// 
-        public static double UpperQuartile(this double[] values, bool alreadySorted = false)
-        {
-            double q1, q3;
-            double median = Quartiles(values, out q1, out q3, alreadySorted);
-            return q3;
-        }
-
+       
         /// <summary>
         ///   Computes the Variance of the given values.
         /// </summary>

@@ -26,6 +26,7 @@ namespace Accord.Collections
     using System.Collections;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using Accord.Compat;
 
     /// <summary>
     ///   Read-only keyed collection wrapper.

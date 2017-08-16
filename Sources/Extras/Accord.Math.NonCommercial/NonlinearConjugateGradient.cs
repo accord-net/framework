@@ -24,7 +24,6 @@
 namespace Accord.Math.Optimization
 {
     using System;
-    using System.Diagnostics;
 
     /// <summary>
     ///   Non-linear Conjugate Gradient (WARNING: This code <b>can not be used for 

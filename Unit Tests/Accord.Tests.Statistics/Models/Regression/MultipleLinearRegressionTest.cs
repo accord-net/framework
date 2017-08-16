@@ -27,6 +27,10 @@ namespace Accord.Tests.Statistics
     using NUnit.Framework;
     using Accord.Math;
     using Accord.Tests.Statistics.Properties;
+    using System.Globalization;
+#if NO_CULTURE
+    using CultureInfo = Accord.Compat.CultureInfo;
+#endif
 
     [TestFixture]
     public class MultipleLinearRegressionTest
@@ -64,7 +68,7 @@ namespace Accord.Tests.Statistics
             double r = target.CoefficientOfDetermination(inputs, outputs);
             Assert.AreEqual(0.23823529, r, 1e-6);
 
-            string str = target.ToString(null, System.Globalization.CultureInfo.GetCultureInfo("pt-BR"));
+            string str = target.ToString(null, CultureInfo.GetCultureInfo("pt-BR"));
 
             Assert.AreEqual("y(x0) = -0,264705882352941*x0 + 50,5882352941176", str);
         }
@@ -102,7 +106,7 @@ namespace Accord.Tests.Statistics
             double r = target.CoefficientOfDetermination(inputs, outputs);
             Assert.AreEqual(0.23823529, r, 1e-6);
 
-            string str = target.ToString(null, System.Globalization.CultureInfo.GetCultureInfo("en-US"));
+            string str = target.ToString(null, CultureInfo.GetCultureInfo("en-US"));
 
             Assert.AreEqual("y(x0, x1) = -0.264705882352941*x0 + 50.5882352941176*x1", str);
         }
@@ -374,14 +378,19 @@ namespace Accord.Tests.Statistics
             double r = target.CoefficientOfDetermination(inputs, outputs);
             Assert.AreEqual(-8, r, 1e-6);
 
-            string str = target.ToString(null, System.Globalization.CultureInfo.GetCultureInfo("pt-BR"));
+            string str = target.ToString(null, CultureInfo.GetCultureInfo("pt-BR"));
 
             Assert.AreEqual("y(x0, x1) = 0*x0 + 0*x1", str);
         }
 
+#if !NO_DATA_TABLE
         [Test]
         public void prediction_test()
         {
+#if NETCORE
+            CultureInfo.CurrentCulture = new CultureInfo("en-US");
+#endif
+
             // Example from http://www.real-statistics.com/multiple-regression/confidence-and-prediction-intervals/
             var dt = Accord.IO.CsvReader.FromText(Resources.linreg, true).ToTable();
 
@@ -434,6 +443,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(pi.Min, 7.8428783761994554, 1e-5);
             Assert.AreEqual(pi.Max, 17.892482376434273, 1e-5);
         }
+#endif
 
         [Test]
         public void weight_test()

@@ -24,9 +24,9 @@ namespace Accord.Tests.Math
 {
     using Accord.Math;
     using NUnit.Framework;
-    using AForge.Math;
     using System;
     using Accord.Math.Transforms;
+    using Accord.Compat;
     using System.Numerics;
 
     [TestFixture]

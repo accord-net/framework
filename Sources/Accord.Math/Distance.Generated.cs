@@ -1,5 +1,4 @@
-﻿ 
-// Accord Math Library
+﻿// Accord Math Library
 // The Accord.NET Framework
 // http://accord-framework.net
 //
@@ -28,13 +27,12 @@
 
 namespace Accord.Math
 {
-    using System;
     using System.Collections;
-    using System.Collections.Generic;
-    using System.Runtime.CompilerServices;
-    using Accord;
     using Accord.Math.Distances;
     using Accord.Math.Decompositions;
+    using Accord.Compat;
+    using System;
+    using System.Runtime.CompilerServices;
 
     /// <summary>
     ///   Static class Distance. Defines a set of methods defining distance measures.

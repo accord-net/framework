@@ -59,6 +59,8 @@
     <Compile Include="Collections\Tree.cs" />
     <Compile Include="Collections\TreeNode.cs" />
     <Compile Include="Collections\TreeTraversal.cs" />
+    <Compile Include="Compatibility\ConcurrentDictionary.cs" />
+    <Compile Include="Compatibility\Dummy.cs" />
     <Compile Include="Compatibility\EnumerableEx.cs" />
     <Compile Include="Compatibility\Stream.cs" />
     <Compile Include="Compatibility\TypeExtensions.cs" />
@@ -78,6 +80,7 @@
     <Compile Include="MachineLearning\Classifiers\Tagging\ILikelihoodTagger.cs" />
     <Compile Include="MachineLearning\Classifiers\Tagging\IScoreTagger.cs" />
     <Compile Include="MachineLearning\IParallel.cs" />
+    <Compile Include="MachineLearning\ISupportsCancellation.cs" />
     <Compile Include="MachineLearning\ITransform.cs" />
     <Compile Include="MachineLearning\Regression\IMultipleRegression.cs" />
     <Compile Include="MachineLearning\Regression\IRegression.cs" />
@@ -136,6 +139,7 @@
     <Compile Include="Ranges\IRange`1.cs" />
     <Compile Include="Serializer.cs" />
     <Compile Include="Math\Rational.cs" />
+    <Compile Include="SerializerCompression.cs" />
     <Compile Include="Sparse.cs" />
     <Compile Include="Sparse`1.cs" />
   </ItemGroup>

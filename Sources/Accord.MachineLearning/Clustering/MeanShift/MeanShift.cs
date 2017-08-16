@@ -27,12 +27,11 @@ namespace Accord.MachineLearning
     using Accord.Math.Comparers;
     using Accord.Math.Distances;
     using Accord.Statistics.Distributions.DensityKernels;
-    using Accord.Statistics.Visualizations;
     using System;
-    using System.Collections.Concurrent;
     using System.Collections.Generic;
+    using Accord.Compat;
     using System.Threading.Tasks;
-    using System.Threading;
+    using System.Collections.Concurrent;
 
     /// <summary>
     ///   Mean shift clustering algorithm.

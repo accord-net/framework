@@ -24,6 +24,8 @@ namespace Accord.Statistics.Filters
 {
     using System;
     using System.Collections.ObjectModel;
+    using Accord.Compat;
+
     /// <summary>
     ///   Column option collection.
     /// </summary>

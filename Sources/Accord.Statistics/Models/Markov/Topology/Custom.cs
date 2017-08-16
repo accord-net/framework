@@ -25,6 +25,7 @@ namespace Accord.Statistics.Models.Markov.Topology
     using System;
     using Accord.Math;
     using System.Data;
+    using Accord.Compat;
 
     /// <summary>
     ///   Custom Topology for Hidden Markov Model.

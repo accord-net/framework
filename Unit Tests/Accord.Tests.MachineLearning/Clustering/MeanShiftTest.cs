@@ -287,6 +287,7 @@ namespace Accord.Tests.MachineLearning
             int[] weights1 = Vector.Ones<int>(samples1.Length);
 
             ms1 = new MeanShift(2, new GaussianKernel(dimension: 2), 2.0);
+            ms1.UseParallelProcessing = false;
             ms1.Compute(samples1);
 
 
@@ -307,9 +308,11 @@ namespace Accord.Tests.MachineLearning
             int[] weights = { 1, 1, 2, 1, 1, 1, 2, 1 };
 
             ms2 = new MeanShift(2, new GaussianKernel(dimension: 2), 2.0);
+            ms2.UseParallelProcessing = false;
             ms2.Compute(samples2, weights);
 
             ms3 = new MeanShift(2, new GaussianKernel(dimension: 2), 2.0);
+            ms3.UseParallelProcessing = false;
             ms3.Compute(samples2);
 
 

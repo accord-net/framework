@@ -25,8 +25,10 @@
 
 namespace Accord.Math.Optimization
 {
+    using Accord.MachineLearning;
     using System;
     using System.ComponentModel;
+    using Accord.Compat;
 
     /// <summary>
     ///   Status codes for the <see cref="BoundedBroydenFletcherGoldfarbShanno"/>
@@ -167,7 +169,7 @@ namespace Accord.Math.Optimization
     /// 
     public partial class BoundedBroydenFletcherGoldfarbShanno : BaseGradientOptimizationMethod, 
         IGradientOptimizationMethod, IOptimizationMethod<BoundedBroydenFletcherGoldfarbShannoStatus>,
-        Accord.MachineLearning.ISupportsCancellation
+        ISupportsCancellation
     {
 
         // those values need not be modified

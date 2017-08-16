@@ -30,24 +30,7 @@ namespace Accord.Tests.Statistics
     [TestFixture]
     public class SelectionFilterTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
+#if !NO_DATA_TABLE
         [Test]
         public void ApplyTest()
         {
@@ -70,5 +53,6 @@ namespace Accord.Tests.Statistics
 
             Assert.AreEqual(2, actual.Rows.Count);
         }
+#endif
     }
 }

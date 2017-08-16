@@ -196,6 +196,10 @@ namespace Accord.Tests.MachineLearning
                 }
             };
 
+            // You can set extra properties to configure the learning if you would like:
+            teacher.AggregateExceptions = true;
+            teacher.ParallelOptions.MaxDegreeOfParallelism = 1;
+
             // Estimate the multi-class support vector machine using one-vs-one method
             var ovo = teacher.Learn(inputs, outputs);
 
@@ -785,6 +789,9 @@ namespace Accord.Tests.MachineLearning
                 }
             };
 
+            teacher.ParallelOptions.MaxDegreeOfParallelism = 1;
+            teacher.AggregateExceptions = false;
+
             // Learn a machine
             var machine = teacher.Learn(inputs, outputs);
 
@@ -1165,7 +1172,11 @@ namespace Accord.Tests.MachineLearning
 
             var cm = new GeneralConfusionMatrix(actual, y);
 
+#if MONO
+            Assert.IsTrue(cm.Accuracy > 0.90);
+#else
             Assert.AreEqual(0.95, cm.Accuracy, 0.02);
+#endif
         }
 
         [Test]
@@ -1204,6 +1215,9 @@ namespace Accord.Tests.MachineLearning
                 }
             };
 
+            teacher.ParallelOptions.MaxDegreeOfParallelism = 1;
+            teacher.AggregateExceptions = false;
+
             // Learn the SVM using the SMO algorithm
             var svm = teacher.Learn(inputs, outputs);
 
@@ -1227,7 +1241,7 @@ namespace Accord.Tests.MachineLearning
         public void dynamic_time_warp_issue_717()
         {
             double[][][] gestures =
-       {
+            {
                 new double[][] // Swipe left
                 {
                     new double[] { 1, 1, 1 },
@@ -1327,9 +1341,9 @@ namespace Accord.Tests.MachineLearning
             var res5 = machine.Probability(swipeRightGesture, out decision5); // decision 1 - Probability 0.38414838905152121 - Score 0.13802120233728751
             var res6 = machine.Probability(doubleTapGesture, out decision6);  // decision 2 - Probability 0.607525583968486   - Score 0.56625552124018352
 
-            Assert.AreEqual(res1, res4);
-            Assert.AreEqual(res2, res5);
-            Assert.AreEqual(res3, res6);
+            Assert.AreEqual(res1, res4, 1e-8);
+            Assert.AreEqual(res2, res5, 1e-8);
+            Assert.AreEqual(res3, res6, 1e-8);
 
             res1 = machine.Score(gestures[0], out decision1); // decision 0 - Probability 0.66666666570779487 - Score 0.69314717840248374
             res2 = machine.Score(gestures[1], out decision2); // decision 1 - Probability 0.57647717384694053 - Score 0.6931471784024833
@@ -1339,9 +1353,37 @@ namespace Accord.Tests.MachineLearning
             res5 = machine.Score(swipeRightGesture, out decision5); // decision 1 - Probability 0.38414838905152121 - Score 0.13802120233728751
             res6 = machine.Score(doubleTapGesture, out decision6);  // decision 2 - Probability 0.607525583968486   - Score 0.56625552124018352
 
-            Assert.AreEqual(res1, res4, 1e-10);
-            Assert.AreEqual(res2, res5, 1e-10);
-            Assert.AreEqual(res3, res6, 1e-10);
+            Assert.AreEqual(res1, res4, 1e-8);
+            Assert.AreEqual(res2, res5, 1e-8);
+            Assert.AreEqual(res3, res6, 1e-8);
+        }
+
+        [Test]
+        public void no_samples_for_class()
+        {
+            double[][] inputs =
+            {
+                new double[] { 1, 1 }, // 0
+                new double[] { 1, 1 }, // 0
+                new double[] { 1, 1 }, // 2
+            };
+
+            int[] outputs =
+            {
+                0, 0, 2
+            };
+
+            var teacher = new MulticlassSupportVectorLearning<Gaussian>()
+            {
+                Learner = (param) => new SequentialMinimalOptimization<Gaussian>()
+                {
+                    UseKernelEstimation = true
+                }
+            };
+
+            Assert.Throws<ArgumentException>(() => teacher.Learn(inputs, outputs),
+                "There are no samples for class label {0}. Please make sure that class " +
+                "labels are contiguous and there is at least one training sample for each label.", 1);
         }
     }
 }

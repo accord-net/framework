@@ -24,6 +24,7 @@ namespace Accord.Math.Optimization
 {
     using Differentiation;
     using System;
+    using Accord.Compat;
     using System.Threading;
 
     /// <summary>

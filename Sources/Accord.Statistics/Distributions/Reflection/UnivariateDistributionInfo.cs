@@ -29,6 +29,7 @@ namespace Accord.Statistics.Distributions.Reflection
     using System.Linq;
     using System.Reflection;
     using System.Text;
+    using Accord.Compat;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -80,7 +81,11 @@ namespace Accord.Statistics.Distributions.Reflection
             foreach (KeyValuePair<DistributionParameterInfo, object> p in arguments)
             {
                 Type paramType = p.Key.ParameterInfo.ParameterType;
+#if NETSTANDARD
+                if (paramType.GetTypeInfo().IsEnum)
+#else
                 if (paramType.IsEnum)
+#endif
                 {
                     int i = (int)Convert.ChangeType(p.Value, typeof(int));
                     object v = Enum.ToObject(paramType, i);

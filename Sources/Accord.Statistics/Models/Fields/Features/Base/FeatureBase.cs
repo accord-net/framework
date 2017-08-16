@@ -24,6 +24,7 @@ namespace Accord.Statistics.Models.Fields.Features
 {
     using System;
     using Accord.Statistics.Models.Fields.Functions;
+    using Accord.Compat;
 
     /// <summary>
     ///   Base implementation for <see cref="ConditionalRandomField{T}">Conditional Random Fields</see>

@@ -28,6 +28,7 @@ namespace Accord.Statistics.Models.Regression.Linear
     using MachineLearning;
     using Accord.Statistics.Testing;
     using Accord.Statistics.Distributions.Univariate;
+    using Accord.Compat;
 
     /// <summary>
     ///   Simple Linear Regression of the form y = Ax + B.

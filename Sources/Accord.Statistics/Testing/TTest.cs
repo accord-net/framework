@@ -25,8 +25,8 @@ namespace Accord.Statistics.Testing
     using System;
     using Accord.Statistics.Distributions.Univariate;
     using Accord.Statistics.Testing.Power;
-    using AForge;
     using System.Diagnostics;
+    using Accord.Compat;
 
     /// <summary>
     ///   One-sample Student's T test.

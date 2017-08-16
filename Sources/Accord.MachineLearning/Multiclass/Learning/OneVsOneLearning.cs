@@ -23,18 +23,15 @@
 namespace Accord.MachineLearning
 {
     using System;
-    using System.Collections.Concurrent;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
     using Accord.Math;
     using System.Threading;
-    using Accord.MachineLearning;
     using Accord.MachineLearning.VectorMachines.Learning;
-    using Accord.MachineLearning.VectorMachines;
     using Accord.Statistics.Kernels;
-
+    using System.Diagnostics;
+    using Accord.Compat;
+    using System.Collections.Concurrent;
+    using System.Threading.Tasks;
 
     /// <summary>
     ///   Base learning algorithm for <see cref="OneVsOne{TBinary, TBinary}"/> multi-class classifiers.
@@ -43,7 +40,7 @@ namespace Accord.MachineLearning
     /// <typeparam name="TBinary">The type for the inner binary classifiers used in the one-vs-one approach.</typeparam>
     /// <typeparam name="TModel">The type of the model being learned.</typeparam>
     /// 
-    /// <seealso cref="Accord.MachineLearning.VectorMachines.Learning.MulticlassSupportVectorLearning"/>
+    /// <seealso cref="Accord.MachineLearning.VectorMachines.Learning.MulticlassSupportVectorLearning{TKernel}"/>
     /// 
     public abstract class OneVsOneLearning<TBinary, TModel> :
         OneVsOneLearning<double[], TBinary, TModel>
@@ -60,7 +57,7 @@ namespace Accord.MachineLearning
     /// <typeparam name="TBinary">The type for the inner binary classifiers used in the one-vs-one approach.</typeparam>
     /// <typeparam name="TModel">The type of the model being learned.</typeparam>
     /// 
-    /// <seealso cref="Accord.MachineLearning.VectorMachines.Learning.MulticlassSupportVectorLearning"/>
+    /// <seealso cref="Accord.MachineLearning.VectorMachines.Learning.MulticlassSupportVectorLearning{TKernel}"/>
     /// 
     [Serializable]
     public abstract class OneVsOneLearning<TInput, TBinary, TModel> : ParallelLearningBase,
@@ -70,8 +67,8 @@ namespace Accord.MachineLearning
     {
         private ClassPair[] pairs;
         private Func<InnerParameters<TBinary, TInput>, ISupervisedLearning<TBinary, TInput, bool>> learner;
-        private Dictionary<ClassPair, ISupervisedLearning<TBinary, TInput, bool>> teachers;
-        private bool doNotStopAtExceptions = true;
+        private ConcurrentDictionary<ClassPair, ISupervisedLearning<TBinary, TInput, bool>> teachers;
+        private bool aggregateExceptions = true;
 
         /// <summary>
         ///   Gets or sets the model being learned.
@@ -101,10 +98,10 @@ namespace Accord.MachineLearning
         ///   problems. Default is true (execution will not be stopped).
         /// </summary>
         /// 
-        public bool DoNotStopAtExceptions
+        public bool AggregateExceptions
         {
-            get { return doNotStopAtExceptions; }
-            set { doNotStopAtExceptions = value; }
+            get { return aggregateExceptions; }
+            set { aggregateExceptions = value; }
         }
 
 
@@ -169,17 +166,22 @@ namespace Accord.MachineLearning
         /// </returns>
         public TModel Learn(TInput[] x, int[] y, double[] weights = null)
         {
-            if (Model == null)
+            Accord.MachineLearning.Tools.CheckArgs(x, y, weights, () =>
             {
-                teachers = null;
-                int numberOfInputs = SupportVectorLearningHelper.GetNumberOfInputs(new Linear(), x);
-                int numberOfClasses = y.DistinctCount();
-                Model = Create(numberOfInputs, numberOfClasses);
-            }
+                if (Model == null)
+                {
+                    this.teachers = null;
+                    int numberOfInputs = Tools.GetNumberOfInputs(x);
+                    int numberOfClasses = y.DistinctCount();
+                    Model = Create(numberOfInputs, numberOfClasses);
+                }
+
+                return Model;
+            });
 
             if (pairs == null)
             {
-                teachers = null;
+                this.teachers = null;
                 int classes = Model.NumberOfClasses;
                 int total = (classes * (classes - 1)) / 2;
                 this.pairs = new ClassPair[total];
@@ -189,16 +191,12 @@ namespace Accord.MachineLearning
             }
 
             if (teachers == null)
-                teachers = new Dictionary<ClassPair, ISupervisedLearning<TBinary, TInput, bool>>();
+                teachers = new ConcurrentDictionary<ClassPair, ISupervisedLearning<TBinary, TInput, bool>>();
 
             int progress = 0;
 
             // Save exceptions but process all machines
             var exceptions = new ConcurrentBag<Exception>();
-
-#if DEBUG
-            ParallelOptions.MaxDegreeOfParallelism = 1;
-#endif
 
             if (ParallelOptions.MaxDegreeOfParallelism == 1)
             {
@@ -244,7 +242,7 @@ namespace Accord.MachineLearning
 
             if (idx.Length == 0)
             {
-                System.Diagnostics.Trace.TraceWarning("Class pair ({0}, {1}) does not have any examples.", i, j);
+                Trace.TraceWarning("Class pair ({0}, {1}) does not have any examples.", i, j);
             }
 
             TInput[] subx = x.Get(idx);
@@ -254,10 +252,11 @@ namespace Accord.MachineLearning
             if (weights != null)
                 subw = weights.Get(idx);
 
-            if (doNotStopAtExceptions)
+            if (aggregateExceptions)
             {
                 try
                 {
+                    // Train the machine on the two-class problem.
                     TrainBinaryMachine(pair, i, j, model, subx, suby, subw);
                 }
                 catch (Exception ex)
@@ -268,6 +267,7 @@ namespace Accord.MachineLearning
             }
             else
             {
+                // Train the machine on the two-class problem.
                 TrainBinaryMachine(pair, i, j, model, subx, suby, subw);
             }
 

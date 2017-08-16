@@ -316,14 +316,14 @@ namespace Accord.Tests.Statistics
  */ 
         }
 
-#if !NETSTANDARD2_0
+#if !NO_EXCEL
         [Test]
         [Category("Office")]
         public void MixtureWeightsFitTest2()
         {
-            MemoryStream stream = new MemoryStream(Resources.CircleWithWeights);
+            string path = Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources", "CircleWithWeights.xls");
 
-            ExcelReader reader = new ExcelReader(stream, xlsx: false);
+            ExcelReader reader = new ExcelReader(path);
 
             DataTable table = reader.GetWorksheet("Sheet1");
 

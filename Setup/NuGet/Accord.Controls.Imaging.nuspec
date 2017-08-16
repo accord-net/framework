@@ -31,14 +31,14 @@
 
     <file src="..\..\Release\net45\Accord.Controls.Imaging.dll" target="lib\net45\Accord.Controls.Imaging.dll" />
     <file src="..\..\Release\net45\Accord.Controls.Imaging.xml" target="lib\net45\Accord.Controls.Imaging.xml" />
-	
-	<file src="..\..\Release\net46\Accord.Controls.Imaging.dll" target="lib\net46\Accord.Controls.Imaging.dll" />
+
+    <file src="..\..\Release\net46\Accord.Controls.Imaging.dll" target="lib\net46\Accord.Controls.Imaging.dll" />
     <file src="..\..\Release\net46\Accord.Controls.Imaging.xml" target="lib\net46\Accord.Controls.Imaging.xml" />
-	
-	<file src="..\..\Release\net462\Accord.Controls.Imaging.dll" target="lib\net462\Accord.Controls.Imaging.dll" />
+
+    <file src="..\..\Release\net462\Accord.Controls.Imaging.dll" target="lib\net462\Accord.Controls.Imaging.dll" />
     <file src="..\..\Release\net462\Accord.Controls.Imaging.xml" target="lib\net462\Accord.Controls.Imaging.xml" />
-	
-	<!-- <file src="..\..\Release\netstandard2.0\Accord.Controls.Imaging.dll" target="lib\netstandard2.0\Accord.Controls.Imaging.dll" /> -->
+
+    <!-- <file src="..\..\Release\netstandard2.0\Accord.Controls.Imaging.dll" target="lib\netstandard2.0\Accord.Controls.Imaging.dll" /> -->
     <!-- <file src="..\..\Release\netstandard2.0\Accord.Controls.Imaging.xml" target="lib\netstandard2.0\Accord.Controls.Imaging.xml" /> -->
   </files>
 </package>

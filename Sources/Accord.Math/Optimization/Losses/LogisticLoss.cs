@@ -25,6 +25,7 @@ namespace Accord.Math.Optimization.Losses
 {
     using Statistics;
     using System;
+    using Accord.Compat;
 
     /// <summary>
     ///   Logistic loss.

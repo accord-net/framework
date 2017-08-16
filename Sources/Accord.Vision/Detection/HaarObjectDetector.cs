@@ -37,10 +37,11 @@ namespace Accord.Vision.Detection
     using System;
     using System.Collections.Generic;
     using System.Drawing;
-    using System.Threading.Tasks;
     using Accord.Imaging;
     using System.Drawing.Imaging;
     using Cascades;
+    using Accord.Compat;
+    using System.Threading.Tasks;
 
     /// <summary>
     ///   Object detector options for the search procedure.

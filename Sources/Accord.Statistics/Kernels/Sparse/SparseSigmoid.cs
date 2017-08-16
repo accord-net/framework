@@ -23,6 +23,7 @@
 namespace Accord.Statistics.Kernels.Sparse
 {
     using System;
+    using Accord.Compat;
 
     /// <summary>
     ///   Sparse Sigmoid Kernel.

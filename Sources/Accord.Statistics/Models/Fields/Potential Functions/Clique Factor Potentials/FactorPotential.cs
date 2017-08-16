@@ -27,6 +27,7 @@ namespace Accord.Statistics.Models.Fields.Functions
     using System.Runtime.Serialization;
     using Accord.Statistics.Models.Fields.Features;
     using Accord.Math;
+    using Accord.Compat;
 
     /// <summary>
     ///   Factor Potential (Clique Potential) function.

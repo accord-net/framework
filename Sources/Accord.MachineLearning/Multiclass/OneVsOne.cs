@@ -24,7 +24,7 @@
 namespace Accord.MachineLearning.VectorMachines
 {
     /// <summary>
-    ///   Decision strategies for <see cref="MulticlassSupportVectorMachine">
+    ///   Decision strategies for <see cref="MulticlassSupportVectorMachine{TKernel}">
     ///   Multi-class Support Vector Machines</see>.
     /// </summary>
     /// 
@@ -48,16 +48,14 @@ namespace Accord.MachineLearning
 {
     using Accord.MachineLearning.VectorMachines;
     using Accord.Math;
-    using Accord.MachineLearning;
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
+    using System.Runtime.Serialization;
+    using Accord.Compat;
     using System.Threading;
     using System.Threading.Tasks;
-    using System.Runtime.Serialization;
     using System.Runtime.CompilerServices;
-
 
     /// <summary>
     ///   One-Vs-One construction for solving multi-class

@@ -28,6 +28,7 @@ namespace Accord.Statistics.Models.Regression.Linear
     using System;
     using System.Text;
     using Accord.Math;
+    using Accord.Compat;
 
     /// <summary>
     ///   Polynomial Linear Regression.

@@ -28,6 +28,7 @@ namespace Accord.MachineLearning.Boosting.Learners
     using System;
     using Accord.Math.Comparers;
     using Accord.Math;
+    using Accord.Compat;
 
     /// <summary>
     ///   Simple classifier that based on decision margins that

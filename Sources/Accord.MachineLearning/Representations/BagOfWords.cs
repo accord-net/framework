@@ -26,16 +26,10 @@ namespace Accord.MachineLearning
     using System;
     using System.Collections.Generic;
     using System.Runtime.Serialization;
-    using System.Threading;
-    using System.Threading.Tasks;
     using Accord.MachineLearning.VectorMachines;
-
-#if !NET35 && !NET40
+    using System.Threading.Tasks;
     using System.Collections.ObjectModel;
-    using System.Text.RegularExpressions;
-#else
-    using Accord.Collections;
-#endif
+    using Accord.Compat;
 
     /// <summary>
     ///   Bag of words.

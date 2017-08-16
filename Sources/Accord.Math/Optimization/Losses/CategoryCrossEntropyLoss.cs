@@ -27,6 +27,7 @@ namespace Accord.Math.Optimization.Losses
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
+    using Accord.Compat;
     using System.Threading.Tasks;
 
     /// <summary>

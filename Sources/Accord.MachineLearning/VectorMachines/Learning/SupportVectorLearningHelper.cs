@@ -22,6 +22,7 @@
 
 namespace Accord.MachineLearning.VectorMachines.Learning
 {
+    using Accord.Math;
     using Accord.Statistics.Kernels;
     using System;
     using System.Collections;
@@ -33,7 +34,9 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         public static TModel Create<TModel, TInput, TKernel>(int inputs, TKernel kernel)
             where TModel : class, ISupportVectorMachine<TInput>
             where TKernel : IKernel<TInput>
+#if !NETSTANDARD1_4
             where TInput : ICloneable
+#endif
         {
             TModel result = null;
             var type = typeof(TModel);
@@ -43,10 +46,12 @@ namespace Accord.MachineLearning.VectorMachines.Learning
                 result = new SupportVectorMachine<IKernel>(inputs, kernel as IKernel) as TModel;
             if (type == typeof(SupportVectorMachine<IKernel<double[]>>))
                 result = new SupportVectorMachine<IKernel<double[]>>(inputs, kernel as IKernel<double[]>) as TModel;
+#if !NETSTANDARD1_4
 #pragma warning disable 0618
             else if (type == typeof(KernelSupportVectorMachine))
                 result = new KernelSupportVectorMachine(kernel as IKernel, inputs) as TModel;
 #pragma warning restore 0618
+#endif
             else if (type == typeof(SupportVectorMachine<TKernel, TInput>))
                 result = new SupportVectorMachine<TKernel, TInput>(inputs, kernel) as TModel;
             if (result == null)
@@ -70,135 +75,19 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
         public static int GetNumberOfInputs<TKernel, TInput>(TKernel kernel, TInput[] x)
         {
+            if (x.Length == 0)
+                throw new ArgumentException("Impossible to determine number of inputs because there are no training samples in this set.");
+
             var linear = kernel as ILinear<TInput>;
             if (linear != null)
                 return linear.GetLength(x);
 
-            return Tools.GetNumberOfInputs(x);
-        }
-
-        public static void CheckArgs<TInput>(TInput[] x)
-        {
-            for (int i = 0; i < x.Length; i++)
-            {
-                if (x[i] == null)
-                    throw new ArgumentException("Input vector at position {0} is null.".Format(i), "x");
-            }
-        }
-
-        public static void CheckArgs<TInput, TOutput>(TInput[] x, TOutput[] y)
-        {
-            if (x.Length != y.Length)
-                throw new DimensionMismatchException("x", "The number of output labels should match the number of training samples.");
-
-            CheckArgs(x);
-        }
-
-        public static void CheckArgs<TInput>(ISupportVectorMachine<TInput> machine,
-            TInput[] inputs, int[] outputs)
-        {
-            // Initial argument checking
-            if (machine == null)
-                throw new ArgumentNullException("machine");
-
-            if (inputs == null)
-                throw new ArgumentNullException("inputs");
-
-            if (outputs == null)
-                throw new ArgumentNullException("outputs");
-
-            if (inputs.Length != outputs.Length)
-                throw new DimensionMismatchException("outputs",
-                    "The number of input vectors and output labels does not match.");
-
-            checkInputs(machine, inputs);
-
-            for (int i = 0; i < outputs.Length; i++)
-            {
-                if (outputs[i] != 1 && outputs[i] != -1)
-                {
-                    throw new ArgumentOutOfRangeException("outputs",
-                        "The output label at index " + i + " should be either +1 or -1.");
-                }
-            }
-        }
-
-        public static void CheckArgs<TInput>(ISupportVectorMachine<TInput> machine, TInput[] inputs, Array outputs)
-        {
-            // Initial argument checking
-            if (machine == null)
-                throw new ArgumentNullException("machine");
-
-            if (inputs == null)
-                throw new ArgumentNullException("inputs");
-
-            if (outputs == null)
-                throw new ArgumentNullException("outputs");
-
-            if (inputs.Length != outputs.Length)
-                throw new DimensionMismatchException("outputs",
-                    "The number of input vectors and output labels does not match.");
-
-            checkInputs(machine, inputs);
-        }
-
-        private static void checkInputs<TInput>(ISupportVectorMachine<TInput> machine, TInput[] inputs)
-        {
-            if (inputs.Length == 0)
-                throw new ArgumentOutOfRangeException("inputs",
-                    "Training algorithm needs at least one training vector.");
-
-            if (machine.NumberOfInputs > 0)
-            {
-                // This machine has a fixed input vector size
-                for (int i = 0; i < inputs.Length; i++)
-                {
-                    if (inputs[i] == null)
-                    {
-                        throw new ArgumentNullException("inputs",
-                               "The input vector at index " + i + " is null.");
-                    }
-
-                    var xi = inputs[i] as Array;
-                    if (xi != null)
-                    {
-                        if (xi.Length != machine.NumberOfInputs)
-                        {
-                            throw new DimensionMismatchException("inputs",
-                                "The size of the input vector at index " + i
-                                + " does not match the expected number of inputs of the machine."
-                                + " All input vectors for this machine must have length " + machine.NumberOfInputs);
-                        }
-                    }
-
-                    var di = inputs[i] as double[];
-                    if (di != null)
-                    {
-                        for (int j = 0; j < di.Length; j++)
-                        {
-                            if (Double.IsNaN(di[j]))
-                                throw new ArgumentException("The input vector at index " + i + " contains NaN values.");
-
-                            if (Double.IsInfinity(di[j]))
-                                throw new ArgumentException("The input vector at index " + i + " contains infinity values.");
-                        }
-                    }
-                }
-            }
+            return Accord.MachineLearning.Tools.GetNumberOfInputs(x);
         }
 
 
-        //public static TInput GetZeroWeight<TInput>(TInput[] x)
-        //    where TInput : ICloneable
-        //{
-        //    var w = (TInput)x[0].Clone();
-        //    if (w is IList)
-        //    {
-        //        IList list = (IList)w;
-        //        Array.Clear((Array)list, 0, list.Count);
-        //    }
-        //    return w;
-        //}
+       
+        
 
         public static void CheckOutput<TInput>(ISupportVectorMachine<TInput> model)
         {

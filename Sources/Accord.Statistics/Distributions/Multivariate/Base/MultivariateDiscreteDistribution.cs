@@ -43,6 +43,7 @@ namespace Accord.Statistics.Distributions.Multivariate
     using Accord.Statistics.Distributions.Fitting;
     using Accord.Statistics.Distributions.Sampling;
     using Accord.Math.Random;
+    using Accord.Compat;
 
     /// <summary>
     ///   Abstract class for multivariate discrete probability distributions.
@@ -179,22 +180,22 @@ namespace Accord.Statistics.Distributions.Multivariate
 
         double IDistribution.DistributionFunction(double[] x)
         {
-            return DistributionFunction(Array.ConvertAll<double, int>(x, Convert.ToInt32));
+            return DistributionFunction(x.Apply(Convert.ToInt32));
         }
 
         double IDistribution.ProbabilityFunction(double[] x)
         {
-            return ProbabilityMassFunction(Array.ConvertAll<double, int>(x, Convert.ToInt32));
+            return ProbabilityMassFunction(x.Apply(Convert.ToInt32));
         }
 
         double IDistribution.LogProbabilityFunction(double[] x)
         {
-            return LogProbabilityMassFunction(Array.ConvertAll<double, int>(x, Convert.ToInt32));
+            return LogProbabilityMassFunction(x.Apply(Convert.ToInt32));
         }
 
         double IDistribution.ComplementaryDistributionFunction(double[] x)
         {
-            return ComplementaryDistributionFunction(Array.ConvertAll<double, int>(x, Convert.ToInt32));
+            return ComplementaryDistributionFunction(x.Apply(Convert.ToInt32));
         }
 
         void IDistribution.Fit(Array observations)

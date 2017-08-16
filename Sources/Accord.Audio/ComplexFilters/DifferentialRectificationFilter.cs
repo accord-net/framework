@@ -22,6 +22,7 @@
 
 namespace Accord.Audio.ComplexFilters
 {
+    using Accord.Compat;
     using System.Numerics;
 
     /// <summary>

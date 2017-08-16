@@ -24,12 +24,12 @@ namespace Accord.Statistics.Analysis
 {
     using System;
     using Accord.Math;
-    using Accord.Math.Comparers;
     using Accord.Math.Decompositions;
     using Accord.Statistics.Kernels;
     using Accord.MachineLearning;
     using Accord.Statistics.Analysis.Base;
     using Accord.Statistics.Models.Regression;
+    using Accord.Compat;
 
     /// <summary>
     ///   Kernel Principal Component Analysis.

@@ -24,6 +24,7 @@ namespace Accord.Audio
 {
     using System;
     using System.Runtime.Serialization;
+    using Accord.Compat;
 
     /// <summary>
     ///   Unsupported sample format exception.

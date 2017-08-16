@@ -27,11 +27,11 @@ namespace Accord.Statistics.Analysis
     using Accord.Statistics.Models.Regression;
     using Accord.Statistics.Models.Regression.Fitting;
     using Accord.Statistics.Testing;
-    using AForge;
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.ComponentModel;
+    using Accord.Compat;
     using System.Threading;
 
     /// <summary>

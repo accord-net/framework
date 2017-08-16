@@ -58,6 +58,7 @@ namespace Accord.Collections
     using System.Diagnostics;
     using System.Runtime.CompilerServices;
     using System.Text;
+    using Accord.Compat;
 
     /// <summary>
     ///   Priority order for <see cref="PriorityQueue{T}"/>.

@@ -26,6 +26,7 @@ namespace Accord.Math.Optimization.Losses
     using System;
     using Accord.Math;
     using Accord.Statistics;
+    using Accord.Compat;
 
     /// <summary>
     ///   R² (r-squared) loss.

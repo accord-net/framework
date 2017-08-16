@@ -25,10 +25,10 @@ namespace Accord.Statistics.Distributions.Univariate
     using System;
     using System.ComponentModel.DataAnnotations;
     using Accord.Math;
-    using Accord.Statistics.Distributions.Fitting;
     using AForge;
     using Accord.Statistics.Testing;
     using Accord;
+    using Accord.Compat;
 
     /// <summary>
     ///   Grubb's statistic distribution.

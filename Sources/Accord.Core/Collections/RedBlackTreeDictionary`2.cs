@@ -24,6 +24,7 @@ namespace Accord.Collections
 {
     using System;
     using System.Collections.Generic;
+    using Accord.Compat;
 
     /// <summary>
     ///   Sorted dictionary based on a <see cref="RedBlackTree{T}">red-black tree</see>.

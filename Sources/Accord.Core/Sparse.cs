@@ -26,6 +26,7 @@ namespace Accord.Math
     using System;
     using System.Linq;
     using System.Collections.Generic;
+    using Accord.Compat;
     using System.Collections.Concurrent;
 
     /// <summary>
@@ -70,11 +71,11 @@ namespace Accord.Math
             for (int i = 0; i < values.Length; i++)
             {
                 string[] element = values[i].Split(':');
-                int oneBasedindex = Int32.Parse(element[0], CultureInfo.InvariantCulture);
+                int oneBasedindex = Int32.Parse(element[0], System.Globalization.CultureInfo.InvariantCulture);
                 if (oneBasedindex <= 0)
                     throw new FormatException("The given string contains 0 or negative indices (indices of sparse vectors in LibSVM format should begin at 1).");
                 int zeroBasedIndex = oneBasedindex - 1; // LibSVM uses 1-based array format
-                double value = Double.Parse(element[1], CultureInfo.InvariantCulture);
+                double value = Double.Parse(element[1], System.Globalization.CultureInfo.InvariantCulture);
 
                 result.Indices[i + offset] = zeroBasedIndex + offset;
                 result.Values[i + offset] = value;

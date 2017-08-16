@@ -27,9 +27,9 @@ namespace Accord.Statistics.Distributions.Univariate
     using Accord.Math;
     using Accord.Statistics.Distributions;
     using Accord.Statistics.Distributions.Fitting;
-    using AForge;
     using Accord.Math.Random;
     using System.Diagnostics;
+    using Accord.Compat;
 
     /// <summary>
     ///   Univariate general discrete distribution, also referred as the

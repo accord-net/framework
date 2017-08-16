@@ -31,6 +31,7 @@ namespace Accord.Tests.MachineLearning
     using Accord.Statistics;
     using Accord.Statistics.Kernels;
     using NUnit.Framework;
+    using System;
     using System.IO;
     using System.Threading.Tasks;
 
@@ -249,6 +250,7 @@ namespace Accord.Tests.MachineLearning
             }
         }
 
+#if !NO_BINARY_SERIALIZATION
         [Test]
         [Category("Serialization")]
         public void SerializeTest1()
@@ -364,7 +366,8 @@ namespace Accord.Tests.MachineLearning
             };
 
             // Reload the machines
-            var target = Serializer.Load<MultilabelSupportVectorMachine>(Properties.Resources.ml_svm);
+            string fileName = Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources", "ml-svm.bin");
+            var target = Serializer.Load<MultilabelSupportVectorMachine>(fileName);
 
             double actual;
 
@@ -436,7 +439,6 @@ namespace Accord.Tests.MachineLearning
             Assert.IsTrue(svs.IsEqual(expectedSVs, rtol: 1e-8));
             Assert.IsTrue(weights.IsEqual(expectedWeights, rtol: 1e-8));
         }
-
 
         [Test]
         [Category("Serialization")]
@@ -512,6 +514,7 @@ namespace Accord.Tests.MachineLearning
                 Assert.IsTrue(a.SupportVectors.IsEqual(b.SupportVectors));
             }
         }
+#endif
 
         [Test]
         public void multilabel_linear_new_usage()
@@ -1125,6 +1128,35 @@ namespace Accord.Tests.MachineLearning
             int[] actual = machine.Decide(inputs).ArgMax(dimension: 1);
             outputs[13] = 0;
             Assert.IsTrue(actual.IsEqual(outputs));
+        }
+
+
+        [Test]
+        public void no_samples_for_class()
+        {
+            double[][] inputs =
+            {
+                new double[] { 1, 1 }, // 0
+                new double[] { 1, 1 }, // 0
+                new double[] { 1, 1 }, // 2
+            };
+
+            int[] outputs =
+            {
+                0, 0, 2
+            };
+
+            var teacher = new MultilabelSupportVectorLearning<Gaussian>()
+            {
+                Learner = (param) => new SequentialMinimalOptimization<Gaussian>()
+                {
+                    UseKernelEstimation = true
+                }
+            };
+
+            Assert.Throws<ArgumentException>(() => teacher.Learn(inputs, outputs),
+                "There are no samples for class label {0}. Please make sure that class " +
+                "labels are contiguous and there is at least one training sample for each label.", 1);
         }
     }
 }

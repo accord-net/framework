@@ -21,11 +21,11 @@
 //
 
 #if NET35
-namespace System.Collections.Concurrent
+namespace Accord.Compat
 {
     using System;
     using System.Threading;
-    using System.Collections.Generic;
+    using global::System.Collections.Generic;
 
     internal class ConcurrentStack<T> : IEnumerable<T>
     {
@@ -61,7 +61,7 @@ namespace System.Collections.Concurrent
             }
         }
 
-        IEnumerator IEnumerable.GetEnumerator()
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator()
         {
             lock (stack)
             {

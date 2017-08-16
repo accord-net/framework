@@ -26,6 +26,7 @@
 namespace Accord.Math.Kinematics
 {
     using System;
+    using Accord.Compat;
 
     /// <summary>
     ///    Denavit Hartenberg joint-description parameters.

@@ -26,6 +26,7 @@ namespace Accord.MachineLearning
     using System;
     using System.IO;
     using System.Runtime.Serialization.Formatters.Binary;
+    using Accord.Compat;
 
     /// <summary>
     ///   Obsolete. Please refer to <see cref="CrossValidation{TModel, TInput}"/> instead.

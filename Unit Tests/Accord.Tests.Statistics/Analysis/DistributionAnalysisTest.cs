@@ -32,6 +32,9 @@ namespace Accord.Tests.Statistics
     using System.Globalization;
     using System.Collections.Generic;
     using Accord.Statistics.Distributions;
+#if NO_CULTURE
+    using CultureInfo = Accord.Compat.CultureInfo;
+#endif
 
     [TestFixture]
     public class DistributionAnalysisTest

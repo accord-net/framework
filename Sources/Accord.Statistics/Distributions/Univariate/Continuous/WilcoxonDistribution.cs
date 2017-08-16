@@ -23,11 +23,10 @@
 namespace Accord.Statistics.Distributions.Univariate
 {
     using System;
-    using Accord.Math;
-    using Accord.Statistics;
-    using AForge;
-    using System.Threading.Tasks;
     using System.Linq;
+    using Accord.Math;
+    using Accord.Compat;
+    using System.Threading.Tasks;
 
     /// <summary>
     ///   Wilcoxon's W statistic distribution.

@@ -26,10 +26,16 @@ namespace Accord.Tests.Audio
     using NUnit.Framework;
     using Accord.Audio.Windows;
     using Accord.Math;
+    using System.IO;
 
     [TestFixture]
     public class SignalTest
     {
+        public static FileStream GetSignal(string resourceName)
+        {
+            string fileName = Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources", resourceName);
+            return new FileStream(fileName, FileMode.Open, FileAccess.Read);
+        }
 
         private float[,] data = 
         {

@@ -23,12 +23,12 @@
 namespace Accord.MachineLearning
 {
     using System;
-    using System.Linq;
     using Accord.Math;
     using Accord.Math.Distances;
-    using System.Threading;
-    using System.Runtime.CompilerServices;
+    using Accord.Compat;
     using System.Threading.Tasks;
+    using System.Runtime.CompilerServices;
+    using System.Threading;
 
     /// <summary>
     ///   K-Nearest Neighbor (k-NN) algorithm.

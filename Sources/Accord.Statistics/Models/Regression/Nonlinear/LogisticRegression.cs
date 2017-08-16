@@ -29,6 +29,7 @@ namespace Accord.Statistics.Models.Regression
     using Accord.MachineLearning;
     using Analysis;
     using Fitting;
+    using Accord.Compat;
 
     /// <summary>
     ///   Binary Logistic Regression.

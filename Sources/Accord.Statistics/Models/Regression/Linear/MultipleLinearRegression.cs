@@ -31,6 +31,7 @@ namespace Accord.Statistics.Models.Regression.Linear
     using Accord.Math.Optimization.Losses;
     using Accord.Statistics.Analysis;
     using Accord.Statistics.Testing;
+    using Accord.Compat;
 
     /// <summary>
     ///   Multiple Linear Regression.

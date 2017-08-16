@@ -25,7 +25,6 @@ namespace Accord.MachineLearning.Performance
     using System;
     using System.Collections;
     using System.Collections.Generic;
-    using System.Threading.Tasks;
     using Accord.Math;
     using Accord.Math.Optimization.Losses;
     using Accord.Statistics.Analysis;

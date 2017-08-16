@@ -24,6 +24,7 @@ namespace Accord.MachineLearning
 {
     using Accord.MachineLearning.Performance;
     using System;
+    using Accord.Compat;
 
     /// <summary>
     ///   Obsolete. Please refer to <see cref="CrossValidation{TModel, TInput}"/> instead.

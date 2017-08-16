@@ -23,17 +23,7 @@
 namespace Accord.Imaging
 {
     using Accord.MachineLearning;
-    using Accord.Math;
-    using Accord.Imaging;
     using System;
-    using System.Collections.Generic;
-    using System.Drawing;
-    using System.Drawing.Imaging;
-    using System.IO;
-    using System.Runtime.Serialization.Formatters.Binary;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using System.Collections.Concurrent;
 
     /// <summary>
     ///   Bag of Visual Words
@@ -77,7 +67,7 @@ namespace Accord.Imaging
     /// 
     [Serializable]
     public class BagOfVisualWords<TPoint, TFeature, TClustering, TDetector> :
-        BaseBagOfVisualWords<BagOfVisualWords<TPoint, TFeature, TClustering, TDetector>, 
+        BaseBagOfVisualWords<BagOfVisualWords<TPoint, TFeature, TClustering, TDetector>,
             TPoint, TFeature, TClustering, TDetector>
         where TPoint : IFeatureDescriptor<TFeature>
         where TClustering : IUnsupervisedLearning<IClassifier<TFeature, int>, TFeature, int>

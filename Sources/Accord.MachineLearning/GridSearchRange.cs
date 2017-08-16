@@ -26,6 +26,7 @@ namespace Accord.MachineLearning
     using System.Collections.ObjectModel;
     using Accord.Math;
     using Accord.MachineLearning.Performance;
+    using Accord.Compat;
 
     /// <summary>
     ///   Range of parameters to be tested in a grid search.

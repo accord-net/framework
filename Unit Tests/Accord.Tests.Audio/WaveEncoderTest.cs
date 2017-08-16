@@ -49,7 +49,7 @@ namespace Accord.Tests.Audio
             // sizeof(int)   = 4
             // sizeof(short) = 2
 
-            UnmanagedMemoryStream sourceStream = Properties.Resources.a;
+            var sourceStream = SignalTest.GetSignal("a.wav");
             MemoryStream destinationStream = new MemoryStream();
 
             // Create a decoder for the source stream

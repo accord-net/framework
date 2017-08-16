@@ -22,11 +22,12 @@
 
 namespace Accord.Audio
 {
+    using Accord.Math;
     using System;
     using System.Runtime.InteropServices;
     using System.Collections.Generic;
+    using Accord.Compat;
     using System.Numerics;
-    using Accord.Math;
 
     /// <summary>
     ///   Tool functions for audio processing.
@@ -339,7 +340,9 @@ namespace Accord.Audio
         {
             Type type = typeof(T);
 
+#pragma warning disable CS0618 // Type or member is obsolete
             int rawsize = Marshal.SizeOf(type);
+#pragma warning restore CS0618 // Type or member is obsolete
 
             if (rawsize > (rawData.Length - position))
             {
@@ -348,7 +351,9 @@ namespace Accord.Audio
 
             IntPtr buffer = Marshal.AllocHGlobal(rawsize);
             Marshal.Copy(rawData, position, buffer, rawsize);
+#pragma warning disable CS0618 // Type or member is obsolete
             T obj = (T)Marshal.PtrToStructure(buffer, type);
+#pragma warning restore CS0618 // Type or member is obsolete
             Marshal.FreeHGlobal(buffer);
             return obj;
         }

@@ -23,6 +23,7 @@
 namespace Accord.Math.Optimization.Losses
 {
     using System;
+    using Accord.Compat;
 
     /// <summary>
     ///   Negative log-likelihood loss. 

@@ -788,6 +788,7 @@ namespace Accord.Tests.Math
             Assert.IsTrue(expected.IsEqual(actual));
         }
 
+#if !NO_DATA_TABLE
         [Test]
         public void ToArrayTest()
         {
@@ -879,6 +880,7 @@ namespace Accord.Tests.Math
 
             Assert.IsTrue(expectedNames.IsEqual(actualNames));
         }
+#endif
 
         [Test]
         public void ToDoubleTest()

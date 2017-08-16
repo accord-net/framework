@@ -24,16 +24,11 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using Accord.Math;
-    using AForge;
-    using Parallel = System.Threading.Tasks.Parallel;
-    using Accord.Statistics;
-    using System.Threading.Tasks;
     using Accord.MachineLearning;
-    using Accord.Math.Optimization.Losses;
     using System.Collections;
-    using System.Diagnostics;
+    using Accord.Compat;
+    using System.Threading.Tasks;
+    using System.Linq;
 
     /// <summary>
     ///   Base class for tree inducing (learning) algorithms.
@@ -206,7 +201,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
 #if DEBUG
             int totalSum = partitions.Sum(x => x == null ? 0 : x.Count);
             int missingSum = missing == null ? 0 : missing.Count;
-            Debug.Assert(samples == (totalSum + missingSum));
+            Accord.Diagnostics.Debug.Assert(samples == (totalSum + missingSum));
 #endif
 
             return info;

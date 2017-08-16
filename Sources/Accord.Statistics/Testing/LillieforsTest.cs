@@ -26,6 +26,7 @@ namespace Accord.Statistics.Testing
     using Accord.Math;
     using Accord.Statistics.Distributions.Univariate;
     using Accord.Statistics.Distributions;
+    using Accord.Compat;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -167,7 +168,7 @@ namespace Accord.Statistics.Testing
 
             if (reestimate)
             {
-                Parallel.For(0, iterations, i =>
+                Parallel.For(0, iterations, i => // TODO: Use ParallelOptions
                 {
                     double[] s = hypothesizedDistribution.Generate(samples: NumberOfSamples);
                     Vector.Sort<double>(s);
@@ -180,7 +181,7 @@ namespace Accord.Statistics.Testing
             }
             else
             {
-                Parallel.For(0, iterations, i =>
+                Parallel.For(0, iterations, i => // TODO: Use ParallelOptions
                 {
                     double[] s = hypothesizedDistribution.Generate(samples: NumberOfSamples);
                     Vector.Sort<double>(s);

@@ -25,10 +25,11 @@ namespace Accord.Statistics.Models.Markov.Learning
     using System;
     using Accord.Math;
     using Accord.MachineLearning;
-    using System.Threading;
-    using Accord.Statistics.Models.Markov.Topology;
     using Accord.Statistics.Distributions.Univariate;
     using Accord.Statistics.Distributions.Fitting;
+    using Accord.Compat;
+    using System.Threading;
+
 #pragma warning disable 612, 618
 
     /// <summary>

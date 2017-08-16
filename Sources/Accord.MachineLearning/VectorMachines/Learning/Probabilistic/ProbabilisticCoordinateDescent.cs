@@ -61,6 +61,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     using Accord.Math;
     using Statistics.Models.Regression.Fitting;
     using Statistics.Models.Regression;
+    using Accord.Compat;
 
     /// <summary>
     ///   L1-regularized logistic regression (probabilistic SVM) 
@@ -109,7 +110,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\Probabilistic\ProbabilisticCoordinateDescentTest.cs" region="doc_logreg"/>
     /// </examples>
     /// 
-    /// <see cref="SequentialMinimalOptimization"/>
+    /// <see cref="SequentialMinimalOptimization{TKernel}"/>
     /// <see cref="ProbabilisticNewtonMethod"/>
     /// 
     public class ProbabilisticCoordinateDescent :
@@ -193,7 +194,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\Probabilistic\ProbabilisticCoordinateDescentTest.cs" region="doc_logreg"/>
     /// </examples>
     /// 
-    /// <see cref="SequentialMinimalOptimization"/>
+    /// <see cref="SequentialMinimalOptimization{TKernel}"/>
     /// <see cref="ProbabilisticNewtonMethod"/>
     /// 
     public class ProbabilisticCoordinateDescent<TKernel, TInput> :

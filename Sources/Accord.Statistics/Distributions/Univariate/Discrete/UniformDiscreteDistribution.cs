@@ -24,8 +24,8 @@ namespace Accord.Statistics.Distributions.Univariate
 {
     using System;
     using Accord.Math;
-    using AForge;
     using System.ComponentModel;
+    using Accord.Compat;
 
     /// <summary>
     ///   Discrete uniform distribution.

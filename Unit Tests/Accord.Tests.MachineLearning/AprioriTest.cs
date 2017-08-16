@@ -20,25 +20,19 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-
-
 namespace Accord.Tests.MachineLearning
 {
-    using Accord.MachineLearning;
     using NUnit.Framework;
     using System.Linq;
     using Accord.Math;
-    using Accord.Statistics;
-    using Accord.MachineLearning.VectorMachines;
-    using Accord.Statistics.Kernels;
-    using Accord.MachineLearning.VectorMachines.Learning;
+    using Accord.MachineLearning.Rules;
+
 #if !NET35
     using System;
     using System.Collections.Generic;
 #else
-    using Accord;
+    using Accord.Compat;
 #endif
-    using Accord.MachineLearning.Rules;
 
 
     [TestFixture]

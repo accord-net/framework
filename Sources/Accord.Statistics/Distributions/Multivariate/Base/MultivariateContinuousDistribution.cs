@@ -44,6 +44,7 @@ namespace Accord.Statistics.Distributions.Multivariate
     using System.Globalization;
     using Accord.Statistics.Distributions.Sampling;
     using Accord.Math.Random;
+    using Accord.Compat;
 
     /// <summary>
     ///   Abstract class for Multivariate Probability Distributions.

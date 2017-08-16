@@ -28,6 +28,7 @@ namespace Accord.IO
     using System.Globalization;
     using System.IO;
     using System.Text;
+    using Accord.Compat;
 
     /// <summary>
     ///   Reader for data files containing samples in libsvm's sparse format.
@@ -156,6 +157,24 @@ namespace Accord.IO
         }
 
 
+        private void createReader(string path)
+        {
+#if NETSTANDARD1_4
+            this.reader = new StreamReader(new FileStream(path, FileMode.Open));
+#else
+            this.reader = new StreamReader(path);
+#endif
+        }
+
+        private void createReader(string path, System.Text.Encoding encoding)
+        {
+#if NETSTANDARD1_4
+            this.reader = new StreamReader(new FileStream(path, FileMode.Open), encoding);
+#else
+            this.reader = new StreamReader(path);
+#endif
+        }
+
         /// <summary>
         ///   Initializes a new instance of the <see cref="SparseReader"/> class.
         /// </summary>
@@ -165,7 +184,7 @@ namespace Accord.IO
         /// 
         public SparseReader(string path, int sampleSize)
         {
-            this.reader = new StreamReader(path);
+            createReader(path);
             this.sampleSize = sampleSize;
         }
 
@@ -177,7 +196,7 @@ namespace Accord.IO
         /// 
         public SparseReader(string path)
         {
-            this.reader = new StreamReader(path);
+            createReader(path);
             this.sampleSize = -1;
         }
 
@@ -192,6 +211,34 @@ namespace Accord.IO
         {
             this.reader = new StreamReader(stream);
             this.sampleSize = sampleSize;
+        }
+
+        
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="SparseReader"/> class.
+        /// </summary>
+        /// 
+        /// <param name="path">The complete file path to be read.</param>
+        /// <param name="encoding">The character encoding to use.</param>
+        /// <param name="sampleSize">The size of the feature vectors stored in the file.</param>
+        /// 
+        public SparseReader(String path, System.Text.Encoding encoding, int sampleSize)
+        {
+            createReader(path, encoding);
+            this.sampleSize = sampleSize;
+        }
+
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="SparseReader"/> class.
+        /// </summary>
+        /// 
+        /// <param name="path">The complete file path to be read.</param>
+        /// <param name="encoding">The character encoding to use.</param>
+        /// 
+        public SparseReader(String path, System.Text.Encoding encoding)
+        {
+            createReader(path, encoding);
+            this.sampleSize = -1;
         }
 
         /// <summary>
@@ -214,7 +261,7 @@ namespace Accord.IO
         /// <param name="encoding">The character encoding to use.</param>
         /// <param name="sampleSize">The size of the feature vectors stored in the file.</param>
         /// 
-        public SparseReader(Stream stream, Encoding encoding, int sampleSize)
+        public SparseReader(Stream stream, System.Text.Encoding encoding, int sampleSize)
         {
             this.reader = new StreamReader(stream, encoding);
             this.sampleSize = sampleSize;
@@ -227,24 +274,10 @@ namespace Accord.IO
         /// <param name="stream">The file stream to be read.</param>
         /// <param name="encoding">The character encoding to use.</param>
         /// 
-        public SparseReader(Stream stream, Encoding encoding)
+        public SparseReader(Stream stream, System.Text.Encoding encoding)
         {
             this.reader = new StreamReader(stream, encoding);
             this.sampleSize = -1;
-        }
-
-        /// <summary>
-        ///   Initializes a new instance of the <see cref="SparseReader"/> class.
-        /// </summary>
-        /// 
-        /// <param name="path">The complete file path to be read.</param>
-        /// <param name="encoding">The character encoding to use.</param>
-        /// <param name="sampleSize">The size of the feature vectors stored in the file.</param>
-        /// 
-        public SparseReader(String path, Encoding encoding, int sampleSize)
-        {
-            this.reader = new StreamReader(path, encoding);
-            this.sampleSize = sampleSize;
         }
 
         /// <summary>
@@ -258,19 +291,6 @@ namespace Accord.IO
         {
             this.reader = reader;
             this.sampleSize = sampleSize;
-        }
-
-        /// <summary>
-        ///   Initializes a new instance of the <see cref="SparseReader"/> class.
-        /// </summary>
-        /// 
-        /// <param name="path">The complete file path to be read.</param>
-        /// <param name="encoding">The character encoding to use.</param>
-        /// 
-        public SparseReader(String path, Encoding encoding)
-        {
-            this.reader = new StreamReader(path, encoding);
-            this.sampleSize = -1;
         }
 
         /// <summary>
@@ -352,7 +372,7 @@ namespace Accord.IO
         public void Read(out Sparse<double> sample, out double output)
         {
             var values = ReadLine();
-            output = Double.Parse(values.Item2, CultureInfo.InvariantCulture);
+            output = Double.Parse(values.Item2, System.Globalization.CultureInfo.InvariantCulture);
             sample = Sparse.Parse(values.Item1, Intercept);
         }
 
@@ -368,7 +388,7 @@ namespace Accord.IO
         public void Read(out Sparse<double> sample, out int output)
         {
             var values = ReadLine();
-            output = Int32.Parse(values.Item2, CultureInfo.InvariantCulture);
+            output = Int32.Parse(values.Item2, System.Globalization.CultureInfo.InvariantCulture);
             sample = Sparse.Parse(values.Item1, Intercept);
         }
 
@@ -628,7 +648,7 @@ namespace Accord.IO
                 int lastSpace = line.LastIndexOf(' ', lastColon);
 
                 string str = line.Substring(lastSpace, lastColon - lastSpace);
-                int index = int.Parse(str, CultureInfo.InvariantCulture) - 1;
+                int index = int.Parse(str, System.Globalization.CultureInfo.InvariantCulture) - 1;
 
                 if (index >= max)
                     max = index + 1;
@@ -641,7 +661,7 @@ namespace Accord.IO
         }
 
 
-        #region IDisposable members
+#region IDisposable members
         /// <summary>
         ///   Performs application-defined tasks associated with
         ///   freeing, releasing, or resetting unmanaged resources.
@@ -682,7 +702,7 @@ namespace Accord.IO
         {
             Dispose(false);
         }
-        #endregion
+#endregion
 
     }
 }

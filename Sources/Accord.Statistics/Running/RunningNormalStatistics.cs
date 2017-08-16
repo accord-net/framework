@@ -23,6 +23,7 @@
 namespace Accord.Statistics.Running
 {
     using System;
+    using Accord.Compat;
 
     /// <summary>
     ///   Running (normal) statistics.

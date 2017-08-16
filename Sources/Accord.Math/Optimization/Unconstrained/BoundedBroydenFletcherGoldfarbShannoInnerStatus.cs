@@ -53,7 +53,7 @@ namespace Accord.Math.Optimization
             this.Integers = (int[])isave.Clone();
             this.Doubles = (double[])dsave.Clone();
             this.Booleans = (bool[])lsave.Clone();
-            this.Strings = (string)csave.Clone();
+            this.Strings = csave;
             this.Work = (double[])work.Clone();
         }
 

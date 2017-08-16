@@ -24,6 +24,7 @@ namespace Accord.Collections
 {
     using System;
     using System.Collections.Generic;
+    using Accord.Compat;
 
     /// <summary>
     ///   Possible node colors for <see cref="RedBlackTree{T}"/>s.

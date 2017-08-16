@@ -28,6 +28,7 @@ namespace Accord.Math.Distances
     using Accord.Statistics.Distributions.Univariate;
     using System;
     using System.Runtime.CompilerServices;
+    using Accord.Compat;
 
     /// <summary>
     ///   Bhattacharyya distance.

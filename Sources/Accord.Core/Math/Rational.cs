@@ -48,24 +48,31 @@
 
 namespace Accord.Math
 {
-    using Converters;
     using System;
     using System.ComponentModel;
     using System.Globalization;
+    using Accord.Compat;
+#if NETSTANDARD1_4
+    using SMath = Accord.Compat.SMath;
+#else
+    using SMath = System.Math;
+#endif
 
     /// <summary>
     ///   Rational number.
     /// </summary>
     /// 
     [Serializable]
-    [TypeConverter(typeof(RationalConverter))]
+#if !NETSTANDARD1_4
+    [TypeConverter(typeof(Accord.Math.Converters.RationalConverter))]
+#endif
     public struct Rational : IComparable, IComparable<Rational>, IEquatable<Rational>, IFormattable
     {
         private const double DEFAULT_TOLERANCE = 1e-6;
         private const decimal DEFAULT_DECIMAL_TOLERANCE = 1e-15M;
         private const float DEFAULT_FLOAT_TOLERANCE = 1e-6f;
 
-        #region Members
+#region Members
 
         private readonly int _numerator;
         private readonly int _denominator;
@@ -128,9 +135,9 @@ namespace Accord.Math
         /// </remarks>
         public static readonly Rational Epsilon = new Rational(1, int.MaxValue);
 
-        #endregion
+#endregion
 
-        #region Static Methods
+#region Static Methods
 
         /// <summary>
         /// Converts the string representation of a number to its <see cref="Rational"/> representation.
@@ -500,7 +507,7 @@ namespace Accord.Math
             int yNum = b._numerator * a._denominator;
             int denominator = a._denominator * b._denominator;
             int rem;
-            var result = System.Math.DivRem(xNum, yNum, out rem);
+            int result = SMath.DivRem(xNum, yNum, out rem);
             remainder = Rational.Simplify(rem, denominator);
             return result;
         }
@@ -995,8 +1002,8 @@ namespace Accord.Math
             if (x.Numerator == 0 || y.Numerator == 0)
                 return Zero;
 
-            var xNum = System.Math.BigMul(x.Numerator, y.Denominator);
-            var yNum = System.Math.BigMul(y.Numerator, x.Denominator);
+            long xNum = SMath.BigMul(x.Numerator, y.Denominator);
+            long yNum = SMath.BigMul(y.Numerator, x.Denominator);
             int denominator = x.Denominator * y.Denominator;
             return Rational.Simplify((int)(xNum % yNum), denominator);
         }
@@ -1292,8 +1299,8 @@ namespace Accord.Math
                 return other.Numerator == 0 ? 1 : -System.Math.Sign(other.Numerator);
             }
             // Use BigMul to avoid losing data when multiplying large integers
-            long value1 = System.Math.BigMul(Numerator, other.Denominator);
-            long value2 = System.Math.BigMul(Denominator, other.Numerator);
+            long value1 = SMath.BigMul(Numerator, other.Denominator);
+            long value2 = SMath.BigMul(Denominator, other.Numerator);
             return value1.CompareTo(value2);
         }
 

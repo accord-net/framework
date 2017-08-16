@@ -14,7 +14,7 @@ using Microsoft.VisualStudio.DebuggerVisualizers;
 [assembly: System.Diagnostics.DebuggerVisualizer(
     typeof( AForge.DebuggerVisualizers.HistogramVisualizer ),
     typeof( VisualizerObjectSource ),
-    Target = typeof( AForge.Math.Histogram ),
+    Target = typeof(Accord.Statistics.Visualizations.Histogram ),
     Description = "Histogram Visualizer" )]
 
 namespace AForge.DebuggerVisualizers
@@ -23,7 +23,7 @@ namespace AForge.DebuggerVisualizers
     {
         override protected void Show( IDialogVisualizerService windowService, IVisualizerObjectProvider objectProvider )
         {
-            AForge.Math.Histogram histogram = (AForge.Math.Histogram) objectProvider.GetObject( );
+            Accord.Statistics.Visualizations.Histogram histogram = (Accord.Statistics.Visualizations.Histogram) objectProvider.GetObject( );
 
             HistogramView histogramView = new HistogramView( );
             histogramView.SetHistogram( histogram );

@@ -27,8 +27,9 @@ namespace Accord.MachineLearning
     using Accord.Math;
     using Accord.Math.Distances;
     using System.Threading;
-    using System.Threading.Tasks;
     using System.Linq;
+    using Accord.Compat;
+    using System.Threading.Tasks;
 
     /// <summary>
     ///   k-Medoids clustering using Voronoi iteration algorithm.

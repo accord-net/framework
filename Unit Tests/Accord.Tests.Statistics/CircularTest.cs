@@ -46,6 +46,7 @@ namespace Accord.Tests.Statistics
         // Tests performed against the Circular Statistics Toolbox (Directional Statistics)
         // http://fr.mathworks.com/matlabcentral/fileexchange/10676-circular-statistics-toolbox--directional-statistics-
 
+#if !NO_DATA_TABLE
         [Test]
         public void WeightedKappaTest()
         {
@@ -71,6 +72,7 @@ namespace Accord.Tests.Statistics
             actualKappa = Circular.WeightedConcentration(angles, weights, actualMean);
             Assert.AreEqual(expectedKappa, actualKappa, 1e-6);
         }
+#endif
 
         [Test]
         public void KappaTest1()

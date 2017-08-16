@@ -25,10 +25,10 @@ namespace Accord.MachineLearning.Rules
 {
     using Accord.Math;
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Text;
-    using System.Threading.Tasks;
+    using Accord.Compat;
+    using System.Collections.Generic;
 
     /// <summary>
     ///   Association rule.
