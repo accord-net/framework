@@ -453,7 +453,18 @@ namespace Accord.Statistics.Analysis
             }
 
             // Project into the kernel principal components
-            return Matrix.DotWithTransposed(newK, ComponentVectors, result: result);
+            if (NumberOfOutputs == ComponentVectors.Length)
+            {
+                return newK.DotWithTransposed(ComponentVectors, result: result);
+            }
+
+            if (NumberOfOutputs < ComponentVectors.Length)
+            {
+                var selectedComponents = ComponentVectors.Get(0, NumberOfOutputs);
+                return newK.DotWithTransposed(selectedComponents, result: result);
+            }
+
+            throw new DimensionMismatchException("Number of outputs cannot exceed the number of principal components.");
         }
 
         
