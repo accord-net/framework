@@ -36,6 +36,7 @@ namespace Accord.IO
     using System;
     using System.Globalization;
     using System.Runtime.Serialization;
+    using Accord.Compat;
     using System.Security.Permissions;
 
     /// <summary>

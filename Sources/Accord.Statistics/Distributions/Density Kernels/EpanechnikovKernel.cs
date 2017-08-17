@@ -24,6 +24,7 @@ namespace Accord.Statistics.Distributions.DensityKernels
 {
     using System;
     using Accord.Math;
+    using Accord.Compat;
 
     /// <summary>
     ///   Epanechnikov density kernel.

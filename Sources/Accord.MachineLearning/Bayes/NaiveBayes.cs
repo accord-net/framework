@@ -25,12 +25,12 @@ namespace Accord.MachineLearning.Bayes
     using Accord.Math;
     using Accord.Math.Optimization.Losses;
     using Accord.Statistics.Distributions;
-    using Accord.Statistics.Distributions.Multivariate;
     using Accord.Statistics.Distributions.Univariate;
     using System;
     using System.IO;
     using System.Reflection;
     using System.Runtime.Serialization;
+    using Accord.Compat;
     using System.Threading.Tasks;
 
 #if !MONO
@@ -112,6 +112,13 @@ namespace Accord.MachineLearning.Bayes
     /// Decide method.</para>
     /// 
     /// <code source="Unit Tests\Accord.Tests.MachineLearning\Bayes\NaiveBayesTest.cs" region="doc_test" />
+    /// 
+    /// <para>
+    ///   Please note that, while the example uses a DataTable to exemplify how data stored into tables
+    ///   can be loaded in the framework, it is not necessary at all to use DataTables in your own, final
+    ///   code. For example, please consider the same example shown above, but without DataTables: </para>
+    ///   
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\Bayes\NaiveBayesTest.cs" region="doc_mitchell_no_datatable" />
     /// 
     /// <para>
     ///   In this second example, we will be creating a simple multi-class
@@ -385,6 +392,7 @@ namespace Accord.MachineLearning.Bayes
             return imax;
         }
 
+#if !NETSTANDARD1_4
         /// <summary>
         ///   Saves the Naïve Bayes model to a stream.
         /// </summary>
@@ -474,7 +482,8 @@ namespace Accord.MachineLearning.Bayes
         {
             return Accord.IO.Serializer.Load<NaiveBayes<TDistribution>>(path);
         }
-        #endregion
+#endif
+#endregion
 
 
         #region Serialization backwards compatibility
@@ -533,12 +542,12 @@ namespace Accord.MachineLearning.Bayes
     }
 
 #else
-    /// <summary>
-    ///   This class is currently not supported in Mono due to
-    ///   a bug in the Mono compiler.
-    /// </summary>
-    /// 
-    [Obsolete("This class is not supported in Mono.")]
+        /// <summary>
+        ///   This class is currently not supported in Mono due to
+        ///   a bug in the Mono compiler.
+        /// </summary>
+        /// 
+        [Obsolete("This class is not supported in Mono.")]
     public class NaiveBayes
     {
         /// <summary>

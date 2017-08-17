@@ -2,10 +2,10 @@
 // AForge.NET framework
 // http://www.aforgenet.com/framework/
 //
-// Copyright © AForge.NET, 2005-2012
+// Copyright Â© AForge.NET, 2005-2012
 // contacts@aforgenet.com
 //
-// Copyright © Cezary Wagner, 2008
+// Copyright Â© Cezary Wagner, 2008
 // changes optimizing algorithm performance
 // Cezary.Wagner@gmail.com
 //
@@ -223,9 +223,6 @@ namespace Accord.Neuro.Learning
             // layers count
             int layersCount = network.Layers.Length;
 
-            // assume, that all neurons of the network have the same activation function
-            IActivationFunction function = (network.Layers[0].Neurons[0] as ActivationNeuron).ActivationFunction;
-
             // calculate error values for the last layer first
             layer = network.Layers[layersCount - 1];
             errors = neuronErrors[layersCount - 1];
@@ -236,7 +233,7 @@ namespace Accord.Neuro.Learning
                 // error of the neuron
                 e = desiredOutput[i] - output;
                 // error multiplied with activation function's derivative
-                errors[i] = e * function.Derivative2(output);
+                errors[i] = e * (layer.Neurons[i] as ActivationNeuron).ActivationFunction.Derivative2(output);
                 // squre the error and sum it
                 error += (e * e);
             }
@@ -258,7 +255,7 @@ namespace Accord.Neuro.Learning
                     {
                         sum += errorsNext[k] * layerNext.Neurons[k].Weights[i];
                     }
-                    errors[i] = sum * function.Derivative2(layer.Neurons[i].Output);
+                    errors[i] = sum * (layer.Neurons[i] as ActivationNeuron).ActivationFunction.Derivative2(layer.Neurons[i].Output);
                 }
             }
 

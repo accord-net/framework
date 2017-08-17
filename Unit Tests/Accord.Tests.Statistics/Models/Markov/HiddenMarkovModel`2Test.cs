@@ -85,13 +85,13 @@ namespace Accord.Tests.Statistics
 
 
             A = new double[,]
-            {  
+            {
                 { 0.7, 0.3 },
                 { 0.4, 0.6 }
             };
 
-            GeneralDiscreteDistribution[] B = 
-            {  
+            GeneralDiscreteDistribution[] B =
+            {
                 new GeneralDiscreteDistribution(0.1, 0.4, 0.5),
                 new GeneralDiscreteDistribution(0.6, 0.3, 0.1)
             };
@@ -168,7 +168,7 @@ namespace Accord.Tests.Statistics
 
             double[] pi = new double[] { 1, 0 };
 
-            MultivariateNormalDistribution[] emissions = 
+            MultivariateNormalDistribution[] emissions =
             {
                 new MultivariateNormalDistribution(new[] { 0.0, 0.1 }, new[,] { {1.0, 0.0}, {1.0, 5.1} }),
                 new MultivariateNormalDistribution(new[] { 2.0, 0.0 }, new[,] { {1.1, 0.1}, {1.0, 6.0} }),
@@ -219,15 +219,15 @@ namespace Accord.Tests.Statistics
         {
             #region doc_decode
             // Create the transition matrix A
-            double[,] transitions = 
-            {  
+            double[,] transitions =
+            {
                 { 0.7, 0.3 },
                 { 0.4, 0.6 }
             };
 
             // Create the vector of emission densities B
-            GeneralDiscreteDistribution[] emissions = 
-            {  
+            GeneralDiscreteDistribution[] emissions =
+            {
                 new GeneralDiscreteDistribution(0.1, 0.4, 0.5),
                 new GeneralDiscreteDistribution(0.6, 0.3, 0.1)
             };
@@ -271,14 +271,14 @@ namespace Accord.Tests.Statistics
         [Test]
         public void DecodeIntegersTest()
         {
-            double[,] transitions = 
-            {  
+            double[,] transitions =
+            {
                 { 0.7, 0.3 },
                 { 0.4, 0.6 }
             };
 
-            GeneralDiscreteDistribution[] emissions = 
-            {  
+            GeneralDiscreteDistribution[] emissions =
+            {
                 new GeneralDiscreteDistribution(0.1, 0.4, 0.5),
                 new GeneralDiscreteDistribution(0.6, 0.3, 0.1)
             };
@@ -304,14 +304,14 @@ namespace Accord.Tests.Statistics
         [Test]
         public void DecodeTest2()
         {
-            double[,] transitions = 
-            {  
+            double[,] transitions =
+            {
                 { 0.7, 0.3 },
                 { 0.4, 0.6 }
             };
 
-            double[,] emissions = 
-            {  
+            double[,] emissions =
+            {
                 { 0.1, 0.4, 0.5 },
                 { 0.6, 0.3, 0.1 }
             };
@@ -356,7 +356,7 @@ namespace Accord.Tests.Statistics
         [Test]
         public void LearnTest3()
         {
-            double[][] sequences = new double[][] 
+            double[][] sequences = new double[][]
             {
                 new double[] { 0,1,1,1,1,0,1,1,1,1 },
                 new double[] { 0,1,1,1,0,1,1,1,1,1 },
@@ -431,7 +431,7 @@ namespace Accord.Tests.Statistics
             // distribution to detect if a given sequence starts
             // with a zero and has any number of ones after that.
 
-            int[][] sequences = new double[][] 
+            int[][] sequences = new double[][]
             {
                 new double[] { 0,1,1,1,1,0,1,1,1,1 },
                 new double[] { 0,1,1,1,0,1,1,1,1,1 },
@@ -497,7 +497,7 @@ namespace Accord.Tests.Statistics
             //  seems to be two states, one for values between 0 and 1 and
             //  another for values between 5 and 7. The states seems to be
             //  switched on every observation.
-            double[][] sequences = new double[][] 
+            double[][] sequences = new double[][]
             {
                 new double[] { 0.1, 5.2, 0.3, 6.7, 0.1, 6.0 },
                 new double[] { 0.2, 6.2, 0.3, 6.3, 0.1, 5.0 },
@@ -583,9 +583,9 @@ namespace Accord.Tests.Statistics
             // Create continuous sequences. In the sequence below, there
             // seems to be two states, one for values equal to 1 and another
             // for values equal to 2.
-            double[][] sequences = new double[][] 
+            double[][] sequences = new double[][]
             {
-                new double[] { 1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2 }             
+                new double[] { 1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2 }
             };
 
             // Specify a initial normal distribution for the samples.
@@ -859,19 +859,19 @@ namespace Accord.Tests.Statistics
             double logLikelihood = teacher.LogLikelihood;
 
             // See the likelihood of the sequences learned
-            double a1 = Math.Exp(model.LogLikelihood(new[] { 
-                new double[] { 1, 2 }, 
+            double a1 = Math.Exp(model.LogLikelihood(new[] {
+                new double[] { 1, 2 },
                 new double[] { 6, 7 },
                 new double[] { 2, 3 }})); // 0.000208
 
-            double a2 = Math.Exp(model.LogLikelihood(new[] { 
-                new double[] { 2, 2 }, 
+            double a2 = Math.Exp(model.LogLikelihood(new[] {
+                new double[] { 2, 2 },
                 new double[] { 9, 8  },
                 new double[] { 1, 0 }})); // 0.0000376
 
             // See the likelihood of an unrelated sequence
-            double a3 = Math.Exp(model.LogLikelihood(new[] { 
-                new double[] { 8, 7 }, 
+            double a3 = Math.Exp(model.LogLikelihood(new[] {
+                new double[] { 8, 7 },
                 new double[] { 9, 8  },
                 new double[] { 1, 0 }})); // 2.10 x 10^(-89)
             #endregion
@@ -912,7 +912,7 @@ namespace Accord.Tests.Statistics
             // such, let's assume the data gathered from the sensors may reside
             // into circular centroids denoting each state the underlying system
             // might be in.
-            NormalDistribution[] initial_components = 
+            NormalDistribution[] initial_components =
             {
                 new NormalDistribution(), // initial value for the first variable's distribution
                 new NormalDistribution()  // initial value for the second variable's distribution
@@ -1126,7 +1126,7 @@ namespace Accord.Tests.Statistics
                 Iterations = 0,
             };
 
-            Assert.Throws<ArgumentException>(()=>teacher.Learn(sequences), "");
+            Assert.Throws<ArgumentException>(() => teacher.Learn(sequences), "");
         }
 
         [Test]
@@ -1245,7 +1245,7 @@ namespace Accord.Tests.Statistics
         public void FittingOptionsTest()
         {
             // Create a degenerate problem
-            double[][][] sequences = new double[][] 
+            double[][][] sequences = new double[][]
             {
                 new double[] { 1,1,1,1,1,0,1,1,1,1 },
                 new double[] { 1,1,1,1,0,1,1,1,1,1 },
@@ -1317,13 +1317,13 @@ namespace Accord.Tests.Statistics
             double[] pi;
 
             A = new double[,]
-            {  
+            {
                 { 0.7, 0.3 },
                 { 0.4, 0.6 }
             };
 
-            GeneralDiscreteDistribution[] B = 
-            {  
+            GeneralDiscreteDistribution[] B =
+            {
                 new GeneralDiscreteDistribution(0.1, 0.4, 0.5),
                 new GeneralDiscreteDistribution(0.6, 0.3, 0.1)
             };
@@ -1350,13 +1350,13 @@ namespace Accord.Tests.Statistics
         {
             // Example from http://ai.stanford.edu/~serafim/CS262_2007/notes/lecture5.pdf
 
-            double[,] A = 
+            double[,] A =
             {
                 { 0.95, 0.05 }, // fair dice state
                 { 0.05, 0.95 }, // loaded dice state
             };
 
-            double[,] B = 
+            double[,] B =
             {
                 { 1 /  6.0, 1 /  6.0, 1 /  6.0, 1 /  6.0, 1 /  6.0, 1 / 6.0 }, // fair dice probabilities
                 { 1 / 10.0, 1 / 10.0, 1 / 10.0, 1 / 10.0, 1 / 10.0, 1 / 2.0 }, // loaded probabilities
@@ -1418,8 +1418,6 @@ namespace Accord.Tests.Statistics
 
             Assert.AreEqual(0, loaded);
         }
-
-
 
     }
 }

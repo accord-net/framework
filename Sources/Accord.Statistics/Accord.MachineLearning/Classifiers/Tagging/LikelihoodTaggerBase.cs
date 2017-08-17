@@ -25,6 +25,7 @@ namespace Accord.MachineLearning
     using Accord.Math;
     using Accord.Statistics;
     using System;
+    using Accord.Compat;
 
     /// <summary>
     ///   Base implementation for generative observation sequence taggers. A sequence

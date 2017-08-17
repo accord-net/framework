@@ -24,6 +24,7 @@ namespace Accord.Math.Distances
 {
     using System;
     using System.Runtime.CompilerServices;
+    using Accord.Compat;
 
     /// <summary>
     /// Angular distance, or the proper distance metric version of <see cref="Cosine" /> distance.

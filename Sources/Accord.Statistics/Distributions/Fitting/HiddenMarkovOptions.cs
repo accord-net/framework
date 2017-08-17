@@ -24,6 +24,7 @@ namespace Accord.Statistics.Distributions.Fitting
 {
     using System;
     using Accord.Statistics.Models.Markov;
+    using Accord.Compat;
 
     /// <summary>
     ///   Fitting options for hidden Markov model distributions.

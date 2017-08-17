@@ -30,7 +30,9 @@ namespace Accord.Tests.MachineLearning
     using Accord.Math;
     using Accord.MachineLearning;
     using Accord.Math.Optimization.Losses;
-
+    using System.IO;
+    using Newtonsoft.Json;
+    using System.Threading.Tasks;
 
     [TestFixture]
     public class ProbabilisticOutputLearningTest
@@ -40,21 +42,21 @@ namespace Accord.Tests.MachineLearning
         [Test]
         public void RunTest1()
         {
-            double[][] inputs = 
+            double[][] inputs =
             {
-			    new double[] { -1, -1 },
-			    new double[] { -1,  1 },
-			    new double[] {  1, -1 },
-			    new double[] {  1,  1 }
-			};
+                new double[] { -1, -1 },
+                new double[] { -1,  1 },
+                new double[] {  1, -1 },
+                new double[] {  1,  1 }
+            };
 
             int[] outputs =
             {
-				 -1,
-				  1,
-				  1,
-				 -1 
-			};
+                 -1,
+                  1,
+                  1,
+                 -1
+            };
 
             KernelSupportVectorMachine svm = new KernelSupportVectorMachine(new Gaussian(3.6), 2);
 
@@ -204,7 +206,7 @@ namespace Accord.Tests.MachineLearning
 
             // Compute classification error
             double error = new ZeroOneLoss(outputs).Loss(predicted);
-            
+
             // Instantiate the probabilistic calibration (using Platt's scaling)
             var calibration = new ProbabilisticOutputCalibration<Gaussian>(svm);
 
@@ -333,11 +335,12 @@ namespace Accord.Tests.MachineLearning
                 new double[] { 0.0144769600209954, 0.0552754387307989, 0.930247601248206 },
                 new double[] { 0.0144769600209954, 0.0552754387307989, 0.930247601248206 },
                 new double[] { 0.0584631682316073, 0.0122104663095354, 0.929326365458857 },
-                new double[] { 0.00868243281954335, 0.00491075178001821, 0.986406815400439 } 
+                new double[] { 0.00868243281954335, 0.00491075178001821, 0.986406815400439 }
             };
 
             Assert.IsTrue(probabilities.IsEqual(expected, rtol: 1e-8));
         }
+
 
     }
 }

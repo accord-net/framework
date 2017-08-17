@@ -25,10 +25,9 @@ namespace Accord.IO
     using System;
     using System.Collections.Generic;
     using System.IO;
-    using System.IO.Compression;
-    using System.Runtime.InteropServices;
     using System.Linq;
     using Accord.IO.Compression;
+    using Accord.Compat;
 
     /// <summary>
     ///   Reader for UNIPEN files (such as Pendigits dataset).
@@ -262,7 +261,9 @@ namespace Accord.IO
                 // free managed resources
                 if (reader != null)
                 {
+#if !NETSTANDARD1_4
                     reader.Close();
+#endif
                     reader = null;
                 }
             }

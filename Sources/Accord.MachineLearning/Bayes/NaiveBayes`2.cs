@@ -26,6 +26,7 @@ namespace Accord.MachineLearning.Bayes
     using Accord.Statistics.Distributions;
     using Accord.Statistics.Distributions.Multivariate;
     using System;
+    using Accord.Compat;
 
 #if !MONO
     /// <summary>

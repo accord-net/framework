@@ -1,0 +1,225 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectGuid>{E72A7F76-D6CF-498F-B995-2DAA847146A8}</ProjectGuid>
+    <RootNamespace>Accord.DebuggerVisualizers</RootNamespace>
+    <AssemblyName>Accord.DebuggerVisualizers.GPL</AssemblyName>
+  </PropertyGroup>
+  <Import Project="$(SolutionDir)Accord.NET.targets" />
+  <!-- <PropertyGroup>   -->
+  <!-- <PlatformTarget>AnyCPU</PlatformTarget> -->
+  <!-- <OutputType>Library</OutputType> -->
+  <!-- <AppDesignerFolder>Properties</AppDesignerFolder> -->
+  <!-- <AllowUnsafeBlocks>True</AllowUnsafeBlocks> -->
+  <!-- <WarningLevel>4</WarningLevel> -->
+  <!-- <TreatWarningsAsErrors>True</TreatWarningsAsErrors> -->
+  <!-- <SignAssembly>true</SignAssembly> -->
+  <!-- <AssemblyOriginatorKeyFile>Accord.DebuggerVisualizers.snk</AssemblyOriginatorKeyFile> -->
+  <!-- <OldToolsVersion>3.5</OldToolsVersion> -->
+  <!-- <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow> -->
+  <!-- <MapFileExtensions>true</MapFileExtensions> -->
+  <!-- <UseApplicationTrust>false</UseApplicationTrust> -->
+  <!-- <BootstrapperEnabled>true</BootstrapperEnabled> -->
+  <!-- <FileAlignment>4096</FileAlignment> -->
+  <!-- <Optimize>true</Optimize> -->
+  <!-- <DebugType>pdbonly</DebugType> -->
+  <!-- <DebugSymbols>true</DebugSymbols> -->
+  <!-- <RunCodeAnalysis>false</RunCodeAnalysis> -->
+  <!-- <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression> -->
+  <!-- <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile> -->
+  <!-- <OutputPath>..\..\Release\$(Configuration)\GPL</OutputPath> -->
+  <!-- <DocumentationFile>..\..\Release\$(Configuration)\GPL\$(AssemblyName).XML</DocumentationFile> -->
+  <!-- <CodeAnalysisLogFile>..\..\Release\$(Configuration)\GPL\$(AssemblyName).dll.CodeAnalysisLog.xml</CodeAnalysisLogFile> -->
+  <!-- <TargetFrameworkVersion>v4.6</TargetFrameworkVersion> -->
+  <!-- </PropertyGroup> -->
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugType>Full</DebugType>
+    <Optimize>False</Optimize>
+    <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <OutputPath>$(SolutionDir)..\Debug\GPL\</OutputPath>
+    <DocumentationFile>
+    </DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'net35|AnyCPU' ">
+    <DefineConstants>TRACE;NET35</DefineConstants>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <OutputPath>$(SolutionDir)..\Release\$(Configuration)\GPL\</OutputPath>
+    <DocumentationFile>
+    </DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'net40|AnyCPU' ">
+    <DefineConstants>TRACE;NET40</DefineConstants>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <OutputPath>$(SolutionDir)..\Release\$(Configuration)\GPL\</OutputPath>
+    <DocumentationFile>
+    </DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'net45|AnyCPU'">
+    <DefineConstants>TRACE;NET45</DefineConstants>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <OutputPath>$(SolutionDir)..\Release\$(Configuration)\GPL\</OutputPath>
+    <DocumentationFile>
+    </DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'net46|AnyCPU'">
+    <DefineConstants>TRACE;NET46</DefineConstants>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <OutputPath>$(SolutionDir)..\Release\$(Configuration)\GPL\</OutputPath>
+    <DocumentationFile>
+    </DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'net462|AnyCPU' ">
+    <DefineConstants>TRACE;NET462</DefineConstants>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <OutputPath>$(SolutionDir)..\Release\$(Configuration)\GPL\</OutputPath>
+    <DocumentationFile>
+    </DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'mono|AnyCPU'">
+    <DefineConstants>TRACE;MONO</DefineConstants>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <OutputPath>$(SolutionDir)..\Release\$(Configuration)\GPL\</OutputPath>
+    <DocumentationFile>
+    </DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.VisualStudio.DebuggerVisualizers, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\PublicAssemblies\Microsoft.VisualStudio.DebuggerVisualizers.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BitmapDataVisualizer.cs" />
+    <Compile Include="CustomToolStripProfessionalRenderer.cs" />
+    <Compile Include="Extensions.cs" />
+    <Compile Include="Helpers.cs" />
+    <Compile Include="HistogramView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HistogramView.Designer.cs">
+      <DependentUpon>HistogramView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HistogramVisualizer.cs" />
+    <Compile Include="ImageView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ImageView.Designer.cs">
+      <DependentUpon>ImageView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ImageVisualizer.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="UnmanagedImageVisualizer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Accord.snk" />
+    <None Include="README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="HistogramView.resx">
+      <DependentUpon>HistogramView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ImageView.resx">
+      <DependentUpon>ImageView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.0">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\disk-black.png" />
+    <None Include="Resources\document-copy.png" />
+    <None Include="Resources\GitHub.png" />
+    <None Include="Resources\magnifier.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Sources\Accord.Controls.Imaging\Accord.Controls.Imaging.csproj">
+      <Project>{e1089999-eaed-4e55-ac47-b6a196df84fc}</Project>
+      <Name>Accord.Controls.Imaging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Sources\Accord.Controls.Statistics\Accord.Controls.csproj">
+      <Project>{0ab27a20-925c-4556-9fa4-6e2c109e448e}</Project>
+      <Name>Accord.Controls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Sources\Accord.Controls.Vision\Accord.Controls.Vision.csproj">
+      <Project>{6158e759-fe2b-4308-ba29-11c9e4a07812}</Project>
+      <Name>Accord.Controls.Vision</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Sources\Accord.Imaging\Accord.Imaging.csproj">
+      <Project>{4959a83d-f78f-439e-80a5-41583eceaac6}</Project>
+      <Name>Accord.Imaging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Sources\Accord.MachineLearning\Accord.MachineLearning.csproj">
+      <Project>{7ab4bbcc-6222-423d-9ff9-ba9cb7c09199}</Project>
+      <Name>Accord.MachineLearning</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Sources\Accord.Math.Core\Accord.Math.Core.csproj">
+      <Project>{ed3a336f-6da2-4f34-87fe-1ccffa029f8c}</Project>
+      <Name>Accord.Math.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Sources\Accord.Math\Accord.Math.csproj">
+      <Project>{f718e9a8-db62-4785-8c49-4333a60d256a}</Project>
+      <Name>Accord.Math</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Sources\Accord.Statistics\Accord.Statistics.csproj">
+      <Project>{fd8101dd-c95d-42d6-ad44-ae01c25f2811}</Project>
+      <Name>Accord.Statistics</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>set vs_path=%25USERPROFILE%25\Documents\Visual Studio 2017
+set visualizers_path=%25vs_path%25\Visualizers
+if exist "%25vs_path%25" (
+    if not exist "%25visualizers_path%25" (
+        md "%25visualizers_path%25"
+    )
+    copy /y "$(TargetPath)" "%25visualizers_path%25"
+)</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

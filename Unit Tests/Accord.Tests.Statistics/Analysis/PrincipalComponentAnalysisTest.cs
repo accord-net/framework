@@ -1024,6 +1024,7 @@ namespace Accord.Tests.Statistics
 
         }
 
+#if !NO_BINARY_SERIALIZATION
         [Test]
         [Category("Serialization")]
         public void SerializeTest()
@@ -1067,5 +1068,6 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(target.Overwrite.Equals(copy.Overwrite));
             Assert.IsTrue(target.Whiten.Equals(copy.Whiten));
         }
+#endif
     }
 }

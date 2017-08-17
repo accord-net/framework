@@ -64,6 +64,9 @@ namespace Accord.Math
             int rows = source.Rows();
             int cols = source.Columns();
 
+            startRow = index(startRow, rows);
+            startColumn = index(startColumn, cols);
+
             endRow = end(endRow, rows);
             endColumn = end(endColumn, cols);
 
@@ -156,6 +159,7 @@ namespace Accord.Math
             int rows = source.Rows();
             int cols = source.Columns();
 
+            startRow = index(startRow, rows);
             endRow = end(endRow, rows);
 
             int newRows = endRow - startRow;
@@ -215,8 +219,9 @@ namespace Accord.Math
                 throw new ArgumentNullException("source");
 
             int rows = source.Rows();
-            int cols = source.Rows();
+            int cols = source.Columns();
 
+            startColumn = index(startColumn, cols);
             endColumn = end(endColumn, cols);
 
             int newRows = rows;
@@ -441,6 +446,7 @@ namespace Accord.Math
                 return new T[0][];
             int cols = source[0].Length;
 
+            startColumn = index(startColumn, cols);
             endColumn = end(endColumn, cols);
 
             int newRows = rows;
@@ -520,6 +526,7 @@ namespace Accord.Math
                 return new T[0][];
             int cols = source[0].Length;
 
+            startRow = index(startRow, rows);
             endRow = end(endRow, rows);
 
             int newRows = endRow - startRow;
@@ -646,6 +653,7 @@ namespace Accord.Math
         /// 
         public static T[] Get<T>(this T[] source, int startRow, int endRow)
         {
+            startRow = index(startRow, source.Length);
             endRow = end(endRow, source.Length);
 
             var destination = new T[endRow - startRow];
@@ -712,6 +720,9 @@ namespace Accord.Math
 
             int rows = source.Rows();
             int cols = source.Columns();
+
+            startRow = index(startRow, rows);
+            startColumn = index(startColumn, cols);
 
             endRow = end(endRow, rows);
             endColumn = end(endColumn, cols);
@@ -912,6 +923,9 @@ namespace Accord.Math
             int rows = source.Length;
             int cols = source[0].Length;
 
+            startRow = index(startRow, rows);
+            startColumn = index(startColumn, cols);
+
             endRow = end(endRow, rows);
             endColumn = end(endColumn, cols);
 
@@ -966,6 +980,9 @@ namespace Accord.Math
         {
             int rows = destination.Length;
             int cols = destination[0].Length;
+
+            startRow = index(startRow, rows);
+            startColumn = index(startColumn, cols);
 
             endRow = end(endRow, rows);
             endColumn = end(endColumn, cols);

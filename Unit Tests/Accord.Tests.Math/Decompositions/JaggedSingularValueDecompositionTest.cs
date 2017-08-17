@@ -525,7 +525,7 @@ namespace Accord.Tests.Math
                 double[][] solution = target.SolveForDiagonal(output);
 
                 double[][] expected = Jagged.Diagonal(output);
-                double[][] actual = value.Multiply(solution);
+                double[][] actual = value.Dot(solution);
 
                 Assert.IsTrue(Matrix.IsEqual(actual, expected, 1e-8));
             }

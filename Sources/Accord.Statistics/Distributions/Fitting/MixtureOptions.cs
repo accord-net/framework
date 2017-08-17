@@ -23,8 +23,8 @@
 namespace Accord.Statistics.Distributions.Fitting
 {
     using System;
+    using Accord.Compat;
     using System.Threading.Tasks;
-    using MachineLearning;
 
     /// <summary>
     ///   Estimation options for <see cref="Accord.Statistics.Distributions.Univariate.Mixture{T}">univariate</see>

@@ -45,12 +45,12 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     ///   
     ///   <para>This class is not an actual learning algorithm, but a calibrator.
     ///   Machines passed as input to this algorithm should already have been trained
-    ///   by a proper learning algorithm such as <see cref="SequentialMinimalOptimization">
+    ///   by a proper learning algorithm such as <see cref="SequentialMinimalOptimization{TKernel}">
     ///   Sequential Minimal Optimization (SMO)</see>.</para>
     ///   
     /// <para>
-    ///   This class can also be used in combination with <see cref="MulticlassSupportVectorLearning"/>
-    ///   or <see cref="MultilabelSupportVectorLearning"/> to learn <see cref="MulticlassSupportVectorMachine"/>s
+    ///   This class can also be used in combination with <see cref="MulticlassSupportVectorLearning{TKernel}"/>
+    ///   or <see cref="MultilabelSupportVectorLearning{TKernel}"/> to learn <see cref="MulticlassSupportVectorMachine{TKernel}"/>s
     ///   using the <c>one-vs-one</c> or <c>one-vs-all</c> multi-class decision strategies, respectively.</para>
     ///   
     /// <para>
@@ -78,10 +78,8 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// </example>
     ///   
     /// <seealso cref="SupportVectorMachine"/>
-    /// <seealso cref="KernelSupportVectorMachine"/>
-    /// 
-    /// <seealso cref="SequentialMinimalOptimization"/>
-    /// <seealso cref="MulticlassSupportVectorLearning"/>
+    /// <seealso cref="MulticlassSupportVectorLearning{TKernel}"/>
+    /// <seealso cref="MultilabelSupportVectorLearning{TKernel}"/>
     /// 
     public class ProbabilisticOutputCalibration
         : ProbabilisticOutputCalibrationBase<SupportVectorMachine<IKernel<double[]>, double[]>, IKernel<double[]>, double[]>,
@@ -132,12 +130,12 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     ///   
     ///   <para>This class is not an actual learning algorithm, but a calibrator.
     ///   Machines passed as input to this algorithm should already have been trained
-    ///   by a proper learning algorithm such as <see cref="SequentialMinimalOptimization">
+    ///   by a proper learning algorithm such as <see cref="SequentialMinimalOptimization{TKernel}">
     ///   Sequential Minimal Optimization (SMO)</see>.</para>
     ///   
     /// <para>
-    ///   This class can also be used in combination with <see cref="MulticlassSupportVectorLearning"/>
-    ///   or <see cref="MultilabelSupportVectorLearning"/> to learn <see cref="MulticlassSupportVectorMachine"/>s
+    ///   This class can also be used in combination with <see cref="MulticlassSupportVectorLearning{TKernel}"/>
+    ///   or <see cref="MultilabelSupportVectorLearning{TKernel}"/> to learn <see cref="MulticlassSupportVectorMachine{TKernel}"/>s
     ///   using the <c>one-vs-one</c> or <c>one-vs-all</c> multi-class decision strategies, respectively.</para>
     ///   
     /// <para>
@@ -166,13 +164,12 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     ///   
     ///   
     /// <seealso cref="SupportVectorMachine"/>
-    /// <seealso cref="KernelSupportVectorMachine"/>
+    /// <seealso cref="SequentialMinimalOptimization{TKernel}"/>
+    /// <seealso cref="MulticlassSupportVectorLearning{TKernel}"/>
+    /// <seealso cref="MultilabelSupportVectorLearning{TKernel}"/>
     /// 
-    /// <seealso cref="SequentialMinimalOptimization"/>
-    /// <seealso cref="MulticlassSupportVectorLearning"/>
-    /// 
-    public class ProbabilisticOutputCalibration<TKernel>
-        : ProbabilisticOutputCalibrationBase<SupportVectorMachine<TKernel>, TKernel, double[]>
+    public class ProbabilisticOutputCalibration<TKernel> : 
+        ProbabilisticOutputCalibrationBase<SupportVectorMachine<TKernel>, TKernel, double[]>
         where TKernel : IKernel<double[]>
     {
         /// <summary>
@@ -211,12 +208,12 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     ///   
     ///   <para>This class is not an actual learning algorithm, but a calibrator.
     ///   Machines passed as input to this algorithm should already have been trained
-    ///   by a proper learning algorithm such as <see cref="SequentialMinimalOptimization">
+    ///   by a proper learning algorithm such as <see cref="SequentialMinimalOptimization{TKernel}">
     ///   Sequential Minimal Optimization (SMO)</see>.</para>
     ///   
     /// <para>
-    ///   This class can also be used in combination with <see cref="MulticlassSupportVectorLearning"/>
-    ///   or <see cref="MultilabelSupportVectorLearning"/> to learn <see cref="MulticlassSupportVectorMachine"/>s
+    ///   This class can also be used in combination with <see cref="MulticlassSupportVectorLearning{TKernel}"/>
+    ///   or <see cref="MultilabelSupportVectorLearning{TKernel}"/> to learn <see cref="MulticlassSupportVectorMachine{TKernel}"/>s
     ///   using the <c>one-vs-one</c> or <c>one-vs-all</c> multi-class decision strategies, respectively.</para>
     ///   
     /// <para>
@@ -245,15 +242,15 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     ///   
     ///   
     /// <seealso cref="SupportVectorMachine"/>
-    /// <seealso cref="KernelSupportVectorMachine"/>
-    /// 
-    /// <seealso cref="SequentialMinimalOptimization"/>
-    /// <seealso cref="MulticlassSupportVectorLearning"/>
+    /// <seealso cref="MulticlassSupportVectorLearning{TKernel}"/>
+    /// <seealso cref="MultilabelSupportVectorLearning{TKernel}"/>
     /// 
     public class ProbabilisticOutputCalibration<TKernel, TInput>
         : ProbabilisticOutputCalibrationBase<SupportVectorMachine<TKernel, TInput>, TKernel, TInput>
         where TKernel : IKernel<TInput>
+#if !NETSTANDARD1_4
         where TInput : ICloneable
+#endif
     {
         /// <summary>
         ///   Initializes a new instance of Platt's Probabilistic Output Calibration algorithm.
@@ -272,7 +269,6 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         /// 
         public ProbabilisticOutputCalibration()
         {
-
         }
     }
 
@@ -280,12 +276,14 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     ///   Probabilistic Output Calibration.
     /// </summary>
     /// 
-    public abstract class ProbabilisticOutputCalibrationBase<TModel, TKernel, TInput>
-        : BinaryLearningBase<TModel, TInput>,
+    public abstract class ProbabilisticOutputCalibrationBase<TModel, TKernel, TInput> :
+        BinaryLearningBase<TModel, TInput>,
         ISupportVectorMachineLearning<TInput>
         where TKernel : IKernel<TInput>
         where TModel : SupportVectorMachine<TKernel, TInput>
+#if !NETSTANDARD1_4
         where TInput : ICloneable
+#endif
     {
 
         private double[] distances;

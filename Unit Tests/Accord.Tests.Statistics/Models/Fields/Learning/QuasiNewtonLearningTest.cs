@@ -170,7 +170,7 @@ namespace Accord.Tests.Statistics
             // Use the model to classify the samples
             int[][] prediction = crf.Decide(input);
 
-            var cm = new ConfusionMatrix(predicted: prediction.Reshape(), expected: output.Reshape());
+            var cm = new GeneralConfusionMatrix(predicted: prediction.Reshape(), expected: output.Reshape());
             double acc = cm.Accuracy;
             #endregion
 

@@ -34,13 +34,13 @@ namespace Accord.Tests.Imaging
     using System.IO;
     using System.Linq;
     using System.Runtime.Serialization.Formatters.Binary;
-    using MachineLearning.VectorMachines;
-    using MachineLearning.VectorMachines.Learning;
-    using Statistics.Kernels;
-    using Math.Optimization.Losses;
-    using Math.Metrics;
+    using Accord.MachineLearning.VectorMachines;
+    using Accord.MachineLearning.VectorMachines.Learning;
+    using Accord.Statistics.Kernels;
+    using Accord.Math.Optimization.Losses;
+    using Accord.Math.Metrics;
     using Accord.Tests.Vision.Properties;
-#if NETSTANDARD2_0
+#if NO_BITMAP
     using Resources = Accord.Tests.Vision.Properties.Resources_Standard;
 #endif
 
@@ -556,7 +556,10 @@ namespace Accord.Tests.Imaging
             Assert.AreEqual(error, 0);
         }
 
-        [Test]
+        [Test, Category("Random")]
+#if NET35
+        [Ignore("Random")]
+#endif
         public void custom_feature_test_lbp()
         {
             #region doc_feature_lbp

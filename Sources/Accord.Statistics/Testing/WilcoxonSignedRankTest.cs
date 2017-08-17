@@ -23,6 +23,7 @@
 namespace Accord.Statistics.Testing
 {
     using System;
+    using Accord.Compat;
 
     /// <summary>
     ///   Wilcoxon signed-rank test for the median.

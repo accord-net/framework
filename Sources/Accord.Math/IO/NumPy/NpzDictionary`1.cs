@@ -34,6 +34,7 @@ namespace Accord.IO
     using System.IO.Compression;
     using System.Collections;
     using System.Data;
+    using Accord.Compat;
 
     /// <summary>
     ///   Lazily-loaded collection of arrays from a compressed .npz archive.
@@ -45,7 +46,11 @@ namespace Accord.IO
     /// <seealso cref="NpzFormat"/>
     /// 
     public class NpzDictionary<T> : IDisposable, IReadOnlyDictionary<string, T>, ICollection<T>
-        where T : class, ICloneable, IList, ICollection, IEnumerable, IStructuralComparable, IStructuralEquatable
+        where T : class,
+#if !NETSTANDARD1_4
+        ICloneable,
+#endif
+        IList, ICollection, IEnumerable, IStructuralComparable, IStructuralEquatable
     {
         Stream stream;
         ZipArchive archive;

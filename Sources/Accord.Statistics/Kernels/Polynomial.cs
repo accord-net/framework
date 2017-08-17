@@ -25,6 +25,7 @@ namespace Accord.Statistics.Kernels
     using System;
     using Accord.Math;
     using Accord.Math.Distances;
+    using Accord.Compat;
 
     /// <summary>
     ///   Polynomial Kernel.
@@ -32,7 +33,7 @@ namespace Accord.Statistics.Kernels
     /// 
     [Serializable]
     public struct Polynomial : IKernel, IDistance,
-        IReverseDistance, ICloneable, ITransform, 
+        IReverseDistance, ICloneable, ITransform,
         IKernel<Sparse<double>>, IDistance<Sparse<double>>
     {
         private int degree;
@@ -69,7 +70,7 @@ namespace Accord.Statistics.Kernels
             get { return degree; }
             set
             {
-                if (degree <= 0)
+                if (value <= 0)
                     throw new ArgumentOutOfRangeException("value", "Degree must be positive.");
 
                 degree = value;
@@ -307,5 +308,6 @@ namespace Accord.Statistics.Kernels
 
             return features;
         }
-    } 
+
+    }
 }

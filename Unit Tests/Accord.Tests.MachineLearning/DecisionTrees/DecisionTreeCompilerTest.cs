@@ -30,24 +30,7 @@ namespace Accord.Tests.MachineLearning
     public class DecisionTreeCompilerTest
     {
 
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
-#if !NET35
+#if !NET35 && !NO_DATA_TABLE
         [Test]
         public void CreateTest()
         {

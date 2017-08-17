@@ -24,6 +24,7 @@ namespace Accord.Statistics.Kernels.Sparse
 {
     using System;
     using Accord.Math.Distances;
+    using Accord.Compat;
 
     /// <summary>
     ///   Sparse Laplacian Kernel.

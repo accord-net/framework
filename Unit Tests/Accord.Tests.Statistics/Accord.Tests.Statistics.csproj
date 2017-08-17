@@ -33,9 +33,9 @@
     <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="nunit.framework, Version=3.7.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+    <Reference Include="nunit.framework">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Externals\NUnit\bin\net-4.5\nunit.framework.dll</HintPath>
+      <HintPath>..\..\Externals\NUnit\NUnit.Framework-3.6.1\bin\net-4.5\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -106,6 +106,7 @@
     <Compile Include="Kernels\BSplineTest.cs" />
     <Compile Include="MinimumMeanDistanceClassifierTest.cs" />
     <Compile Include="Models\Fields\Learning\ForwardBackwardGradientTest.cs" />
+    <Compile Include="Models\Fields\Learning\KeepTravisAlive.cs" />
     <Compile Include="Models\Markov\HiddenMarkovClassifier`2Test.cs" />
     <Compile Include="Models\Markov\HiddenMarkovModel`2Test.cs" />
     <Compile Include="Models\Regression\LogarithmRegressionTest.cs" />
@@ -353,16 +354,24 @@
   <ItemGroup>
     <None Include="Accord.snk" />
     <None Include="app.config" />
-    <None Include="Resources\CircleWithWeights.xls" />
-    <None Include="Resources\ica_data.dat" />
+    <None Include="Resources\CircleWithWeights.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\ica_data.dat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Resources\examples.xls">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\hsbdemo.csv" />
+    <None Include="Resources\hsbdemo.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Resources\intrusion.xls">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\lr_3.2.3.bin" />
+    <None Include="Resources\lr_3.2.3.bin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Resources\sample.xls">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -371,10 +380,21 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\iris.scale.txt" />
-    <None Include="Resources\logreg.txt" />
-    <None Include="Resources\linreg.txt" />
-    <None Include="Resources\regression.csv" />
+    <Content Include="Resources\iris.scale.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="Resources\labels.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\logreg.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\linreg.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\regression.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

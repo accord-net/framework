@@ -25,6 +25,7 @@ namespace Accord.Statistics.Moving
     using System;
     using System.Collections.Generic;
     using System.Text;
+    using Accord.Compat;
 
     /// <summary>
     ///   Moving-window statistics.

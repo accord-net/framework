@@ -29,7 +29,7 @@ namespace Accord.Tests.Imaging
     using NUnit.Framework;
     using System.Drawing;
     using System.Drawing.Imaging;
-#if NETSTANDARD2_0
+#if NO_BITMAP
     using Resources = Accord.Tests.Imaging.Properties.Resources_Standard;
 #endif
 

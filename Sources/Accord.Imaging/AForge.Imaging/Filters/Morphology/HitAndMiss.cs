@@ -1,8 +1,30 @@
+// Accord Imaging Library
+// The Accord.NET Framework
+// http://accord-framework.net
+//
+// Copyright © César Souza, 2009-2017
+// cesarsouza at gmail.com
+//
 // AForge Image Processing Library
 // AForge.NET framework
+// http://www.aforgenet.com/framework/
 //
-// Copyright © Andrew Kirillov, 2005-2008
-// andrew.kirillov@aaforgenet.com
+// Copyright © AForge.NET, 2005-2010
+// contacts@aforgenet.com
+//
+//    This library is free software; you can redistribute it and/or
+//    modify it under the terms of the GNU Lesser General Public
+//    License as published by the Free Software Foundation; either
+//    version 2.1 of the License, or (at your option) any later version.
+//
+//    This library is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+//    Lesser General Public License for more details.
+//
+//    You should have received a copy of the GNU Lesser General Public
+//    License along with this library; if not, write to the Free Software
+//    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
 namespace Accord.Imaging.Filters
@@ -17,7 +39,7 @@ namespace Accord.Imaging.Filters
     /// </summary>
     /// 
     /// <remarks><para>The hit-and-miss filter represents generalization of <see cref="Erosion"/>
-    /// and <see cref="Dilatation"/> filters by extending flexibility of structuring element and
+    /// and <see cref="Dilation"/> filters by extending flexibility of structuring element and
     /// providing different modes of its work. Structuring element may contain:
     /// <list type="bullet">
     /// <item>1 - foreground;</item>
@@ -95,7 +117,7 @@ namespace Accord.Imaging.Filters
         private Modes mode = Modes.HitAndMiss;
 
         // private format translation dictionary
-        private Dictionary<PixelFormat, PixelFormat> formatTranslations = new Dictionary<PixelFormat, PixelFormat>( );
+        private Dictionary<PixelFormat, PixelFormat> formatTranslations = new Dictionary<PixelFormat, PixelFormat>();
 
         /// <summary>
         /// Format translations dictionary.
@@ -131,13 +153,13 @@ namespace Accord.Imaging.Filters
         /// 
         /// <exception cref="ArgumentException">Invalid size of structuring element.</exception>
         /// 
-        public HitAndMiss( short[,] se )
+        public HitAndMiss(short[,] se)
         {
-            int s = se.GetLength( 0 );
+            int s = se.GetLength(0);
 
             // check structuring element size
-            if ( ( s != se.GetLength( 1 ) ) || ( s < 3 ) || ( s > 99 ) || ( s % 2 == 0 ) )
-                throw new ArgumentException( );
+            if ((s != se.GetLength(1)) || (s < 3) || (s > 99) || (s % 2 == 0))
+                throw new ArgumentException();
 
             this.se = se;
             this.size = s;
@@ -153,8 +175,8 @@ namespace Accord.Imaging.Filters
         /// <param name="se">Structuring element.</param>
         /// <param name="mode">Operation mode.</param>
         /// 
-        public HitAndMiss( short[,] se, Modes mode )
-            : this( se )
+        public HitAndMiss(short[,] se, Modes mode)
+            : this(se)
         {
             this.mode = mode;
         }
@@ -167,13 +189,13 @@ namespace Accord.Imaging.Filters
         /// <param name="destinationData">Destination image data.</param>
         /// <param name="rect">Image rectangle for processing by the filter.</param>
         /// 
-        protected override unsafe void ProcessFilter( UnmanagedImage sourceData, UnmanagedImage destinationData, Rectangle rect )
+        protected override unsafe void ProcessFilter(UnmanagedImage sourceData, UnmanagedImage destinationData, Rectangle rect)
         {
             // processing start and stop X,Y positions
-            int startX  = rect.Left;
-            int startY  = rect.Top;
-            int stopX   = startX + rect.Width;
-            int stopY   = startY + rect.Height;
+            int startX = rect.Left;
+            int startY = rect.Top;
+            int stopX = startX + rect.Width;
+            int stopY = startY + rect.Height;
 
             int srcStride = sourceData.Stride;
             int dstStride = destinationData.Stride;
@@ -190,34 +212,34 @@ namespace Accord.Imaging.Filters
             short sv;
 
             // mode values
-            byte[] hitValue  = new byte[3] { 255, 0, 255 };
+            byte[] hitValue = new byte[3] { 255, 0, 255 };
             byte[] missValue = new byte[3] { 0, 0, 0 };
-            int modeIndex = (int) mode;
+            int modeIndex = (int)mode;
 
             // do the job
-            byte* src = (byte*) sourceData.ImageData.ToPointer( );
-            byte* dst = (byte*) destinationData.ImageData.ToPointer( );
+            byte* src = (byte*)sourceData.ImageData.ToPointer();
+            byte* dst = (byte*)destinationData.ImageData.ToPointer();
 
             // allign pointers to the first pixel to process
-            src += ( startY * srcStride + startX );
-            dst += ( startY * dstStride + startX );
+            src += (startY * srcStride + startX);
+            dst += (startY * dstStride + startX);
 
             // for each line
-            for ( int y = startY; y < stopY; y++ )
+            for (int y = startY; y < stopY; y++)
             {
                 // for each pixel
-                for ( int x = startX; x < stopX; x++, src++, dst++ )
+                for (int x = startX; x < stopX; x++, src++, dst++)
                 {
                     missValue[1] = missValue[2] = *src;
                     dstValue = 255;
 
                     // for each structuring element's row
-                    for ( i = 0; i < size; i++ )
+                    for (i = 0; i < size; i++)
                     {
                         ir = i - r;
 
                         // for each structuring element's column
-                        for ( j = 0; j < size; j++ )
+                        for (j = 0; j < size; j++)
                         {
                             jr = j - r;
 
@@ -225,13 +247,13 @@ namespace Accord.Imaging.Filters
                             sv = se[i, j];
 
                             // skip "don't care" values
-                            if ( sv == -1 )
+                            if (sv == -1)
                                 continue;
 
                             // check, if we outside
                             if (
-                                ( y + ir < startY ) || ( y + ir >= stopY ) ||
-                                ( x + jr < startX ) || ( x + jr >= stopX )
+                                (y + ir < startY) || (y + ir >= stopY) ||
+                                (x + jr < startX) || (x + jr >= stopX)
                                 )
                             {
                                 // if it so, the result is zero,
@@ -244,8 +266,8 @@ namespace Accord.Imaging.Filters
                             v = src[ir * srcStride + jr];
 
                             if (
-                                ( ( sv != 0 ) || ( v != 0 ) ) &&
-                                ( ( sv != 1 ) || ( v != 255 ) )
+                                ((sv != 0) || (v != 0)) &&
+                                ((sv != 1) || (v != 255))
                                 )
                             {
                                 // failed structuring element mutch
@@ -254,11 +276,11 @@ namespace Accord.Imaging.Filters
                             }
                         }
 
-                        if ( dstValue == 0 )
+                        if (dstValue == 0)
                             break;
                     }
                     // result pixel
-                    *dst = ( dstValue == 255 ) ? hitValue[modeIndex] : missValue[modeIndex];
+                    *dst = (dstValue == 255) ? hitValue[modeIndex] : missValue[modeIndex];
                 }
                 src += srcOffset;
                 dst += dstOffset;

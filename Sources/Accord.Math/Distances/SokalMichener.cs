@@ -27,6 +27,7 @@ namespace Accord.Math.Distances
     using System.Linq;
     using System.Runtime.CompilerServices;
     using System.Text;
+    using Accord.Compat;
     using System.Threading.Tasks;
 
     /// <summary>

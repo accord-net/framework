@@ -27,6 +27,7 @@ namespace Accord.MachineLearning.Boosting
 {
     using System;
     using System.Collections.Generic;
+    using Accord.Compat;
 
     /// <summary>
     ///   Weighted Weak Classifier.

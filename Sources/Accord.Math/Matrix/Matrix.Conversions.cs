@@ -25,7 +25,9 @@ namespace Accord.Math
     using System;
     using System.Collections;
     using System.Collections.Generic;
+#if !NETSTANDARD1_4
     using System.Data;
+#endif
     using System.Globalization;
     using System.Linq;
 
@@ -169,7 +171,7 @@ namespace Accord.Math
 
 
 
-        #region Type conversions
+#region Type conversions
 
         /// <summary>
         ///   Converts the values of a vector using the given converter expression.
@@ -187,6 +189,7 @@ namespace Accord.Math
             return result;
         }
 
+#if !NETSTANDARD1_4
         /// <summary>
         ///   Converts the values of a vector using the given converter expression.
         /// </summary>
@@ -319,6 +322,8 @@ namespace Accord.Math
 
             return result;
         }
+#endif
+
 
         /// <summary>
         ///  Gets the value at the specified position in the multidimensional System.Array.
@@ -422,6 +427,7 @@ namespace Accord.Math
             }
         }
 
+#if !NETSTANDARD1_4
         private static object convertValue(Type outputElementType, object inputValue)
         {
             object outputValue = null;
@@ -442,8 +448,10 @@ namespace Accord.Math
             }
             return outputValue;
         }
+#endif
 
-        #endregion
+
+#endregion
 
         /// <summary>
         ///   Creates a vector containing every index that can be used to
@@ -485,8 +493,8 @@ namespace Accord.Math
         }
 
 
-        #region DataTable Conversions
-
+#region DataTable Conversions
+#if !NETSTANDARD1_4
         /// <summary>
         ///   Converts a DataTable to a double[,] array.
         /// </summary>
@@ -721,45 +729,110 @@ namespace Accord.Math
         /// 
         public static DataTable ToTable(this object[,] values)
         {
+            var columnNames = new string[values.Columns()];
+            for (int i = 0; i < columnNames.Length; i++)
+                columnNames[i] = "Column " + i;
+            return ToTable(values, columnNames);
+        }
+
+        /// <summary>
+        ///   Converts an array of values into a <see cref="DataTable"/>,
+        ///   attempting to guess column types by inspecting the data.
+        /// </summary>
+        /// 
+        /// <param name="matrix">The values to be converted.</param>
+        /// <param name="columnNames">The column names to use in the data table.</param>
+        /// 
+        /// <returns>A <see cref="DataTable"/> containing the given values.</returns>
+        /// 
+        /// <example>
+        /// <code>
+        /// // Specify some data in a table format
+        /// //
+        /// object[,] data = 
+        /// {
+        ///     { "Id", "IsSmoker", "Age" },
+        ///     {   0,       1,        10  },
+        ///     {   1,       1,        15  },
+        ///     {   2,       0,        40  },
+        ///     {   3,       1,        20  },
+        ///     {   4,       0,        70  },
+        ///     {   5,       0,        55  },
+        /// };
+        /// 
+        /// // Create a new table with the data
+        /// DataTable dataTable = data.ToTable();
+        /// </code>
+        /// </example>
+        /// 
+        public static DataTable ToTable(this object[,] matrix, string[] columnNames)
+        {
             DataTable table = new DataTable();
             table.Locale = System.Globalization.CultureInfo.InvariantCulture;
 
-            object[] headers = values.GetRow(0);
+            object[] headers = matrix.GetRow(0);
 
             if (headers.All(x => x is String))
             {
                 // Get first data row to set types
-                object[] first = values.GetRow(1);
+                object[] first = matrix.GetRow(1);
 
                 // Assume first row is header row
                 for (int i = 0; i < first.Length; i++)
                     table.Columns.Add(headers[i] as String, first[i].GetType());
 
                 // Parse all the other rows
-                int rows = values.GetLength(0);
+                int rows = matrix.GetLength(0);
                 for (int i = 1; i < rows; i++)
                 {
-                    var row = values.GetRow(i);
+                    var row = matrix.GetRow(i);
                     table.Rows.Add(row);
                 }
             }
             else
             {
-                // Get first data row to set types
-                object[] first = values.GetRow(1);
+                for (int i = 0; i < matrix.Columns(); i++)
+                {
+                    Type columnType = GetHighestEnclosingType(matrix.GetColumn(i));
+                    table.Columns.Add(columnNames[i], columnType);
+                }
 
-                for (int i = 0; i < first.Length; i++)
-                    table.Columns.Add("Column " + i, first[i].GetType());
-
-                int rows = values.GetLength(0);
+                int rows = matrix.GetLength(0);
                 for (int i = 0; i < rows; i++)
                 {
-                    var row = values.GetRow(i);
+                    var row = matrix.GetRow(i);
                     table.Rows.Add(row);
                 }
             }
 
             return table;
+        }
+
+        private static Type GetHighestEnclosingType(object[] values)
+        {
+            var types = values.Select(x => x != null ? x.GetType() : null);
+            if (types.Any(x => x == typeof(object)))
+                return typeof(object);
+            if (types.Any(x => x == typeof(string)))
+                return typeof(string);
+            if (types.Any(x => x == typeof(decimal)))
+                return typeof(decimal);
+            if (types.Any(x => x == typeof(double)))
+                return typeof(double);
+            if (types.Any(x => x == typeof(float)))
+                return typeof(float);
+            if (types.Any(x => x == typeof(int)))
+                return typeof(int);
+            if (types.Any(x => x == typeof(uint)))
+                return typeof(uint);
+            if (types.Any(x => x == typeof(short)))
+                return typeof(int);
+            if (types.Any(x => x == typeof(byte)))
+                return typeof(int);
+            if (types.Any(x => x == typeof(sbyte)))
+                return typeof(int);
+
+            return typeof(object);
         }
 
 
@@ -1127,13 +1200,14 @@ namespace Accord.Math
 
             return m;
         }
-
-        #endregion
-
-
+#endif
+#endregion
 
 
-        #region Obsolete
+
+
+#region Obsolete
+#if !NETSTANDARD1_4
         /// <summary>
         ///   Converts a DataColumn to a int[] array.
         /// </summary>
@@ -1153,7 +1227,8 @@ namespace Accord.Math
         {
             return ToArray<int>(table, columnNames);
         }
-        #endregion
+#endif
+#endregion
 
 
     }

@@ -40,12 +40,13 @@ namespace Munkres
 
     public static class MunkresProgram
     {
-        public static double[,] C = new double[30, 30];
-        public static double[,] C_orig = new double[30, 30];
-        public static double[,] M = new double[30, 30];
-        public static int[,] path = new int[61, 2];
-        public static int[] RowCover = new int[30];
-        public static int[] ColCover = new int[30];
+        const int MAX = 35;
+        public static double[,] C = new double[MAX, MAX];
+        public static double[,] C_orig = new double[MAX, MAX];
+        public static double[,] M = new double[MAX, MAX];
+        public static int[,] path = new int[2 * MAX + 1, 2];
+        public static int[] RowCover = new int[MAX];
+        public static int[] ColCover = new int[MAX];
         public static int nrow;
         public static int ncol;
         public static int path_count = 0;
@@ -348,7 +349,7 @@ namespace Munkres
         {
             MunkresProgram.C = C;
             MunkresProgram.nrow = C.GetLength(0);
-            MunkresProgram.ncol = C.GetLength(1) ;
+            MunkresProgram.ncol = C.GetLength(1);
             resetMaskandCovers();
 
             step = 1;

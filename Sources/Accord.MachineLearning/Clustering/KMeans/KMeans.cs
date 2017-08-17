@@ -27,16 +27,13 @@ namespace Accord.MachineLearning
 {
     using System;
     using Accord.Math;
-    using Accord.Statistics.Distributions.Univariate;
-    using System.Threading.Tasks;
-    using System.Threading;
-    using Accord.Math.Comparers;
     using System.Runtime.Serialization;
     using Accord.Math.Distances;
     using System.Collections.Generic;
     using System.Reflection;
-    using Accord.IO;
     using Accord.Statistics;
+    using Accord.Compat;
+    using System.Threading.Tasks;
 
     /// <summary>
     ///   Initialization schemes for clustering algorithms.
@@ -60,7 +57,13 @@ namespace Accord.MachineLearning
         ///   Use the kmeans++ seeding algorithm for generating initial centroids.
         /// </summary>
         /// 
-        KMeansPlusPlus
+        KMeansPlusPlus,
+
+        /// <summary>
+        ///   Use the PAM BUILD algorithm for generating initial centroids.
+        /// </summary>
+        /// 
+        PamBuild
     };
 
     /// <summary>
@@ -153,7 +156,9 @@ namespace Accord.MachineLearning
     /// <seealso cref="GaussianMixtureModel"/>
     ///
     [Serializable]
+#if !NETSTANDARD1_4
     [SerializationBinder(typeof(KMeans.KMeansBinder))]
+#endif
     public class KMeans : ParallelLearningBase,
         IUnsupervisedLearning<KMeansClusterCollection, double[], int>,
 #pragma warning disable 0618
@@ -656,8 +661,8 @@ namespace Accord.MachineLearning
         }
 
 
-        #region Serialization backwards compatibility
-
+#region Serialization backwards compatibility
+#if !NETSTANDARD1_4
         internal class KMeansBinder : SerializationBinder
         {
             public override Type BindToType(string assemblyName, string typeName)
@@ -746,8 +751,8 @@ namespace Accord.MachineLearning
 
 #pragma warning restore 0169
 #pragma warning restore 0649
-
-        #endregion
+#endif
+#endregion
 
 
 

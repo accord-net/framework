@@ -30,7 +30,7 @@ namespace Accord.Tests.Statistics
     using System;
     using Accord.Statistics.Models.Regression.Fitting;
 #if NET35
-    using Tuple = Accord.Tuple;
+    using Tuple = Accord.Compat.Tuple;
 #endif
 
     [TestFixture]

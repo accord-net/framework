@@ -177,7 +177,7 @@ namespace Accord.Math.Optimization
 
         NelderMeadStatus status;
 
-        private double minf_max;
+        private double minf_max = Double.NegativeInfinity;
 
         private double psi;
         private double fdiff;

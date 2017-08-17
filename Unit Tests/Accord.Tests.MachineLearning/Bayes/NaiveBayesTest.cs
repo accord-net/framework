@@ -34,7 +34,9 @@ namespace Accord.Tests.MachineLearning
     using Accord.Statistics.Distributions.Univariate;
     using Accord.Statistics.Filters;
     using NUnit.Framework;
+    using System;
     using System.Data;
+    using System.IO;
     using System.Text;
 
     [TestFixture]
@@ -96,7 +98,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(0.6, target.Priors[1]);
         }
 
-
+#if !NO_DATA_TABLE
         [Test]
         public void ComputeTest_Obsolete()
         {
@@ -233,7 +235,68 @@ namespace Accord.Tests.MachineLearning
             Assert.IsFalse(double.IsNaN(probs[0]));
             Assert.AreEqual(2, probs.Length);
         }
+#endif
 
+        [Test]
+        public void learn_no_datatable()
+        {
+            #region doc_mitchell_no_datatable
+            string[] columnNames = { "Outlook", "Temperature", "Humidity", "Wind", "PlayTennis" };
+
+            string[][] data =
+            {
+                new string[] { "Sunny", "Hot", "High", "Weak", "No" },
+                new string[] { "Sunny", "Hot", "High", "Strong", "No" },
+                new string[] { "Overcast", "Hot", "High", "Weak", "Yes" },
+                new string[] { "Rain", "Mild", "High", "Weak", "Yes" },
+                new string[] { "Rain", "Cool", "Normal", "Weak", "Yes" },
+                new string[] { "Rain", "Cool", "Normal", "Strong", "No" },
+                new string[] { "Overcast", "Cool", "Normal", "Strong", "Yes" },
+                new string[] { "Sunny", "Mild", "High", "Weak", "No" },
+                new string[] { "Sunny", "Cool", "Normal", "Weak", "Yes" },
+                new string[] {  "Rain", "Mild", "Normal", "Weak", "Yes" },
+                new string[] {  "Sunny", "Mild", "Normal", "Strong", "Yes" },
+                new string[] {  "Overcast", "Mild", "High", "Strong", "Yes" },
+                new string[] {  "Overcast", "Hot", "Normal", "Weak", "Yes" },
+                new string[] {  "Rain", "Mild", "High", "Strong", "No" },
+            };
+
+            // Create a new codification codebook to
+            // convert strings into discrete symbols
+            Codification codebook = new Codification(columnNames, data);
+
+            // Extract input and output pairs to train
+            int[][] symbols = codebook.Transform(data);
+            int[][] inputs = symbols.Get(null, 0, -1); // Gets all rows, from 0 to the last (but not the last)
+            int[] outputs = symbols.GetColumn(-1);     // Gets only the last column
+
+            // Create a new Naive Bayes learning
+            var learner = new NaiveBayesLearning();
+
+            NaiveBayes nb = learner.Learn(inputs, outputs);
+
+            // Consider we would like to know whether one should play tennis at a
+            // sunny, cool, humid and windy day. Let us first encode this instance
+            int[] instance = codebook.Translate("Sunny", "Cool", "High", "Strong");
+
+            // Let us obtain the numeric output that represents the answer
+            int c = nb.Decide(instance); // answer will be 0
+
+            // Now let us convert the numeric output to an actual "Yes" or "No" answer
+            string result = codebook.Translate("PlayTennis", c); // answer will be "No"
+
+            // We can also extract the probabilities for each possible answer
+            double[] probs = nb.Probabilities(instance); // { 0.795, 0.205 }
+            #endregion
+
+            Assert.AreEqual("No", result);
+            Assert.AreEqual(0, c);
+            Assert.AreEqual(0.795, probs[0], 1e-3);
+            Assert.AreEqual(0.205, probs[1], 1e-3);
+            Assert.AreEqual(1, probs.Sum(), 1e-10);
+            Assert.IsFalse(double.IsNaN(probs[0]));
+            Assert.AreEqual(2, probs.Length);
+        }
 
         [Test]
         public void ComputeTest2()
@@ -512,6 +575,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(symbols.Length, actual.GetLength(1));
         }
 
+#if !NO_BINARY_SERIALIZATION
         [Test]
         public void SerializeTest()
         {
@@ -527,7 +591,8 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(0.6, target.Priors[1]);
 
             //target.Save(@"C:\Projects\Accord.NET\framework\nb2.bin");
-            target = Serializer.Load<NaiveBayes>(Properties.Resources.nb2);
+            string fileName = Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources", "nb2.bin");
+            target = Serializer.Load<NaiveBayes>(fileName);
 
             Assert.AreEqual(2, target.NumberOfOutputs);
             Assert.AreEqual(3, target.NumberOfInputs);
@@ -535,6 +600,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(0.4, target.Priors[0]);
             Assert.AreEqual(0.6, target.Priors[1]);
         }
+#endif
 
         [Test]
         public void no_sample_test()
@@ -683,7 +749,8 @@ namespace Accord.Tests.MachineLearning
                 }
             };
 
-            teacher.ParallelOptions.MaxDegreeOfParallelism = 1;
+            // The following line is only needed to ensure reproducible results. Please remove it to enable full parallelization
+            teacher.ParallelOptions.MaxDegreeOfParallelism = 1; // (Remove, comment, or change this line to enable full parallelism)
 
 
             // Estimate the model
@@ -750,6 +817,113 @@ namespace Accord.Tests.MachineLearning
             }
         }
 
+        [Test]
+        public void no_samples_for_class_simple()
+        {
+            int[][] inputs =
+            {
+                new [] { 1, 1 }, // 0
+                new [] { 1, 1 }, // 0
+                new [] { 1, 1 }, // 2
+            };
+
+            int[] outputs =
+            {
+                0, 0, 2
+            };
+
+
+            var teacher = new NaiveBayesLearning();
+
+            Assert.Throws<ArgumentException>(() => teacher.Learn(inputs, outputs),
+               "There are no samples for class label {0}. Please make sure that class " +
+               "labels are contiguous and there is at least one training sample for each label.", 1);
+        }
+
+        [Test]
+        public void no_samples_for_class_double()
+        {
+            double[][] inputs =
+            {
+                new double[] { 1, 1 }, // 0
+                new double[] { 1, 1 }, // 0
+                new double[] { 1, 1 }, // 2
+            };
+
+            int[] outputs =
+            {
+                0, 0, 2
+            };
+
+
+            var teacher = new NaiveBayesLearning<NormalDistribution>();
+
+            Assert.Throws<ArgumentException>(() => teacher.Learn(inputs, outputs),
+               "There are no samples for class label {0}. Please make sure that class " +
+               "labels are contiguous and there is at least one training sample for each label.", 1);
+        }
+
+        [Test]
+        public void gh_758()
+        {
+            // Let's say we have the following data to be classified into three 
+            // non -mutually-exclusive possible classes. Those are the samples:
+            //
+            int[][] inputs =
+            {
+                //               input         output
+                new int[] { 0, 1, 1, 0 }, //  0 
+                new int[] { 0, 1, 0, 0 }, //  0
+                new int[] { 0, 0, 1, 0 }, //  0
+                new int[] { 0, 1, 1, 0 }, //  0, 1
+                new int[] { 0, 1, 0, 0 }, //  0, 1
+                new int[] { 1, 0, 0, 0 }, //     1
+                new int[] { 1, 0, 0, 0 }, //     1
+                new int[] { 1, 0, 0, 1 }, //     1, 2
+                new int[] { 0, 0, 0, 1 }, //     1, 2
+                new int[] { 0, 0, 0, 1 }, //     1, 2
+                new int[] { 1, 1, 1, 1 }, //        2
+                new int[] { 1, 0, 1, 1 }, //        2
+                new int[] { 1, 1, 0, 1 }, //        2
+                new int[] { 0, 1, 1, 1 }, //        2
+                new int[] { 1, 1, 1, 1 }, //        2
+            };
+
+            int[][] outputs = // those are the class labels
+            {
+                new[] { 1, 0, 0 },
+                new[] { 1, 0, 0 },
+                new[] { 1, 0, 0 },
+                new[] { 1, 1, 0 },
+                new[] { 1, 1, 0 },
+                new[] { 0, 1, 0 },
+                new[] { 0, 1, 0 },
+                new[] { 0, 1, 1 },
+                new[] { 0, 1, 1 },
+                new[] { 0, 1, 1 },
+                new[] { 0, 0, 1 },
+                new[] { 0, 0, 1 },
+                new[] { 0, 0, 1 },
+                new[] { 0, 0, 1 },
+                new[] { 0, 0, 1 },
+            };
+
+            // Create a new Naive Bayes teacher 
+            var teacher = new NaiveBayesLearning();
+
+            teacher.ParallelOptions.MaxDegreeOfParallelism = 1;
+
+            var bayes = teacher.Learn(inputs, outputs);
+
+            double[][] prediction = bayes.Probabilities(inputs);
+
+            // Teach the Naive Bayes model. The error should be zero:
+            double error = new BinaryCrossEntropyLoss(outputs).Loss(prediction);
+
+            Assert.AreEqual(11.566909963298386, error, 1e-8);
+
+            Assert.IsTrue(teacher.optimized);
+        }
     }
 }
 #endif

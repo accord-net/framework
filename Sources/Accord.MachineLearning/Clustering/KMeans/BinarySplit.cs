@@ -26,6 +26,7 @@ namespace Accord.MachineLearning
     using System.Collections.Generic;
     using Accord.Math;
     using Accord.Math.Distances;
+    using Accord.Compat;
 
     /// <summary>
     ///   Binary split clustering algorithm.

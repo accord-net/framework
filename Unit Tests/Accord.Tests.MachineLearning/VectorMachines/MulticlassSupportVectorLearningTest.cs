@@ -196,6 +196,10 @@ namespace Accord.Tests.MachineLearning
                 }
             };
 
+            // You can set extra properties to configure the learning if you would like:
+            teacher.AggregateExceptions = true;
+            teacher.ParallelOptions.MaxDegreeOfParallelism = 1;
+
             // Estimate the multi-class support vector machine using one-vs-one method
             var ovo = teacher.Learn(inputs, outputs);
 
@@ -347,6 +351,7 @@ namespace Accord.Tests.MachineLearning
         [Test]
         public void LinearTest()
         {
+            Accord.Math.Random.Generator.Seed = 0;
 
             // Let's say we have the following data to be classified
             // into three possible classes. Those are the samples:
@@ -405,6 +410,8 @@ namespace Accord.Tests.MachineLearning
                 double expected = outputs[i];
                 Assert.AreEqual(expected, error);
             }
+
+            Assert.IsTrue(Accord.Math.Random.Generator.HasBeenAccessed);
         }
 
 
@@ -453,8 +460,8 @@ namespace Accord.Tests.MachineLearning
                 }
             };
 
-            // Configure parallel execution options
-            teacher.ParallelOptions.MaxDegreeOfParallelism = 1;
+            // The following line is only needed to ensure reproducible results. Please remove it to enable full parallelization
+            teacher.ParallelOptions.MaxDegreeOfParallelism = 1; // (Remove, comment, or change this line to enable full parallelism)
 
             // Learn a machine
             var machine = teacher.Learn(inputs, outputs);
@@ -521,8 +528,8 @@ namespace Accord.Tests.MachineLearning
                 }
             };
 
-            // Configure parallel execution options
-            teacher.ParallelOptions.MaxDegreeOfParallelism = 1;
+            // The following line is only needed to ensure reproducible results. Please remove it to enable full parallelization
+            teacher.ParallelOptions.MaxDegreeOfParallelism = 1; // (Remove, comment, or change this line to enable full parallelism)
 
             // Learn a machine
             var machine = teacher.Learn(inputs, outputs);
@@ -781,6 +788,9 @@ namespace Accord.Tests.MachineLearning
                     Kernel = Gaussian.FromGamma(0.5)
                 }
             };
+
+            teacher.ParallelOptions.MaxDegreeOfParallelism = 1;
+            teacher.AggregateExceptions = false;
 
             // Learn a machine
             var machine = teacher.Learn(inputs, outputs);
@@ -1122,8 +1132,8 @@ namespace Accord.Tests.MachineLearning
                 }
             };
 
-            // Configure parallel execution options
-            teacher.ParallelOptions.MaxDegreeOfParallelism = 1;
+            // The following line is only needed to ensure reproducible results. Please remove it to enable full parallelization
+            teacher.ParallelOptions.MaxDegreeOfParallelism = 1; // (Remove, comment, or change this line to enable full parallelism)
 
             // Learn a machine
             var machine = teacher.Learn(inputs, outputs);
@@ -1160,9 +1170,13 @@ namespace Accord.Tests.MachineLearning
 
             var actual = svm.Decide(x);
 
-            var cm = new ConfusionMatrix(actual, y);
+            var cm = new GeneralConfusionMatrix(actual, y);
 
-            Assert.AreEqual(0.999, cm.Accuracy, 1e-2);
+#if MONO
+            Assert.IsTrue(cm.Accuracy > 0.90);
+#else
+            Assert.AreEqual(0.95, cm.Accuracy, 0.02);
+#endif
         }
 
         [Test]
@@ -1188,8 +1202,8 @@ namespace Accord.Tests.MachineLearning
 
 
 
-            double[][][] inputs = Sequences.Select(x=>x.Values).ToArray(); // X,Y values sequences from attached file.
-            int[] outputs = Sequences.Select(x=>x.ClassID).ToArray();      // Class 0,1,2
+            double[][][] inputs = Sequences.Select(x => x.Values).ToArray(); // X,Y values sequences from attached file.
+            int[] outputs = Sequences.Select(x => x.ClassID).ToArray();      // Class 0,1,2
 
 
             // Create the learning algorithm to teach the multiple class classifier
@@ -1201,16 +1215,19 @@ namespace Accord.Tests.MachineLearning
                 }
             };
 
+            teacher.ParallelOptions.MaxDegreeOfParallelism = 1;
+            teacher.AggregateExceptions = false;
+
             // Learn the SVM using the SMO algorithm
             var svm = teacher.Learn(inputs, outputs);
 
             // Compute predicted values (at once)
-            int[] predicted = svm.Decide(inputs);  
+            int[] predicted = svm.Decide(inputs);
 
             // Compute individual values and compare
             for (int i = 0; i < inputs.Length; i++)
             {
-                int outClass = svm.Decide(inputs[i]); 
+                int outClass = svm.Decide(inputs[i]);
                 Assert.AreEqual(predicted[i], outClass);
             }
 
@@ -1218,6 +1235,155 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(3, svm.NumberOfClasses);
             Assert.AreEqual(0, svm.NumberOfInputs);
             Assert.AreEqual(3, svm.NumberOfOutputs);
+        }
+
+        [Test]
+        public void dynamic_time_warp_issue_717()
+        {
+            double[][][] gestures =
+            {
+                new double[][] // Swipe left
+                {
+                    new double[] { 1, 1, 1 },
+                    new double[] { 1, 2, 1 },
+                    new double[] { 1, 2, 2 },
+                    new double[] { 2, 2, 2 },
+                },
+
+                new double[][] // Swipe right
+                {
+                    new double[] { 1, 10, 6 },
+                    new double[] { 1, 5, 6 },
+                    new double[] { 6, 7, 1 },
+                },
+
+                new double[][] // Double tap
+                {
+                    new double[] { 8, 2, 5 },
+                    new double[] { 1, 50, 4 },
+                }
+            };
+
+            int[] outputs =
+            {
+                    0,  // Swipe left
+                    1,  // Swipe right
+                    2   // Double tap
+            };
+
+            var teacher = new MulticlassSupportVectorLearning<DynamicTimeWarping, double[][]>()
+            {
+                // Configure the learning algorithm to use SMO to train the
+                //  underlying SVMs in each of the binary class subproblems.
+                Learner = (param) => new SequentialMinimalOptimization<DynamicTimeWarping, double[][]>
+                {
+                    Complexity = 1.5,
+                    Kernel = new DynamicTimeWarping(alpha: 1, degree: 1),
+                    //UseKernelEstimation = true
+                }
+            };
+
+            // Learn a machine
+            var machine = teacher.Learn(gestures, outputs);
+
+            // Create the multi-class learning algorithm for the machine
+            var calibration = new MulticlassSupportVectorLearning<DynamicTimeWarping, double[][]>()
+            {
+                Model = machine, // We will start with an existing machine
+
+                // Configure the learning algorithm to use Platt's calibration
+                Learner = (param) => new ProbabilisticOutputCalibration<DynamicTimeWarping, double[][]>()
+                {
+                    Model = param.Model // Start with an existing machine
+                }
+            };
+
+            // Configure parallel execution options
+            calibration.ParallelOptions.MaxDegreeOfParallelism = 1;
+
+            // Learn a machine
+            calibration.Learn(gestures, outputs);
+
+
+            // Validate Results
+            double decision1, decision2, decision3, decision4, decision5, decision6;
+
+            // First create new instances for the gestures with the same values as in the sequences array
+            var swipeLeftGesture = new double[][]
+            {
+                new double[] { 1, 1, 1 },
+                new double[] { 1, 2, 1 },
+                new double[] { 1, 2, 2 },
+                new double[] { 2, 2, 2 },
+            };
+
+            var swipeRightGesture = new double[][]
+            {
+                new double[] { 1, 10, 6 },
+                new double[] { 1, 5, 6 },
+                new double[] { 6, 7, 1 },
+            };
+
+            var doubleTapGesture = new double[][]
+            {
+                new double[] { 8, 2, 5 },
+                new double[] { 1, 50, 4 },
+            };
+
+            // Check what are the decisions and probabilities of the original sequences array
+            var res1 = machine.Probability(gestures[0], out decision1); // decision 0 - Probability 0.66666666570779487 - Score 0.69314717840248374
+            var res2 = machine.Probability(gestures[1], out decision2); // decision 1 - Probability 0.57647717384694053 - Score 0.6931471784024833
+            var res3 = machine.Probability(gestures[2], out decision3); // decision 2 - Probability 0.66666666570779465 - Score 0.6931471784024833
+
+
+            // Check what are the decisions and probabilities of the newly created instances
+            var res4 = machine.Probability(swipeLeftGesture, out decision4);  // decision 0 - Probability 0.34881631999941815 - Score 0.035525143563626807
+            var res5 = machine.Probability(swipeRightGesture, out decision5); // decision 1 - Probability 0.38414838905152121 - Score 0.13802120233728751
+            var res6 = machine.Probability(doubleTapGesture, out decision6);  // decision 2 - Probability 0.607525583968486   - Score 0.56625552124018352
+
+            Assert.AreEqual(res1, res4, 1e-8);
+            Assert.AreEqual(res2, res5, 1e-8);
+            Assert.AreEqual(res3, res6, 1e-8);
+
+            res1 = machine.Score(gestures[0], out decision1); // decision 0 - Probability 0.66666666570779487 - Score 0.69314717840248374
+            res2 = machine.Score(gestures[1], out decision2); // decision 1 - Probability 0.57647717384694053 - Score 0.6931471784024833
+            res3 = machine.Score(gestures[2], out decision3); // decision 2 - Probability 0.66666666570779465 - Score 0.6931471784024833
+
+            res4 = machine.Score(swipeLeftGesture, out decision4);  // decision 0 - Probability 0.34881631999941815 - Score 0.035525143563626807
+            res5 = machine.Score(swipeRightGesture, out decision5); // decision 1 - Probability 0.38414838905152121 - Score 0.13802120233728751
+            res6 = machine.Score(doubleTapGesture, out decision6);  // decision 2 - Probability 0.607525583968486   - Score 0.56625552124018352
+
+            Assert.AreEqual(res1, res4, 1e-8);
+            Assert.AreEqual(res2, res5, 1e-8);
+            Assert.AreEqual(res3, res6, 1e-8);
+        }
+
+        [Test]
+        public void no_samples_for_class()
+        {
+            double[][] inputs =
+            {
+                new double[] { 1, 1 }, // 0
+                new double[] { 1, 1 }, // 0
+                new double[] { 1, 1 }, // 2
+            };
+
+            int[] outputs =
+            {
+                0, 0, 2
+            };
+
+            var teacher = new MulticlassSupportVectorLearning<Gaussian>()
+            {
+                Learner = (param) => new SequentialMinimalOptimization<Gaussian>()
+                {
+                    UseKernelEstimation = true
+                }
+            };
+
+            Assert.Throws<ArgumentException>(() => teacher.Learn(inputs, outputs),
+                "There are no samples for class label {0}. Please make sure that class " +
+                "labels are contiguous and there is at least one training sample for each label.", 1);
         }
     }
 }

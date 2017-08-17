@@ -22,8 +22,8 @@
 
 namespace Accord.Math
 {
-    using AForge;
     using System;
+    using Accord.Compat;
     using System.Numerics;
     using System.Runtime.CompilerServices;
 

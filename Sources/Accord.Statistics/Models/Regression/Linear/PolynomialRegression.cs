@@ -28,6 +28,7 @@ namespace Accord.Statistics.Models.Regression.Linear
     using System;
     using System.Text;
     using Accord.Math;
+    using Accord.Compat;
 
     /// <summary>
     ///   Polynomial Linear Regression.
@@ -87,6 +88,7 @@ namespace Accord.Statistics.Models.Regression.Linear
         public PolynomialRegression()
         {
             NumberOfOutputs = 1;
+            NumberOfInputs = 1;
         }
 
         /// <summary>
@@ -210,9 +212,9 @@ namespace Accord.Statistics.Models.Regression.Linear
         /// 
         /// <returns>The R² (r-squared) coefficient for the given data.</returns>
         /// 
-        public double CoefficientOfDetermination(double[] inputs, double[] outputs)
+        public double CoefficientOfDetermination(double[] inputs, double[] outputs, double[] weights = null)
         {
-            return CoefficientOfDetermination(inputs, outputs, false);
+            return CoefficientOfDetermination(inputs, outputs, false, weights);
         }
 
         /// <summary>
@@ -234,17 +236,17 @@ namespace Accord.Statistics.Models.Regression.Linear
         /// 
         /// <returns>The R² (r-squared) coefficient for the given data.</returns>
         /// 
-        public double CoefficientOfDetermination(double[] inputs, double[] outputs, bool adjust)
+        public double CoefficientOfDetermination(double[] inputs, double[] outputs, bool adjust, double[] weights = null)
         {
-            double[][] X = new double[inputs.Length][];
+            var polynomial = new double[inputs.Length][];
             for (int i = 0; i < inputs.Length; i++)
             {
-                X[i] = new double[NumberOfInputs];
-                for (int j = 0; j < X[i].Length; j++)
-                    X[i][j] = Math.Pow(inputs[i], j);
+                polynomial[i] = new double[this.Degree];
+                for (int j = 0; j < polynomial[i].Length; j++)
+                    polynomial[i][j] = Math.Pow(inputs[i], this.Degree - j);
             }
 
-            return regression.CoefficientOfDetermination(X, outputs, adjust);
+            return regression.CoefficientOfDetermination(polynomial, outputs, adjust, weights);
         }
 
 

@@ -31,6 +31,7 @@ namespace Accord.Statistics.Models.Regression.Linear
     using Accord.Math.Optimization.Losses;
     using Accord.Statistics.Analysis;
     using Accord.Statistics.Testing;
+    using Accord.Compat;
 
     /// <summary>
     ///   Multiple Linear Regression.
@@ -391,12 +392,16 @@ namespace Accord.Statistics.Models.Regression.Linear
         /// 
         /// <returns>The R² (r-squared) coefficient for the given data.</returns>
         /// 
-        public double CoefficientOfDetermination(double[][] inputs, double[] outputs, bool adjust = false)
+        public double CoefficientOfDetermination(double[][] inputs, double[] outputs, bool adjust = false, double[] weights = null)
         {
-            return new RSquaredLoss(NumberOfInputs, outputs)
-            {
-                Adjust = adjust
-            }.Loss(Transform(inputs));
+            var rsquared = new RSquaredLoss(NumberOfInputs, outputs);
+
+            rsquared.Adjust = adjust;
+
+            if (weights != null)
+                rsquared.Weights = weights;
+
+            return rsquared.Loss(Transform(inputs));
         }
 
         /// <summary>

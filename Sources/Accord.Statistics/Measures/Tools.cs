@@ -27,9 +27,9 @@ namespace Accord.Statistics
     using Accord.Math;
     using Accord.Math.Decompositions;
     using Accord.Statistics.Kernels;
-    using AForge;
     using Accord.Statistics.Distributions;
     using Accord.Statistics.Distributions.Fitting;
+    using Accord.Compat;
 
     /// <summary>
     ///   Set of statistics functions.

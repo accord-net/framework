@@ -24,6 +24,7 @@ namespace Accord.Statistics.Models.Markov.Learning
 {
     using Accord.Math;
     using System;
+    using Accord.Compat;
     using System.Threading;
 
     /// <summary>

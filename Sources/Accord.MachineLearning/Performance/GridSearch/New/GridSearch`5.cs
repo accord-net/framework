@@ -25,6 +25,7 @@ namespace Accord.MachineLearning.Performance
     using System;
     using System.Collections.Generic;
     using System.Reflection;
+    using Accord.Compat;
 
     /// <summary>
     ///   Grid search procedure for automatic parameter tuning.
@@ -70,12 +71,13 @@ namespace Accord.MachineLearning.Performance
     ///     <code source="Unit Tests\Accord.Tests.MachineLearning\GridSearchTest.cs" region="doc_create" />
     ///   
     ///   <para>
-    ///     Finally, it is also possible to combine grid-search with <see cref="CrossValidation{TModel, TInput, TOutput}"/>, as shown
-    ///     in the example below: </para>
+    ///     Finally, it is also possible to combine grid-search with <see cref="CrossValidation{TModel, TInput, TOutput}"/>, 
+    ///     as shown in the examples below: </para>
     ///     <code source="Unit Tests\Accord.Tests.MachineLearning\GridSearchTest.cs" region="doc_learn_cv" />
+    ///     <code source="Unit Tests\Accord.Tests.MachineLearning\GridSearchTest.cs" region="doc_learn_tree_cv" />
     /// </example>
     /// 
-    public class GridSearch<TModel, TRange, TLearner, TInput, TOutput> 
+    public class GridSearch<TModel, TRange, TLearner, TInput, TOutput>
         : BaseGridSearch<GridSearchResult<TModel, TRange, TInput, TOutput>, TModel, TRange, TRange, TLearner, TInput, TOutput>
         where TLearner : ISupervisedLearning<TModel, TInput, TOutput>
         where TModel : class, ITransform<TInput, TOutput>
@@ -102,8 +104,12 @@ namespace Accord.MachineLearning.Performance
         protected override int[] GetLengths()
         {
             List<int> lengths = new List<int>();
-
-            foreach (PropertyInfo property in ParameterRanges.GetType().GetProperties())
+#if NETSTANDARD1_4
+            var properties = ParameterRanges.GetType().GetTypeInfo().DeclaredProperties;
+#else
+            var properties = ParameterRanges.GetType().GetProperties();
+#endif
+            foreach (PropertyInfo property in properties)
             {
                 Type expected = typeof(GridSearchRange<object>).GetGenericTypeDefinition();
                 Type actual = property.PropertyType.GetGenericTypeDefinition();
@@ -132,8 +138,12 @@ namespace Accord.MachineLearning.Performance
         protected override TRange GetParameters(int[] indices)
         {
             var ranges = new List<IGridSearchRange>();
-
-            foreach (PropertyInfo property in ParameterRanges.GetType().GetProperties())
+#if NETSTANDARD1_4
+            var properties = ParameterRanges.GetType().GetTypeInfo().DeclaredProperties;
+#else
+            var properties = ParameterRanges.GetType().GetProperties();
+#endif
+            foreach (PropertyInfo property in properties)
             {
                 var p = (IGridSearchRange)property.GetValue(ParameterRanges);
                 ranges.Add((IGridSearchRange)p.Clone());

@@ -27,6 +27,7 @@ namespace Accord.Tests.Statistics
     using NUnit.Framework;
     using Accord.Math;
     using Accord.Tests.Statistics.Properties;
+    using System.Globalization;
 
     [TestFixture]
     public class MultivariateLinearRegressionTest
@@ -35,7 +36,7 @@ namespace Accord.Tests.Statistics
         [Test]
         public void RegressTest()
         {
-            double[][] X = 
+            double[][] X =
             {
                 new double[] {    4.47 },
                 new double[] {  208.30 },
@@ -43,7 +44,7 @@ namespace Accord.Tests.Statistics
             };
 
 
-            double[][] Y = 
+            double[][] Y =
             {
                 new double[] {    0.51 },
                 new double[] {  105.66 },
@@ -99,7 +100,7 @@ namespace Accord.Tests.Statistics
             // a 2-dimensional output variable over a 3-dimensional input
             // variable.
 
-            double[][] inputs = 
+            double[][] inputs =
             {
                 // variables:  x1  x2  x3
                 new double[] {  1,  1,  1 }, // input sample 1
@@ -107,7 +108,7 @@ namespace Accord.Tests.Statistics
                 new double[] {  3,  1,  1 }, // input sample 3
             };
 
-            double[][] outputs = 
+            double[][] outputs =
             {
                 // variables:  y1  y2
                 new double[] {  2,  3 }, // corresponding output to sample 1
@@ -184,7 +185,7 @@ namespace Accord.Tests.Statistics
             // a 2-dimensional output variable over a 3-dimensional input
             // variable.
 
-            double[][] inputs = 
+            double[][] inputs =
             {
                 // variables:  x1  x2  x3
                 new double[] {  1,  1,  1 }, // input sample 1
@@ -192,7 +193,7 @@ namespace Accord.Tests.Statistics
                 new double[] {  3,  1,  1 }, // input sample 3
             };
 
-            double[][] outputs = 
+            double[][] outputs =
             {
                 // variables:  y1  y2
                 new double[] {  2,  3 }, // corresponding output to sample 1
@@ -210,7 +211,7 @@ namespace Accord.Tests.Statistics
 
             // Use Ordinary Least Squares to create the regression
             OrdinaryLeastSquares ols = new OrdinaryLeastSquares();
-            
+
             // Now, compute the multivariate linear regression:
             MultivariateLinearRegression regression = ols.Learn(inputs, outputs);
 
@@ -263,9 +264,14 @@ namespace Accord.Tests.Statistics
             Assert.IsFalse(double.IsNaN(error));
         }
 
+#if !NO_DATA_TABLE
         [Test]
         public void prediction_test()
         {
+#if NETCORE
+            CultureInfo.CurrentCulture = new CultureInfo("en-US");
+#endif
+
             // Example from http://www.real-statistics.com/multiple-regression/confidence-and-prediction-intervals/
             var dt = Accord.IO.CsvReader.FromText(Resources.linreg, true).ToTable();
 
@@ -318,6 +324,63 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(pi.Min, 7.8428783761994554, 1e-5);
             Assert.AreEqual(pi.Max, 17.892482376434273, 1e-5);
         }
+#endif
 
+        [Test]
+        public void weight_test()
+        {
+            MultivariateLinearRegression reference;
+            double[] referenceR2;
+
+            {
+                double[][] data =
+                {
+                    new[] { 1.0, 10.7, 2.4 }, // 
+                    new[] { 1.0, 10.7, 2.4 }, // 
+                    new[] { 1.0, 10.7, 2.4 }, // 
+                    new[] { 1.0, 10.7, 2.4 }, // 
+                    new[] { 1.0, 10.7, 2.4 }, // 5 times weight 1
+                    new[] { 1.0, 12.5, 3.6 },
+                    new[] { 1.0, 43.2, 7.6 },
+                    new[] { 1.0, 10.2, 1.1 },
+                };
+
+                double[][] x = Jagged.ColumnVector(data.GetColumn(1));
+                double[][] y = Jagged.ColumnVector(data.GetColumn(2));
+
+                var ols = new OrdinaryLeastSquares();
+                reference = ols.Learn(x, y);
+                referenceR2 = reference.CoefficientOfDetermination(x, y);
+            }
+
+            MultivariateLinearRegression target;
+            double[] targetR2;
+
+            {
+                double[][] data =
+                {
+                    new[] { 5.0, 10.7, 2.4 }, // 1 times weight 5
+                    new[] { 1.0, 12.5, 3.6 },
+                    new[] { 1.0, 43.2, 7.6 },
+                    new[] { 1.0, 10.2, 1.1 },
+                };
+
+                double[] weights = data.GetColumn(0);
+                double[][] x = Jagged.ColumnVector(data.GetColumn(1));
+                double[][] y = Jagged.ColumnVector(data.GetColumn(2));
+
+                OrdinaryLeastSquares ols = new OrdinaryLeastSquares();
+                target = ols.Learn(x, y, weights);
+                targetR2 = target.CoefficientOfDetermination(x, y, weights: weights);
+            }
+
+            Assert.IsTrue(reference.Weights.IsEqual(target.Weights));
+            Assert.IsTrue(reference.Intercepts.IsEqual(target.Intercepts, 1e-8));
+            Assert.AreEqual(0.16387475666214069, target.Weights[0][0], 1e-6);
+            Assert.AreEqual(0.59166925681755056, target.Intercepts[0], 1e-6);
+
+            Assert.AreEqual(referenceR2[0], targetR2[0], 1e-8);
+            Assert.AreEqual(0.91476129548901486, targetR2[0], 1e-10);
+        }
     }
 }

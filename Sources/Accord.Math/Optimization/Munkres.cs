@@ -80,12 +80,10 @@
 
 namespace Accord.Math.Optimization
 {
-    using Accord.MachineLearning;
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
+    using Accord.Compat;
 
     /// <summary>
     ///   Hungarian method for solving the assignment problem, also known
@@ -188,7 +186,9 @@ namespace Accord.Math.Optimization
         public bool[] ValidCol { get { return validCol; } }
 
         /// <summary>
-        ///   Gets or sets the tolerance value used when performing cost comparisons.
+        ///   Gets or sets the tolerance value used when performing cost 
+        ///   comparisons. Default is 1e-10. If the algorithm takes too
+        ///   much time to finish, try decreasing this value.
         /// </summary>
         /// 
         public double Tolerance
@@ -548,7 +548,10 @@ namespace Accord.Math.Optimization
                     if (rowCover[r])
                         continue;
 
-                    if ((costMatrix[r][stz]).IsEqual(MinRow[r] + MinCol[stz], rtol: tolerance))
+                    double a = costMatrix[r][stz];
+                    double b = MinRow[r] + MinCol[stz];
+
+                    if (a.IsEqual(b, rtol: tolerance))
                         zeros.Add(Tuple.Create(r, stz));
                 }
             }
@@ -569,7 +572,10 @@ namespace Accord.Math.Optimization
                     if (rowCover[r])
                         continue;
 
-                    if ((validCost[r][c]).IsEqual(MinCol[c] + MinRow[r], rtol: 1e-10))
+                    double a = validCost[r][c];
+                    double b = MinCol[c] + MinRow[r];
+
+                    if (a.IsEqual(b, rtol: tolerance))
                         zeros.Add(Tuple.Create(r, c));
                 }
             }

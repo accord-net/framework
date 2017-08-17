@@ -32,6 +32,7 @@ namespace Accord.Tests.MachineLearning
     using Accord;
     using Accord.Statistics.Kernels.Sparse;
     using Accord.Statistics;
+    using System.IO;
 
     [TestFixture]
     public class SequentialMinimalOptimizationTest
@@ -246,9 +247,13 @@ namespace Accord.Tests.MachineLearning
 
 #if !NETSTANDARD2_0
         [Test]
+#if DEBUG
+        [Ignore("Intensive")]
+#endif
         public void learn_gaussian_sparse_kernel2()
         {
-            var news20 = new Accord.DataSets.News20(@"C:\Temp\");
+            string tmp = Path.Combine(TestContext.CurrentContext.WorkDirectory, "tmp");
+            var news20 = new Accord.DataSets.News20(tmp);
             Sparse<double>[] inputs = news20.Training.Item1.Get(0, 2000);
             int[] outputs = news20.Training.Item2.ToMulticlass().Get(0, 2000);
 
@@ -260,26 +265,58 @@ namespace Accord.Tests.MachineLearning
                     Strategy = SelectionStrategy.SecondOrder,
                     Complexity = 1.0,
                     Tolerance = 1e-4,
-                    CacheSize = 1999
+                    CacheSize = 1999,
+                    UseKernelEstimation = true
                 },
             };
 
-            learn.ParallelOptions.MaxDegreeOfParallelism = 1;
-
             var svm = learn.Learn(inputs, outputs);
+            Assert.AreEqual(20, svm.NumberOfClasses);
 
             int[] predicted = svm.ToMulticlass().Decide(inputs);
 
-            var test = new ConfusionMatrix(predicted, outputs);
+            var test = new GeneralConfusionMatrix(outputs, predicted);
+            Assert.AreEqual(20, test.Classes);
 
-            Assert.AreEqual(0.9499999, test.Accuracy, 1e-5);
+            Assert.AreEqual(0.991, test.Accuracy, 1e-5);
+        }
+
+        [Test]
+        public void learn_linear_sparse_kernel()
+        {
+            string tmp = Path.Combine(TestContext.CurrentContext.WorkDirectory, "tmp");
+            var news20 = new Accord.DataSets.News20(tmp);
+
+            Sparse<double>[] inputs = news20.Training.Item1.Get(0, 2000);
+            int[] outputs = news20.Training.Item2.ToMulticlass().Get(0, 2000);
+
+            var learn = new MultilabelSupportVectorLearning<Linear, Sparse<double>>()
+            {
+                // using LIBLINEAR's SVC dual for each SVM
+                Learner = (p) => new LinearDualCoordinateDescent<Linear, Sparse<double>>()
+                {
+                },
+            };
+
+            var svm = learn.Learn(inputs, outputs);
+
+            svm.Compress();
+
+            Assert.AreEqual(20, svm.NumberOfClasses);
+
+            int[] predicted = svm.ToMulticlass().Decide(inputs);
+
+            var test = new GeneralConfusionMatrix(outputs, predicted);
+            Assert.AreEqual(20, test.Classes);
+
+            Assert.AreEqual(0.9715, test.Accuracy, 1e-5);
         }
 #endif
 
         [Test]
         public void learn_sparse_kernel()
         {
-#region doc_xor_sparse
+            #region doc_xor_sparse
             // As an example, we will try to learn a decision machine 
             // that can replicate the "exclusive-or" logical function:
 
@@ -311,7 +348,7 @@ namespace Accord.Tests.MachineLearning
 
             // Finally, we can obtain the decisions predicted by the machine:
             bool[] prediction = svm.Decide(inputs);
-#endregion
+            #endregion
 
             Assert.AreEqual(prediction, Classes.Decide(xor));
         }

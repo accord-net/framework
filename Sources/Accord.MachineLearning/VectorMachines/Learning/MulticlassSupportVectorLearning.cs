@@ -23,14 +23,13 @@
 namespace Accord.MachineLearning.VectorMachines.Learning
 {
     using System;
-    using Accord.Math;
-    using System.Threading.Tasks;
-    using System.Threading;
-    using System.Collections.Concurrent;
     using Accord.MachineLearning;
     using Accord.Math.Optimization.Losses;
     using Accord.Statistics.Kernels;
     using Accord.Statistics;
+    using Accord.Compat;
+    using System.Collections.Concurrent;
+    using System.Threading.Tasks;
 
     using InnerParameters = InnerParameters<SupportVectorMachine<Accord.Statistics.Kernels.IKernel<double[]>>, double[]>;
     using InnerLearning = ISupervisedLearning<SupportVectorMachine<Accord.Statistics.Kernels.IKernel<double[]>>, double[], bool>;
@@ -248,7 +247,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     ///   
     /// <para>
     ///   One example of learning algorithm that can be used with this class is the
-    ///   <see cref="SequentialMinimalOptimization">Sequential Minimal Optimization
+    ///   <see cref="SequentialMinimalOptimization{TKernel}">Sequential Minimal Optimization
     ///   </see> (SMO) algorithm.</para>
     /// </remarks>
     /// 
@@ -261,24 +260,22 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// <para>
     ///   The following example shows how to learn a non-linear, multi-class support 
     ///   vector machine using the <see cref="Gaussian"/> kernel and the 
-    ///   <see cref="SequentialMinimalOptimization"/> algorithm. </para>
+    ///   <see cref="SequentialMinimalOptimization{TKernel}"/> algorithm. </para>
     /// <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MulticlassSupportVectorLearningTest.cs" region="doc_learn_gaussian" />
     ///   
     /// <para>
     ///   Support vector machines can have their weights calibrated in order to produce 
     ///   probability estimates (instead of simple class separation distances). The
     ///   following example shows how to use <see cref="ProbabilisticOutputCalibration"/>
-    ///   within <see cref="MulticlassSupportVectorLearning"/> to generate a probabilistic
+    ///   within <see cref="MulticlassSupportVectorLearning{TKernel}"/> to generate a probabilistic
     ///   SVM:</para>
     /// <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MulticlassSupportVectorLearningTest.cs" region="doc_learn_calibration" />
     /// </example>
     /// 
-    /// <seealso cref="SequentialMinimalOptimization"/>
-    /// <seealso cref="MulticlassSupportVectorLearning"/>
-    /// <seealso cref="MultilabelSupportVectorLearning"/>
-    /// 
+    /// <seealso cref="SequentialMinimalOptimization{TKernel}"/>
+    /// <seealso cref="MulticlassSupportVectorLearning{TKernel}"/>
+    /// <seealso cref="MultilabelSupportVectorLearning{TKernel}"/>
     /// <seealso cref="SupportVectorMachine"/>
-    /// <seealso cref="KernelSupportVectorMachine"/>
     /// 
     public class MulticlassSupportVectorLearning<TKernel, TInput> :
         BaseMulticlassSupportVectorLearning<TInput,

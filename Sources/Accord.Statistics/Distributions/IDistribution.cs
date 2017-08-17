@@ -24,6 +24,7 @@ namespace Accord.Statistics.Distributions
 {
     using System;
     using Accord.Statistics.Distributions.Fitting;
+    using Accord.Compat;
 
     /// <summary>
     ///   Common interface for probability distributions.

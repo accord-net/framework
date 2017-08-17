@@ -39,8 +39,12 @@
     <None Include="NuGet\Accord.nuspec" />
     <None Include="NuGet\Accord.Statistics.nuspec" />
     <None Include="NuGet\Accord.Text.nuspec" />
-    <None Include="NuGet\Accord.Video.FFMPEG.nuspec" />
-    <None Include="NuGet\Accord.Video.FFMPEG.x64.nuspec" />
+    <None Include="NuGet\Accord.Video.FFMPEG.nuspec">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="NuGet\Accord.Video.FFMPEG.x64.nuspec">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="NuGet\Accord.Video.Kinect.nuspec" />
     <None Include="NuGet\Accord.Video.Ximea.nuspec" />
     <None Include="NuGet\Accord.Video.VFW.nuspec" />

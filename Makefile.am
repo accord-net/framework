@@ -7,8 +7,8 @@ LIBDIR = $(srcdir)/Release/mono
 
 ACCORD_ASSEMBLY_PC = $(srcdir)/$(PACKAGE_NAME).pc
 
-DIR_TEST = "$(srcdir)/Unit Tests/bin/mono/AnyCPU"
-NUNIT    = "$(srcdir)/Externals/NUnit/nunit-console-x86.exe"
+DIR_TEST = "$(srcdir)/Unit Tests"
+NUNIT    = "$(srcdir)/Externals/NUnit/NUnit.Console-3.6.1/nunit3-console.exe"
 
 LIBFILES = \
 	$(LIBDIR)/Accord.Vision.dll \
@@ -35,16 +35,15 @@ LIBFILES = \
 	$(LIBDIR)/Accord.Audio.dll 
 
 TESTFILES = \
-	${DIR_TEST}/Accord.Tests.Controls.dll \
-	${DIR_TEST}/Accord.Tests.Core.dll \
-	${DIR_TEST}/Accord.Tests.Imaging.dll \
-	${DIR_TEST}/Accord.Tests.IO.dll \
-	${DIR_TEST}/Accord.Tests.MachineLearning.dll \
-	${DIR_TEST}/Accord.Tests.Math.dll \
-	${DIR_TEST}/Accord.Tests.Neuro.dll \
-	${DIR_TEST}/Accord.Tests.Vision.dll \
-	${DIR_TEST}/Accord.Tests.Statistics.dll 
-#	${DIR_TEST}/Accord.Tests.Audio.dll 
+	${DIR_TEST}/Accord.Tests.Controls/bin/mono/AnyCPU/Accord.Tests.Controls.dll \
+	${DIR_TEST}/Accord.Tests.Core/bin/mono/AnyCPU/Accord.Tests.Core.dll \
+	${DIR_TEST}/Accord.Tests.Imaging/bin/mono/AnyCPU/Accord.Tests.Imaging.dll \
+	${DIR_TEST}/Accord.Tests.IO/bin/mono/AnyCPU/Accord.Tests.IO.dll \
+	${DIR_TEST}/Accord.Tests.MachineLearning/bin/mono/AnyCPU/Accord.Tests.MachineLearning.dll \
+	${DIR_TEST}/Accord.Tests.Math/bin/mono/AnyCPU/Accord.Tests.Math.dll \
+	${DIR_TEST}/Accord.Tests.Neuro/bin/mono/AnyCPU/Accord.Tests.Neuro.dll \
+	${DIR_TEST}/Accord.Tests.Vision/bin/mono/AnyCPU/Accord.Tests.Vision.dll \
+	${DIR_TEST}/Accord.Tests.Statistics/bin/mono/AnyCPU/Accord.Tests.Statistics.dll 
 
 
 DEBUG_FILES = $(addsuffix .mdb, $(LIBFILES))
@@ -79,9 +78,16 @@ docs:
 	mdoc export-html -o htmldocs docfiles
 
 # target: test - Run unit tests
+# Notes:
+#    Timeout: 30 min = 30 * 60 * 10000 = 1800000
+#    First line runs as 64-bit, second line as 32-bits
+#
 test: build
-	$(MONO) --runtime=v4.0 ${NUNIT} -noxml -nodots -labels -process=single \
-		-exclude:Serialization,Intensive,WinForms,Office,MonoNotSupported,Random \
+	$(MONO) --runtime=v4.0 ${NUNIT} --labels=All --timeout=1800000 \
+		--where "cat != Serialization && cat != Intensive && cat != WinForms && cat != Office && cat != MonoNotSupported && cat != Random" \
+		${TESTFILES}
+	$(MONO) --runtime=v4.0 ${NUNIT} --labels=All --timeout=1800000 --x86 \
+		--where "cat != Serialization && cat != Intensive && cat != WinForms && cat != Office && cat != MonoNotSupported && cat != Random" \
 		${TESTFILES}
 
 # target: clean - remove all obj and bin directories

@@ -23,6 +23,7 @@
 namespace Accord.Math.Optimization.Losses
 {
     using System;
+    using Accord.Compat;
 
     /// <summary>
     ///   Base class for <see cref="ILoss{T}">loss functions</see>.

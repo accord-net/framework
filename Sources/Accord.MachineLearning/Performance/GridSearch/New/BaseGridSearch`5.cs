@@ -23,9 +23,9 @@
 namespace Accord.MachineLearning.Performance
 {
     using System;
-    using System.Threading.Tasks;
     using Accord.Math;
-
+    using Accord.Compat;
+    using System.Threading.Tasks;
 
     /// <summary>
     ///   Function signature for a function that creates a machine learning model 

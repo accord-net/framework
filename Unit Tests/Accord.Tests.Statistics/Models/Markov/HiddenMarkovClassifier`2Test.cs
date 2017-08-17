@@ -793,57 +793,64 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        [Test]
-#if DEBUG
+        [Test, Category("Intensive")]
+#if DEBUG || NET35
         [Ignore("Intensive")]
 #endif
         public void learn_pendigits()
         {
-            Accord.Math.Random.Generator.Seed = 0;
+            Console.WriteLine("Starting HiddenMarkovClassifier`2Test.learn_pendigits");
 
-            var pendigits = new Pendigits(path: Path.Combine(Path.GetTempPath(), "learn_pendigits"));
-
-            double[][][] inputs = pendigits.Training.Item1;
-            int[] outputs = pendigits.Training.Item2;
-
-            var teacher = new HiddenMarkovClassifierLearning<MultivariateNormalDistribution, double[]>()
+            using (var travis = new KeepTravisAlive())
             {
-                Learner = (i) => new BaumWelchLearning<MultivariateNormalDistribution, double[]>()
+                Accord.Math.Random.Generator.Seed = 0;
+
+                var pendigits = new Pendigits(path: Path.Combine(Path.GetTempPath(), "learn_pendigits"));
+
+                double[][][] inputs = pendigits.Training.Item1;
+                int[] outputs = pendigits.Training.Item2;
+
+                var teacher = new HiddenMarkovClassifierLearning<MultivariateNormalDistribution, double[]>()
                 {
-                    Topology = new Forward(5),
-                    Emissions = (j) => new MultivariateNormalDistribution(dimension: 2),
-
-                    Tolerance = 1e-6,
-                    MaxIterations = 1000,
-
-                    FittingOptions = new NormalOptions()
+                    Learner = (i) => new BaumWelchLearning<MultivariateNormalDistribution, double[]>()
                     {
-                        Regularization = 1e-5
+                        Topology = new Forward(5),
+                        Emissions = (j) => new MultivariateNormalDistribution(dimension: 2),
+
+                        Tolerance = 1e-6,
+                        MaxIterations = 1000,
+
+                        FittingOptions = new NormalOptions()
+                        {
+                            Regularization = 1e-5
+                        }
                     }
-                }
-            };
+                };
 
-            var hmmc = teacher.Learn(inputs, outputs);
+                var hmmc = teacher.Learn(inputs, outputs);
 
-            int[] predicted = hmmc.Decide(inputs);
+                int[] predicted = hmmc.Decide(inputs);
 
-            var cm = new ConfusionMatrix(predicted: predicted, expected: outputs);
+                var cm = new GeneralConfusionMatrix(predicted: predicted, expected: outputs);
 
-            double acc = cm.Accuracy;
+                double acc = cm.Accuracy;
 #if NET35
-            Assert.AreEqual(0.885934819897084d, acc, 1e-10);
+            Assert.AreEqual(0.53030303030303028d, acc, 1e-10);
 #else
-            Assert.AreEqual(0.90937678673527733, acc, 1e-10);
+                Assert.AreEqual(0.53030303030303028d, acc, 1e-10);
 #endif
+            }
         }
 
-        [Test]
-#if DEBUG
+        [Test, Category("Intensive")]
+#if DEBUG || NET35
         [Ignore("Intensive")]
 #endif
         public void learn_pendigits_normalization()
         {
-#region doc_learn_pendigits
+            Console.WriteLine("Starting HiddenMarkovClassifier`2Test.learn_pendigits_normalization");
+
+            #region doc_learn_pendigits
             // Ensure we get reproducible results
             Accord.Math.Random.Generator.Seed = 0;
 
@@ -896,8 +903,8 @@ namespace Accord.Tests.Statistics
             int[] trainPredicted = hmmc.Decide(trainInputs);
 
             // Check the performance of the classifier by comparing with the ground-truth:
-            var m1 = new ConfusionMatrix(predicted: trainPredicted, expected: trainOutputs);
-            double trainAcc = m1.Accuracy; // should be 0.971
+            var m1 = new GeneralConfusionMatrix(predicted: trainPredicted, expected: trainOutputs);
+            double trainAcc = m1.Accuracy; // should be 0.84962835906232137
 
 
             // Prepare the testing set
@@ -911,16 +918,16 @@ namespace Accord.Tests.Statistics
             int[] testPredicted = hmmc.Decide(testInputs);
 
             // Check the performance of the classifier by comparing with the ground-truth:
-            var m2 = new ConfusionMatrix(predicted: testPredicted, expected: testOutputs);
-            double testAcc = m2.Accuracy; // should be 0.969
-#endregion
+            var m2 = new GeneralConfusionMatrix(predicted: testPredicted, expected: testOutputs);
+            double testAcc = m2.Accuracy; // should be 0.8130504403522818
+            #endregion
 
 #if NET35
             Assert.AreEqual(0.89594053744997137d, trainAcc, 1.5e-2);
             Assert.AreEqual(0.89605017347211102d, testAcc, 1.5e-2);
 #else
-            Assert.AreEqual(0.94196683819325333, trainAcc, 1.5e-2);
-            Assert.AreEqual(0.959434214037897, testAcc, 1.5e-2);
+            Assert.AreEqual(0.84962835906232137, trainAcc, 1.5e-2);
+            Assert.AreEqual(0.8130504403522818, testAcc, 1.5e-2);
 #endif
         }
 

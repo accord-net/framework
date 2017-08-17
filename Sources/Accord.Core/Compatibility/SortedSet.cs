@@ -21,7 +21,7 @@
 //
 
 #if NET35
-namespace Accord
+namespace Accord.Compat
 {
     using System;
     using System.Collections;
@@ -32,8 +32,7 @@ namespace Accord
     ///   make Accord.NET work. This is not a complete implementation.
     /// </summary>
     /// 
-    [Serializable, System.Diagnostics.CodeAnalysis.SuppressMessage(
-        "Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix")]
+    [Serializable, System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix")]
     public class SortedSet<T> : ISet<T>, IEnumerable<T>
     {
 

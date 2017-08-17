@@ -24,6 +24,7 @@ namespace Accord.MachineLearning
 {
     using Accord.MachineLearning.Performance;
     using System;
+    using Accord.Compat;
 
     /// <summary>
     ///   Summary statistics for a Split-set validation trial.

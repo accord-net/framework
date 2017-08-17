@@ -31,6 +31,7 @@ namespace Accord.Neuro.Learning
 {
     using System;
     using System.Threading;
+    using Accord.Compat;
     using System.Threading.Tasks;
 
 #if !NET35
@@ -677,7 +678,7 @@ namespace Accord.Neuro.Learning
             }
         }
 
-        #region IDisposable Members
+    #region IDisposable Members
 
         /// <summary>
         ///   Performs application-defined tasks associated with freeing,
@@ -727,7 +728,7 @@ namespace Accord.Neuro.Learning
             }
         }
 
-        #endregion
+    #endregion
 
     }
 

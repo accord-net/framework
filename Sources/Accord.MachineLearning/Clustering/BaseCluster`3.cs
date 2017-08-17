@@ -22,12 +22,10 @@
 
 namespace Accord.MachineLearning
 {
-    using Accord.Math;
-    using Accord.Math.Distances;
-    using Accord.Statistics.Distributions.Univariate;
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using Accord.Compat;
     using System.Threading.Tasks;
 
     /// <summary>

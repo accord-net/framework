@@ -24,9 +24,10 @@ namespace Accord.Statistics.Models.Markov.Learning
 {
     using System;
     using Accord.Math;
-    using System.Threading.Tasks;
     using Accord.Statistics.Models.Markov.Topology;
     using System.Diagnostics;
+    using Accord.Compat;
+    using System.Threading.Tasks;
 
 #pragma warning disable 612, 618
 

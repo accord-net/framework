@@ -21,7 +21,7 @@
 //
 
 #if NET35
-namespace System
+namespace Accord.Compat
 {
     using System;
     using System.Collections.Generic;

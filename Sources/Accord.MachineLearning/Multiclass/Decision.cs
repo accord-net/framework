@@ -25,6 +25,7 @@ namespace Accord.MachineLearning
     using System;
     using System.Linq;
     using System.Collections.Generic;
+    using Accord.Compat;
 
     /// <summary>
     ///   Pair of class labels.

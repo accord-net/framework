@@ -1353,6 +1353,147 @@ namespace Accord.Math
             return result;            
         }
         /// <summary>
+        ///   Converts a integer to a string.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[] ToString(this int[] value)
+        {
+            return ToString(value, new string[value.Length]);
+        }
+
+        /// <summary>
+        ///   Converts a integer to a string.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[,] ToString(this int[,] value)
+        {
+            return ToString(value, Matrix.CreateAs<int, string>(value));
+        }
+
+        /// <summary>
+        ///   Converts a integer to a string.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[][] ToString(this int[][] value)
+        {
+            return ToString(value, Jagged.CreateAs<int, string>(value));
+        }
+
+        /// <summary>
+        ///   Converts a integer to a string.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[][][] ToString(this int[][][] value)
+        {
+            return ToString(value, Jagged.CreateAs<int, string>(value));
+        }
+
+
+
+
+        /// <summary>
+        ///   Converts a integer array to a string array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[] ToString(this int[] value, string[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                result[i] = value[i].ToString();;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional integer array to a multidimensional string array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[,] ToString(this int[,] value, string[,] result)
+        {
+					for (int i = 0; i < value.Rows(); i++)
+				for (int j = 0; j < value.Columns(); j++)
+					result[i, j] = value[i, j].ToString();;
+		
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional integer array to a jagged string array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[][] ToString(this int[,] value, string[][] result)
+        {
+                        for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = value[i, j].ToString();;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a jagged integer array to a jagged string array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[][] ToString(this int[][] value, string[][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i][j] = value[i][j].ToString();;
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged integer array to a jagged string array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[][][] ToString(this int[][][] value, string[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = value[i][j][k].ToString();;
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged integer array to a multidimensional string array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[,] ToString(this int[][] value, string[,] result)
+        {
+                        for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i, j] = value[i][j].ToString();;
+            return result;            
+        }
+        /// <summary>
         ///   Converts a short integer to a integer.
         /// </summary>
         /// 
@@ -2667,6 +2808,147 @@ namespace Accord.Math
                         for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = (Object)value[i][j];
+            return result;            
+        }
+        /// <summary>
+        ///   Converts a short integer to a string.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[] ToString(this short[] value)
+        {
+            return ToString(value, new string[value.Length]);
+        }
+
+        /// <summary>
+        ///   Converts a short integer to a string.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[,] ToString(this short[,] value)
+        {
+            return ToString(value, Matrix.CreateAs<short, string>(value));
+        }
+
+        /// <summary>
+        ///   Converts a short integer to a string.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[][] ToString(this short[][] value)
+        {
+            return ToString(value, Jagged.CreateAs<short, string>(value));
+        }
+
+        /// <summary>
+        ///   Converts a short integer to a string.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[][][] ToString(this short[][][] value)
+        {
+            return ToString(value, Jagged.CreateAs<short, string>(value));
+        }
+
+
+
+
+        /// <summary>
+        ///   Converts a short integer array to a string array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[] ToString(this short[] value, string[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                result[i] = value[i].ToString();;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional short integer array to a multidimensional string array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[,] ToString(this short[,] value, string[,] result)
+        {
+					for (int i = 0; i < value.Rows(); i++)
+				for (int j = 0; j < value.Columns(); j++)
+					result[i, j] = value[i, j].ToString();;
+		
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional short integer array to a jagged string array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[][] ToString(this short[,] value, string[][] result)
+        {
+                        for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = value[i, j].ToString();;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a jagged short integer array to a jagged string array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[][] ToString(this short[][] value, string[][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i][j] = value[i][j].ToString();;
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged short integer array to a jagged string array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[][][] ToString(this short[][][] value, string[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = value[i][j][k].ToString();;
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged short integer array to a multidimensional string array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[,] ToString(this short[][] value, string[,] result)
+        {
+                        for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i, j] = value[i][j].ToString();;
             return result;            
         }
         /// <summary>
@@ -3987,6 +4269,147 @@ namespace Accord.Math
             return result;            
         }
         /// <summary>
+        ///   Converts a single-precision floating point to a string.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[] ToString(this float[] value)
+        {
+            return ToString(value, new string[value.Length]);
+        }
+
+        /// <summary>
+        ///   Converts a single-precision floating point to a string.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[,] ToString(this float[,] value)
+        {
+            return ToString(value, Matrix.CreateAs<float, string>(value));
+        }
+
+        /// <summary>
+        ///   Converts a single-precision floating point to a string.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[][] ToString(this float[][] value)
+        {
+            return ToString(value, Jagged.CreateAs<float, string>(value));
+        }
+
+        /// <summary>
+        ///   Converts a single-precision floating point to a string.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[][][] ToString(this float[][][] value)
+        {
+            return ToString(value, Jagged.CreateAs<float, string>(value));
+        }
+
+
+
+
+        /// <summary>
+        ///   Converts a single-precision floating point array to a string array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[] ToString(this float[] value, string[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                result[i] = value[i].ToString();;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional single-precision floating point array to a multidimensional string array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[,] ToString(this float[,] value, string[,] result)
+        {
+					for (int i = 0; i < value.Rows(); i++)
+				for (int j = 0; j < value.Columns(); j++)
+					result[i, j] = value[i, j].ToString();;
+		
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional single-precision floating point array to a jagged string array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[][] ToString(this float[,] value, string[][] result)
+        {
+                        for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = value[i, j].ToString();;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a jagged single-precision floating point array to a jagged string array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[][] ToString(this float[][] value, string[][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i][j] = value[i][j].ToString();;
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged single-precision floating point array to a jagged string array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[][][] ToString(this float[][][] value, string[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = value[i][j][k].ToString();;
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged single-precision floating point array to a multidimensional string array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[,] ToString(this float[][] value, string[,] result)
+        {
+                        for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i, j] = value[i][j].ToString();;
+            return result;            
+        }
+        /// <summary>
         ///   Converts a double-precision floating point to a integer.
         /// </summary>
         /// 
@@ -5301,6 +5724,147 @@ namespace Accord.Math
                         for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = (Object)value[i][j];
+            return result;            
+        }
+        /// <summary>
+        ///   Converts a double-precision floating point to a string.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[] ToString(this double[] value)
+        {
+            return ToString(value, new string[value.Length]);
+        }
+
+        /// <summary>
+        ///   Converts a double-precision floating point to a string.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[,] ToString(this double[,] value)
+        {
+            return ToString(value, Matrix.CreateAs<double, string>(value));
+        }
+
+        /// <summary>
+        ///   Converts a double-precision floating point to a string.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[][] ToString(this double[][] value)
+        {
+            return ToString(value, Jagged.CreateAs<double, string>(value));
+        }
+
+        /// <summary>
+        ///   Converts a double-precision floating point to a string.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[][][] ToString(this double[][][] value)
+        {
+            return ToString(value, Jagged.CreateAs<double, string>(value));
+        }
+
+
+
+
+        /// <summary>
+        ///   Converts a double-precision floating point array to a string array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[] ToString(this double[] value, string[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                result[i] = value[i].ToString();;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional double-precision floating point array to a multidimensional string array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[,] ToString(this double[,] value, string[,] result)
+        {
+					for (int i = 0; i < value.Rows(); i++)
+				for (int j = 0; j < value.Columns(); j++)
+					result[i, j] = value[i, j].ToString();;
+		
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional double-precision floating point array to a jagged string array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[][] ToString(this double[,] value, string[][] result)
+        {
+                        for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = value[i, j].ToString();;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a jagged double-precision floating point array to a jagged string array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[][] ToString(this double[][] value, string[][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i][j] = value[i][j].ToString();;
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged double-precision floating point array to a jagged string array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[][][] ToString(this double[][][] value, string[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = value[i][j][k].ToString();;
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged double-precision floating point array to a multidimensional string array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[,] ToString(this double[][] value, string[,] result)
+        {
+                        for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i, j] = value[i][j].ToString();;
             return result;            
         }
         /// <summary>
@@ -6621,6 +7185,147 @@ namespace Accord.Math
             return result;            
         }
         /// <summary>
+        ///   Converts a long integer to a string.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[] ToString(this long[] value)
+        {
+            return ToString(value, new string[value.Length]);
+        }
+
+        /// <summary>
+        ///   Converts a long integer to a string.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[,] ToString(this long[,] value)
+        {
+            return ToString(value, Matrix.CreateAs<long, string>(value));
+        }
+
+        /// <summary>
+        ///   Converts a long integer to a string.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[][] ToString(this long[][] value)
+        {
+            return ToString(value, Jagged.CreateAs<long, string>(value));
+        }
+
+        /// <summary>
+        ///   Converts a long integer to a string.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[][][] ToString(this long[][][] value)
+        {
+            return ToString(value, Jagged.CreateAs<long, string>(value));
+        }
+
+
+
+
+        /// <summary>
+        ///   Converts a long integer array to a string array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[] ToString(this long[] value, string[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                result[i] = value[i].ToString();;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional long integer array to a multidimensional string array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[,] ToString(this long[,] value, string[,] result)
+        {
+					for (int i = 0; i < value.Rows(); i++)
+				for (int j = 0; j < value.Columns(); j++)
+					result[i, j] = value[i, j].ToString();;
+		
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional long integer array to a jagged string array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[][] ToString(this long[,] value, string[][] result)
+        {
+                        for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = value[i, j].ToString();;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a jagged long integer array to a jagged string array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[][] ToString(this long[][] value, string[][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i][j] = value[i][j].ToString();;
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged long integer array to a jagged string array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[][][] ToString(this long[][][] value, string[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = value[i][j][k].ToString();;
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged long integer array to a multidimensional string array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[,] ToString(this long[][] value, string[,] result)
+        {
+                        for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i, j] = value[i][j].ToString();;
+            return result;            
+        }
+        /// <summary>
         ///   Converts a 8-bit byte to a integer.
         /// </summary>
         /// 
@@ -7935,6 +8640,147 @@ namespace Accord.Math
                         for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = (Object)value[i][j];
+            return result;            
+        }
+        /// <summary>
+        ///   Converts a 8-bit byte to a string.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[] ToString(this byte[] value)
+        {
+            return ToString(value, new string[value.Length]);
+        }
+
+        /// <summary>
+        ///   Converts a 8-bit byte to a string.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[,] ToString(this byte[,] value)
+        {
+            return ToString(value, Matrix.CreateAs<byte, string>(value));
+        }
+
+        /// <summary>
+        ///   Converts a 8-bit byte to a string.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[][] ToString(this byte[][] value)
+        {
+            return ToString(value, Jagged.CreateAs<byte, string>(value));
+        }
+
+        /// <summary>
+        ///   Converts a 8-bit byte to a string.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[][][] ToString(this byte[][][] value)
+        {
+            return ToString(value, Jagged.CreateAs<byte, string>(value));
+        }
+
+
+
+
+        /// <summary>
+        ///   Converts a 8-bit byte array to a string array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[] ToString(this byte[] value, string[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                result[i] = value[i].ToString();;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional 8-bit byte array to a multidimensional string array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[,] ToString(this byte[,] value, string[,] result)
+        {
+					for (int i = 0; i < value.Rows(); i++)
+				for (int j = 0; j < value.Columns(); j++)
+					result[i, j] = value[i, j].ToString();;
+		
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional 8-bit byte array to a jagged string array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[][] ToString(this byte[,] value, string[][] result)
+        {
+                        for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = value[i, j].ToString();;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a jagged 8-bit byte array to a jagged string array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[][] ToString(this byte[][] value, string[][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i][j] = value[i][j].ToString();;
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged 8-bit byte array to a jagged string array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[][][] ToString(this byte[][][] value, string[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = value[i][j][k].ToString();;
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged 8-bit byte array to a multidimensional string array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[,] ToString(this byte[][] value, string[,] result)
+        {
+                        for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i, j] = value[i][j].ToString();;
             return result;            
         }
         /// <summary>
@@ -9255,6 +10101,147 @@ namespace Accord.Math
             return result;            
         }
         /// <summary>
+        ///   Converts a signed 7-bit byte to a string.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[] ToString(this sbyte[] value)
+        {
+            return ToString(value, new string[value.Length]);
+        }
+
+        /// <summary>
+        ///   Converts a signed 7-bit byte to a string.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[,] ToString(this sbyte[,] value)
+        {
+            return ToString(value, Matrix.CreateAs<sbyte, string>(value));
+        }
+
+        /// <summary>
+        ///   Converts a signed 7-bit byte to a string.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[][] ToString(this sbyte[][] value)
+        {
+            return ToString(value, Jagged.CreateAs<sbyte, string>(value));
+        }
+
+        /// <summary>
+        ///   Converts a signed 7-bit byte to a string.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[][][] ToString(this sbyte[][][] value)
+        {
+            return ToString(value, Jagged.CreateAs<sbyte, string>(value));
+        }
+
+
+
+
+        /// <summary>
+        ///   Converts a signed 7-bit byte array to a string array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[] ToString(this sbyte[] value, string[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                result[i] = value[i].ToString();;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional signed 7-bit byte array to a multidimensional string array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[,] ToString(this sbyte[,] value, string[,] result)
+        {
+					for (int i = 0; i < value.Rows(); i++)
+				for (int j = 0; j < value.Columns(); j++)
+					result[i, j] = value[i, j].ToString();;
+		
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional signed 7-bit byte array to a jagged string array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[][] ToString(this sbyte[,] value, string[][] result)
+        {
+                        for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = value[i, j].ToString();;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a jagged signed 7-bit byte array to a jagged string array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[][] ToString(this sbyte[][] value, string[][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i][j] = value[i][j].ToString();;
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged signed 7-bit byte array to a jagged string array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[][][] ToString(this sbyte[][][] value, string[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = value[i][j][k].ToString();;
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged signed 7-bit byte array to a multidimensional string array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[,] ToString(this sbyte[][] value, string[,] result)
+        {
+                        for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i, j] = value[i][j].ToString();;
+            return result;            
+        }
+        /// <summary>
         ///   Converts a decimal fixed-point to a integer.
         /// </summary>
         /// 
@@ -10569,6 +11556,147 @@ namespace Accord.Math
                         for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = (Object)value[i][j];
+            return result;            
+        }
+        /// <summary>
+        ///   Converts a decimal fixed-point to a string.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[] ToString(this decimal[] value)
+        {
+            return ToString(value, new string[value.Length]);
+        }
+
+        /// <summary>
+        ///   Converts a decimal fixed-point to a string.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[,] ToString(this decimal[,] value)
+        {
+            return ToString(value, Matrix.CreateAs<decimal, string>(value));
+        }
+
+        /// <summary>
+        ///   Converts a decimal fixed-point to a string.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[][] ToString(this decimal[][] value)
+        {
+            return ToString(value, Jagged.CreateAs<decimal, string>(value));
+        }
+
+        /// <summary>
+        ///   Converts a decimal fixed-point to a string.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[][][] ToString(this decimal[][][] value)
+        {
+            return ToString(value, Jagged.CreateAs<decimal, string>(value));
+        }
+
+
+
+
+        /// <summary>
+        ///   Converts a decimal fixed-point array to a string array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[] ToString(this decimal[] value, string[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                result[i] = value[i].ToString();;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional decimal fixed-point array to a multidimensional string array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[,] ToString(this decimal[,] value, string[,] result)
+        {
+					for (int i = 0; i < value.Rows(); i++)
+				for (int j = 0; j < value.Columns(); j++)
+					result[i, j] = value[i, j].ToString();;
+		
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional decimal fixed-point array to a jagged string array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[][] ToString(this decimal[,] value, string[][] result)
+        {
+                        for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = value[i, j].ToString();;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a jagged decimal fixed-point array to a jagged string array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[][] ToString(this decimal[][] value, string[][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i][j] = value[i][j].ToString();;
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged decimal fixed-point array to a jagged string array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[][][] ToString(this decimal[][][] value, string[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = value[i][j][k].ToString();;
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged decimal fixed-point array to a multidimensional string array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[,] ToString(this decimal[][] value, string[,] result)
+        {
+                        for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i, j] = value[i][j].ToString();;
             return result;            
         }
         /// <summary>
@@ -11889,6 +13017,147 @@ namespace Accord.Math
             return result;            
         }
         /// <summary>
+        ///   Converts a boolean to a string.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[] ToString(this bool[] value)
+        {
+            return ToString(value, new string[value.Length]);
+        }
+
+        /// <summary>
+        ///   Converts a boolean to a string.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[,] ToString(this bool[,] value)
+        {
+            return ToString(value, Matrix.CreateAs<bool, string>(value));
+        }
+
+        /// <summary>
+        ///   Converts a boolean to a string.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[][] ToString(this bool[][] value)
+        {
+            return ToString(value, Jagged.CreateAs<bool, string>(value));
+        }
+
+        /// <summary>
+        ///   Converts a boolean to a string.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[][][] ToString(this bool[][][] value)
+        {
+            return ToString(value, Jagged.CreateAs<bool, string>(value));
+        }
+
+
+
+
+        /// <summary>
+        ///   Converts a boolean array to a string array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[] ToString(this bool[] value, string[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                result[i] = value[i].ToString();;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional boolean array to a multidimensional string array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[,] ToString(this bool[,] value, string[,] result)
+        {
+					for (int i = 0; i < value.Rows(); i++)
+				for (int j = 0; j < value.Columns(); j++)
+					result[i, j] = value[i, j].ToString();;
+		
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional boolean array to a jagged string array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[][] ToString(this bool[,] value, string[][] result)
+        {
+                        for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = value[i, j].ToString();;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a jagged boolean array to a jagged string array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[][] ToString(this bool[][] value, string[][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i][j] = value[i][j].ToString();;
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged boolean array to a jagged string array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[][][] ToString(this bool[][][] value, string[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = value[i][j][k].ToString();;
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged boolean array to a multidimensional string array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[,] ToString(this bool[][] value, string[,] result)
+        {
+                        for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i, j] = value[i][j].ToString();;
+            return result;            
+        }
+        /// <summary>
         ///   Converts a object to a integer.
         /// </summary>
         /// 
@@ -13155,6 +14424,1557 @@ namespace Accord.Math
                         for (int i = 0; i < value.Length; i++)
                 for (int j = 0; j < value[i].Length; j++)
                     result[i, j] = (Boolean)System.Convert.ChangeType(value[i][j], typeof(Boolean));
+            return result;            
+        }
+        /// <summary>
+        ///   Converts a object to a string.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[] ToString(this object[] value)
+        {
+            return ToString(value, new string[value.Length]);
+        }
+
+        /// <summary>
+        ///   Converts a object to a string.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[,] ToString(this object[,] value)
+        {
+            return ToString(value, Matrix.CreateAs<object, string>(value));
+        }
+
+        /// <summary>
+        ///   Converts a object to a string.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[][] ToString(this object[][] value)
+        {
+            return ToString(value, Jagged.CreateAs<object, string>(value));
+        }
+
+        /// <summary>
+        ///   Converts a object to a string.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[][][] ToString(this object[][][] value)
+        {
+            return ToString(value, Jagged.CreateAs<object, string>(value));
+        }
+
+
+
+
+        /// <summary>
+        ///   Converts a object array to a string array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[] ToString(this object[] value, string[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                result[i] = (String)System.Convert.ChangeType(value[i], typeof(String));
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional object array to a multidimensional string array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[,] ToString(this object[,] value, string[,] result)
+        {
+					for (int i = 0; i < value.Rows(); i++)
+				for (int j = 0; j < value.Columns(); j++)
+					result[i, j] = (String)System.Convert.ChangeType(value[i, j], typeof(String));
+		
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional object array to a jagged string array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[][] ToString(this object[,] value, string[][] result)
+        {
+                        for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = (String)System.Convert.ChangeType(value[i, j], typeof(String));
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a jagged object array to a jagged string array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[][] ToString(this object[][] value, string[][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i][j] = (String)System.Convert.ChangeType(value[i][j], typeof(String));
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged object array to a jagged string array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[][][] ToString(this object[][][] value, string[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (String)System.Convert.ChangeType(value[i][j][k], typeof(String));
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged object array to a multidimensional string array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static string[,] ToString(this object[][] value, string[,] result)
+        {
+                        for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i, j] = (String)System.Convert.ChangeType(value[i][j], typeof(String));
+            return result;            
+        }
+        /// <summary>
+        ///   Converts a string to a integer.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[] ToInt32(this string[] value)
+        {
+            return ToInt32(value, new int[value.Length]);
+        }
+
+        /// <summary>
+        ///   Converts a string to a integer.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,] ToInt32(this string[,] value)
+        {
+            return ToInt32(value, Matrix.CreateAs<string, int>(value));
+        }
+
+        /// <summary>
+        ///   Converts a string to a integer.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][] ToInt32(this string[][] value)
+        {
+            return ToInt32(value, Jagged.CreateAs<string, int>(value));
+        }
+
+        /// <summary>
+        ///   Converts a string to a integer.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][][] ToInt32(this string[][][] value)
+        {
+            return ToInt32(value, Jagged.CreateAs<string, int>(value));
+        }
+
+
+
+
+        /// <summary>
+        ///   Converts a string array to a integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[] ToInt32(this string[] value, int[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                result[i] = Int32.Parse(value[i]);;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional string array to a multidimensional integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,] ToInt32(this string[,] value, int[,] result)
+        {
+					for (int i = 0; i < value.Rows(); i++)
+				for (int j = 0; j < value.Columns(); j++)
+					result[i, j] = Int32.Parse(value[i, j]);;
+		
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional string array to a jagged integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][] ToInt32(this string[,] value, int[][] result)
+        {
+                        for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = Int32.Parse(value[i, j]);;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a jagged string array to a jagged integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][] ToInt32(this string[][] value, int[][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i][j] = Int32.Parse(value[i][j]);;
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged string array to a jagged integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][][] ToInt32(this string[][][] value, int[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = Int32.Parse(value[i][j][k]);;
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged string array to a multidimensional integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,] ToInt32(this string[][] value, int[,] result)
+        {
+                        for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i, j] = Int32.Parse(value[i][j]);;
+            return result;            
+        }
+        /// <summary>
+        ///   Converts a string to a short integer.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[] ToInt16(this string[] value)
+        {
+            return ToInt16(value, new short[value.Length]);
+        }
+
+        /// <summary>
+        ///   Converts a string to a short integer.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] ToInt16(this string[,] value)
+        {
+            return ToInt16(value, Matrix.CreateAs<string, short>(value));
+        }
+
+        /// <summary>
+        ///   Converts a string to a short integer.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] ToInt16(this string[][] value)
+        {
+            return ToInt16(value, Jagged.CreateAs<string, short>(value));
+        }
+
+        /// <summary>
+        ///   Converts a string to a short integer.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][][] ToInt16(this string[][][] value)
+        {
+            return ToInt16(value, Jagged.CreateAs<string, short>(value));
+        }
+
+
+
+
+        /// <summary>
+        ///   Converts a string array to a short integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[] ToInt16(this string[] value, short[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                result[i] = Int16.Parse(value[i]);;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional string array to a multidimensional short integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] ToInt16(this string[,] value, short[,] result)
+        {
+					for (int i = 0; i < value.Rows(); i++)
+				for (int j = 0; j < value.Columns(); j++)
+					result[i, j] = Int16.Parse(value[i, j]);;
+		
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional string array to a jagged short integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] ToInt16(this string[,] value, short[][] result)
+        {
+                        for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = Int16.Parse(value[i, j]);;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a jagged string array to a jagged short integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][] ToInt16(this string[][] value, short[][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i][j] = Int16.Parse(value[i][j]);;
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged string array to a jagged short integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[][][] ToInt16(this string[][][] value, short[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = Int16.Parse(value[i][j][k]);;
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged string array to a multidimensional short integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static short[,] ToInt16(this string[][] value, short[,] result)
+        {
+                        for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i, j] = Int16.Parse(value[i][j]);;
+            return result;            
+        }
+        /// <summary>
+        ///   Converts a string to a single-precision floating point.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[] ToSingle(this string[] value)
+        {
+            return ToSingle(value, new float[value.Length]);
+        }
+
+        /// <summary>
+        ///   Converts a string to a single-precision floating point.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,] ToSingle(this string[,] value)
+        {
+            return ToSingle(value, Matrix.CreateAs<string, float>(value));
+        }
+
+        /// <summary>
+        ///   Converts a string to a single-precision floating point.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][] ToSingle(this string[][] value)
+        {
+            return ToSingle(value, Jagged.CreateAs<string, float>(value));
+        }
+
+        /// <summary>
+        ///   Converts a string to a single-precision floating point.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][][] ToSingle(this string[][][] value)
+        {
+            return ToSingle(value, Jagged.CreateAs<string, float>(value));
+        }
+
+
+
+
+        /// <summary>
+        ///   Converts a string array to a single-precision floating point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[] ToSingle(this string[] value, float[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                result[i] = Single.Parse(value[i]);;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional string array to a multidimensional single-precision floating point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,] ToSingle(this string[,] value, float[,] result)
+        {
+					for (int i = 0; i < value.Rows(); i++)
+				for (int j = 0; j < value.Columns(); j++)
+					result[i, j] = Single.Parse(value[i, j]);;
+		
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional string array to a jagged single-precision floating point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][] ToSingle(this string[,] value, float[][] result)
+        {
+                        for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = Single.Parse(value[i, j]);;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a jagged string array to a jagged single-precision floating point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][] ToSingle(this string[][] value, float[][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i][j] = Single.Parse(value[i][j]);;
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged string array to a jagged single-precision floating point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][][] ToSingle(this string[][][] value, float[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = Single.Parse(value[i][j][k]);;
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged string array to a multidimensional single-precision floating point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,] ToSingle(this string[][] value, float[,] result)
+        {
+                        for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i, j] = Single.Parse(value[i][j]);;
+            return result;            
+        }
+        /// <summary>
+        ///   Converts a string to a double-precision floating point.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] ToDouble(this string[] value)
+        {
+            return ToDouble(value, new double[value.Length]);
+        }
+
+        /// <summary>
+        ///   Converts a string to a double-precision floating point.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] ToDouble(this string[,] value)
+        {
+            return ToDouble(value, Matrix.CreateAs<string, double>(value));
+        }
+
+        /// <summary>
+        ///   Converts a string to a double-precision floating point.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] ToDouble(this string[][] value)
+        {
+            return ToDouble(value, Jagged.CreateAs<string, double>(value));
+        }
+
+        /// <summary>
+        ///   Converts a string to a double-precision floating point.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][][] ToDouble(this string[][][] value)
+        {
+            return ToDouble(value, Jagged.CreateAs<string, double>(value));
+        }
+
+
+
+
+        /// <summary>
+        ///   Converts a string array to a double-precision floating point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] ToDouble(this string[] value, double[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                result[i] = Double.Parse(value[i]);;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional string array to a multidimensional double-precision floating point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] ToDouble(this string[,] value, double[,] result)
+        {
+					for (int i = 0; i < value.Rows(); i++)
+				for (int j = 0; j < value.Columns(); j++)
+					result[i, j] = Double.Parse(value[i, j]);;
+		
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional string array to a jagged double-precision floating point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] ToDouble(this string[,] value, double[][] result)
+        {
+                        for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = Double.Parse(value[i, j]);;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a jagged string array to a jagged double-precision floating point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] ToDouble(this string[][] value, double[][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i][j] = Double.Parse(value[i][j]);;
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged string array to a jagged double-precision floating point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][][] ToDouble(this string[][][] value, double[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = Double.Parse(value[i][j][k]);;
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged string array to a multidimensional double-precision floating point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] ToDouble(this string[][] value, double[,] result)
+        {
+                        for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i, j] = Double.Parse(value[i][j]);;
+            return result;            
+        }
+        /// <summary>
+        ///   Converts a string to a long integer.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[] ToInt64(this string[] value)
+        {
+            return ToInt64(value, new long[value.Length]);
+        }
+
+        /// <summary>
+        ///   Converts a string to a long integer.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[,] ToInt64(this string[,] value)
+        {
+            return ToInt64(value, Matrix.CreateAs<string, long>(value));
+        }
+
+        /// <summary>
+        ///   Converts a string to a long integer.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[][] ToInt64(this string[][] value)
+        {
+            return ToInt64(value, Jagged.CreateAs<string, long>(value));
+        }
+
+        /// <summary>
+        ///   Converts a string to a long integer.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[][][] ToInt64(this string[][][] value)
+        {
+            return ToInt64(value, Jagged.CreateAs<string, long>(value));
+        }
+
+
+
+
+        /// <summary>
+        ///   Converts a string array to a long integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[] ToInt64(this string[] value, long[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                result[i] = Int64.Parse(value[i]);;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional string array to a multidimensional long integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[,] ToInt64(this string[,] value, long[,] result)
+        {
+					for (int i = 0; i < value.Rows(); i++)
+				for (int j = 0; j < value.Columns(); j++)
+					result[i, j] = Int64.Parse(value[i, j]);;
+		
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional string array to a jagged long integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[][] ToInt64(this string[,] value, long[][] result)
+        {
+                        for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = Int64.Parse(value[i, j]);;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a jagged string array to a jagged long integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[][] ToInt64(this string[][] value, long[][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i][j] = Int64.Parse(value[i][j]);;
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged string array to a jagged long integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[][][] ToInt64(this string[][][] value, long[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = Int64.Parse(value[i][j][k]);;
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged string array to a multidimensional long integer array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static long[,] ToInt64(this string[][] value, long[,] result)
+        {
+                        for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i, j] = Int64.Parse(value[i][j]);;
+            return result;            
+        }
+        /// <summary>
+        ///   Converts a string to a 8-bit byte.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[] ToByte(this string[] value)
+        {
+            return ToByte(value, new byte[value.Length]);
+        }
+
+        /// <summary>
+        ///   Converts a string to a 8-bit byte.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[,] ToByte(this string[,] value)
+        {
+            return ToByte(value, Matrix.CreateAs<string, byte>(value));
+        }
+
+        /// <summary>
+        ///   Converts a string to a 8-bit byte.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[][] ToByte(this string[][] value)
+        {
+            return ToByte(value, Jagged.CreateAs<string, byte>(value));
+        }
+
+        /// <summary>
+        ///   Converts a string to a 8-bit byte.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[][][] ToByte(this string[][][] value)
+        {
+            return ToByte(value, Jagged.CreateAs<string, byte>(value));
+        }
+
+
+
+
+        /// <summary>
+        ///   Converts a string array to a 8-bit byte array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[] ToByte(this string[] value, byte[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                result[i] = Byte.Parse(value[i]);;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional string array to a multidimensional 8-bit byte array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[,] ToByte(this string[,] value, byte[,] result)
+        {
+					for (int i = 0; i < value.Rows(); i++)
+				for (int j = 0; j < value.Columns(); j++)
+					result[i, j] = Byte.Parse(value[i, j]);;
+		
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional string array to a jagged 8-bit byte array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[][] ToByte(this string[,] value, byte[][] result)
+        {
+                        for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = Byte.Parse(value[i, j]);;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a jagged string array to a jagged 8-bit byte array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[][] ToByte(this string[][] value, byte[][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i][j] = Byte.Parse(value[i][j]);;
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged string array to a jagged 8-bit byte array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[][][] ToByte(this string[][][] value, byte[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = Byte.Parse(value[i][j][k]);;
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged string array to a multidimensional 8-bit byte array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[,] ToByte(this string[][] value, byte[,] result)
+        {
+                        for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i, j] = Byte.Parse(value[i][j]);;
+            return result;            
+        }
+        /// <summary>
+        ///   Converts a string to a signed 7-bit byte.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static sbyte[] ToSByte(this string[] value)
+        {
+            return ToSByte(value, new sbyte[value.Length]);
+        }
+
+        /// <summary>
+        ///   Converts a string to a signed 7-bit byte.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static sbyte[,] ToSByte(this string[,] value)
+        {
+            return ToSByte(value, Matrix.CreateAs<string, sbyte>(value));
+        }
+
+        /// <summary>
+        ///   Converts a string to a signed 7-bit byte.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static sbyte[][] ToSByte(this string[][] value)
+        {
+            return ToSByte(value, Jagged.CreateAs<string, sbyte>(value));
+        }
+
+        /// <summary>
+        ///   Converts a string to a signed 7-bit byte.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static sbyte[][][] ToSByte(this string[][][] value)
+        {
+            return ToSByte(value, Jagged.CreateAs<string, sbyte>(value));
+        }
+
+
+
+
+        /// <summary>
+        ///   Converts a string array to a signed 7-bit byte array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static sbyte[] ToSByte(this string[] value, sbyte[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                result[i] = SByte.Parse(value[i]);;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional string array to a multidimensional signed 7-bit byte array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static sbyte[,] ToSByte(this string[,] value, sbyte[,] result)
+        {
+					for (int i = 0; i < value.Rows(); i++)
+				for (int j = 0; j < value.Columns(); j++)
+					result[i, j] = SByte.Parse(value[i, j]);;
+		
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional string array to a jagged signed 7-bit byte array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static sbyte[][] ToSByte(this string[,] value, sbyte[][] result)
+        {
+                        for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = SByte.Parse(value[i, j]);;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a jagged string array to a jagged signed 7-bit byte array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static sbyte[][] ToSByte(this string[][] value, sbyte[][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i][j] = SByte.Parse(value[i][j]);;
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged string array to a jagged signed 7-bit byte array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static sbyte[][][] ToSByte(this string[][][] value, sbyte[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = SByte.Parse(value[i][j][k]);;
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged string array to a multidimensional signed 7-bit byte array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static sbyte[,] ToSByte(this string[][] value, sbyte[,] result)
+        {
+                        for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i, j] = SByte.Parse(value[i][j]);;
+            return result;            
+        }
+        /// <summary>
+        ///   Converts a string to a decimal fixed-point.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[] ToDecimal(this string[] value)
+        {
+            return ToDecimal(value, new decimal[value.Length]);
+        }
+
+        /// <summary>
+        ///   Converts a string to a decimal fixed-point.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[,] ToDecimal(this string[,] value)
+        {
+            return ToDecimal(value, Matrix.CreateAs<string, decimal>(value));
+        }
+
+        /// <summary>
+        ///   Converts a string to a decimal fixed-point.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[][] ToDecimal(this string[][] value)
+        {
+            return ToDecimal(value, Jagged.CreateAs<string, decimal>(value));
+        }
+
+        /// <summary>
+        ///   Converts a string to a decimal fixed-point.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[][][] ToDecimal(this string[][][] value)
+        {
+            return ToDecimal(value, Jagged.CreateAs<string, decimal>(value));
+        }
+
+
+
+
+        /// <summary>
+        ///   Converts a string array to a decimal fixed-point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[] ToDecimal(this string[] value, decimal[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                result[i] = Decimal.Parse(value[i]);;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional string array to a multidimensional decimal fixed-point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[,] ToDecimal(this string[,] value, decimal[,] result)
+        {
+					for (int i = 0; i < value.Rows(); i++)
+				for (int j = 0; j < value.Columns(); j++)
+					result[i, j] = Decimal.Parse(value[i, j]);;
+		
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional string array to a jagged decimal fixed-point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[][] ToDecimal(this string[,] value, decimal[][] result)
+        {
+                        for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = Decimal.Parse(value[i, j]);;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a jagged string array to a jagged decimal fixed-point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[][] ToDecimal(this string[][] value, decimal[][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i][j] = Decimal.Parse(value[i][j]);;
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged string array to a jagged decimal fixed-point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[][][] ToDecimal(this string[][][] value, decimal[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = Decimal.Parse(value[i][j][k]);;
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged string array to a multidimensional decimal fixed-point array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[,] ToDecimal(this string[][] value, decimal[,] result)
+        {
+                        for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i, j] = Decimal.Parse(value[i][j]);;
+            return result;            
+        }
+        /// <summary>
+        ///   Converts a string to a boolean.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[] ToBoolean(this string[] value)
+        {
+            return ToBoolean(value, new bool[value.Length]);
+        }
+
+        /// <summary>
+        ///   Converts a string to a boolean.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[,] ToBoolean(this string[,] value)
+        {
+            return ToBoolean(value, Matrix.CreateAs<string, bool>(value));
+        }
+
+        /// <summary>
+        ///   Converts a string to a boolean.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[][] ToBoolean(this string[][] value)
+        {
+            return ToBoolean(value, Jagged.CreateAs<string, bool>(value));
+        }
+
+        /// <summary>
+        ///   Converts a string to a boolean.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[][][] ToBoolean(this string[][][] value)
+        {
+            return ToBoolean(value, Jagged.CreateAs<string, bool>(value));
+        }
+
+
+
+
+        /// <summary>
+        ///   Converts a string array to a boolean array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[] ToBoolean(this string[] value, bool[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                result[i] = Boolean.Parse(value[i]);;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional string array to a multidimensional boolean array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[,] ToBoolean(this string[,] value, bool[,] result)
+        {
+					for (int i = 0; i < value.Rows(); i++)
+				for (int j = 0; j < value.Columns(); j++)
+					result[i, j] = Boolean.Parse(value[i, j]);;
+		
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional string array to a jagged boolean array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[][] ToBoolean(this string[,] value, bool[][] result)
+        {
+                        for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = Boolean.Parse(value[i, j]);;
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a jagged string array to a jagged boolean array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[][] ToBoolean(this string[][] value, bool[][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i][j] = Boolean.Parse(value[i][j]);;
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged string array to a jagged boolean array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[][][] ToBoolean(this string[][][] value, bool[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = Boolean.Parse(value[i][j][k]);;
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged string array to a multidimensional boolean array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool[,] ToBoolean(this string[][] value, bool[,] result)
+        {
+                        for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i, j] = Boolean.Parse(value[i][j]);;
+            return result;            
+        }
+        /// <summary>
+        ///   Converts a string to a object.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[] ToObject(this string[] value)
+        {
+            return ToObject(value, new object[value.Length]);
+        }
+
+        /// <summary>
+        ///   Converts a string to a object.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[,] ToObject(this string[,] value)
+        {
+            return ToObject(value, Matrix.CreateAs<string, object>(value));
+        }
+
+        /// <summary>
+        ///   Converts a string to a object.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[][] ToObject(this string[][] value)
+        {
+            return ToObject(value, Jagged.CreateAs<string, object>(value));
+        }
+
+        /// <summary>
+        ///   Converts a string to a object.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[][][] ToObject(this string[][][] value)
+        {
+            return ToObject(value, Jagged.CreateAs<string, object>(value));
+        }
+
+
+
+
+        /// <summary>
+        ///   Converts a string array to a object array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[] ToObject(this string[] value, object[] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                result[i] = (Object)System.Convert.ChangeType(value[i], typeof(Object));
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional string array to a multidimensional object array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[,] ToObject(this string[,] value, object[,] result)
+        {
+					for (int i = 0; i < value.Rows(); i++)
+				for (int j = 0; j < value.Columns(); j++)
+					result[i, j] = (Object)System.Convert.ChangeType(value[i, j], typeof(Object));
+		
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a multidimensional string array to a jagged object array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[][] ToObject(this string[,] value, object[][] result)
+        {
+                        for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = (Object)System.Convert.ChangeType(value[i, j], typeof(Object));
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a jagged string array to a jagged object array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[][] ToObject(this string[][] value, object[][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i][j] = (Object)System.Convert.ChangeType(value[i][j], typeof(Object));
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged string array to a jagged object array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[][][] ToObject(this string[][][] value, object[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = (Object)System.Convert.ChangeType(value[i][j][k], typeof(Object));
+            return result;            
+        }
+
+        /// <summary>
+        ///   Converts a jagged string array to a multidimensional object array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static object[,] ToObject(this string[][] value, object[,] result)
+        {
+                        for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    result[i, j] = (Object)System.Convert.ChangeType(value[i][j], typeof(Object));
             return result;            
         }
     }

@@ -35,6 +35,7 @@ namespace Accord.Tests.MachineLearning
     using Accord.Statistics.Kernels;
     using Accord.Statistics.Analysis;
     using Accord.Math.Distances;
+    using Accord.Tests.Statistics;
 
     [TestFixture]
     public class BagOfWordsTest
@@ -105,6 +106,7 @@ namespace Accord.Tests.MachineLearning
             }
         }
 
+#if !NO_BINARY_SERIALIZATION
         [Test]
         public void SerializationTest()
         {
@@ -128,7 +130,7 @@ namespace Accord.Tests.MachineLearning
 
             Assert.IsTrue(expected.IsEqual(actual));
         }
-
+#endif
         [Test]
         public void learn_test()
         {
@@ -212,82 +214,90 @@ namespace Accord.Tests.MachineLearning
             Assert.IsTrue(c2);
         }
 
-        [Test]
+        [Test, Category("Intensive")]
+#if NET35
+        [Ignore("Random")]
+#endif
         public void learn_pendigits_normalization()
         {
-            #region doc_learn_pendigits
-            // The Bag-Of-Words model can be used to extract finite-length feature 
-            // vectors from sequences of arbitrary length, like handwritten digits
+            Console.WriteLine("Starting BagOfWordsTest.learn_pendigits_normalization");
 
-            // Ensure we get reproducible results
-            Accord.Math.Random.Generator.Seed = 0;
-
-            // Download the PENDIGITS dataset from UCI ML repository
-            var pendigits = new Pendigits(path: Path.GetTempPath());
-
-            // Get and pre-process the training set
-            double[][][] trainInputs = pendigits.Training.Item1;
-            int[] trainOutputs = pendigits.Training.Item2;
-
-            // Pre-process the digits so each of them is centered and scaled
-            trainInputs = trainInputs.Apply(Accord.Statistics.Tools.ZScores);
-
-            // Create a Bag-of-Words learning algorithm
-            var bow = new BagOfWords<double[], KMeans>()
+            using (var travis = new KeepTravisAlive())
             {
-                Clustering = new KMeans(5),
-            };
+                #region doc_learn_pendigits
+                // The Bag-Of-Words model can be used to extract finite-length feature 
+                // vectors from sequences of arbitrary length, like handwritten digits
 
-            // Use the BoW to create a quantizer
-            var quantizer = bow.Learn(trainInputs);
+                // Ensure we get reproducible results
+                Accord.Math.Random.Generator.Seed = 0;
 
-            // Extract vector representations from the pen sequences
-            double[][] trainVectors = quantizer.Transform(trainInputs);
+                // Download the PENDIGITS dataset from UCI ML repository
+                var pendigits = new Pendigits(path: Path.GetTempPath());
 
-            // Create a new learning algorithm for support vector machines
-            var teacher = new MulticlassSupportVectorLearning<ChiSquare, double[]>
-            {
-                Learner = (p) => new SequentialMinimalOptimization<ChiSquare, double[]>()
+                // Get and pre-process the training set
+                double[][][] trainInputs = pendigits.Training.Item1;
+                int[] trainOutputs = pendigits.Training.Item2;
+
+                // Pre-process the digits so each of them is centered and scaled
+                trainInputs = trainInputs.Apply(Accord.Statistics.Tools.ZScores);
+
+                // Create a Bag-of-Words learning algorithm
+                var bow = new BagOfWords<double[], KMeans>()
                 {
-                    //Complexity = 100000 
-                }
-            };
+                    Clustering = new KMeans(5),
+                };
 
-            // Use the learning algorithm to create a classifier
-            var svm = teacher.Learn(trainVectors, trainOutputs);
+                // Use the BoW to create a quantizer
+                var quantizer = bow.Learn(trainInputs);
 
-            // Compute predictions for the training set
-            int[] trainPredicted = svm.Decide(trainVectors);
+                // Extract vector representations from the pen sequences
+                double[][] trainVectors = quantizer.Transform(trainInputs);
 
-            // Check the performance of the classifier by comparing with the ground-truth:
-            var m1 = new ConfusionMatrix(predicted: trainPredicted, expected: trainOutputs);
-            double trainAcc = m1.Accuracy; // should be 0.971
+                // Create a new learning algorithm for support vector machines
+                var teacher = new MulticlassSupportVectorLearning<ChiSquare, double[]>
+                {
+                    Learner = (p) => new SequentialMinimalOptimization<ChiSquare, double[]>()
+                    {
+                        Complexity = 1
+                    }
+                };
+
+                // Use the learning algorithm to create a classifier
+                var svm = teacher.Learn(trainVectors, trainOutputs);
+
+                // Compute predictions for the training set
+                int[] trainPredicted = svm.Decide(trainVectors);
+
+                // Check the performance of the classifier by comparing with the ground-truth:
+                var m1 = new GeneralConfusionMatrix(predicted: trainPredicted, expected: trainOutputs);
+                double trainAcc = m1.Accuracy; // should be 0.690
 
 
-            // Prepare the testing set
-            double[][][] testInputs = pendigits.Testing.Item1;
-            int[] testOutputs = pendigits.Testing.Item2;
+                // Prepare the testing set
+                double[][][] testInputs = pendigits.Testing.Item1;
+                int[] testOutputs = pendigits.Testing.Item2;
 
-            // Apply the same normalizations
-            testInputs = testInputs.Apply(Accord.Statistics.Tools.ZScores);
+                // Apply the same normalizations
+                testInputs = testInputs.Apply(Accord.Statistics.Tools.ZScores);
 
-            double[][] testVectors = quantizer.Transform(testInputs);
+                double[][] testVectors = quantizer.Transform(testInputs);
 
-            // Compute predictions for the test set
-            int[] testPredicted = svm.Decide(testVectors);
+                // Compute predictions for the test set
+                int[] testPredicted = svm.Decide(testVectors);
 
-            // Check the performance of the classifier by comparing with the ground-truth:
-            var m2 = new ConfusionMatrix(predicted: testPredicted, expected: testOutputs);
-            double testAcc = m2.Accuracy; // should be 0.969
-            #endregion
+                // Check the performance of the classifier by comparing with the ground-truth:
+                var m2 = new GeneralConfusionMatrix(predicted: testPredicted, expected: testOutputs);
+                double testAcc = m2.Accuracy; // should be 0.600
+                #endregion
 
 #if NET35
             Assert.AreEqual(0.89594053744997137d, trainAcc, 1e-10);
             Assert.AreEqual(0.89605017347211102d, testAcc, 1e-10);
 #else
-            Assert.AreEqual(0.94110920526014863, trainAcc, 1e-10);
-            Assert.AreEqual(0.92127034961302379, testAcc, 1e-10);
+                Assert.AreEqual(0.69039451114922812, trainAcc, 1e-10);
+                Assert.AreEqual(0.600880704563651, testAcc, 1e-10);
 #endif
+            }
         }
 
         [Test]

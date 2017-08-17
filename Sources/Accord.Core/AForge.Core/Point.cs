@@ -9,6 +9,7 @@
 namespace Accord
 {
     using System;
+    using Accord.Compat;
 
     /// <summary>
     /// Structure for representing a pair of coordinates of float type.

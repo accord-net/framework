@@ -31,6 +31,14 @@ namespace Accord.Tests.IO
     using Accord.Math;
     using System.Globalization;
 
+#if NO_CULTURE
+    using CultureInfo = Accord.Compat.CultureInfo;
+#endif
+
+#if NO_DEFAULT_ENCODING
+    using Encoding = Accord.Compat.Encoding;
+#endif
+
     [TestFixture]
     public class LibSvmModelTest
     {
@@ -76,12 +84,12 @@ namespace Accord.Tests.IO
 
             var model = new LibSvmModel()
             {
-                 Bias = -1,
-                 Classes = 2, 
-                 Dimension = 123,
-                 Labels = new[] { +1, -1 },
-                 Solver = LibSvmSolverType.L1RegularizedLogisticRegression,
-                 Weights = a9a_weights
+                Bias = -1,
+                Classes = 2,
+                Dimension = 123,
+                Labels = new[] { +1, -1 },
+                Solver = LibSvmSolverType.L1RegularizedLogisticRegression,
+                Weights = a9a_weights
             };
 
             model.Save(destination);
@@ -153,7 +161,7 @@ namespace Accord.Tests.IO
         }
 
 
-        private static double[] a9a_weights = 
+        private static double[] a9a_weights =
         {
             -1.582078049646382,   -0.642353059177759,   -0.03749159485897963,  0.2771411674145598,
              0.2653433548837567,   0.3415826259468487,  -0.05175901290550707,  0.664475778321269,
@@ -185,7 +193,7 @@ namespace Accord.Tests.IO
              0,                    0.1703791693215565,   0.2216059824256973,  -2.031437061283596,
              0,                   -0.4399798222194601,  -0.0728251038840361,   0,
              0,                    0.480264506314448,   -0.3699822088077383,  -0.1089542718979226,
-            -1.247016957015914,    0,                    0, 
+            -1.247016957015914,    0,                    0,
         };
     }
 }

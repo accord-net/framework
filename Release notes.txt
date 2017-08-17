@@ -1,3 +1,23 @@
+Accord.NET Framework 3.6.2-alpha release notes
+-----------------------------------------
+14.07.2017.
+
+Version updates and fixes:
+  - GH-335: Nelder-mead solver not converged;
+  - GH-594: FFMPEG net35 not working;
+  - GH-662: 64-bit FFMPEG binaries not in output after installing with NuGet;
+  - GH-669: Confusion Matrix;
+  - GH-673: Stream closes after serialization with GZip compression
+  - GH-676: DoubleArrayChromosome CreateNew ignores Balancer properties;
+  - GH-684: BalancedKMeans gets stuck;
+  - GH-693: One-class SVM decision rule;
+  - GH-694: Add support for weighted least squares;
+  - GH-696: IndexOutOfRangeException exception in Matrix.First method;
+
+
+
+
+
 Accord.NET Framework 3.6.0 release notes
 -----------------------------------------
 09.07.2017.

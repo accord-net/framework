@@ -24,11 +24,12 @@ namespace Accord.MachineLearning.Performance
 {
     using System;
     using System.Linq;
-    using System.Threading.Tasks;
     using Accord.Math;
     using Accord.MachineLearning.Performance;
     using Accord.Statistics.Analysis;
     using System.Collections.Generic;
+    using Accord.Compat;
+    using System.Threading.Tasks;
 
     /// <summary>
     ///   Bootstrap method for generalization performance measurements (with 

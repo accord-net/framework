@@ -27,7 +27,6 @@ namespace Accord.MachineLearning
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
-    using System.Threading.Tasks;
 
     /// <summary>
     ///   Common interface for generative models.

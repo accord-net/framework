@@ -28,6 +28,7 @@ namespace Accord.DirectSound
     using System;
     using System.IO;
     using System.Threading;
+    using Accord.Compat;
 
     /// <summary>
     ///   Read audio samples from a Wave file.

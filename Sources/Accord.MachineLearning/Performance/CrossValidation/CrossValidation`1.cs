@@ -24,9 +24,10 @@ namespace Accord.MachineLearning
 {
     using System;
     using System.Collections.Generic;
-    using System.Threading.Tasks;
     using Accord.Math;
     using Accord.MachineLearning.Performance;
+    using Accord.Compat;
+    using System.Threading.Tasks;
 
     /// <summary>
     ///   Obsolete. Please use <see cref="CrossValidation{TModel, TInput, TOutput}"/> instead.
@@ -39,6 +40,12 @@ namespace Accord.MachineLearning
     /// <summary>
     ///   Obsolete. Please use <see cref="CrossValidation{TModel, TInput, TOutput}"/> instead.
     /// </summary>
+    /// 
+    /// <example>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\CrossValidationTest.cs" region="doc_learn" />
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\CrossValidationTest.cs" region="doc_learn_hmm" />
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\DecisionTrees\DecisionTreeTest.cs" region="doc_cross_validation" />
+    /// </example>
     /// 
     [Serializable]
     [Obsolete("Please use CrossValidation<TModel, TInput, TOutput> instead.")]

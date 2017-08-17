@@ -31,6 +31,7 @@ namespace Accord.IO
     using System.Linq;
     using System.Runtime.InteropServices;
     using System.Text;
+    using Accord.Compat;
     using System.Threading.Tasks;
 
 #if !NET35 && !NET40
@@ -57,7 +58,11 @@ namespace Accord.IO
         /// <returns>The array to be returned.</returns>
         /// 
         public static T Load<T>(byte[] bytes)
-            where T : class, ICloneable, IList, ICollection, IEnumerable
+            where T : class,
+#if !NETSTANDARD1_4
+            ICloneable,
+#endif
+            IList, ICollection, IEnumerable
 #if !NET35
             , IStructuralComparable, IStructuralEquatable
 #endif
@@ -79,7 +84,11 @@ namespace Accord.IO
         /// <returns>The array to be returned.</returns>
         /// 
         public static T Load<T>(byte[] bytes, out T value)
-            where T : class, ICloneable, IList, ICollection, IEnumerable
+            where T : class,
+#if !NETSTANDARD1_4
+            ICloneable,
+#endif
+IList, ICollection, IEnumerable
 #if !NET35
             , IStructuralComparable, IStructuralEquatable
 #endif
@@ -99,7 +108,11 @@ namespace Accord.IO
         /// <returns>The array to be returned.</returns>
         /// 
         public static T Load<T>(string path, out T value)
-            where T : class, ICloneable, IList, ICollection, IEnumerable
+            where T : class,
+#if !NETSTANDARD1_4
+            ICloneable,
+#endif
+            IList, ICollection, IEnumerable
 #if !NET35
             , IStructuralComparable, IStructuralEquatable
 #endif
@@ -119,7 +132,11 @@ namespace Accord.IO
         /// <returns>The array to be returned.</returns>
         /// 
         public static T Load<T>(Stream stream, out T value)
-            where T : class, ICloneable, IList, ICollection, IEnumerable
+            where T : class,
+#if !NETSTANDARD1_4
+            ICloneable,
+#endif
+            IList, ICollection, IEnumerable
 #if !NET35
             , IStructuralComparable, IStructuralEquatable
 #endif
@@ -136,7 +153,11 @@ namespace Accord.IO
         /// <returns>The array to be returned.</returns>
         /// 
         public static T Load<T>(string path)
-            where T : class, ICloneable, IList, ICollection, IEnumerable
+            where T : class,
+#if !NETSTANDARD1_4
+            ICloneable,
+#endif
+            IList, ICollection, IEnumerable
 #if !NET35
             , IStructuralComparable, IStructuralEquatable
 #endif
@@ -155,7 +176,11 @@ namespace Accord.IO
         /// <returns>The array to be returned.</returns>
         /// 
         public static T Load<T>(Stream stream)
-            where T : class, ICloneable, IList, ICollection, IEnumerable
+            where T : class,
+#if !NETSTANDARD1_4
+            ICloneable,
+#endif
+            IList, ICollection, IEnumerable
 #if !NET35
             , IStructuralComparable, IStructuralEquatable
 #endif
@@ -236,7 +261,7 @@ namespace Accord.IO
         /// 
         public static Array LoadMatrix(Stream stream)
         {
-            using (var reader = new BinaryReader(stream, Encoding.ASCII
+            using (var reader = new BinaryReader(stream, System.Text.Encoding.ASCII
 #if !NET35 && !NET40
             , leaveOpen: true
 #endif
@@ -267,7 +292,7 @@ namespace Accord.IO
         /// 
         public static Array LoadJagged(Stream stream, bool trim = true)
         {
-            using (var reader = new BinaryReader(stream, Encoding.ASCII
+            using (var reader = new BinaryReader(stream, System.Text.Encoding.ASCII
 #if !NET35 && !NET40
             , leaveOpen: true
 #endif
@@ -377,7 +402,11 @@ namespace Accord.IO
                             }
                         }
 
+#if NETSTANDARD1_4
+                        String s = new String((char*)b);
+#else
                         String s = new String((sbyte*)b);
+#endif
                         matrix.SetValue(value: s, deep: true, indices: p);
                     }
                 }

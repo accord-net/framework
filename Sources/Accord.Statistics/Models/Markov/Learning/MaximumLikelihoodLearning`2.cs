@@ -60,6 +60,16 @@ namespace Accord.Statistics.Models.Markov.Learning
     /// </para>
     /// 
     /// <code source="Unit Tests\Accord.Tests.Statistics\Models\Markov\MaximumLikelihoodLearning`1Test.cs" region="doc_learn"/>
+    /// 
+    /// <para>
+    ///   The following example shows how hidden Markov models trained using Maximum Likelihood Learning
+    ///   can be used in the context of fraud analysis.</para>
+    ///   
+    /// <code source="Unit Tests\Accord.Tests.Statistics\Models\Markov\MaximumLikelihoodLearning`1Test.cs" region="doc_learn_fraud_analysis"/>
+    /// 
+    /// <para>
+    ///   Where the transform function is defined as:</para>
+    /// <code source="Unit Tests\Accord.Tests.Statistics\Models\Markov\MaximumLikelihoodLearning`1Test.cs" region="doc_learn_fraud_transform"/>
     /// </example>
     /// 
     /// <seealso cref="MaximumLikelihoodLearning"/>
@@ -97,8 +107,13 @@ namespace Accord.Statistics.Models.Markov.Learning
         /// 
         protected override HiddenMarkovModel<TDistribution, TObservation> Create(TObservation[][] x, int numberOfClasses)
         {
-            return new HiddenMarkovModel<TDistribution, TObservation>(states: numberOfClasses, emissions: Emissions);
+            var hmm = new HiddenMarkovModel<TDistribution, TObservation>(states: numberOfClasses, emissions: Emissions);
+
+            MarkovHelperMethods.CheckObservationDimensions(x, hmm);
+
+            return hmm;
         }
 
+        
     }
 }

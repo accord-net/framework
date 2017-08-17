@@ -26,8 +26,9 @@ namespace Accord.MachineLearning
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
-    using System.Threading.Tasks;
     using Accord.Math;
+    using Accord.Compat;
+    using System.Threading.Tasks;
 
     /// <summary>
     ///   Base class for multi-class and multi-label classifiers.

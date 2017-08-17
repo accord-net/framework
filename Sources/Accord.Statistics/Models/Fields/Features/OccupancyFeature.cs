@@ -25,6 +25,7 @@ namespace Accord.Statistics.Models.Fields.Features
     using System;
     using Accord.Math;
     using Accord.Statistics.Models.Fields.Functions;
+    using Accord.Compat;
 
     /// <summary>
     ///   State occupancy function for modeling continuous-

@@ -492,12 +492,16 @@ namespace Accord.Tests.MachineLearning
             Assert.Throws<ArgumentException>(() => kmeans.Compute(observations), "");
         }
 
+#if !NO_BINARY_SERIALIZATION
         [Test]
+#if NETCORE
+        [Ignore("Models created in .NET desktop cannot be de-serialized in .NET Core/Standard (yet)")]
+#endif
         public void DeserializationTest1()
         {
-            MemoryStream stream = new MemoryStream(Properties.Resources.kmeans);
+            string fileName = Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources", "kmeans.bin");
 
-            KMeans kmeans = Serializer.Load<KMeans>(stream);
+            KMeans kmeans = Serializer.Load<KMeans>(fileName);
 
 
             KMeans kbase = new KMeans(3);
@@ -517,6 +521,6 @@ namespace Accord.Tests.MachineLearning
             Assert.IsTrue(kbase.ComputeCovariances);
             Assert.AreEqual(kbase.Distance.GetType(), kmeans.Distance.GetType());
         }
-
+#endif
     }
 }

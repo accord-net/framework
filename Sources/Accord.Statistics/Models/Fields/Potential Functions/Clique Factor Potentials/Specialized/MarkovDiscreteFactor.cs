@@ -26,6 +26,7 @@ namespace Accord.Statistics.Models.Fields.Functions.Specialized
     using System.Collections.Generic;
     using Accord.Statistics.Models.Fields.Features;
     using System.Runtime.Serialization;
+    using Accord.Compat;
 
     /// <summary>
     ///   Discrete-density Markov Factor Potential (Clique Potential) function.

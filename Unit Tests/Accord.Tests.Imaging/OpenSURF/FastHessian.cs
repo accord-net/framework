@@ -308,7 +308,7 @@ namespace OpenSURFcs
             var D = BuildDerivative(r, c, t, m, b);
             var H = BuildHessian(r, c, t, m, b);
             var Hi = Matrix.Inverse(H);
-            var Of = (-1.0).Multiply(Hi).Multiply(D);
+            var Of = (-1.0).Multiply(Hi).Dot(D);
 
             // get the offsets from the interpolation
             double[] O = { Of[0, 0], Of[1, 0], Of[2, 0] };

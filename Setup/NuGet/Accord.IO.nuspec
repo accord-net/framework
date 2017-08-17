@@ -29,14 +29,17 @@
 
     <file src="..\..\Release\net45\Accord.IO.dll" target="lib\net45\Accord.IO.dll" />
     <file src="..\..\Release\net45\Accord.IO.xml" target="lib\net45\Accord.IO.xml" />
-	
-	<file src="..\..\Release\net46\Accord.IO.dll" target="lib\net46\Accord.IO.dll" />
+
+    <file src="..\..\Release\net46\Accord.IO.dll" target="lib\net46\Accord.IO.dll" />
     <file src="..\..\Release\net46\Accord.IO.xml" target="lib\net46\Accord.IO.xml" />
-	
-	<file src="..\..\Release\net462\Accord.IO.dll" target="lib\net462\Accord.IO.dll" />
+
+    <file src="..\..\Release\net462\Accord.IO.dll" target="lib\net462\Accord.IO.dll" />
     <file src="..\..\Release\net462\Accord.IO.xml" target="lib\net462\Accord.IO.xml" />
-	
-	<file src="..\..\Release\netstandard2.0\Accord.IO.dll" target="lib\netstandard2.0\Accord.IO.dll" />
+
+    <file src="..\..\Release\netstandard2.0\Accord.IO.dll" target="lib\netstandard2.0\Accord.IO.dll" />
     <file src="..\..\Release\netstandard2.0\Accord.IO.xml" target="lib\netstandard2.0\Accord.IO.xml" />
+
+    <file src="..\..\Release\netstandard1.4\Accord.IO.dll" target="lib\netstandard1.4\Accord.IO.dll" />
+    <file src="..\..\Release\netstandard1.4\Accord.IO.xml" target="lib\netstandard1.4\Accord.IO.xml" />
   </files>
 </package>

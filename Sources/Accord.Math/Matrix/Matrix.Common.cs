@@ -144,55 +144,20 @@ namespace Accord.Math
 
 
 
-        /// <summary>
-        ///   Compares two matrices for equality.
-        /// </summary>
-        /// 
-        public static bool IsEqual<T>(this T[][] objA, T[][] objB)
-        {
-            // TODO: Make this method recursive, or create
-            // a enumerator to read all values from jagged
-            // matrices sequentially
-            if (objA == objB)
-                return true;
-
-            if (objA == null)
-                throw new ArgumentNullException("objA");
-
-            if (objB == null)
-                throw new ArgumentNullException("objB");
-
-            if (objA.Length != objB.Length)
-                return false;
-
-            for (int i = 0; i < objA.Length; i++)
-            {
-                if (objA[i] == objB[i])
-                    continue;
-
-                if (objA[i] == null || objB[i] == null)
-                    return false;
-
-                if (objA[i].Length != objB[i].Length)
-                    return false;
-
-                for (int j = 0; j < objA[i].Length; j++)
-                {
-                    var elemA = objA[i][j];
-                    var elemB = objB[i][j];
-
-                    if (!Object.Equals(elemA, elemB))
-                        return false;
-                }
-            }
-            return true;
-        }
-
         /// <summary>Compares two objects for equality, performing an elementwise comparison if the elements are vectors or matrices.</summary>
         public static bool IsEqual(this object objA, object objB, decimal atol = 0, decimal rtol = 0)
         {
             if (Object.Equals(objA, objB))
                 return true;
+#if !NETSTANDARD1_4
+            if (objA is DBNull)
+                objA = null;
+
+            if (objB is DBNull)
+                objB = null;
+#endif
+            if (objA == null ^ objB == null)
+                return false;
 
             try
             {
@@ -237,6 +202,8 @@ namespace Accord.Math
             // Check if there is already an optimized method to perform this comparison
             Type typeA = objA.GetType();
             Type typeB = objB.GetType();
+
+#if !NETSTANDARD1_4
             MethodInfo equals = typeof(Matrix).GetMethod("IsEqual", new Type[] {
                     typeA, typeB, typeof(double), typeof(double)
                 });
@@ -247,7 +214,7 @@ namespace Accord.Math
 
             if (equals != _this)
                 return (bool)equals.Invoke(null, new object[] { objA, objB, atol, rtol });
-
+#endif
 
             // Base case: arrays contain elements of same nature (both arrays, or both values)
             if (objA.GetType().GetElementType().IsArray == objB.GetType().GetElementType().IsArray)
@@ -265,7 +232,8 @@ namespace Accord.Math
                     if (arrA != null && arrB != null && IsEqual(arrA, arrB, atol, rtol))
                         continue;
 
-                    return IsEqual(a.Current, b.Current, (decimal)atol, (decimal)rtol);
+                    if (!IsEqual(a.Current, b.Current, (decimal)atol, (decimal)rtol))
+                        return false;
                 }
 
                 return true;
@@ -497,10 +465,10 @@ namespace Accord.Math
             return false;
         }
 
-        #endregion
+#endregion
 
 
-        #region Transpose
+#region Transpose
 
         /// <summary>
         ///   Gets the transpose of a matrix.
@@ -536,6 +504,10 @@ namespace Accord.Math
                 if (rows != cols)
                     throw new ArgumentException("Only square matrices can be transposed in place.", "matrix");
 
+#if DEBUG
+                T[,] expected = matrix.Transpose();
+#endif
+
                 for (int i = 0; i < rows; i++)
                 {
                     for (int j = i; j < cols; j++)
@@ -545,6 +517,11 @@ namespace Accord.Math
                         matrix[i, j] = element;
                     }
                 }
+
+#if DEBUG
+                if (!expected.IsEqual(matrix))
+                    throw new Exception();
+#endif
 
                 return matrix;
             }
@@ -618,7 +595,7 @@ namespace Accord.Math
         /// <returns>The transpose of the given tensor.</returns>
         /// 
         public static T Transpose<T>(this T array, int[] order)
-            where T : class, ICloneable, IList
+            where T : class, IList
         {
             Array arr = array as Array;
 
@@ -651,10 +628,10 @@ namespace Accord.Math
             return r;
         }
 
-        #endregion
+#endregion
 
 
-        #region Matrix Characteristics
+#region Matrix Characteristics
 
         /// <summary>
         /// Gets the total number of elements in the vector.
@@ -692,7 +669,11 @@ namespace Accord.Math
         /// 
         public static int GetSizeInBytes<T>(this T[] elements)
         {
+#if NETSTANDARD1_4
+            return elements.GetNumberOfElements() * Marshal.SizeOf<T>();
+#else
             return elements.GetNumberOfElements() * Marshal.SizeOf(typeof(T));
+#endif
         }
 
         /// <summary>
@@ -701,7 +682,11 @@ namespace Accord.Math
         /// 
         public static int GetSizeInBytes<T>(this T[][] elements)
         {
+#if NETSTANDARD1_4
+            return elements.GetNumberOfElements() * Marshal.SizeOf<T>();
+#else
             return elements.GetNumberOfElements() * Marshal.SizeOf(typeof(T));
+#endif
         }
 
         /// <summary>
@@ -710,7 +695,11 @@ namespace Accord.Math
         /// 
         public static int GetSizeInBytes<T>(this T[,] elements)
         {
+#if NETSTANDARD1_4
+            return elements.GetNumberOfElements() * Marshal.SizeOf<T>();
+#else
             return elements.GetNumberOfElements() * Marshal.SizeOf(typeof(T));
+#endif
         }
 
         /// <summary>
@@ -1345,11 +1334,11 @@ namespace Accord.Math
             return new CholeskyDecomposition(matrix).IsPositiveDefinite;
         }
 
-        #endregion
+#endregion
 
 
 
-        #region Operation Mapping (Apply)
+#region Operation Mapping (Apply)
 
         /// <summary>
         ///   Applies a function to every element of the array.
@@ -1516,10 +1505,10 @@ namespace Accord.Math
                 result[i] = func(vector[i]);
             return result;
         }
-        #endregion
+#endregion
 
 
-        #region Rounding and discretization
+#region Rounding and discretization
         /// <summary>
         ///   Rounds a double-precision floating-point matrix to a specified number of fractional digits.
         /// </summary>
@@ -1622,10 +1611,10 @@ namespace Accord.Math
             return result;
         }
 
-        #endregion
+#endregion
 
 
-        #region Morphological operations
+#region Morphological operations
 
         /// <summary>
         ///   Transforms a jagged array matrix into a single vector.
@@ -1820,7 +1809,7 @@ namespace Accord.Math
             return result;
         }
 
-        #endregion
+#endregion
 
         /// <summary>
         ///   Convolves an array with the given kernel.

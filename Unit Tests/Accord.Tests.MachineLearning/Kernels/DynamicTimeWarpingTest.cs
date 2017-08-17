@@ -563,9 +563,8 @@ namespace Accord.Tests.MachineLearning
 
             double[][] b =
             {
-                new double[] { 7, 5, 2 },
+                new double[] { 8, 5, 2 },
                 new double[] { 4, 2, 5 },
-                new double[] { 3, 1, 2 },
             };
 
             // Following the aforementioned logic, sequence (a) should be

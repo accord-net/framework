@@ -34,9 +34,9 @@
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="nunit.framework, Version=3.7.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+    <Reference Include="nunit.framework">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Externals\NUnit\bin\net-4.5\nunit.framework.dll</HintPath>
+      <HintPath>..\..\Externals\NUnit\NUnit.Framework-3.6.1\bin\net-4.5\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -114,22 +114,54 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\csv\comma_in_quotes.csv" />
-    <None Include="Resources\csv\new\pipes.csv" />
-    <None Include="Resources\csv\new\double_quotes.csv" />
-    <None Include="Resources\csv\new\tabs.csv" />
-    <None Include="Resources\csv\new\french.csv" />
-    <None Include="Resources\csv\new\error_recovery.csv" />
-    <None Include="Resources\csv\empty.csv" />
-    <None Include="Resources\csv\empty_crlf.csv" />
-    <None Include="Resources\csv\escaped_quotes.csv" />
-    <None Include="Resources\csv\json.csv" />
-    <None Include="Resources\csv\newlines.csv" />
-    <None Include="Resources\csv\newlines_crlf.csv" />
-    <None Include="Resources\csv\quotes_and_newlines.csv" />
-    <None Include="Resources\csv\simple.csv" />
-    <None Include="Resources\csv\simple_crlf.csv" />
-    <None Include="Resources\csv\utf8.csv" />
+    <None Include="Resources\csv\comma_in_quotes.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\csv\new\pipes.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\csv\new\double_quotes.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\csv\new\tabs.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\csv\new\french.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\csv\new\error_recovery.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\csv\empty.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\csv\empty_crlf.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\csv\escaped_quotes.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\csv\json.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\csv\newlines.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\csv\newlines_crlf.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\csv\quotes_and_newlines.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\csv\simple.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\csv\simple_crlf.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\csv\utf8.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Resources\excel\data1.xls">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -151,26 +183,46 @@
     <None Include="Resources\excel\spreadsheet_names.xls">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\iris.scale.txt" />
+    <None Include="Resources\iris.scale.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="Accord.snk" />
     <None Include="app.config" />
-    <None Include="Resources\liblinear\a9a.test" />
-    <None Include="Resources\liblinear\a9a.train" />
-    <None Include="Resources\numpy\npy_bool.npy" />
-    <None Include="Resources\numpy\npy_byte.npy" />
-    <None Include="Resources\numpy\npy_integer.npy" />
-    <None Include="Resources\numpy\npy_strings.npy" />
-    <None Include="Resources\numpy\npy_strings_var.npy" />
-    <None Include="Resources\pendigits-orig.tes.Z" />
+    <None Include="Resources\liblinear\a9a.test">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\liblinear\a9a.train">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\numpy\npy_bool.npy">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\numpy\npy_byte.npy">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\numpy\npy_integer.npy">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\numpy\npy_strings.npy">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\numpy\npy_strings_var.npy">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\pendigits-orig.tes.Z">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Resources\sample.xls">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Resources\sample.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\t10k-images-idx3-ubyte.gz" />
+    <None Include="Resources\t10k-images-idx3-ubyte.gz">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

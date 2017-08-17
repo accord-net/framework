@@ -36,8 +36,10 @@ namespace Accord.IO
     using System;
     using System.Collections;
     using System.Collections.Generic;
-    using System.Data;
+#if !NETSTANDARD1_4
     using System.Data.Common;
+    using System.Data;
+#endif
     using Debug = System.Diagnostics.Debug;
     using System.Globalization;
     using System.IO;
@@ -47,7 +49,11 @@ namespace Accord.IO
     ///   Represents a reader that provides fast, non-cached, forward-only access to CSV data.  
     /// </summary>
     /// 
-    public partial class CsvReader : IDataReader, IEnumerable<string[]>, IDisposable
+    public partial class CsvReader :
+#if !NETSTANDARD1_4
+        IDataReader, 
+#endif
+        IEnumerable<string[]>, IDisposable
     {
         /// <summary>
         ///   Defines the default buffer size.
@@ -121,8 +127,7 @@ namespace Accord.IO
         // for the current record. Resets after each successful record read.
 
         private bool _parseErrorFlag; // if a parse error occurred for the 
-        // current record. Resets after each successful record read.
-
+                                      // current record. Resets after each successful record read.
 
 
         /// <summary>
@@ -133,7 +138,7 @@ namespace Accord.IO
         /// <param name="hasHeaders"><see langword="true"/> if field names are located on the first non commented line, otherwise, <see langword="false"/>.</param>
         /// 
         public CsvReader(string path, bool hasHeaders)
-            : this(new StreamReader(path), hasHeaders, DefaultDelimiter, DefaultBufferSize)
+            : this(new StreamReader(new FileStream(path, FileMode.Open, FileAccess.Read)), hasHeaders, DefaultDelimiter, DefaultBufferSize)
         {
         }
 
@@ -188,7 +193,7 @@ namespace Accord.IO
         /// 
         public CsvReader(TextReader reader, bool hasHeaders, char delimiter, int bufferSize)
         {
-#if DEBUG
+#if DEBUG && !NETSTANDARD1_4
             _allocStack = new System.Diagnostics.StackTrace();
 #endif
 
@@ -450,7 +455,7 @@ namespace Accord.IO
         }
 
 
-
+#if !NETSTANDARD1_4
         /// <summary>
         ///   Reads the entire stream into a DataTable.
         /// </summary>
@@ -465,6 +470,7 @@ namespace Accord.IO
             return table;
         }
 
+
         /// <summary>
         ///   Reads the entire stream into a DataTable.
         /// </summary>
@@ -475,6 +481,7 @@ namespace Accord.IO
         {
             return new DataView(ToTable()).ToTable(false, columnNames);
         }
+#endif
 
         /// <summary>
         ///   Reads the entire stream into a list of records.
@@ -505,6 +512,33 @@ namespace Accord.IO
 
             return lines;
         }
+
+        /// <summary>
+        ///   Reads the entire stream into a list of records.
+        /// </summary>
+        /// 
+        /// <returns>A list containing all records in the file.</returns>
+        /// 
+        public String[] ReadLine()
+        {
+            EnsureInitialize();
+
+            int fieldCount = this.FieldCount;
+
+            if (!this.ReadNextRecord())
+                throw new InvalidOperationException(ExceptionMessage.NoCurrentRecord);
+
+            var record = new string[fieldCount];
+
+            for (int i = 0; i < _fieldCount; i++)
+            {
+                if (!_parseErrorFlag)
+                    record[i] = this[i];
+            }
+
+            return record;
+        }
+
 
         /// <summary>
         ///   Reads the entire stream into a multi-dimensional matrix.
@@ -1826,7 +1860,7 @@ namespace Accord.IO
             }
         }
 
-
+#if !NETSTANDARD1_4
         /// <summary>
         /// Validates the state of the data reader.
         /// </summary>
@@ -1845,6 +1879,7 @@ namespace Accord.IO
             if ((validations & DataReaderValidations.IsNotClosed) != 0 && _isDisposed)
                 throw new InvalidOperationException(ExceptionMessage.ReaderClosed);
         }
+#endif
 
         /// <summary>
         /// Copy the value of the specified field to an array.
@@ -1922,7 +1957,7 @@ namespace Accord.IO
         }
 
 
-#if DEBUG
+#if DEBUG && !NETSTANDARD1_4
         /// <summary>
         /// Contains the stack when the object was allocated.
         /// </summary>
@@ -1952,7 +1987,9 @@ namespace Accord.IO
         /// <value>
         /// 	<see langword="true"/> if the instance has been disposed of; otherwise, <see langword="false"/>.
         /// </value>
+#if !NETSTANDARD1_4
         [System.ComponentModel.Browsable(false)]
+#endif
         public bool IsDisposed
         {
             get { return _isDisposed; }
@@ -2069,6 +2106,7 @@ namespace Accord.IO
             }
         }
 
+#if !NETSTANDARD1_4
         /// <summary>
         /// Releases unmanaged resources and performs other cleanup operations before the instance is reclaimed by garbage collection.
         /// </summary>
@@ -2080,6 +2118,7 @@ namespace Accord.IO
 
             Dispose(false);
         }
+#endif
 
 
     }

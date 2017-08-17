@@ -45,8 +45,8 @@ namespace Accord.Statistics.Distributions.Univariate
     using Accord.Math.Integration;
     using Accord.Math.Optimization;
     using Accord.Statistics.Distributions.Fitting;
-    using AForge;
     using Accord.Math.Random;
+    using Accord.Compat;
 
     /// <summary>
     ///   Abstract class for univariate continuous probability Distributions.

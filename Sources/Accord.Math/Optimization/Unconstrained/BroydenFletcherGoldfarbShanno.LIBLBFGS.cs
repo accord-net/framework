@@ -64,6 +64,7 @@ license.
 namespace Accord.Math.Optimization
 {
     using System;
+    using Accord.Compat;
 
     internal class lbfgs_parameter_t
     {

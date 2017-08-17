@@ -25,6 +25,7 @@ namespace Accord.Statistics.Models.Fields.Functions.Specialized
     using System;
     using System.Runtime.Serialization;
     using Accord.Statistics.Models.Fields.Features;
+    using Accord.Compat;
 
     /// <summary>
     ///   Multivariate Normal Markov Model Factor Potential (Clique Potential) function.

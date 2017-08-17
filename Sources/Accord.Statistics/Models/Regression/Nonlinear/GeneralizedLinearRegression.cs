@@ -30,6 +30,7 @@ namespace Accord.Statistics.Models.Regression
     using Accord.Math;
     using Accord.Statistics.Models.Regression.Linear;
     using System.Runtime.Serialization;
+    using Accord.Compat;
 
     /// <summary>
     ///   Generalized Linear Model Regression.

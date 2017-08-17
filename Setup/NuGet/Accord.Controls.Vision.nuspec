@@ -34,14 +34,14 @@
 
     <file src="..\..\Release\net45\Accord.Controls.Vision.dll" target="lib\net45\Accord.Controls.Vision.dll" />
     <file src="..\..\Release\net45\Accord.Controls.Vision.xml" target="lib\net45\Accord.Controls.Vision.xml" />
-	
-	<file src="..\..\Release\net46\Accord.Controls.Vision.dll" target="lib\net46\Accord.Controls.Vision.dll" />
+
+    <file src="..\..\Release\net46\Accord.Controls.Vision.dll" target="lib\net46\Accord.Controls.Vision.dll" />
     <file src="..\..\Release\net46\Accord.Controls.Vision.xml" target="lib\net46\Accord.Controls.Vision.xml" />
-	
-	<file src="..\..\Release\net462\Accord.Controls.Vision.dll" target="lib\net462\Accord.Controls.Vision.dll" />
+
+    <file src="..\..\Release\net462\Accord.Controls.Vision.dll" target="lib\net462\Accord.Controls.Vision.dll" />
     <file src="..\..\Release\net462\Accord.Controls.Vision.xml" target="lib\net462\Accord.Controls.Vision.xml" />
-	
-	<!-- <file src="..\..\Release\netstandard2.0\Accord.Controls.Vision.dll" target="lib\netstandard2.0\Accord.Controls.Vision.dll" /> -->
+
+    <!-- <file src="..\..\Release\netstandard2.0\Accord.Controls.Vision.dll" target="lib\netstandard2.0\Accord.Controls.Vision.dll" /> -->
     <!-- <file src="..\..\Release\netstandard2.0\Accord.Controls.Vision.xml" target="lib\netstandard2.0\Accord.Controls.Vision.xml" /> -->
   </files>
 </package>

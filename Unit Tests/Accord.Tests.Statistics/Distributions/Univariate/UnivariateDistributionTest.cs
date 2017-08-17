@@ -41,10 +41,26 @@ namespace Accord.Tests.Statistics
     public class UnivariateDistributionTest
     {
 
-        private static string GetNames(Assembly assembly, Type baseType, out int count)
+        public static IEnumerable<Type> GetDerivedConcreteTypes(Type baseType)
         {
-            var distributions = assembly.GetTypes().Where(p =>
+#if NETCORE
+            var distributions = Assembly
+                 .GetEntryAssembly()
+                 .GetReferencedAssemblies()
+                 .Select(Assembly.Load)
+                 .SelectMany(x => x.DefinedTypes)
+                 .Where(p => baseType.IsAssignableFrom(p.AsType()) && !p.IsAbstract && !p.IsInterface)
+                 .Select(p => p.AsType());
+#else
+            var distributions = Assembly.GetAssembly(baseType).GetTypes().Where(p =>
                 baseType.IsAssignableFrom(p) && !p.IsAbstract && !p.IsInterface);
+#endif
+            return distributions;
+        }
+
+        private static string GetNames(Type baseType, out int count)
+        {
+            var distributions = GetDerivedConcreteTypes(baseType);
 
             var list = new List<String>();
             foreach (Type type in distributions)
@@ -63,11 +79,9 @@ namespace Accord.Tests.Statistics
             // constructors' parameters
 
             var baseType = typeof(IUnivariateDistribution);
-            var assembly = Assembly.GetAssembly(baseType);
 
             // Get all univariate distributions in Accord.NET:
-            var distributions = assembly.GetTypes().Where(p =>
-                baseType.IsAssignableFrom(p) && !p.IsAbstract && !p.IsInterface);
+            var distributions = GetDerivedConcreteTypes(baseType);
 
             var check = new HashSet<Type>();
 

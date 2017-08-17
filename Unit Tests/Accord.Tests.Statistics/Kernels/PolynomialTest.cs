@@ -31,23 +31,6 @@ namespace Accord.Tests.Statistics
     public class PolynomialTest
     {
 
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
         [Test]
         public void DistanceTest()
         {
@@ -244,6 +227,15 @@ namespace Accord.Tests.Statistics
             double[][] actual = data.Apply(target.Transform);
 
             Assert.IsTrue(expected.IsEqual(actual, 1e-10));
+        }
+
+        [Test]
+        public void DegreeChangeTest()
+        {
+            // https://github.com/accord-net/framework/issues/745
+            var polynomial = new Polynomial();
+            polynomial.Degree = 3;
+            Assert.AreEqual(3, polynomial.Degree);
         }
 
     }

@@ -22,7 +22,7 @@
 
 namespace Accord.IO
 {
-#if !NETSTANDARD2_0
+#if !NETSTANDARD
     using System;
     using System.Collections.Generic;
     using System.Data;
@@ -30,6 +30,7 @@ namespace Accord.IO
     using System.Data.OleDb;
     using System.Globalization;
     using System.IO;
+    using Accord.Compat;
 
     /// <summary>
     ///   Excel file reader using Microsoft Jet Database Engine.
@@ -357,7 +358,6 @@ namespace Accord.IO
 
             return dataset;
         }
-
     }
 #endif
 }

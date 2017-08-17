@@ -28,6 +28,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     using System;
     using Accord.Math.Optimization.Losses;
     using System.Threading;
+    using Accord.Compat;
 
     /// <summary>
     ///   Support vector regression using <see cref="FanChenLinQuadraticOptimization"/> (LibSVM) algorithm.
@@ -94,7 +95,9 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         : BaseSupportVectorRegression<TModel, TKernel, TInput>
         where TKernel : IKernel<TInput>
         where TModel : SupportVectorMachine<TKernel, TInput>
+#if !NETSTANDARD1_4
         where TInput : ICloneable
+#endif
     {
 
         private double[] alpha;

@@ -32,7 +32,7 @@ namespace Accord.Tests.Statistics
     public class MultinomialLogisticRegressionAnalysisTest
     {
 
-
+#if !NO_DATA_TABLE
         [Test]
         public void AnalyzeExample1()
         {
@@ -190,6 +190,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual("prog: vocation", analysis.Coefficients[i].Class);
             Assert.AreEqual(-0.93207938490449849, analysis.Coefficients[i].Value, 1e-4);
         }
+#endif
 
         [Test]
         public void ComputeTest1()

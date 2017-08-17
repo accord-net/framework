@@ -803,8 +803,26 @@ namespace Accord.Math
         /// 
         public static int First<T>(this T[] data, Func<T, bool> func)
         {
-            return Find(data, func, true)[0];
+            return Find(data, func, firstOnly: true)[0];
         }
+
+        /// <summary>
+        ///   Gets the indices of the first element matching a certain criteria, or null if the element could not be found.
+        /// </summary>
+        /// 
+        /// <typeparam name="T">The type of the array.</typeparam>
+        /// 
+        /// <param name="data">The array to search inside.</param>
+        /// <param name="func">The search criteria.</param>
+        /// 
+        public static int? FirstOrNull<T>(this T[] data, Func<T, bool> func)
+        {
+            int[] r = Find(data, func, firstOnly: true);
+            if (r.Length == 0)
+                return null;
+            return r[0];
+        }
+
         /// <summary>
         ///   Searches for the specified value and returns the index of the first occurrence within the array.
         /// </summary>

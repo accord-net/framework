@@ -41,3 +41,5 @@ html
 
 /install-sh
 /missing
+
+!Externals/NUnit/*/bin

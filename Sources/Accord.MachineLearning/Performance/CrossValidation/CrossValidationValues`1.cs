@@ -24,10 +24,17 @@ namespace Accord.MachineLearning
 {
     using Accord.MachineLearning.Performance;
     using System;
+    using Accord.Compat;
 
     /// <summary>
     ///   Obsolete. Please refer to <see cref="CrossValidation{TModel, TInput}"/> instead.
     /// </summary>
+    /// 
+    /// <example>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\CrossValidationTest.cs" region="doc_learn" />
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\CrossValidationTest.cs" region="doc_learn_hmm" />
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\DecisionTrees\DecisionTreeTest.cs" region="doc_cross_validation" />
+    /// </example>
     /// 
     [Serializable]
     // TODO: Mark as obsolete

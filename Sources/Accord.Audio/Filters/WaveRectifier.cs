@@ -23,6 +23,7 @@
 namespace Accord.Audio.Filters
 {
     using System.Collections.Generic;
+    using Accord.Compat;
     using System.Numerics;
 
     /// <summary>

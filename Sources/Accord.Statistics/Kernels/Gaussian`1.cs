@@ -23,9 +23,9 @@
 namespace Accord.Statistics.Kernels
 {
     using System;
-    using AForge;
     using Accord.Math;
     using Accord.Math.Distances;
+    using Accord.Compat;
 
     /// <summary>
     ///   Composite Gaussian Kernel.

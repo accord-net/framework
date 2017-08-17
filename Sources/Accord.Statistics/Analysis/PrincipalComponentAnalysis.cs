@@ -30,7 +30,7 @@ namespace Accord.Statistics.Analysis
     using Accord.MachineLearning;
     using Accord.Statistics.Analysis.Base;
     using Accord.Statistics.Models.Regression.Linear;
-
+    using Accord.Compat;
 
     /// <summary>
     ///   Principal component analysis (PCA) is a technique used to reduce
@@ -98,7 +98,7 @@ namespace Accord.Statistics.Analysis
 #pragma warning disable 612, 618
     public class PrincipalComponentAnalysis : BasePrincipalComponentAnalysis, ITransform<double[], double[]>,
         IUnsupervisedLearning<MultivariateLinearRegression, double[], double[]>,
- IMultivariateAnalysis, IProjectionAnalysis
+        IMultivariateAnalysis, IProjectionAnalysis
 #pragma warning restore 612, 618
     {
 

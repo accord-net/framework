@@ -27,7 +27,7 @@ namespace Accord.Statistics.Models.Fields.Learning
     using System;
     using Accord.Math.Optimization;
     using Accord.MachineLearning;
-    using System.Threading;
+    using Accord.Compat;
     using System.Threading.Tasks;
 
     /// <summary>

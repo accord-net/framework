@@ -24,13 +24,10 @@ namespace Accord.Statistics.Models.Regression.Linear
 {
     using MachineLearning;
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using Accord.Math;
-    using System.Text;
-    using System.Threading.Tasks;
-    using System.Threading;
     using Accord.Math.Decompositions;
+    using Accord.Compat;
+    using System.Threading;
 
     /// <summary>
     ///   Least Squares learning algorithm for linear regression models.
@@ -120,13 +117,17 @@ namespace Accord.Statistics.Models.Regression.Linear
         /// </returns>
         public SimpleLinearRegression Learn(double[] x, double[] y, double[] weights = null)
         {
-            if (weights != null)
-                throw new ArgumentException(Accord.Properties.Resources.NotSupportedWeights, "weights");
-
             double[][] X = Jagged.ColumnVector(x);
 
             if (UseIntercept)
                 X = X.InsertColumn(value: 1);
+
+            if (weights != null)
+            {
+                double[] sqrtW = weights.Sqrt();
+                X = Elementwise.Multiply(X, sqrtW, dimension: 1, result: X);
+                y = Elementwise.Multiply(y, sqrtW);
+            }
 
             decomposition = X.Decompose(leastSquares: IsRobust);
             double[] coefficients = decomposition.Solve(y);
@@ -159,12 +160,16 @@ namespace Accord.Statistics.Models.Regression.Linear
         /// </returns>
         public MultipleLinearRegression Learn(double[][] x, double[] y, double[] weights = null)
         {
-            if (weights != null)
-                throw new ArgumentException(Accord.Properties.Resources.NotSupportedWeights, "weights");
-
             //var Xt = x.Transpose();
             if (UseIntercept)
                 x = x.InsertColumn(value: 1.0);
+
+            if (weights != null)
+            {
+                double[] sqrtW = weights.Sqrt();
+                x = Elementwise.Multiply(x, sqrtW, dimension: 1);
+                y = Elementwise.Multiply(y, sqrtW);
+            }
 
             decomposition = x.Decompose(leastSquares: IsRobust);
             double[] coefficients = decomposition.Solve(y);
@@ -197,11 +202,15 @@ namespace Accord.Statistics.Models.Regression.Linear
         /// </returns>
         public MultivariateLinearRegression Learn(double[][] x, double[][] y, double[] weights = null)
         {
-            if (weights != null)
-                throw new ArgumentException(Accord.Properties.Resources.NotSupportedWeights, "weights");
-
             if (UseIntercept)
                 x = x.InsertColumn(value: 1.0);
+
+            if (weights != null)
+            {
+                double[] sqrtW = weights.Sqrt();
+                x = Elementwise.Multiply(x, sqrtW, dimension: 1);
+                y = Elementwise.Multiply(y, sqrtW, dimension: 1);
+            }
 
             decomposition = x.Decompose(leastSquares: IsRobust);
             double[][] coefficients = decomposition.Solve(y);

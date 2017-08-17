@@ -33,6 +33,7 @@ namespace Accord.Tests.Statistics
     using NUnit.Framework;
     using System.Collections.Generic;
     using System.Data;
+    using System.IO;
 
     [TestFixture]
     public class LogisticRegressionTest
@@ -695,6 +696,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(60.5066623676452, regression.Coefficients[3], 1e-7);
         }
 
+#if !NO_DATA_TABLE
         [Test]
         public void RegularizationTest2()
         {
@@ -730,9 +732,14 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.1065137931017601, regression.Coefficients[1], 1e-8);
             Assert.AreEqual(22.010378588337979, regression.Coefficients[2], 1e-8);
         }
+#endif
 
+#if !NO_BINARY_SERIALIZATION
         [Test]
         [Category("Serialization")]
+#if NETCORE
+        [Ignore("Models created in .NET desktop cannot be de-serialized in .NET Core/Standard (yet)")]
+#endif
         public void serialization_test()
         {
             //CsvReader reader = CsvReader.FromText(Properties.Resources.regression, true);
@@ -750,7 +757,8 @@ namespace Accord.Tests.Statistics
 
             //double actual = irls.ComputeError(inputs, output);
             //Assert.AreEqual(30.507262964894068, actual, 1e-8);
-            var regression = Serializer.Load<LogisticRegression>(Resources.lr_3_2_3);
+            string fileName = Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources", "lr_3.2.3.bin");
+            var regression = Serializer.Load<LogisticRegression>(fileName);
 
             Assert.AreEqual(3, regression.Coefficients.Length);
             Assert.AreEqual(-0.38409721299838279, regression.Coefficients[0], 1e-7);
@@ -764,7 +772,9 @@ namespace Accord.Tests.Statistics
 
             // regression.Save(@"C:\Users\CésarRoberto\Desktop\lr_3.2.3.bin");
         }
+#endif
 
+#if !NO_DATA_TABLE
         [Test]
         public void prediction_interval()
         {
@@ -799,5 +809,6 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.1405, pi.Min, 5e-3);
             Assert.AreEqual(0.9075, pi.Max, 5e-3);
         }
+#endif
     }
 }

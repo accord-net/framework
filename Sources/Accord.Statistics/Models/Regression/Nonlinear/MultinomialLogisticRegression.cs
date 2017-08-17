@@ -29,6 +29,7 @@ namespace Accord.Statistics.Models.Regression
     using System.Runtime.Serialization;
     using Accord.Statistics.Models.Regression.Fitting;
     using Accord.Math.Optimization;
+    using Accord.Compat;
 
     /// <summary>
     ///   Nominal Multinomial Logistic Regression.

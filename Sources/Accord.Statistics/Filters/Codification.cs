@@ -27,6 +27,7 @@ namespace Accord.Statistics.Filters
     using System.ComponentModel;
     using Accord.Math;
     using MachineLearning;
+    using Accord.Compat;
 
     /// <summary>
     ///   Codification type.
@@ -118,8 +119,7 @@ namespace Accord.Statistics.Filters
     /// <para>
     ///   The following more elaborated examples show how to
     ///   use the <see cref="Codification"/> filter without
-    ///   necessarily handling <see cref="System.Data.DataTable">
-    ///   DataTable</see>s.</para>
+    ///   necessarily handling <c>System.Data.DataTable</c>s.</para>
     ///   
     /// <code source="Unit Tests\Accord.Tests.MachineLearning\Statistics\CodificationFilterSvmTest.cs" region="doc_learn_1" />
     /// 
@@ -149,9 +149,16 @@ namespace Accord.Statistics.Filters
     ///   Codification class to perform such pre-processing.</para>
     ///   
     ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MulticlassSupportVectorLearningTest.cs" region="doc_learn_codification" />
+    ///   
+    /// <para>
+    ///   The codification filter can also work with missing values. The example below shows how a codification codebook
+    ///   can be created from a dataset that includes missing values and how to use this codebook to replace missing values
+    ///   by some other representation (in the case below, replacing <c>null</c> by <c>NaN</c> double numbers.</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\DecisionTrees\C45LearningTest.cs" region="doc_missing" />
     /// </example>
     /// 
-    /// <seealso cref="Normalization"/>
+    /// <seealso cref="Codification{T}"/>
+    /// <seealso cref="Discretization{TInput, TOutput}"/>
     /// 
     [Serializable]
     public class Codification : Codification<string>, IAutoConfigurableFilter, ITransform<string[], double[]>
@@ -166,6 +173,7 @@ namespace Accord.Statistics.Filters
         {
         }
 
+#if !NETSTANDARD1_4
         /// <summary>
         ///   Creates a new Codification Filter.
         /// </summary>
@@ -183,6 +191,7 @@ namespace Accord.Statistics.Filters
             : base(data, columns)
         {
         }
+#endif
 
         /// <summary>
         ///   Creates a new Codification Filter.
@@ -270,6 +279,7 @@ namespace Accord.Statistics.Filters
             return Transform(data);
         }
 
+#if !NETSTANDARD1_4
         /// <summary>
         ///   Translates an array of values into their
         ///   integer representation, assuming values
@@ -289,6 +299,7 @@ namespace Accord.Statistics.Filters
         {
             return Transform(row, columnNames);
         }
+#endif
 
         /// <summary>
         ///   Translates a value of the given variables
@@ -395,6 +406,7 @@ namespace Accord.Statistics.Filters
             return Revert(columnNames, codewords);
         }
 
+#if !NETSTANDARD1_4
         /// <summary>
         ///   Auto detects the filter options by analyzing a given <see cref="System.Data.DataTable"/>.
         /// </summary> 
@@ -413,6 +425,7 @@ namespace Accord.Statistics.Filters
         {
             Learn(data);
         }
+#endif
 
         /// <summary>
         ///   Auto detects the filter options by analyzing a set of string labels.

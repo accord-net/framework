@@ -227,7 +227,7 @@ namespace Accord.Statistics.Analysis
 
             SingularValueDecomposition svd = new SingularValueDecomposition(p_reference.Dataset.TransposeAndDot(p.Dataset));
 
-            double[,] Q = svd.RightSingularVectors.TransposeAndDot(svd.LeftSingularVectors);
+            double[,] Q = svd.RightSingularVectors.DotWithTransposed(svd.LeftSingularVectors);
 
             p.RotationMatrix = Q;
 

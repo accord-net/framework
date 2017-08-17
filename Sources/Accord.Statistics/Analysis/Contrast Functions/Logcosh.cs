@@ -23,6 +23,7 @@
 namespace Accord.Statistics.Analysis.ContrastFunctions
 {
     using System;
+    using Accord.Compat;
 
     /// <summary>
     ///   Log-cosh (Hyperbolic Tangent) contrast function.

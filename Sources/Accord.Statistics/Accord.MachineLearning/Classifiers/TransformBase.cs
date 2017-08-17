@@ -24,6 +24,7 @@ namespace Accord.MachineLearning
 {
     using System;
     using Accord.Math;
+    using Accord.Compat;
 
     /// <summary>
     ///   Base class for data transformation algorithms.

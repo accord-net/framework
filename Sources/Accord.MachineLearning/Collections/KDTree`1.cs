@@ -27,6 +27,7 @@ namespace Accord.Collections
     using Accord.Math;
     using Accord.Math.Comparers;
     using Accord.Math.Distances;
+    using Accord.Compat;
 
     /// <summary>
     ///   K-dimensional tree.

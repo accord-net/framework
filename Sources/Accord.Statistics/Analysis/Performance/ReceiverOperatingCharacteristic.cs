@@ -31,6 +31,7 @@ namespace Accord.Statistics.Analysis
     using Accord.Math;
     using Accord.Statistics.Visualizations;
     using Accord.Statistics.Testing;
+    using Accord.Compat;
 
     /// <summary>
     ///   Methods for computing the area under <see cref="ReceiverOperatingCharacteristic">

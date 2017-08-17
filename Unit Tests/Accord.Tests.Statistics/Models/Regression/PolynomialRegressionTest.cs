@@ -27,6 +27,10 @@ namespace Accord.Tests.Statistics
     using Math.Optimization.Losses;
     using NUnit.Framework;
     using System;
+    using System.Globalization;
+#if NO_CULTURE
+    using CultureInfo = Accord.Compat.CultureInfo;
+#endif
 
     [TestFixture]
     public class PolynomialRegressionTest
@@ -59,6 +63,11 @@ namespace Accord.Tests.Statistics
         [Test]
         public void learn_test_2()
         {
+#if NETCORE
+            var culture = CultureInfo.CreateSpecificCulture("en-US");
+            CultureInfo.CurrentCulture = culture;
+#endif
+
             #region doc_learn
             // Let's say we would like to learn 2nd degree polynomial that 
             // can map the first column X into its second column Y. We have 
@@ -108,7 +117,7 @@ namespace Accord.Tests.Statistics
             string ex = weights.ToCSharp();
             double[] expected = { 1, 0 };
 
-            Assert.AreEqual(str, "y(x) = 1.0x^2 + 0.0x^1 + 0.0");
+            Assert.AreEqual("y(x) = 1.0x^2 + 0.0x^1 + 0.0", str);
             Assert.IsTrue(weights.IsEqual(expected, 1e-6));
             Assert.AreEqual(0, intercept, 1e-6);
         }
@@ -145,26 +154,26 @@ namespace Accord.Tests.Statistics
 
             {
                 string expected = "y(x) = 3x^2 + 1.99999999999998x^1 + 1.00000000000005";
-                expected = expected.Replace(".", System.Globalization.CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator);
+                expected = expected.Replace(".", CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator);
                 string actual = poly.ToString();
                 Assert.AreEqual(expected, actual);
             }
 
             {
                 string expected = "y(x) = 3x^2 + 1.99999999999998x^1 + 1.00000000000005";
-                string actual = poly.ToString(null, System.Globalization.CultureInfo.GetCultureInfo("en-US"));
+                string actual = poly.ToString(null, CultureInfo.GetCultureInfo("en-US"));
                 Assert.AreEqual(expected, actual);
             }
 
             {
                 string expected = "y(x) = 3.0x^2 + 2.0x^1 + 1.0";
-                string actual = poly.ToString("N1", System.Globalization.CultureInfo.GetCultureInfo("en-US"));
+                string actual = poly.ToString("N1", CultureInfo.GetCultureInfo("en-US"));
                 Assert.AreEqual(expected, actual);
             }
 
             {
                 string expected = "y(x) = 3,00x^2 + 2,00x^1 + 1,00";
-                string actual = poly.ToString("N2", System.Globalization.CultureInfo.GetCultureInfo("pt-BR"));
+                string actual = poly.ToString("N2", CultureInfo.GetCultureInfo("pt-BR"));
                 Assert.AreEqual(expected, actual);
             }
         }
@@ -193,28 +202,168 @@ namespace Accord.Tests.Statistics
 
             {
                 string expected = "y(x) = 3x^2 + 1.99999999999998x^1 + 1.00000000000005";
-                expected = expected.Replace(".", System.Globalization.CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator);
+                expected = expected.Replace(".", CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator);
                 string actual = poly.ToString();
                 Assert.AreEqual(expected, actual);
             }
 
             {
                 string expected = "y(x) = 3x^2 + 1.99999999999998x^1 + 1.00000000000005";
-                string actual = poly.ToString(null, System.Globalization.CultureInfo.GetCultureInfo("en-US"));
+                string actual = poly.ToString(null, CultureInfo.GetCultureInfo("en-US"));
                 Assert.AreEqual(expected, actual);
             }
 
             {
                 string expected = "y(x) = 3.0x^2 + 2.0x^1 + 1.0";
-                string actual = poly.ToString("N1", System.Globalization.CultureInfo.GetCultureInfo("en-US"));
+                string actual = poly.ToString("N1", CultureInfo.GetCultureInfo("en-US"));
                 Assert.AreEqual(expected, actual);
             }
 
             {
                 string expected = "y(x) = 3,00x^2 + 2,00x^1 + 1,00";
-                string actual = poly.ToString("N2", System.Globalization.CultureInfo.GetCultureInfo("pt-BR"));
+                string actual = poly.ToString("N2", CultureInfo.GetCultureInfo("pt-BR"));
                 Assert.AreEqual(expected, actual);
             }
         }
+
+        [Test]
+        public void weight_test_linear()
+        {
+            PolynomialRegression reference;
+            double referenceR2;
+
+            {
+                double[][] data =
+                {
+                    new[] { 1.0, 10.7, 2.4 }, // 
+                    new[] { 1.0, 10.7, 2.4 }, // 
+                    new[] { 1.0, 10.7, 2.4 }, // 
+                    new[] { 1.0, 10.7, 2.4 }, // 
+                    new[] { 1.0, 10.7, 2.4 }, // 5 times weight 1
+                    new[] { 1.0, 12.5, 3.6 },
+                    new[] { 1.0, 43.2, 7.6 },
+                    new[] { 1.0, 10.2, 1.1 },
+                };
+
+                double[] x = data.GetColumn(1);
+                double[] y = data.GetColumn(2);
+
+                var ols = new PolynomialLeastSquares();
+                reference = ols.Learn(x, y);
+
+                Assert.AreEqual(1, reference.NumberOfInputs);
+                Assert.AreEqual(1, reference.NumberOfOutputs);
+
+                referenceR2 = reference.CoefficientOfDetermination(x, y);
+            }
+
+            PolynomialRegression target;
+            double targetR2;
+
+            {
+                double[][] data =
+                {
+                    new[] { 5.0, 10.7, 2.4 }, // 1 times weight 5
+                    new[] { 1.0, 12.5, 3.6 },
+                    new[] { 1.0, 43.2, 7.6 },
+                    new[] { 1.0, 10.2, 1.1 },
+                };
+
+                double[] weights = data.GetColumn(0);
+                double[] x = data.GetColumn(1);
+                double[] y = data.GetColumn(2);
+
+                Assert.AreEqual(1, reference.NumberOfInputs);
+                Assert.AreEqual(1, reference.NumberOfOutputs);
+
+                var ols = new PolynomialLeastSquares();
+                target = ols.Learn(x, y, weights);
+                targetR2 = target.CoefficientOfDetermination(x, y, weights);
+            }
+
+            Assert.IsTrue(reference.Weights.IsEqual(target.Weights));
+            Assert.AreEqual(reference.Intercept, target.Intercept, 1e-8);
+            Assert.AreEqual(0.16387475666214069, target.Weights[0], 1e-6);
+            Assert.AreEqual(0.59166925681755056, target.Intercept, 1e-6);
+
+            Assert.AreEqual(referenceR2, targetR2, 1e-8);
+            Assert.AreEqual(0.91476129548901486, targetR2);
+        }
+
+
+        [Test]
+        public void weight_test_square()
+        {
+            PolynomialRegression reference;
+            double referenceR2;
+
+            {
+                double[][] data =
+                {
+                    new[] { 1.0, 10.7, 2.4 }, // 
+                    new[] { 1.0, 10.7, 2.4 }, // 
+                    new[] { 1.0, 10.7, 2.4 }, // 
+                    new[] { 1.0, 10.7, 2.4 }, // 
+                    new[] { 1.0, 10.7, 2.4 }, // 5 times weight 1
+                    new[] { 1.0, 12.5, 3.6 },
+                    new[] { 1.0, 43.2, 7.6 },
+                    new[] { 1.0, 10.2, 1.1 },
+                };
+
+                double[] x = data.GetColumn(1);
+                double[] y = data.GetColumn(2);
+
+                var ols = new PolynomialLeastSquares()
+                {
+                    Degree = 2,
+                    IsRobust = true
+                };
+
+                reference = ols.Learn(x, y);
+
+                Assert.AreEqual(1, reference.NumberOfInputs);
+                Assert.AreEqual(1, reference.NumberOfOutputs);
+
+                referenceR2 = reference.CoefficientOfDetermination(x, y);
+            }
+
+            PolynomialRegression target;
+            double targetR2;
+
+            {
+                double[][] data =
+                {
+                    new[] { 5.0, 10.7, 2.4 }, // 1 times weight 5
+                    new[] { 1.0, 12.5, 3.6 },
+                    new[] { 1.0, 43.2, 7.6 },
+                    new[] { 1.0, 10.2, 1.1 },
+                };
+
+                double[] weights = data.GetColumn(0);
+                double[] x = data.GetColumn(1);
+                double[] y = data.GetColumn(2);
+
+                Assert.AreEqual(1, reference.NumberOfInputs);
+                Assert.AreEqual(1, reference.NumberOfOutputs);
+
+                var ols = new PolynomialLeastSquares()
+                {
+                    Degree = 2,
+                    IsRobust = true
+                };
+
+                target = ols.Learn(x, y, weights);
+                targetR2 = target.CoefficientOfDetermination(x, y, weights);
+            }
+
+            Assert.IsTrue(reference.Weights.IsEqual(target.Weights, 1e-5));
+            Assert.AreEqual(reference.Intercept, target.Intercept, 1e-8);
+            Assert.AreEqual(-0.023044161067521208, target.Weights[0], 1e-6);
+            Assert.AreEqual(-10.192933942631839, target.Intercept, 1e-6);
+
+            Assert.AreEqual(referenceR2, targetR2, 1e-8);
+            Assert.AreEqual(0.97660035938038947, targetR2);
+        }
+
     }
 }

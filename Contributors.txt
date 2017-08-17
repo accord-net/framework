@@ -8,7 +8,6 @@
  space below enlists a few of those people who either agreed to help
  or actively participated on its development:
  
-
   - Anders Gustafsson 
   - Antonino Porcino 
   - Antonis Kalapodis 
@@ -16,9 +15,11 @@
   - Ashley Messer
   - Benjamin Collins
   - Darko Juric 
+  - Darren Schroeder
   - David Durrleman
   - Doug Blank
   - Hans Wolff
+  - Ivan Pizhenko
   - Marcos Diego Catalano
   - Max Bügler
   - Mathias Brandewinder

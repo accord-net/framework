@@ -26,6 +26,7 @@ namespace Accord.Math.Optimization.Losses
     using System;
     using Accord.Math;
     using Accord.Statistics;
+    using Accord.Compat;
 
     /// <summary>
     ///   R² (r-squared) loss.
@@ -62,6 +63,12 @@ namespace Accord.Math.Optimization.Losses
         public bool Adjust { get; set; }
 
         /// <summary>
+        ///   Gets or sets the weights associated with each input-output pair.
+        /// </summary>
+        /// 
+        public double[] Weights { get; set; }
+
+        /// <summary>
         ///   Initializes a new instance of the <see cref="RSquaredLoss"/> class.
         /// </summary>
         /// 
@@ -71,7 +78,8 @@ namespace Accord.Math.Optimization.Losses
         public RSquaredLoss(int numberOfInputs, double[] expected)
         {
             this.Expected = Jagged.ColumnVector(expected);
-            NumberOfInputs = numberOfInputs;
+            this.NumberOfInputs = numberOfInputs;
+            this.Weights = Vector.Ones(expected.Length);
         }
 
         /// <summary>
@@ -84,7 +92,8 @@ namespace Accord.Math.Optimization.Losses
         public RSquaredLoss(int numberOfInputs, double[][] expected)
         {
             this.Expected = expected;
-            NumberOfInputs = numberOfInputs;
+            this.NumberOfInputs = numberOfInputs;
+            this.Weights = Vector.Ones(expected.Length);
         }
 
         /// <summary>
@@ -106,16 +115,18 @@ namespace Accord.Math.Optimization.Losses
             double SSt = 0.0;
 
             // Calculate output mean
-            double avg = Expected.Mean();
+            double avg = Expected.WeightedMean(Weights).Mean();
 
             // Calculate SSe and SSt
             for (int i = 0; i < Expected.Length; i++)
             {
+                double w = Weights[i];
+
                 double d = Expected[i][0] - actual[i];
-                SSe += d * d;
+                SSe += w * d * d;
 
                 d = Expected[i][0] - avg;
-                SSt += d * d;
+                SSt += w * d * d;
             }
 
             // Calculate R-Squared
@@ -153,23 +164,24 @@ namespace Accord.Math.Optimization.Losses
             int P = NumberOfInputs;
             double[] SSe = new double[M];
             double[] SSt = new double[M];
-            double[] avg = new double[M];
             double[] r2 = new double[M];
 
             // For each output variable
-            avg = Expected.Mean(dimension: 0);
+            double[] avg = Expected.WeightedMean(Weights);
 
             // Calculate SSe and SSt
             for (int i = 0; i < N; i++)
             {
                 for (int c = 0; c < M; c++)
                 {
+                    double w = Weights[i];
+
                     double d;
                     d = Expected[i][c] - actual[i][c];
-                    SSe[c] += d * d;
+                    SSe[c] += w * d * d;
 
                     d = Expected[i][c] - avg[c];
-                    SSt[c] += d * d;
+                    SSt[c] += w * d * d;
                 }
             }
 

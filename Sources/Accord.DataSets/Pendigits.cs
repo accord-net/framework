@@ -24,7 +24,7 @@ namespace Accord.DataSets
 {
     using Accord.DataSets.Base;
     using Accord.IO;
-    using Accord.Math;
+    using Accord.Compat;
     using System;
 
     /// <summary>

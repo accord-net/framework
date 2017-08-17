@@ -25,6 +25,7 @@ namespace Accord.MachineLearning.Bayes
     using Accord.Math;
     using Accord.Statistics.Distributions;
     using System;
+    using Accord.Compat;
 
     /// <summary>
     ///   Bayes decision algorithm (not naive).

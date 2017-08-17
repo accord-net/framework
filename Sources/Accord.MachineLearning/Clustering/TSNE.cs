@@ -54,19 +54,18 @@
 
 namespace Accord.MachineLearning.Clustering
 {
+#if !MONO
+
     using Accord.Collections;
-    using Accord.Math.Distances;
     using Accord.Statistics.Distributions.Univariate;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
     using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
     using Accord.Math;
+    using Accord.Compat;
 
-#if !MONO
     /// <summary>
     ///   Barnes-Hutt t-SNE.
     /// </summary>

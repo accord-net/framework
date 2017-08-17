@@ -28,6 +28,7 @@ namespace Accord.MachineLearning
     using Accord.MachineLearning.VectorMachines;
     using System.Linq;
     using System.Text;
+    using Accord.Compat;
     using System.Threading.Tasks;
 
     /// <summary>

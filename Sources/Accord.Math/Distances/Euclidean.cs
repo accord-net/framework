@@ -23,6 +23,7 @@
 namespace Accord.Math.Distances
 {
     using System;
+    using Accord.Compat;
     using System.Runtime.CompilerServices;
 
     /// <summary>

@@ -307,7 +307,7 @@ namespace Accord.Tests.Math
             Assert.IsTrue(Matrix.IsEqual(D, diagonal, 0.001));
 
             // Decomposition Identity
-            Assert.IsTrue(Matrix.IsEqual(L.Multiply(D).Multiply(L.Transpose()), value, 0.001));
+            Assert.IsTrue(Matrix.IsEqual(L.Dot(D).Dot(L.Transpose()), value, 0.001));
             Assert.IsTrue(Matrix.IsEqual(chol.Reverse(), value, 1e-6));
 
             Assert.AreEqual(new LuDecomposition(value).Determinant, chol.Determinant, 1e-10);

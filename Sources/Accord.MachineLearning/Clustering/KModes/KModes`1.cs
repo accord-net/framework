@@ -23,13 +23,10 @@
 namespace Accord.MachineLearning
 {
     using System;
-    using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using Accord.Math;
     using Accord.Statistics;
-    using Accord.Statistics.Distributions.Univariate;
     using Accord.Math.Distances;
-    using System.Threading;
+    using Accord.Compat;
     using System.Threading.Tasks;
     using System.Collections.Concurrent;
 

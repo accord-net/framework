@@ -24,12 +24,12 @@ namespace Accord.Statistics.Analysis
 {
     using System;
     using Accord.Math;
-    using Accord.Math.Comparers;
     using Accord.Math.Decompositions;
     using Accord.Statistics.Kernels;
     using Accord.MachineLearning;
     using Accord.Statistics.Analysis.Base;
     using Accord.Statistics.Models.Regression;
+    using Accord.Compat;
 
     /// <summary>
     ///   Kernel Principal Component Analysis.
@@ -69,6 +69,12 @@ namespace Accord.Statistics.Analysis
     ///    any other kernel function could have been used.</para>
     ///    
     /// <code source="Unit Tests\Accord.Tests.Statistics\Analysis\KernelPrincipalComponentAnalysisTest.cs" region="doc_learn_1" />
+    /// 
+    ///   <para>
+    ///   It is also possible to create a KPCA from a kernel matrix that already exists. The example
+    ///   below shows how this could be accomplished.</para>
+    ///   
+    /// <code source="Unit Tests\Accord.Tests.Statistics\Analysis\KernelPrincipalComponentAnalysisTest.cs" region="doc_learn_kernel_matrix" />
     /// </example>
     /// 
     [Serializable]
@@ -447,7 +453,18 @@ namespace Accord.Statistics.Analysis
             }
 
             // Project into the kernel principal components
-            return Matrix.DotWithTransposed(newK, ComponentVectors, result: result);
+            if (NumberOfOutputs == ComponentVectors.Length)
+            {
+                return newK.DotWithTransposed(ComponentVectors, result: result);
+            }
+
+            if (NumberOfOutputs < ComponentVectors.Length)
+            {
+                var selectedComponents = ComponentVectors.Get(0, NumberOfOutputs);
+                return newK.DotWithTransposed(selectedComponents, result: result);
+            }
+
+            throw new DimensionMismatchException("Number of outputs cannot exceed the number of principal components.");
         }
 
         

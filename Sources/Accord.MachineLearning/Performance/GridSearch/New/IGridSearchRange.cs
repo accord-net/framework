@@ -23,6 +23,7 @@
 namespace Accord.MachineLearning.Performance
 {
     using System;
+    using Accord.Compat;
 
     /// <summary>
     ///   Non-generic interface for <see cref="GridSearchRange{T}"/>.
@@ -30,7 +31,6 @@ namespace Accord.MachineLearning.Performance
     /// 
     /// <seealso cref="GridSearch"/>
     /// <seealso cref="GridSearchRange{T}"/>
-    /// <seealso cref="System.ICloneable" />
     /// 
     public interface IGridSearchRange : ICloneable
     {

@@ -153,7 +153,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\LinearDualCoordinateDescentTest.cs" region="doc_linreg"/>
     /// </example>
     /// 
-    /// <see cref="SequentialMinimalOptimization"/>
+    /// <see cref="SequentialMinimalOptimization{TKernel}"/>
     /// <see cref="LinearNewtonMethod"/>
     /// <see cref="LinearCoordinateDescent"/>
     /// 
@@ -246,7 +246,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MulticlassSupportVectorLearningTest.cs" region="doc_learn_ldcd" />
     /// </example>
     /// 
-    /// <see cref="SequentialMinimalOptimization"/>
+    /// <see cref="SequentialMinimalOptimization{TKernel}"/>
     /// <see cref="LinearNewtonMethod"/>
     /// <see cref="LinearCoordinateDescent"/>
     /// 
@@ -322,14 +322,17 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MulticlassSupportVectorLearningTest.cs" region="doc_learn_ldcd" />
     /// </example>
     /// 
-    /// <see cref="SequentialMinimalOptimization"/>
+    /// <see cref="SequentialMinimalOptimization{TKernel}"/>
     /// <see cref="LinearNewtonMethod"/>
     /// <see cref="LinearCoordinateDescent"/>
     /// 
     public class LinearDualCoordinateDescent<TKernel, TInput> :
         BaseLinearDualCoordinateDescent<SupportVectorMachine<TKernel, TInput>, TKernel, TInput>
         where TKernel : struct, ILinear<TInput>
-        where TInput : ICloneable, IList
+        where TInput : IList
+#if !NETSTANDARD1_4
+        , ICloneable
+#endif
     {
         /// <summary>
         /// Creates an instance of the model to be learned. Inheritors
@@ -349,7 +352,10 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         BaseSupportVectorClassification<TModel, TKernel, TInput>
         where TModel : SupportVectorMachine<TKernel, TInput>
         where TKernel : struct, ILinear<TInput>
-        where TInput : ICloneable, IList
+        where TInput : IList
+#if !NETSTANDARD1_4
+        , ICloneable
+#endif
     {
 
         int max_iter = 1000;

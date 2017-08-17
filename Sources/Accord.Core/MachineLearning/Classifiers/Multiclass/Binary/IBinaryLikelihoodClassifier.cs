@@ -47,6 +47,16 @@ namespace Accord.MachineLearning
         /// 
         new IMulticlassLikelihoodClassifier<TInput> ToMulticlass();
 
+        /// <summary>
+        ///   Views this instance as a multi-class generative classifier,
+        ///   giving access to more advanced methods, such as the prediction
+        ///   of integer labels.
+        /// </summary>
+        /// 
+        /// <returns>This instance seen as an <see cref="IMulticlassLikelihoodClassifier{TInput}"/>.</returns>
+        /// 
+        new IMulticlassLikelihoodClassifier<TInput, T> ToMulticlass<T>();
+
         //new IMultilabelGenerativeClassifier<TInput> ToMultilabel();
     }
    

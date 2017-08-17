@@ -24,8 +24,8 @@ namespace Accord.Math.Optimization
 {
     using System;
     using System.Runtime.Serialization;
+    using Accord.Compat;
     using System.Security.Permissions;
-
 
     /// <summary>
     ///   Line Search Failed Exception.
@@ -106,6 +106,7 @@ namespace Accord.Math.Optimization
         protected LineSearchFailedException(SerializationInfo info, StreamingContext context)
             : base(info, context) { }
 
+#if !NETSTANDARD1_4
         /// <summary>
         ///   When overridden in a derived class, sets the <see cref="T:System.Runtime.Serialization.SerializationInfo"/> with information about the exception.
         /// </summary>
@@ -129,6 +130,6 @@ namespace Accord.Math.Optimization
 
             info.AddValue("Information", this.info);
         }
+#endif
     }
-
 }

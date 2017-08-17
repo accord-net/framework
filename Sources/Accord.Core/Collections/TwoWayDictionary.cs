@@ -31,6 +31,7 @@ namespace Accord.Collections
     using System.Collections.Generic;
     using System.Runtime.Serialization;
     using System.Linq;
+    using Accord.Compat;
 
     /// <summary>
     ///   Two-way dictionary for efficient lookups by both key and value. This

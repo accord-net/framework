@@ -24,10 +24,9 @@ namespace Accord.Statistics.Kernels
 {
     using System;
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using Accord.Math;
-    using Accord.Collections;
     using System.Diagnostics;
+    using Accord.Compat;
 
     /// <summary>
     ///   Value cache for kernel function evaluations. The total memory size occupied by the 
@@ -90,6 +89,26 @@ namespace Accord.Statistics.Kernels
         public static int GetNumberOfRowsForMaximumSizeInBytes(int bytes)
         {
             return (int)Math.Floor(Math.Sqrt(bytes / sizeof(double)));
+        }
+
+        /// <summary>
+        ///   Gets the maximum number of rows that a cache can keep inside the given amount of bytes.
+        ///   This value can be used to initialize SequentialMinimalOptimization's CacheSize property,
+        ///   or be passed to <see cref="KernelFunctionCache"/> constructor.
+        /// </summary>
+        public static int GetNumberOfRowsForMaximumSizeInMegaBytes(double megaBytes)
+        {
+            return GetNumberOfRowsForMaximumSizeInBytes((int)Math.Ceiling(megaBytes * 1024 * 1024));
+        }
+
+        /// <summary>
+        ///   Gets the maximum number of rows that a cache can keep inside the given amount of bytes.
+        ///   This value can be used to initialize SequentialMinimalOptimization's CacheSize property,
+        ///   or be passed to <see cref="KernelFunctionCache"/> constructor.
+        /// </summary>
+        public static int GetNumberOfRowsForMaximumSizeInGigaBytes(double gigaBytes)
+        {
+            return GetNumberOfRowsForMaximumSizeInMegaBytes((int)Math.Ceiling(gigaBytes * 1024));
         }
     }
 
@@ -224,7 +243,7 @@ namespace Accord.Statistics.Kernels
         /// <param name="inputs">The inputs values.</param>
         /// <param name="cacheSize">The size for the cache, measured in number of 
         ///   rows from the <paramref name="inputs"/> set. Default is to use all 
-        ///   rows. In order to know how many rows can fit under a amount of memory,
+        ///   rows. In order to know how many rows can fit under an amount of memory,
         ///   use <see cref="KernelFunctionCache.GetNumberOfRowsForMaximumSizeInBytes(int)"/>.</param>
         /// 
         public KernelFunctionCache(TKernel kernel, TInput[] inputs, int cacheSize)

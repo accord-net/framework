@@ -27,7 +27,10 @@ namespace Accord.Tests.Statistics
     using Accord.Math;
     using System;
     using Accord.Statistics;
-
+    using System.Globalization;
+#if NO_CULTURE
+    using CultureInfo = Accord.Compat.CultureInfo;
+#endif
 
     [TestFixture]
     public class SimpleLinearRegressionTest
@@ -117,7 +120,7 @@ namespace Accord.Tests.Statistics
         public void prediction_test()
         {
             // example data from http://www.real-statistics.com/regression/confidence-and-prediction-intervals/
-            double[][] input = 
+            double[][] input =
             {
                 new double[] { 5, 80 },
                 new double[] { 23, 78 },
@@ -192,28 +195,86 @@ namespace Accord.Tests.Statistics
 
             {
                 string expected = "y(x) = 32x + -44";
-                expected = expected.Replace(".", System.Globalization.CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator);
+                expected = expected.Replace(".", CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator);
                 string actual = regression.ToString();
                 Assert.AreEqual(expected, actual);
             }
 
             {
                 string expected = "y(x) = 32x + -44";
-                string actual = regression.ToString(null, System.Globalization.CultureInfo.GetCultureInfo("en-US"));
+                string actual = regression.ToString(null, CultureInfo.GetCultureInfo("en-US"));
                 Assert.AreEqual(expected, actual);
             }
 
             {
                 string expected = "y(x) = 32.0x + -44.0";
-                string actual = regression.ToString("N1", System.Globalization.CultureInfo.GetCultureInfo("en-US"));
+                string actual = regression.ToString("N1", CultureInfo.GetCultureInfo("en-US"));
                 Assert.AreEqual(expected, actual);
             }
 
             {
                 string expected = "y(x) = 32,00x + -44,00";
-                string actual = regression.ToString("N2", System.Globalization.CultureInfo.GetCultureInfo("pt-BR"));
+                string actual = regression.ToString("N2", CultureInfo.GetCultureInfo("pt-BR"));
                 Assert.AreEqual(expected, actual);
             }
         }
+
+        [Test]
+        public void weight_test_linear()
+        {
+            SimpleLinearRegression reference;
+            double referenceR2;
+
+            {
+                double[][] data =
+                {
+                    new[] { 1.0, 10.7, 2.4 }, // 
+                    new[] { 1.0, 10.7, 2.4 }, // 
+                    new[] { 1.0, 10.7, 2.4 }, // 
+                    new[] { 1.0, 10.7, 2.4 }, // 
+                    new[] { 1.0, 10.7, 2.4 }, // 5 times weight 1
+                    new[] { 1.0, 12.5, 3.6 },
+                    new[] { 1.0, 43.2, 7.6 },
+                    new[] { 1.0, 10.2, 1.1 },
+                };
+
+                double[] x = data.GetColumn(1);
+                double[] y = data.GetColumn(2);
+
+                var ols = new OrdinaryLeastSquares();
+                reference = ols.Learn(x, y);
+                referenceR2 = reference.CoefficientOfDetermination(x, y);
+            }
+
+            SimpleLinearRegression target;
+            double targetR2;
+
+            {
+                double[][] data =
+                {
+                    new[] { 5.0, 10.7, 2.4 }, // 1 times weight 5
+                    new[] { 1.0, 12.5, 3.6 },
+                    new[] { 1.0, 43.2, 7.6 },
+                    new[] { 1.0, 10.2, 1.1 },
+                };
+
+                double[] weights = data.GetColumn(0);
+                double[] x = data.GetColumn(1);
+                double[] y = data.GetColumn(2);
+
+                OrdinaryLeastSquares ols = new OrdinaryLeastSquares();
+                target = ols.Learn(x, y, weights);
+                targetR2 = target.CoefficientOfDetermination(x, y, weights);
+            }
+
+            Assert.AreEqual(reference.Slope, target.Slope);
+            Assert.AreEqual(reference.Intercept, target.Intercept, 1e-8);
+            Assert.AreEqual(0.16387475666214069, target.Slope, 1e-6);
+            Assert.AreEqual(0.59166925681755056, target.Intercept, 1e-6);
+
+            Assert.AreEqual(referenceR2, targetR2, 1e-8);
+            Assert.AreEqual(0.91476129548901486, targetR2);
+        }
     }
+
 }

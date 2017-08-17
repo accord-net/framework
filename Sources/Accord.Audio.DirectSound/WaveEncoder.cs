@@ -26,6 +26,7 @@ namespace Accord.Audio.Formats
     using System;
     using System.IO;
     using System.Runtime.InteropServices;
+    using Accord.Compat;
 
     /// <summary>
     ///   Wave audio file encoder.

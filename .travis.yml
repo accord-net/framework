@@ -29,7 +29,3 @@ matrix:
   allow_failures:
     - os: osx
       mono: latest
-    - os: linux
-      mono: 4.8.0
-    - os: linux
-      mono: 4.4.2

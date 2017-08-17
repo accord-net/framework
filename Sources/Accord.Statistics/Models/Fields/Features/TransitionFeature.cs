@@ -25,6 +25,7 @@ namespace Accord.Statistics.Models.Fields.Features
     using System;
     using Accord.Math;
     using Accord.Statistics.Models.Fields.Functions;
+    using Accord.Compat;
 
     /// <summary>
     ///   Edge feature for Hidden Markov Model state transition probabilities.

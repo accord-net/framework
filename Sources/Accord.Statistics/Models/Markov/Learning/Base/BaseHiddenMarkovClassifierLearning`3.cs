@@ -24,12 +24,13 @@ namespace Accord.Statistics.Models.Markov.Learning
 {
     using System;
     using Accord.Math;
-    using System.Threading.Tasks;
     using Accord.Statistics.Models.Markov.Topology;
     using System.Diagnostics;
     using Accord.Statistics.Distributions;
-    using System.Threading;
     using Accord.MachineLearning;
+    using Accord.Compat;
+    using System.Threading;
+    using System.Threading.Tasks;
 
 #pragma warning disable 612, 618
 
@@ -38,7 +39,7 @@ namespace Accord.Statistics.Models.Markov.Learning
     /// </summary>
     /// 
     public abstract class BaseHiddenMarkovClassifierLearning<TClassifier, TModel, TDistribution, TObservation>
-        : Accord.MachineLearning.ISupervisedLearning<TClassifier, TObservation[], int>, IParallel
+        : ISupervisedLearning<TClassifier, TObservation[], int>, IParallel
         where TClassifier : BaseHiddenMarkovClassifier<TModel, TDistribution, TObservation>
         where TModel : HiddenMarkovModel<TDistribution, TObservation>
         where TDistribution : IDistribution<TObservation>

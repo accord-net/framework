@@ -25,6 +25,7 @@ namespace Accord.MachineLearning.DecisionTrees
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using Accord.Compat;
 
     /// <summary>
     ///   Collection of decision nodes. A decision branch specifies the index of

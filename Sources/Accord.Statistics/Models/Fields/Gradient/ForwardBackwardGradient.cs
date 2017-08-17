@@ -25,12 +25,13 @@
 namespace Accord.Statistics.Models.Fields.Learning
 {
     using System;
-    using System.Threading;
-    using System.Threading.Tasks;
     using Accord.Math;
     using Accord.Statistics.Models.Fields.Features;
     using Accord.Statistics.Models.Fields.Functions;
     using Accord.MachineLearning;
+    using Accord.Compat;
+    using System.Threading.Tasks;
+    using System.Threading;
 
     /// <summary>
     ///   Linear Gradient calculator class for <see cref="HiddenConditionalRandomField{T}">
@@ -266,96 +267,21 @@ namespace Accord.Statistics.Models.Fields.Learning
             // feature functions. Each feature function belongs
             // to a factor potential function, so:
 
-#if SERIAL  // For each clique potential (factor potential function)
-            for (int c = 0; c < function.Factors.Length; c++)
-#else
-            Parallel.For(0, function.Factors.Length, ParallelOptions, c =>
-#endif
+            // For each clique potential (factor potential function)
+            if (ParallelOptions.MaxDegreeOfParallelism == 1)
             {
-                FactorPotential<T> factor = function.Factors[c];
-
-                int factorIndex = factor.Index;
-
-                // Compute all forward and backward matrices to be
-                //  used in the feature functions marginal computations.
-
-                double[][,] lnFwds = new double[inputs.Length][,];
-                double[][,] lnBwds = new double[inputs.Length][,];
-                for (int i = 0; i < inputs.Length; i++)
+                Parallel.For(0, function.Factors.Length, ParallelOptions, c =>
                 {
-                    lnFwds[i] = ForwardBackwardAlgorithm.LogForward(factor, inputs[i], factorIndex);
-                    lnBwds[i] = ForwardBackwardAlgorithm.LogBackward(factor, inputs[i], factorIndex);
-                }
-
-                double[] marginals = new double[function.Outputs];
-
-                // For each feature in the factor potential function
-                int end = factor.FactorParameters.Offset + factor.FactorParameters.Count;
-                for (int k = factor.FactorParameters.Offset; k < end; k++)
+                    InnerGradient(function.Factors[c], inputs, outputs, lnZx, lnZxy, gradient);
+                });
+            }
+            else
+            {
+                for (int c = 0; c < function.Factors.Length; c++)
                 {
-                    IFeature<T> feature = function.Features[k];
-                    double parameter = function.Weights[k];
-
-                    if (Double.IsInfinity(parameter))
-                    {
-                        gradient[k] = 0; continue;
-                    }
-
-
-                    // Compute the two marginal sums for the gradient calculation
-                    // as given in eq. 1.52 of Sutton, McCallum; "An introduction to
-                    // Conditional Random Fields for Relational Learning". The sums
-                    // will be computed in the log domain for numerical stability.
-
-                    double lnsum1 = Double.NegativeInfinity;
-                    double lnsum2 = Double.NegativeInfinity;
-
-                    // For each training sample (sequences)
-                    for (int i = 0; i < inputs.Length; i++)
-                    {
-                        T[] x = inputs[i]; // training input
-                        int y = outputs[i];  // training output
-
-                        // Compute marginals for all possible outputs
-                        for (int j = 0; j < marginals.Length; j++)
-                            marginals[j] = Double.NegativeInfinity;
-
-                        // However, making the assumption that each factor is responsible for only 
-                        // one output label, we can compute the marginal only for the current factor
-                        marginals[factorIndex] = feature.LogMarginal(lnFwds[i], lnBwds[i], x, factorIndex);
-
-                        // The first term contains a marginal probability p(w|x,y), which is
-                        // exactly a marginal distribution of the clamped CRF (eq. 1.46).
-                        lnsum1 = Special.LogSum(lnsum1, (marginals[y] == lnZxy[i]) ? 0 : marginals[y] - lnZxy[i]);
-
-                        // The second term contains a different marginal p(w,y|x) which is the
-                        // same marginal probability required in as fully-observed CRF.
-                        for (int j = 0; j < marginals.Length; j++)
-                            lnsum2 = Special.LogSum(lnsum2, marginals[j] - lnZx[i]);
-
-                        Accord.Diagnostics.Debug.Assert(!marginals.HasNaN());
-                        Accord.Diagnostics.Debug.Assert(!Double.IsNaN(lnsum1));
-                        Accord.Diagnostics.Debug.Assert(!Double.IsNaN(lnsum2));
-                    }
-
-                    // Compute the current derivative
-                    double sum1 = Math.Exp(lnsum1);
-                    double sum2 = Math.Exp(lnsum2);
-                    double derivative = sum1 - sum2;
-
-                    if (sum1 == sum2) derivative = 0;
-
-                    Accord.Diagnostics.Debug.Assert(!Double.IsNaN(derivative));
-
-                    // Include regularization derivative if required
-                    if (sigma != 0) derivative -= parameter / sigma;
-
-                    gradient[k] = -derivative;
+                    InnerGradient(function.Factors[c], inputs, outputs, lnZx, lnZxy, gradient);
                 }
             }
-#if !SERIAL
-);
-#endif
 
             // Reset log-likelihoods so they are recomputed in the next run,
             // either by the Objective function or by the Gradient calculation.
@@ -366,6 +292,88 @@ namespace Accord.Statistics.Models.Fields.Learning
             Accord.Diagnostics.Debug.Assert(!Double.IsNaN(error));
 
             return gradient; // return the gradient.
+        }
+
+        private void InnerGradient(FactorPotential<T> factor, T[][] inputs, int[] outputs, double[] lnZx, double[] lnZxy, double[] gradient)
+        {
+            int factorIndex = factor.Index;
+
+            // Compute all forward and backward matrices to be
+            //  used in the feature functions marginal computations.
+
+            double[][,] lnFwds = new double[inputs.Length][,];
+            double[][,] lnBwds = new double[inputs.Length][,];
+            for (int i = 0; i < inputs.Length; i++)
+            {
+                lnFwds[i] = ForwardBackwardAlgorithm.LogForward(factor, inputs[i], factorIndex);
+                lnBwds[i] = ForwardBackwardAlgorithm.LogBackward(factor, inputs[i], factorIndex);
+            }
+
+            double[] marginals = new double[function.Outputs];
+
+            // For each feature in the factor potential function
+            int end = factor.FactorParameters.Offset + factor.FactorParameters.Count;
+            for (int k = factor.FactorParameters.Offset; k < end; k++)
+            {
+                IFeature<T> feature = function.Features[k];
+                double parameter = function.Weights[k];
+
+                if (Double.IsInfinity(parameter))
+                {
+                    gradient[k] = 0; continue;
+                }
+
+
+                // Compute the two marginal sums for the gradient calculation
+                // as given in eq. 1.52 of Sutton, McCallum; "An introduction to
+                // Conditional Random Fields for Relational Learning". The sums
+                // will be computed in the log domain for numerical stability.
+
+                double lnsum1 = Double.NegativeInfinity;
+                double lnsum2 = Double.NegativeInfinity;
+
+                // For each training sample (sequences)
+                for (int i = 0; i < inputs.Length; i++)
+                {
+                    T[] x = inputs[i]; // training input
+                    int y = outputs[i];  // training output
+
+                    // Compute marginals for all possible outputs
+                    for (int j = 0; j < marginals.Length; j++)
+                        marginals[j] = Double.NegativeInfinity;
+
+                    // However, making the assumption that each factor is responsible for only 
+                    // one output label, we can compute the marginal only for the current factor
+                    marginals[factorIndex] = feature.LogMarginal(lnFwds[i], lnBwds[i], x, factorIndex);
+
+                    // The first term contains a marginal probability p(w|x,y), which is
+                    // exactly a marginal distribution of the clamped CRF (eq. 1.46).
+                    lnsum1 = Special.LogSum(lnsum1, (marginals[y] == lnZxy[i]) ? 0 : marginals[y] - lnZxy[i]);
+
+                    // The second term contains a different marginal p(w,y|x) which is the
+                    // same marginal probability required in as fully-observed CRF.
+                    for (int j = 0; j < marginals.Length; j++)
+                        lnsum2 = Special.LogSum(lnsum2, marginals[j] - lnZx[i]);
+
+                    Accord.Diagnostics.Debug.Assert(!marginals.HasNaN());
+                    Accord.Diagnostics.Debug.Assert(!Double.IsNaN(lnsum1));
+                    Accord.Diagnostics.Debug.Assert(!Double.IsNaN(lnsum2));
+                }
+
+                // Compute the current derivative
+                double sum1 = Math.Exp(lnsum1);
+                double sum2 = Math.Exp(lnsum2);
+                double derivative = sum1 - sum2;
+
+                if (sum1 == sum2) derivative = 0;
+
+                Accord.Diagnostics.Debug.Assert(!Double.IsNaN(derivative));
+
+                // Include regularization derivative if required
+                if (sigma != 0) derivative -= parameter / sigma;
+
+                gradient[k] = -derivative;
+            }
         }
 
         /// <summary>

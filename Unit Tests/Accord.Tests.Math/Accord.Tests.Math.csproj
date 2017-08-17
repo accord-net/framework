@@ -35,9 +35,9 @@
     <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="nunit.framework, Version=3.7.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+    <Reference Include="nunit.framework">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Externals\NUnit\bin\net-4.5\nunit.framework.dll</HintPath>
+      <HintPath>..\..\Externals\NUnit\NUnit.Framework-3.6.1\bin\net-4.5\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -59,6 +59,7 @@
   </ItemGroup>
  -->
   <ItemGroup>
+    <Compile Include="Accord.Statistics\QuantilesTest.cs" />
     <Compile Include="AForge\Geometry\ClosePointsMergingOptimizerTest.cs" />
     <Compile Include="AForge\Geometry\FlatAnglesOptimizerTest.cs" />
     <Compile Include="AForge\Geometry\GeometryToolsTest.cs" />
@@ -205,36 +206,96 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Accord.snk" />
-    <None Include="Resources\constraintMatrix11_15_2.csv" />
-    <None Include="Resources\constraintMatrix11_15.csv" />
-    <None Include="Resources\constraintMatrix11_15_3.csv" />
-    <None Include="Resources\constraints11_14_2.csv" />
-    <None Include="Resources\constraints11_14.csv" />
-    <None Include="Resources\constraints11_14_3.csv" />
-    <None Include="Resources\dmatFull.csv" />
-    <None Include="Resources\mat\a64.mat" />
-    <None Include="Resources\mat\bigsparse.mat" />
-    <None Include="Resources\mat\cell.mat" />
-    <None Include="Resources\mat\int32.mat" />
-    <None Include="Resources\mat\int64.mat" />
-    <None Include="Resources\mat\int8.mat" />
-    <None Include="Resources\mat\java.mat" />
-    <None Include="Resources\mat\logical.mat" />
-    <None Include="Resources\mat\matnativedouble.mat" />
-    <None Include="Resources\mat\matnativedouble2.mat" />
-    <None Include="Resources\mat\nan.mat" />
-    <None Include="Resources\mat\object.mat" />
-    <None Include="Resources\mat\simplestruct.mat" />
-    <None Include="Resources\mat\single.mat" />
-    <None Include="Resources\mat\sparse.mat" />
-    <None Include="Resources\mat\uint32.mat" />
-    <None Include="Resources\mat\uint64.mat" />
-    <None Include="Resources\mat\uint8.mat" />
-    <None Include="Resources\pseudoInverse1.csv" />
-    <None Include="Resources\unfeasible_qp_1\unf_1_constraintMat.csv" />
-    <None Include="Resources\unfeasible_qp_1\unf_1_constraintValues.csv" />
-    <None Include="Resources\unfeasible_qp_1\unf_1_linTerms.csv" />
-    <None Include="Resources\unfeasible_qp_1\unf_1_quadTerms.csv" />
+    <None Include="Resources\constraintMatrix11_15_2.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\constraintMatrix11_15.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\constraintMatrix11_15_3.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\constraints11_14_2.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\constraints11_14.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\constraints11_14_3.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\dmatFull.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\mat\a64.mat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\mat\bigsparse.mat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\mat\cell.mat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\mat\int32.mat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\mat\int64.mat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\mat\int8.mat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\mat\java.mat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\mat\logical.mat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\mat\matnativedouble.mat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\mat\matnativedouble2.mat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\mat\nan.mat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\mat\object.mat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\mat\simplestruct.mat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\mat\single.mat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\mat\sparse.mat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\mat\uint32.mat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\mat\uint64.mat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\mat\uint8.mat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\pseudoInverse1.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\unfeasible_qp_1\unf_1_constraintMat.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\unfeasible_qp_1\unf_1_constraintValues.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\unfeasible_qp_1\unf_1_linTerms.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\unfeasible_qp_1\unf_1_quadTerms.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -243,11 +304,16 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\labels16.txt" />
+    <None Include="Resources\labels16.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\data16.txt" />
+    <None Include="Resources\data16.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

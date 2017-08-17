@@ -26,6 +26,8 @@ namespace Accord.Statistics.Testing
     using Accord.Math;
     using Accord.Statistics.Distributions.Univariate;
     using Accord.Statistics.Distributions;
+    using System.Diagnostics;
+    using Accord.Compat;
 
     /// <summary>
     ///   One-sample Anderson-Darling (AD) test.
@@ -64,7 +66,7 @@ namespace Accord.Statistics.Testing
             }
             else
             {
-                System.Diagnostics.Trace.WriteLine(String.Format("Unsupported distribution in AndersonDarling: {0}. P-values will not be computed, but test statistic may be useful.",
+                Trace.WriteLine(String.Format("Unsupported distribution in AndersonDarling: {0}. P-values will not be computed, but test statistic may be useful.",
                     hypothesizedDistribution.ToString(), hypothesizedDistribution.GetType().ToString()));
             }
 

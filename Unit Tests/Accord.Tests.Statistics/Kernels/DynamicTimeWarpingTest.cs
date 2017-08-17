@@ -134,11 +134,11 @@ namespace Accord.Tests.Statistics
 
             expected = 0;
             actual = target.Distance(x, x);
-            Assert.AreEqual(expected, actual, 0);
+            Assert.AreEqual(expected, actual, 1e-6);
 
             expected = 0;
             actual = target.Distance(y, y);
-            Assert.AreEqual(expected, actual, 0);
+            Assert.AreEqual(expected, actual, 1e-10);
 
             expected = 2.1533930274840158;
             actual = target.Distance(x, y);
@@ -152,15 +152,15 @@ namespace Accord.Tests.Statistics
 
             expected = 0;
             actual = target.Distance(x, x);
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected, actual, 1e-10);
 
             expected = 0;
             actual = target.Distance(y, y);
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected, actual, 1e-10);
 
             expected = 0;
             actual = target.Distance(z, z);
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected, actual, 1e-10);
 
             expected = 2.2180712512020921;
             actual = target.Distance(x, z);
@@ -197,15 +197,15 @@ namespace Accord.Tests.Statistics
 
             expected = 0;
             actual = target.Distance(x, x);
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected, actual, 1e-10);
             actual = target.Distance(y, y);
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected, actual, 1e-10);
 
             expected = 0.00029292648999024173;
             actual = target.Distance(x, y);
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected, actual, 1e-10);
             actual = target.Distance(y, x);
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected, actual, 1e-10);
         }
 
 
