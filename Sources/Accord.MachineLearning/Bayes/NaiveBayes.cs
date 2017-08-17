@@ -114,6 +114,13 @@ namespace Accord.MachineLearning.Bayes
     /// <code source="Unit Tests\Accord.Tests.MachineLearning\Bayes\NaiveBayesTest.cs" region="doc_test" />
     /// 
     /// <para>
+    ///   Please note that, while the example uses a DataTable to exemplify how data stored into tables
+    ///   can be loaded in the framework, it is not necessary at all to use DataTables in your own, final
+    ///   code. For example, please consider the same example shown above, but without DataTables: </para>
+    ///   
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\Bayes\NaiveBayesTest.cs" region="doc_mitchell_no_datatable" />
+    /// 
+    /// <para>
     ///   In this second example, we will be creating a simple multi-class
     ///   classification problem using integer vectors and learning a discrete
     ///   Naive Bayes on those vectors.</para>
