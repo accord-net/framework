@@ -862,6 +862,68 @@ namespace Accord.Tests.MachineLearning
                "There are no samples for class label {0}. Please make sure that class " +
                "labels are contiguous and there is at least one training sample for each label.", 1);
         }
+
+        [Test]
+        public void gh_758()
+        {
+            // Let's say we have the following data to be classified into three 
+            // non -mutually-exclusive possible classes. Those are the samples:
+            //
+            int[][] inputs =
+            {
+                //               input         output
+                new int[] { 0, 1, 1, 0 }, //  0 
+                new int[] { 0, 1, 0, 0 }, //  0
+                new int[] { 0, 0, 1, 0 }, //  0
+                new int[] { 0, 1, 1, 0 }, //  0, 1
+                new int[] { 0, 1, 0, 0 }, //  0, 1
+                new int[] { 1, 0, 0, 0 }, //     1
+                new int[] { 1, 0, 0, 0 }, //     1
+                new int[] { 1, 0, 0, 1 }, //     1, 2
+                new int[] { 0, 0, 0, 1 }, //     1, 2
+                new int[] { 0, 0, 0, 1 }, //     1, 2
+                new int[] { 1, 1, 1, 1 }, //        2
+                new int[] { 1, 0, 1, 1 }, //        2
+                new int[] { 1, 1, 0, 1 }, //        2
+                new int[] { 0, 1, 1, 1 }, //        2
+                new int[] { 1, 1, 1, 1 }, //        2
+            };
+
+            int[][] outputs = // those are the class labels
+            {
+                new[] { 1, 0, 0 },
+                new[] { 1, 0, 0 },
+                new[] { 1, 0, 0 },
+                new[] { 1, 1, 0 },
+                new[] { 1, 1, 0 },
+                new[] { 0, 1, 0 },
+                new[] { 0, 1, 0 },
+                new[] { 0, 1, 1 },
+                new[] { 0, 1, 1 },
+                new[] { 0, 1, 1 },
+                new[] { 0, 0, 1 },
+                new[] { 0, 0, 1 },
+                new[] { 0, 0, 1 },
+                new[] { 0, 0, 1 },
+                new[] { 0, 0, 1 },
+            };
+
+            // Create a new Naive Bayes teacher 
+            var teacher = new NaiveBayesLearning();
+
+            teacher.ParallelOptions.MaxDegreeOfParallelism = 1;
+
+            var bayes = teacher.Learn(inputs, outputs);
+
+            double[][] prediction = bayes.Probabilities(inputs);
+
+            // Teach the Naive Bayes model. The error should be zero:
+            double error = new BinaryCrossEntropyLoss(outputs).Loss(prediction);
+
+            Assert.AreEqual(11.566909963298386, error, 1e-8);
+
+            Assert.IsTrue(teacher.optimized);
+        }
     }
 }
 #endif

@@ -56,6 +56,7 @@ namespace Accord.MachineLearning.Bayes
         {
             Options.Transposed = transposed;
             Model.Distributions[i].Fit(values, weights, Options);
+            this.optimized = true;
         }
     }
 #endif
