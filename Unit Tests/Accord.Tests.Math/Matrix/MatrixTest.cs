@@ -1264,9 +1264,33 @@ namespace Accord.Tests.Math
                 { 4.000,  8.000, 12.000, 16.000 }
             };
 
-            double[,] actual;
-            actual = Matrix.OuterProduct(a, b);
+            double[,] actual = Matrix.OuterProduct(a, b);
             Assert.IsTrue(expected.IsEqual(actual));
+        }
+
+        [Test]
+        public void OuterProductTestDifferentOverloads()
+        {
+            double[] a = { 1, 2, 3 };
+            double[] b = { 4, 5 };
+
+            double[,] expected = new double[,]
+            {
+              {  4,  5 },
+              {  8, 10 },
+              { 12, 15 },
+            };
+
+            double[,] actual2 = Matrix.Random(a.Length, b.Length);
+            double[][] actual3 = actual2.ToJagged();
+
+            double[,] actual1 = a.Outer(b);
+            double[][] actual3a = a.Outer(b, actual3);
+
+            Assert.AreSame(actual3, actual3a);
+
+            Assert.IsTrue(expected.IsEqual(actual1));
+            Assert.IsTrue(expected.IsEqual(actual3));
         }
 
         [Test]
