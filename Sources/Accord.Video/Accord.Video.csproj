@@ -5,40 +5,41 @@
     <RootNamespace>Accord.Video</RootNamespace>
     <AssemblyName>Accord.Video</AssemblyName>
   </PropertyGroup>
-  <Import Project="$(SolutionDir)Accord.NET.targets" />  
+  <Import Project="$(SolutionDir)Accord.NET.targets" />
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-		<DebugType>Full</DebugType>
-		<Optimize>False</Optimize>
-		<CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
-		<DefineConstants>DEBUG;TRACE</DefineConstants>
-		<OutputPath>$(SolutionDir)..\Debug\</OutputPath>
-		<DocumentationFile></DocumentationFile>
-	</PropertyGroup>
-	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'net35|AnyCPU' ">
-		<DefineConstants>TRACE;NET35</DefineConstants>
-		<TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-	</PropertyGroup>
-	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'net40|AnyCPU' ">
-		<DefineConstants>TRACE;NET40</DefineConstants>
-		<TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'net45|AnyCPU'">
-		<DefineConstants>TRACE;NET45</DefineConstants>
-		<TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'net46|AnyCPU'">
-		<DefineConstants>TRACE;NET46</DefineConstants>
-		<TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
-	</PropertyGroup>
-	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'net462|AnyCPU' ">
-    <DefineConstants>TRACE;NET462</DefineConstants>
-	<TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <DebugType>Full</DebugType>
+    <Optimize>False</Optimize>
+    <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <OutputPath>$(SolutionDir)..\Debug\</OutputPath>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'mono|AnyCPU'">
-		<DefineConstants>TRACE;MONO</DefineConstants>
-<TreatWarningsAsErrors>False</TreatWarningsAsErrors>
-		<TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-	</PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'net35|AnyCPU' ">
+    <DefineConstants>TRACE;NET35</DefineConstants>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'net40|AnyCPU' ">
+    <DefineConstants>TRACE;NET40</DefineConstants>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'net45|AnyCPU'">
+    <DefineConstants>TRACE;NET45</DefineConstants>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'net46|AnyCPU'">
+    <DefineConstants>TRACE;NET46</DefineConstants>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'net462|AnyCPU' ">
+    <DefineConstants>TRACE;NET462</DefineConstants>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'mono|AnyCPU'">
+    <DefineConstants>TRACE;MONO</DefineConstants>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
@@ -50,6 +51,9 @@
     <Compile Include="AsyncVideoSource.cs" />
     <Compile Include="ByteArrayUtils.cs" />
     <Compile Include="Exceptions.cs" />
+    <Compile Include="Internal\Boundary.cs" />
+    <Compile Include="Internal\MJPEGStreamParser.cs" />
+    <Compile Include="Internal\TimeoutStream.cs" />
     <Compile Include="IVideoSource.cs" />
     <Compile Include="JPEGStream.cs" />
     <Compile Include="MJPEGStream.cs" />
