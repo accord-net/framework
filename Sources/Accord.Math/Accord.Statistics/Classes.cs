@@ -695,6 +695,24 @@ namespace Accord.Statistics
             return IsMinusOnePlusOne(p) ^ IsZeroOne(p);
         }
 
+        /// <summary>
+        /// Determines whether the class labels contains one true value per sample.
+        /// </summary>
+        /// 
+        public static bool IsMultilabel(this bool[][] y)
+        {
+            return !IsMulticlass(y);
+        }
+
+        /// <summary>
+        /// Determines whether the class labels contains one true value per sample.
+        /// </summary>
+        /// 
+        public static bool IsMulticlass(this bool[][] y)
+        {
+            return y.Sum(dimension: 1).IsEqual(1);
+        }
+
 
         /// <summary>
         ///   Hyperplane decision function. Return true if distance
