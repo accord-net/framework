@@ -1,19 +1,99 @@
-Accord.NET Framework 3.6.2-alpha release notes
+Accord.NET Framework 3.7.0 release notes
 -----------------------------------------
-14.07.2017.
+20.18.2017.
 
 Version updates and fixes:
+  - GH-53: K-Medoids algorithm;
   - GH-335: Nelder-mead solver not converged;
+  - GH-444: Reenable F# Unit Tests;
+  - GH-587: UnmanagedImage does not supported in ExtractBiggestBlob filter;
   - GH-594: FFMPEG net35 not working;
+  - GH-621: How to calculate the cache size in respect of the available RAM;
   - GH-662: 64-bit FFMPEG binaries not in output after installing with NuGet;
   - GH-669: Confusion Matrix;
-  - GH-673: Stream closes after serialization with GZip compression
+  - GH-673: Stream closes after serialization with GZip compression;
   - GH-676: DoubleArrayChromosome CreateNew ignores Balancer properties;
   - GH-684: BalancedKMeans gets stuck;
+  - GH-688: Cobyla constraint definitions only work with constant values;
+  - GH-690: Add an Example for Cross-Validation with DecisionTrees;
+  - GH-692: Add an Example for StochasticGradientDescent Class;
   - GH-693: One-class SVM decision rule;
-  - GH-694: Add support for weighted least squares;
+  - GH-694: Add support for Weighted Least Squares;
   - GH-696: IndexOutOfRangeException exception in Matrix.First method;
+  - GH-697: Add an Example for HiddenMarkovModel(TDistribution, TObservation);
+  - GH-699: MJPEGStream throws NotImplementedException in .NET Core 2.0;
+  - GH-700: MJPEGStream throws InvalidOperationException in .NET Core 2.0;
+  - GH-706: DecisionTree.ToCode() returns code that does not compile;
+  - GH-707: DecisionTree.ToCode() returns code that compiles;
+  - GH-711: Nonlinear Regression in VB.NET;
+  - GH-712: Update MJPEGStream.cs ;
+  - GH-715: GeneralizedParetoDistribution shape param;
+  - GH-717: Possible issue with DynamicTimeWarping kernel class;
+  - GH-723: Procrustes analysis is giving weird/wrong results;
+  - GH-729: Error in ExhaustiveBlockMatching;
+  - GH-731: Dilatation;
+  - GH-736: Measures.Quartiles() for double Vectors of size 2 is wrong;
+  - GH-737: Add examples for C45Learning Class with missing data and thresholds;
+  - GH-745: Cannot change degree of a default Polynomial kernel;
+  - GH-746: Add an Example for CrossValidation Class;
+  - GH-747: How to understand the Probabilities;
+  - GH-749: 64 bit release for .NET 4.0;
+  - GH-752: Speed up matrix-vector operations;
+  - GH-758: NullReferenceException on NaiveBayes Learn;
+  - GH-765: NaiveBayes 'System.IndexOutOfRangeException' occurred in Accord.Statistics.dll when calling from sample application;
+  - GH-767: DebugVisualizers;
+  - GH-777: Bug in LinearConstraintCollection documentation;
+  - GH-778: Setter for bounds in BoundedBroydenFletcherGoldfarbShanno.
+ 
+* General
+  - Adding support for targetting NET Standard 1.4;
+  - Adding Newtonsoft.Json (Json.NET) in externals.
 
+* DataSets
+  - Adding Wisconsin's Breast Cancer (original, prognostic and diagnostic) datasets;
+  - Adding Oxford's Parkinsons dataset;
+  - Updating download links for the RCV1v2 dataset.
+ 
+* Imaging
+  - Fixing multiple typos regarding the spelling of "Dilation" (this is a breaking change).
+  
+* IO
+ - Adding a ReadLine method to CsvReader to read individual lines from the CSV file.
+
+* MachineLearning
+  - Adding K-Medoids (PAM) and Voronoi Iteration clustering algorithms;
+  - Fixing epsilon in Sequential Minimal Optimization for Regression;
+  - Adding a MiniBatch static class that can be used to create mini-batch definitions from training data;
+  - Update LevenbergMarquardtLearning.cs to allow for different activation functions;
+  - Update BackPropagationLearning.cs to allow for different activation functions;
+  - Adding support for missing values in C4.5;
+  - Updating GeneralConfusionMatrix to represent columns as ground-truth instead of predictions;
+  - Improving memory usage for Second Order (LibSVM) Sequential Minimal Optimization;
+  - Adding more overloads to the method that helps determine how many lines can 
+    be included in the SVM kernel cache given a total amount of memory;
+  - Fixing ToMulticlass() methods included in multi-label and binary classifiers;
+  - Fixing the Probabilities and LogLikelihoods methods for multi-label and multi-class SVMs;
+  - Adding an option for OneVsOneLearning/Multiclass SVMs stop at the first exception 
+    found during training instead of waiting until the all machines have been trained;
+  - Adding Precision, Recall, RowErrors and ColumnErrors to GeneralConfusionMatrix.
+  
+* Math
+  - Adding support for .Learn() methods in NonlinearLeastSquares;
+  - Updates GH-762: DotAndDot performance for small problem sizes;
+  - Removing the deprecated extension methods for Accord.Math.Matrix.Multiply
+    (such that calls should now be redirected to Elementwise.Multiply);
+  - Fix BinarySearch so that it works with decreasing functions;
+  - Search interval in BinarySearch was meant to be [a;b) (i.e. with inclusive a and exclusive b);
+  - Fixing the behavior of Matrix.Get() method when negative indices are passed;
+  - Fixing Matrix's ToTable method to use the most high level type possible when creating columns.
+
+* Statistics
+  - Adding multiple methods for computing quartiles/quantiles;
+  - Adding a more advanced version of the discretization filter;
+  - Adding an example for fraud detection using HMMs with MaximumLikelihoodLearning class.
+  
+* Neuro
+  - Adding support for networks with multiple activation functions in Levenberg-Marquardt.
 
 
 
