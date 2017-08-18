@@ -57,6 +57,11 @@ namespace Accord.Video
             set { _isChecked = value; }
         }
 
+        public bool IsValid
+        {
+            get { return (IsChecked && HasValue) || !HasValue; }
+        }
+
         public void Prepend(char c)
         {
             _builder.Insert(0, c);
@@ -70,17 +75,17 @@ namespace Accord.Video
         /// <param name="boundary">Existing boundary</param>
         /// <param name="position">Current position in buffer</param>
         /// <returns></returns>
-        public void FixMalformedBoundary(MJPEGStreamParser imageBuffer)
+        public void FixMalformedBoundary(MJPEGStreamParser streamParser)
         {
-            byte[] buffer = (byte[])imageBuffer;
+            byte[] content = streamParser.Content;
 
-            int boundaryIndex = imageBuffer.FindImageBoundary();
+            int boundaryIndex = streamParser.FindImageBoundary();
 
             if (boundaryIndex != -1)
             {
                 for (int i = boundaryIndex - 1; i >= 0; i--)
                 {
-                    char ch = (char)buffer[i];
+                    char ch = (char)content[i];
 
                     if (ch == '\n' || ch == '\r')
                     {

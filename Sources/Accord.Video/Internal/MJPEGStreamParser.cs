@@ -38,7 +38,7 @@ namespace Accord.Video
             _buffer = new byte[bufferSize];
         }
 
-        private byte[] Content
+        public byte[] Content
         {
             get { return _buffer; }
         }
@@ -205,11 +205,6 @@ namespace Accord.Video
         internal bool CanRead(byte[] target)
         {
             return RemainingBytes != 0 && RemainingBytes >= target.Length;
-        }
-
-        public static explicit operator byte[] (MJPEGStreamParser imageBuffer)
-        {
-            return imageBuffer.Content;
         }
     }
 }

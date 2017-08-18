@@ -466,23 +466,24 @@ namespace Accord.Video
                             if (boundary.HasValue && !boundary.IsChecked)
                             {
                                 boundary.FixMalformedBoundary(parser);
-                                if (!boundary.IsChecked)
-                                    continue;
                             }
 
-                            parser.DetectImageBoundaries();
-
-                            if (parser.HasFrame)
+                            if (boundary.IsValid)
                             {
-                                _framesReceived++;
+                                parser.DetectImageBoundaries();
 
-                                if (NewFrame != null && !IsStopRequested)
+                                if (parser.HasFrame)
                                 {
-                                    using (Bitmap frame = parser.GetFrame())
+                                    _framesReceived++;
+
+                                    if (NewFrame != null && !IsStopRequested)
                                     {
-                                        NewFrame(this, new NewFrameEventArgs(frame));
+                                        using (Bitmap frame = parser.GetFrame())
+                                        {
+                                            NewFrame(this, new NewFrameEventArgs(frame));
+                                        }
+                                        parser.RemoveFrame();
                                     }
-                                    parser.RemoveFrame();
                                 }
                             }
                         }
