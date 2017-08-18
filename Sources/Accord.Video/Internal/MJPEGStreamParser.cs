@@ -14,7 +14,10 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Accord.Video
 {
-    internal class MJPEGStreamParser
+    /// <summary>
+    /// 
+    /// </summary>
+    public class MJPEGStreamParser
     {
         private const int READ_SIZE = 1024;
         private const int BUFFER_SIZE = READ_SIZE * READ_SIZE;
@@ -30,6 +33,12 @@ namespace Accord.Video
         private readonly byte[] _header;
         private readonly Boundary _boundary;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="boundary"></param>
+        /// <param name="header"></param>
+        /// <param name="bufferSize"></param>
         public MJPEGStreamParser(Boundary boundary, byte[] header, int bufferSize = BUFFER_SIZE)
         {
             _header = header;
@@ -38,6 +47,9 @@ namespace Accord.Video
             _buffer = new byte[bufferSize];
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public byte[] Content
         {
             get { return _buffer; }
@@ -47,17 +59,20 @@ namespace Accord.Video
         {
             get { return _totalReadBytes - _position; }
         }
-
-        public bool HasStart
+        
+        private bool HasStart
         {
             get { return _imageHeaderIndex != -1; }
         }
-
-        public bool HasEnd
+        
+        private bool HasEnd
         {
             get { return _imageBoundaryIndex != -1; }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public bool HasFrame
         {
             get { return HasStart && HasEnd; }
@@ -69,6 +84,11 @@ namespace Accord.Video
             _totalReadBytes += readBytes;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <returns></returns>
         public int Read(Stream stream)
         {
             EnsurePositionInRange();
@@ -96,6 +116,9 @@ namespace Accord.Video
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public void DetectImageBoundaries()
         {
             if (!HasStart && CanRead(_header))
@@ -123,6 +146,10 @@ namespace Accord.Video
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public Bitmap GetFrame()
         {
             PositionAtImageEnd();
@@ -132,6 +159,9 @@ namespace Accord.Video
             return (Bitmap)Image.FromStream(imageStream);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public void RemoveFrame()
         {
             if(HasFrame)
@@ -146,8 +176,8 @@ namespace Accord.Video
                 _imageBoundaryIndex = -1;
             }
         }
-
-        public void PositionAtEnd()
+        
+        private void PositionAtEnd()
         {
             if (_boundary.HasValue)
             {
@@ -181,17 +211,21 @@ namespace Accord.Video
             return ByteArrayUtils.Find(_buffer, imageDelimiter, _position, RemainingBytes);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public int FindImageBoundary()
         {
             return ByteArrayUtils.Find(_buffer, (byte[])_boundary, 0, RemainingBytes);
         }
 
-        public void PositionAtImageEnd()
+        private void PositionAtImageEnd()
         {
             _position = _imageBoundaryIndex;
         }
 
-        public void PositionAfterHeader()
+        private void PositionAfterHeader()
         {
             _position = _imageHeaderIndex + _header.Length;
         }

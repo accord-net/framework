@@ -108,6 +108,7 @@ namespace Accord.Video
         /// </summary>
         /// 
         /// <param name="description">Error description.</param>
+        /// <param name="exception"></param>
         /// 
         public VideoSourceErrorEventArgs(string description, Exception exception = null)
         {
@@ -124,6 +125,9 @@ namespace Accord.Video
             get { return _description; }
         }
 
+        /// <summary>
+        /// Video source exception causing the error
+        /// </summary>
         public Exception Exception
         {
             get { return _exception; }

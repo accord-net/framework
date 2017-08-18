@@ -12,7 +12,10 @@ namespace Accord.Video
     using System.Text;
     using System.Net;
 
-    internal class Boundary
+    /// <summary>
+    /// 
+    /// </summary>
+    public class Boundary
     {
         private readonly static Encoding _encoding = Encoding.ASCII;
 
@@ -20,48 +23,78 @@ namespace Accord.Video
 
         private bool _isChecked = false;
 
+        /// <summary>
+        /// 
+        /// </summary>
         public Boundary()
         {
             _builder = new StringBuilder();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="boundary"></param>
         public Boundary(string boundary)
         {
             _builder = new StringBuilder(boundary);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="boundary"></param>
         public Boundary(byte[] boundary)
         {
             string content = _encoding.GetString(boundary);
             _builder = new StringBuilder(content);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public string Content
         {
             get { return _builder.ToString(); }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public int Length
         {
             get { return _builder.Length; }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public bool HasValue
         {
             get { return Length != 0; }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public bool IsChecked
         {
             get { return _isChecked; }
             set { _isChecked = value; }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public bool IsValid
         {
             get { return (IsChecked && HasValue) || !HasValue; }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="c"></param>
         public void Prepend(char c)
         {
             _builder.Insert(0, c);
@@ -71,10 +104,7 @@ namespace Accord.Video
         /// Some IP cameras, like AirLink, claim that boundary is "myboundary",
         /// when it is really "--myboundary". This corrects the issue.
         /// </summary>
-        /// <param name="buffer">Image data buffer</param>
-        /// <param name="boundary">Existing boundary</param>
-        /// <param name="position">Current position in buffer</param>
-        /// <returns></returns>
+        /// <param name="streamParser"></param>
         public void FixMalformedBoundary(MJPEGStreamParser streamParser)
         {
             byte[] content = streamParser.Content;
@@ -99,6 +129,11 @@ namespace Accord.Video
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="response"></param>
+        /// <returns></returns>
         public static Boundary FromResponse(WebResponse response)
         {
             string contentType = response.ContentType;
@@ -152,6 +187,10 @@ namespace Accord.Video
             return contentType.StartsWith("application/octet-stream");
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="boundary"></param>
         public static explicit operator string(Boundary boundary)
         {
             string content = null;
@@ -164,6 +203,10 @@ namespace Accord.Video
             return content;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="boundary"></param>
         public static explicit operator byte[] (Boundary boundary)
         {
             byte[] content = null;

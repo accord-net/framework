@@ -13,7 +13,7 @@ namespace Accord.Video
     using System.Threading;
     using System.Threading.Tasks;
 
-    internal class TimeoutStream : Stream
+    public class TimeoutStream : Stream
     {
         private const int DEFAULT_TIMEOUT_READ = 30000;
         private const int DEFAULT_TIMEOUT_WRITE = 30000;
@@ -26,6 +26,10 @@ namespace Accord.Video
         private int _readTimeout = DEFAULT_TIMEOUT_READ;
         private int _writeTimeout = DEFAULT_TIMEOUT_WRITE;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="stream"></param>
         public TimeoutStream(Stream stream)
         {
             _baseStream = stream;
@@ -36,41 +40,78 @@ namespace Accord.Video
 #endif
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public Stream BaseStream => _baseStream;
 
+        /// <summary>
+        /// 
+        /// </summary>
         public override bool CanRead => _baseStream.CanRead;
 
+        /// <summary>
+        /// 
+        /// </summary>
         public override bool CanSeek => _baseStream.CanSeek;
 
+        /// <summary>
+        /// 
+        /// </summary>
         public override bool CanWrite => _baseStream.CanWrite;
 
+        /// <summary>
+        /// 
+        /// </summary>
         public override long Length => _baseStream.Length;
 
+        /// <summary>
+        /// 
+        /// </summary>
         public override bool CanTimeout => true;
 
+        /// <summary>
+        /// 
+        /// </summary>
         public override int ReadTimeout
         {
             get => _readTimeout;
             set => _readTimeout = value;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public override int WriteTimeout
         {
             get => _writeTimeout;
             set => _writeTimeout = value;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public override long Position
         {
             get => _baseStream.Position;
             set => _baseStream.Position = value;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public override void Flush()
         {
             _baseStream.Flush();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="buffer"></param>
+        /// <param name="offset"></param>
+        /// <param name="count"></param>
+        /// <returns></returns>
         public override int Read(byte[] buffer, int offset, int count)
         {
 #if !NET35 && !NET40
@@ -102,16 +143,32 @@ namespace Accord.Video
 #endif
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="offset"></param>
+        /// <param name="origin"></param>
+        /// <returns></returns>
         public override long Seek(long offset, SeekOrigin origin)
         {
             return _baseStream.Seek(offset, origin);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="value"></param>
         public override void SetLength(long value)
         {
             _baseStream.SetLength(value);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="buffer"></param>
+        /// <param name="offset"></param>
+        /// <param name="count"></param>
         public override void Write(byte[] buffer, int offset, int count)
         {
 #if !NET35 && !NET40
