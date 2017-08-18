@@ -13,6 +13,9 @@ namespace Accord.Video
     using System.Threading;
     using System.Threading.Tasks;
 
+    /// <summary>
+    /// 
+    /// </summary>
     public class TimeoutStream : Stream
     {
         private const int DEFAULT_TIMEOUT_READ = 30000;

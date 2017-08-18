@@ -106,11 +106,18 @@ namespace Accord.Video
         /// <summary>
         /// Initializes a new instance of the <see cref="VideoSourceErrorEventArgs"/> class.
         /// </summary>
+        /// <param name="description">Error description.</param>
+        public VideoSourceErrorEventArgs(string description)
+            : this(description, null) { }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="VideoSourceErrorEventArgs"/> class.
+        /// </summary>
         /// 
         /// <param name="description">Error description.</param>
-        /// <param name="exception"></param>
+        /// <param name="exception">Error exception.</param>
         /// 
-        public VideoSourceErrorEventArgs(string description, Exception exception = null)
+        public VideoSourceErrorEventArgs(string description, Exception exception)
         {
             _description = description;
             _exception = exception;
