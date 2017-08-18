@@ -1153,7 +1153,7 @@ namespace Accord.Tests.MachineLearning
         [Test]
         public void index_out_range_test()
         {
-            Accord.Math.Random.Generator.Seed = 0;
+            Accord.Math.Random.Generator.Seed = 1;
 
             var x = new Accord.IO.CsvReader(new StringReader(Properties.Resources.data16), hasHeaders: false).ToJagged<double>();
             var y = new Accord.IO.CsvReader(new StringReader(Properties.Resources.labels16), hasHeaders: false).ToJagged<int>().GetColumn(0);
@@ -1238,124 +1238,353 @@ namespace Accord.Tests.MachineLearning
         }
 
         [Test]
-        public void dynamic_time_warp_issue_717()
+        public void multilabel_probabilities()
         {
-            double[][][] gestures =
+            double[][] inputs =
             {
-                new double[][] // Swipe left
+                new double[] { 10.1, 0.1, 0.01 },
+                new double[] { 10.1, 0.2, 0.01 },
+                new double[] { 10.2, 0.3, 0.02 },
+                new double[] { 10.1, 0.1, 0.01 },
+
+                new double[] { 0.1, 10.1, 0.01 },
+                new double[] { 0.2, 10.2, 0.01 },
+                new double[] { 0.1, 10.1, 0.01 },
+
+                new double[] { 0.01, 0.01, 10.1 },
+                new double[] { 0.01, 0.01, 10.1 },
+                new double[] { 0.01, 0.01, 10.2 },
+            };
+
+            int[] outputs = { 0, 0, 0, 0, 1, 1, 1, 2, 2, 2 };
+
+            double[][] test = new[] { inputs[0], inputs[4], inputs[8] };
+
+            double[][] a = new double[][] {
+                new double[] { 1.00317837043652, -0.999133032432786, -1.00845270022214 },
+                new double[] { -0.994915031332965, 0.996905863560959, -1.00252124694466 },
+                new double[] { -0.996821629563478, -1.00309413643904, 1.00845270022214 }
+            };
+
+            double[][] b = new double[][] {
+                new double[] { -0.312407884659696, -1.31262795734067, -1.31944812115402 },
+                new double[] { -1.30954682143033, -0.314094770568381, -1.31510549138339 },
+                new double[] { -1.31093910612127, -1.31552462320663, -0.310995420931884 }
+            };
+
+            double[][] c = new double[][] {
+                new double[] { 0.577001726129664, 0.212220363519678, 0.210777910350659 },
+                new double[] { 0.212747668321341, 0.575683976685405, 0.211568354993254 },
+                new double[] { 0.212154153006434, 0.211183543586879, 0.576662303406687 }
+            };
+
+            double[][] d = new double[][] {
+                new double[] { 0.731683025073335, 0.134615977120729, 0.133700997805936 },
+                new double[] { 0.135149684317059, 0.730449799736373, 0.134400515946568 },
+                new double[] { 0.133947791377159, 0.133334977599079, 0.732717231023761 }
+            };
+
+            double[][] i = new double[][] {
+                new double[] { 0.731683025073335, 0.269111911681433, 0.267282768976239 },
+                new double[] { 0.269942360762677, 0.730449799736373, 0.26844600300527 },
+                new double[] { 0.269566785660751, 0.268333512318449, 0.732717231023761 }
+            };;
+
+            {
+                var teacher = new MultilabelSupportVectorLearning<Gaussian>()
                 {
-                    new double[] { 1, 1, 1 },
-                    new double[] { 1, 2, 1 },
-                    new double[] { 1, 2, 2 },
-                    new double[] { 2, 2, 2 },
-                },
+                    Learner = (param) => new SequentialMinimalOptimization<Gaussian>()
+                    {
+                        Complexity = 10000,
+                    }
+                };
 
-                new double[][] // Swipe right
+                // Learn a machine
+                var machine = teacher.Learn(inputs, outputs);
+
+                Assert.AreEqual(MultilabelProbabilityMethod.SumsToOne, machine.Method);
+                compare(test, machine, new double[][][] { a, b, c });
+
+                machine.Method = MultilabelProbabilityMethod.SumsToOneWithEmphasisOnWinner;
+                compare(test, machine, new double[][][] { a, b, d });
+            }
+
+            {
+                var teacher = new MultilabelSupportVectorLearning<Gaussian>()
                 {
-                    new double[] { 1, 10, 6 },
-                    new double[] { 1, 5, 6 },
-                    new double[] { 6, 7, 1 },
-                },
+                    Learner = (param) => new SequentialMinimalOptimization<Gaussian>()
+                    {
+                        Complexity = 10000,
+                    },
 
-                new double[][] // Double tap
+                    IsMultilabel = true
+                };
+
+                // Learn a machine
+                var machine = teacher.Learn(inputs, outputs);
+
+                Assert.AreEqual(MultilabelProbabilityMethod.PerClass, machine.Method);
+                compare(test, machine, new double[][][] { a, b, i });
+
+                machine.Method = MultilabelProbabilityMethod.SumsToOneWithEmphasisOnWinner;
+                compare(test, machine, new double[][][] { a, b, d });
+            }
+
+
+            double[][] e = new double[][] {
+                new double[] { 1.61361630987002, -2.07900515334969, -2.08549355048741 },
+                new double[] { -1.94610890503965, 1.38915297719873, -2.07527218562595 },
+                new double[] { -1.94950562602869, -2.08588765202885, 1.39013460076266 }
+            };
+
+            double[][] f = new double[][] {
+                new double[] { -0.181626368526726, -2.19683668600356, -2.2026059466164 },
+                new double[] { -2.07961545532639, -0.222572481459575, -2.19351934244045 },
+                new double[] { -2.08258829036651, -2.20295650174297, -0.222376682274817 }
+            };
+
+            double[][] g = new double[][] {
+                new double[] { 0.790003018026837, 0.10530137197571, 0.104695609997453 },
+                new double[] { 0.120523844040169, 0.771927460922736, 0.107548695037095 },
+                new double[] { 0.120312473352932, 0.106668307692391, 0.773019218954677 }
+            };
+
+            double[][] h = new double[][] {
+                new double[] { 0.833912858305498, 0.0832831201840334, 0.0828040215104686 },
+                new double[] { 0.105447552576614, 0.800456986356854, 0.0940954610665313 },
+                new double[] { 0.105685843190979, 0.0937004262821141, 0.800613730526906 }
+            };
+
+            double[][] j = new double[][] {
+                new double[] { 0.833912858305498, 0.111154218508026, 0.110514787149899 },
+                new double[] { 0.124978262684443, 0.800456986356854, 0.111523567529388 },
+                new double[] { 0.124607274642233, 0.110476052414428, 0.800613730526906 }
+            };
+
+            {
+                var teacher = new MultilabelSupportVectorLearning<Gaussian>()
                 {
-                    new double[] { 8, 2, 5 },
-                    new double[] { 1, 50, 4 },
-                }
-            };
+                    Learner = (param) => new SequentialMinimalOptimization<Gaussian>()
+                    {
+                        Complexity = 10000,
+                    }
+                };
 
-            int[] outputs =
-            {
-                    0,  // Swipe left
-                    1,  // Swipe right
-                    2   // Double tap
-            };
+                // Learn a machine
+                var machine = teacher.Learn(inputs, outputs);
 
-            var teacher = new MulticlassSupportVectorLearning<DynamicTimeWarping, double[][]>()
-            {
-                // Configure the learning algorithm to use SMO to train the
-                //  underlying SVMs in each of the binary class subproblems.
-                Learner = (param) => new SequentialMinimalOptimization<DynamicTimeWarping, double[][]>
+                var calibration = new MultilabelSupportVectorLearning<Gaussian>(machine)
                 {
-                    Complexity = 1.5,
-                    Kernel = new DynamicTimeWarping(alpha: 1, degree: 1),
-                    //UseKernelEstimation = true
-                }
-            };
+                    Learner = (param) => new ProbabilisticOutputCalibration<Gaussian>(param.Model)
+                };
 
-            // Learn a machine
-            var machine = teacher.Learn(gestures, outputs);
+                machine = calibration.Learn(inputs, outputs);
 
-            // Create the multi-class learning algorithm for the machine
-            var calibration = new MulticlassSupportVectorLearning<DynamicTimeWarping, double[][]>()
+                Assert.AreEqual(MultilabelProbabilityMethod.SumsToOne, machine.Method);
+                compare(test, machine, new double[][][] { e, f, g });
+
+                machine.Method = MultilabelProbabilityMethod.SumsToOneWithEmphasisOnWinner;
+                compare(test, machine, new double[][][] { e, f, h });
+            }
+
             {
-                Model = machine, // We will start with an existing machine
-
-                // Configure the learning algorithm to use Platt's calibration
-                Learner = (param) => new ProbabilisticOutputCalibration<DynamicTimeWarping, double[][]>()
+                var teacher = new MultilabelSupportVectorLearning<Gaussian>()
                 {
-                    Model = param.Model // Start with an existing machine
-                }
-            };
+                    Learner = (param) => new SequentialMinimalOptimization<Gaussian>()
+                    {
+                        Complexity = 10000,
+                    },
 
-            // Configure parallel execution options
-            calibration.ParallelOptions.MaxDegreeOfParallelism = 1;
+                    IsMultilabel = true
+                };
 
-            // Learn a machine
-            calibration.Learn(gestures, outputs);
+                // Learn a machine
+                var machine = teacher.Learn(inputs, outputs);
 
+                var calibration = new MultilabelSupportVectorLearning<Gaussian>(machine)
+                {
+                    Learner = (param) => new ProbabilisticOutputCalibration<Gaussian>(param.Model)
+                };
 
-            // Validate Results
-            double decision1, decision2, decision3, decision4, decision5, decision6;
+                machine = calibration.Learn(inputs, outputs);
 
-            // First create new instances for the gestures with the same values as in the sequences array
-            var swipeLeftGesture = new double[][]
+                Assert.AreEqual(MultilabelProbabilityMethod.PerClass, machine.Method);
+                compare(test, machine, new double[][][] { e, f, j });
+
+                machine.Method = MultilabelProbabilityMethod.SumsToOneWithEmphasisOnWinner;
+                compare(test, machine, new double[][][] { e, f, h });
+            }
+        }
+        
+        [Test]
+        public void multiclass_probabilities()
+        {
+            Accord.Math.Random.Generator.Seed = 1;
+
+            double[][] inputs =
             {
-                new double[] { 1, 1, 1 },
-                new double[] { 1, 2, 1 },
-                new double[] { 1, 2, 2 },
-                new double[] { 2, 2, 2 },
+                new double[] { 10.1, 0.1, 0.01 },
+                new double[] { 10.1, 0.2, 0.01 },
+                new double[] { 10.2, 0.3, 0.02 },
+                new double[] { 10.1, 0.1, 0.01 },
+
+                new double[] { 0.1, 10.1, 0.01 },
+                new double[] { 0.2, 10.2, 0.01 },
+                new double[] { 0.1, 10.1, 0.01 },
+
+                new double[] { 0.01, 0.01, 10.1 },
+                new double[] { 0.01, 0.01, 10.1 },
+                new double[] { 0.01, 0.01, 10.2 },
             };
 
-            var swipeRightGesture = new double[][]
+            int[] outputs = { 0, 0, 0, 0, 1, 1, 1, 2, 2, 2 };
+
+            double[][] test = new[] { inputs[0], inputs[4], inputs[8] };
+
+            double[][] a = new double[][] {
+                new double[] { 1.00990692633517, -1.00990692633517, -1.00595803613661 },
+                new double[] { -1.00990692633517, 1.00990692633517, -0.00626027984045739 },
+                new double[] { -1.00595803613661, -1.00741305990541, 1.00741305990541 }
+            };
+
+            double[][] b = new double[][] {
+                new double[] { 2, 1, 0 },
+                new double[] { 1, 2, 0 },
+                new double[] { 1, 0, 2 }
+            };
+
+            double[][] c = new double[][] {
+                new double[] { 0.789960988120308, 0.104812150960467, 0.105226860919225 },
+                new double[] { 0.0887694693933983, 0.669048551282703, 0.242181979323899 },
+                new double[] { 0.105406673002338, 0.105253415311559, 0.789339911686102 }
+            };
+
+            double[][] d = new double[][] {
+                new double[] { 0.665240955774822, 0.244728471054798, 0.0900305731703805 },
+                new double[] { 0.244728471054798, 0.665240955774822, 0.0900305731703805 },
+                new double[] { 0.244728471054798, 0.0900305731703805, 0.665240955774822 }
+            };
+
+
             {
-                new double[] { 1, 10, 6 },
-                new double[] { 1, 5, 6 },
-                new double[] { 6, 7, 1 },
-            };
+                var teacher = new MulticlassSupportVectorLearning<Gaussian>()
+                {
+                    Learner = (param) => new SequentialMinimalOptimization<Gaussian>()
+                    {
+                        Complexity = 10000,
+                    }
+                };
 
-            var doubleTapGesture = new double[][]
+                // Learn a machine
+                var machine = teacher.Learn(inputs, outputs);
+
+                Assert.AreEqual(MulticlassComputeMethod.Elimination, machine.Method);
+                compare(test, machine, new double[][][] { a, a, c });
+
+                machine.Method = MulticlassComputeMethod.Voting;
+                compare(test, machine, new double[][][] { b, b, d });
+            }
+
             {
-                new double[] { 8, 2, 5 },
-                new double[] { 1, 50, 4 },
+                var teacher = new MulticlassSupportVectorLearning<Gaussian>()
+                {
+                    Learner = (param) => new SequentialMinimalOptimization<Gaussian>()
+                    {
+                        Complexity = 10000,
+                    },
+                };
+
+                // Learn a machine
+                var machine = teacher.Learn(inputs, outputs);
+
+                Assert.AreEqual(MulticlassComputeMethod.Elimination, machine.Method);
+                compare(test, machine, new double[][][] { a, a, c });
+
+                machine.Method = MulticlassComputeMethod.Voting;
+                compare(test, machine, new double[][][] { b, b, d });
+            }
+
+
+
+            double[][] e = new double[][] {
+                new double[] { 1.61485251853836, -1.61485251853836, -1.60759667543465 },
+                new double[] { -1.38916795967919, 1.38916795967919, -0.118723773337039 },
+                new double[] { -1.38879628677469, -1.38855507690143, 1.38879628677469 }
             };
 
-            // Check what are the decisions and probabilities of the original sequences array
-            var res1 = machine.Probability(gestures[0], out decision1); // decision 0 - Probability 0.66666666570779487 - Score 0.69314717840248374
-            var res2 = machine.Probability(gestures[1], out decision2); // decision 1 - Probability 0.57647717384694053 - Score 0.6931471784024833
-            var res3 = machine.Probability(gestures[2], out decision3); // decision 2 - Probability 0.66666666570779465 - Score 0.6931471784024833
+            double[][] f = new double[][] {
+                new double[] { 0.926417880569892, 0.0366575852221866, 0.0369245342079215 },
+                new double[] { 0.0484152373528162, 0.779108646139437, 0.172476116507747 },
+                new double[] { 0.0553081942575627, 0.0553215367491952, 0.889370268993242 }
+            };
 
 
-            // Check what are the decisions and probabilities of the newly created instances
-            var res4 = machine.Probability(swipeLeftGesture, out decision4);  // decision 0 - Probability 0.34881631999941815 - Score 0.035525143563626807
-            var res5 = machine.Probability(swipeRightGesture, out decision5); // decision 1 - Probability 0.38414838905152121 - Score 0.13802120233728751
-            var res6 = machine.Probability(doubleTapGesture, out decision6);  // decision 2 - Probability 0.607525583968486   - Score 0.56625552124018352
+            {
+                var teacher = new MulticlassSupportVectorLearning<Gaussian>()
+                {
+                    Learner = (param) => new SequentialMinimalOptimization<Gaussian>()
+                    {
+                        Complexity = 10000,
+                    }
+                };
 
-            Assert.AreEqual(res1, res4, 1e-8);
-            Assert.AreEqual(res2, res5, 1e-8);
-            Assert.AreEqual(res3, res6, 1e-8);
+                // Learn a machine
+                var machine = teacher.Learn(inputs, outputs);
 
-            res1 = machine.Score(gestures[0], out decision1); // decision 0 - Probability 0.66666666570779487 - Score 0.69314717840248374
-            res2 = machine.Score(gestures[1], out decision2); // decision 1 - Probability 0.57647717384694053 - Score 0.6931471784024833
-            res3 = machine.Score(gestures[2], out decision3); // decision 2 - Probability 0.66666666570779465 - Score 0.6931471784024833
+                var calibration = new MulticlassSupportVectorLearning<Gaussian>(machine)
+                {
+                    Learner = (param) => new ProbabilisticOutputCalibration<Gaussian>(param.Model)
+                };
 
-            res4 = machine.Score(swipeLeftGesture, out decision4);  // decision 0 - Probability 0.34881631999941815 - Score 0.035525143563626807
-            res5 = machine.Score(swipeRightGesture, out decision5); // decision 1 - Probability 0.38414838905152121 - Score 0.13802120233728751
-            res6 = machine.Score(doubleTapGesture, out decision6);  // decision 2 - Probability 0.607525583968486   - Score 0.56625552124018352
+                machine = calibration.Learn(inputs, outputs);
 
-            Assert.AreEqual(res1, res4, 1e-8);
-            Assert.AreEqual(res2, res5, 1e-8);
-            Assert.AreEqual(res3, res6, 1e-8);
+                Assert.AreEqual(MulticlassComputeMethod.Elimination, machine.Method);
+                compare(test, machine, new double[][][] { e, e, f });
+
+                machine.Method = MulticlassComputeMethod.Voting;
+                compare(test, machine, new double[][][] { b, b, d });
+            }
+
+            {
+                var teacher = new MulticlassSupportVectorLearning<Gaussian>()
+                {
+                    Learner = (param) => new SequentialMinimalOptimization<Gaussian>()
+                    {
+                        Complexity = 10000,
+                    },
+                };
+
+                // Learn a machine
+                var machine = teacher.Learn(inputs, outputs);
+
+                var calibration = new MulticlassSupportVectorLearning<Gaussian>(machine)
+                {
+                    Learner = (param) => new ProbabilisticOutputCalibration<Gaussian>(param.Model)
+                };
+
+                machine = calibration.Learn(inputs, outputs);
+
+                Assert.AreEqual(MulticlassComputeMethod.Elimination, machine.Method);
+                compare(test, machine, new double[][][] { e, e, f });
+
+                machine.Method = MulticlassComputeMethod.Voting;
+                compare(test, machine, new double[][][] { b, b, d });
+            }
+        }
+
+        private static void compare(double[][] test, IMultilabelLikelihoodClassifier<double[]> machine, double[][][] expected)
+        {
+            var scores = machine.Scores(test);
+            var logLikelihoods = machine.LogLikelihoods(test);
+            var probabilities = machine.Probabilities(test);
+
+            string a = scores.ToCSharp();
+            string b = logLikelihoods.ToCSharp();
+            string c = probabilities.ToCSharp();
+
+            Assert.IsTrue(expected[0].IsEqual(scores, 1e-5));
+            Assert.IsTrue(expected[1].IsEqual(logLikelihoods, 1e-5));
+            Assert.IsTrue(expected[2].IsEqual(probabilities, 1e-5));
         }
 
         [Test]

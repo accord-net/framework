@@ -72,6 +72,7 @@ namespace Accord.MachineLearning
         private Func<InnerParameters<TBinary, TInput>, ISupervisedLearning<TBinary, TInput, bool>> learner;
         private ConcurrentDictionary<ClassPair, ISupervisedLearning<TBinary, TInput, bool>> teachers;
         private bool aggregateExceptions = true;
+        private bool? isMultilabel = false;
 
         /// <summary>
         ///   Gets or sets the model being learned.
@@ -105,6 +106,19 @@ namespace Accord.MachineLearning
         {
             get { return aggregateExceptions; }
             set { aggregateExceptions = value; }
+        }
+
+        /// <summary>
+        ///   Gets or sets a value indicating whether the learning algorithm should generate multi-label
+        ///   (as opposed to multi-class) models. If left unspecified, the type of the model will be determined
+        ///   automatically depending on which overload of the <see cref="Learn(TInput[], bool[][], double[])"/>
+        ///   method will be called first by the executing code.
+        /// </summary>
+        /// 
+        public bool? IsMultilabel
+        {
+            get { return isMultilabel; }
+            set { isMultilabel = value; }
         }
 
         /// <summary>
@@ -162,7 +176,7 @@ namespace Accord.MachineLearning
         ///   can be created from the training data.
         /// </summary>
         /// 
-        protected abstract TModel Create(int inputs, int classes);
+        protected abstract TModel Create(int inputs, int classes, bool multilabel);
 
         /// <summary>
         /// Learns a model that can map the given inputs to the given outputs.
@@ -175,6 +189,8 @@ namespace Accord.MachineLearning
         /// </returns>
         public TModel Learn(TInput[] x, int[] y, double[] weights = null)
         {
+            if (this.isMultilabel == null)
+                this.isMultilabel = false;
             return Learn(x, Jagged.OneHot<bool>(y), weights);
         }
 
@@ -208,9 +224,11 @@ namespace Accord.MachineLearning
                 if (Model == null)
                 {
                     this.teachers = null;
+                    if (this.isMultilabel == null)
+                        this.isMultilabel = Classes.IsMultilabel(y);
                     int numberOfInputs = Tools.GetNumberOfInputs(x);
                     int numberOfClasses = y.Columns();
-                    Model = Create(numberOfInputs, numberOfClasses);
+                    Model = Create(numberOfInputs, numberOfClasses, isMultilabel.Value);
                 }
 
                 return Model;

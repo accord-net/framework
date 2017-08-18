@@ -35,6 +35,35 @@ namespace Accord.MachineLearning.VectorMachines
     using System.Threading.Tasks;
 
     /// <summary>
+    ///   Probability computation strategies for <see cref="MultilabelSupportVectorMachine"/>
+    /// </summary>
+    /// 
+    public enum MultilabelProbabilityMethod
+    {
+        /// <summary>
+        ///   Probabilities should be computed per-class, meaning the probabilities among all the classe should not need to sum
+        ///   up to one. This is the default when dealing with multi-label (as opposed to mult-class) classification problems.
+        /// </summary>
+        PerClass,
+
+        /// <summary>
+        ///   Probabilities should be normalized to sum up to one. This will be done using the <see cref="Special.Softmax(double[])"/>
+        ///   function considering the output probabilities of all classes.
+        /// </summary>
+        SumsToOne,
+
+        /// <summary>
+        ///   Probabilities should be normalized to sum up to one. However, in a one-vs-rest setting, one of the machines will 
+        ///   have been trained to specifically distinguish between the winning class and the rest of the classes. As such the
+        ///   output of this class will be used to determine the true probability of the winning class, and the complement of
+        ///   this probabilitiy will be divided among the restant of the losing classses. The probabilities of the losing classes
+        ///   will be determined using a softmax.
+        /// </summary>
+        /// 
+        SumsToOneWithEmphasisOnWinner,
+    }
+
+    /// <summary>
     ///   One-against-all Multi-label Kernel Support Vector Machine Classifier.
     /// </summary>
     ///
@@ -171,6 +200,8 @@ namespace Accord.MachineLearning.VectorMachines
 #endif
     {
 
+        private MultilabelProbabilityMethod method = MultilabelProbabilityMethod.PerClass;
+
         // Multi-label statistics
         private int? totalVectorsCount;
         private int? uniqueVectorsCount;
@@ -196,8 +227,6 @@ namespace Accord.MachineLearning.VectorMachines
             this.sharedVectors = new Lazy<int[][]>(computeSharedVectors, true);
         }
 
-
-#region Properties
 
 
         /// <summary>
@@ -262,8 +291,16 @@ namespace Accord.MachineLearning.VectorMachines
             }
         }
 
-
-#endregion
+        /// <summary>
+        ///   Gets or sets the <see cref="MultilabelProbabilityMethod"/> that should be used when computing probabilities
+        ///   using the <see cref="MultilabelLikelihoodClassifierBase{TInput}.Probabilities(TInput)"/> and related methods.
+        /// </summary>
+        /// 
+        public MultilabelProbabilityMethod Method
+        {
+            get { return method; }
+            set { method = value; }
+        }
 
         /// <summary>
         ///   Gets or sets the parallelization options used
@@ -443,7 +480,7 @@ namespace Accord.MachineLearning.VectorMachines
 
             if (ParallelOptions.MaxDegreeOfParallelism == 1)
             {
-                for (int i = 0; i < Models.Length; i++) 
+                for (int i = 0; i < Models.Length; i++)
                 {
                     result[i] = distance(i, input, cache);
                     d[i] = Classes.Decide(result[i]);
@@ -486,6 +523,47 @@ namespace Accord.MachineLearning.VectorMachines
 #endif
 
             }
+            return result;
+        }
+
+        /// <summary>
+        /// Predicts a class label vector for the given input vector, returning the
+        /// log-likelihoods of the input vector belonging to each possible class.
+        /// </summary>
+        /// <param name="input">The input vector.</param>
+        /// <param name="decision">The class label predicted by the classifier.</param>
+        /// <param name="result">An array where the log-likelihoods will be stored,
+        /// avoiding unnecessary memory allocations.</param>
+        public override double[] Probabilities(TInput input, ref bool[] decision, double[] result)
+        {
+            this.LogLikelihoods(input, ref decision, result);
+
+            if (method == MultilabelProbabilityMethod.PerClass)
+            {
+                Elementwise.Exp(result, result: result);
+            }
+            else if (method == MultilabelProbabilityMethod.SumsToOne)
+            {
+                Special.Softmax(input: result, result: result);
+            }
+            else if (method == MultilabelProbabilityMethod.SumsToOneWithEmphasisOnWinner)
+            {
+                Elementwise.Exp(result, result: result);
+
+                int winner = result.ArgMax();
+                double rest = 1.0 - result[winner];
+
+                // Normalize losing classes
+                double sum = 0;
+                for (int i = 0; i < result.Length; i++)
+                    if (i != winner)
+                        sum += result[i];
+
+                for (int i = 0; i < result.Length; i++)
+                    if (i != winner)
+                        result[i] = (result[i] / sum) * rest;
+            }
+
             return result;
         }
 
@@ -560,7 +638,7 @@ namespace Accord.MachineLearning.VectorMachines
 
 
 
-#region Cache
+        #region Cache
         private Cache createOrResetCache()
         {
             Cache cache = vectorCache.Value;
@@ -706,7 +784,7 @@ namespace Accord.MachineLearning.VectorMachines
             public SpinLock[] SyncObjects;
 #endif
         }
-#endregion
+        #endregion
 
 
         /// <summary>

@@ -66,7 +66,7 @@ namespace Accord.MachineLearning
         public virtual double[] Probabilities(TInput input, ref bool[] decision, double[] result)
         {
             LogLikelihoods(input, ref decision, result);
-            return Special.Softmax(result, result);
+            return Elementwise.Exp(result, result: result);
         }
 
         /// <summary>
@@ -115,7 +115,7 @@ namespace Accord.MachineLearning
         /// <param name="input">The input vector.</param>
         /// <param name="result">An array where the log-likelihoods will be stored,
         ///   avoiding unnecessary memory allocations.</param>
-        public virtual double[] LogLikelihoods(TInput input, double[] result)
+        public double[] LogLikelihoods(TInput input, double[] result)
         {
             var decision = new bool[NumberOfOutputs];
             return LogLikelihoods(input, ref decision, result);
@@ -126,7 +126,7 @@ namespace Accord.MachineLearning
         /// vector belongs to each of the possible classes.
         /// </summary>
         /// <param name="input">The input vector.</param>
-        public virtual double[][] LogLikelihoods(TInput[] input)
+        public double[][] LogLikelihoods(TInput[] input)
         {
             return LogLikelihoods(input, create<double>(input));
         }
@@ -138,7 +138,7 @@ namespace Accord.MachineLearning
         /// <param name="input">The input vector.</param>
         /// <param name="result">An array where the log-likelihoods will be stored,
         ///   avoiding unnecessary memory allocations.</param>
-        public virtual double[][] LogLikelihoods(TInput[] input, double[][] result)
+        public double[][] LogLikelihoods(TInput[] input, double[][] result)
         {
             for (int i = 0; i < input.Length; i++)
                 result[i] = LogLikelihoods(input[i], result[i]);
@@ -246,9 +246,8 @@ namespace Accord.MachineLearning
         ///   avoiding unnecessary memory allocations.</param>
         public double[] Probabilities(TInput input, double[] result)
         {
-            LogLikelihoods(input, result);
-            Special.Softmax(result, result);
-            return result;
+            int decision;
+            return Probabilities(input, out decision, result);
         }
 
         /// <summary>
@@ -270,9 +269,9 @@ namespace Accord.MachineLearning
         ///   avoiding unnecessary memory allocations.</param>
         public double[][] Probabilities(TInput[] input, double[][] result)
         {
-            LogLikelihoods(input, result);
-            for (int i = 0; i < result.Length; i++)
-                Special.Softmax(result[i], result[i]);
+            bool[] decision = new bool[NumberOfOutputs];
+            for (int i = 0; i < input.Length; i++)
+                Probabilities(input[i], ref decision, result[i]);
             return result;
         }
 
@@ -301,7 +300,7 @@ namespace Accord.MachineLearning
         /// <param name="classIndex">The index of the class whose score will be computed.</param>
         /// <param name="result">An array where the log-likelihoods will be stored,
         ///   avoiding unnecessary memory allocations.</param>
-        public virtual double[] LogLikelihood(TInput[] input, int[] classIndex, double[] result)
+        public double[] LogLikelihood(TInput[] input, int[] classIndex, double[] result)
         {
             for (int i = 0; i < input.Length; i++)
                 result[i] = LogLikelihood(input[i], classIndex[i]);
@@ -717,8 +716,9 @@ namespace Accord.MachineLearning
         ///   avoiding unnecessary memory allocations.</param>
         public double[] Probabilities(TInput input, out double decision, double[] result)
         {
-            Probabilities(input, result);
-            decision = result.ArgMax();
+            var mask = new bool[NumberOfOutputs];
+            Probabilities(input, ref mask, result);
+            decision = mask.ArgMax();
             return result;
         }
 
@@ -734,8 +734,9 @@ namespace Accord.MachineLearning
         ///   avoiding unnecessary memory allocations.</param>
         public double[] Probabilities(TInput input, out int decision, double[] result)
         {
-            Probabilities(input, result);
-            decision = result.ArgMax();
+            var mask = new bool[NumberOfOutputs];
+            Probabilities(input, ref mask, result);
+            decision = mask.ArgMax();
             return result;
         }
 

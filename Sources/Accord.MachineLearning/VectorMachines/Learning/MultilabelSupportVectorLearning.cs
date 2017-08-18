@@ -141,9 +141,12 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         /// of this abstract class must define this method so new models
         /// can be created from the training data.
         /// </summary>
-        protected override MultilabelSupportVectorMachine Create(int inputs, int classes)
+        protected override MultilabelSupportVectorMachine Create(int inputs, int classes, bool multilabel)
         {
-            return new MultilabelSupportVectorMachine(inputs, Kernel, classes);
+            return new MultilabelSupportVectorMachine(inputs, Kernel, classes)
+            {
+                Method = multilabel ? MultilabelProbabilityMethod.PerClass : MultilabelProbabilityMethod.SumsToOne
+            };
         }
 
         
@@ -213,9 +216,12 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         /// of this abstract class must define this method so new models
         /// can be created from the training data.
         /// </summary>
-        protected override MultilabelSupportVectorMachine<TKernel> Create(int inputs, int classes)
+        protected override MultilabelSupportVectorMachine<TKernel> Create(int inputs, int classes, bool multilabel)
         {
-            return new MultilabelSupportVectorMachine<TKernel>(inputs, Kernel, classes);
+            return new MultilabelSupportVectorMachine<TKernel>(inputs, Kernel, classes)
+            {
+                Method = multilabel ? MultilabelProbabilityMethod.PerClass : MultilabelProbabilityMethod.SumsToOne
+            };
         }
 
         /// <summary>
@@ -293,9 +299,12 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         /// of this abstract class must define this method so new models
         /// can be created from the training data.
         /// </summary>
-        protected override MultilabelSupportVectorMachine<TKernel, TInput> Create(int inputs, int classes)
+        protected override MultilabelSupportVectorMachine<TKernel, TInput> Create(int inputs, int classes, bool multilabel)
         {
-            return new MultilabelSupportVectorMachine<TKernel, TInput>(inputs, Kernel, classes);
+            return new MultilabelSupportVectorMachine<TKernel, TInput>(inputs, Kernel, classes)
+            {
+                Method = multilabel ? MultilabelProbabilityMethod.PerClass : MultilabelProbabilityMethod.SumsToOne
+            };
         }
 
         /// <summary>
