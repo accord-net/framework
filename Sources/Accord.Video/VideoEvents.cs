@@ -17,7 +17,7 @@ namespace Accord.Video
     /// <param name="sender">Sender object.</param>
     /// <param name="eventArgs">Event arguments.</param>
     /// 
-    public delegate void NewFrameEventHandler( object sender, NewFrameEventArgs eventArgs );
+    public delegate void NewFrameEventHandler(object sender, NewFrameEventArgs eventArgs);
 
     /// <summary>
     /// Delegate for video source error event handler.
@@ -26,7 +26,7 @@ namespace Accord.Video
     /// <param name="sender">Sender object.</param>
     /// <param name="eventArgs">Event arguments.</param>
     /// 
-    public delegate void VideoSourceErrorEventHandler( object sender, VideoSourceErrorEventArgs eventArgs );
+    public delegate void VideoSourceErrorEventHandler(object sender, VideoSourceErrorEventArgs eventArgs);
 
     /// <summary>
     /// Delegate for playing finished event handler.
@@ -35,7 +35,7 @@ namespace Accord.Video
     /// <param name="sender">Sender object.</param>
     /// <param name="reason">Reason of finishing video playing.</param>
     /// 
-    public delegate void PlayingFinishedEventHandler( object sender, ReasonToFinishPlaying reason );
+    public delegate void PlayingFinishedEventHandler(object sender, ReasonToFinishPlaying reason);
 
     /// <summary>
     /// Reason of finishing video playing.
@@ -79,7 +79,7 @@ namespace Accord.Video
         /// 
         /// <param name="frame">New frame.</param>
         /// 
-        public NewFrameEventArgs( System.Drawing.Bitmap frame )
+        public NewFrameEventArgs(System.Drawing.Bitmap frame)
         {
             this.frame = frame;
         }
@@ -100,7 +100,8 @@ namespace Accord.Video
     /// 
     public class VideoSourceErrorEventArgs : EventArgs
     {
-        private string description;
+        private readonly string _description;
+        private readonly Exception _exception;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="VideoSourceErrorEventArgs"/> class.
@@ -108,9 +109,10 @@ namespace Accord.Video
         /// 
         /// <param name="description">Error description.</param>
         /// 
-        public VideoSourceErrorEventArgs( string description )
+        public VideoSourceErrorEventArgs(string description, Exception exception = null)
         {
-            this.description = description;
+            _description = description;
+            _exception = exception;
         }
 
         /// <summary>
@@ -119,7 +121,12 @@ namespace Accord.Video
         /// 
         public string Description
         {
-            get { return description; }
+            get { return _description; }
+        }
+
+        public Exception Exception
+        {
+            get { return _exception; }
         }
     }
 }
