@@ -188,7 +188,8 @@ namespace Accord.Math.Optimization
             get { return maxEvaluations; }
             set
             {
-                if (value < 0) throw new ArgumentOutOfRangeException("value");
+                if (value < 0)
+                    throw new ArgumentOutOfRangeException("value");
                 maxEvaluations = value;
             }
         }
@@ -457,6 +458,7 @@ namespace Accord.Math.Optimization
             int noProgressCounter = 0;
             int maxCount = 100;
             iterations = 0;
+            functionEvaluations = 0;
 
             // magic parameters from Birgin & Martinez
             const double tau = 0.5, gam = 10;
