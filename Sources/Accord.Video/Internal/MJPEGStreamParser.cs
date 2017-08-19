@@ -1,19 +1,23 @@
-﻿using System;
-using System.Drawing;
-using System.IO;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
-
-// AForge Video Library
-// AForge.NET framework
-// http://www.aforgenet.com/framework/
+﻿// Accord Imaging Library
+// The Accord.NET Framework
+// http://accord-framework.net
 //
-// Copyright © AForge.NET, 2005-2011
-// contacts@aforgenet.com
+// Copyright © César Souza, 2009-2017
+// cesarsouza at gmail.com
+//
+// Copyright © Stig Voss, 2017
+// http://stigvoss.dk
+// stig.voss at gmail.com
 //
 
 namespace Accord.Video
 {
+    using System;
+    using System.Drawing;
+    using System.IO;
+    using System.Runtime.Serialization;
+    using System.Runtime.Serialization.Formatters.Binary;
+
     /// <summary>
     /// Handles functionality related to parsing a MJPEG stream
     /// </summary>

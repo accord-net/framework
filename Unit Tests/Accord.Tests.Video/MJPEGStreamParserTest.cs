@@ -1,15 +1,27 @@
-﻿using Accord.Video;
-using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿// Accord Imaging Library
+// The Accord.NET Framework
+// http://accord-framework.net
+//
+// Copyright © César Souza, 2009-2017
+// cesarsouza at gmail.com
+//
+// Copyright © Stig Voss, 2017
+// http://stigvoss.dk
+// stig.voss at gmail.com
+//
 
 namespace Accord.Tests.Video
 {
+    using Accord.Video;
+    using NUnit.Framework;
+    using System;
+    using System.Collections.Generic;
+    using System.Drawing;
+    using System.IO;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+
     public class MJPEGStreamParserTest
     {
         // Byte array of five times boundary string + 20x20px white jpeg
@@ -92,7 +104,7 @@ namespace Accord.Tests.Video
             _parser.DetectFrame();
             _parser.GetFrame();
             Assert.IsTrue(_parser.HasFrame);
-            
+
             _parser.RemoveFrame();
             Assert.IsFalse(_parser.HasFrame);
         }

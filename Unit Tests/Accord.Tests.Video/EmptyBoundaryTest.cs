@@ -1,13 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NUnit.Framework;
-using Accord.Video;
+﻿// Accord Imaging Library
+// The Accord.NET Framework
+// http://accord-framework.net
+//
+// Copyright © César Souza, 2009-2017
+// cesarsouza at gmail.com
+//
+// Copyright © Stig Voss, 2017
+// http://stigvoss.dk
+// stig.voss at gmail.com
+//
 
 namespace Accord.Tests.Video
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using NUnit.Framework;
+    using Accord.Video;
+
     [TestFixture]
     public class EmptyBoundaryTest
     {

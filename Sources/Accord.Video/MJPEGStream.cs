@@ -1,9 +1,20 @@
+// Accord Imaging Library
+// The Accord.NET Framework
+// http://accord-framework.net
+//
+// Copyright © César Souza, 2009-2017
+// cesarsouza at gmail.com
+//
 // AForge Video Library
 // AForge.NET framework
 // http://www.aforgenet.com/framework/
 //
 // Copyright © AForge.NET, 2005-2011
 // contacts@aforgenet.com
+//
+// Copyright © Stig Voss, 2017
+// http://stigvoss.dk
+// stig.voss at gmail.com
 //
 
 namespace Accord.Video
