@@ -140,6 +140,7 @@
     <Compile Include="Serializer.cs" />
     <Compile Include="Math\Rational.cs" />
     <Compile Include="SerializerCompression.cs" />
+    <Compile Include="Hyperrectangle.cs" />
     <Compile Include="Sparse.cs" />
     <Compile Include="Sparse`1.cs" />
   </ItemGroup>

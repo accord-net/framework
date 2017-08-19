@@ -282,6 +282,7 @@
     <Compile Include="Interest Points\Base\IFeatureDescriptor.cs" />
     <Compile Include="Interest Points\FeatureDescriptor.cs" />
     <Compile Include="ObjectiveFidelity.cs" />
+    <Compile Include="DrawingExtensions.cs" />
     <Compile Include="UnsafeTools.cs" />
     <Compile Include="Filters\CompassConvolution.cs" />
     <Compile Include="Filters\Exponential.cs" />

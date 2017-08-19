@@ -19,6 +19,7 @@
   - David Durrleman
   - Doug Blank
   - Hans Wolff
+  - Hashem Zawary
   - Ivan Pizhenko
   - Marcos Diego Catalano
   - Max Bügler

@@ -78,12 +78,14 @@
     <Compile Include="GrayLevelCooccurrenceMatrixTest.cs" />
     <Compile Include="HaralickTest.cs" />
     <Compile Include="Filters\KirschEdgeDetectorTest.cs" />
+    <Compile Include="HyperrectTest.cs" />
     <Compile Include="IntegralImageTest.cs" />
     <Compile Include="LocalBinaryPatternsTest.cs" />
     <Compile Include="Filters\GaborTest.cs" />
     <Compile Include="HistogramsOfOrientedGradientsTest.cs" />
     <Compile Include="FastRetinaKeypointDetectorTest.cs" />
     <Compile Include="HuMomentsTest.cs" />
+    <Compile Include="MachineLearning\KDTree2DTest.cs" />
     <Compile Include="MachineLearning\RansacLineImageTest.cs" />
     <Compile Include="Math\ConvexHullDefectsTest.cs" />
     <Compile Include="OpenSURF\FastHessian.cs" />
