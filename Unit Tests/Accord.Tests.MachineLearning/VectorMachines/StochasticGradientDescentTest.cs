@@ -87,7 +87,7 @@ namespace Accord.Tests.MachineLearning
         [Test]
         public void learn_linear_multiclass()
         {
-            #region doc_learn_muliclass
+            #region doc_learn_multiclass
             // In this example, we will learn a multi-class SVM using the one-vs-one (OvO)
             // approach. The OvO approacbh can decompose decision problems involving multiple 
             // classes into a series of binary ones, which can then be solved using SVMs.

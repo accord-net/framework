@@ -173,7 +173,7 @@ namespace Accord.Tests.Statistics
         [Test]
         public void sequence_parsing_test()
         {
-            #region doc_fraud_analysis
+            #region doc_learn_fraud_analysis
 
             // Ensure results are reproducible
             Accord.Math.Random.Generator.Seed = 0;
