@@ -48,40 +48,77 @@ namespace Accord.Video
         /// <summary>
         /// Stream wrapped by TimeoutStream wrapper
         /// </summary>
-        public Stream BaseStream => _baseStream;
+        public Stream BaseStream {
+            get
+            {
+                return _baseStream;
+            }
+        }
 
         /// <summary>
         /// Pass-through property
         /// </summary>
-        public override bool CanRead => _baseStream.CanRead;
+        public override bool CanRead {
+            get
+            {
+                return _baseStream.CanRead;
+            }
+        }
 
         /// <summary>
         /// 
         /// </summary>
-        public override bool CanSeek => _baseStream.CanSeek;
+        public override bool CanSeek {
+            get
+            {
+                return _baseStream.CanSeek;
+            }
+        }
 
         /// <summary>
         /// Pass-through property
         /// </summary>
-        public override bool CanWrite => _baseStream.CanWrite;
+        public override bool CanWrite {
+            get
+            {
+                return _baseStream.CanWrite;
+            }
+        }
 
         /// <summary>
         /// Pass-through property
         /// </summary>
-        public override long Length => _baseStream.Length;
+        public override long Length {
+            get
+            {
+                return _baseStream.Length;
+            }
+        }
 
         /// <summary>
         /// Pass-through property
         /// </summary>
-        public override bool CanTimeout => true;
+        public override bool CanTimeout {
+            get
+            {
+                return true;
+            }
+        }
 
         /// <summary>
         /// Value of TimeoutStream's read timeout
         /// </summary>
         public override int ReadTimeout
         {
-            get => _readTimeout;
-            set => _readTimeout = value;
+            get
+            {
+                return _readTimeout;
+            }
+
+            set
+            {
+                _readTimeout = value;
+            }
         }
 
         /// <summary>
@@ -89,8 +126,15 @@ namespace Accord.Video
         /// </summary>
         public override int WriteTimeout
         {
-            get => _writeTimeout;
-            set => _writeTimeout = value;
+            get
+            {
+                return _writeTimeout;
+            }
+
+            set
+            {
+                _writeTimeout = value;
+            }
         }
 
         /// <summary>
