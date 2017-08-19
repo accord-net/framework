@@ -90,14 +90,15 @@ namespace Accord.Tests.Video
         {
             string expected = _value;
             byte[] buffer = Encoding.ASCII.GetBytes(expected);
+            MemoryStream stream = new MemoryStream(buffer);
 
             MJPEGStreamParser parser = new MJPEGStreamParser(_boundary, new byte[0]);
-            MemoryStream stream = new MemoryStream(buffer);
 
             parser.Read(stream);
 
             _boundary.FixMalformedBoundary(parser);
 
+            Assert.AreEqual(expected, _boundary.Content);
             Assert.IsTrue(_boundary.IsChecked);
         }
 
@@ -106,14 +107,14 @@ namespace Accord.Tests.Video
         {
             string expected = "--" + _value;
             byte[] buffer = Encoding.ASCII.GetBytes(expected);
+            MemoryStream stream = new MemoryStream(buffer);
 
             MJPEGStreamParser parser = new MJPEGStreamParser(_boundary, new byte[0]);
-            MemoryStream stream = new MemoryStream(buffer);
 
             parser.Read(stream);
 
             _boundary.FixMalformedBoundary(parser);
-
+            
             Assert.IsTrue(_boundary.IsValid);
         }
 
@@ -122,9 +123,9 @@ namespace Accord.Tests.Video
         {
             string expected = "--" + _value;
             byte[] buffer = Encoding.ASCII.GetBytes(expected);
+            MemoryStream stream = new MemoryStream(buffer);
 
             MJPEGStreamParser parser = new MJPEGStreamParser(_boundary, new byte[0]);
-            MemoryStream stream = new MemoryStream(buffer);
 
             parser.Read(stream);
 
