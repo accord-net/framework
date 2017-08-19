@@ -232,7 +232,7 @@ namespace Accord.Imaging
             Bitmap destination = new Bitmap(width, height, sourceData.PixelFormat);
 
             // lock destination bitmap data
-            BitmapData destinationData = destination.LockBits(ImageLockMode.ReadWrite);
+            BitmapData destinationData = destination.LockBits(ImageLockMode.WriteOnly);
 
             System.Diagnostics.Debug.Assert(destinationData.Stride == sourceData.Stride);
 
