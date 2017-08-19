@@ -153,5 +153,30 @@ namespace Accord.Tests.Video
 
             Assert.IsFalse(parser.HasFrame);
         }
+
+        [Test]
+        public void DetectWithNoBoundary()
+        {
+            List<byte> content = new List<byte>();
+
+            byte[] buffer = new byte[100];
+
+            Random random = new Random(1234);
+            random.NextBytes(buffer);
+
+            content.AddRange((byte[])_boundary);
+            content.AddRange(JPEG_HEADER_BYTES);
+            content.AddRange(buffer);
+            content.AddRange(JPEG_HEADER_BYTES);
+            content.AddRange(buffer);
+
+            MemoryStream memoryStream = new MemoryStream(content.ToArray());
+
+            MJPEGStreamParser parser = new MJPEGStreamParser(new Boundary(), JPEG_HEADER_BYTES);
+            parser.Read(memoryStream);
+            parser.DetectFrame();
+
+            Assert.IsTrue(parser.HasFrame);
+        }
     }
 }
