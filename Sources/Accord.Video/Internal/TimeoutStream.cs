@@ -160,8 +160,8 @@ namespace Accord.Video
         /// </summary>
         public override long Position
         {
-            get => _baseStream.Position;
-            set => _baseStream.Position = value;
+            get { return _baseStream.Position; }
+            set { _baseStream.Position = value; }
         }
 
         /// <summary>
