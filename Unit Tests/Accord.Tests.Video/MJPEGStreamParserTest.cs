@@ -73,6 +73,18 @@ namespace Accord.Tests.Video
         }
 
         [Test]
+        public void GetFrameFailTest()
+        {
+            Assert.Throws<InvalidOperationException>(() => _parser.GetFrame());
+        }
+
+        [Test]
+        public void RemoveFrameFailTest()
+        {
+            Assert.Throws<InvalidOperationException>(() => _parser.RemoveFrame());
+        }
+
+        [Test]
         public void RemoveFrameTest()
         {
             int bytesRead = _parser.Read(_stream);

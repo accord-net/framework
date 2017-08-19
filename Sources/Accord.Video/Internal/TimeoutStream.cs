@@ -14,7 +14,9 @@ namespace Accord.Video
     using System.Threading.Tasks;
 
     /// <summary>
-    /// 
+    /// Wrapper that enables streams which do not support read and write timeouts to timeout
+    /// Requires .NET 4.5 or above
+    /// Used for .NET Standard 2.0
     /// </summary>
     public class TimeoutStream : Stream
     {
@@ -30,9 +32,9 @@ namespace Accord.Video
         private int _writeTimeout = DEFAULT_TIMEOUT_WRITE;
 
         /// <summary>
-        /// 
+        /// Creates an instance of a TimeoutStream wrapper
         /// </summary>
-        /// <param name="stream"></param>
+        /// <param name="stream">Stream which may not support read or write timeouts</param>
         public TimeoutStream(Stream stream)
         {
             _baseStream = stream;
@@ -44,12 +46,12 @@ namespace Accord.Video
         }
 
         /// <summary>
-        /// 
+        /// Stream wrapped by TimeoutStream wrapper
         /// </summary>
         public Stream BaseStream => _baseStream;
 
         /// <summary>
-        /// 
+        /// Pass-through property
         /// </summary>
         public override bool CanRead => _baseStream.CanRead;
 
@@ -59,22 +61,22 @@ namespace Accord.Video
         public override bool CanSeek => _baseStream.CanSeek;
 
         /// <summary>
-        /// 
+        /// Pass-through property
         /// </summary>
         public override bool CanWrite => _baseStream.CanWrite;
 
         /// <summary>
-        /// 
+        /// Pass-through property
         /// </summary>
         public override long Length => _baseStream.Length;
 
         /// <summary>
-        /// 
+        /// Pass-through property
         /// </summary>
         public override bool CanTimeout => true;
 
         /// <summary>
-        /// 
+        /// Value of TimeoutStream's read timeout
         /// </summary>
         public override int ReadTimeout
         {
@@ -83,7 +85,7 @@ namespace Accord.Video
         }
 
         /// <summary>
-        /// 
+        /// Value of TimeoutStream's write timeout
         /// </summary>
         public override int WriteTimeout
         {
@@ -92,7 +94,7 @@ namespace Accord.Video
         }
 
         /// <summary>
-        /// 
+        /// Pass-through property
         /// </summary>
         public override long Position
         {
@@ -101,7 +103,7 @@ namespace Accord.Video
         }
 
         /// <summary>
-        /// 
+        /// Pass-through method
         /// </summary>
         public override void Flush()
         {
@@ -109,11 +111,11 @@ namespace Accord.Video
         }
 
         /// <summary>
-        /// 
+        /// Reads from base stream using a timeout
         /// </summary>
-        /// <param name="buffer"></param>
-        /// <param name="offset"></param>
-        /// <param name="count"></param>
+        /// <param name="buffer">Buffer byte array</param>
+        /// <param name="offset">Offset</param>
+        /// <param name="count">Number of bytes to read</param>
         /// <returns></returns>
         public override int Read(byte[] buffer, int offset, int count)
         {
@@ -147,7 +149,7 @@ namespace Accord.Video
         }
 
         /// <summary>
-        /// 
+        /// Pass-through method
         /// </summary>
         /// <param name="offset"></param>
         /// <param name="origin"></param>
@@ -158,7 +160,7 @@ namespace Accord.Video
         }
 
         /// <summary>
-        /// 
+        /// Pass-through method
         /// </summary>
         /// <param name="value"></param>
         public override void SetLength(long value)
@@ -167,11 +169,11 @@ namespace Accord.Video
         }
 
         /// <summary>
-        /// 
+        /// Write to base stream using a timeout
         /// </summary>
-        /// <param name="buffer"></param>
-        /// <param name="offset"></param>
-        /// <param name="count"></param>
+        /// <param name="buffer">Buffer byte array</param>
+        /// <param name="offset">Offset</param>
+        /// <param name="count">Number of bytes to write</param>
         public override void Write(byte[] buffer, int offset, int count)
         {
 #if !NET35 && !NET40

@@ -13,7 +13,7 @@ namespace Accord.Video
     using System.Net;
 
     /// <summary>
-    /// 
+    /// Container for MJPEG stream boundaries
     /// </summary>
     public class Boundary
     {
@@ -24,7 +24,7 @@ namespace Accord.Video
         private bool _isChecked = false;
 
         /// <summary>
-        /// 
+        /// Creates an empty boundary for e.g. octet streams
         /// </summary>
         public Boundary()
         {
@@ -32,26 +32,16 @@ namespace Accord.Video
         }
 
         /// <summary>
-        /// 
+        /// Creates instance using a string as boundary for e.g. multipart streams
         /// </summary>
-        /// <param name="boundary"></param>
+        /// <param name="boundary">Boundary string</param>
         public Boundary(string boundary)
         {
             _builder = new StringBuilder(boundary);
         }
 
         /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="boundary"></param>
-        public Boundary(byte[] boundary)
-        {
-            string content = _encoding.GetString(boundary);
-            _builder = new StringBuilder(content);
-        }
-
-        /// <summary>
-        /// 
+        /// Boundary string content
         /// </summary>
         public string Content
         {
@@ -59,7 +49,7 @@ namespace Accord.Video
         }
 
         /// <summary>
-        /// 
+        /// Length of boundary string
         /// </summary>
         public int Length
         {
@@ -67,7 +57,7 @@ namespace Accord.Video
         }
 
         /// <summary>
-        /// 
+        /// True if boundary string length is non-zero
         /// </summary>
         public bool HasValue
         {
@@ -75,7 +65,7 @@ namespace Accord.Video
         }
 
         /// <summary>
-        /// 
+        /// True if FixMalformedBoundary has been run
         /// </summary>
         public bool IsChecked
         {
@@ -84,7 +74,7 @@ namespace Accord.Video
         }
 
         /// <summary>
-        /// 
+        /// True if IsChecked is true and HasValue is true, or if HasValue is false
         /// </summary>
         public bool IsValid
         {
@@ -92,7 +82,7 @@ namespace Accord.Video
         }
 
         /// <summary>
-        /// 
+        /// Adds character before boundary content
         /// </summary>
         /// <param name="c"></param>
         public void Prepend(char c)
@@ -130,10 +120,10 @@ namespace Accord.Video
         }
 
         /// <summary>
-        /// 
+        /// Creates boundary from WebResponse
         /// </summary>
-        /// <param name="response"></param>
-        /// <returns></returns>
+        /// <param name="response">Source of boundary string</param>
+        /// <returns>Boundary with string content</returns>
         public static Boundary FromResponse(WebResponse response)
         {
             string contentType = response.ContentType;
@@ -188,9 +178,9 @@ namespace Accord.Video
         }
 
         /// <summary>
-        /// 
+        /// Converts boundary to string
         /// </summary>
-        /// <param name="boundary"></param>
+        /// <param name="boundary">Boundary string content</param>
         public static explicit operator string(Boundary boundary)
         {
             string content = null;
@@ -204,9 +194,9 @@ namespace Accord.Video
         }
 
         /// <summary>
-        /// 
+        /// Converts boundary to byte array
         /// </summary>
-        /// <param name="boundary"></param>
+        /// <param name="boundary">Boundary byte content</param>
         public static explicit operator byte[] (Boundary boundary)
         {
             byte[] content = null;

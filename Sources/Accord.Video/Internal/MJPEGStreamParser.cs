@@ -15,7 +15,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 namespace Accord.Video
 {
     /// <summary>
-    /// 
+    /// Handles functionality related to parsing a MJPEG stream
     /// </summary>
     public class MJPEGStreamParser
     {
@@ -34,7 +34,7 @@ namespace Accord.Video
         private readonly Boundary _boundary;
 
         /// <summary>
-        /// 
+        /// Creates instance of MJPEG stream parser using a boundary and a JPEG magic header
         /// </summary>
         /// <param name="boundary"></param>
         /// <param name="header"></param>
@@ -48,7 +48,7 @@ namespace Accord.Video
         }
 
         /// <summary>
-        /// 
+        /// Content of byte array buffer
         /// </summary>
         public byte[] Content
         {
@@ -59,19 +59,19 @@ namespace Accord.Video
         {
             get { return _totalReadBytes - _position; }
         }
-        
+
         private bool HasStart
         {
             get { return _imageHeaderIndex != -1; }
         }
-        
+
         private bool HasEnd
         {
             get { return _imageBoundaryIndex != -1; }
         }
 
         /// <summary>
-        /// 
+        /// True if frame is detected using DetectFrame and not removed using RemoveFrame
         /// </summary>
         public bool HasFrame
         {
@@ -85,7 +85,7 @@ namespace Accord.Video
         }
 
         /// <summary>
-        /// 
+        /// Reads byte content to internal buffer from a stream
         /// </summary>
         /// <param name="stream"></param>
         /// <returns></returns>
@@ -117,7 +117,7 @@ namespace Accord.Video
         }
 
         /// <summary>
-        /// 
+        /// Detects if a frame is present in the internal buffer
         /// </summary>
         public void DetectFrame()
         {
@@ -147,24 +147,31 @@ namespace Accord.Video
         }
 
         /// <summary>
-        /// 
+        /// Retrieves the frame from the internal buffer
         /// </summary>
         /// <returns></returns>
         public Bitmap GetFrame()
         {
-            PositionAtImageEnd();
+            if (HasFrame)
+            {
+                PositionAtImageEnd();
 
-            int length = _imageBoundaryIndex - _imageHeaderIndex;
-            Stream imageStream = new MemoryStream(_buffer, _imageHeaderIndex, length);
-            return (Bitmap)Image.FromStream(imageStream);
+                int length = _imageBoundaryIndex - _imageHeaderIndex;
+                Stream imageStream = new MemoryStream(_buffer, _imageHeaderIndex, length);
+                return (Bitmap)Image.FromStream(imageStream);
+            }
+            else
+            {
+                throw new InvalidOperationException("No frame detected in buffer.");
+            }
         }
 
         /// <summary>
-        /// 
+        /// Removes current frame from buffer
         /// </summary>
         public void RemoveFrame()
         {
-            if(HasFrame)
+            if (HasFrame)
             {
                 _position = _imageBoundaryIndex + _boundary.Length;
                 Array.Copy(_buffer, _position, _buffer, 0, RemainingBytes);
@@ -175,8 +182,12 @@ namespace Accord.Video
                 _imageHeaderIndex = -1;
                 _imageBoundaryIndex = -1;
             }
+            else
+            {
+                throw new InvalidOperationException("No frame detected in buffer.");
+            }
         }
-        
+
         private void PositionAtEnd()
         {
             if (_boundary.HasValue)
@@ -210,7 +221,7 @@ namespace Accord.Video
 
             return ByteArrayUtils.Find(_buffer, imageDelimiter, _position, RemainingBytes);
         }
-        
+
         internal int FindImageBoundary()
         {
             return ByteArrayUtils.Find(_buffer, (byte[])_boundary, 0, RemainingBytes);
