@@ -119,7 +119,7 @@ namespace Accord.Video
         /// <summary>
         /// 
         /// </summary>
-        public void DetectImageBoundaries()
+        public void DetectFrame()
         {
             if (!HasStart && CanRead(_header))
             {
@@ -210,12 +210,8 @@ namespace Accord.Video
 
             return ByteArrayUtils.Find(_buffer, imageDelimiter, _position, RemainingBytes);
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public int FindImageBoundary()
+        
+        internal int FindImageBoundary()
         {
             return ByteArrayUtils.Find(_buffer, (byte[])_boundary, 0, RemainingBytes);
         }

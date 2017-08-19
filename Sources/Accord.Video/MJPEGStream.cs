@@ -470,7 +470,7 @@ namespace Accord.Video
 
                             if (boundary.IsValid)
                             {
-                                parser.DetectImageBoundaries();
+                                parser.DetectFrame();
 
                                 if (parser.HasFrame)
                                 {
