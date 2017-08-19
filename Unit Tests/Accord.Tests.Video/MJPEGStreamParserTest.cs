@@ -96,5 +96,62 @@ namespace Accord.Tests.Video
             _parser.RemoveFrame();
             Assert.IsFalse(_parser.HasFrame);
         }
+
+        [Test]
+        public void DetectWithNoFrameTest()
+        {
+            byte[] buffer = new byte[1000];
+
+            Random random = new Random(1234);
+            random.NextBytes(buffer);
+
+            MemoryStream memoryStream = new MemoryStream(buffer);
+
+            MJPEGStreamParser parser = new MJPEGStreamParser(_boundary, JPEG_HEADER_BYTES);
+            parser.Read(memoryStream);
+            parser.DetectFrame();
+
+            Assert.IsFalse(parser.HasFrame);
+        }
+
+        [Test]
+        public void DetectWithNoFrameOrBoundaryTest()
+        {
+            byte[] buffer = new byte[1000];
+
+            Random random = new Random(1234);
+            random.NextBytes(buffer);
+
+            MemoryStream memoryStream = new MemoryStream(buffer);
+
+            MJPEGStreamParser parser = new MJPEGStreamParser(new Boundary(), JPEG_HEADER_BYTES);
+            parser.Read(memoryStream);
+            parser.DetectFrame();
+
+            Assert.IsFalse(parser.HasFrame);
+        }
+
+        [Test]
+        public void DetectWithFrameStartOnlyTest()
+        {
+            List<byte> content = new List<byte>();
+
+            byte[] buffer = new byte[1000];
+
+            Random random = new Random(1234);
+            random.NextBytes(buffer);
+
+            content.AddRange((byte[])_boundary);
+            content.AddRange(JPEG_HEADER_BYTES);
+            content.AddRange(buffer);
+
+            MemoryStream memoryStream = new MemoryStream(content.ToArray());
+
+            MJPEGStreamParser parser = new MJPEGStreamParser(new Boundary(), JPEG_HEADER_BYTES);
+            parser.Read(memoryStream);
+            parser.DetectFrame();
+
+            Assert.IsFalse(parser.HasFrame);
+        }
     }
 }
