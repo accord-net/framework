@@ -236,7 +236,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(new[] { 0, 0, 1, 0}, secondPerson);
         }
 
-        #region doc_fraud_transform
+        #region doc_learn_fraud_transform
         private static void transform(double[,] data, out double[][][] input, out int[][] states)
         {
             var sequences = new List<double[][]>();
