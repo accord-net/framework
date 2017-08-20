@@ -32,19 +32,11 @@ namespace Accord.Math.Distances
     /// </summary>
     /// 
     [Serializable]
-    public sealed class Mahalanobis : IMetric<double[]>
+    public struct Mahalanobis : IMetric<double[]>
     {
         CholeskyDecomposition chol;
         SingularValueDecomposition svd;
         double[,] precision;
-
-        /// <summary>
-        ///   Initializes a new instance of the <see cref="Mahalanobis"/> class.
-        /// </summary>
-        /// 
-        public Mahalanobis()
-        {
-        }
 
         /// <summary>
         ///   Initializes a new instance of the <see cref="Mahalanobis"/> class.
@@ -55,6 +47,8 @@ namespace Accord.Math.Distances
         public Mahalanobis(CholeskyDecomposition chol)
         {
             this.chol = chol;
+            this.svd = null;
+            this.precision = null;
         }
 
         /// <summary>
@@ -65,7 +59,9 @@ namespace Accord.Math.Distances
         /// 
         public Mahalanobis(SingularValueDecomposition svd)
         {
+            this.chol = null;
             this.svd = svd;
+            this.precision = null;
         }
 
         /// <summary>
@@ -76,6 +72,8 @@ namespace Accord.Math.Distances
         /// 
         public Mahalanobis(double[,] precision)
         {
+            this.chol = null;
+            this.svd = null;
             this.precision = precision;
         }
 

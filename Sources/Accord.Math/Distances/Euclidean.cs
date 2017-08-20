@@ -38,7 +38,8 @@ namespace Accord.Math.Distances
     public struct Euclidean :
         IMetric<double>, ISimilarity<double>,
         IMetric<double[]>, ISimilarity<double[]>,
-        IMetric<Tuple<double, double>>, ISimilarity<Tuple<double, double>>
+        IMetric<Tuple<double, double>>, ISimilarity<Tuple<double, double>>,
+        IDistance<Sparse<double>>, ISimilarity<Sparse<double>>
     {
         /// <summary>
         ///   Computes the distance <c>d(x,y)</c> between points
@@ -90,7 +91,7 @@ namespace Accord.Math.Distances
             return Math.Sqrt(sum);
         }
 
- 
+
         /// <summary>
         ///   Gets the Euclidean distance between two points. Note: this function 
         ///   is dangerous as it is too easy to invert its arguments by mistake. 
@@ -131,6 +132,28 @@ namespace Accord.Math.Distances
             double dx = x.Item1 - y.Item1;
             double dy = y.Item1 - y.Item2;
             return Math.Sqrt(dx * dx + dy * dy);
+        }
+
+        /// <summary>
+        ///   Computes the distance <c>d(x,y)</c> between points
+        ///   <paramref name="x"/> and <paramref name="y"/>.
+        /// </summary>
+        /// 
+        /// <param name="x">The first point <c>x</c>.</param>
+        /// <param name="y">The second point <c>y</c>.</param>
+        /// 
+        /// <returns>
+        ///   A double-precision value representing the distance <c>d(x,y)</c>
+        ///   between <paramref name="x"/> and <paramref name="y"/> according 
+        ///   to the distance function implemented by this class.
+        /// </returns>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public double Distance(Sparse<double> x, Sparse<double> y)
+        {
+            return Math.Sqrt(SquareEuclidean.Sparse(x, y));
         }
 
         /// <summary>
@@ -184,6 +207,23 @@ namespace Accord.Math.Distances
             double dy = y.Item1 - y.Item2;
 
             return 1.0 / (1.0 + Math.Sqrt(dx * dx + dy * dy));
+        }
+
+        /// <summary>
+        ///   Gets a similarity measure between two points.
+        /// </summary>
+        /// 
+        /// <param name="x">The first point to be compared.</param>
+        /// <param name="y">The second point to be compared.</param>
+        /// 
+        /// <returns>A similarity measure between x and y.</returns>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public double Similarity(Sparse<double> x, Sparse<double> y)
+        {
+            return 1.0 / (1.0 + Distance(x, y));
         }
     }
 }

@@ -47,7 +47,7 @@ namespace Accord.Math.Distances
     /// </remarks>
     /// 
     [Serializable]
-    public sealed class Modular : IDistance<double>, IDistance<int>
+    public struct Modular : IDistance<double>, IDistance<int>
     {
         int modulo;
 

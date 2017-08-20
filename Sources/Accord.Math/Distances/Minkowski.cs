@@ -47,7 +47,7 @@ namespace Accord.Math.Distances
     /// </remarks>
     /// 
     [Serializable]
-    public sealed class Minkowski : IMetric<double[]>, IMetric<int[]>
+    public struct Minkowski : IMetric<double[]>, IMetric<int[]>
     {
         private double p;
 

@@ -122,6 +122,11 @@
     <Compile Include="Decompositions\SingularValueDecompositionF.cs">
       <DependentUpon>SingularValueDecomposition.tt</DependentUpon>
     </Compile>
+    <Compile Include="Distance.Generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Distance.tt</DependentUpon>
+    </Compile>
     <Compile Include="Distances\Angular.cs" />
     <Compile Include="Distances\Dirac.cs" />
     <Compile Include="Distances\WeightedSquareEuclidean.cs" />
@@ -155,11 +160,6 @@
       <DependentUpon>Norm.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Distance.Generated.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Distance.tt</DependentUpon>
     </Compile>
     <Compile Include="Distances\Base\IMetric.cs" />
     <Compile Include="Distances\Base\ISimilarity.cs" />

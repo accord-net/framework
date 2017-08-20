@@ -111,7 +111,7 @@ namespace Accord.Math.Distances
 #endif
         public double Distance(Sparse<double> x, Sparse<double> y)
         {
-            return Accord.Math.Distance.SquareEuclidean(x, y);
+            return Sparse(x, y);
         }
 
         /// <summary>
@@ -187,5 +187,69 @@ namespace Accord.Math.Distances
         {
             return 1.0 / (1.0 + Distance(x, y));
         }
+
+
+
+
+
+
+
+
+
+        /// <summary>
+        ///   Computes the distance <c>d(x,y)</c> between points
+        ///   <paramref name="x"/> and <paramref name="y"/>.
+        /// </summary>
+        /// 
+        /// <param name="x">The first point <c>x</c>.</param>
+        /// <param name="y">The second point <c>y</c>.</param>
+        /// 
+        /// <returns>
+        ///   A double-precision value representing the distance <c>d(x,y)</c>
+        ///   between <paramref name="x"/> and <paramref name="y"/> according 
+        ///   to the distance function implemented by this class.
+        /// </returns>
+        /// 
+        public static double Sparse(Sparse<double> x, Sparse<double> y)
+        {
+            double sum = 0;
+
+            int i = 0, j = 0;
+
+            while (i < x.Indices.Length && j < y.Indices.Length)
+            {
+                int posx = x.Indices[i];
+                int posy = y.Indices[j];
+
+                if (posx == posy)
+                {
+                    double d = x.Values[i] - y.Values[j];
+                    sum += d * d;
+                    i++;
+                    j++;
+                }
+                else if (posx < posy)
+                {
+                    double d = x.Values[i];
+                    sum += d * d;
+                    i++;
+                }
+                else if (posx > posy)
+                {
+                    double d = y.Values[j];
+                    sum += d * d;
+                    j++;
+                }
+            }
+
+            for (; i < x.Values.Length; i++)
+                sum += x.Values[i] * x.Values[i];
+
+            for (; j < y.Values.Length; j++)
+                sum += y.Values[j] * y.Values[j];
+
+            return sum;
+        }
+
     }
 }
