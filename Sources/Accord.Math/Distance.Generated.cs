@@ -35,6 +35,7 @@ namespace Accord.Math
     using Accord;
     using Accord.Math.Distances;
     using Accord.Math.Decompositions;
+	using Accord.Compat;
 
     /// <summary>
     ///   Static class Distance. Defines a set of methods defining distance measures.
