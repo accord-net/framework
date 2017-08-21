@@ -43,7 +43,7 @@
       <DocumentationSource sourceFile="..\..\Extras\Accord.Imaging.NonCommercial\Accord.Imaging (Noncommercial).csproj" />
       <DocumentationSource sourceFile="..\..\Extras\Accord.MachineLearning.GPL\Accord.MachineLearning (GPL).csproj" />
       <DocumentationSource sourceFile="..\..\Extras\Accord.Math.NonCommercial\Accord.Math (Noncommercial).csproj" />
-      <DocumentationSource sourceFile="..\..\Extras\Accord.Video.FFMPEG.GPL\Video.FFMPEG.vcxproj" platform="Win32" />
+      <DocumentationSource sourceFile="..\..\Extras\Accord.Video.FFMPEG.GPL\Video.FFMPEG.vcxproj" configuration="net462" platform="Win32" />
       <DocumentationSource sourceFile="..\..\Accord.DataSets\Accord.DataSets.csproj" />
       <DocumentationSource sourceFile="..\..\Accord.Text\Accord.Text.csproj" />
       <DocumentationSource sourceFile="..\..\..\Externals\SharpDX\v311\net45\SharpDX.DirectSound.xml" />
@@ -262,7 +262,7 @@
     <SyntaxFilters>C#, Visual Basic</SyntaxFilters>
     <NamingMethod>MemberName</NamingMethod>
     <HelpFileVersion>3.7.0.0</HelpFileVersion>
-    <FrameworkVersion>.NET Framework 4.6</FrameworkVersion>
+    <FrameworkVersion>.NET Framework 4.6.2</FrameworkVersion>
     <VisibleItems>Attributes, InheritedMembers, InheritedFrameworkMembers, Protected</VisibleItems>
     <PlugInNamespaces>ms.vsipcc+, ms.vsexpresscc+</PlugInNamespaces>
     <CollectionTocStyle>Flat</CollectionTocStyle>
