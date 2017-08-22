@@ -35,35 +35,36 @@ namespace Accord.Tests.Math
         public void ConstructorTest()
         {
             #region doc_example
-            // Suppose we were given the function x³ + 2x² - 10x and 
+            // Suppose we were given the function x³ + 2x² - 10x + 1 and 
             // we have to find its root, maximum and minimum inside 
-            // the interval [-4,3]. First, we express this function
+            // the interval [-4, 2]. First, we express this function
             // as a lambda expression:
-            Func<double, double> function = x => x * x * x + 2 * x * x - 10 * x;
+            Func<double, double> function = x => x * x * x + 2 * x * x - 10 * x + 1;
 
             // And now we can create the search algorithm:
-            BrentSearch search = new BrentSearch(function, -4, 3);
+            BrentSearch search = new BrentSearch(function, -4, 2);
 
             // Finally, we can query the information we need
             bool success1 = search.Maximize();  // should be true
             double max = search.Solution;       // occurs at -2.61
 
-            bool success2= search.Minimize();   // should be true  
-            double min = search.Solution;       // occurs at  1.27
+            bool success2 = search.Minimize();   // should be true  
+            double min = search.Solution;       // occurs at  1.28
 
             bool success3 = search.FindRoot();  // should be true 
-            double root = search.Solution;      // occurs at  0.50
+            double root = search.Solution;      // occurs at  0.10
+            double value = search.Value;        // should be zero
             #endregion
 
             Assert.IsTrue(success1);
             Assert.IsTrue(success2);
             Assert.IsTrue(success3);
-            Assert.AreEqual(-2.6103173042172645, max);
-            Assert.AreEqual(1.2769840667540548, min);
-            Assert.AreEqual(-0.5, root);
+            Assert.AreEqual(-2.6103173073566239, max);
+            Assert.AreEqual(1.2769839857480398, min);
+            Assert.AreEqual(0.10219566016872624, root);
+            Assert.AreEqual(0, value, 1e-5);
         }
-
-
+        
         [Test]
         public void FindRootTest()
         {
