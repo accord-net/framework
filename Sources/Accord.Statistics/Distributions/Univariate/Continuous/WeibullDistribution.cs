@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -25,7 +25,7 @@ namespace Accord.Statistics.Distributions.Univariate
     using System;
     using Accord.Math;
     using Accord.Statistics.Distributions.Fitting;
-    using AForge;
+    using Accord.Compat;
 
     /// <summary>
     ///   Weibull distribution.
@@ -137,6 +137,28 @@ namespace Accord.Statistics.Distributions.Univariate
         }
 
         /// <summary>
+        /// Gets the shape parameter k.
+        /// </summary>
+        /// 
+        /// <value>The value for this distribution's shape parameter k.</value>
+        /// 
+        public double Shape
+        {
+            get { return k; }
+        }
+
+        /// <summary>
+        /// Gets the scale parameter  λ (lambda).
+        /// </summary>
+        /// 
+        /// <value>The value for this distribution's scale parameter λ (lambda).</value>
+        /// 
+        public double Scale
+        {
+            get { return lambda; }
+        }
+
+        /// <summary>
         ///   Gets the mean for this distribution.
         /// </summary>
         /// 
@@ -221,11 +243,10 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value or any value smaller than it will occur.
         /// </remarks>
         /// 
-        public override double DistributionFunction(double x)
+        protected internal override double InnerDistributionFunction(double x)
         {
-            if (x < 0) return 0;
-
-            return 1.0 - Math.Exp(-Math.Pow(x / lambda, k));
+            double exp = Math.Exp(-Math.Pow(x / lambda, k));
+            return 1.0 - exp;
         }
 
         /// <summary>
@@ -245,10 +266,8 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value <c>x</c> will occur.
         /// </remarks>
         /// 
-        public override double ProbabilityDensityFunction(double x)
+        protected internal override double InnerProbabilityDensityFunction(double x)
         {
-            if (x <= 0) return 0;
-
             double a = Math.Pow(x / lambda, k - 1);
             double b = Math.Exp(-Math.Pow(x / lambda, k));
             return (k / lambda) * a * b;
@@ -271,10 +290,8 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value <c>x</c> will occur.
         /// </remarks>
         /// 
-        public override double LogProbabilityDensityFunction(double x)
+        protected internal override double InnerLogProbabilityDensityFunction(double x)
         {
-            if (x <= 0) return Double.NegativeInfinity;
-
             return Math.Log(k / lambda) + (k - 1) * Math.Log(x / lambda) - Math.Pow(x / lambda, k);
         }
 
@@ -321,13 +338,13 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <param name="x">A single point in the distribution range.</param>
         /// 
-        public override double ComplementaryDistributionFunction(double x)
+        protected internal override double InnerComplementaryDistributionFunction(double x)
         {
             return Math.Exp(-Math.Pow(x, k));
         }
 
         /// <summary>
-        ///   Gets the inverse of the <see cref="ComplementaryDistributionFunction"/>. 
+        ///   Gets the inverse of the <see cref="UnivariateContinuousDistribution.ComplementaryDistributionFunction(Double)"/>. 
         ///   The inverse complementary distribution function is also known as the 
         ///   inverse survival Function.
         /// </summary>
@@ -382,23 +399,28 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <param name="samples">The number of samples to generate.</param>
         /// <param name="result">The location where to store the samples.</param>
-        ///
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        ///   
         /// <returns>A random vector of observations drawn from this distribution.</returns>
         /// 
-        public override double[] Generate(int samples, double[] result)
+        public override double[] Generate(int samples, double[] result, Random source)
         {
-            return Random(k, lambda, samples, result);
+            return Random(k, lambda, samples, result, source);
         }
 
         /// <summary>
         ///   Generates a random observation from the current distribution.
         /// </summary>
         /// 
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        /// 
         /// <returns>A random observations drawn from this distribution.</returns>
         /// 
-        public override double Generate()
+        public override double Generate(Random source)
         {
-            return Random(k, lambda);
+            return Random(k, lambda, source);
         }
 
         /// <summary>
@@ -425,15 +447,51 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <param name="scale">The scale parameter lambda.</param>
         /// <param name="shape">The shape parameter k.</param>
         /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        ///
+        /// <returns>An array of double values sampled from the specified Weibull distribution.</returns>
+        /// 
+        public static double[] Random(double shape, double scale, int samples, Random source)
+        {
+            return Random(shape, scale, samples, new double[samples], source);
+        }
+
+        /// <summary>
+        ///   Generates a random vector of observations from the 
+        ///   Weibull distribution with the given parameters.
+        /// </summary>
+        /// 
+        /// <param name="scale">The scale parameter lambda.</param>
+        /// <param name="shape">The shape parameter k.</param>
+        /// <param name="samples">The number of samples to generate.</param>
         /// <param name="result">The location where to store the samples.</param>
         ///
         /// <returns>An array of double values sampled from the specified Weibull distribution.</returns>
         /// 
         public static double[] Random(double shape, double scale, int samples, double[] result)
         {
-            var random = Accord.Math.Random.Generator.Random;
+            return Random(shape, scale, samples, result, Accord.Math.Random.Generator.Random);
+        }
+
+        /// <summary>
+        ///   Generates a random vector of observations from the 
+        ///   Weibull distribution with the given parameters.
+        /// </summary>
+        /// 
+        /// <param name="scale">The scale parameter lambda.</param>
+        /// <param name="shape">The shape parameter k.</param>
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="result">The location where to store the samples.</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        ///
+        /// <returns>An array of double values sampled from the specified Weibull distribution.</returns>
+        /// 
+        public static double[] Random(double shape, double scale, int samples, double[] result, Random source)
+        {
             for (int i = 0; i < samples; i++)
-                result[i] = scale * Math.Pow(-Math.Log(random.NextDouble()), 1 / shape);
+                result[i] = scale * Math.Pow(-Math.Log(source.NextDouble()), 1 / shape);
             return result;
         }
 
@@ -449,8 +507,24 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public static double Random(double shape, double scale)
         {
-            double u = Accord.Math.Random.Generator.Random.NextDouble();
-            return scale * Math.Pow(-Math.Log(u), 1 / shape);
+            return Random(shape, scale, Accord.Math.Random.Generator.Random);
+        }
+
+        /// <summary>
+        ///   Generates a random observation from the 
+        ///   Weibull distribution with the given parameters.
+        /// </summary>
+        /// 
+        /// <param name="scale">The scale parameter lambda.</param>
+        /// <param name="shape">The shape parameter k.</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        /// 
+        /// <returns>A random double value sampled from the specified Weibull distribution.</returns>
+        /// 
+        public static double Random(double shape, double scale, Random source)
+        {
+            return scale * Math.Pow(-Math.Log(source.NextDouble()), 1 / shape);
         }
         #endregion
 
@@ -466,7 +540,7 @@ namespace Accord.Statistics.Distributions.Univariate
         public override string ToString(string format, IFormatProvider formatProvider)
         {
             return String.Format(formatProvider, "Weibull(x; λ = {0}, k = {1})",
-                lambda.ToString(format, formatProvider), 
+                lambda.ToString(format, formatProvider),
                 k.ToString(format, formatProvider));
         }
 

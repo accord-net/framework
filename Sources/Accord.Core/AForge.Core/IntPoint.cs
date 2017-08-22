@@ -10,6 +10,7 @@ namespace Accord
 {
     using System;
     using System.ComponentModel;
+    using Accord.Compat;
 
     /// <summary>
     /// Structure for representing a pair of coordinates of integer type.
@@ -31,7 +32,7 @@ namespace Accord
     /// </remarks>
     /// 
     [Serializable]
-    public struct IntPoint
+    public struct IntPoint : IComparable<IntPoint>
     {
         /// <summary> 
         /// X coordinate.
@@ -52,7 +53,7 @@ namespace Accord
         /// <param name="x">X axis coordinate.</param>
         /// <param name="y">Y axis coordinate.</param>
         /// 
-        public IntPoint( int x, int y )
+        public IntPoint(int x, int y)
         {
             this.X = x;
             this.Y = y;
@@ -67,12 +68,12 @@ namespace Accord
         /// <returns>Returns Euclidean distance between this point and
         /// <paramref name="anotherPoint"/> points.</returns>
         /// 
-        public float DistanceTo( IntPoint anotherPoint )
+        public float DistanceTo(IntPoint anotherPoint)
         {
             int dx = X - anotherPoint.X;
             int dy = Y - anotherPoint.Y;
 
-            return (float) System.Math.Sqrt( dx * dx + dy * dy );
+            return (float)System.Math.Sqrt(dx * dx + dy * dy);
         }
 
         /// <summary>
@@ -84,7 +85,7 @@ namespace Accord
         /// <returns>Returns squared Euclidean distance between this point and
         /// <paramref name="anotherPoint"/> points.</returns>
         /// 
-        public float SquaredDistanceTo( Point anotherPoint )
+        public float SquaredDistanceTo(Point anotherPoint)
         {
             float dx = X - anotherPoint.X;
             float dy = Y - anotherPoint.Y;
@@ -102,9 +103,9 @@ namespace Accord
         /// <returns>Returns new point which coordinates equal to sum of corresponding
         /// coordinates of specified points.</returns>
         /// 
-        public static IntPoint operator +( IntPoint point1, IntPoint point2 )
+        public static IntPoint operator +(IntPoint point1, IntPoint point2)
         {
-            return new IntPoint( point1.X + point2.X, point1.Y + point2.Y );
+            return new IntPoint(point1.X + point2.X, point1.Y + point2.Y);
         }
 
         /// <summary>
@@ -117,9 +118,9 @@ namespace Accord
         /// <returns>Returns new point which coordinates equal to sum of corresponding
         /// coordinates of specified points.</returns>
         /// 
-        public static IntPoint Add( IntPoint point1, IntPoint point2 )
+        public static IntPoint Add(IntPoint point1, IntPoint point2)
         {
-            return new IntPoint( point1.X + point2.X, point1.Y + point2.Y );
+            return new IntPoint(point1.X + point2.X, point1.Y + point2.Y);
         }
 
         /// <summary>
@@ -132,9 +133,9 @@ namespace Accord
         /// <returns>Returns new point which coordinates equal to difference of corresponding
         /// coordinates of specified points.</returns>
         ///
-        public static IntPoint operator -( IntPoint point1, IntPoint point2 )
+        public static IntPoint operator -(IntPoint point1, IntPoint point2)
         {
-            return new IntPoint( point1.X - point2.X, point1.Y - point2.Y );
+            return new IntPoint(point1.X - point2.X, point1.Y - point2.Y);
         }
 
         /// <summary>
@@ -147,9 +148,9 @@ namespace Accord
         /// <returns>Returns new point which coordinates equal to difference of corresponding
         /// coordinates of specified points.</returns>
         ///
-        public static IntPoint Subtract( IntPoint point1, IntPoint point2 )
+        public static IntPoint Subtract(IntPoint point1, IntPoint point2)
         {
-            return new IntPoint( point1.X - point2.X, point1.Y - point2.Y );
+            return new IntPoint(point1.X - point2.X, point1.Y - point2.Y);
         }
 
         /// <summary>
@@ -162,9 +163,9 @@ namespace Accord
         /// <returns>Returns new point which coordinates equal to coordinates of
         /// the specified point increased by specified value.</returns>
         /// 
-        public static IntPoint operator +( IntPoint point, int valueToAdd )
+        public static IntPoint operator +(IntPoint point, int valueToAdd)
         {
-            return new IntPoint( point.X + valueToAdd, point.Y + valueToAdd );
+            return new IntPoint(point.X + valueToAdd, point.Y + valueToAdd);
         }
 
         /// <summary>
@@ -177,9 +178,9 @@ namespace Accord
         /// <returns>Returns new point which coordinates equal to coordinates of
         /// the specified point increased by specified value.</returns>
         /// 
-        public static IntPoint Add( IntPoint point, int valueToAdd )
+        public static IntPoint Add(IntPoint point, int valueToAdd)
         {
-            return new IntPoint( point.X + valueToAdd, point.Y + valueToAdd );
+            return new IntPoint(point.X + valueToAdd, point.Y + valueToAdd);
         }
 
         /// <summary>
@@ -192,9 +193,9 @@ namespace Accord
         /// <returns>Returns new point which coordinates equal to coordinates of
         /// the specified point decreased by specified value.</returns>
         /// 
-        public static IntPoint operator -( IntPoint point, int valueToSubtract )
+        public static IntPoint operator -(IntPoint point, int valueToSubtract)
         {
-            return new IntPoint( point.X - valueToSubtract, point.Y - valueToSubtract );
+            return new IntPoint(point.X - valueToSubtract, point.Y - valueToSubtract);
         }
 
         /// <summary>
@@ -207,9 +208,9 @@ namespace Accord
         /// <returns>Returns new point which coordinates equal to coordinates of
         /// the specified point decreased by specified value.</returns>
         /// 
-        public static IntPoint Subtract( IntPoint point, int valueToSubtract )
+        public static IntPoint Subtract(IntPoint point, int valueToSubtract)
         {
-            return new IntPoint( point.X - valueToSubtract, point.Y - valueToSubtract );
+            return new IntPoint(point.X - valueToSubtract, point.Y - valueToSubtract);
         }
 
         /// <summary>
@@ -222,9 +223,9 @@ namespace Accord
         /// <returns>Returns new point which coordinates equal to coordinates of
         /// the specified point multiplied by specified value.</returns>
         ///
-        public static IntPoint operator *( IntPoint point, int factor )
+        public static IntPoint operator *(IntPoint point, int factor)
         {
-            return new IntPoint( point.X * factor, point.Y * factor );
+            return new IntPoint(point.X * factor, point.Y * factor);
         }
 
         /// <summary>
@@ -237,9 +238,9 @@ namespace Accord
         /// <returns>Returns new point which coordinates equal to coordinates of
         /// the specified point multiplied by specified value.</returns>
         ///
-        public static IntPoint Multiply( IntPoint point, int factor )
+        public static IntPoint Multiply(IntPoint point, int factor)
         {
-            return new IntPoint( point.X * factor, point.Y * factor );
+            return new IntPoint(point.X * factor, point.Y * factor);
         }
 
         /// <summary>
@@ -252,9 +253,9 @@ namespace Accord
         /// <returns>Returns new point which coordinates equal to coordinates of
         /// the specified point divided by specified value.</returns>
         /// 
-        public static IntPoint operator /( IntPoint point, int factor )
+        public static IntPoint operator /(IntPoint point, int factor)
         {
-            return new IntPoint( point.X / factor, point.Y / factor );
+            return new IntPoint(point.X / factor, point.Y / factor);
         }
 
         /// <summary>
@@ -267,9 +268,9 @@ namespace Accord
         /// <returns>Returns new point which coordinates equal to coordinates of
         /// the specified point divided by specified value.</returns>
         /// 
-        public static IntPoint Divide( IntPoint point, int factor )
+        public static IntPoint Divide(IntPoint point, int factor)
         {
-            return new IntPoint( point.X / factor, point.Y / factor );
+            return new IntPoint(point.X / factor, point.Y / factor);
         }
 
         /// <summary>
@@ -282,9 +283,9 @@ namespace Accord
         /// <returns>Returns <see langword="true"/> if coordinates of specified
         /// points are equal.</returns>
         ///
-        public static bool operator ==( IntPoint point1, IntPoint point2 )
+        public static bool operator ==(IntPoint point1, IntPoint point2)
         {
-            return ( ( point1.X == point2.X ) && ( point1.Y == point2.Y ) );
+            return ((point1.X == point2.X) && (point1.Y == point2.Y));
         }
 
         /// <summary>
@@ -297,9 +298,9 @@ namespace Accord
         /// <returns>Returns <see langword="true"/> if coordinates of specified
         /// points are not equal.</returns>
         ///
-        public static bool operator !=( IntPoint point1, IntPoint point2 )
+        public static bool operator !=(IntPoint point1, IntPoint point2)
         {
-            return ( ( point1.X != point2.X ) || ( point1.Y != point2.Y ) );
+            return ((point1.X != point2.X) || (point1.Y != point2.Y));
         }
 
         /// <summary>
@@ -310,9 +311,9 @@ namespace Accord
         /// 
         /// <returns>Return <see langword="true"/> if objects are equal.</returns>
         /// 
-        public override bool Equals( object obj )
+        public override bool Equals(object obj)
         {
-            return ( obj is IntPoint ) ? ( this == (IntPoint) obj ) : false;
+            return (obj is IntPoint) ? (this == (IntPoint)obj) : false;
         }
 
         /// <summary>
@@ -321,9 +322,9 @@ namespace Accord
         /// 
         /// <returns>Returns the hash code for this instance.</returns>
         /// 
-        public override int GetHashCode( )
+        public override int GetHashCode()
         {
-            return X.GetHashCode( ) + Y.GetHashCode( );
+            return X.GetHashCode() + Y.GetHashCode();
         }
 
         /// <summary>
@@ -335,9 +336,9 @@ namespace Accord
         /// <returns>Returns new single precision point which coordinates are implicitly converted
         /// to floats from coordinates of the specified integer point.</returns>
         /// 
-        public static implicit operator Point( IntPoint point )
+        public static implicit operator Point(IntPoint point)
         {
-            return new Point( point.X, point.Y );
+            return new Point(point.X, point.Y);
         }
 
         /// <summary>
@@ -349,10 +350,10 @@ namespace Accord
         /// <returns>Returns new double precision point which coordinates are implicitly converted
         /// to doubles from coordinates of the specified integer point.</returns>
         /// 
-        public static implicit operator DoublePoint( IntPoint point )
+        public static implicit operator DoublePoint(IntPoint point)
         {
-            return new DoublePoint( point.X, point.Y );
-        } 
+            return new DoublePoint(point.X, point.Y);
+        }
 
         /// <summary>
         /// Get string representation of the class.
@@ -360,9 +361,9 @@ namespace Accord
         /// 
         /// <returns>Returns string, which contains values of the point in readable form.</returns>
         ///
-        public override string ToString( )
+        public override string ToString()
         {
-            return string.Format( System.Globalization.CultureInfo.InvariantCulture, "{0}, {1}", X, Y );
+            return string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}, {1}", X, Y);
         }
 
         /// <summary>
@@ -372,9 +373,22 @@ namespace Accord
         /// 
         /// <returns>Returns point's distance from (0, 0) point.</returns>
         /// 
-        public float EuclideanNorm( )
+        public float EuclideanNorm()
         {
-            return (float) System.Math.Sqrt( X * X + Y * Y );
+            return (float)System.Math.Sqrt(X * X + Y * Y);
         }
-    }    
+
+        /// <summary>
+        /// Compares the current instance with another object of the same type and returns an integer that indicates whether the current instance precedes, follows, or occurs in the same position in the sort order as the other object.
+        /// </summary>
+        /// <param name="other">An object to compare with this instance.</param>
+        /// <returns>A value that indicates the relative order of the objects being compared. The return value has these meanings: Value Meaning Less than zero This instance precedes <paramref name="other" /> in the sort order.  Zero This instance occurs in the same position in the sort order as <paramref name="other" />. Greater than zero This instance follows <paramref name="other" /> in the sort order.</returns>
+        public int CompareTo(IntPoint other)
+        {
+            int line = this.Y.CompareTo(other.Y);
+            if (line == 0)
+                return this.X.CompareTo(other.X);
+            return line;
+        }
+    }
 }

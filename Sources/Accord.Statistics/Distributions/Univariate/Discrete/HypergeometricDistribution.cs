@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -25,7 +25,7 @@ namespace Accord.Statistics.Distributions.Univariate
     using System;
     using Accord.Math;
     using Accord.Statistics.Distributions.Fitting;
-    using AForge;
+    using Accord.Compat;
 
     /// <summary>
     ///   Hypergeometric probability distribution.
@@ -134,14 +134,15 @@ namespace Accord.Statistics.Distributions.Univariate
         }
 
         /// <summary>
-        ///   Constructs a new <see cref="HypergeometricDistribution">Hypergeometric distribution</see>.
+        ///   Constructs a new <see cref="HypergeometricDistribution">Hypergeometric distribution</see>. To build from
+        ///   the number of failures and succcesses like in R, please see <see cref="FromSuccessCounts(int, int, int)"/>.
         /// </summary>
         /// 
         /// <param name="populationSize">Size <c>N</c> of the population.</param>
         /// <param name="successes">The number <c>m</c> of successes in the population.</param>
         /// <param name="samples">The number <c>n</c> of samples drawn from the population.</param>
         /// 
-        public HypergeometricDistribution([PositiveInteger] int populationSize, 
+        public HypergeometricDistribution([PositiveInteger] int populationSize,
             [NonnegativeInteger] int successes, [PositiveInteger] int samples)
         {
             if (populationSize <= 0)
@@ -163,6 +164,20 @@ namespace Accord.Statistics.Distributions.Univariate
             this.N = populationSize;
             this.n = samples;
             this.m = successes;
+        }
+
+        /// <summary>
+        ///   Creates a new <see cref="HypergeometricDistribution"/> from the number of successes, failures,
+        ///   and the number of samples drawn. This is the same parameterization used in R.
+        /// </summary>
+        /// 
+        /// <param name="successes">The number <c>m</c> of successes in the population.</param>
+        /// <param name="failures">The number <c>m</c> of failures in the population.</param>
+        /// <param name="samples">The number <c>n</c> of samples drawn from the population.</param>
+        /// 
+        public static HypergeometricDistribution FromSuccessCounts(int successes, int failures, int samples)
+        {
+            return new HypergeometricDistribution(failures + successes, successes, samples);
         }
 
         /// <summary>
@@ -242,17 +257,9 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value or any value smaller than it will occur.
         /// </remarks>
         /// 
-        public override double DistributionFunction(int k)
+        protected internal override double InnerDistributionFunction(int k)
         {
-            // This is a really naive implementation. A better approach
-            // is described in (Trong Wu; An accurate computation of the
-            // hypergeometric distribution function, 1993)
-
-            double sum = 0;
-            for (int i = 0; i <= k; i++)
-                sum += ProbabilityMassFunction(i);
-
-            return sum;
+            return base.BaseDistributionFunction(k);
         }
 
         /// <summary>
@@ -272,11 +279,8 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value <c>x</c> will occur.
         /// </remarks>
         /// 
-        public override double ProbabilityMassFunction(int k)
+        protected internal override double InnerProbabilityMassFunction(int k)
         {
-            if (k < Math.Max(0, n + m - N) || k > Math.Min(m, n))
-                return 0;
-
             double a = Special.Binomial(m, k);
             double b = Special.Binomial(N - m, n - k);
             double c = Special.Binomial(N, n);
@@ -301,10 +305,13 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value <c>k</c> will occur.
         /// </remarks>
         /// 
-        public override double LogProbabilityMassFunction(int k)
+        protected internal override double InnerLogProbabilityMassFunction(int k)
         {
-            return Special.LogBinomial(m, k) + Special.LogBinomial(N - m, n - k)
-                - Special.LogBinomial(N, n);
+            double a = Special.LogBinomial(m, k);
+            double b = Special.LogBinomial(N - m, n - k);
+            double c = Special.LogBinomial(N, n);
+
+            return a + b - c;
         }
 
         /// <summary>
@@ -332,6 +339,8 @@ namespace Accord.Statistics.Distributions.Univariate
 
             Fit(observations, weights, geometricOptions);
         }
+
+
 
         /// <summary>
         ///   Fits the underlying distribution to a given set of observations.

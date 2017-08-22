@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -26,11 +26,11 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
     using System.Collections.Generic;
     using System.Linq;
     using Accord.Math;
-    using AForge;
-    using Parallel = System.Threading.Tasks.Parallel;
     using Accord.Statistics;
-    using System.Threading.Tasks;
     using Accord.MachineLearning;
+    using Accord.Math.Optimization.Losses;
+    using Accord.Compat;
+    using System.Threading.Tasks;
 
     /// <summary>
     ///   C4.5 Learning algorithm for <see cref="DecisionTree">Decision Trees</see>.
@@ -58,154 +58,50 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
     /// </para>   
     /// </remarks>
     ///
-    /// <see cref="ID3Learning"/>
-    /// 
     /// <example>
-    /// <code>
-    /// // This example uses the Nursery Database available from the University of
-    /// // California Irvine repository of machine learning databases, available at
-    /// //
-    /// //   http://archive.ics.uci.edu/ml/machine-learning-databases/nursery/nursery.names
-    /// //
-    /// // The description paragraph is listed as follows.
-    /// //
-    /// //   Nursery Database was derived from a hierarchical decision model
-    /// //   originally developed to rank applications for nursery schools. It
-    /// //   was used during several years in 1980's when there was excessive
-    /// //   enrollment to these schools in Ljubljana, Slovenia, and the
-    /// //   rejected applications frequently needed an objective
-    /// //   explanation. The final decision depended on three subproblems:
-    /// //   occupation of parents and child's nursery, family structure and
-    /// //   financial standing, and social and health picture of the family.
-    /// //   The model was developed within expert system shell for decision
-    /// //   making DEX (M. Bohanec, V. Rajkovic: Expert system for decision
-    /// //   making. Sistemica 1(1), pp. 145-157, 1990.).
-    /// //
+    /// <para>
+    ///   This example shows the simplest way to induce a decision tree with continuous variables.</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\DecisionTrees\C45LearningTest.cs" region="doc_simplest" />
     /// 
-    /// // Let's begin by loading the raw data. This string variable contains
-    /// // the contents of the nursery.data file as a single, continuous text.
-    /// //
-    /// string nurseryData = Resources.nursery;
+    /// <para>
+    ///   This is the same example as above, but the decision variables are specified manually.</para>
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\DecisionTrees\C45LearningTest.cs" region="doc_iris" />
     /// 
-    /// // Those are the input columns available in the data
-    /// //
-    /// string[] inputColumns = 
-    /// {
-    ///     "parents", "has_nurs", "form", "children",
-    ///     "housing", "finance", "social", "health"
-    /// };
+    /// <para>
+    ///   This example shows how to handle missing values in the training data.</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\DecisionTrees\C45LearningTest.cs" region="doc_missing" />
     /// 
-    /// // And this is the output, the last column of the data.
-    /// //
-    /// string outputColumn = "output";
-    ///             
+    /// <para>
+    ///   The next example shows how to induce a decision tree for a more complicated example, again
+    ///   using a <see cref="Accord.Statistics.Filters.Codification">codebook</see> to manage how input 
+    ///   variables should be encoded. It also shows how to obtain a compiled version of the decision
+    ///   tree for deciding the class labels for new samples with maximum performance.</para>
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\DecisionTrees\C45LearningTest.cs" region="doc_nursery" />
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\DecisionTrees\C45LearningTest.cs" region="doc_nursery_native" />
     /// 
-    /// // Let's populate a data table with this information.
-    /// //
-    /// DataTable table = new DataTable("Nursery");
-    /// table.Columns.Add(inputColumns);
-    /// table.Columns.Add(outputColumn);
-    /// 
-    /// string[] lines = nurseryData.Split(
-    ///     new[] { Environment.NewLine }, StringSplitOptions.None);
-    /// 
-    /// foreach (var line in lines)
-    ///     table.Rows.Add(line.Split(','));
-    /// 
-    /// 
-    /// // Now, we have to convert the textual, categorical data found
-    /// // in the table to a more manageable discrete representation.
-    /// //
-    /// // For this, we will create a codebook to translate text to
-    /// // discrete integer symbols:
-    /// //
-    /// Codification codebook = new Codification(table);
-    /// 
-    /// // And then convert all data into symbols
-    /// //
-    /// DataTable symbols = codebook.Apply(table);
-    /// double[][] inputs = symbols.ToArray(inputColumns);
-    /// int[] outputs = symbols.ToArray&lt;int>(outputColumn);
-    /// 
-    /// // From now on, we can start creating the decision tree.
-    /// //
-    /// var attributes = DecisionVariable.FromCodebook(codebook, inputColumns);
-    /// DecisionTree tree = new DecisionTree(attributes, outputClasses: 5);
-    /// 
-    /// 
-    /// // Now, let's create the C4.5 algorithm
-    /// C45Learning c45 = new C45Learning(tree);
-    /// 
-    /// // and learn a decision tree. The value of
-    /// //   the error variable below should be 0.
-    /// //
-    /// double error = c45.Run(inputs, outputs);
-    /// 
-    /// 
-    /// // To compute a decision for one of the input points,
-    /// //   such as the 25-th example in the set, we can use
-    /// //
-    /// int y = tree.Compute(inputs[25]);
-    /// 
-    /// // Finally, we can also convert our tree to a native
-    /// // function, improving efficiency considerably, with
-    /// //
-    /// Func&lt;double[], int> func = tree.ToExpression().Compile();
-    /// 
-    /// // Again, to compute a new decision, we can just use
-    /// //
-    /// int z = func(inputs[25]);
-    /// </code>
+    /// <para>
+    ///   The next example shows how to estimate the true performance of a decision tree model using cross-validation:</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\DecisionTrees\DecisionTreeTest.cs" region="doc_cross_validation" />
+    ///   
+    /// <para>
+    ///   The next example shows how to find the best parameters for a decision tree using grid-search cross-validation:</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\GridSearchTest.cs" region="doc_learn_tree_cv" />
     /// </example>
+    /// 
+    /// <seealso cref="DecisionTree"/>
+    /// <seealso cref="ID3Learning"/>
+    /// <seealso cref="RandomForestLearning"/>
     ///
     [Serializable]
-    public class C45Learning : ParallelLearningBase,
-        ISupervisedLearning<DecisionTree, double[], int>
+    public class C45Learning : DecisionTreeLearningBase, ISupervisedLearning<DecisionTree, double[], int>
     {
-
-        private DecisionTree tree;
-
-        private int maxHeight;
-        private int splitStep;
 
         private double[][] thresholds;
         private IntRange[] inputRanges;
 
-        private int inputVariables;
-        private int outputClasses;
+        private int maxVariables;
+        private int splitStep = 1;
 
-        private int join = 1;
-        private int[] attributeUsageCount;
-
-        /// <summary>
-        ///   Gets or sets the maximum allowed 
-        ///   height when learning a tree.
-        /// </summary>
-        /// 
-        public int MaxHeight
-        {
-            get { return maxHeight; }
-            set
-            {
-                if (value <= 0)
-                {
-                    throw new ArgumentOutOfRangeException("value",
-                        "The height must be greater than zero.");
-                }
-
-                maxHeight = value;
-            }
-        }
-
-
-        /// <summary>
-        ///   Gets or sets the maximum number of variables that
-        ///   can enter the tree. A value of zero indicates there
-        ///   is no limit. Default is 0 (there is no limit on the
-        ///   number of variables).
-        /// </summary>
-        /// 
-        public int MaxVariables { get; set; }
 
         /// <summary>
         ///   Gets or sets the step at which the samples will
@@ -229,36 +125,27 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
         }
 
         /// <summary>
-        ///   Gets or sets how many times one single variable can be
-        ///   integrated into the decision process. In the original
-        ///   ID3 algorithm, a variable can join only one time per
-        ///   decision path (path from the root to a leaf).
+        ///   Gets or sets the maximum number of variables that
+        ///   can enter the tree. A value of zero indicates there
+        ///   is no limit. Default is 0 (there is no limit on the
+        ///   number of variables).
         /// </summary>
         /// 
-        public int Join
+        public int MaxVariables
         {
-            get { return join; }
+            get { return maxVariables; }
             set
             {
-                if (value <= 0)
+                if (value < 0)
                 {
                     throw new ArgumentOutOfRangeException("value",
-                        "The number of times must be greater than zero.");
+                        "The height must be greater than or equal to zero.");
                 }
 
-                join = value;
+                maxVariables = value;
             }
         }
 
-        /// <summary>
-        ///   Gets or sets the decision trees being learned.
-        /// </summary>
-        /// 
-        public DecisionTree Model
-        {
-            get { return tree; }
-            set { tree = value; }
-        }
 
         /// <summary>
         ///   Creates a new C4.5 learning algorithm.
@@ -266,8 +153,17 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
         /// 
         public C45Learning()
         {
-            this.splitStep = 1;
-            this.ParallelOptions = new ParallelOptions();
+        }
+
+        /// <summary>
+        ///   Creates a new C4.5 learning algorithm.
+        /// </summary>
+        /// 
+        /// <param name="attributes">The attributes to be processed by the induced tree.</param>
+        /// 
+        public C45Learning(DecisionVariable[] attributes)
+            : base(attributes)
+        {
         }
 
         /// <summary>
@@ -277,7 +173,6 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
         /// <param name="tree">The decision tree to be generated.</param>
         /// 
         public C45Learning(DecisionTree tree)
-            : this()
         {
             init(tree);
         }
@@ -288,38 +183,36 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             if (tree == null)
                 throw new ArgumentNullException("tree");
 
-            this.tree = tree;
-            this.inputVariables = tree.NumberOfInputs;
-            this.outputClasses = tree.NumberOfOutputs;
-            this.attributeUsageCount = new int[inputVariables];
-            this.inputRanges = new IntRange[inputVariables];
-            this.maxHeight = inputVariables;
+            this.Model = tree;
+            this.AttributeUsageCount = new int[tree.NumberOfInputs];
+            this.inputRanges = new IntRange[tree.NumberOfInputs];
+            this.Attributes = tree.Attributes;
 
             for (int i = 0; i < inputRanges.Length; i++)
                 inputRanges[i] = tree.Attributes[i].Range.ToIntRange(false);
         }
 
+
         /// <summary>
         ///   Learns a model that can map the given inputs to the given outputs.
         /// </summary>
         /// 
         /// <param name="x">The model inputs.</param>
         /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
-        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <param name="weights">The weight of importance for each input-output pair (if supported by the learning algorithm).</param>
         /// 
         /// <returns>A model that has learned how to produce <paramref name="y"/> given <paramref name="x"/>.</returns>
         /// 
         public DecisionTree Learn(double[][] x, int[] y, double[] weights = null)
         {
-            if (tree == null)
-            {
-                var variables = DecisionVariable.FromData(x);
-                int classes = y.DistinctCount();
-                init(new DecisionTree(variables, classes));
-            }
+            if (weights != null)
+                throw new ArgumentException(Accord.Properties.Resources.NotSupportedWeights, "weights");
 
-            this.Run(x, y);
-            return tree;
+            if (Model == null)
+                init(DecisionTreeHelper.Create(x, y, this.Attributes));
+
+            this.run(x, y);
+            return Model;
         }
 
         /// <summary>
@@ -328,21 +221,42 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
         /// 
         /// <param name="x">The model inputs.</param>
         /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
-        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <param name="weights">The weight of importance for each input-output pair (if supported by the learning algorithm).</param>
+        /// 
+        /// <returns>A model that has learned how to produce <paramref name="y"/> given <paramref name="x"/>.</returns>
+        /// 
+        public DecisionTree Learn(int?[][] x, int[] y, double[] weights = null)
+        {
+            if (weights != null)
+                throw new ArgumentException(Accord.Properties.Resources.NotSupportedWeights, "weights");
+
+            if (Model == null)
+                init(DecisionTreeHelper.Create(x, y, this.Attributes));
+
+            this.run(x.Apply((xi, i, j) => xi.HasValue ? (double)xi : Double.NaN), y);
+            return Model;
+        }
+
+        /// <summary>
+        ///   Learns a model that can map the given inputs to the given outputs.
+        /// </summary>
+        /// 
+        /// <param name="x">The model inputs.</param>
+        /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
+        /// <param name="weights">The weight of importance for each input-output pair (if supported by the learning algorithm).</param>
         /// 
         /// <returns>A model that has learned how to produce <paramref name="y"/> given <paramref name="x"/>.</returns>
         /// 
         public DecisionTree Learn(int[][] x, int[] y, double[] weights = null)
         {
-            if (tree == null)
-            {
-                var variables = DecisionVariable.FromData(x);
-                int classes = y.DistinctCount();
-                init(new DecisionTree(variables, classes));
-            }
+            if (weights != null)
+                throw new ArgumentException(Accord.Properties.Resources.NotSupportedWeights, "weights");
 
-            this.Run(x.ToDouble(), y);
-            return tree;
+            if (Model == null)
+                init(DecisionTreeHelper.Create(x, y, this.Attributes));
+
+            this.run(x.ToDouble(), y);
+            return Model;
         }
 
         /// <summary>
@@ -355,26 +269,36 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
         /// 
         /// <returns>The error of the generated tree.</returns>
         /// 
+        [Obsolete("Please use Learn(x, y) instead.")]
         public double Run(double[][] inputs, int[] outputs)
         {
+            run(inputs, outputs);
+            return new ZeroOneLoss(outputs)
+            {
+                Mean = true
+            }.Loss(Model.Decide(inputs));
+        }
+
+        private void run(double[][] inputs, int[] outputs)
+        {
             // Initial argument check
-            checkArgs(inputs, outputs);
+            DecisionTreeHelper.CheckArgs(Model, inputs, outputs);
 
             // Reset the usage of all attributes
-            for (int i = 0; i < attributeUsageCount.Length; i++)
+            for (int i = 0; i < AttributeUsageCount.Length; i++)
             {
                 // a[i] has never been used
-                attributeUsageCount[i] = 0;
+                AttributeUsageCount[i] = 0;
             }
 
-            thresholds = new double[tree.Attributes.Count][];
+            thresholds = new double[Model.Attributes.Count][];
 
             var candidates = new List<double>(inputs.Length);
 
             // 0. Create candidate split thresholds for each attribute
-            for (int i = 0; i < tree.Attributes.Count; i++)
+            for (int i = 0; i < Model.Attributes.Count; i++)
             {
-                if (tree.Attributes[i].Nature == DecisionVariableKind.Continuous)
+                if (Model.Attributes[i].Nature == DecisionVariableKind.Continuous)
                 {
                     double[] v = inputs.GetColumn(i);
                     int[] o = (int[])outputs.Clone();
@@ -395,11 +319,11 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
 
                         IGrouping<double, int> currentValueToClasses = sortedValueToClassesMapping[j];
                         IGrouping<double, int> nextValueToClasses = sortedValueToClassesMapping[j + 1];
-                        if (nextValueToClasses.Key - currentValueToClasses.Key > Constants.DoubleEpsilon &&
-                            currentValueToClasses.Union(nextValueToClasses).Count() > 1)
+                        double a = nextValueToClasses.Key;
+                        double b = currentValueToClasses.Key;
+                        if (a - b > Constants.DoubleEpsilon && currentValueToClasses.Union(nextValueToClasses).Count() > 1)
                             candidates.Add((currentValueToClasses.Key + nextValueToClasses.Key) / 2.0);
                     }
-
 
                     thresholds[i] = candidates.ToArray();
                     candidates.Clear();
@@ -408,41 +332,17 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
 
 
             // 1. Create a root node for the tree
-            tree.Root = new DecisionNode(tree);
+            Model.Root = new DecisionNode(Model);
 
-            split(tree.Root, inputs, outputs, 0);
-
-            return ComputeError(inputs, outputs);
-        }
-
-        /// <summary>
-        ///   Computes the prediction error for the tree
-        ///   over a given set of input and outputs.
-        /// </summary>
-        /// 
-        /// <param name="inputs">The input points.</param>
-        /// <param name="outputs">The corresponding output labels.</param>
-        /// 
-        /// <returns>The percentage error of the prediction.</returns>
-        /// 
-        public double ComputeError(double[][] inputs, int[] outputs)
-        {
-            int miss = 0;
-            for (int i = 0; i < inputs.Length; i++)
-            {
-                if (tree.Decide(inputs[i]) != outputs[i])
-                    miss++;
-            }
-
-            return (double)miss / inputs.Length;
+            // Recursively split the tree nodes
+            split(Model.Root, inputs, outputs, height: 0);
         }
 
         private void split(DecisionNode root, double[][] input, int[] output, int height)
         {
-
             // 2. If all examples are for the same class, return the single-node
             //    tree with the output label corresponding to this common class.
-            double entropy = Measures.Entropy(output, outputClasses);
+            double entropy = Measures.Entropy(output, Model.NumberOfClasses);
 
             if (entropy == 0)
             {
@@ -455,10 +355,10 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             //    tree with the output label corresponding to the most common value of
             //    the target attributes in the examples.
 
-            // how many variables have been used less than the limit
-            int[] candidates = Matrix.Find(attributeUsageCount, x => x < join);
+            // how many variables have been used less than the limit (if there is a limit)
+            int[] candidates = Matrix.Find(AttributeUsageCount, x => Join == 0 ? true : x < Join);
 
-            if (candidates.Length == 0 || (maxHeight > 0 && height == maxHeight))
+            if (candidates.Length == 0 || (MaxHeight > 0 && height == MaxHeight))
             {
                 root.Output = Measures.Mode(output);
                 return;
@@ -470,19 +370,31 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             //    is part of a random forest, only consider a percentage
             //    of the candidate attributes at each split point
 
-            if (MaxVariables > 0)
+            if (MaxVariables > 0 && candidates.Length > MaxVariables)
                 candidates = Vector.Sample(candidates, MaxVariables);
 
             var scores = new double[candidates.Length];
             var thresholds = new double[candidates.Length];
-            var partitions = new int[candidates.Length][][];
+            var partitions = new List<int>[candidates.Length][];
 
-            // For each attribute in the data set
-            Parallel.For(0, scores.Length, ParallelOptions, i =>
+            if (ParallelOptions.MaxDegreeOfParallelism == 1)
             {
-                scores[i] = computeGainRatio(input, output, candidates[i],
-                    entropy, out partitions[i], out thresholds[i]);
-            });
+                // For each attribute in the data set
+                for (int i = 0; i < scores.Length; i++)
+                {
+                    scores[i] = computeGainRatio(input, output, candidates[i],
+                        entropy, out partitions[i], out thresholds[i]);
+                }
+            }
+            else
+            {
+                // For each attribute in the data set
+                Parallel.For(0, scores.Length, ParallelOptions, i =>
+                {
+                    scores[i] = computeGainRatio(input, output, candidates[i],
+                        entropy, out partitions[i], out thresholds[i]);
+                });
+            }
 
             // Select the attribute with maximum gain ratio
             int maxGainIndex; scores.Max(out maxGainIndex);
@@ -492,163 +404,200 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             var maxGainThreshold = thresholds[maxGainIndex];
 
             // Mark this attribute as already used
-            attributeUsageCount[maxGainAttribute]++;
+            AttributeUsageCount[maxGainAttribute]++;
 
             double[][] inputSubset;
             int[] outputSubset;
 
             // Now, create next nodes and pass those partitions as their responsibilities. 
-            if (tree.Attributes[maxGainAttribute].Nature == DecisionVariableKind.Discrete)
+            if (Model.Attributes[maxGainAttribute].Nature == DecisionVariableKind.Discrete)
             {
                 // This is a discrete nature attribute. We will branch at each
                 // possible value for the discrete variable and call recursion.
-                DecisionNode[] children = new DecisionNode[maxGainPartition.Length];
+                var children = new DecisionNode[maxGainPartition.Length];
 
                 // Create a branch for each possible value
                 for (int i = 0; i < children.Length; i++)
                 {
-                    children[i] = new DecisionNode(tree)
+                    children[i] = new DecisionNode(Model)
                     {
                         Parent = root,
                         Value = i + maxGainRange.Min,
                         Comparison = ComparisonKind.Equal,
                     };
 
-                    inputSubset = input.Submatrix(maxGainPartition[i]);
-                    outputSubset = output.Submatrix(maxGainPartition[i]);
+                    inputSubset = input.Get(maxGainPartition[i]);
+                    outputSubset = output.Get(maxGainPartition[i]);
                     split(children[i], inputSubset, outputSubset, height + 1); // recursion
                 }
 
                 root.Branches.AttributeIndex = maxGainAttribute;
                 root.Branches.AddRange(children);
             }
-
-            else if (maxGainPartition.Length > 1)
+            else if (Model.Attributes[maxGainAttribute].Nature == DecisionVariableKind.Continuous)
             {
-                // This is a continuous nature attribute, and we achieved two partitions
-                // using the partitioning scheme. We will branch on two possible settings:
-                // either the value is greater than a currently detected optimal threshold 
-                // or it is less.
+                List<int> partitionBelowThreshold = maxGainPartition[0];
+                List<int> partitionAboveThreshold = maxGainPartition[1];
 
-                DecisionNode[] children = 
+                if (partitionBelowThreshold != null && partitionAboveThreshold != null)
                 {
-                    new DecisionNode(tree) 
+                    // This is a continuous nature attribute, and we achieved two partitions
+                    // using the partitioning scheme. We will branch on two possible settings:
+                    // either the value is greater than a currently detected optimal threshold 
+                    // or it is less.
+
+                    DecisionNode[] children =
                     {
-                        Parent = root, Value = maxGainThreshold,
-                        Comparison = ComparisonKind.LessThanOrEqual 
-                    },
+                        new DecisionNode(Model)
+                        {
+                            Parent = root, Value = maxGainThreshold,
+                            Comparison = ComparisonKind.LessThanOrEqual
+                        },
 
-                    new DecisionNode(tree)
-                    {
-                        Parent = root, Value = maxGainThreshold,
-                        Comparison = ComparisonKind.GreaterThan
-                    }
-                };
+                        new DecisionNode(Model)
+                        {
+                            Parent = root, Value = maxGainThreshold,
+                            Comparison = ComparisonKind.GreaterThan
+                        }
+                    };
 
-                // Create a branch for lower values
-                inputSubset = input.Submatrix(maxGainPartition[0]);
-                outputSubset = output.Submatrix(maxGainPartition[0]);
-                split(children[0], inputSubset, outputSubset, height + 1);
+                    // Create a branch for lower values
+                    inputSubset = input.Get(partitionBelowThreshold);
+                    outputSubset = output.Get(partitionBelowThreshold);
+                    split(children[0], inputSubset, outputSubset, height + 1);
 
-                // Create a branch for higher values
-                inputSubset = input.Submatrix(maxGainPartition[1]);
-                outputSubset = output.Submatrix(maxGainPartition[1]);
-                split(children[1], inputSubset, outputSubset, height + 1);
+                    // Create a branch for higher values
+                    inputSubset = input.Get(partitionAboveThreshold);
+                    outputSubset = output.Get(partitionAboveThreshold);
+                    split(children[1], inputSubset, outputSubset, height + 1);
 
-                root.Branches.AttributeIndex = maxGainAttribute;
-                root.Branches.AddRange(children);
+                    root.Branches.AttributeIndex = maxGainAttribute;
+                    root.Branches.AddRange(children);
+                }
+                else
+                {
+                    // This is a continuous nature attribute, but all variables are equal
+                    // to a constant. If there is only a constant value as the predictor 
+                    // and there are multiple output labels associated with this constant
+                    // value, there isn't much we can do. This node will be a leaf.
+
+                    // We will set the class label for this node as the
+                    // majority of the currently selected output classes.
+
+                    var outputIndices = partitionBelowThreshold ?? partitionAboveThreshold;
+                    outputSubset = output.Get(outputIndices);
+                    root.Output = Measures.Mode(outputSubset);
+                }
             }
-            else
-            {
-                // This is a continuous nature attribute, but all variables are equal
-                // to a constant. If there is only a constant value as the predictor 
-                // and there are multiple output labels associated with this constant
-                // value, there isn't much we can do. This node will be a leaf.
 
-                // We will set the class label for this node as the
-                // majority of the currently selected output classes.
-
-                outputSubset = output.Submatrix(maxGainPartition[0]);
-                root.Output = Measures.Mode(outputSubset);
-            }
-
-            attributeUsageCount[maxGainAttribute]--;
+            AttributeUsageCount[maxGainAttribute]--;
         }
 
 
         private double computeGainRatio(double[][] input, int[] output, int attributeIndex,
-            double entropy, out int[][] partitions, out double threshold)
+            double entropy, out List<int>[] partitions, out double threshold)
         {
-            double infoGain = computeInfoGain(input, output, attributeIndex, entropy, out partitions, out threshold);
-            double splitInfo = Statistics.Tools.SplitInformation(output.Length, partitions);
+            List<int> missing;
+            double infoGain = computeInfoGain(input, output, attributeIndex, entropy, out partitions, out missing, out threshold);
+            double splitInfo = SplitInformation(output.Length, partitions, missing);
 
             return infoGain == 0 || splitInfo == 0 ? 0 : infoGain / splitInfo;
         }
 
         private double computeInfoGain(double[][] input, int[] output, int attributeIndex,
-            double entropy, out int[][] partitions, out double threshold)
+            double entropy, out List<int>[] partitions, out List<int> missing, out double threshold)
         {
             threshold = 0;
 
-            if (tree.Attributes[attributeIndex].Nature == DecisionVariableKind.Discrete)
-                return entropy - computeInfoDiscrete(input, output, attributeIndex, out partitions);
+            if (Model.Attributes[attributeIndex].Nature == DecisionVariableKind.Discrete)
+                return entropy - computeInfoDiscrete(input, output, attributeIndex, out partitions, out missing);
 
-            return entropy + computeInfoContinuous(input, output, attributeIndex, out partitions, out threshold);
+            return entropy + computeInfoContinuous(input, output, attributeIndex, out partitions, out missing, out threshold);
         }
 
         private double computeInfoDiscrete(double[][] input, int[] output,
-            int attributeIndex, out int[][] partitions)
+            int attributeIndex, out List<int>[] partitions, out List<int> missingValues)
         {
             // Compute the information gain obtained by using
             // this current attribute as the next decision node.
             double info = 0;
 
             IntRange valueRange = inputRanges[attributeIndex];
-            partitions = new int[valueRange.Length + 1][];
+            int numberOfDistinctValues = valueRange.Length + 1;
+            partitions = new List<int>[numberOfDistinctValues];
 
+            missingValues = new List<int>();
+            for (int j = 0; j < input.Length; j++)
+            {
+                if (Double.IsNaN(input[j][attributeIndex]))
+                    missingValues.Add(j);
+            }
 
             // For each possible value of the attribute
-            for (int i = 0; i < partitions.Length; i++)
+            for (int i = 0; i < numberOfDistinctValues; i++)
             {
                 int value = valueRange.Min + i;
 
                 // Partition the remaining data set
                 // according to the attribute values
-                partitions[i] = input.Find(x => x[attributeIndex] == value);
+                var indicesInPartition = new List<int>();
+
+                for (int j = 0; j < input.Length; j++)
+                {
+                    double x = input[j][attributeIndex];
+                    if (!Double.IsNaN(x) && x == value)
+                        indicesInPartition.Add(j);
+                }
 
                 // For each of the instances under responsibility
                 // of this node, check which have the same value
-                int[] outputSubset = output.Submatrix(partitions[i]);
+                int[] outputSubset = output.Get(indicesInPartition);
 
                 // Check the entropy gain originating from this partitioning
-                double e = Measures.Entropy(outputSubset, outputClasses);
+                double e = Measures.Entropy(outputSubset, Model.NumberOfClasses);
 
-                info += ((double)outputSubset.Length / output.Length) * e;
+                info += (outputSubset.Length / (double)output.Length) * e;
+
+                partitions[i] = indicesInPartition;
             }
 
             return info;
         }
 
         private double computeInfoContinuous(double[][] input, int[] output,
-            int attributeIndex, out int[][] partitions, out double threshold)
+            int attributeIndex, out List<int>[] partitions, out List<int> missingValues, out double threshold)
         {
             // Compute the information gain obtained by using
             // this current attribute as the next decision node.
             double[] t = thresholds[attributeIndex];
-
             double bestGain = Double.NegativeInfinity;
-            double bestThreshold = t[0];
+
+            missingValues = new List<int>();
+            for (int j = 0; j < input.Length; j++)
+            {
+                if (Double.IsNaN(input[j][attributeIndex]))
+                    missingValues.Add(j);
+            }
+
+            // If there are no possible thresholds that we can use
+            // to split the data (i.e. if all values are the same)
+            if (t.Length == 0)
+            {
+                // Then they all belong to the same partition
+                partitions = new[] { new List<int>(Vector.Range(input.Length)), null };
+                threshold = Double.NegativeInfinity;
+                return bestGain;
+            }
+
             partitions = null;
 
-            var idx1 = new List<int>(input.Length);
-            var idx2 = new List<int>(input.Length);
+            double bestThreshold = t[0];
+
+            var indicesBelowThreshold = new List<int>(input.Length);
+            var indicesAboveThreshold = new List<int>(input.Length);
 
             var output1 = new List<int>(input.Length);
             var output2 = new List<int>(input.Length);
-
-            double[] values = new double[input.Length];
-            for (int i = 0; i < values.Length; i++)
-                values[i] = input[i][attributeIndex];
 
             // For each possible splitting point of the attribute
             for (int i = 0; i < t.Length; i += splitStep)
@@ -657,114 +606,79 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
                 // according to the threshold value
                 double value = t[i];
 
-                idx1.Clear();
-                idx2.Clear();
-
-                output1.Clear();
-                output2.Clear();
-
-                for (int j = 0; j < values.Length; j++)
+                for (int j = 0; j < input.Length; j++)
                 {
-                    double x = values[j];
+                    double x = input[j][attributeIndex];
 
-                    if (x <= value)
+                    if (Double.IsNaN(x))
                     {
-                        idx1.Add(j);
+                        continue;
+                    }
+                    else if (x <= value)
+                    {
+                        indicesBelowThreshold.Add(j);
                         output1.Add(output[j]);
                     }
                     else if (x > value)
                     {
-                        idx2.Add(j);
+                        indicesAboveThreshold.Add(j);
                         output2.Add(output[j]);
                     }
                 }
 
-                double p1 = (double)output1.Count / output.Length;
-                double p2 = (double)output2.Count / output.Length;
+                double p1 = output1.Count / (double)output.Length;
+                double p2 = output2.Count / (double)output.Length;
 
                 double splitGain =
-                    -p1 * Measures.Entropy(output1, outputClasses) +
-                    -p2 * Measures.Entropy(output2, outputClasses);
+                    -p1 * Measures.Entropy(output1, Model.NumberOfClasses) +
+                    -p2 * Measures.Entropy(output2, Model.NumberOfClasses);
 
                 if (splitGain > bestGain)
                 {
                     bestThreshold = value;
                     bestGain = splitGain;
 
-                    if (idx1.Count > 0 && idx2.Count > 0)
-                        partitions = new int[][] { idx1.ToArray(), idx2.ToArray() };
-                    else if (idx1.Count > 0)
-                        partitions = new int[][] { idx1.ToArray() };
-                    else if (idx2.Count > 0)
-                        partitions = new int[][] { idx2.ToArray() };
-                    else
-                        partitions = new int[][] { };
+                    if (indicesBelowThreshold.Count == 0)
+                        indicesBelowThreshold = null;
+                    if (indicesAboveThreshold.Count == 0)
+                        indicesAboveThreshold = null;
+                    partitions = new[] { indicesBelowThreshold, indicesAboveThreshold };
+
+                    indicesBelowThreshold = new List<int>(input.Length);
+                    indicesAboveThreshold = new List<int>(input.Length);
                 }
+                else
+                {
+                    indicesBelowThreshold.Clear();
+                    indicesAboveThreshold.Clear();
+                }
+
+                output1.Clear();
+                output2.Clear();
             }
 
             threshold = bestThreshold;
             return bestGain;
         }
 
-
-        private void checkArgs(double[][] inputs, int[] outputs)
+        /// <summary>
+        ///   Computes the prediction error for the tree
+        ///   over a given set of input and outputs.
+        /// </summary>
+        /// 
+        /// <param name="inputs">The input points.</param>
+        /// <param name="outputs">The corresponding output labels.</param>
+        /// 
+        /// <returns>The percentage error of the prediction.</returns>
+        /// 
+        [Obsolete("Please use the ZeroOneLoss class instead.")]
+        public double ComputeError(double[][] inputs, int[] outputs)
         {
-            if (inputs == null)
-                throw new ArgumentNullException("inputs");
-
-            if (outputs == null)
-                throw new ArgumentNullException("outputs");
-
-            if (inputs.Length != outputs.Length)
-                throw new DimensionMismatchException("outputs",
-                    "The number of input vectors and output labels does not match.");
-
-            if (inputs.Length == 0)
-                throw new ArgumentOutOfRangeException("inputs",
-                    "Training algorithm needs at least one training vector.");
-
-            for (int i = 0; i < inputs.Length; i++)
+            return new ZeroOneLoss(outputs)
             {
-                if (inputs[i] == null)
-                {
-                    throw new ArgumentNullException("inputs",
-                        "The input vector at index " + i + " is null.");
-                }
-
-                if (inputs[i].Length != tree.NumberOfInputs)
-                {
-                    throw new DimensionMismatchException("inputs", "The size of the input vector at index "
-                        + i + " does not match the expected number of inputs of the tree."
-                        + " All input vectors for this tree must have length " + tree.NumberOfInputs);
-                }
-
-                for (int j = 0; j < inputs[i].Length; j++)
-                {
-                    if (tree.Attributes[j].Nature != DecisionVariableKind.Discrete)
-                        continue;
-
-                    int min = (int)tree.Attributes[j].Range.Min;
-                    int max = (int)tree.Attributes[j].Range.Max;
-
-                    if (inputs[i][j] < min || inputs[i][j] > max)
-                    {
-                        throw new ArgumentOutOfRangeException("inputs", "The input vector at position "
-                            + i + " contains an invalid entry at column " + j +
-                            ". The value must be between the bounds specified by the decision tree " +
-                            "attribute variables.");
-                    }
-                }
-            }
-
-            for (int i = 0; i < outputs.Length; i++)
-            {
-                if (outputs[i] < 0 || outputs[i] >= tree.NumberOfOutputs)
-                {
-                    throw new ArgumentOutOfRangeException("outputs",
-                      "The output label at index " + i + " should be equal to or higher than zero, " +
-                      "and should be lesser than the number of output classes expected by the tree.");
-                }
-            }
+                Mean = true
+            }.Loss(Model.Decide(inputs));
         }
+
     }
 }

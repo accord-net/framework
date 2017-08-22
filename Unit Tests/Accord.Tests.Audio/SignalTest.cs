@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -26,26 +26,16 @@ namespace Accord.Tests.Audio
     using NUnit.Framework;
     using Accord.Audio.Windows;
     using Accord.Math;
+    using System.IO;
 
     [TestFixture]
     public class SignalTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
+        public static FileStream GetSignal(string resourceName)
         {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
+            string fileName = Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources", resourceName);
+            return new FileStream(fileName, FileMode.Open, FileAccess.Read);
         }
-
 
         private float[,] data = 
         {

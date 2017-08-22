@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -35,26 +35,9 @@ namespace Accord.Statistics.Moving
     ///   of the full data set.
     /// </remarks>
     /// 
-    public interface IMovingStatistics : IRunningStatistics
+    public interface IMovingStatistics : IRunningStatistics, IMoving<double>
     {
 
-        /// <summary>
-        ///   Gets the size of the window.
-        /// </summary>
-        /// 
-        /// <value>The window's size.</value>
-        /// 
-        int Window { get; }
-
-        /// <summary>
-        ///   Gets the number of samples within the window.
-        /// </summary>
-        /// 
-        /// <value>The number of samples within the window.</value>
-        /// 
-        int Count { get; }
-
     }
-
   
 }

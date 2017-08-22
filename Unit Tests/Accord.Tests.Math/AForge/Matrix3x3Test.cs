@@ -300,7 +300,6 @@ namespace Accord.Tests.Math
 
 
         [TestCase(1, 0, 0, 0, 1, 0, 0, 0, 1)]
-        [TestCase(1, 0, 0, 0, 1, 0, 1, 0, 0, ExpectedException = typeof(ArgumentException))]
         [TestCase(2, 0, 0, 0, 4, 0, 0, 0, 3)]
         [TestCase(1, 4, 2, 2, 2, 1, 2, 1, 1)]
         public void InverseTest(float v00, float v01, float v02, float v10, float v11, float v12, float v20, float v21, float v22)
@@ -323,6 +322,26 @@ namespace Accord.Tests.Math
             Matrix3x3 identity = matrix * inverse;
 
             Assert.AreEqual(true, ApproximateEquals(identity, Matrix3x3.Identity));
+        }
+
+        [TestCase(1, 0, 0, 0, 1, 0, 1, 0, 0)]
+        public void InverseTestInvalid(float v00, float v01, float v02, float v10, float v11, float v12, float v20, float v21, float v22)
+        {
+            Matrix3x3 matrix = new Matrix3x3();
+
+            matrix.V00 = v00;
+            matrix.V01 = v01;
+            matrix.V02 = v02;
+
+            matrix.V10 = v10;
+            matrix.V11 = v11;
+            matrix.V12 = v12;
+
+            matrix.V20 = v20;
+            matrix.V21 = v21;
+            matrix.V22 = v22;
+
+            Assert.Throws<ArgumentException>(() => matrix.Inverse(), "");
         }
 
         [Test]

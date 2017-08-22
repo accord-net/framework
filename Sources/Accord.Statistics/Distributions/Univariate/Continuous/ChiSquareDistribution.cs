@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -25,7 +25,7 @@ namespace Accord.Statistics.Distributions.Univariate
     using System;
     using Accord.Math;
     using Accord.Statistics.Distributions.Fitting;
-    using AForge;
+    using Accord.Compat;
 
     /// <summary>
     ///   Chi-Square (χ²) probability distribution
@@ -149,11 +149,8 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   The probability of <c>x</c> occurring
         ///   in the current distribution.</returns>
         ///   
-        public override double ProbabilityDensityFunction(double x)
+        protected internal override double InnerProbabilityDensityFunction(double x)
         {
-            if (x <= 0)
-                return 0;
-
             double v = degreesOfFreedom;
             double m1 = Math.Pow(x, (v - 2.0) / 2.0);
             double m2 = Math.Exp(-x / 2.0);
@@ -178,11 +175,8 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value <c>x</c> will occur.
         /// </remarks>
         /// 
-        public override double LogProbabilityDensityFunction(double x)
+        protected internal override double InnerLogProbabilityDensityFunction(double x)
         {
-            if (x <= 0)
-                return Double.NegativeInfinity;
-
             double v = degreesOfFreedom;
             double m1 = ((v - 2.0) / 2.0) * Math.Log(x);
             double m2 = (-x / 2.0);
@@ -206,11 +200,8 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   Incomplete Gamma Function Γ(a, x)</see> as CDF(x; df) = Γ(df/2, x/d). </para>
         /// </remarks>
         /// 
-        public override double DistributionFunction(double x)
+        protected internal override double InnerDistributionFunction(double x)
         {
-            if (x <= 0)
-                return 0;
-
             return Gamma.LowerIncomplete(degreesOfFreedom / 2.0, x / 2.0);
         }
 
@@ -232,11 +223,8 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   Function Γc(a, x)</see> as CDF(x; df) = Γc(df/2, x/d). </para>
         /// </remarks>
         /// 
-        public override double ComplementaryDistributionFunction(double x)
+        protected internal override double InnerComplementaryDistributionFunction(double x)
         {
-            if (x <= 0)
-                return 1;
-
             return Gamma.UpperIncomplete(degreesOfFreedom / 2.0, x / 2.0);
         }
 
@@ -250,16 +238,11 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <returns>
         ///   A sample which could original the given probability
-        ///   value when applied in the <see cref="DistributionFunction"/>.
+        ///   value when applied in the <see cref="UnivariateContinuousDistribution.DistributionFunction(double)"/>.
         /// </returns>
         /// 
-        public override double InverseDistributionFunction(double p)
+        protected internal override double InnerInverseDistributionFunction(double p)
         {
-            if (p <= 0)
-                return Support.Min;
-            else if (p >= 1)
-                return Support.Max;
-
             return Gamma.InverseLowerIncomplete(degreesOfFreedom / 2.0, p) * 2.0;
         }
 
@@ -370,23 +353,28 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <param name="samples">The number of samples to generate.</param>
         /// <param name="result">The location where to store the samples.</param>
-        ///
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        ///   
         /// <returns>A random vector of observations drawn from this distribution.</returns>
         /// 
-        public override double[] Generate(int samples, double[] result)
+        public override double[] Generate(int samples, double[] result, Random source)
         {
-            return GammaDistribution.Random(shape: degreesOfFreedom / 2.0, scale: 2, samples: samples, result: result);
+            return Random(degreesOfFreedom, samples, result, source);
         }
 
         /// <summary>
         ///   Generates a random observation from the current distribution.
         /// </summary>
         /// 
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        ///   
         /// <returns>A random observations drawn from this distribution.</returns>
         /// 
-        public override double Generate()
+        public override double Generate(Random source)
         {
-            return GammaDistribution.Random(shape: degreesOfFreedom / 2.0, scale: 2);
+            return Random(degreesOfFreedom, source);
         }
 
         /// <summary>
@@ -398,7 +386,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public static double[] Random(int degreesOfFreedom, int samples)
         {
-            return GammaDistribution.Random(shape: degreesOfFreedom / 2.0, scale: 2, samples: samples);
+            return Random(degreesOfFreedom, samples, Accord.Math.Random.Generator.Random);
         }
 
 
@@ -413,7 +401,52 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public static double Random(int degreesOfFreedom)
         {
-            return GammaDistribution.Random(shape: degreesOfFreedom / 2.0, scale: 2);
+            return Random(degreesOfFreedom, Accord.Math.Random.Generator.Random);
+        }
+
+
+
+
+        /// <summary>
+        ///   Generates a random vector of observations from the 
+        ///   Chi-Square distribution with the given parameters.
+        /// </summary>
+        /// 
+        /// <returns>An array of double values sampled from the specified Chi-Square distribution.</returns>
+        /// 
+        public static double[] Random(int degreesOfFreedom, int samples, Random source)
+        {
+            return GammaDistribution.Random(shape: degreesOfFreedom / 2.0, scale: 2, samples: samples, source: source);
+        }
+
+        /// <summary>
+        ///   Generates a random vector of observations from the 
+        ///   Chi-Square distribution with the given parameters.
+        /// </summary>
+        /// 
+        /// <returns>An array of double values sampled from the specified Chi-Square distribution.</returns>
+        /// 
+        public static double[] Random(int degreesOfFreedom, int samples, double[] result, Random source)
+        {
+            return GammaDistribution.Random(shape: degreesOfFreedom / 2.0, scale: 2, 
+                samples: samples, result: result, source: source);
+        }
+
+
+        /// <summary>
+        ///   Generates a random observation from the 
+        ///   Chi-Square distribution with the given parameters.
+        /// </summary>
+        /// 
+        /// <param name="degreesOfFreedom">The degrees of freedom for the distribution.</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        /// 
+        /// <returns>A random double value sampled from the specified Chi-Square distribution.</returns>
+        /// 
+        public static double Random(int degreesOfFreedom, Random source)
+        {
+            return GammaDistribution.Random(shape: degreesOfFreedom / 2.0, scale: 2, source: source);
         }
 
         #endregion
@@ -446,7 +479,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <returns>
         ///   A sample which could original the given probability
-        ///   value when applied in the <see cref="DistributionFunction"/>.
+        ///   value when applied in the <see cref="UnivariateContinuousDistribution.DistributionFunction(double)"/>.
         /// </returns>
         /// 
         public static double Inverse(double p, int degreesOfFreedom)

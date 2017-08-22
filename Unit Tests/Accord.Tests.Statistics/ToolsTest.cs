@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -27,6 +27,8 @@ namespace Accord.Tests.Statistics
     using NUnit.Framework;
     using Tools = Accord.Statistics.Tools;
     using Accord.Statistics;
+    using System;
+    using System.Collections.Generic;
 
     [TestFixture]
     public class ToolsTest
@@ -38,7 +40,7 @@ namespace Accord.Tests.Statistics
 
             double[,] C2 = Matrix.Centering(2);
 
-            Assert.IsTrue(Matrix.IsEqual(C2, new double[,] { 
+            Assert.IsTrue(Matrix.IsEqual(C2, new double[,] {
                                                              {  0.5, -0.5 },
                                                              { -0.5,  0.5 }
                                                            }));
@@ -51,8 +53,8 @@ namespace Accord.Tests.Statistics
 
 
 
-            double[,] CX = Matrix.Centering(3).Multiply(X); // Remove means from rows
-            double[,] XC = X.Multiply(Matrix.Centering(4)); // Remove means from columns
+            double[,] CX = Matrix.Centering(3).Dot(X); // Remove means from rows
+            double[,] XC = X.Dot(Matrix.Centering(4)); // Remove means from columns
 
             double[] colMean = Measures.Mean(X, 1);
             double[] rowMean = Measures.Mean(X, 0);
@@ -67,8 +69,8 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(Matrix.IsEqual(XC, Xc));
             Assert.IsTrue(Matrix.IsEqual(CX, Xr, 0.00001));
 
-            double[,] S1 = XC.Multiply(X.Transpose());
-            double[,] S2 = Xc.Multiply(Xc.Transpose());
+            double[,] S1 = XC.Dot(X.Transpose());
+            double[,] S2 = Xc.Dot(Xc.Transpose());
             double[,] S3 = Measures.Scatter(X, colMean, 1);
 
             Assert.IsTrue(Matrix.IsEqual(S1, S2));
@@ -86,7 +88,7 @@ namespace Accord.Tests.Statistics
         public void MahalanobisTest()
         {
             double[] x = { 1, 0 };
-            double[,] y = 
+            double[,] y =
             {
                 { 1, 0 },
                 { 0, 8 },
@@ -149,7 +151,7 @@ namespace Accord.Tests.Statistics
         [Test]
         public void StandardDeviationTest4()
         {
-            double[][] matrix = 
+            double[][] matrix =
             {
                 new double[] { 2, -1.0, 5 },
                 new double[] { 7,  0.5, 9 },
@@ -168,14 +170,14 @@ namespace Accord.Tests.Statistics
         [Test]
         public void StandardDeviationTest3()
         {
-            double[,] matrix = 
+            double[,] matrix =
             {
                 { 2, -1.0, 5 },
                 { 7,  0.5, 9 },
             };
 
             double[] means = Measures.Mean(matrix, dimension: 0);
-            Assert.IsTrue(means.IsEqual(new[] { 4.5000, -0.2500, 7.0000} ));
+            Assert.IsTrue(means.IsEqual(new[] { 4.5000, -0.2500, 7.0000 }));
 
             double[] stdev = Measures.StandardDeviation(matrix, means);
             Assert.IsTrue(stdev.IsEqual(new[] { 3.5355339059327378, 1.0606601717798212, 2.8284271247461903 }));
@@ -237,14 +239,14 @@ namespace Accord.Tests.Statistics
         [Test]
         public void MeanTest4()
         {
-            double[,] matrix = 
+            double[,] matrix =
             {
                 { 2, -1.0, 5 },
                 { 7,  0.5, 9 },
             };
 
             double[] sums = Matrix.Sum(matrix, 0);
-            Assert.IsTrue(sums.IsEqual(new [] { 9.0, -0.5, 14.0 }));
+            Assert.IsTrue(sums.IsEqual(new[] { 9.0, -0.5, 14.0 }));
 
             double[] expected = { 4.5000, -0.2500, 7.0000 };
             double[] actual = Measures.Mean(matrix, sums);
@@ -264,14 +266,14 @@ namespace Accord.Tests.Statistics
         [Test]
         public void MeanTest()
         {
-            double[,] matrix = 
+            double[,] matrix =
             {
                 { 2, -1.0, 5 },
                 { 7,  0.5, 9 },
             };
 
             double[] rowMean = Measures.Mean(matrix, 0);
-            Assert.IsTrue(rowMean.IsEqual(new []{ 4.5000, -0.2500, 7.0000 }));
+            Assert.IsTrue(rowMean.IsEqual(new[] { 4.5000, -0.2500, 7.0000 }));
 
             double[] colMean = Measures.Mean(matrix, 1);
             Assert.IsTrue(colMean.IsEqual(2, 5.5));
@@ -299,7 +301,7 @@ namespace Accord.Tests.Statistics
         [Test]
         public void MedianTest2()
         {
-            double[][] matrix = 
+            double[][] matrix =
             {
                 new double[] {   2, -1.0,  5 },
                 new double[] {   7,  1.7,  9 },
@@ -325,7 +327,7 @@ namespace Accord.Tests.Statistics
         [Test]
         public void MedianTest()
         {
-            double[,] matrix = 
+            double[,] matrix =
             {
                 {   2, -1.0,  5 },
                 {   7,  1.7,  9 },
@@ -366,10 +368,15 @@ namespace Accord.Tests.Statistics
             double[] values = new double[] { 1, 3, 3, 4, 5, 6, 6, 7, 8, 8 };
             double q1, q3, actual;
 
+            //quantile(c(1, 3, 3, 4, 5, 6, 6, 7, 8, 8), type = 6)
+            //
+            //    0 % 25 % 50 % 75 % 100 %
+            //  1.00 3.00 5.50 7.25 8.00
+
             actual = Measures.Quartiles(values, out q1, out q3, false);
             Assert.AreEqual(3, q1);
             Assert.AreEqual(5.5, actual);
-            Assert.AreEqual(7, q3);
+            Assert.AreEqual(7.25, q3);
         }
 
         [Test]
@@ -384,28 +391,99 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(115, q3);
         }
 
-        [Test]
-        public void QuartileTest4()
+
+        public static IEnumerable<object[]> QuartilesTestValues = new List<object[]>
         {
-            // This is equivalent to R's type 6. This is the 
-            // same algorithm used by Minitab and SPSS. It is
-            // not the same used by R and S.
+            new object[] {new double[] {0.0}, 0.0, 0.0}, // correct
+            new object[] {new double[] {0.0, 1.0}, 0.25, 0.75}, // correct
+            new object[] {new double[] {1.0, 0.0}, 0.25, 0.75}, // correct
+            new object[] {new double[] {1.0, 3.0}, 1.5, 2.5}, // correct
+            new object[] {new double[] {3.0, 1.0}, 1.5, 2.5}, // correct
+            new object[] {new double[] {0.0, 1.0, 2.0}, 0.5, 1.5}, // failing
+            new object[] {new double[] {0.0, 1.0, 2.0, 4.0, 5.4, 3.5, 7.8, 8.9}, 1.75, 6.0}, // failing
+            new object[] // failing
+            {
+                new double[] {0.0, 1.0, 2.0, 4.0, 5.4, 3.5, 7.8, 8.9, 17.0, 23.78, 98.9, 2.3, 4.5, 6.7, 9.34, 42.42}, 3.2, 11.255
+            },
+            new object[] // failing
+            {
+                new double[] {0.0, 5.4, 2.0, 4.0, 1.0, 3.5, 7.8, 17.0, 8.9, 98.9, 23.78, 2.3, 4.5, 6.7, 42.42, 9.34}, 3.2, 11.255
+            }
+        };
 
-            double[] values = 
-            { 
-                -0.309882133, -0.640157313179586, 0.00470721699999999,
-                -0.709738241179586, 0.328021416, -1.95662033217959,
-                0.618215405, 0.113038781, 0.311043694, -0.0662271140000001,
-                -0.314138172179586, 0, -0.220574326, 0.078498723, 0.287448082 
-            };
+        [Test]
+        [TestCaseSource(nameof(QuartilesTestValues))]
+        public void return_correct_q1_value_for_vector(double[] values, double expectedQ1, double expectedQ3)
+        {
+            var q1 = values.LowerQuartile(type: QuantileMethod.R);
+            var q3 = values.UpperQuartile(type: QuantileMethod.R);
 
+            Assert.AreEqual(expectedQ1, q1, 1e-6);
+            Assert.AreEqual(expectedQ3, q3, 1e-6);
+        }
+
+        [Test]
+        public void QuartileTest5()
+        {
+            double[] values = new double[] { 3, 4, 8 };
             double q1, q3, actual;
 
             actual = Measures.Quartiles(values, out q1, out q3, false);
+            Assert.AreEqual(3, q1);
+            Assert.AreEqual(4, actual);
+            Assert.AreEqual(8, q3);
+        }
 
-            Assert.AreEqual(-0.31413817217958601, q1);
-            Assert.AreEqual(0, actual);
-            Assert.AreEqual(0.28744808199999999, q3);
+        [Test]
+        public void QuartileTest6()
+        {
+            double[] values;
+            double q1, q3, actual;
+
+            values = new double[] { 3, 4 };
+            actual = Measures.Quartiles(values, out q1, out q3, false);
+            Assert.AreEqual(3, q1);
+            Assert.AreEqual(3.5, actual);
+            Assert.AreEqual(4, q3);
+
+            values = new double[] { 4, 3 };
+            actual = Measures.Quartiles(values, out q1, out q3, false);
+            Assert.AreEqual(3, q1);
+            Assert.AreEqual(3.5, actual);
+            Assert.AreEqual(4, q3);
+        }
+
+        [Test]
+        public void QuartileMatrixTest()
+        {
+            double[][] values =
+            {
+                new [] { 52.0 },
+                new [] { 42.0 }
+            };
+
+            double[] q1, q3, actual;
+            actual = Measures.Quartiles(values, out q1, out q3);
+
+            // quantile(c(52, 42), type = 6)
+            //   0 % 25 % 50 % 75 % 100 %
+            //   42   42   47   52   52
+
+            Assert.AreEqual(47, actual[0]);
+            Assert.AreEqual(42, q1[0]);
+            Assert.AreEqual(52, q3[0]);
+        }
+
+        [Test]
+        public void QuartileTest7()
+        {
+            double[] values = new double[] { 0, 1, 2 };
+            double q1, q3, actual;
+
+            actual = Measures.Quartiles(values, out q1, out q3, false);
+            Assert.AreEqual(0, q1);
+            Assert.AreEqual(1, actual);
+            Assert.AreEqual(2, q3);
         }
 
         [Test]
@@ -420,7 +498,7 @@ namespace Accord.Tests.Statistics
         [Test]
         public void ModeTest()
         {
-            double[,] matrix = 
+            double[,] matrix =
             {
                 { 3, 3, 1, 4 },
                 { 0, 1, 1, 1 },
@@ -683,7 +761,7 @@ namespace Accord.Tests.Statistics
             };
 
 
-            double[,] actual = Measures.Covariance(matrix);
+            double[][] actual = Measures.Covariance(matrix);
             Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.0001));
 
             actual = Measures.Covariance(matrix, 0);
@@ -819,8 +897,8 @@ namespace Accord.Tests.Statistics
 
             double[] weights = { 0.9, 0.9, 0.9, 0.9, 0.9 };
 
-            double[] expected = 
-            { 
+            double[] expected =
+            {
                 Measures.WeightedVariance(matrix.GetColumn(0), weights),
                 Measures.WeightedVariance(matrix.GetColumn(1), weights),
                 Measures.WeightedVariance(matrix.GetColumn(2), weights),
@@ -835,7 +913,7 @@ namespace Accord.Tests.Statistics
         [Test]
         public void VarianceTest8()
         {
-            double[,] matrix = 
+            double[,] matrix =
             {
                 { 4.0, 2.0, 0.60 },
                 { 4.2, 2.1, 0.59 },
@@ -846,8 +924,8 @@ namespace Accord.Tests.Statistics
 
             double[] weights = { 0.9, 0.9, 0.9, 0.9, 0.9 };
 
-            double[] expected = 
-            { 
+            double[] expected =
+            {
                 Measures.WeightedVariance(matrix.GetColumn(0), weights, WeightType.Automatic),
                 Measures.WeightedVariance(matrix.GetColumn(1), weights, WeightType.Automatic),
                 Measures.WeightedVariance(matrix.GetColumn(2), weights, WeightType.Automatic),
@@ -960,7 +1038,7 @@ namespace Accord.Tests.Statistics
             int[] positives = summary.GetColumn(1);
             int[] negatives = summary.GetColumn(2);
 
-            int[][] expected = 
+            int[][] expected =
             {
                  new int[] { 1, 1 },
                  new int[] { 1, 1 },
@@ -998,7 +1076,7 @@ namespace Accord.Tests.Statistics
         [Test]
         public void ExtendTest2()
         {
-            int[][] data = 
+            int[][] data =
             {
                 new int[] { 0, 2, 4 },
                 new int[] { 1, 1, 2 },
@@ -1008,7 +1086,7 @@ namespace Accord.Tests.Statistics
             int positiveColumn = 1;
             int negativeColumn = 2;
 
-            int[][] expected = 
+            int[][] expected =
             {
                 // For label 0
                 new int[] { 0, 1 }, // Two positive cases
@@ -1070,7 +1148,7 @@ namespace Accord.Tests.Statistics
         [Test]
         public void WhiteningTest()
         {
-            double[,] value = 
+            double[,] value =
             {
                 { 0.4218,    0.6557,    0.6787,    0.6555 },
                 { 0.9157,    0.0357,    0.7577,    0.1712 },
@@ -1089,7 +1167,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(cov.IsEqual(I, 1e-10));
 
             // Check if we can transform the data
-            double[,] result = value.Multiply(T);
+            double[,] result = value.Dot(T);
             Assert.IsTrue(result.IsEqual(actual));
         }
 
@@ -1097,7 +1175,7 @@ namespace Accord.Tests.Statistics
         [Test]
         public void PooledVarianceTest()
         {
-            double[][] samples = 
+            double[][] samples =
             {
                 new double[] { 31, 30, 29 },
                 new double[] { 42, 41, 40, 39 },
@@ -1114,7 +1192,7 @@ namespace Accord.Tests.Statistics
         [Test]
         public void PooledStandardDeviationTest()
         {
-            double[][] samples = 
+            double[][] samples =
             {
                 new double[] { 31, 30, 29 },
                 new double[] { 42, 41, 40, 39 },
@@ -1185,9 +1263,36 @@ namespace Accord.Tests.Statistics
         }
 
         [Test]
+        public void RankTest3()
+        {
+            var sample1 = new double[] { 45, 45, 15, 50, 30, 15, 30, 35, 25 };
+            var sample2 = new double[] { 45, 55, 20, 55, 20, 25, 35, 45, 20 };
+
+            double[] samples = sample1.Concatenate(sample2);
+            bool hasTies;
+            double[] actual = samples.Rank(hasTies: out hasTies, adjustForTies: true);
+            Assert.IsTrue(hasTies);
+
+            double[] expected = { 13.5, 13.5, 1.5, 16.0, 8.5, 1.5, 8.5, 10.5, 6.5, 13.5, 17.5, 4.0, 17.5, 4.0, 6.5, 10.5, 13.5, 4.0 };
+            Array.Sort(expected);
+            Array.Sort(actual);
+
+            Assert.IsTrue(expected.IsEqual(actual));
+        }
+
+        [Test]
+        public void TiesTest1()
+        {
+            double[] rank = { 1, 2, 3.5, 3.5, 5, 6, 7, 8.5, 8.5, 10, 11, 12, 13, 14 };
+            int[] actual = rank.Ties();
+            double[] expected = { 1, 1, 2, 1, 1, 1, 2, 1, 1, 1, 1, 1 };
+            Assert.IsTrue(expected.IsEqual(actual));
+        }
+
+        [Test]
         public void MatrixModeTest2()
         {
-            int[][] matrix = 
+            int[][] matrix =
             {
                 new[] { 6, 4, 9 },
                 new[] { 3, 1, 3 },
@@ -1208,7 +1313,7 @@ namespace Accord.Tests.Statistics
         [Test]
         public void MatrixModeTest3()
         {
-            double[][] matrix = 
+            double[][] matrix =
             {
                 new double[] { 6, 4, 9 },
                 new double[] { 3, 1, 3 },
@@ -1238,7 +1343,7 @@ namespace Accord.Tests.Statistics
         [Test]
         public void KurtosisMatrixTest1()
         {
-            double[,] matrix = 
+            double[,] matrix =
             {
                 { 1987 },
                 { 1987 },
@@ -1267,7 +1372,7 @@ namespace Accord.Tests.Statistics
         [Test]
         public void KurtosisMatrixTest2()
         {
-            double[][] matrix = 
+            double[][] matrix =
             {
                 new double[] { 1987 },
                 new double[] { 1987 },
@@ -1296,7 +1401,7 @@ namespace Accord.Tests.Statistics
         [Test]
         public void SkewnessMatrixTest1()
         {
-            double[,] matrix = 
+            double[,] matrix =
             {
                 { 180 },
                 { 182 },
@@ -1305,7 +1410,7 @@ namespace Accord.Tests.Statistics
                 { 178 },
                 { 189 },
                 { 174 },
-                { 174 }, 
+                { 174 },
                 { 171 },
                 { 168 }
             };
@@ -1324,7 +1429,7 @@ namespace Accord.Tests.Statistics
         [Test]
         public void SkewnessMatrixTest()
         {
-            double[][] matrix = 
+            double[][] matrix =
             {
                 new double[] { 180 },
                 new double[] { 182 },
@@ -1333,7 +1438,7 @@ namespace Accord.Tests.Statistics
                 new double[] { 178 },
                 new double[] { 189 },
                 new double[] { 174 },
-                new double[] { 174 }, 
+                new double[] { 174 },
                 new double[] { 171 },
                 new double[] { 168 }
             };

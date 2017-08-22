@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -23,11 +23,12 @@
 namespace Accord.MachineLearning.DecisionTrees
 {
     using Accord.Statistics.Filters;
-    using AForge;
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using Accord.Math;
+    using System.Linq;
+    using Accord.Compat;
 
     /// <summary>
     ///   Attribute category.
@@ -178,7 +179,14 @@ namespace Accord.MachineLearning.DecisionTrees
         }
 
 
-
+        /// <summary>
+        /// Returns a <see cref="System.String" /> that represents this instance.
+        /// </summary>
+        /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
+        public override string ToString()
+        {
+            return String.Format("{0} : {1} ({2})", Name, Nature, Range);
+        }
 
         /// <summary>
         ///   Creates a set of decision variables from a <see cref="Codification"/> codebook.
@@ -190,9 +198,12 @@ namespace Accord.MachineLearning.DecisionTrees
         /// <returns>An array of <see cref="DecisionVariable"/> objects 
         /// initialized with the values from the codebook.</returns>
         /// 
-        public static DecisionVariable[] FromCodebook(Codification codebook, params string[] columns)
+        public static DecisionVariable[] FromCodebook(Codification<string> codebook, params string[] columns)
         {
-            DecisionVariable[] variables = new DecisionVariable[columns.Length];
+            if (columns.Length == 0)
+                throw new ArgumentException("List of columns is empty.");
+
+            var variables = new DecisionVariable[columns.Length];
 
             for (int i = 0; i < variables.Length; i++)
             {
@@ -201,7 +212,7 @@ namespace Accord.MachineLearning.DecisionTrees
                 Codification.Options col;
 
                 if (codebook.Columns.TryGetValue(name, out col))
-                    variables[i] = new DecisionVariable(name, col.Symbols);
+                    variables[i] = new DecisionVariable(name, col.NumberOfSymbols);
                 else
                     variables[i] = new DecisionVariable(name, DecisionVariableKind.Continuous);
             }
@@ -223,7 +234,8 @@ namespace Accord.MachineLearning.DecisionTrees
             int cols = inputs.Columns();
             var variables = new DecisionVariable[cols];
             for (int i = 0; i < variables.Length; i++)
-                variables[i] = new DecisionVariable(i.ToString(), DecisionVariableKind.Continuous);
+                variables[i] = new DecisionVariable(i.ToString(), inputs.GetColumn(i)
+                    .Where(x => !Double.IsNaN(x)).ToArray().GetRange());
             return variables;
         }
 
@@ -241,7 +253,26 @@ namespace Accord.MachineLearning.DecisionTrees
             int cols = inputs.Columns();
             var variables = new DecisionVariable[cols];
             for (int i = 0; i < variables.Length; i++)
-                variables[i] = new DecisionVariable(i.ToString(), DecisionVariableKind.Discrete);
+                variables[i] = new DecisionVariable(i.ToString(), inputs.GetColumn(i).GetRange());
+            return variables;
+        }
+
+        /// <summary>
+        ///   Creates a set of decision variables from input data.
+        /// </summary>
+        /// 
+        /// <param name="inputs">The input data.</param>
+        /// 
+        /// <returns>An array of <see cref="DecisionVariable"/> objects 
+        /// initialized with the values from the codebook.</returns>
+        /// 
+        public static DecisionVariable[] FromData(int?[][] inputs)
+        {
+            int cols = inputs.Columns();
+            var variables = new DecisionVariable[cols];
+            for (int i = 0; i < variables.Length; i++)
+                variables[i] = new DecisionVariable(i.ToString(), inputs.GetColumn(i)
+                    .Where(x => x.HasValue).Select(x => x.Value).ToArray().GetRange());
             return variables;
         }
     }

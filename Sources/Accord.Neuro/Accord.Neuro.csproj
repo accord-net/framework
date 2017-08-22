@@ -4,68 +4,47 @@
     <ProjectGuid>{179F3045-8757-4F4B-9508-F48327BA11E3}</ProjectGuid>
     <RootNamespace>Accord.Neuro</RootNamespace>
     <AssemblyName>Accord.Neuro</AssemblyName>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
-    <WarningLevel>4</WarningLevel>
-    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-    <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>Accord.snk</AssemblyOriginatorKeyFile>
-    <OldToolsVersion>3.5</OldToolsVersion>
-    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
-    <MapFileExtensions>true</MapFileExtensions>
-    <CodeAnalysisRuleSet>..\Accord.NET.ruleset</CodeAnalysisRuleSet>
-    <UseApplicationTrust>false</UseApplicationTrust>
-    <BootstrapperEnabled>true</BootstrapperEnabled>
-    <FileAlignment>4096</FileAlignment>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <DebugSymbols>true</DebugSymbols>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
-    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
-    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
   </PropertyGroup>
+  <Import Project="$(SolutionDir)Accord.NET.targets" />  
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DebugType>Full</DebugType>
-    <Optimize>False</Optimize>
-    <RunCodeAnalysis>False</RunCodeAnalysis>
-    <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <OutputPath>$(SolutionDir)..\Debug\</OutputPath>
+		<DebugType>Full</DebugType>
+		<Optimize>False</Optimize>
+		<CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
+		<DefineConstants>DEBUG;TRACE</DefineConstants>
+		<OutputPath>$(SolutionDir)..\Debug\</OutputPath>
+		<DocumentationFile></DocumentationFile>
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'net35|AnyCPU' ">
+		<DefineConstants>TRACE;NET35</DefineConstants>
+		<TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'net40|AnyCPU' ">
+		<DefineConstants>TRACE;NET40</DefineConstants>
+		<TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'net45|AnyCPU'">
+		<DefineConstants>TRACE;NET45</DefineConstants>
+		<TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'net46|AnyCPU'">
+		<DefineConstants>TRACE;NET46</DefineConstants>
+		<TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'net462|AnyCPU' ">
+    <DefineConstants>TRACE;NET462</DefineConstants>
+	<TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NET35|AnyCPU' ">
-    <OutputPath>$(SolutionDir)..\Release\net35</OutputPath>
-    <DefineConstants>TRACE;CODE_ANALYSIS;NET35</DefineConstants>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
-    <DocumentationFile>$(SolutionDir)..\Release\net35\Accord.Neuro.XML</DocumentationFile>
-    <CodeAnalysisLogFile>$(SolutionDir)..\Release\net35\Accord.Neuro.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NET40|AnyCPU' ">
-    <OutputPath>$(SolutionDir)..\Release\net40</OutputPath>
-    <DefineConstants>TRACE;CODE_ANALYSIS;NET40</DefineConstants>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <DocumentationFile>$(SolutionDir)..\Release\net40\Accord.Neuro.XML</DocumentationFile>
-    <CodeAnalysisLogFile>$(SolutionDir)..\Release\net40\Accord.Neuro.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'NET45|AnyCPU'">
-    <OutputPath>$(SolutionDir)..\Release\net45</OutputPath>
-    <DefineConstants>TRACE;CODE_ANALYSIS;NET45</DefineConstants>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <DocumentationFile>$(SolutionDir)..\Release\net45\Accord.Neuro.XML</DocumentationFile>
-    <CodeAnalysisLogFile>$(SolutionDir)..\Release\net45\Accord.Neuro.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
-  </PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'mono|AnyCPU'">
+		<DefineConstants>TRACE;MONO</DefineConstants>
+<TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+		<TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+	</PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="System.Numerics" Condition="'$(Configuration)' != 'NET35'" />
+    <Reference Include="System.Numerics" Condition="'$(Configuration)' != 'net35'" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\Accord.Core\Properties\VersionInfo.cs">
@@ -127,6 +106,10 @@
     <ProjectReference Include="..\Accord.Genetic\Accord.Genetic.csproj">
       <Project>{2efaa327-1789-4438-b9f5-e83acae12db2}</Project>
       <Name>Accord.Genetic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Accord.Math.Core\Accord.Math.Core.csproj">
+      <Project>{ed3a336f-6da2-4f34-87fe-1ccffa029f8c}</Project>
+      <Name>Accord.Math.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\Accord.Math\Accord.Math.csproj">
       <Project>{F718E9A8-DB62-4785-8C49-4333A60D256A}</Project>

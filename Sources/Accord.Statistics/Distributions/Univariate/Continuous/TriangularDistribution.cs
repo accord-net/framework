@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -26,7 +26,8 @@ namespace Accord.Statistics.Distributions.Univariate
     using Accord.Math;
     using Accord.Statistics.Distributions;
     using Accord.Statistics.Distributions.Fitting;
-    using AForge;
+    using System.ComponentModel;
+    using Accord.Compat;
 
     /// <summary>
     ///   Triangular distribution.
@@ -94,9 +95,9 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <param name="max">The maximum possible value in the distribution (b).</param>
         /// <param name="mode">The most common value in the distribution (c).</param>
         /// 
-        public TriangularDistribution([Real] double min, [Real] double max, [Real] double mode)
+        public TriangularDistribution([Real, DefaultValue(0)] double min, [Real(minimum: 1e-300), DefaultValue(1)] double max, [Real, DefaultValue(0.5)] double mode)
         {
-            if (min > max)
+            if (min >= max)
             {
                 throw new ArgumentOutOfRangeException("max",
                     "The maximum value 'max' must be greater than the minimum value 'min'.");
@@ -229,18 +230,11 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <param name="x">A single point in the distribution range.</param>
         /// 
-        public override double DistributionFunction(double x)
+        protected internal override double InnerDistributionFunction(double x)
         {
-            if (x < a)
-                return 0;
-
             if (x >= a && x <= c)
                 return ((x - a) * (x - a)) / ((b - a) * (c - a));
-
-            if (x > c && x <= b)
-                return 1 - ((b - x) * (b - x)) / ((b - a) * (b - c));
-
-            return 1;
+            return 1 - ((b - x) * (b - x)) / ((b - a) * (b - c));
         }
 
 
@@ -256,18 +250,11 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   in the current distribution.
         /// </returns>
         /// 
-        public override double ProbabilityDensityFunction(double x)
+        protected internal override double InnerProbabilityDensityFunction(double x)
         {
-            if (x < a)
-                return 0;
-
             if (x >= a && x <= c)
                 return (2 * (x - a)) / ((b - a) * (c - a));
-
-            if (x > c && x <= b)
-                return (2 * (b - x)) / ((b - a) * (b - c));
-
-            return 0;
+            return (2 * (b - x)) / ((b - a) * (b - c));
         }
 
 
@@ -313,14 +300,16 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <param name="samples">The number of samples to generate.</param>
         /// <param name="result">The location where to store the samples.</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
         ///
         /// <returns>A random vector of observations drawn from this distribution.</returns>
         /// 
-        public override double[] Generate(int samples, double[] result)
+        public override double[] Generate(int samples, double[] result, Random source)
         {
             double Fc = DistributionFunction(c);
 
-            UniformContinuousDistribution.Random(samples, result);
+            UniformContinuousDistribution.Random(samples, result, source);
 
             for (int i = 0; i < samples; i++)
             {
@@ -341,9 +330,9 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <returns>A random observations drawn from this distribution.</returns>
         /// 
-        public override double Generate()
+        public override double Generate(Random source)
         {
-            double u = UniformContinuousDistribution.Random();
+            double u = UniformContinuousDistribution.Random(source);
             double Fc = DistributionFunction(c);
 
             if (u < Fc)
@@ -437,7 +426,7 @@ namespace Accord.Statistics.Distributions.Univariate
                 imax = FindMax(observations, max);
 
 
-            mode = GetMode(observations, weights, method, min, max, mode, imax, imin);
+            mode = GetMode(observations, weights, method, min, max, imax, imin);
 
             initialize(min, max, mode);
         }
@@ -494,7 +483,7 @@ namespace Accord.Statistics.Distributions.Univariate
                 imax = FindMax(observations, max);
 
 
-            mode = GetMode(observations, weights, method, min, max, mode, imax, imin);
+            mode = GetMode(observations, weights, method, min, max, imax, imin);
 
             initialize(min, max, mode);
         }
@@ -579,48 +568,75 @@ namespace Accord.Statistics.Distributions.Univariate
 
 
         private static double GetMode(double[] observations, double[] weights, TriangularEstimationMethod method,
-            double min, double max, double mode, int imax, int imin)
+            double min, double max, int imax, int imin)
         {
-            if (method == TriangularEstimationMethod.MeanMaxMin)
+            switch (method)
             {
-                mode = MeanMaxMin(observations, weights, min, max, mode, imax, imin);
+                case TriangularEstimationMethod.MeanMaxMin:
+                    return MeanMaxMin(observations, weights, min, max, imax, imin);
+                case TriangularEstimationMethod.Standard:
+                    return WeightedMode(observations, weights, imax, imin);
             }
-            else if (method == TriangularEstimationMethod.Standard)
-            {
-                mode = WeightedMode(observations, weights, mode, imax, imin);
-            }
-            else
-            {
-                throw new NotSupportedException();
-            }
-            return mode;
+
+            throw new NotSupportedException("Unsupported estimation method: " + method);
         }
 
 
         private static double GetMode(double[] observations, int[] weights, TriangularEstimationMethod method,
-         double min, double max, double mode, int imax, int imin)
+            double min, double max, int imax, int imin)
         {
-            if (method == TriangularEstimationMethod.MeanMaxMin)
+            switch (method)
             {
-                mode = MeanMaxMin(observations, weights, min, max, mode, imax, imin);
+                case TriangularEstimationMethod.MeanMaxMin:
+                    return MeanMaxMin(observations, weights, min, max, imax, imin);
+                case TriangularEstimationMethod.Standard:
+                    return WeightedMode(observations, weights, imax, imin);
+                case TriangularEstimationMethod.Bisection:
+                    break;
+                default:
+                    break;
             }
-            else if (method == TriangularEstimationMethod.Standard)
-            {
-                mode = WeightedMode(observations, weights, mode, imax, imin);
-            }
-            else
-            {
-                throw new NotSupportedException();
-            }
-            return mode;
+
+            throw new NotSupportedException("Unsupported estimation method: " + method);
         }
 
-        private static double WeightedMode(double[] observations, double[] weights, double mode, int imax, int imin)
+        private static double WeightedMode(double[] observations, double[] weights, int imax, int imin)
         {
-            var currentValue = observations[imin];
+            double currentValue = observations[imin];
             double currentCount = weights[imin];
 
-            var bestValue = currentValue;
+            double bestValue = currentValue;
+            double bestCount = currentCount;
+
+
+            for (int i = imin + 1; i <= imax; i++)
+            {
+                if (currentValue == observations[i])
+                {
+                    currentCount += weights[i];
+                }
+                else
+                {
+                    currentValue = observations[i];
+                    currentCount = weights[i];
+                }
+
+                if (currentCount > bestCount)
+                {
+                    bestCount = currentCount;
+                    bestValue = currentValue;
+                }
+            }
+
+            return bestValue;
+        }
+
+        private static double WeightedMode(double[] observations, int[] weights, int imax, int imin)
+        {
+            double currentValue = observations[imin];
+            double currentCount = weights[imin];
+
+            double bestValue = currentValue;
             double bestCount = currentCount;
 
 
@@ -643,43 +659,10 @@ namespace Accord.Statistics.Distributions.Univariate
                 }
             }
 
-            mode = bestValue;
-            return mode;
+            return bestValue;
         }
 
-        private static double WeightedMode(double[] observations, int[] weights, double mode, int imax, int imin)
-        {
-            var currentValue = observations[imin];
-            double currentCount = weights[imin];
-
-            var bestValue = currentValue;
-            double bestCount = currentCount;
-
-
-            for (int i = imin + 1; i <= imax; i++)
-            {
-                if (currentValue.Equals(observations[i]))
-                {
-                    currentCount += weights[i];
-                }
-                else
-                {
-                    currentValue = observations[i];
-                    currentCount = weights[i];
-                }
-
-                if (currentCount > bestCount)
-                {
-                    bestCount = currentCount;
-                    bestValue = currentValue;
-                }
-            }
-
-            mode = bestValue;
-            return mode;
-        }
-
-        private static double MeanMaxMin(double[] observations, double[] weights, double min, double max, double mode, int imax, int imin)
+        private static double MeanMaxMin(double[] observations, double[] weights, double min, double max, int imax, int imin)
         {
             double mean;
 
@@ -703,12 +686,10 @@ namespace Accord.Statistics.Distributions.Univariate
                 mean = sum / weightSum;
             }
 
-            mode = 3 * mean - max - min;
-
-            return mode;
+            return 3 * mean - max - min;
         }
 
-        private static double MeanMaxMin(double[] observations, int[] weights, double min, double max, double mode, int imax, int imin)
+        private static double MeanMaxMin(double[] observations, int[] weights, double min, double max, int imax, int imin)
         {
             double mean;
 
@@ -732,9 +713,7 @@ namespace Accord.Statistics.Distributions.Univariate
                 mean = sum / weightSum;
             }
 
-            mode = 3 * mean - max - min;
-
-            return mode;
+            return 3 * mean - max - min;
         }
     }
 }

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -19,15 +19,18 @@
 //    License along with this library; if not, write to the Free Software
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
+#pragma warning disable 612, 618
 
 namespace Accord.Statistics.Models.Markov.Learning
 {
     using System;
     using System.Threading;
-    using System.Threading.Tasks;
     using Accord.Math;
     using Accord.Statistics.Distributions;
     using Accord.Statistics.Models.Markov.Topology;
+    using Accord.Statistics.Distributions.Univariate;
+    using Accord.Compat;
+    using System.Threading.Tasks;
 
     /// <summary>
     ///   Learning algorithm for discrete-density <see cref="HiddenMarkovClassifier">
@@ -78,63 +81,22 @@ namespace Accord.Statistics.Models.Markov.Learning
     ///   <see cref="IUnsupervisedLearning">unsupervised learning algorithm</see> could be used.
     /// </para>
     ///   
-    ///   <code>
-    ///   // Declare some testing data
-    ///   int[][] inputs = new int[][]
-    ///   {
-    ///       new int[] { 0,1,1,0 },   // Class 0
-    ///       new int[] { 0,0,1,0 },   // Class 0
-    ///       new int[] { 0,1,1,1,0 }, // Class 0
-    ///       new int[] { 0,1,0 },     // Class 0
+    /// <code source="Unit Tests\Accord.Tests.Statistics\Models\Markov\HiddenMarkovClassifierTest.cs" region="doc_learn" />
     ///   
-    ///       new int[] { 1,0,0,1 },   // Class 1
-    ///       new int[] { 1,1,0,1 },   // Class 1
-    ///       new int[] { 1,0,0,0,1 }, // Class 1
-    ///       new int[] { 1,0,1 },     // Class 1
-    ///   };
+    /// <para>
+    ///   It is also possible to learn a hidden Markov classifier with support for rejection.
+    ///   When a classifier is configured to use rejection, it will be able to detect when a 
+    ///   sample does not belong to any of the classes that it has previously seen.</para>
     ///   
-    ///   int[] outputs = new int[]
-    ///   {
-    ///       0,0,0,0, // First four sequences are of class 0
-    ///       1,1,1,1, // Last four sequences are of class 1
-    ///   };
-    ///   
-    ///   
-    ///   // We are trying to predict two different classes
-    ///   int classes = 2;
-    ///
-    ///   // Each sequence may have up to two symbols (0 or 1)
-    ///   int symbols = 2;
-    ///
-    ///   // Nested models will have two states each
-    ///   int[] states = new int[] { 2, 2 };
-    ///
-    ///   // Creates a new Hidden Markov Model Sequence Classifier with the given parameters
-    ///   HiddenMarkovClassifier classifier = new HiddenMarkovClassifier(classes, states, symbols);
-    ///   
-    ///   // Create a new learning algorithm to train the sequence classifier
-    ///   var teacher = new HiddenMarkovClassifierLearning(classifier,
-    ///   
-    ///       // Train each model until the log-likelihood changes less than 0.001
-    ///       modelIndex => new BaumWelchLearning(classifier.Models[modelIndex])
-    ///       {
-    ///           Tolerance = 0.001,
-    ///           Iterations = 0
-    ///       }
-    ///   );
-    ///   
-    ///   // Train the sequence classifier using the algorithm
-    ///   double likelihood = teacher.Run(inputs, outputs);
-    ///   
-    ///   </code>
+    /// <code source="Unit Tests\Accord.Tests.Statistics\Models\Markov\HiddenMarkovClassifierTest.cs" region="doc_rejection" />
     /// </example>
     /// 
     /// <seealso cref="HiddenMarkovClassifier"/>
-    /// <seealso cref="HiddenMarkovClassifier{TDistribution}"/>
-    /// <seealso cref="HiddenMarkovClassifierLearning{TDistribution}"/>
+    /// <seealso cref="HiddenMarkovClassifier{TDistribution, TObservation}"/>
+    /// <seealso cref="HiddenMarkovClassifierLearning{TDistribution, TObservation}"/>
     /// 
     public class HiddenMarkovClassifierLearning :
-        BaseHiddenMarkovClassifierLearning<HiddenMarkovClassifier, HiddenMarkovModel>
+        BaseHiddenMarkovClassifierLearning<HiddenMarkovClassifier, HiddenMarkovModel, GeneralDiscreteDistribution, int>
     {
 
         private int smoothingKernelSize = 3;
@@ -164,13 +126,34 @@ namespace Accord.Statistics.Models.Markov.Learning
         ///   function.
         /// </summary>
         /// 
-        public HiddenMarkovClassifierLearning(HiddenMarkovClassifier classifier,
-            ClassifierLearningAlgorithmConfiguration algorithm)
-            : base(classifier, algorithm)
+        public HiddenMarkovClassifierLearning()
         {
             createSmoothingKernel();
         }
 
+        /// <summary>
+        ///   Creates a new instance of the learning algorithm for a given 
+        ///   Markov sequence classifier using the specified configuration
+        ///   function.
+        /// </summary>
+        /// 
+        public HiddenMarkovClassifierLearning(HiddenMarkovClassifier classifier,
+            Func<int, Accord.MachineLearning.IUnsupervisedLearning<HiddenMarkovModel, int[], int[]>> learner)
+            : base(classifier, learner)
+        {
+            createSmoothingKernel();
+        }
+
+
+        /// <summary>
+        ///   Creates an instance of the model to be learned. Inheritors of this abstract 
+        ///   class must define this method so new models can be created from the training data.
+        /// </summary>
+        /// 
+        protected override HiddenMarkovClassifier Create(int[][] x, int[] y, int numberOfClasses)
+        {
+            return new HiddenMarkovClassifier(numberOfClasses);
+        }
 
         /// <summary>
         ///   Trains each model to recognize each of the output labels.
@@ -178,6 +161,7 @@ namespace Accord.Statistics.Models.Markov.Learning
         /// 
         /// <returns>The sum log-likelihood for all models after training.</returns>
         /// 
+        [Obsolete("Please use the Learn(x, y) method instead.")]
         public double Run(int[][] inputs, int[] outputs)
         {
             if (inputs == null)
@@ -200,7 +184,8 @@ namespace Accord.Statistics.Models.Markov.Learning
                 }
             }
 
-            return base.Run<int[]>(inputs, outputs);
+            Learn(inputs, outputs);
+            return LogLikelihood;
         }
 
 
@@ -215,6 +200,8 @@ namespace Accord.Statistics.Models.Markov.Learning
         /// 
         public double ComputeError(int[][] inputs, int[] outputs)
         {
+            // TODO: Mark as obsolete?
+
             int errors = 0;
             Parallel.For(0, inputs.Length, i =>
             {

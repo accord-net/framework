@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -29,6 +29,7 @@ namespace Accord.IO
     using System.IO.Compression;
     using System.Runtime.InteropServices;
     using Accord.Math;
+    using Accord.Compat;
 
     /// <summary>
     ///   Node object contained in <see cref="MatReader">.MAT file</see>. 
@@ -233,7 +234,11 @@ namespace Accord.IO
 
             if (nameTag.IsSmallFormat)
             {
+#if NETSTANDARD1_4
+                Name = new String((char*)nameTag.SmallData_Value, 0, nameTag.SmallData_NumberOfBytes);
+#else
                 Name = new String((sbyte*)nameTag.SmallData_Value, 0, nameTag.SmallData_NumberOfBytes);
+#endif
             }
             else
             {
@@ -277,7 +282,9 @@ namespace Accord.IO
 
                 MatDataType matType = valuesTag.DataType;
                 type = MatReader.Translate(matType);
+#pragma warning disable 618 // SizeOf would be Obsolete
                 typeSize = Marshal.SizeOf(type);
+#pragma warning restore 618 // SizeOf would be Obsolete
                 length = valuesTag.NumberOfBytes / typeSize;
                 bytes = valuesTag.NumberOfBytes;
 
@@ -388,13 +395,18 @@ namespace Accord.IO
                     matType = contentsTag.SmallData_Type;
                     if (matType == MatDataType.miUTF8)
                     {
-                        value = new String((sbyte*)contentsTag.SmallData_Value,
-                            0, contentsTag.SmallData_NumberOfBytes);
+#if NETSTANDARD1_4
+                        value = new String((char*)contentsTag.SmallData_Value, 0, contentsTag.SmallData_NumberOfBytes);
+#else
+                        value = new String((sbyte*)contentsTag.SmallData_Value, 0, contentsTag.SmallData_NumberOfBytes);
+#endif
                     }
                     else
                     {
                         type = MatReader.Translate(matType);
+#pragma warning disable 618 // SizeOf would be Obsolete
                         typeSize = Marshal.SizeOf(type);
+#pragma warning restore 618 // SizeOf would be Obsolete
                         length = 1;
                         for (int i = 0; i < dimensions.Length; i++)
                             length *= dimensions[i];
@@ -427,7 +439,9 @@ namespace Accord.IO
                     else
                     {
                         type = MatReader.Translate(matType);
+#pragma warning disable 618 // SizeOf would be Obsolete
                         typeSize = Marshal.SizeOf(type);
+#pragma warning restore 618 // SizeOf would be Obsolete
                         length = contentsTag.NumberOfBytes / typeSize;
                         bytes = contentsTag.NumberOfBytes;
 

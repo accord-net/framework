@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 // Copyright © Peter Kovesi, 1995-2010
@@ -56,7 +56,6 @@ namespace Accord.Imaging
     using System.Drawing.Imaging;
     using System.Linq;
     using Accord.Math;
-    using AForge;
     using Accord.Imaging.Filters;
 
     /// <summary>
@@ -86,8 +85,6 @@ namespace Accord.Imaging
     ///   </list></para>
     /// </remarks>
     ///
-    /// <seealso cref="RansacHomographyEstimator"/>
-    ///
     public class CorrelationMatching
     {
 
@@ -99,7 +96,8 @@ namespace Accord.Imaging
 
         /// <summary>
         ///   Gets or sets the maximum distance to consider
-        ///   points as correlated.
+        ///   points as correlated. Default is 0 (consider
+        ///   all points).
         /// </summary>
         /// 
         public double DistanceMax
@@ -147,7 +145,6 @@ namespace Accord.Imaging
         public CorrelationMatching(int windowSize, double maxDistance)
             : this(windowSize, maxDistance, null, null)
         {
-
         }
 
         /// <summary>
@@ -267,14 +264,15 @@ namespace Accord.Imaging
                     if (correlationMatrix[i, j] != Double.NegativeInfinity)
                     {
                         // We have a corresponding pair (i,j)
-                        p1ind.Add(i); p2ind.Add(j);
+                        p1ind.Add(i);
+                        p2ind.Add(j);
                     }
                 }
             }
 
             // Extract matched points from original arrays
-            var m1 = points1.Submatrix(p1ind.ToArray());
-            var m2 = points2.Submatrix(p2ind.ToArray());
+            var m1 = points1.Get(p1ind.ToArray());
+            var m2 = points2.Get(p2ind.ToArray());
 
             // Create matching point pairs
             return new IntPoint[][] { m1, m2 };
@@ -321,20 +319,19 @@ namespace Accord.Imaging
 
 
             // We will ignore points at the edge
-            int[] idx1 = Matrix.Find(points1,
-                p => p.X >= r && p.X < width1 - r &&
-                     p.Y >= r && p.Y < height1 - r);
+            int[] idx1 = Matrix.Find(points1, p => p.X >= r && p.X < width1 - r &&
+                                                   p.Y >= r && p.Y < height1 - r);
 
-            int[] idx2 = Matrix.Find(points2,
-                p => p.X >= r && p.X < width2 - r &&
-                     p.Y >= r && p.Y < height2 - r);
+            int[] idx2 = Matrix.Find(points2, p => p.X >= r && p.X < width2 - r &&
+                                                   p.Y >= r && p.Y < height2 - r);
 
 
             // For each index in the first set of points
             foreach (int n1 in idx1)
             {
                 // Get the current point
-                var p1 = points1[n1];
+                IntPoint p1 = points1[n1];
+                double sum = 0;
 
                 unsafe // Create the first window for the current point
                 {
@@ -343,21 +340,17 @@ namespace Accord.Imaging
                     for (int j = 0; j < windowSize; j++)
                     {
                         for (int i = 0; i < windowSize; i++)
-                            w1[i, j] = (byte)(*(src + i));
+                        {
+                            double w = (byte)(*(src + i));
+                            w1[i, j] = w;
+                            sum += w * w;
+                        }
                         src += stride1;
                     }
                 }
 
                 // Normalize the window
-                double sum = 0;
-                for (int i = 0; i < windowSize; i++)
-                    for (int j = 0; j < windowSize; j++)
-                        sum += w1[i, j] * w1[i, j];
-                sum = System.Math.Sqrt(sum);
-                for (int i = 0; i < windowSize; i++)
-                    for (int j = 0; j < windowSize; j++)
-                        w1[i, j] /= sum;
-
+                w1.Divide(System.Math.Sqrt(sum), result: w1);
 
                 // Identify the indices of points in p2 that we need to consider.
                 int[] candidates;
@@ -381,14 +374,14 @@ namespace Accord.Imaging
                         distances[i] = dx * dx + dy * dy;
                     }
 
-                    candidates = idx2.Submatrix(Matrix.Find(distances, d => d < m));
+                    candidates = idx2.Get(Matrix.Find(distances, d => d < m));
                 }
 
 
                 // Calculate normalized correlation measure
                 foreach (int n2 in candidates)
                 {
-                    var p2 = points2[n2];
+                    IntPoint p2 = points2[n2];
 
                     unsafe // Generate window in 2nd image
                     {

@@ -4,61 +4,48 @@
     <ProjectGuid>{F5820249-C973-4EF3-91B3-4B46F2961816}</ProjectGuid>
     <RootNamespace>Accord.Tests.Interop.Math</RootNamespace>
     <AssemblyName>Accord.Tests.Interop.Math</AssemblyName>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <FileAlignment>512</FileAlignment>
-    <OldToolsVersion>3.5</OldToolsVersion>
-    <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <UseApplicationTrust>false</UseApplicationTrust>
-    <BootstrapperEnabled>true</BootstrapperEnabled>
-    <TargetFrameworkProfile />
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>Accord.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <Import Project="$(SolutionDir)..\Unit Tests\Accord.Tests.targets" />
+  <PropertyGroup>
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>$(SolutionDir)..\Unit Tests\bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <NoWarn>0612, 0618</NoWarn>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NET35|AnyCPU' ">
-    <OutputPath>$(SolutionDir)..\Unit Tests\bin\Release\net35\</OutputPath>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'net35|x86' ">
     <DefineConstants>TRACE;NET35</DefineConstants>
-    <NoWarn>0612, 0618</NoWarn>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NET40|AnyCPU' ">
-    <OutputPath>$(SolutionDir)..\Unit Tests\bin\Release\net40\</OutputPath>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'net40|x86' ">
     <DefineConstants>TRACE;NET40</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NET45|AnyCPU' ">
-    <OutputPath>$(SolutionDir)..\Unit Tests\bin\Release\net45\</OutputPath>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'net45|x86' ">
     <DefineConstants>TRACE;NET45</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'net46|x86' ">
+    <DefineConstants>TRACE;NET46</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'net462|AnyCPU' ">
+    <DefineConstants>TRACE;NET462</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'mono|x86' ">
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <DefineConstants>TRACE;MONO</DefineConstants>
+<TreatWarningsAsErrors>False</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="nunit.framework">
-      <HintPath>..\..\Externals\NUnit\nunit.framework.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Externals\NUnit\NUnit.Framework-3.6.1\bin\net-4.5\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
-    <Reference Include="System.Numerics" Condition="'$(Configuration)' != 'NET35'" />
+    <Reference Include="System.Numerics" Condition="'$(Configuration)' != 'net35'" />
     <Reference Include="System.XML" />
   </ItemGroup>
   <!--
@@ -99,6 +86,10 @@
     <ProjectReference Include="..\..\Sources\Accord.MachineLearning\Accord.MachineLearning.csproj">
       <Project>{7ab4bbcc-6222-423d-9ff9-ba9cb7c09199}</Project>
       <Name>Accord.MachineLearning</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Sources\Accord.Math.Core\Accord.Math.Core.csproj">
+      <Project>{ed3a336f-6da2-4f34-87fe-1ccffa029f8c}</Project>
+      <Name>Accord.Math.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Sources\Accord.Math\Accord.Math.csproj">
       <Project>{F718E9A8-DB62-4785-8C49-4333A60D256A}</Project>

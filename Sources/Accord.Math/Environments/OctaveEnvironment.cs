@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -574,6 +574,7 @@ namespace Accord.Math.Environments
             }
         }
 
+#if !NETSTANDARD1_4
         /// <summary>
         ///   Initializes a new instance of the <see cref="OctaveEnvironment"/> class.
         /// </summary>
@@ -590,5 +591,6 @@ namespace Accord.Math.Environments
                     field.SetValue(this, new mat(null));
             }
         }
+#endif
     }
 }

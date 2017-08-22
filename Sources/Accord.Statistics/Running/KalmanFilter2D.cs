@@ -5,7 +5,7 @@
 // Copyright © Pablo Guzman Sanchez, 2013
 // pablogsanchez at gmail.com
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -30,8 +30,9 @@
 
 namespace Accord.Statistics.Running
 {
+    using System;
     using Accord.Math;
-    using AForge;
+    using Accord.Compat;
 
     /// <summary>
     ///   Kalman filter for 2D coordinate systems.
@@ -48,6 +49,7 @@ namespace Accord.Statistics.Running
     ///   </list></para>
     /// </remarks>
     /// 
+    [Serializable]
     public class KalmanFilter2D : IRunning<DoublePoint>
     {
 

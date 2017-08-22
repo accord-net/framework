@@ -5,7 +5,7 @@
 // Copyright © Rémy Dispagne, 2013
 // cramer at libertysurf.fr
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -26,6 +26,7 @@
 namespace Accord.Math.Kinematics
 {
     using System;
+    using Accord.Compat;
 
     /// <summary>
     ///    Denavit Hartenberg joint-description parameters.

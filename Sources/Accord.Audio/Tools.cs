@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -22,11 +22,11 @@
 
 namespace Accord.Audio
 {
+    using Accord.Math;
     using System;
     using System.Runtime.InteropServices;
-    using AForge.Math;
-    using Accord.Math;
     using System.Collections.Generic;
+    using Accord.Compat;
     using System.Numerics;
 
     /// <summary>
@@ -141,11 +141,11 @@ namespace Accord.Audio
         public static double[] GetFrequencyVector(int length, int sampleRate)
         {
             int numUniquePts = (int)System.Math.Ceiling((length + 1) / 2.0);
+
             double[] freq = new double[numUniquePts];
             for (int i = 0; i < numUniquePts; i++)
-            {
-                freq[i] = (double)i * sampleRate / length;
-            }
+                freq[i] = i * sampleRate / (double)length;
+
             return freq;
         }
 
@@ -155,7 +155,7 @@ namespace Accord.Audio
         /// 
         public static double GetSpectralResolution(int samplingRate, int samples)
         {
-            return samplingRate / samples;
+            return samplingRate / (double)samples;
         }
 
         /// <summary>
@@ -340,7 +340,9 @@ namespace Accord.Audio
         {
             Type type = typeof(T);
 
+#pragma warning disable CS0618 // Type or member is obsolete
             int rawsize = Marshal.SizeOf(type);
+#pragma warning restore CS0618 // Type or member is obsolete
 
             if (rawsize > (rawData.Length - position))
             {
@@ -349,7 +351,9 @@ namespace Accord.Audio
 
             IntPtr buffer = Marshal.AllocHGlobal(rawsize);
             Marshal.Copy(rawData, position, buffer, rawsize);
+#pragma warning disable CS0618 // Type or member is obsolete
             T obj = (T)Marshal.PtrToStructure(buffer, type);
+#pragma warning restore CS0618 // Type or member is obsolete
             Marshal.FreeHGlobal(buffer);
             return obj;
         }

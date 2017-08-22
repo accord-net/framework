@@ -1,6 +1,18 @@
 Accord.NET Framework building instructions
 ==========================================
 
-In order to build Accord.NET, AForge.NET must be previously installed.
-Additionally, to build the documentation, AForge.NET may have to be
-re-referenced in the Sandcastle Help File Builder project.
+In order to build Accord.NET, just open the project's solution file
+in Visual Studio and hit F5. 
+
+If you need to re-create templated classes, please install the
+T4 Toolbox for Visual Studio 2015, which can be downloaded from:
+ 
+  - https://visualstudiogallery.msdn.microsoft.com/34b6d489-afbc-4d7b-82c3-dded2b726dbc
+
+In order to build the project's documentation files, install 
+Sandcastle Help File Builder, which can be downloaded from:
+
+  - https://github.com/EWSoftware/SHFB/releases
+
+
+

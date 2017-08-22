@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -23,6 +23,7 @@
 namespace Accord.Statistics.Distributions.Fitting
 {
     using System;
+    using Accord.Compat;
 
     /// <summary>
     ///   Estimation options for <see cref="Accord.Statistics.Distributions.Univariate.
@@ -41,8 +42,8 @@ namespace Accord.Statistics.Distributions.Fitting
         public double Minimum { get; set; }
 
         /// <summary>
-        ///   Gets ors sets whether to use Laplace's rule
-        ///   of succession to avoid zero probabilities.
+        ///   Gets ors sets whether to use Laplace's rule of succession 
+        ///   to avoid zero probabilities. Default is false.
         /// </summary>
         /// 
         public bool UseLaplaceRule { get; set; }
@@ -52,7 +53,15 @@ namespace Accord.Statistics.Distributions.Fitting
         ///   the distribution should be kept in its updated value. Default is 0.
         /// </summary>
         /// 
-        public double Regularization {get; set; }
+        public double Regularization { get; set; }
+
+        /// <summary>
+        ///   Gets or sets whether current frequency values in the distribution
+        ///   should be considered as priors during the next time the distribution
+        ///   is estimated. Default is false.
+        /// </summary>
+        /// 
+        public bool UsePreviousValuesAsPriors { get; set; }
 
         /// <summary>
         ///   Initializes a new instance of the <see cref="GeneralDiscreteOptions"/> class.

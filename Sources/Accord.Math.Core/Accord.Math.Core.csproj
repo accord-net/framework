@@ -1,0 +1,146 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectGuid>{ED3A336F-6DA2-4F34-87FE-1CCFFA029F8C}</ProjectGuid>
+    <RootNamespace>Accord.Math</RootNamespace>
+    <AssemblyName>Accord.Math.Core</AssemblyName>
+  </PropertyGroup>
+  <Import Project="$(SolutionDir)Accord.NET.targets" />
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugType>Full</DebugType>
+    <Optimize>False</Optimize>
+    <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <OutputPath>$(SolutionDir)..\Debug\</OutputPath>
+    <DocumentationFile>
+    </DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'net35|AnyCPU' ">
+    <DefineConstants>TRACE;NET35</DefineConstants>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'net40|AnyCPU' ">
+    <DefineConstants>TRACE;NET40</DefineConstants>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'net45|AnyCPU'">
+    <DefineConstants>TRACE;NET45</DefineConstants>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'net46|AnyCPU'">
+    <DefineConstants>TRACE;NET46</DefineConstants>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'net462|AnyCPU' ">
+    <DefineConstants>TRACE;NET462</DefineConstants>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'mono|AnyCPU'">
+    <DefineConstants>TRACE;MONO</DefineConstants>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
+  <ItemGroup>
+    <Reference Include="envdte, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Numerics" Condition="'$(Configuration)' != 'net35'" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\Accord.Core\Properties\VersionInfo.cs">
+      <Link>Properties\VersionInfo.cs</Link>
+    </Compile>
+    <Compile Include="Matrix.Add.Generated.cs">
+      <DependentUpon>Matrix.Elementwise2.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Matrix.Comparisons.Generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Matrix.Comparisons.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Matrix.Divide.Generated.cs">
+      <DependentUpon>Matrix.Elementwise2.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Matrix.Elementwise.Generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Matrix.Elementwise.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Matrix.Multiply.Generated.cs">
+      <DependentUpon>Matrix.Elementwise2.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Matrix.MultiplyAndAdd.Generated.cs">
+      <DependentUpon>Matrix.Elementwise3.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Matrix.Subtract.Generated.cs">
+      <DependentUpon>Matrix.Elementwise2.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="Matrix.Elementwise.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Matrix.Elementwise.Generated.cs</LastGenOutput>
+    </None>
+    <None Include="Matrix.Elementwise2.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Matrix.Elementwise2.txt</LastGenOutput>
+      <LastOutputs>
+.\Matrix.Add.Generated.cs
+.\Matrix.Divide.Generated.cs
+.\Matrix.Multiply.Generated.cs
+.\Matrix.Subtract.Generated.cs
+</LastOutputs>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Accord.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <CodeAnalysisDictionary Include="Properties\CustomDictionary.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Matrix.Comparisons.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Matrix.Comparisons.Generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Matrix.Elementwise3.txt">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Matrix.Elementwise3.tt</DependentUpon>
+    </Content>
+    <None Include="Matrix.Elementwise3.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Matrix.Elementwise3.txt</LastGenOutput>
+      <LastOutputs>.\Matrix.MultiplyAndAdd.Generated.cs</LastOutputs>
+    </None>
+    <Content Include="Matrix.Elementwise2.txt">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Matrix.Elementwise2.tt</DependentUpon>
+    </Content>
+  </ItemGroup>
+  <ItemGroup />
+</Project>

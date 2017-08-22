@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 // Copyright (c) 2011-2012 LTS2, EPFL
@@ -324,12 +324,16 @@ namespace Accord.Imaging
                 byte* ptr = (byte*)Image.ImageData.ToPointer() + x + y * imagecols;
 
                 // linear interpolation:
+                Image.CheckBounds(ptr);
                 ret_val = (r_x_1 * r_y_1 * (int)(*ptr));
                 ptr++;
+                Image.CheckBounds(ptr);
                 ret_val += (r_x * r_y_1 * (int)(*ptr));
                 ptr += imagecols;
+                Image.CheckBounds(ptr);
                 ret_val += (r_x * r_y * (int)(*ptr));
                 ptr--;
+                Image.CheckBounds(ptr);
                 ret_val += (r_x_1 * r_y * (int)(*ptr));
                 return ((ret_val + 512) / 1024);
             }

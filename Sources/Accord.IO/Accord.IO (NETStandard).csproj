@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <AssemblyName>Accord.IO</AssemblyName>
+    <RootNamespace>Accord.IO</RootNamespace>
+    <TargetFrameworks>netstandard2.0;netstandard1.4</TargetFrameworks>
+  </PropertyGroup>
+
+  <Import Project="$(SolutionDir)Accord.NET (NETStandard).targets" />
+
+  <ItemGroup>
+    <Compile Remove="Extensions.Matrix.cs" />
+    <Compile Remove="Extensions.Table.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Accord.Core\Accord.Core (NETStandard).csproj" />
+  </ItemGroup>
+
+</Project>

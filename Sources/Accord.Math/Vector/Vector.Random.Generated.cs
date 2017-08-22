@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -56,7 +56,7 @@ namespace Accord.Math
         public static T[] Sample<T>(T[] values, int size)
         {
             int[] idx = Vector.Sample(size);
-            return values.Submatrix(idx);
+            return values.Get(idx);
         }
 
 
@@ -130,7 +130,7 @@ namespace Accord.Math
             }
 
             int[] idx = Sample(populationSize);
-            return idx.Submatrix(sampleSize);
+            return idx.First(sampleSize);
         }
 
         /// <summary>
@@ -165,7 +165,7 @@ namespace Accord.Math
             int sampleSize = (int)System.Math.Floor(percentage * (double)populationSize);
 
             int[] idx = Sample(populationSize);
-            return idx.Submatrix(sampleSize);
+            return idx.First(sampleSize);
         }
 
         /// <summary>
@@ -238,7 +238,7 @@ namespace Accord.Math
             }
 
             float[] idx = Sample(populationSize);
-            return idx.Submatrix(sampleSize);
+            return idx.First(sampleSize);
         }
 
         /// <summary>
@@ -273,7 +273,7 @@ namespace Accord.Math
             int sampleSize = (int)System.Math.Floor(percentage * (double)populationSize);
 
             float[] idx = Sample(populationSize);
-            return idx.Submatrix(sampleSize);
+            return idx.First(sampleSize);
         }
 
         /// <summary>
@@ -346,7 +346,7 @@ namespace Accord.Math
             }
 
             double[] idx = Sample(populationSize);
-            return idx.Submatrix(sampleSize);
+            return idx.First(sampleSize);
         }
 
         /// <summary>
@@ -381,7 +381,7 @@ namespace Accord.Math
             int sampleSize = (int)System.Math.Floor(percentage * (double)populationSize);
 
             double[] idx = Sample(populationSize);
-            return idx.Submatrix(sampleSize);
+            return idx.First(sampleSize);
         }
 
         /// <summary>
@@ -454,7 +454,7 @@ namespace Accord.Math
             }
 
             short[] idx = Sample(populationSize);
-            return idx.Submatrix(sampleSize);
+            return idx.First(sampleSize);
         }
 
         /// <summary>
@@ -489,7 +489,7 @@ namespace Accord.Math
             int sampleSize = (int)System.Math.Floor(percentage * (double)populationSize);
 
             short[] idx = Sample(populationSize);
-            return idx.Submatrix(sampleSize);
+            return idx.First(sampleSize);
         }
 
         /// <summary>
@@ -562,7 +562,7 @@ namespace Accord.Math
             }
 
             byte[] idx = Sample(populationSize);
-            return idx.Submatrix(sampleSize);
+            return idx.First(sampleSize);
         }
 
         /// <summary>
@@ -597,7 +597,7 @@ namespace Accord.Math
             int sampleSize = (int)System.Math.Floor(percentage * (double)populationSize);
 
             byte[] idx = Sample(populationSize);
-            return idx.Submatrix(sampleSize);
+            return idx.First(sampleSize);
         }
 
         /// <summary>
@@ -670,7 +670,7 @@ namespace Accord.Math
             }
 
             sbyte[] idx = Sample(populationSize);
-            return idx.Submatrix(sampleSize);
+            return idx.First(sampleSize);
         }
 
         /// <summary>
@@ -705,7 +705,7 @@ namespace Accord.Math
             int sampleSize = (int)System.Math.Floor(percentage * (double)populationSize);
 
             sbyte[] idx = Sample(populationSize);
-            return idx.Submatrix(sampleSize);
+            return idx.First(sampleSize);
         }
 
         /// <summary>
@@ -778,7 +778,7 @@ namespace Accord.Math
             }
 
             long[] idx = Sample(populationSize);
-            return idx.Submatrix(sampleSize);
+            return idx.First(sampleSize);
         }
 
         /// <summary>
@@ -813,7 +813,7 @@ namespace Accord.Math
             int sampleSize = (int)System.Math.Floor(percentage * (double)populationSize);
 
             long[] idx = Sample(populationSize);
-            return idx.Submatrix(sampleSize);
+            return idx.First(sampleSize);
         }
 
         /// <summary>
@@ -886,7 +886,7 @@ namespace Accord.Math
             }
 
             decimal[] idx = Sample(populationSize);
-            return idx.Submatrix(sampleSize);
+            return idx.First(sampleSize);
         }
 
         /// <summary>
@@ -921,7 +921,7 @@ namespace Accord.Math
             int sampleSize = (int)System.Math.Floor(percentage * (double)populationSize);
 
             decimal[] idx = Sample(populationSize);
-            return idx.Submatrix(sampleSize);
+            return idx.First(sampleSize);
         }
 
         /// <summary>
@@ -994,7 +994,7 @@ namespace Accord.Math
             }
 
             ulong[] idx = Sample(populationSize);
-            return idx.Submatrix(sampleSize);
+            return idx.First(sampleSize);
         }
 
         /// <summary>
@@ -1029,7 +1029,7 @@ namespace Accord.Math
             int sampleSize = (int)System.Math.Floor(percentage * (double)populationSize);
 
             ulong[] idx = Sample(populationSize);
-            return idx.Submatrix(sampleSize);
+            return idx.First(sampleSize);
         }
 
         /// <summary>
@@ -1102,7 +1102,7 @@ namespace Accord.Math
             }
 
             ushort[] idx = Sample(populationSize);
-            return idx.Submatrix(sampleSize);
+            return idx.First(sampleSize);
         }
 
         /// <summary>
@@ -1137,7 +1137,7 @@ namespace Accord.Math
             int sampleSize = (int)System.Math.Floor(percentage * (double)populationSize);
 
             ushort[] idx = Sample(populationSize);
-            return idx.Submatrix(sampleSize);
+            return idx.First(sampleSize);
         }
         /// <summary>
         ///   Creates a vector with uniformly distributed random data.

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -22,14 +22,23 @@
 
 namespace Accord.Math
 {
-    using Accord.Math.Comparers;
-    using AForge;
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
+    using System.Runtime.CompilerServices;
 
     public static partial class Matrix
     {
+
+        /// <summary>
+        ///   Gets the indices that sort a vector.
+        /// </summary>
+        /// 
+        public static int[] ArgSort<T>(this T[] values)
+            where T : IComparable<T>
+        {
+            int[] idx;
+            values.Copy().Sort(out idx);
+            return idx;
+        }
 
         #region Vector ArgMin/ArgMax
 
@@ -37,6 +46,9 @@ namespace Accord.Math
         ///   Gets the maximum element in a vector.
         /// </summary>
         /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static int ArgMax<T>(this T[] values)
             where T : IComparable<T>
         {
@@ -58,6 +70,9 @@ namespace Accord.Math
         ///   Gets the maximum element in a vector.
         /// </summary>
         /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static int ArgMax<T>(this T[] values, out T max)
             where T : IComparable<T>
         {
@@ -79,6 +94,9 @@ namespace Accord.Math
         ///   Gets the minimum element in a vector.
         /// </summary>
         /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static int ArgMin<T>(this T[] values)
             where T : IComparable<T>
         {
@@ -100,6 +118,9 @@ namespace Accord.Math
         ///   Gets the minimum element in a vector.
         /// </summary>
         /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static int ArgMin<T>(this T[] values, out T min)
             where T : IComparable<T>
         {

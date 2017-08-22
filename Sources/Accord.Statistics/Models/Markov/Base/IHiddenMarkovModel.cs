@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -71,19 +71,36 @@ namespace Accord.Statistics.Models.Markov
         ///   Gets the number of states of this model.
         /// </summary>
         /// 
+        // [Obsolete("Please use NumberOfStates instead.")]
         int States { get; }
+
 
         /// <summary>
         ///   Gets the initial probabilities for this model.
         /// </summary>
         /// 
+        [Obsolete("Please use the LogInitial property instead.")]
         double[] Probabilities { get; }
 
         /// <summary>
-        ///   Gets the Transition matrix (A) for this model.
+        ///   Gets the log of the initial probabilities (log(pi)) for this model.
         /// </summary>
         /// 
+        double[] LogInitial { get; }
+
+        /// <summary>
+        ///   Gets the log of the transition matrix (log(A)) for this model.
+        /// </summary>
+        /// 
+        [Obsolete("Please use the LogTransitions property instead.")]
         double[,] Transitions { get; }
+
+        /// <summary>
+        ///   Gets the log of the transition matrix (log(A)) for this model.
+        /// </summary>
+        /// 
+        double[][] LogTransitions { get; }
+
 
         /// <summary>
         ///   Gets or sets a user-defined tag.

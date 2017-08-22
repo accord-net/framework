@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -24,6 +24,8 @@ namespace Accord.Statistics.Models.Markov.Learning
 {
     using System;
     using Accord.Math;
+    using Accord.MachineLearning;
+#pragma warning disable 612, 618
 
     /// <summary>
     ///   Viterbi learning algorithm.
@@ -40,14 +42,18 @@ namespace Accord.Statistics.Models.Markov.Learning
     /// <para>
     ///   The Viterbi learning algorithm is also known as the Segmental K-Means
     ///   algorithm.</para>
-    /// 
-    /// <see cref="ViterbiLearning{TDistribution}"/>
-    /// <see cref="BaumWelchLearning"/>
-    /// 
     /// </remarks>
     /// 
+    /// <example>
+    /// <code source="Unit Tests\Accord.Tests.Statistics\Models\Markov\ViterbiLearningTest.cs" region="doc_learn" />
+    /// </example>
+    /// 
+    /// <seealso cref="ViterbiLearning{TDistribution}"/>
+    /// <seealso cref="BaumWelchLearning"/>
+    /// 
     public class ViterbiLearning : BaseViterbiLearning<int[]>,
-        IUnsupervisedLearning, IConvergenceLearning
+        IUnsupervisedLearning, IConvergenceLearning,
+        IUnsupervisedLearning<HiddenMarkovModel, int[], int[]>
     {
 
         private MaximumLikelihoodLearning mle;
@@ -60,6 +66,7 @@ namespace Accord.Statistics.Models.Markov.Learning
         {
             get { return mle.Model; }
         }
+
 
         /// <summary>
         ///   Gets or sets whether to use Laplace's rule
@@ -81,6 +88,18 @@ namespace Accord.Statistics.Models.Markov.Learning
             this.mle = new MaximumLikelihoodLearning(model);
         }
 
+        /// <summary>
+        /// Learns a model that can map the given inputs to the desired outputs.
+        /// </summary>
+        /// <param name="x">The model inputs.</param>
+        /// <param name="weights">The weight of importance for each input sample.</param>
+        /// <returns>A model that has learned how to produce suitable outputs
+        /// given the input data <paramref name="x" />.</returns>
+        public HiddenMarkovModel Learn(int[][] x, double[] weights = null)
+        {
+            Run(x);
+            return Model;
+        }
 
         /// <summary>
         ///   Runs one single epoch (iteration) of the learning algorithm.

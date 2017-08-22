@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -27,6 +27,7 @@ namespace Accord.MachineLearning
     using Accord.Statistics.Distributions.Multivariate;
     using Accord.Statistics.Distributions.Univariate;
     using System;
+    using Accord.Compat;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -43,25 +44,20 @@ namespace Accord.MachineLearning
     /// </remarks>
     /// 
     /// <example>
-    ///   <code>
-    ///   // Create a new Gaussian Mixture Model with 2 components
-    ///   GaussianMixtureModel gmm = new GaussianMixtureModel(2);
-    ///   
-    ///   // Compute the model (estimate)
-    ///   gmm.Compute(samples, 0.0001);
-    ///   
-    ///   // Get classification for a new sample
-    ///   int c = gmm.Gaussians.Nearest(sample);
-    ///   </code>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\Clustering\GaussianMixtureModelTest.cs" region="doc_learn" />
     /// </example>
     /// 
+    /// <seealso cref="KMeans"/> 
+    /// <seealso cref="MeanShift"/> 
+    /// 
     [Serializable]
-    public class GaussianMixtureModel : IClusteringAlgorithm<double[], double>
+    public class GaussianMixtureModel : ParallelLearningBase,
+        IUnsupervisedLearning<GaussianClusterCollection, double[], int>,
+#pragma warning disable 0618
+        IClusteringAlgorithm<double[], double>
+#pragma warning restore 0618
     {
         private GaussianClusterCollection clusters;
-
-        [NonSerialized]
-        private ParallelOptions parallelOptions;
 
         /// <summary>
         ///   Gets or sets the maximum number of iterations to
@@ -122,21 +118,6 @@ namespace Accord.MachineLearning
         /// </summary>
         /// 
         public bool UseLogarithm { get; set; }
-
-        /// <summary>
-        ///   Gets or sets parallelization options.
-        /// </summary>
-        /// 
-        public ParallelOptions ParallelOptions
-        {
-            get
-            {
-                if (parallelOptions == null)
-                    parallelOptions = new ParallelOptions();
-                return parallelOptions;
-            }
-            set { parallelOptions = value; }
-        }
 
         /// <summary>
         ///   Gets or sets the fitting options for the component
@@ -248,9 +229,10 @@ namespace Accord.MachineLearning
         ///   cluster as a multivariate Gaussian distribution. 
         /// </summary>     
         /// 
+        [Obsolete("Please use Learn(x) instead.")]
         public int[] Compute(double[][] data)
         {
-            return Compute(data, weights: null);
+            return Learn(data).Decide(data);
         }
 
         /// <summary>
@@ -258,35 +240,53 @@ namespace Accord.MachineLearning
         ///   cluster as a multivariate Gaussian distribution. 
         /// </summary>     
         /// 
+        [Obsolete("Please use Learn(x) instead.")]
         public int[] Compute(double[][] data, double[] weights)
         {
+            return Learn(data, weights).Decide(data);
+        }
+
+        /// <summary>
+        /// Learns a model that can map the given inputs to the desired outputs.
+        /// </summary>
+        /// <param name="x">The model inputs.</param>
+        /// <param name="weights">The weight of importance for each input sample.</param>
+        /// <returns>A model that has learned how to produce suitable outputs
+        /// given the input data <paramref name="x" />.</returns>
+        public GaussianClusterCollection Learn(double[][] x, double[] weights = null)
+        {
             if (clusters.Model == null)
-                Initialize(data, weights);
+                Initialize(x, weights);
 
             // Create the mixture options
             var mixtureOptions = new MixtureOptions()
             {
                 Threshold = this.Tolerance,
                 InnerOptions = this.Options,
-                Iterations = this.Iterations,
+                MaxIterations = this.MaxIterations,
                 Logarithm = this.UseLogarithm,
+                ParallelOptions = ParallelOptions,
             };
 
             MultivariateMixture<MultivariateNormalDistribution> model = clusters.Model;
 
             // Fit a multivariate Gaussian distribution
-            model.Fit(data, weights, mixtureOptions);
+            model.Fit(x, weights, mixtureOptions);
+#pragma warning disable 612, 618
+            this.Iterations = mixtureOptions.Iterations;
+#pragma warning restore 612, 618
 
             for (int i = 0; i < clusters.Model.Components.Length; i++)
                 clusters.Centroids[i] = new MixtureComponent<MultivariateNormalDistribution>(model, i);
 
             if (ComputeLogLikelihood)
-                LogLikelihood = model.LogLikelihood(data);
+                LogLikelihood = model.LogLikelihood(x);
 
-            if (ComputeLabels)
-                return clusters.Nearest(data);
+            Accord.Diagnostics.Debug.Assert(clusters.NumberOfClasses == clusters.Model.Components.Length);
+            Accord.Diagnostics.Debug.Assert(clusters.NumberOfOutputs == clusters.Model.Components.Length);
+            Accord.Diagnostics.Debug.Assert(clusters.NumberOfInputs == x[0].Length);
 
-            return null;
+            return clusters;
         }
 
         /// <summary>
@@ -311,9 +311,7 @@ namespace Accord.MachineLearning
                 };
 
                 // Compute the K-Means
-                if (weights != null)
-                    kmeans[i].Compute(data, weights);
-                else kmeans[i].Compute(data);
+                kmeans[i].Learn(data, weights);
 
                 errors[i] = kmeans[i].Error;
             });
@@ -408,7 +406,7 @@ namespace Accord.MachineLearning
         ///   cluster as a multivariate Gaussian distribution. 
         /// </summary>     
         /// 
-        [Obsolete("Please set the properties of this class directly and use Compute(double[]) instead.")]
+        [Obsolete("Please set the properties of this class directly and use Learn(double[]) instead.")]
         public double Compute(double[][] data, GaussianMixtureModelOptions options)
         {
             this.Options = options.NormalOptions;
@@ -431,21 +429,29 @@ namespace Accord.MachineLearning
         public double Compute(double[][] data, double threshold)
         {
             this.Tolerance = threshold;
-            Compute(data);
+            Learn(data);
             return LogLikelihood;
         }
         #endregion
 
 
+#pragma warning disable 0618
         /// <summary>
         ///   Gets the collection of clusters currently modeled by the
         ///   clustering algorithm.
         /// </summary>
         /// 
+        [Obsolete("Please use Gaussians instead")]
         public IClusterCollection<double[]> Clusters
         {
-            get { return Gaussians; }
+            get { return (IClusterCollection<double[]>)Gaussians; }
         }
+
+        IClusterCollection<double[]> IUnsupervisedLearning<IClusterCollection<double[]>, double[], int>.Learn(double[][] x, double[] weights)
+        {
+            return Learn(x);
+        }
+#pragma warning restore 0618
     }
 
     /// <summary>
@@ -461,7 +467,7 @@ namespace Accord.MachineLearning
     /// 
     /// <seealso cref="GaussianMixtureModel"/>
     /// 
-    [Obsolete]
+    [Obsolete("This class will be removed.")]
     public class GaussianMixtureModelOptions
     {
 

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -20,36 +20,22 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-using Accord.Imaging;
-using NUnit.Framework;
-using System.Drawing;
-using AForge;
-using Accord.Math;
-using System.Collections.Generic;
-
 namespace Accord.Tests.Imaging
 {
+    using Accord.Imaging;
+    using NUnit.Framework;
+    using System.Drawing;
+    using AForge;
+    using Accord.Math;
+    using System.Collections.Generic;
+    using Accord.Tests.Imaging.Properties;
+#if NO_BITMAP
+    using Resources = Accord.Tests.Imaging.Properties.Resources_Standard;
+#endif
 
     [TestFixture]
     public class CorrelationMatchingTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
 
         [Test]
         public void MatchTest()
@@ -58,8 +44,8 @@ namespace Accord.Tests.Imaging
 #pragma warning disable 0618
             CorrelationMatching target = new CorrelationMatching(windowSize);
 #pragma warning restore 0618
-            Bitmap image1 = Accord.Imaging.Image.Clone(Properties.Resources.image1);
-            Bitmap image2 = Accord.Imaging.Image.Clone(Properties.Resources.image1);
+            Bitmap image1 = Accord.Imaging.Image.Clone(Resources.image1);
+            Bitmap image2 = Accord.Imaging.Image.Clone(Resources.image1);
 
             IntPoint[] points1 = 
             {
@@ -113,8 +99,8 @@ namespace Accord.Tests.Imaging
                 CorrelationMatching target = new CorrelationMatching(windowSize);
 #pragma warning restore 0618
 
-                Bitmap image1 = Accord.Imaging.Image.Clone(Properties.Resources.image1);
-                Bitmap image2 = Accord.Imaging.Image.Clone(Properties.Resources.image1);
+                Bitmap image1 = Accord.Imaging.Image.Clone(Resources.image1);
+                Bitmap image2 = Accord.Imaging.Image.Clone(Resources.image1);
 
                 Assert.AreEqual(16, image1.Height);
                 Assert.AreEqual(16, image2.Height);

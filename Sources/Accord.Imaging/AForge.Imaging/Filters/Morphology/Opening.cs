@@ -1,9 +1,30 @@
+// Accord Imaging Library
+// The Accord.NET Framework
+// http://accord-framework.net
+//
+// Copyright © César Souza, 2009-2017
+// cesarsouza at gmail.com
+//
 // AForge Image Processing Library
 // AForge.NET framework
 // http://www.aforgenet.com/framework/
 //
 // Copyright © AForge.NET, 2005-2010
 // contacts@aforgenet.com
+//
+//    This library is free software; you can redistribute it and/or
+//    modify it under the terms of the GNU Lesser General Public
+//    License as published by the Free Software Foundation; either
+//    version 2.1 of the License, or (at your option) any later version.
+//
+//    This library is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+//    Lesser General Public License for more details.
+//
+//    You should have received a copy of the GNU Lesser General Public
+//    License along with this library; if not, write to the Free Software
+//    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
 namespace Accord.Imaging.Filters
@@ -18,13 +39,13 @@ namespace Accord.Imaging.Filters
     /// </summary>
     /// 
     /// <remarks><para>Opening morphology operator equals to <see cref="Erosion">erosion</see> followed
-    /// by <see cref="Dilatation">dilatation</see>.</para>
+    /// by <see cref="Dilation">dilation</see>.</para>
     /// 
     /// <para>Applied to binary image, the filter may be used for removing small object keeping big objects
-    /// unchanged. Since erosion is used first, it removes all small objects. Then dilatation restores big
+    /// unchanged. Since erosion is used first, it removes all small objects. Then dilation restores big
     /// objects, which were not removed by erosion.</para>
     /// 
-    /// <para>See documentation to <see cref="Erosion"/> and <see cref="Dilatation"/> classes for more
+    /// <para>See documentation to <see cref="Erosion"/> and <see cref="Dilation"/> classes for more
     /// information and list of supported pixel formats.</para>
     /// 
     /// <para>Sample usage:</para>
@@ -42,13 +63,13 @@ namespace Accord.Imaging.Filters
     /// </remarks>
     ///
     /// <seealso cref="Erosion"/>
-    /// <seealso cref="Dilatation"/>
+    /// <seealso cref="Dilation"/>
     /// <seealso cref="Closing"/>
     /// 
     public class Opening : IFilter, IInPlaceFilter, IInPlacePartialFilter, IFilterInformation
     {
-        private Erosion     errosion = new Erosion( );
-        private Dilatation  dilatation = new Dilatation( );
+        private Erosion errosion = new Erosion();
+        private Dilation dilation = new Dilation();
 
         /// <summary>
         /// Format translations dictionary.
@@ -63,11 +84,11 @@ namespace Accord.Imaging.Filters
         /// </summary>
         /// 
         /// <remarks><para>Initializes new instance of the <see cref="Opening"/> class using
-        /// default structuring element for both <see cref="Erosion"/> and <see cref="Dilatation"/>
+        /// default structuring element for both <see cref="Erosion"/> and <see cref="Dilation"/>
         /// classes - 3x3 structuring element with all elements equal to 1.
         /// </para></remarks>
         /// 
-        public Opening( ) { }
+        public Opening() { }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Opening"/> class.
@@ -75,13 +96,13 @@ namespace Accord.Imaging.Filters
         /// 
         /// <param name="se">Structuring element.</param>
         /// 
-        /// <remarks><para>See documentation to <see cref="Erosion"/> and <see cref="Dilatation"/>
+        /// <remarks><para>See documentation to <see cref="Erosion"/> and <see cref="Dilation"/>
         /// classes for information about structuring element constraints.</para></remarks>
         /// 
-        public Opening( short[,] se )
+        public Opening(short[,] se)
         {
-            errosion   = new Erosion( se );
-            dilatation = new Dilatation( se );
+            errosion = new Erosion(se);
+            dilation = new Dilation(se);
         }
 
         /// <summary>
@@ -98,12 +119,12 @@ namespace Accord.Imaging.Filters
         /// 
         /// <exception cref="UnsupportedImageFormatException">Unsupported pixel format of the source image.</exception>
         ///
-        public Bitmap Apply( Bitmap image )
+        public Bitmap Apply(Bitmap image)
         {
-            Bitmap tempImage = errosion.Apply( image );
-            Bitmap destImage = dilatation.Apply( tempImage );
+            Bitmap tempImage = errosion.Apply(image);
+            Bitmap destImage = dilation.Apply(tempImage);
 
-            tempImage.Dispose( );
+            tempImage.Dispose();
 
             return destImage;
         }
@@ -121,12 +142,12 @@ namespace Accord.Imaging.Filters
         /// of image processing filter as new image. The source image data are kept
         /// unchanged.</remarks>
         /// 
-        public Bitmap Apply( BitmapData imageData )
+        public Bitmap Apply(BitmapData imageData)
         {
-            Bitmap tempImage = errosion.Apply( imageData );
-            Bitmap destImage = dilatation.Apply( tempImage );
+            Bitmap tempImage = errosion.Apply(imageData);
+            Bitmap destImage = dilation.Apply(tempImage);
 
-            tempImage.Dispose( );
+            tempImage.Dispose();
 
             return destImage;
         }
@@ -145,10 +166,10 @@ namespace Accord.Imaging.Filters
         /// 
         /// <exception cref="UnsupportedImageFormatException">Unsupported pixel format of the source image.</exception>
         ///
-        public UnmanagedImage Apply( UnmanagedImage image )
+        public UnmanagedImage Apply(UnmanagedImage image)
         {
-            UnmanagedImage destImage = errosion.Apply( image );
-            dilatation.ApplyInPlace( destImage );
+            UnmanagedImage destImage = errosion.Apply(image);
+            dilation.ApplyInPlace(destImage);
 
             return destImage;
         }
@@ -172,10 +193,10 @@ namespace Accord.Imaging.Filters
         /// <exception cref="InvalidImagePropertiesException">Incorrect destination pixel format.</exception>
         /// <exception cref="InvalidImagePropertiesException">Destination image has wrong width and/or height.</exception>
         ///
-        public void Apply( UnmanagedImage sourceImage, UnmanagedImage destinationImage )
+        public void Apply(UnmanagedImage sourceImage, UnmanagedImage destinationImage)
         {
-            errosion.Apply( sourceImage, destinationImage );
-            dilatation.ApplyInPlace( destinationImage );
+            errosion.Apply(sourceImage, destinationImage);
+            dilation.ApplyInPlace(destinationImage);
         }
 
         /// <summary>
@@ -188,10 +209,10 @@ namespace Accord.Imaging.Filters
         /// 
         /// <exception cref="UnsupportedImageFormatException">Unsupported pixel format of the source image.</exception>
         ///  
-        public void ApplyInPlace( Bitmap image )
+        public void ApplyInPlace(Bitmap image)
         {
-            errosion.ApplyInPlace( image );
-            dilatation.ApplyInPlace( image );
+            errosion.ApplyInPlace(image);
+            dilation.ApplyInPlace(image);
         }
 
         /// <summary>
@@ -204,10 +225,10 @@ namespace Accord.Imaging.Filters
         /// 
         /// <exception cref="UnsupportedImageFormatException">Unsupported pixel format of the source image.</exception>
         ///
-        public void ApplyInPlace( BitmapData imageData )
+        public void ApplyInPlace(BitmapData imageData)
         {
-            errosion.ApplyInPlace( imageData );
-            dilatation.ApplyInPlace( imageData );
+            errosion.ApplyInPlace(imageData);
+            dilation.ApplyInPlace(imageData);
         }
 
         /// <summary>
@@ -220,10 +241,10 @@ namespace Accord.Imaging.Filters
         /// 
         /// <exception cref="UnsupportedImageFormatException">Unsupported pixel format of the source image.</exception>
         ///
-        public void ApplyInPlace( UnmanagedImage image )
+        public void ApplyInPlace(UnmanagedImage image)
         {
-            errosion.ApplyInPlace( image );
-            dilatation.ApplyInPlace( image );
+            errosion.ApplyInPlace(image);
+            dilation.ApplyInPlace(image);
         }
 
         /// <summary>
@@ -237,10 +258,10 @@ namespace Accord.Imaging.Filters
         /// 
         /// <exception cref="UnsupportedImageFormatException">Unsupported pixel format of the source image.</exception>
         ///  
-        public void ApplyInPlace( Bitmap image, Rectangle rect )
+        public void ApplyInPlace(Bitmap image, Rectangle rect)
         {
-            errosion.ApplyInPlace( image, rect );
-            dilatation.ApplyInPlace( image, rect );
+            errosion.ApplyInPlace(image, rect);
+            dilation.ApplyInPlace(image, rect);
         }
 
         /// <summary>
@@ -254,10 +275,10 @@ namespace Accord.Imaging.Filters
         /// 
         /// <exception cref="UnsupportedImageFormatException">Unsupported pixel format of the source image.</exception>
         ///
-        public void ApplyInPlace( BitmapData imageData, Rectangle rect )
+        public void ApplyInPlace(BitmapData imageData, Rectangle rect)
         {
-            errosion.ApplyInPlace( imageData, rect );
-            dilatation.ApplyInPlace( imageData, rect );
+            errosion.ApplyInPlace(imageData, rect);
+            dilation.ApplyInPlace(imageData, rect);
         }
 
         /// <summary>
@@ -271,10 +292,10 @@ namespace Accord.Imaging.Filters
         /// 
         /// <exception cref="UnsupportedImageFormatException">Unsupported pixel format of the source image.</exception>
         /// 
-        public void ApplyInPlace( UnmanagedImage image, Rectangle rect )
+        public void ApplyInPlace(UnmanagedImage image, Rectangle rect)
         {
-            errosion.ApplyInPlace( image, rect );
-            dilatation.ApplyInPlace( image, rect );
+            errosion.ApplyInPlace(image, rect);
+            dilation.ApplyInPlace(image, rect);
         }
     }
 }

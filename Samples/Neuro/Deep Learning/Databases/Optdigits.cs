@@ -91,7 +91,7 @@ namespace SampleApp.Databases
                 double[][] training;
                 Training.GetInstances(out training);
 
-                mean = training.Mean();
+                mean = training.Mean(dimension: 0);
                 dev = training.StandardDeviation();
 
                 double[][] testing;

@@ -9,11 +9,12 @@
 namespace Accord.Video.DirectShow.Internals
 {
     using System;
+    using System.Drawing.Imaging;
     using System.Runtime.InteropServices;
 
-	/// <summary>
-	/// DirectShow class IDs.
-	/// </summary>
+    /// <summary>
+    /// DirectShow class IDs.
+    /// </summary>
     [ComVisible( false )]
     static internal class Clsid
     {
@@ -256,6 +257,24 @@ namespace Accord.Video.DirectShow.Internals
         /// 
         public static readonly Guid Asf =
             new Guid( 0x3DB80F90, 0x9412, 0x11D1, 0xAD, 0xED, 0x00, 0x00, 0xF8, 0x75, 0x4B, 0x99 );
+
+        /// <summary>
+        /// Convert to MediaSubType from System.Drawing.Imaging.PixelFormat
+        /// </summary>
+        /// <param name="pixelFormat"></param>
+        /// <returns>MediaSubType value</returns>
+        public static Guid ConvertFrom(PixelFormat pixelFormat)
+        {
+            switch (pixelFormat)
+            {
+                case PixelFormat.Format24bppRgb:
+                    return MediaSubType.RGB24;
+                case PixelFormat.Format32bppRgb:
+                    return MediaSubType.RGB32;
+                default:
+                    return MediaSubType.RGB24;
+            }
+        }
     }
 
     /// <summary>

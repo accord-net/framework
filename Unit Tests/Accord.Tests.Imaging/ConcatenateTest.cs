@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -20,18 +20,16 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-using Accord.Imaging.Filters;
-using NUnit.Framework;
-using System.Drawing;
-
 namespace Accord.Tests.Imaging
 {
+    using Accord.Imaging.Filters;
+    using Accord.Tests.Imaging.Properties;
+    using NUnit.Framework;
+    using System.Drawing;
+#if NO_BITMAP
+    using Resources = Accord.Tests.Imaging.Properties.Resources_Standard;
+#endif
 
-
-    /// <summary>
-    ///This is a test class for ConcatenateTest and is intended
-    ///to contain all ConcatenateTest Unit Tests
-    ///</summary>
     [TestFixture]
     public class ConcatenateTest
     {
@@ -40,8 +38,8 @@ namespace Accord.Tests.Imaging
         [Test]
         public void ConcatenateConstructorTest()
         {
-            Bitmap img1 = Accord.Imaging.Image.Clone(Properties.Resources.image1);
-            Bitmap img2 = Accord.Imaging.Image.Clone(Properties.Resources.image2);
+            Bitmap img1 = Accord.Imaging.Image.Clone(Resources.image1);
+            Bitmap img2 = Accord.Imaging.Image.Clone(Resources.image2);
 
             Concatenate target = new Concatenate(img1);
             var img3 = target.Apply(img2);

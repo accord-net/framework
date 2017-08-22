@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -24,6 +24,7 @@ namespace Accord.Statistics.Models.Markov.Topology
 {
     using System;
     using Accord.Math;
+    using Accord.Compat;
 
     /// <summary>
     ///   Forward Topology for Hidden Markov Models.
@@ -95,6 +96,11 @@ namespace Accord.Statistics.Models.Markov.Topology
         public int States
         {
             get { return states; }
+            set
+            {
+                states = value;
+                pi = Vector.Create(pi);
+            }
         }
 
         /// <summary>
@@ -216,10 +222,12 @@ namespace Accord.Statistics.Models.Markov.Topology
 
             if (random)
             {
+                var rand = Accord.Math.Random.Generator.Random;
+
                 // Create pi
                 double sum = 0;
                 for (int i = 0; i < states; i++)
-                    sum += pi[i] = Accord.Math.Random.Generator.Random.NextDouble();
+                    sum += pi[i] = rand.NextDouble();
 
                 for (int i = 0; i < states; i++)
                     pi[i] /= sum;
@@ -230,7 +238,7 @@ namespace Accord.Statistics.Models.Markov.Topology
                 {
                     sum = 0.0;
                     for (int j = i; j < m; j++)
-                        sum += A[i, j] = Accord.Math.Random.Generator.Random.NextDouble();
+                        sum += A[i, j] = rand.NextDouble();
 
                     for (int j = i; j < m; j++)
                         A[i, j] /= sum;

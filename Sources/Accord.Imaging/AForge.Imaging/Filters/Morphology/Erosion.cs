@@ -45,7 +45,7 @@ namespace Accord.Imaging.Filters
     /// <img src="img/imaging/erosion.png" width="320" height="240" />
     /// </remarks>
     /// 
-    /// <seealso cref="Dilatation"/>
+    /// <seealso cref="Dilation"/>
     /// <seealso cref="Closing"/>
     /// <seealso cref="Opening"/>
     /// <seealso cref="Erosion3x3"/>

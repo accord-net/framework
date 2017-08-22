@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>Accord.Tests.Video</RootNamespace>
+    <AssemblyName>Accord.Tests.Video</AssemblyName>
+    <TargetFrameworks>netcoreapp2.0</TargetFrameworks>
+  </PropertyGroup>
+
+  <Import Project="$(SolutionDir)../Unit Tests/Accord.Tests (NETStandard).targets" />
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Sources\Accord.Video.DirectShow\Accord.Video.DirectShow (NETStandard).csproj" />
+    <ProjectReference Include="..\..\Sources\Accord.Video\Accord.Video (NETStandard).csproj" />
+    <ProjectReference Include="..\..\Sources\Accord.Math.Core\Accord.Math.Core (NETStandard).csproj" />
+    <ProjectReference Include="..\..\Sources\Accord.Math\Accord.Math (NETStandard).csproj" />
+    <ProjectReference Include="..\..\Sources\Accord.Vision\Accord.Vision (NETStandard).csproj" />
+  </ItemGroup>
+
+</Project>

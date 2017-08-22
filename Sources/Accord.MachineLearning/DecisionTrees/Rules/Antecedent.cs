@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -89,6 +89,9 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
         public bool Match(double[] input)
         {
             double x = input[Index];
+
+            if (Double.IsNaN(x))
+                return true;
 
             switch (Comparison)
             {

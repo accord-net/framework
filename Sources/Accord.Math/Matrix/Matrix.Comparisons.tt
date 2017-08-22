@@ -7,7 +7,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -37,7 +37,7 @@ namespace Accord.Math
     using Accord.Math;
     using System.Runtime.CompilerServices;
 
-    // [GeneratedCode("Accord.NET T4 Templates", "3.1")]
+    // [GeneratedCode("Accord.NET T4 Templates", "3.6")]
     public static partial class Matrix
     {
 <# 
@@ -204,6 +204,18 @@ namespace Accord.Math
             sb.AppendLine("    if (a == null ^ b == null)");
             sb.AppendLine("        return false;");
         }
+
+		if (!String.IsNullOrEmpty(A) && !String.IsNullOrEmpty(B))
+		{
+			sb.AppendLine("    int[] la = a.GetLength(true);");
+			sb.AppendLine("    int[] lb = b.GetLength(true);");
+			sb.AppendLine("    if (la.Length != lb.Length)");
+			sb.AppendLine("        return false;");
+			sb.AppendLine("    for (int i = 0; i < la.Length; i++)");
+			sb.AppendLine("        if (la[i] != lb[i])");
+			sb.AppendLine("            return false;");
+		}
+
         return sb.ToString();
     };
 
@@ -238,7 +250,7 @@ namespace Accord.Math
         ///   Determines whether two vectors contain the same values.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static bool IsEqual(this <#=a#>[] a, <#=b#>[] b, <#=ta#> atol = 0, <#=tr#> rtol = 0)
@@ -267,7 +279,7 @@ namespace Accord.Math
         ///   Determines whether two matrices contain the same values.
         /// </summary>
         ///
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static bool IsEqual(this <#=a#>[,] a, <#=b#>[,] b, <#=ta#> atol = 0, <#=tr#> rtol = 0)
@@ -303,7 +315,7 @@ namespace Accord.Math
         ///   Determines whether two matrices contain the same values.
         /// </summary>
         ///
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static bool IsEqual(this <#=a#>[,] a, <#=b#>[][] b, <#=ta#> atol = 0, <#=tr#> rtol = 0)
@@ -335,7 +347,7 @@ namespace Accord.Math
         ///   Determines whether two matrices contain the same values.
         /// </summary>
         ///
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static bool IsEqual(this <#=a#>[][] a, <#=b#>[,] b, <#=ta#> atol = 0, <#=tr#> rtol = 0)
@@ -367,7 +379,7 @@ namespace Accord.Math
         ///   Determines whether two matrices contain the same values.
         /// </summary>
         ///
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static bool IsEqual(this <#=a#>[][] a, <#=b#>[][] b, <#=ta#> atol = 0, <#=tr#> rtol = 0)
@@ -408,7 +420,7 @@ namespace Accord.Math
         ///   Determines whether two vectors contain the same values.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static bool IsEqual(this <#=a#>[] a, <#=b#> b, <#=ta#> atol = 0, <#=tr#> rtol = 0)
@@ -437,7 +449,7 @@ namespace Accord.Math
         ///   Determines whether two matrices contain the same values.
         /// </summary>
         ///
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static bool IsEqual(this <#=a#>[,] a, <#=b#> b, <#=ta#> atol = 0, <#=tr#> rtol = 0)
@@ -472,7 +484,7 @@ namespace Accord.Math
         ///   Determines whether two matrices contain the same values.
         /// </summary>
         ///
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static bool IsEqual(this <#=a#>[][] a, <#=b#> b, <#=ta#> atol = 0, <#=tr#> rtol = 0)
@@ -523,7 +535,7 @@ namespace Accord.Math
         ///   Determines whether two vectors contain the same values.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static bool IsEqual(this <#=a#> a, <#=b#>[] b, <#=ta#> atol = 0, <#=tr#> rtol = 0)
@@ -535,7 +547,7 @@ namespace Accord.Math
         ///   Determines whether two matrices contain the same values.
         /// </summary>
         ///
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static bool IsEqual(this <#=a#> a, <#=b#>[,] b, <#=ta#> atol = 0, <#=tr#> rtol = 0)
@@ -547,7 +559,7 @@ namespace Accord.Math
         ///   Determines whether two matrices contain the same values.
         /// </summary>
         ///
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static bool IsEqual(this <#=a#> a, <#=b#>[][] b, <#=ta#> atol = 0, <#=tr#> rtol = 0)
@@ -566,7 +578,7 @@ namespace Accord.Math
         ///   Determines whether two vectors contain the same values.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static bool IsEqual(this <#=a#> a, <#=b#> b, <#=ta#> atol = 0, <#=tr#> rtol = 0)

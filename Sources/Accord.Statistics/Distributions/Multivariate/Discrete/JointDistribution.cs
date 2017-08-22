@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -24,6 +24,9 @@ namespace Accord.Statistics.Distributions.Multivariate
 {
     using System;
     using Accord.Statistics.Distributions.Fitting;
+    using Accord.Math;
+    using System.Linq;
+    using Accord.Compat;
 
     /// <summary>
     ///   Joint distribution of multiple discrete univariate distributions.
@@ -98,14 +101,22 @@ namespace Accord.Statistics.Distributions.Multivariate
     /// <see cref="Independent{TDistribution}"/>
     /// 
     [Serializable]
-    public class JointDistribution : MultivariateDiscreteDistribution
+    public class JointDistribution : MultivariateDiscreteDistribution,
+        IFittableDistribution<int[], GeneralDiscreteOptions>,
+        IFittableDistribution<double[]>
     {
 
         // distribution parameters
         private double[] probabilities;
 
+        private int[] start;
         private int[] symbols;
         private int[] positions;
+
+
+        // distribution measures
+        double[] mean;
+
 
         /// <summary>
         ///   Gets the frequency of observation of each discrete variable.
@@ -117,12 +128,60 @@ namespace Accord.Statistics.Distributions.Multivariate
         }
 
         /// <summary>
+        ///   Gets the integer value where the
+        ///   discrete distribution starts.
+        /// </summary>
+        /// 
+        public int[] Minimum
+        {
+            get { return start; }
+        }
+
+        /// <summary>
+        ///   Gets the integer value where the
+        ///   discrete distribution ends.
+        /// </summary>
+        /// 
+        public int[] Maximum
+        {
+            get { return start.Add(symbols); }
+        }
+
+        /// <summary>
+        ///   Gets the number of symbols in the distribution.
+        /// </summary>
+        /// 
+        public int[] Lengths
+        {
+            get { return symbols; }
+        }
+
+        /// <summary>
         ///   Gets the number of symbols for each discrete variable.
         /// </summary>
         /// 
+        [Obsolete("Please use Lengths instead.")]
         public int[] Symbols
         {
             get { return symbols; }
+        }
+
+        /// <summary>
+        /// Gets the support interval for this distribution.
+        /// </summary>
+        /// 
+        /// <value>A <see cref="IntRange" /> containing
+        ///   the support interval for this distribution.</value>
+        /// 
+        public override IntRange[] Support
+        {
+            get
+            {
+                var range = new IntRange[Dimension];
+                for (int i = 0; i < range.Length; i++)
+                    range[i] = new IntRange(Minimum[i], Maximum[i]);
+                return range;
+            }
         }
 
         /// <summary>
@@ -132,7 +191,49 @@ namespace Accord.Statistics.Distributions.Multivariate
         public JointDistribution(int[] symbols)
             : base(symbols.Length)
         {
+            init(new int[symbols.Length], symbols);
+        }
+
+        /// <summary>
+        ///   Constructs a new joint discrete distribution.
+        /// </summary>
+        ///   
+        public JointDistribution(int[] starts, int[] symbols)
+            : base(symbols.Length)
+        {
+            init(starts, symbols);
+        }
+
+        /// <summary>
+        ///   Constructs a new joint discrete distribution.
+        /// </summary>
+        ///   
+        public JointDistribution(int[] starts, Array probabilities)
+            : base(starts.Length)
+        {
+            init(starts, probabilities);
+        }
+
+        /// <summary>
+        ///   Constructs a new joint discrete distribution.
+        /// </summary>
+        ///   
+        public JointDistribution(Array probabilities)
+            : base(probabilities.Rank)
+        {
+            init(new int[probabilities.Rank], probabilities);
+        }
+
+
+        private void init(int[] starts, int[] symbols)
+        {
             this.symbols = symbols;
+            this.start = starts;
+            this.positions = new int[symbols.Length];
+
+            positions[positions.Length - 1] = 1;
+            for (int i = positions.Length - 2; i >= 0; i--)
+                positions[i] = positions[i + 1] * symbols[i + 1];
 
             int total = 1;
             for (int i = 0; i < symbols.Length; i++)
@@ -141,13 +242,97 @@ namespace Accord.Statistics.Distributions.Multivariate
             this.probabilities = new double[total];
             for (int i = 0; i < probabilities.Length; i++)
                 probabilities[i] = 1.0 / total;
+        }
 
+        private void init(int[] starts, Array array)
+        {
+            this.symbols = array.GetLength();
+            this.start = starts;
             this.positions = new int[symbols.Length];
+            this.probabilities = new double[array.Length];
+
             positions[positions.Length - 1] = 1;
             for (int i = positions.Length - 2; i >= 0; i--)
                 positions[i] = positions[i + 1] * symbols[i + 1];
+
+            foreach (var idx in array.GetIndices(true))
+            {
+                int index = 0;
+                for (int j = 0; j < idx.Length; j++)
+                    index += idx[j] * positions[j];
+                probabilities[index] = (double)System.Convert.ChangeType(array.GetValue(true, idx), typeof(double));
+            }
         }
 
+        /// <summary>
+        ///   Constructs a new joint discrete distribution.
+        /// </summary>
+        ///   
+        private JointDistribution(int dimension)
+            : base(dimension)
+        {
+        }
+
+        /// <summary>
+        ///   Gets or sets the probability value attached to the given index.
+        /// </summary>
+        /// 
+        public double this[int[] indices]
+        {
+            get
+            {
+                int index = ravel(indices);
+                return probabilities[index];
+            }
+            set
+            {
+                int index = ravel(indices);
+                probabilities[index] = value;
+            }
+        }
+
+        private int ravel(int[] indices)
+        {
+            int index = 0;
+            for (int j = 0; j < indices.Length; j++)
+                index += (indices[j] - start[j]) * positions[j];
+            return index;
+        }
+
+
+        private int ravel(double[] indices)
+        {
+            int index = 0;
+            for (int j = 0; j < indices.Length; j++)
+                index += ((int)indices[j] - start[j]) * positions[j];
+            return index;
+        }
+
+        /// <summary>
+        ///   Constructs a new multidimensional uniform discrete distribution.
+        /// </summary>
+        /// 
+        /// <param name="dimensions">The number of dimensions in the joint distribution.</param>
+        /// 
+        /// <param name="a">
+        ///   The integer value where the distribution starts, also
+        ///   known as <c>a</c>. Default value is 0.</param>
+        /// <param name="b">
+        ///   The integer value where the distribution ends, also 
+        ///   known as <c>b</c>.</param>
+        ///   
+        public static JointDistribution Uniform(int dimensions, int a, int b)
+        {
+            if (a > b)
+            {
+                throw new ArgumentOutOfRangeException("b",
+                    "The starting number a must be lower than b.");
+            }
+
+            return new JointDistribution(
+                Vector.Create<int>(dimensions, a),
+                Vector.Create<int>(dimensions, b - a + 1));
+        }
 
 
 
@@ -165,12 +350,11 @@ namespace Accord.Statistics.Distributions.Multivariate
         ///   The probability of <c>x</c> occurring
         ///   in the current distribution.</returns>
         ///   
-        public override double ProbabilityMassFunction(int[] x)
+        protected internal override double InnerProbabilityMassFunction(int[] x)
         {
-            int index = 0;
-            for (int i = 0; i < x.Length; i++)
-                index += x[i] * positions[i];
-
+            int index = ravel(x);
+            if (index < 0 || index >= probabilities.Length)
+                return 0;
             return probabilities[index];
         }
 
@@ -188,84 +372,13 @@ namespace Accord.Statistics.Distributions.Multivariate
         ///   probability that a given value <c>x</c> will occur.
         /// </remarks>
         /// 
-        public override double LogProbabilityMassFunction(int[] x)
+        protected internal override double InnerLogProbabilityMassFunction(int[] x)
         {
-            int index = 0;
-            for (int i = 0; i < x.Length; i++)
-                index += x[i] * positions[i];
-
+            int index = ravel(x);
+            if (index < 0 || index >= probabilities.Length)
+                return Math.Log(0);
             return Math.Log(probabilities[index]);
         }
-
-        /// <summary>
-        ///   Fits the underlying distribution to a given set of observations.
-        /// </summary>
-        /// 
-        /// <param name="observations">The array of observations to fit the model against. The array
-        ///   elements can be either of type double (for univariate data) or
-        ///   type double[] (for multivariate data).</param>
-        /// <param name="weights">The weight vector containing the weight for each of the samples.</param>
-        /// <param name="options">Optional arguments which may be used during fitting, such
-        ///   as regularization constants and additional parameters.</param>
-        ///   
-        public override void Fit(double[][] observations, double[] weights, IFittingOptions options)
-        {
-            if (options != null)
-                throw new ArgumentException("This method does not accept fitting options.");
-
-
-            for (int i = 0; i < probabilities.Length; i++)
-                probabilities[i] = 0;
-
-            if (weights != null)
-            {
-                if (observations.Length != weights.Length)
-                {
-                    throw new DimensionMismatchException("weights",
-                        "The weight vector should have the same size as the observations");
-                }
-
-                for (int i = 0; i < observations.Length; i++)
-                {
-                    double[] x = observations[i];
-
-                    int index = 0;
-                    for (int j = 0; j < x.Length; j++)
-                        index += (int)x[j] * positions[j];
-
-                    probabilities[index] += weights[i];
-                }
-            }
-            else
-            {
-                for (int i = 0; i < observations.Length; i++)
-                {
-                    double[] x = observations[i];
-
-                    int index = 0;
-                    for (int j = 0; j < x.Length; j++)
-                        index += (int)x[j] * positions[j];
-
-                    probabilities[index]++;
-                }
-            }
-
-            double sum = 0;
-            for (int i = 0; i < probabilities.Length; i++)
-                sum += probabilities[i];
-
-            if (sum != 0 && sum != 1)
-            {
-                // TODO: add the following in a JointOption class:
-                // avoid locking a parameter in zero.
-                // if (num == 0) num = 1e-10;
-
-                // assert that probabilities sum up to 1.
-                for (int i = 0; i < probabilities.Length; i++)
-                    probabilities[i] /= sum;
-            }
-        }
-
 
 
         /// <summary>
@@ -279,7 +392,21 @@ namespace Accord.Statistics.Distributions.Multivariate
         /// 
         public override double[] Mean
         {
-            get { throw new NotSupportedException(); }
+            get
+            {
+                if (mean == null)
+                {
+                    mean = start.ToDouble();
+
+                    foreach (int[] idx in Combinatorics.Sequences(symbols))
+                    {
+                        double p = this[idx.Add(start)];
+                        for (int i = 0; i < idx.Length; i++)
+                            mean[i] += idx[i] * p;
+                    }
+                }
+                return mean;
+            }
         }
 
         /// <summary>
@@ -322,14 +449,155 @@ namespace Accord.Statistics.Distributions.Multivariate
         ///   probability that a given value or any value smaller than it will occur.
         /// </remarks>
         /// 
-        public override double DistributionFunction(int[] x)
+        protected internal override double InnerDistributionFunction(int[] x)
         {
-            throw new NotSupportedException();
+            int[] value = x.Subtract(start);
+
+            double sum = 0.0;
+
+            foreach (int[] idx in Combinatorics.Sequences(symbols))
+            {
+                if (lessThanOrEqual(value, idx))
+                    sum += this[idx];
+            }
+
+            return sum;
         }
 
-        private JointDistribution(int dimension)
-            : base(dimension)
+        private static bool lessThanOrEqual(int[] x, int[] idx)
         {
+            for (int i = 0; i < x.Length; i++)
+            {
+                if (idx[i] > x[i])
+                    return false;
+            }
+
+            return true;
+        }
+
+
+
+
+        /// <summary>
+        ///   Fits the underlying distribution to a given set of observations.
+        /// </summary>
+        /// 
+        /// <param name="observations">The array of observations to fit the model against. The array
+        ///   elements can be either of type double (for univariate data) or
+        ///   type double[] (for multivariate data).</param>
+        /// <param name="weights">The weight vector containing the weight for each of the samples.</param>
+        /// <param name="options">Optional arguments which may be used during fitting, such
+        ///   as regularization constants and additional parameters.</param>
+        ///   
+        public override void Fit(double[][] observations, double[] weights, IFittingOptions options)
+        {
+            if (options != null)
+                throw new ArgumentException("This method does not accept fitting options.");
+
+            for (int i = 0; i < probabilities.Length; i++)
+                probabilities[i] = 0;
+
+            if (weights != null)
+            {
+                if (observations.Length != weights.Length)
+                {
+                    throw new DimensionMismatchException("weights",
+                        "The weight vector should have the same size as the observations");
+                }
+
+                for (int i = 0; i < observations.Length; i++)
+                    probabilities[ravel(observations[i])] += weights[i];
+            }
+            else
+            {
+                for (int i = 0; i < observations.Length; i++)
+                    probabilities[ravel(observations[i])]++;
+            }
+
+            double sum = 0;
+            for (int i = 0; i < probabilities.Length; i++)
+                sum += probabilities[i];
+
+            if (sum != 0 && sum != 1)
+            {
+                // TODO: add the following in a JointOption class:
+                // avoid locking a parameter in zero.
+                // if (num == 0) num = 1e-10;
+
+                // assert that probabilities sum up to 1.
+                for (int i = 0; i < probabilities.Length; i++)
+                    probabilities[i] /= sum;
+            }
+        }
+
+        /// <summary>
+        /// Fits the underlying distribution to a given set of observations.
+        /// </summary>
+        /// <param name="observations">The array of observations to fit the model against. The array
+        /// elements can be either of type double (for univariate data) or
+        /// type double[] (for multivariate data).</param>
+        public void Fit(int[][] observations)
+        {
+            Fit(observations, null, null);
+        }
+
+        /// <summary>
+        /// Fits the underlying distribution to a given set of observations.
+        /// </summary>
+        /// <param name="observations">The array of observations to fit the model against. The array
+        /// elements can be either of type double (for univariate data) or
+        /// type double[] (for multivariate data).</param>
+        /// <param name="weights"></param>
+        public void Fit(int[][] observations, double[] weights)
+        {
+            Fit(observations, weights, null);
+        }
+
+        /// <summary>
+        /// Fits the underlying distribution to a given set of observations.
+        /// </summary>
+        /// <param name="observations">The array of observations to fit the model against. The array
+        /// elements can be either of type double (for univariate data) or
+        /// type double[] (for multivariate data).</param>
+        /// <param name="weights">The weight vector containing the weight for each of the samples.</param>
+        /// <param name="options">Optional arguments which may be used during fitting, such
+        /// as regularization constants and additional parameters.</param>
+        /// <exception cref="System.ArgumentException">This method does not accept fitting options.</exception>
+        /// <exception cref="DimensionMismatchException">weights;The weight vector should have the same size as the observations</exception>
+        public void Fit(int[][] observations, double[] weights, GeneralDiscreteOptions options)
+        {
+            if (options != null)
+                throw new ArgumentException("This method does not accept fitting options.");
+
+            for (int i = 0; i < probabilities.Length; i++)
+                probabilities[i] = 0;
+
+            if (weights != null)
+            {
+                if (observations.Length != weights.Length)
+                {
+                    throw new DimensionMismatchException("weights",
+                        "The weight vector should have the same size as the observations");
+                }
+
+                for (int i = 0; i < observations.Length; i++)
+                    probabilities[ravel(observations[i])] += weights[i];
+            }
+            else
+            {
+                for (int i = 0; i < observations.Length; i++)
+                    probabilities[ravel(observations[i])]++;
+            }
+
+            double sum = 0;
+            for (int i = 0; i < probabilities.Length; i++)
+                sum += probabilities[i];
+
+            if (sum != 0 && sum != 1)
+            {
+                for (int i = 0; i < probabilities.Length; i++)
+                    probabilities[i] /= sum;
+            }
         }
 
         /// <summary>
@@ -341,10 +609,10 @@ namespace Accord.Statistics.Distributions.Multivariate
         public override object Clone()
         {
             JointDistribution d = new JointDistribution(base.Dimension);
-            d.positions = (int[])this.positions.Clone();
-            d.probabilities = (double[])this.probabilities.Clone();
-            d.symbols = (int[])this.symbols.Clone();
-
+            d.positions = this.positions.Copy();
+            d.probabilities = this.probabilities.Copy();
+            d.symbols = this.symbols.Copy();
+            d.start = this.start.Copy();
             return d;
         }
 
@@ -359,6 +627,22 @@ namespace Accord.Statistics.Distributions.Multivariate
         public override string ToString(string format, IFormatProvider formatProvider)
         {
             return String.Format(formatProvider, "Joint(X)");
+        }
+
+
+        /// <summary>
+        ///   Estimates a new <see cref="JointDistribution"/> from a given set of observations.
+        /// </summary>
+        /// 
+        /// <example>
+        ///   Please see <see cref="JointDistribution"/>.
+        /// </example>
+        /// 
+        public static JointDistribution Estimate(int[][] values)
+        {
+            var joint = new JointDistribution(values.DistinctCount());
+            joint.Fit(values);
+            return joint;
         }
     }
 }

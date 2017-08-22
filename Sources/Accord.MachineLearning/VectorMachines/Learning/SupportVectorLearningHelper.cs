@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -22,6 +22,7 @@
 
 namespace Accord.MachineLearning.VectorMachines.Learning
 {
+    using Accord.Math;
     using Accord.Statistics.Kernels;
     using System;
     using System.Collections;
@@ -33,7 +34,9 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         public static TModel Create<TModel, TInput, TKernel>(int inputs, TKernel kernel)
             where TModel : class, ISupportVectorMachine<TInput>
             where TKernel : IKernel<TInput>
+#if !NETSTANDARD1_4
             where TInput : ICloneable
+#endif
         {
             TModel result = null;
             var type = typeof(TModel);
@@ -43,10 +46,12 @@ namespace Accord.MachineLearning.VectorMachines.Learning
                 result = new SupportVectorMachine<IKernel>(inputs, kernel as IKernel) as TModel;
             if (type == typeof(SupportVectorMachine<IKernel<double[]>>))
                 result = new SupportVectorMachine<IKernel<double[]>>(inputs, kernel as IKernel<double[]>) as TModel;
+#if !NETSTANDARD1_4
 #pragma warning disable 0618
             else if (type == typeof(KernelSupportVectorMachine))
                 result = new KernelSupportVectorMachine(kernel as IKernel, inputs) as TModel;
 #pragma warning restore 0618
+#endif
             else if (type == typeof(SupportVectorMachine<TKernel, TInput>))
                 result = new SupportVectorMachine<TKernel, TInput>(inputs, kernel) as TModel;
             if (result == null)
@@ -61,12 +66,6 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             where TKernel : IKernel<double[]>
         {
             TModel result = Create<TModel, double[], TKernel>(inputs, kernel);
-            var type = typeof(TModel);
-
-            if (result == null)
-            {
-
-            }
 
             if (result == null)
                 throw new NotSupportedException("If you are implementing your own support vector machine type, please override the Create method in your learning algorithm to instruct the framework how to instantiate a type of your new class.");
@@ -74,116 +73,21 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             return result;
         }
 
-        public static int GetNumberOfInputs<TInput>(TInput[] x)
+        public static int GetNumberOfInputs<TKernel, TInput>(TKernel kernel, TInput[] x)
         {
-            int numberOfInputs = 0;
-            if (x[0] is IList)
-                numberOfInputs = (x[0] as IList).Count;
-            return numberOfInputs;
-        }
+            if (x.Length == 0)
+                throw new ArgumentException("Impossible to determine number of inputs because there are no training samples in this set.");
 
-        public static void CheckArgs<TInput>(ISupportVectorMachine<TInput> machine,
-            TInput[] inputs, int[] outputs)
-        {
-            // Initial argument checking
-            if (machine == null)
-                throw new ArgumentNullException("machine");
+            var linear = kernel as ILinear<TInput>;
+            if (linear != null)
+                return linear.GetLength(x);
 
-            if (inputs == null)
-                throw new ArgumentNullException("inputs");
-
-            if (outputs == null)
-                throw new ArgumentNullException("outputs");
-
-            if (inputs.Length != outputs.Length)
-                throw new DimensionMismatchException("outputs",
-                    "The number of input vectors and output labels does not match.");
-
-            checkInputs(machine, inputs);
-
-            for (int i = 0; i < outputs.Length; i++)
-            {
-                if (outputs[i] != 1 && outputs[i] != -1)
-                {
-                    throw new ArgumentOutOfRangeException("outputs",
-                        "The output label at index " + i + " should be either +1 or -1.");
-                }
-            }
-        }
-
-        public static void CheckArgs<TInput>(ISupportVectorMachine<TInput> machine, TInput[] inputs, double[] outputs)
-        {
-            // Initial argument checking
-            if (machine == null)
-                throw new ArgumentNullException("machine");
-
-            if (inputs == null)
-                throw new ArgumentNullException("inputs");
-
-            if (outputs == null)
-                throw new ArgumentNullException("outputs");
-
-            if (inputs.Length != outputs.Length)
-                throw new DimensionMismatchException("outputs",
-                    "The number of input vectors and output labels does not match.");
-
-            checkInputs(machine, inputs);
-        }
-
-        private static void checkInputs<TInput>(ISupportVectorMachine<TInput> machine, TInput[] inputs)
-        {
-            if (inputs.Length == 0)
-                throw new ArgumentOutOfRangeException("inputs",
-                    "Training algorithm needs at least one training vector.");
-
-            if (machine.NumberOfInputs > 0)
-            {
-                // This machine has a fixed input vector size
-                for (int i = 0; i < inputs.Length; i++)
-                {
-                    if (inputs[i] == null)
-                    {
-                        throw new ArgumentNullException("inputs",
-                               "The input vector at index " + i + " is null.");
-                    }
-
-                    var xi = inputs[i] as Array;
-                    if (xi.Length != machine.NumberOfInputs)
-                    {
-                        throw new DimensionMismatchException("inputs",
-                            "The size of the input vector at index " + i
-                            + " does not match the expected number of inputs of the machine."
-                            + " All input vectors for this machine must have length " + machine.NumberOfInputs);
-                    }
-
-                    var di = inputs[i] as double[];
-                    if (di != null)
-                    {
-                        for (int j = 0; j < di.Length; j++)
-                        {
-                            if (Double.IsNaN(di[j]))
-                                throw new ArgumentException("The input vector at index " + i + " contains NaN values.");
-
-                            if (Double.IsInfinity(di[j]))
-                                throw new ArgumentException("The input vector at index " + i + " contains infinity values.");
-                        }
-                    }
-                }
-            }
+            return Accord.MachineLearning.Tools.GetNumberOfInputs(x);
         }
 
 
-        public static TInput GetZeroWeight<TInput>(TInput[] x)
-            where TInput : ICloneable
-        {
-            var w = (TInput)x[0].Clone();
-            if (w is IList)
-            {
-                IList list = (IList)w;
-                Array.Clear((Array)list, 0, list.Count);
-            }
-            return w;
-        }
+       
+        
 
         public static void CheckOutput<TInput>(ISupportVectorMachine<TInput> model)
         {
@@ -208,6 +112,9 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         public static TKernel CreateKernel<TKernel, TInput>(TInput[] x)
             where TKernel : IKernel<TInput>
         {
+            if (!typeof(TKernel).HasDefaultConstructor())
+                throw new InvalidOperationException("Please set the kernel function before learning a model.");
+
             var kernel = Activator.CreateInstance<TKernel>();
             var estimable = kernel as IEstimable<TInput>;
             if (estimable != null)
@@ -218,5 +125,6 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
             return kernel;
         }
+
     }
 }

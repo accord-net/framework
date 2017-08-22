@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -27,6 +27,7 @@ namespace Accord.Tests.Statistics
     using Accord.Statistics.Models.Markov.Learning;
     using Accord.Math;
     using System;
+    using Accord.Math.Optimization.Losses;
 
 
     [TestFixture]
@@ -34,25 +35,78 @@ namespace Accord.Tests.Statistics
     {
 
 
-        private TestContext testContextInstance;
-
-
-        public TestContext TestContext
+        [Test]
+        public void LearnTest()
         {
-            get
+            #region doc_learn
+            // Declare some testing data
+            int[][] inputs = new int[][]
             {
-                return testContextInstance;
+                new int[] { 0,1,2,0 },   // Class 0
+                new int[] { 0,0,2,0 },   // Class 0
+                new int[] { 0,1,2,1,0 }, // Class 0
+                new int[] { 0,1,2,0 },     // Class 0
+
+                new int[] { 1,0,2,1 },   // Class 1
+                new int[] { 1,1,2,1 },   // Class 1
+                new int[] { 1,0,2,0,1 }, // Class 1
+                new int[] { 1,0,2,1 },     // Class 1
+            };
+
+            int[] outputs = new int[]
+            {
+                0,0,0,0, // First four sequences are of class 0
+                1,1,1,1, // Last four sequences are of class 1
+            };
+
+            // Create a new learning algorithm to train the sequence classifier
+            var teacher = new HiddenMarkovClassifierLearning()
+            {
+                // Train each model until the log-likelihood changes less than 0.001
+                Learner = (i) => new BaumWelchLearning()
+                {
+                    Tolerance = 0.001,
+                    Iterations = 0,
+                    NumberOfStates = 2,
+                }
+            };
+
+            // Train the sequence classifier 
+            HiddenMarkovClassifier classifier = teacher.Learn(inputs, outputs);
+
+            // Obtain classification labels for the output
+            int[] predicted = classifier.Decide(inputs);
+
+            // Obtain prediction scores for the outputs
+            double[] lls = classifier.LogLikelihood(inputs);
+            #endregion
+
+            Assert.AreEqual(0, classifier.NumberOfInputs);
+            Assert.AreEqual(2, classifier.NumberOfOutputs);
+            Assert.AreEqual(2, classifier.NumberOfClasses);
+            Assert.AreEqual(3, classifier.NumberOfSymbols);
+
+            for (int i = 0; i < classifier.NumberOfClasses; i++)
+            {
+                Assert.AreEqual(2, classifier[i].NumberOfStates);
+                Assert.AreEqual(3, classifier[i].NumberOfSymbols);
+                Assert.AreEqual(1, classifier[i].NumberOfInputs);
+                Assert.AreEqual(2, classifier[i].NumberOfOutputs);
             }
-            set
+
+            Assert.AreEqual(0.5, classifier.Priors[0]);
+            Assert.AreEqual(0.5, classifier.Priors[1]);
+
+            for (int i = 0; i < inputs.Length; i++)
             {
-                testContextInstance = value;
+                int expected = outputs[i];
+                int actual = predicted[i];
+                Assert.AreEqual(expected, actual);
             }
         }
 
-
-
         [Test]
-        public void LearnTest()
+        public void LearnTest_old()
         {
             // Declare some testing data
             int[][] inputs = new int[][]
@@ -99,15 +153,20 @@ namespace Accord.Tests.Statistics
                 }
             );
 
-            // Train the sequence classifier using the algorithm
-            double likelihood = teacher.Run(inputs, outputs);
+            // Train the sequence classifier 
+            teacher.Learn(inputs, outputs);
 
+            // Obtain classification labels for the output
+            int[] predicted = classifier.Decide(inputs);
+
+            // Obtain prediction scores for the outputs
+            double[] lls = classifier.LogLikelihood(inputs);
 
             // Will assert the models have learned the sequences correctly.
             for (int i = 0; i < inputs.Length; i++)
             {
                 int expected = outputs[i];
-                int actual = classifier.Compute(inputs[i], out likelihood);
+                int actual = predicted[i];
                 Assert.AreEqual(expected, actual);
             }
         }
@@ -116,6 +175,77 @@ namespace Accord.Tests.Statistics
         [Test]
         public void LearnTest2()
         {
+            #region doc_rejection
+            // Declare some testing data
+            int[][] inputs = new int[][]
+            {
+                new int[] { 0,0,1,2 },     // Class 0
+                new int[] { 0,1,1,2 },     // Class 0
+                new int[] { 0,0,0,1,2 },   // Class 0
+                new int[] { 0,1,2,2,2 },   // Class 0
+
+                new int[] { 2,2,1,0 },     // Class 1
+                new int[] { 2,2,2,1,0 },   // Class 1
+                new int[] { 2,2,2,1,0 },   // Class 1
+                new int[] { 2,2,2,2,1 },   // Class 1
+            };
+
+            int[] outputs = new int[]
+            {
+                0,0,0,0, // First four sequences are of class 0
+                1,1,1,1, // Last four sequences are of class 1
+            };
+
+
+            // Create a new learning algorithm to train the sequence classifier
+            var teacher = new HiddenMarkovClassifierLearning()
+            {
+                Learner = (i) => new BaumWelchLearning()
+                {
+                    NumberOfStates = 3,
+                    Tolerance = 0.001,
+                    Iterations = 0,
+                },
+
+                Rejection = true // Enable support for sequence rejection
+            };
+
+            // Train the sequence classifier 
+            var classifier = teacher.Learn(inputs, outputs);
+
+            // Obtain prediction classes for the outputs
+            int[] prediction = classifier.Decide(inputs);
+
+            // Obtain prediction scores for the outputs
+            double[] lls = classifier.LogLikelihood(inputs);
+            #endregion
+
+            double likelihood = teacher.LogLikelihood;
+            Assert.AreEqual(-24.857860924867815, likelihood, 1e-8);
+
+            Assert.AreEqual(0, classifier.NumberOfInputs);
+            Assert.AreEqual(2, classifier.NumberOfOutputs);
+            Assert.AreEqual(2, classifier.NumberOfClasses);
+            Assert.AreEqual(3, classifier.NumberOfSymbols);
+
+            for (int i = 0; i < classifier.NumberOfClasses; i++)
+            {
+                Assert.AreEqual(3, classifier[i].NumberOfStates);
+                Assert.AreEqual(3, classifier[i].NumberOfSymbols);
+                Assert.AreEqual(1, classifier[i].NumberOfInputs);
+                Assert.AreEqual(3, classifier[i].NumberOfOutputs);
+            }
+
+            Assert.AreEqual(0.5, classifier.Priors[0]);
+            Assert.AreEqual(0.5, classifier.Priors[1]);
+
+            likelihood = testThresholdModel(inputs, outputs, classifier, likelihood);
+        }
+
+        [Test]
+        public void LearnTest2_old()
+        {
+            #region doc_rejection_old
             // Declare some testing data
             int[][] inputs = new int[][]
             {
@@ -164,10 +294,18 @@ namespace Accord.Tests.Statistics
             // Enable support for sequence rejection
             teacher.Rejection = true;
 
-            // Train the sequence classifier using the algorithm
-            double likelihood = teacher.Run(inputs, outputs);
+            // Train the sequence classifier 
+            teacher.Learn(inputs, outputs);
 
-            Assert.AreEqual(-0.84036002169161428, likelihood, 1e-15);
+            // Obtain prediction classes for the outputs
+            int[] prediction = classifier.Decide(inputs);
+
+            // Obtain prediction scores for the outputs
+            double[] lls = classifier.LogLikelihood(inputs);
+            #endregion
+
+            double likelihood = teacher.LogLikelihood;
+            Assert.AreEqual(-24.857860924867815, likelihood, 1e-8);
 
             likelihood = testThresholdModel(inputs, outputs, classifier, likelihood);
         }
@@ -194,7 +332,7 @@ namespace Accord.Tests.Statistics
                 for (int j = 0; j < 3; j++)
                     Assert.AreEqual(Double.NegativeInfinity, threshold.Transitions[i, j]);
 
-            Assert.IsFalse(Matrix.HasNaN(threshold.Transitions));
+            Assert.IsFalse(Matrix.HasNaN(threshold.LogTransitions));
 
             classifier.Sensitivity = 0.5;
 
@@ -214,16 +352,13 @@ namespace Accord.Tests.Statistics
             int c = classifier.Compute(r0, out logRejection);
 
             Assert.AreEqual(-1, c);
-            Assert.AreEqual(0.99994164708402866, logRejection);
-            Assert.IsFalse(double.IsNaN(logRejection));
+            Assert.AreEqual(0.99996241769427985, logRejection, 1e-10);
 
             logRejection = threshold.Evaluate(r0);
-            Assert.AreEqual(-5.6077079936209504, logRejection, 1e-10);
-            Assert.IsFalse(double.IsNaN(logRejection));
+            Assert.AreEqual(-5.5993214137039073, logRejection, 1e-10);
 
             threshold.Decode(r0, out logRejection);
-            Assert.AreEqual(-9.3103554170761686, logRejection, 1e-10);
-            Assert.IsFalse(double.IsNaN(logRejection));
+            Assert.AreEqual(-9.31035541707617, logRejection, 1e-10);
 
             foreach (var model in classifier.Models)
             {

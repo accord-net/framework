@@ -5,7 +5,7 @@
 // Copyright © Darko Jurić, 2013
 // https://code.google.com/p/accord/issues/detail?id=27
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -28,6 +28,7 @@ namespace Accord.MachineLearning.Boosting
     using System.Collections.Generic;
     using System.Linq;
     using Accord.Math;
+    using System;
 
     /// <summary>
     ///   Model construction (fitting) delegate.
@@ -85,10 +86,21 @@ namespace Accord.MachineLearning.Boosting
         ///   performed by the learning algorithm.
         /// </summary>
         /// 
+        public int MaxIterations
+        {
+            get { return convergence.MaxIterations; }
+            set { convergence.MaxIterations = value; }
+        }
+
+        /// <summary>
+        ///   Please use MaxIterations instead.
+        /// </summary>
+        /// 
+        [Obsolete("Please use MaxIterations instead.")]
         public int Iterations
         {
-            get { return convergence.Iterations; }
-            set { convergence.Iterations = value; }
+            get { return convergence.MaxIterations; }
+            set { convergence.MaxIterations = value; }
         }
 
         /// <summary>

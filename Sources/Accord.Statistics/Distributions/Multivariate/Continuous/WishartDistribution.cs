@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -26,6 +26,7 @@ namespace Accord.Statistics.Distributions.Multivariate
     using Accord.Math;
     using Accord.Math.Decompositions;
     using Accord.Statistics.Distributions.Univariate;
+    using Accord.Compat;
 
     /// <summary>
     ///   Wishart Distribution.
@@ -102,11 +103,11 @@ namespace Accord.Statistics.Distributions.Multivariate
     /// <seealso cref="InverseWishartDistribution"/>
     /// 
     [Serializable]
-    public class WishartDistribution : MultivariateContinuousDistribution
+    public class WishartDistribution : MatrixContinuousDistribution
     {
 
         int size;
-        double n;
+        int n;
         double[,] scaleMatrix;
 
         double constant;
@@ -122,11 +123,23 @@ namespace Accord.Statistics.Distributions.Multivariate
         ///   Creates a new Wishart distribution.
         /// </summary>
         /// 
+        /// <param name="dimension">The number of rows in the covariance matrices.</param>
         /// <param name="degreesOfFreedom">The degrees of freedom n.</param>
-        /// <param name="scale">The positive-definite matrix scale matrix V.</param>
         /// 
-        public WishartDistribution(double degreesOfFreedom, double[,] scale)
-            : base(scale.Length)
+        public WishartDistribution(int dimension, int degreesOfFreedom)
+            : this(degreesOfFreedom, Matrix.Identity(dimension))
+        {
+        }
+
+        /// <summary>
+        ///   Creates a new Wishart distribution.
+        /// </summary>
+        /// 
+        /// <param name="degreesOfFreedom">The degrees of freedom <c>n</c>.</param>
+        /// <param name="scale">The positive-definite matrix scale matrix <c>V</c>.</param>
+        /// 
+        public WishartDistribution(int degreesOfFreedom, double[,] scale)
+        : base(scale.Rows(), scale.Columns())
         {
             if (scale.GetLength(0) != scale.GetLength(1))
                 throw new DimensionMismatchException("scale", "Matrix must be square.");
@@ -141,10 +154,10 @@ namespace Accord.Statistics.Distributions.Multivariate
 
             this.chol = new CholeskyDecomposition(scale);
 
-            if (!chol.PositiveDefinite)
+            if (!chol.IsPositiveDefinite)
                 throw new NonPositiveDefiniteMatrixException("scale");
-            if (!chol.Symmetric)
-                throw new NonSymmetricMatrixException("scale");
+            //if (!chol.Symmetric)
+            //    throw new NonSymmetricMatrixException("scale");
 
             double a = Math.Pow(chol.Determinant, n / 2.0);
             double b = Math.Pow(2, (n * size) / 2.0);
@@ -171,7 +184,7 @@ namespace Accord.Statistics.Distributions.Multivariate
         /// 
         /// <value>A vector containing the mean values for the distribution.</value>
         /// 
-        public double[,] MeanMatrix
+        public override double[,] Mean
         {
             get
             {
@@ -180,20 +193,6 @@ namespace Accord.Statistics.Distributions.Multivariate
                 return mean;
             }
         }
-
-
-
-        /// <summary>
-        ///   Gets the mean for this distribution as a flat matrix.
-        /// </summary>
-        /// 
-        /// <value>A vector containing the mean values for the distribution.</value>
-        /// 
-        public override double[] Mean
-        {
-            get { return MeanMatrix.Reshape(0); }
-        }
-
 
         /// <summary>
         ///   Gets the variance for this distribution.
@@ -271,39 +270,7 @@ namespace Accord.Statistics.Distributions.Multivariate
         ///   probability that a given value <c>x</c> will occur.
         /// </remarks>
         /// 
-        public override double ProbabilityDensityFunction(params double[] x)
-        {
-            if (x.Length != size * size)
-                throw new DimensionMismatchException("x",
-                    "The flattened matrix should have length equal to "
-                  + "the number of rows times columns in the scale matrix.");
-
-            double[,] inputMatrix = x.Reshape(size, size);
-            return ProbabilityDensityFunction(inputMatrix);
-        }
-
-        /// <summary>
-        ///   Gets the probability density function (pdf) for
-        ///   this distribution evaluated at point <c>x</c>.
-        /// </summary>
-        /// 
-        /// <param name="x">A single point in the distribution range.
-        ///   For a matrix distribution, such as the Wishart's, this
-        ///   should be a positive-definite matrix or a matrix written
-        ///   in flat vector form.
-        /// </param>
-        ///   
-        /// <returns>
-        ///   The probability of <c>x</c> occurring
-        ///   in the current distribution.
-        /// </returns>
-        /// 
-        /// <remarks>
-        ///   The Probability Density Function (PDF) describes the
-        ///   probability that a given value <c>x</c> will occur.
-        /// </remarks>
-        /// 
-        public double ProbabilityDensityFunction(double[,] x)
+        protected internal override double InnerProbabilityDensityFunction(double[,] x)
         {
             double det = x.Determinant();
             double[,] Vx = chol.Solve(x);
@@ -325,35 +292,13 @@ namespace Accord.Statistics.Distributions.Multivariate
         ///   should be a positive-definite matrix or a matrix written
         ///   in flat vector form.
         /// </param>
-        /// 
-        /// <returns>
-        ///   The logarithm of the probability of <c>x</c>
-        ///   occurring in the current distribution.
-        /// </returns>
-        /// 
-        public override double LogProbabilityDensityFunction(params double[] x)
-        {
-            double[,] X = x.Reshape(size, size);
-            return LogProbabilityDensityFunction(X);
-        }
-
-        /// <summary>
-        ///   Gets the log-probability density function (pdf)
-        ///   for this distribution evaluated at point <c>x</c>.
-        /// </summary>
-        /// 
-        /// <param name="x">A single point in the distribution range.
-        ///   For a matrix distribution, such as the Wishart's, this
-        ///   should be a positive-definite matrix or a matrix written
-        ///   in flat vector form.
-        /// </param>
         ///   
         /// <returns>
         ///   The logarithm of the probability of <c>x</c>
         ///   occurring in the current distribution.
         /// </returns>
         /// 
-        public double LogProbabilityDensityFunction(double[,] x)
+        protected internal override double InnerLogProbabilityDensityFunction(double[,] x)
         {
             double det = x.Determinant();
             double[,] Vx = chol.Solve(x);
@@ -364,11 +309,25 @@ namespace Accord.Statistics.Distributions.Multivariate
             return lnconstant + a + z;
         }
 
+
+        /// <summary>
+        /// Generates a random vector of observations from the current distribution.
+        /// </summary>
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="result">The location where to store the samples.</param>
+        /// <param name="source">The random number generator to use as a source of randomness.
+        /// Default is to use <see cref="Accord.Math.Random.Generator.Random" />.</param>
+        /// <returns>A random vector of observations drawn from this distribution.</returns>
+        public override double[][,] Generate(int samples, double[][,] result, Random source)
+        {
+            return Random(samples, n, scaleMatrix, result, source);
+        }
+
         /// <summary>
         ///   Unsupported.
         /// </summary>
         /// 
-        public override double DistributionFunction(params double[] x)
+        protected internal override double InnerDistributionFunction(double[,] x)
         {
             throw new NotSupportedException();
         }
@@ -384,7 +343,7 @@ namespace Accord.Statistics.Distributions.Multivariate
         /// <param name="options">Optional arguments which may be used during fitting, such
         ///   as regularization constants and additional parameters.</param>
         /// 
-        public override void Fit(double[][] observations, double[] weights, Fitting.IFittingOptions options)
+        public override void Fit(double[][,] observations, double[] weights, Fitting.IFittingOptions options)
         {
             throw new NotSupportedException();
         }
@@ -416,6 +375,293 @@ namespace Accord.Statistics.Distributions.Multivariate
         public override string ToString(string format, IFormatProvider formatProvider)
         {
             return String.Format(formatProvider, "Wishart(X)");
+        }
+
+
+        /// <summary>
+        /// Generates a random vector of observations from the current distribution.
+        /// </summary>
+        /// <param name="degreesOfFreedom">The degrees of freedom <c>n</c>.</param>
+        /// <param name="scale">The positive-definite matrix scale matrix <c>V</c>.</param>
+        /// <returns>A random vector of observations drawn from this distribution.</returns>
+        public static double[,] Random(int degreesOfFreedom, double[,] scale)
+        {
+            return Random(1, degreesOfFreedom, scale)[0];
+        }
+
+        /// <summary>
+        /// Generates a random vector of observations from the current distribution.
+        /// </summary>
+        /// <param name="degreesOfFreedom">The degrees of freedom <c>n</c>.</param>
+        /// <param name="scale">The positive-definite matrix scale matrix <c>V</c>.</param>
+        /// <param name="source">The random number generator to use as a source of randomness.
+        /// Default is to use <see cref="Accord.Math.Random.Generator.Random" />.</param>
+        /// <returns>A random vector of observations drawn from this distribution.</returns>
+        public static double[,] Random(int degreesOfFreedom, double[,] scale, Random source)
+        {
+            return Random(1, degreesOfFreedom, scale, source)[0];
+        }
+
+        /// <summary>
+        /// Generates a random vector of observations from the current distribution.
+        /// </summary>
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="degreesOfFreedom">The degrees of freedom <c>n</c>.</param>
+        /// <param name="scale">The positive-definite matrix scale matrix <c>V</c>.</param>
+        /// <returns>A random vector of observations drawn from this distribution.</returns>
+        public static double[][,] Random(int samples, int degreesOfFreedom, double[,] scale)
+        {
+            return Random(samples, degreesOfFreedom, scale, Accord.Math.Random.Generator.Random);
+        }
+
+        /// <summary>
+        /// Generates a random vector of observations from the current distribution.
+        /// </summary>
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="degreesOfFreedom">The degrees of freedom <c>n</c>.</param>
+        /// <param name="scale">The positive-definite matrix scale matrix <c>V</c>.</param>
+        /// <param name="source">The random number generator to use as a source of randomness.
+        /// Default is to use <see cref="Accord.Math.Random.Generator.Random" />.</param>
+        /// <returns>A random vector of observations drawn from this distribution.</returns>
+        public static double[][,] Random(int samples, int degreesOfFreedom, double[,] scale, Random source)
+        {
+            int np = scale.GetLength(0);
+            double[][,] result = new double[samples].Apply(x => new double[np, np]);
+            return Random(samples, degreesOfFreedom, scale, result, source);
+        }
+
+        /// <summary>
+        /// Generates a random vector of observations from the current distribution.
+        /// </summary>
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="result">The location where to store the samples.</param>
+        /// <param name="degreesOfFreedom">The degrees of freedom <c>n</c>.</param>
+        /// <param name="scale">The positive-definite matrix scale matrix <c>V</c>.</param>
+        /// <param name="source">The random number generator to use as a source of randomness.
+        /// Default is to use <see cref="Accord.Math.Random.Generator.Random" />.</param>
+        /// <returns>A random vector of observations drawn from this distribution.</returns>
+        public static double[][,] Random(int samples, int degreesOfFreedom, double[,] scale, double[][,] result, Random source)
+        {
+            int np = scale.GetLength(0);
+            var chol = new CholeskyDecomposition(scale);
+            var d = new double[np * (np + 1) / 2];
+            for (int j = 0, l = 0; j < np; j++)
+                for (int k = 0; k <= j; k++, l++)
+                    d[l] = chol.LeftTriangularFactor[j, k];
+
+            double[] r = new double[(np * (np + 1)) / 2];
+
+            for (int i = 0; i < samples; i++)
+            {
+                wshrt(d, degreesOfFreedom, np, source, r);
+
+                double[,] ret = result[i];
+                for (int j = 0, l = 0; j < np; j++)
+                    for (int k = 0; k <= j; k++, l++)
+                        ret[j, k] = ret[k, j] = r[l];
+            }
+
+            return result;
+        }
+
+
+        /******************************************************************************/
+        /*
+          Purpose:
+
+            RNORM returns two independent standard random normal deviates.
+
+          Discussion:
+
+            This routine sets U1 and U2 to two independent standardized 
+            random normal deviates.   This is a version of the 
+            method given in Knuth.
+
+          Licensing:
+
+            This code is distributed under the GNU LGPL license.
+
+          Modified:
+
+            16 April 2014
+
+          Author:
+
+            Original FORTRAN77 version by William Smith, Ronald Hocking.
+            This C version by John Burkardt.
+
+          Reference:
+
+            Donald Knuth,
+            The Art of Computer Programming,
+            Volume 2, Seminumerical Algorithms,
+            Third Edition,
+            Addison Wesley, 1997,
+            ISBN: 0201896842,
+            LC: QA76.6.K64.
+
+          Parameters:
+
+            Input/output, int *SEED, a seed for the random 
+            number generator.
+
+            Output, double *U1, *U2, two standard random normal deviates.
+        */
+        static void rnorm(Random random, out double u1, out double u2)
+        {
+            for (; ; )
+            {
+                double x = random.NextDouble();
+                double y = random.NextDouble();
+                x = 2.0 * x - 1.0;
+                y = 2.0 * y - 1.0;
+                double s = x * x + y * y;
+
+                if (s <= 1.0)
+                {
+                    s = Math.Sqrt(-2.0 * Math.Log(s) / s);
+                    u1 = x * s;
+                    u2 = y * s;
+                    break;
+                }
+            }
+            return;
+        }
+
+        /******************************************************************************/
+        /*
+          Purpose:
+
+            WSHRT returns a random Wishart variate.
+
+          Discussion:
+
+            This routine is a Wishart variate generator.  
+
+            On output, SA is an upper-triangular matrix of size NP * NP,
+            written in linear form, column ordered, whose elements have a 
+            Wishart(N, SIGMA) distribution.
+
+          Licensing:
+
+            This code is distributed under the GNU LGPL license.
+
+          Modified:
+
+            16 April 2014
+
+          Author:
+
+            Original FORTRAN77 version by William Smith, Ronald Hocking.
+            This C version by John Burkardt.
+
+          Reference:
+
+            William Smith, Ronald Hocking,
+            Algorithm AS 53, Wishart Variate Generator,
+            Applied Statistics,
+            Volume 21, Number 3, pages 341-345, 1972.
+
+          Parameters:
+
+            Input, double D[NP*(NP+1)/2], the upper triangular array that
+            represents the Cholesky factor of the correlation matrix SIGMA.
+            D is stored in column-major form.
+
+            Input, int N, the number of degrees of freedom.
+            1 <= N <= NP.
+
+            Input, int NP, the size of variables.
+
+            Input/output, int *SEED, a seed for the random 
+            number generator.
+
+            Output, double WSHART[NP*(NP+1)/2], a sample from the 
+            Wishart distribution.
+        */
+        static void wshrt(double[] d, int n, int np, Random seed, double[] sa)
+        {
+            int k = 0;
+            int nnp = (np * (np + 1)) / 2;
+            /*
+              Load SB with independent normal (0, 1) variates.
+            */
+            var sb = new double[nnp];
+
+            while (k < nnp)
+            {
+                double u1 = 0;
+                double u2 = 0;
+                rnorm(seed, out u1, out u2);
+
+                sb[k] = u1;
+                k = k + 1;
+
+                if (k < nnp)
+                {
+                    sb[k] = u2;
+                    k = k + 1;
+                }
+            }
+            /*
+              Load diagonal elements with square root of chi-square variates.
+            */
+            int ns = 0;
+
+            for (int i = 1; i <= np; i++)
+            {
+                double df = (double)(np - i + 1);
+                ns = ns + i;
+                double u1 = 2.0 / (9.0 * df);
+                double u2 = 1.0 - u1;
+                u1 = Math.Sqrt(u1);
+                /*
+                  Wilson-Hilferty formula for approximating chi-square variates:
+                  The original code did not take the absolute value!
+                */
+                sb[ns - 1] = Math.Sqrt(df * Math.Abs(Math.Pow(u2 + sb[ns - 1] * u1, 3)));
+            }
+
+            double rn = (double)(n);
+            int nr = 1;
+
+            for (int i = 1; i <= np; i++)
+            {
+                nr = nr + i - 1;
+                for (int j = i; j <= np; j++)
+                {
+                    int ip = nr;
+                    int nq = (j * (j - 1)) / 2 + i - 1;
+                    double c = 0.0;
+                    for (k = i; k <= j; k++)
+                    {
+                        ip = ip + k - 1;
+                        nq = nq + 1;
+                        c = c + sb[ip - 1] * d[nq - 1];
+                    }
+                    sa[ip - 1] = c;
+                }
+            }
+
+            for (int i = 1; i <= np; i++)
+            {
+                int ii = np - i + 1;
+                int nq = nnp - np;
+                for (int j = 1; j <= i; j++)
+                {
+                    int ip = (ii * (ii - 1)) / 2;
+                    double c = 0.0;
+                    for (k = i; k <= np; k++)
+                    {
+                        ip = ip + 1;
+                        nq = nq + 1;
+                        c = c + sa[ip - 1] * sa[nq - 1];
+                    }
+                    sa[nq - 1] = c / rn;
+                    nq = nq - 2 * np + i + j - 1;
+                }
+            }
+
         }
     }
 }

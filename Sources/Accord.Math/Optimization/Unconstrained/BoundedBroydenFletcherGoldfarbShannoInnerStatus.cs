@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 // Copyright © Jorge Nocedal, 1990
@@ -53,7 +53,7 @@ namespace Accord.Math.Optimization
             this.Integers = (int[])isave.Clone();
             this.Doubles = (double[])dsave.Clone();
             this.Booleans = (bool[])lsave.Clone();
-            this.Strings = (string)csave.Clone();
+            this.Strings = csave;
             this.Work = (double[])work.Clone();
         }
 

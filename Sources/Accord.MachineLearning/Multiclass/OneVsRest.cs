@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -25,8 +25,10 @@ namespace Accord.MachineLearning
     using Accord.Math;
     using System;
     using System.Collections.Generic;
+    using Accord.MachineLearning.VectorMachines;
     using System.Linq;
     using System.Text;
+    using Accord.Compat;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -37,11 +39,13 @@ namespace Accord.MachineLearning
     /// <typeparam name="TModel">The type for the inner binary classifiers.</typeparam>
     /// <typeparam name="TInput">The input type handled by the classifiers. Default is double.</typeparam>
     /// 
+    /// <seealso cref="MultilabelSupportVectorMachine{TKernel}"/>
+    /// 
     [Serializable]
     public class OneVsRest<TModel, TInput> :
-        MultilabelGenerativeClassifierBase<TInput>,
+        MultilabelLikelihoodClassifierBase<TInput>,
         IEnumerable<KeyValuePair<int, TModel>>
-        where TModel : IBinaryDistanceClassifier<TInput>
+        where TModel : IBinaryScoreClassifier<TInput>
     {
         private TModel[] models;
 
@@ -56,6 +60,7 @@ namespace Accord.MachineLearning
         protected OneVsRest(int classes, Func<TModel> initializer)
         {
             this.NumberOfOutputs = classes;
+            this.NumberOfClasses = classes;
             this.Models = new TModel[classes];
             for (int i = 0; i < Models.Length; i++)
             {
@@ -114,7 +119,16 @@ namespace Accord.MachineLearning
             set { models = value; }
         }
 
-
+        /// <summary>
+        ///   Gets the total number of binary models in this one-vs-rest 
+        ///   multi-label configuration. Should be equal to the 
+        ///   <see cref="ITransform.NumberOfOutputs"/> (number of classes).
+        /// </summary>
+        /// 
+        public int Count
+        {
+            get { return models.Length; }
+        }
 
         /// <summary>
         /// Computes a numerical score measuring the association between
@@ -126,9 +140,9 @@ namespace Accord.MachineLearning
         /// <param name="decision">The class label associated with the input
         /// vector, as predicted by the classifier.</param>
         /// <returns></returns>
-        public override double Distance(TInput input, int classIndex, out bool decision)
+        public override double Score(TInput input, int classIndex, out bool decision)
         {
-            return models[classIndex].Distance(input, out decision);
+            return models[classIndex].Score(input, out decision);
         }
 
         /// <summary>
@@ -157,7 +171,7 @@ namespace Accord.MachineLearning
         /// vector, as predicted by the classifier.</param>
         public override double LogLikelihood(TInput input, int classIndex, out bool decision)
         {
-            var model = models[classIndex] as IBinaryGenerativeClassifier<TInput>;
+            var model = models[classIndex] as IBinaryLikelihoodClassifier<TInput>;
             if (model == null)
                 throw new NotSupportedException();
             return model.LogLikelihood(input, out decision);
@@ -196,9 +210,11 @@ namespace Accord.MachineLearning
     /// 
     /// <typeparam name="TModel">The type for the inner binary classifiers.</typeparam>
     /// 
+    /// <seealso cref="MultilabelSupportVectorMachine{TKernel}"/>
+    /// 
     [Serializable]
     public class OneVsRest<TModel> : OneVsRest<TModel, double[]>
-       where TModel : IBinaryDistanceClassifier<double[]>
+       where TModel : IBinaryScoreClassifier<double[]>
     {
         /// <summary>
         ///   Initializes a new instance of the <see cref="OneVsRest{TBinary}"/> class.

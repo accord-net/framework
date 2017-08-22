@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -22,12 +22,8 @@
 
 namespace Accord.MachineLearning
 {
-    using Accord.MachineLearning;
     using Accord.Math;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
+    using Accord.Compat;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -59,7 +55,7 @@ namespace Accord.MachineLearning
         /// 
         /// <param name="x">The model inputs.</param>
         /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
-        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <param name="weights">The weight of importance for each input-output pair (if supported by the learning algorithm).</param>
         /// 
         /// <returns>A model that has learned how to produce <paramref name="y"/> given <paramref name="x"/>.</returns>
         /// 
@@ -71,7 +67,7 @@ namespace Accord.MachineLearning
         /// 
         /// <param name="x">The model inputs.</param>
         /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
-        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <param name="weights">The weight of importance for each input-output pair (if supported by the learning algorithm).</param>
         /// 
         /// <returns>A model that has learned how to produce <paramref name="y"/> given <paramref name="x"/>.</returns>
         /// 
@@ -86,7 +82,7 @@ namespace Accord.MachineLearning
         /// 
         /// <param name="x">The model inputs.</param>
         /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
-        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <param name="weights">The weight of importance for each input-output pair (if supported by the learning algorithm).</param>
         /// 
         /// <returns>A model that has learned how to produce <paramref name="y"/> given <paramref name="x"/>.</returns>
         /// 
@@ -112,7 +108,7 @@ namespace Accord.MachineLearning
         /// 
         /// <param name="x">The model inputs.</param>
         /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
-        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <param name="weights">The weight of importance for each input-output pair (if supported by the learning algorithm).</param>
         /// 
         /// <returns>A model that has learned how to produce <paramref name="y"/> given <paramref name="x"/>.</returns>
         /// 
@@ -127,7 +123,7 @@ namespace Accord.MachineLearning
         /// 
         /// <param name="x">The model inputs.</param>
         /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
-        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <param name="weights">The weight of importance for each input-output pair (if supported by the learning algorithm).</param>
         /// 
         /// <returns>A model that has learned how to produce <paramref name="y"/> given <paramref name="x"/>.</returns>
         /// 
@@ -142,7 +138,7 @@ namespace Accord.MachineLearning
         /// 
         /// <param name="x">The model inputs.</param>
         /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
-        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <param name="weights">The weight of importance for each input-output pair (if supported by the learning algorithm).</param>
         /// 
         /// <returns>A model that has learned how to produce <paramref name="y"/> given <paramref name="x"/>.</returns>
         /// 
@@ -157,7 +153,7 @@ namespace Accord.MachineLearning
         /// 
         /// <param name="x">The model inputs.</param>
         /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
-        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <param name="weights">The weight of importance for each input-output pair (if supported by the learning algorithm).</param>
         /// 
         /// <returns>A model that has learned how to produce <paramref name="y"/> given <paramref name="x"/>.</returns>
         /// 
@@ -172,7 +168,7 @@ namespace Accord.MachineLearning
         /// 
         /// <param name="x">The model inputs.</param>
         /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
-        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <param name="weights">The weight of importance for each input-output pair (if supported by the learning algorithm).</param>
         /// 
         /// <returns>A model that has learned how to produce <paramref name="y"/> given <paramref name="x"/>.</returns>
         /// 
@@ -187,7 +183,7 @@ namespace Accord.MachineLearning
         /// 
         /// <param name="x">The model inputs.</param>
         /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
-        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <param name="weights">The weight of importance for each input-output pair (if supported by the learning algorithm).</param>
         /// 
         /// <returns>A model that has learned how to produce <paramref name="y"/> given <paramref name="x"/>.</returns>
         /// 

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -20,6 +20,7 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
+#if !NETSTANDARD1_4
 namespace Accord.Statistics.Filters
 {
     using System;
@@ -78,7 +79,6 @@ namespace Accord.Statistics.Filters
 
             int rows = data.Rows.Count;
 
-            int r = Accord.Math.Random.Generator.Random.Next();
             if (Seed.HasValue)
                 Accord.Math.Random.Generator.Seed = Seed.Value;
 
@@ -91,3 +91,4 @@ namespace Accord.Statistics.Filters
 
     }
 }
+#endif

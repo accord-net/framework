@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -25,7 +25,7 @@ namespace Accord.Statistics.Distributions.Univariate
     using System;
     using System.ComponentModel;
     using Accord.Math;
-    using AForge;
+    using Accord.Compat;
 
     /// <summary>
     ///   Folded Normal (Gaussian) distribution.
@@ -229,7 +229,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value or any value smaller than it will occur.
         /// </remarks>
         /// 
-        public override double DistributionFunction(double x)
+        protected internal override double InnerDistributionFunction(double x)
         {
             double y = Math.Abs(x);
 
@@ -258,11 +258,8 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value <c>x</c> will occur.
         /// </remarks>
         /// 
-        public override double ProbabilityDensityFunction(double x)
+        protected internal override double InnerProbabilityDensityFunction(double x)
         {
-            if (x < 0)
-                return 0;
-
             double a = (+x - mu) / sigma;
             double b = (-x - mu) / sigma;
 

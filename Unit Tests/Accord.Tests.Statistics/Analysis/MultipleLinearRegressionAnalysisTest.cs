@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -34,24 +34,6 @@ namespace Accord.Tests.Statistics
     [TestFixture]
     public class MultipleLinearRegressionAnalysisTest
     {
-
-
-        private TestContext testContextInstance;
-
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
 
         [Test]
         public void ComputeTest()
@@ -246,17 +228,129 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(30.989640986710953, stde[2], 1e-10);
             Assert.IsFalse(coef.HasNaN());
 
-            Assert.AreEqual(0.62879941171298936, rsquared);
+            Assert.AreEqual(0.62879941171298936, rsquared, 1e-10);
 
-            Assert.AreEqual(0.99999999999999822, ztest.PValue);
+            Assert.AreEqual(0.99999999999999822, ztest.PValue, 1e-10);
             Assert.AreEqual(0.018986050133298293, ftest.PValue, 1e-10);
 
-            Assert.AreEqual(0.0062299844256985537, ttest0.PValue);
+            Assert.AreEqual(0.0062299844256985537, ttest0.PValue, 1e-10);
             Assert.AreEqual(0.53484850318449118, ttest1.PValue, 1e-14);
             Assert.IsFalse(Double.IsNaN(ttest1.PValue));
 
-            Assert.AreEqual(3.2616314640800566, ci.Min);
-            Assert.AreEqual(14.219378746271506, ci.Max);
+            Assert.AreEqual(3.2616314640800566, ci.Min, 1e-10);
+            Assert.AreEqual(14.219378746271506, ci.Max, 1e-10);
+        }
+
+        [Test]
+        public void learn_Test()
+        {
+            #region doc_learn_part1
+            // Consider the following data. An experimenter would
+            // like to infer a relationship between two variables
+            // A and B and a corresponding outcome variable R.
+
+            double[][] example = 
+            {
+                //                A    B      R
+                new double[] {  6.41, 10.11, 26.1 },
+                new double[] {  6.61, 22.61, 33.8 },
+                new double[] {  8.45, 11.11, 52.7 },
+                new double[] {  1.22, 18.11, 16.2 },
+                new double[] {  7.42, 12.81, 87.3 },
+                new double[] {  4.42, 10.21, 12.5 },
+                new double[] {  8.61, 11.94, 77.5 },
+                new double[] {  1.73, 13.13, 12.1 },
+                new double[] {  7.47, 17.11, 86.5 },
+                new double[] {  6.11, 15.13, 62.8 },
+                new double[] {  1.42, 16.11, 17.5 },
+            };
+
+            // For this, we first extract the input and output
+            // pairs. The first two columns have values for the
+            // input variables, and the last for the output:
+
+            double[][] inputs = example.GetColumns(new[] { 0, 1 });
+            double[] output = example.GetColumn(2);
+
+            // We can create a new multiple linear analysis for the variables
+            var mlra = new MultipleLinearRegressionAnalysis(intercept: true);
+
+            // Compute the analysis and obtain the estimated regression
+            MultipleLinearRegression regression = mlra.Learn(inputs, output);
+            #endregion
+
+            // We can also show a summary ANOVA
+            // Accord.Controls.DataGridBox.Show(regression.Table);
+
+            #region doc_learn_part2
+            // And also extract other useful information, such
+            // as the linear coefficients' values and std errors:
+            double[] coef = mlra.CoefficientValues;
+            double[] stde = mlra.StandardErrors;
+
+            // Coefficients of performance, such as r²
+            double rsquared = mlra.RSquared; // 0.62879
+
+            // Hypothesis tests for the whole model
+            ZTest ztest = mlra.ZTest; // 0.99999
+            FTest ftest = mlra.FTest; // 0.01898
+
+            // and for individual coefficients
+            TTest ttest0 = mlra.Coefficients[0].TTest; // 0.00622
+            TTest ttest1 = mlra.Coefficients[1].TTest; // 0.53484
+
+            // and also extract confidence intervals
+            DoubleRange ci = mlra.Coefficients[0].Confidence; // [3.2616, 14.2193]
+
+            // We can use the analysis to predict an output for a sample
+            double y = mlra.Regression.Transform(new double[] { 10, 15 }); 
+
+            // We can also obtain confidence intervals for the prediction:
+            DoubleRange pci = mlra.GetConfidenceInterval(new double[] { 10, 15 });
+
+            // and also prediction intervals for the same prediction:
+            DoubleRange ppi = mlra.GetPredictionInterval(new double[] { 10, 15 });
+            #endregion
+
+
+            Assert.AreEqual(3, coef.Length);
+            Assert.AreEqual(8.7405051051757816, coef[0]);
+            Assert.AreEqual(1.1198079243314365, coef[1], 1e-10);
+            Assert.AreEqual(-19.604474518407862, coef[2], 1e-10);
+            Assert.IsFalse(coef.HasNaN());
+
+            Assert.AreEqual(2.375916659234715, stde[0], 1e-10);
+            Assert.AreEqual(1.7268508921418664, stde[1], 1e-10);
+            Assert.AreEqual(30.989640986710953, stde[2], 1e-10);
+            Assert.IsFalse(coef.HasNaN());
+
+            Assert.AreEqual(0.62879941171298936, rsquared, 1e-10);
+
+            Assert.AreEqual(0.99999999999999822, ztest.PValue, 1e-10);
+            Assert.AreEqual(0.018986050133298293, ftest.PValue, 1e-10);
+
+            Assert.AreEqual(0.0062299844256985537, ttest0.PValue, 1e-10);
+            Assert.AreEqual(0.53484850318449118, ttest1.PValue, 1e-14);
+            Assert.IsFalse(Double.IsNaN(ttest1.PValue));
+
+            Assert.AreEqual(3.2616314640800566, ci.Min, 1e-10);
+            Assert.AreEqual(14.219378746271506, ci.Max, 1e-10);
+
+
+
+
+            double[][] im = mlra.InformationMatrix;
+            double mse = regression.GetStandardError(inputs, output);
+            DoubleRange epci = regression.GetConfidenceInterval(new double[] { 10, 15 }, mse, inputs.Length, im);
+
+            Assert.AreEqual(epci.Min, pci.Min, 1e-10);
+            Assert.AreEqual(epci.Max, pci.Max, 1e-10);
+
+            Assert.AreEqual(55.27840511658215, pci.Min, 1e-10);
+            Assert.AreEqual(113.91698568006086, pci.Max, 1e-10);
+
+            Assert.AreEqual(28.783074454641557, ppi.Min, 1e-10);
+            Assert.AreEqual(140.41231634200145, ppi.Max, 1e-10);
         }
 
         [Test]
@@ -322,6 +416,9 @@ namespace Accord.Tests.Statistics
 
             target.Compute();
 
+            Assert.AreEqual(2, target.NumberOfInputs);
+            Assert.AreEqual(1, target.NumberOfOutputs);
+
             Assert.AreEqual(target.Array, inputs);
             Assert.AreEqual(target.Outputs, outputs);
 
@@ -384,11 +481,19 @@ namespace Accord.Tests.Statistics
 
             MultipleLinearRegression mlr = new MultipleLinearRegression(2, false);
             mlr.Regress(inputs, outputs);
+
+            Assert.AreEqual(2, target.NumberOfInputs);
+            Assert.AreEqual(1, target.NumberOfOutputs);
+
+            double[] actual = target.Transform(inputs);
+            double[] expected = mlr.Transform(inputs);
+            Assert.IsTrue(Matrix.IsEqual(actual, expected, 1e-8));
+
             double r2 = mlr.CoefficientOfDetermination(inputs, outputs, false);
             double r2a = mlr.CoefficientOfDetermination(inputs, outputs, true);
 
-            Assert.AreEqual(r2, target.RSquared);
-            Assert.AreEqual(r2a, target.RSquareAdjusted);
+            Assert.AreEqual(r2, target.RSquared, 1e-6);
+            Assert.AreEqual(r2a, target.RSquareAdjusted, 1e-6);
         }
     }
 }

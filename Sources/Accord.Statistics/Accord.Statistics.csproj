@@ -4,61 +4,41 @@
     <ProjectGuid>{FD8101DD-C95D-42D6-AD44-AE01C25F2811}</ProjectGuid>
     <RootNamespace>Accord.Statistics</RootNamespace>
     <AssemblyName>Accord.Statistics</AssemblyName>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
-    <WarningLevel>4</WarningLevel>
-    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-    <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>Accord.snk</AssemblyOriginatorKeyFile>
-    <OldToolsVersion>3.5</OldToolsVersion>
-    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
-    <MapFileExtensions>true</MapFileExtensions>
-    <CodeAnalysisRuleSet>..\Accord.NET.ruleset</CodeAnalysisRuleSet>
-    <UseApplicationTrust>false</UseApplicationTrust>
-    <BootstrapperEnabled>true</BootstrapperEnabled>
-    <FileAlignment>4096</FileAlignment>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <DebugSymbols>true</DebugSymbols>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
-    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
-    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
   </PropertyGroup>
+  <Import Project="$(SolutionDir)Accord.NET.targets" />
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <OutputPath>bin\Debug\</OutputPath>
     <DebugType>Full</DebugType>
     <Optimize>False</Optimize>
-    <RunCodeAnalysis>False</RunCodeAnalysis>
     <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <OutputPath>$(SolutionDir)..\Debug\</OutputPath>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NET35|AnyCPU' ">
-    <OutputPath>$(SolutionDir)..\Release\net35</OutputPath>
-    <DefineConstants>TRACE;CODE_ANALYSIS;NET35</DefineConstants>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'net35|AnyCPU' ">
+    <DefineConstants>TRACE;NET35</DefineConstants>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
-    <DocumentationFile>$(SolutionDir)..\Release\net35\Accord.Statistics.XML</DocumentationFile>
-    <CodeAnalysisLogFile>$(SolutionDir)..\Release\net35\Accord.Statistics.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NET40|AnyCPU' ">
-    <OutputPath>$(SolutionDir)..\Release\net40</OutputPath>
-    <DefineConstants>TRACE;CODE_ANALYSIS;NET40</DefineConstants>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'net40|AnyCPU' ">
+    <DefineConstants>TRACE;NET40</DefineConstants>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <DocumentationFile>$(SolutionDir)..\Release\net40\Accord.Statistics.XML</DocumentationFile>
-    <CodeAnalysisLogFile>$(SolutionDir)..\Release\net40\Accord.Statistics.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'NET45|AnyCPU'">
-    <OutputPath>$(SolutionDir)..\Release\net45</OutputPath>
-    <DefineConstants>TRACE;CODE_ANALYSIS;NET45</DefineConstants>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'net45|AnyCPU'">
+    <DefineConstants>TRACE;NET45</DefineConstants>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <DocumentationFile>$(SolutionDir)..\Release\net45\Accord.Statistics.XML</DocumentationFile>
-    <CodeAnalysisLogFile>$(SolutionDir)..\Release\net45\Accord.Statistics.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'net46|AnyCPU'">
+    <DefineConstants>TRACE;NET46</DefineConstants>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'net462|AnyCPU' ">
+    <DefineConstants>TRACE;NET462</DefineConstants>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'mono|AnyCPU'">
+    <DefineConstants>TRACE;MONO</DefineConstants>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
   <ItemGroup>
@@ -68,14 +48,31 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
-    <Reference Include="System.Numerics" Condition="'$(Configuration)' != 'NET35'" />
+    <Reference Include="System.Numerics" Condition="'$(Configuration)' != 'net35'" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\Accord.Core\Properties\VersionInfo.cs">
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
+    <Compile Include="Accord.MachineLearning\Classifiers\Binary\BinaryClassifierBase.cs" />
+    <Compile Include="Accord.MachineLearning\Classifiers\Binary\BinaryLikelihoodClassifierBase.cs" />
+    <Compile Include="Accord.MachineLearning\Classifiers\Binary\BinaryScoreClassifierBase.cs" />
+    <Compile Include="Accord.MachineLearning\Classifiers\Multiple\Multiclass\MulticlassClassifierBase.cs" />
+    <Compile Include="Accord.MachineLearning\Classifiers\Multiple\Multiclass\MulticlassClassifierBase`1.cs" />
+    <Compile Include="Accord.MachineLearning\Classifiers\Multiple\Multiclass\MulticlassLikelihoodClassifierBase.cs" />
+    <Compile Include="Accord.MachineLearning\Classifiers\Multiple\Multiclass\MulticlassScoreClassifierBase.cs" />
+    <Compile Include="Accord.MachineLearning\Classifiers\Multiple\Multilabel\MultilabelClassifierBase.cs" />
+    <Compile Include="Accord.MachineLearning\Classifiers\Multiple\Multilabel\MultilabelLikelihoodClassifierBase.cs" />
+    <Compile Include="Accord.MachineLearning\Classifiers\Multiple\Multilabel\MultilabelScoreClassifierBase.cs" />
+    <Compile Include="Accord.MachineLearning\Classifiers\Tagging\LikelihoodTaggerBase.cs" />
+    <Compile Include="Accord.MachineLearning\Classifiers\Tagging\ScoreTaggerBase.cs" />
+    <Compile Include="Accord.MachineLearning\Classifiers\Tagging\TaggerBase.cs" />
+    <Compile Include="Accord.MachineLearning\Classifiers\TransformBase.cs" />
+    <Compile Include="Accord.MachineLearning\Learning\IDescriptiveLearning.cs" />
+    <Compile Include="Accord.MachineLearning\MinimumMeanDistanceClassifier.cs" />
     <Compile Include="Analysis\Accord.Statistics.Analysis.cs" />
+    <Compile Include="Analysis\BasePrincipalComponentAnalysis.cs" />
     <Compile Include="Analysis\Base\IAnalysisComponent.cs" />
     <Compile Include="Analysis\Base\IAnalysis.cs" />
     <Compile Include="Analysis\Base\IDescriptiveMeasures.cs" />
@@ -89,9 +86,11 @@
     <Compile Include="Analysis\Contrast Functions\Logcosh.cs" />
     <Compile Include="Analysis\CircularDescriptiveAnalysis.cs" />
     <Compile Include="Analysis\DistributionAnalysis.cs" />
+    <Compile Include="Analysis\BaseDiscriminantAnalysis.cs" />
+    <Compile Include="Analysis\GoodnessOfFit.cs" />
+    <Compile Include="Analysis\GoodnessOfFitCollection.cs" />
     <Compile Include="Analysis\MultinomialLogisticRegressionAnalysis.cs" />
     <Compile Include="Analysis\Performance\WeightedConfusionMatrix.cs" />
-    <Compile Include="Analysis\BasePrincipalComponentAnalysis.cs" />
     <Compile Include="Analysis\ProcustesAnalysis.cs" />
     <Compile Include="Analysis\ProportionalHazardsAnalysis.cs" />
     <Compile Include="Analysis\MultipleLinearRegressionAnalysis.cs" />
@@ -117,6 +116,8 @@
     <Compile Include="Distributions\Fitting\Accord.Statistics.Distributions.Fitting.cs" />
     <Compile Include="Distributions\Fitting\GeneralizedBetaOptions.cs" />
     <Compile Include="Distributions\Fitting\BetaOptions.cs" />
+    <Compile Include="Distributions\Fitting\GammaOptions.cs" />
+    <Compile Include="Distributions\Fitting\IComponentOptions.cs" />
     <Compile Include="Distributions\Fitting\TriangularOptions.cs" />
     <Compile Include="Distributions\Fitting\LogExpectationMaximization.cs" />
     <Compile Include="Distributions\Fitting\MultivariateEmpiricalOptions.cs" />
@@ -131,18 +132,29 @@
     <Compile Include="Distributions\Density Kernels\GaussianKernel.cs" />
     <Compile Include="Distributions\Density Kernels\IRadiallySymmetricKernel.cs" />
     <Compile Include="Distributions\Density Kernels\UniformKernel.cs" />
+    <Compile Include="Distributions\Reflection\DistributionConstructorInfo.cs" />
+    <Compile Include="Distributions\Reflection\DistributionInfo.cs" />
+    <Compile Include="Distributions\Reflection\UnivariateDistributionInfo.cs" />
+    <Compile Include="Distributions\Reflection\DistributionParameterInfo.cs" />
     <Compile Include="Distributions\Multivariate\Accord.Statistics.Distributions.Multivariate.cs" />
     <Compile Include="Distributions\Multivariate\Base\IMultivariateDistribution.cs" />
+    <Compile Include="Distributions\Multivariate\Base\MatrixContinuousDistribution.cs" />
     <Compile Include="Distributions\Multivariate\Continuous\MultivariateEmpiricalDistribution.cs" />
     <Compile Include="Distributions\Multivariate\Continuous\InverseWishartDistribution.cs" />
+    <Compile Include="Distributions\Multivariate\Continuous\UniformBallDistribution.cs" />
+    <Compile Include="Distributions\Multivariate\Continuous\UniformSphereDistribution.cs" />
     <Compile Include="Distributions\Multivariate\Continuous\VonMisesFisherDistribution.cs" />
     <Compile Include="Distributions\Multivariate\Continuous\WishartDistribution.cs" />
     <Compile Include="Distributions\Multivariate\IMixtureComponent.cs" />
     <Compile Include="Distributions\Multivariate\Independent.cs" />
     <Compile Include="Distributions\Multivariate\Independent`3.cs" />
     <Compile Include="Distributions\Multivariate\Independent`2.cs" />
+    <Compile Include="Distributions\Sampling\MetropolisHasting`3.cs" />
+    <Compile Include="Distributions\Sampling\MetropolisHasting`2.cs" />
+    <Compile Include="Distributions\Sampling\MetropolisHasting`1.cs" />
     <Compile Include="Distributions\Sampling\MetropolisHasting.cs" />
     <Compile Include="Distributions\Univariate\Accord.Statistics.Distributions.Univariate.cs" />
+    <Compile Include="Distributions\Univariate\Base\IUnivariateDistribution`2.cs" />
     <Compile Include="Distributions\Univariate\Base\IUnivariateDistribution.cs" />
     <Compile Include="Distributions\Fitting\CauchyOptions.cs" />
     <Compile Include="Distributions\Fitting\HypergeometricOptions.cs" />
@@ -164,6 +176,7 @@
     <Compile Include="Distributions\Multivariate\Discrete\HiddenMarkovDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\BirnbaumSaundersDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\AndersonDarlingDistribution.cs" />
+    <Compile Include="Distributions\Univariate\Continuous\GrubbDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\KumaraswamyDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\RademacherDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\ShapiroWilkDistribution.cs" />
@@ -218,6 +231,7 @@
     <Compile Include="Distributions\Univariate\Continuous\FDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\EmpiricalHazardDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\GompertzDistribution.cs" />
+    <Compile Include="Distributions\Univariate\GeneralizedParetoDistribution.cs" />
     <Compile Include="Distributions\Univariate\Mixture`1.cs" />
     <Compile Include="Distributions\Multivariate\Continuous\MultivariateNormalDistribution.cs" />
     <Compile Include="Distributions\Univariate\Discrete\GeneralDiscreteDistribution.cs" />
@@ -227,10 +241,16 @@
     <Compile Include="Distributions\Univariate\Continuous\VonMisesDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\WeibullDistribution.cs" />
     <Compile Include="Filters\Base\BaseFilter.cs" />
+    <Compile Include="Filters\Base\ColumnOptionCollection.cs" />
+    <Compile Include="Filters\Base\ColumnOptionsBase.cs" />
     <Compile Include="Filters\Base\IInPlaceFilter.cs" />
     <Compile Include="Filters\Base\IAutoConfigurableColumn.cs" />
     <Compile Include="Filters\Base\IAutoConfigurableFilter.cs" />
     <Compile Include="Filters\Branching.cs" />
+    <Compile Include="Filters\Codification`1.cs" />
+    <Compile Include="Filters\Codification`1.Options.cs" />
+    <Compile Include="Filters\Discretization`1.Options.cs" />
+    <Compile Include="Filters\Discretization`1.cs" />
     <Compile Include="Filters\Identification.cs" />
     <Compile Include="Filters\Randomization.cs" />
     <Compile Include="Filters\Imputation.cs" />
@@ -249,7 +269,6 @@
     <Compile Include="Filters\Selection.cs" />
     <Compile Include="Analysis\Base\IMultivariateAnalysis.cs" />
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="Classes.cs" />
     <Compile Include="Kernels\Additive.cs" />
     <Compile Include="Kernels\Anova.cs" />
     <Compile Include="Kernels\Base\ILinear`1.cs" />
@@ -265,6 +284,8 @@
     <Compile Include="Kernels\Cauchy.cs" />
     <Compile Include="Kernels\ChiSquare.cs" />
     <Compile Include="Kernels\Circular.cs" />
+    <Compile Include="Kernels\DynamicTimeWarping`1.cs" />
+    <Compile Include="Kernels\Gaussian`2.cs" />
     <Compile Include="Kernels\Gaussian`1.cs" />
     <Compile Include="Kernels\Hellinger.cs" />
     <Compile Include="Kernels\Pearson.cs" />
@@ -315,18 +336,6 @@
     <Compile Include="Links\InverseSquaredLinkFunction.cs" />
     <Compile Include="Links\ProbitLinkFunction.cs" />
     <Compile Include="Accord.MachineLearning\Classifiers\ClassifierBase.cs" />
-    <Compile Include="Accord.MachineLearning\Classifiers\Multiple classes\Multiclass\MulticlassClassifierBase.cs" />
-    <Compile Include="Accord.MachineLearning\Classifiers\Multiple classes\Multiclass\MulticlassDistanceClassifierBase.cs" />
-    <Compile Include="Accord.MachineLearning\Classifiers\Multiple classes\Multilabel\MultilabelClassifierBase.cs" />
-    <Compile Include="Accord.MachineLearning\Classifiers\Multiple classes\Multiclass\MulticlassGenerativeClassifierBase.cs" />
-    <Compile Include="Accord.MachineLearning\Classifiers\Multiple classes\Multilabel\MultilabelDistanceClassifierBase.cs" />
-    <Compile Include="Accord.MachineLearning\Classifiers\Two classes\BinaryDistanceClassifierBase.cs" />
-    <Compile Include="Accord.MachineLearning\Classifiers\Two classes\BinaryClassifierBase.cs" />
-    <Compile Include="Accord.MachineLearning\Classifiers\Multiple classes\Multiclass\MulticlassClassifierBase`1.cs" />
-    <Compile Include="Accord.MachineLearning\Classifiers\Multiple classes\Multilabel\MultilabelGenerativeClassifierBase.cs" />
-    <Compile Include="Accord.MachineLearning\Classifiers\Two classes\BinaryGenerativeClassifierBase.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Accord.MachineLearning\Learning\ISupervisedBinaryLearning.cs" />
     <Compile Include="Accord.MachineLearning\Learning\ISupervisedLearning.cs" />
     <Compile Include="Accord.MachineLearning\Learning\ISupervisedMulticlassLearning.cs" />
@@ -334,28 +343,44 @@
     <Compile Include="Accord.MachineLearning\Learning\IUnsupervisedLearning.cs" />
     <Compile Include="Accord.MachineLearning\Learning\BinaryLearningBase.cs" />
     <Compile Include="Accord.MachineLearning\Learning\MulticlassLearningBase.cs" />
-    <Compile Include="Accord.MachineLearning\Learning\ParallelMulticlassLearningBase.cs" />
-    <Compile Include="Accord.MachineLearning\Learning\ParallelLearningBase.cs" />
-    <Compile Include="Accord.MachineLearning\Learning\IParallel.cs" />
-    <Compile Include="Measures\Measures.Histogram.cs" />
-    <Compile Include="Measures\Measures.Vectors.cs" />
-    <Compile Include="Measures\Measures.Matrix.cs" />
-    <Compile Include="Measures\Measures.Matrix.Weighted.cs" />
-    <Compile Include="Measures\Measures.Vectors.Weighted.cs" />
     <Compile Include="Measures\Tools.Misc.cs" />
     <Compile Include="Models\Accord.Statistics.Models.cs" />
     <Compile Include="Models\Fields\Accord.Statistics.Models.Fields.cs" />
+    <Compile Include="Models\Fields\HiddenConditionalRandomField.cs" />
     <Compile Include="Models\Fields\Learning\Accord.Statistics.Models.Fields.Learning.cs" />
+    <Compile Include="Models\Fields\Learning\Hidden\BaseHiddenConditionalRandomFieldLearning.cs" />
+    <Compile Include="Models\Fields\Learning\Hidden\BaseHiddenOptimizerLearning.cs" />
     <Compile Include="Models\Fields\Potential Functions\Clique Factor Potentials\Specialized\MarkovIndependentFactor.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Models\Markov\Base\BaseHiddenMarkovClassifier`3.cs" />
+    <Compile Include="Models\Markov\ForwardBackwardAlgorithm`2.cs" />
+    <Compile Include="Models\Markov\HiddenMarkovClassifier`2.cs" />
+    <Compile Include="Models\Markov\HiddenMarkovModel`2.cs" />
+    <Compile Include="Models\Markov\Learning\Base\BaseBaumWelchLearning.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\Markov\Learning\Base\BaseHiddenMarkovClassifierLearning`3.cs" />
+    <Compile Include="Models\Markov\Learning\Base\BaseHiddenMarkovModelLearning.cs" />
     <Compile Include="Models\Markov\Learning\Base\BaseViterbiLearning`1.cs" />
+    <Compile Include="Models\Markov\Learning\Base\BaseBaumWelchLearning`3.cs" />
+    <Compile Include="Models\Markov\Learning\BaumWelchLearning`3.cs" />
+    <Compile Include="Models\Markov\Learning\BaumWelchLearning`2.cs" />
+    <Compile Include="Models\Markov\Learning\HiddenMarkovClassifierLearning`2.cs" />
+    <Compile Include="Models\Markov\Learning\Base\BaseMaximumLikelihoodLearning`2.cs" />
+    <Compile Include="Models\Markov\Learning\MaximumLikelihoodLearning`2.cs" />
+    <Compile Include="Models\Markov\Learning\ViterbiLearning`2.cs" />
+    <Compile Include="Models\Regression\Linear\Fitting\PolynomialLeastSquares.cs" />
+    <Compile Include="Models\Regression\Linear\Fitting\OrdinaryLeastSquares.cs" />
+    <Compile Include="Models\Regression\Nonlinear\Fitting\MultinomialLogisticLearning`1.cs" />
     <Compile Include="Models\Regression\Nonlinear\Fitting\NonNegativeLeastSquares.cs" />
+    <Compile Include="Models\Regression\Nonlinear\MultivariateKernelRegression.cs" />
+    <Compile Include="Moving\MovingRangeStatistics.cs" />
+    <Compile Include="Moving\IMoving`1.cs" />
     <Compile Include="Running\IRunning`1.cs" />
     <Compile Include="Models\Markov\Hybrid\IHybridMarkovModel.cs" />
     <Compile Include="Models\Markov\Hybrid\HybridMarkovClassifier.cs" />
     <Compile Include="Models\Markov\Hybrid\HybridMarkovModel.cs" />
-    <Compile Include="Models\Markov\Learning\MultipleBaumWelchLearning.cs" />
     <Compile Include="Models\Markov\MarkovHelperMethods.cs" />
     <Compile Include="Models\Regression\Nonlinear\Fitting\NonlinearLeastSquares.cs" />
     <Compile Include="Models\Regression\Nonlinear\GeneralizedLinearRegression.cs" />
@@ -392,8 +417,7 @@
     </Compile>
     <Compile Include="Models\Fields\Potential Functions\Base\IPotentialFunction.cs" />
     <Compile Include="Models\Fields\Potential Functions\Base\PotentialFunctionBase.cs" />
-    <Compile Include="Models\Fields\HiddenConditionalRandomField.cs" />
-    <Compile Include="Models\IConvergenceLearning.cs" />
+    <Compile Include="Models\Fields\HiddenConditionalRandomField`1.cs" />
     <Compile Include="Models\Fields\Gradient\ForwardBackwardGradient.cs" />
     <Compile Include="Models\Fields\Learning\Hidden\IHiddenConditionalRandomFieldLearning.cs" />
     <Compile Include="Models\Fields\Learning\Visible\IConditionalRandomFieldLearning.cs" />
@@ -423,10 +447,9 @@
     <Compile Include="Models\Markov\HiddenMarkovClassifier`1.cs" />
     <Compile Include="Models\Markov\HiddenMarkovModel.cs" />
     <Compile Include="Models\Markov\Learning\HiddenMarkovClassifierLearning.cs" />
-    <Compile Include="Models\Markov\Learning\Base\BaseHiddenMarkovClassifierLearning.cs" />
+    <Compile Include="Models\Markov\Learning\Base\BaseHiddenMarkovClassifierLearning`2.cs" />
     <Compile Include="Models\Markov\Learning\Base\ISupervisedLearning.cs" />
     <Compile Include="Models\Markov\Learning\Base\IUnsupervisedLearning.cs" />
-    <Compile Include="Models\Markov\Learning\Base\BaseBaumWelchLearning.cs" />
     <Compile Include="Models\Markov\Learning\BaumWelchLearning.cs" />
     <Compile Include="Models\Markov\Learning\BaumWelchLearning`1.cs" />
     <Compile Include="Models\Markov\Learning\HiddenMarkovClassifierLearning`1.cs" />
@@ -457,17 +480,18 @@
     <Compile Include="Moving\IMovingStatistics.cs" />
     <Compile Include="Moving\MovingCircularStatistics.cs" />
     <Compile Include="Running\Markov\RunningMarkovStatistics.cs" />
+    <Compile Include="Running\RunningCircularStatistics.cs" />
+    <Compile Include="Running\RunningRangeStatistics.cs" />
     <Compile Include="Running\RunningNormalStatistics.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Moving\MovingNormalStatistics.cs" />
-    <Compile Include="Accord.Math\Loss\HammingLoss.cs" />
-    <Compile Include="Accord.Math\Loss\ZeroOneLoss.cs" />
     <Compile Include="Testing\Accord.Statistics.Testing.cs" />
     <Compile Include="Testing\Contingency\ReceiverOperatingCurveTest.cs" />
     <Compile Include="Testing\Contingency\TwoAverageKappaTest.cs" />
     <Compile Include="Testing\Contingency\AverageKappaTest.cs" />
     <Compile Include="Testing\Contingency\FisherExactTest.cs" />
     <Compile Include="Testing\AndersonDarlingTest.cs" />
+    <Compile Include="Testing\LillieforsTest.cs" />
     <Compile Include="Testing\ShapiroWilkTest.cs" />
     <Compile Include="Testing\MultinomialTest.cs" />
     <Compile Include="Testing\Multiple Samples\BartlettTest.cs" />
@@ -476,6 +500,7 @@
     <Compile Include="Testing\TwoSample\PairedTTest.cs" />
     <Compile Include="Testing\TwoSample\TwoProportionZTest.cs" />
     <Compile Include="Testing\Contingency\TwoReceiverOperatingCurveTest.cs" />
+    <Compile Include="Testing\GrubbTest.cs" />
     <Compile Include="Testing\WilcoxonTest.cs" />
     <Compile Include="Testing\TwoSample\MannWhitneyWilcoxonTest.cs" />
     <Compile Include="Testing\Power\Base\IPowerAnalysis.cs" />
@@ -527,6 +552,10 @@
       <Name>Accord.Core</Name>
       <Private>False</Private>
     </ProjectReference>
+    <ProjectReference Include="..\Accord.Math.Core\Accord.Math.Core.csproj">
+      <Project>{ed3a336f-6da2-4f34-87fe-1ccffa029f8c}</Project>
+      <Name>Accord.Math.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Accord.Math\Accord.Math.csproj">
       <Project>{F718E9A8-DB62-4785-8C49-4333A60D256A}</Project>
       <Name>Accord.Math</Name>
@@ -534,6 +563,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Accord.MachineLearning\Classifiers\Binary\Binary.cd" />
+    <None Include="Accord.MachineLearning\Classifiers\Multiple\Multiclass\Multiclass.cd" />
     <None Include="Accord.snk" />
     <None Include="Accord.Statistics.cd" />
     <None Include="Analysis\Accord.Statistics.Analysis.cd" />
@@ -542,8 +573,6 @@
     <None Include="Distributions\Univariate\Accord.Statistics.Distributions.Univariate.cd" />
     <None Include="Kernels\Accord.Statistics.Kernels.cd" />
     <None Include="Accord.MachineLearning\Accord.MachineLearning.Core.cd" />
-    <None Include="Accord.MachineLearning\Classifiers\Multiple classes\Multiclass\Multiclass.cd" />
-    <None Include="Accord.MachineLearning\Classifiers\Two classes\Binary.cd" />
     <None Include="Models\Accord.Statistics.Models.cd">
       <SubType>Designer</SubType>
     </None>
@@ -574,6 +603,8 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Accord.Math\Optimization\" />
+    <Folder Include="Models\Regression\Linear\Fitting\Base\" />
     <Folder Include="Running\Markov\Base\" />
   </ItemGroup>
   <ItemGroup>

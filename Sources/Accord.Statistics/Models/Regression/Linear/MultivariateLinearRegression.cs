@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -25,97 +25,35 @@ namespace Accord.Statistics.Models.Regression.Linear
     using System;
     using Accord.Math;
     using Accord.Math.Decompositions;
+    using Accord.MachineLearning;
+    using Accord.Statistics.Models.Regression.Fitting;
+    using Accord.Math.Optimization.Losses;
+    using Accord.Statistics.Testing;
+    using Accord.Compat;
 
     /// <summary>
     ///   Multivariate Linear Regression.
     /// </summary>
+    /// 
     /// <remarks>
     ///   Multivariate Linear Regression is a generalization of
     ///   Multiple Linear Regression to allow for multiple outputs.
     /// </remarks>
     /// 
     /// <example>
-    ///   <code>
-    ///   // The multivariate linear regression is a generalization of
-    ///   // the multiple linear regression. In the multivariate linear
-    ///   // regression, not only the input variables are multivariate,
-    ///   // but also are the output dependent variables.
-    ///   
-    ///   // In the following example, we will perform a regression of
-    ///   // a 2-dimensional output variable over a 3-dimensional input
-    ///   // variable.
-    ///   
-    ///   double[][] inputs = 
-    ///   {
-    ///       // variables:  x1  x2  x3
-    ///       new double[] {  1,  1,  1 }, // input sample 1
-    ///       new double[] {  2,  1,  1 }, // input sample 2
-    ///       new double[] {  3,  1,  1 }, // input sample 3
-    ///   };
-    ///   
-    ///   double[][] outputs = 
-    ///   {
-    ///       // variables:  y1  y2
-    ///       new double[] {  2,  3 }, // corresponding output to sample 1
-    ///       new double[] {  4,  6 }, // corresponding output to sample 2
-    ///       new double[] {  6,  9 }, // corresponding output to sample 3
-    ///   };
-    /// 
-    ///   // With a quick eye inspection, it is possible to see that
-    ///   // the first output variable y1 is always the double of the
-    ///   // first input variable. The second output variable y2 is
-    ///   // always the triple of the first input variable. The other
-    ///   // input variables are unused. Nevertheless, we will fit a
-    ///   // multivariate regression model and confirm the validity
-    ///   // of our impressions:
-    ///   
-    ///   // Create a new multivariate linear regression with 3 inputs and 2 outputs
-    ///   var regression = new MultivariateLinearRegression(3, 2);
-    ///   
-    ///   // Now, compute the multivariate linear regression:
-    ///   double error = regression.Regress(inputs, outputs);
-    ///   
-    ///   // At this point, the regression error will be 0 (the fit was
-    ///   // perfect). The regression coefficients for the first input
-    ///   // and first output variables will be 2. The coefficient for
-    ///   // the first input and second output variables will be 3. All
-    ///   // others will be 0.
-    ///   //
-    ///   // regression.Coefficients should be the matrix given by
-    ///   //
-    ///   // double[,] coefficients = {
-    ///   //                              { 2, 3 },
-    ///   //                              { 0, 0 },
-    ///   //                              { 0, 0 },
-    ///   //                          };
-    ///   //
-    /// 
-    ///   // The first input variable coefficients will be 2 and 3:
-    ///   Assert.AreEqual(2, regression.Coefficients[0, 0], 1e-10);
-    ///   Assert.AreEqual(3, regression.Coefficients[0, 1], 1e-10);
-    /// 
-    ///   // And all other coefficients will be 0:
-    ///   Assert.AreEqual(0, regression.Coefficients[1, 0], 1e-10);
-    ///   Assert.AreEqual(0, regression.Coefficients[1, 1], 1e-10);
-    ///   Assert.AreEqual(0, regression.Coefficients[2, 0], 1e-10);
-    ///   Assert.AreEqual(0, regression.Coefficients[2, 1], 1e-10);
-    /// 
-    ///   // We can also check the r-squared coefficients of determination:
-    ///   double[] r2 = regression.CoefficientOfDetermination(inputs, outputs);
-    /// 
-    ///   // Which should be one for both output variables:
-    ///   Assert.AreEqual(1, r2[0]);
-    ///   Assert.AreEqual(1, r2[1]);
-    ///   </code>
+    /// <code source="Unit Tests\Accord.Tests.Statistics\Models\Regression\MultivariateLinearRegressionTest.cs" region="doc_learn" />
     /// </example>
     /// 
     [Serializable]
-    public class MultivariateLinearRegression : ILinearRegression
+#pragma warning disable 612, 618
+    public class MultivariateLinearRegression : MultipleTransformBase<double[], double>, ILinearRegression
+#pragma warning restore 612, 618
     {
+        private double[][] weights;
 
-        private double[,] coefficients;
+        private double[,] coefficients; // obsolete
         private double[] intercepts;
-        private bool insertConstant;
+        private bool insertConstant;  // obsolete
 
 
         /// <summary>
@@ -125,6 +63,7 @@ namespace Accord.Statistics.Models.Regression.Linear
         /// <param name="inputs">The number of inputs for the regression.</param>
         /// <param name="outputs">The number of outputs for the regression.</param>
         /// 
+        [Obsolete("Please use the parameterless constructor instead.")]
         public MultivariateLinearRegression(int inputs, int outputs)
             : this(inputs, outputs, false)
         {
@@ -138,6 +77,7 @@ namespace Accord.Statistics.Models.Regression.Linear
         /// <param name="outputs">The number of outputs for the regression.</param>
         /// <param name="intercept">True to use an intercept term, false otherwise. Default is false.</param>
         /// 
+        [Obsolete("Please use the parameterless constructor instead.")]
         public MultivariateLinearRegression(int inputs, int outputs, bool intercept)
         {
             this.coefficients = new double[inputs, outputs];
@@ -149,6 +89,7 @@ namespace Accord.Statistics.Models.Regression.Linear
         ///   Creates a new Multivariate Linear Regression.
         /// </summary>
         /// 
+        [Obsolete("Please use the parameterless constructor instead.")]
         public MultivariateLinearRegression(double[,] coefficients, double[] intercepts, bool insertConstant)
         {
             this.coefficients = coefficients;
@@ -157,28 +98,77 @@ namespace Accord.Statistics.Models.Regression.Linear
         }
 
         /// <summary>
+        ///   Creates a new Multivariate Linear Regression.
+        /// </summary>
+        /// 
+        [Obsolete("Please use the parameterless constructor instead.")]
+        public MultivariateLinearRegression(double[][] coefficients, double[] intercepts, bool insertConstant)
+        {
+            this.coefficients = coefficients.ToMatrix();
+            this.intercepts = intercepts;
+            this.insertConstant = insertConstant;
+        }
+
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="MultivariateLinearRegression"/> class.
+        /// </summary>
+        /// 
+        public MultivariateLinearRegression()
+        {
+        }
+
+        /// <summary>
         ///   Gets the coefficient matrix used by the regression model. Each
         ///   column corresponds to the coefficient vector for each of the outputs.
         /// </summary>
         /// 
+        [Obsolete("Please use Weights instead.")]
         public double[,] Coefficients
         {
             get { return coefficients; }
         }
 
         /// <summary>
-        ///   Gets the intercept vector used by the multivariate regression model.
+        ///   Gets the linear weights matrix.
+        /// </summary>
+        /// 
+        public double[][] Weights
+        {
+            get { return weights; }
+            set
+            {
+                weights = value;
+                NumberOfInputs = value.Rows();
+                NumberOfOutputs = value.Columns();
+                coefficients = value.ToMatrix();
+            }
+        }
+
+        /// <summary>
+        ///   Gets the intercept vector (bias).
         /// </summary>
         /// 
         public double[] Intercepts
         {
             get { return intercepts; }
+            set { intercepts = value; }
+        }
+
+        /// <summary>
+        ///   Gets the number of parameters in the model (returns 
+        ///   NumberOfInputs * NumberOfOutputs + NumberOfInputs).
+        /// </summary>
+        /// 
+        public int NumberOfParameters
+        {
+            get { return NumberOfInputs * NumberOfOutputs + NumberOfOutputs; }
         }
 
         /// <summary>
         ///   Gets the number of inputs in the model.
         /// </summary>
         /// 
+        [Obsolete("Please use NumberOfInputs instead.")]
         public int Inputs
         {
             get { return coefficients.GetLength(0); }
@@ -188,6 +178,7 @@ namespace Accord.Statistics.Models.Regression.Linear
         ///   Gets the number of outputs in the model.
         /// </summary>
         /// 
+        [Obsolete("Please use NumberOfOutputs instead.")]
         public int Outputs
         {
             get { return coefficients.GetLength(1); }
@@ -202,6 +193,7 @@ namespace Accord.Statistics.Models.Regression.Linear
         /// <param name="outputs">The output values for each input vector.</param>
         /// <returns>The Sum-Of-Squares error of the regression.</returns>
         /// 
+        [Obsolete("Please use the LeastSquares class instead.")]
         public virtual double Regress(double[][] inputs, double[][] outputs)
         {
             if (inputs.Length != outputs.Length)
@@ -271,12 +263,13 @@ namespace Accord.Statistics.Models.Regression.Linear
                 }
             }
 
+            Weights = coefficients.ToJagged();
 
             // Calculate Sum-Of-Squares error
             double error = 0.0, e;
             for (int i = 0; i < outputs.Length; i++)
             {
-                double[] y = Compute(inputs[i]);
+                double[] y = Transform(inputs[i]);
 
                 for (int c = 0; c < y.Length; c++)
                 {
@@ -307,9 +300,9 @@ namespace Accord.Statistics.Models.Regression.Linear
         /// 
         /// <returns>The R² (r-squared) coefficient for the given data.</returns>
         /// 
-        public double[] CoefficientOfDetermination(double[][] inputs, double[][] outputs)
+        public double[] CoefficientOfDetermination(double[][] inputs, double[][] outputs, double[] weights = null)
         {
-            return CoefficientOfDetermination(inputs, outputs, false);
+            return CoefficientOfDetermination(inputs, outputs, false, weights);
         }
 
         /// <summary>
@@ -331,66 +324,16 @@ namespace Accord.Statistics.Models.Regression.Linear
         /// 
         /// <returns>The R² (r-squared) coefficient for the given data.</returns>
         /// 
-        public double[] CoefficientOfDetermination(double[][] inputs, double[][] outputs, bool adjust)
+        public double[] CoefficientOfDetermination(double[][] inputs, double[][] outputs, bool adjust, double[] weights = null)
         {
-            // R-squared = 100 * SS(regression) / SS(total)
+            var rsquared = new RSquaredLoss(NumberOfInputs, outputs);
 
-            int N = inputs.Length;
-            int M = coefficients.GetLength(1);
-            int P = coefficients.GetLength(0);
-            double[] SSe = new double[M];
-            double[] SSt = new double[M];
-            double[] avg = new double[M];
-            double[] r2 = new double[M];
-            double d;
+            rsquared.Adjust = adjust;
 
-            // For each output variable
-            for (int c = 0; c < M; c++)
-            {
-                // Calculate mean
-                for (int i = 0; i < N; i++)
-                    avg[c] += outputs[i][c];
-                avg[c] /= N;
-            }
+            if (weights != null)
+                rsquared.Weights = weights;
 
-            // Calculate SSe and SSt
-            for (int i = 0; i < N; i++)
-            {
-                double[] y = Compute(inputs[i]);
-                for (int c = 0; c < M; c++)
-                {
-                    d = outputs[i][c] - y[c];
-                    SSe[c] += d * d;
-
-                    d = outputs[i][c] - avg[c];
-                    SSt[c] += d * d;
-                }
-            }
-
-            // Calculate R-Squared
-            for (int c = 0; c < M; c++)
-                r2[c] = 1.0 - (SSe[c] / SSt[c]);
-
-            if (adjust)
-            {
-                // Return adjusted R-Squared
-                for (int c = 0; c < M; c++)
-                {
-                    if (r2[c] == 1.0)
-                        continue;
-
-                    if (N == P + 1)
-                    {
-                        r2[c] = double.NaN;
-                    }
-                    else
-                    {
-                        r2[c] = 1.0 - (1.0 - r2[c]) * ((N - 1.0) / (N - P - 1.0));
-                    }
-                }
-            }
-
-            return r2;
+            return rsquared.Loss(Transform(inputs));
         }
 
         /// <summary>
@@ -400,6 +343,7 @@ namespace Accord.Statistics.Models.Regression.Linear
         /// <param name="input">A input vector.</param>
         /// <returns>The computed output.</returns>
         /// 
+        [Obsolete("Please use Transform() instead.")]
         public double[] Compute(double[] input)
         {
             int N = input.Length;
@@ -409,7 +353,6 @@ namespace Accord.Statistics.Models.Regression.Linear
             for (int i = 0; i < M; i++)
             {
                 result[i] = intercepts[i];
-
                 for (int j = 0; j < N; j++)
                     result[i] += input[j] * coefficients[j, i];
             }
@@ -424,13 +367,12 @@ namespace Accord.Statistics.Models.Regression.Linear
         /// <param name="input">An array of input vectors.</param>
         /// <returns>The computed outputs.</returns>
         /// 
+        [Obsolete("Please use Transform() instead.")]
         public double[][] Compute(double[][] input)
         {
             double[][] output = new double[input.Length][];
-
             for (int j = 0; j < input.Length; j++)
                 output[j] = Compute(input[j]);
-
             return output;
         }
 
@@ -445,11 +387,7 @@ namespace Accord.Statistics.Models.Regression.Linear
         /// 
         public static MultivariateLinearRegression FromData(double[][] x, double[][] y)
         {
-            var regression = new MultivariateLinearRegression(x[0].Length, y[0].Length);
-
-            regression.Regress(x, y);
-
-            return regression;
+            return new OrdinaryLeastSquares().Learn(x, y);
         }
 
         /// <summary>
@@ -461,24 +399,184 @@ namespace Accord.Statistics.Models.Regression.Linear
         /// 
         /// <returns>A linear regression with the given coefficients.</returns>
         /// 
+        [Obsolete("Please use the parameterless constructor and set Weights and Intercept directly.")]
         public static MultivariateLinearRegression FromCoefficients(double[][] coefficients, double[] intercept)
         {
             var regression = new MultivariateLinearRegression(coefficients.Length, coefficients[0].Length);
-            regression.coefficients = coefficients.ToMatrix();
+            regression.Weights = coefficients;
             regression.intercepts = intercept;
             return regression;
         }
 
-
-        #region ILinearRegression Members
         /// <summary>
-        ///   Computes the model output for a given input.
+        ///   Creates the inverse regression, a regression that can recover
+        ///   the input data given the outputs of this current regression.
         /// </summary>
+        /// 
+        public MultivariateLinearRegression Inverse()
+        {
+            double[][] inv = Weights.PseudoInverse();
+            return new MultivariateLinearRegression()
+            {
+                Weights = inv,
+                Intercepts = intercepts != null ? intercepts.Dot(inv).Multiply(-1) : null
+            };
+        }
+
+#pragma warning disable 612, 618
+        [Obsolete("Please use Transform instead.")]
         double[] ILinearRegression.Compute(double[] inputs)
         {
             return this.Compute(inputs);
         }
-        #endregion
+#pragma warning restore 612, 618
 
+
+        /// <summary>
+        /// Applies the transformation to an input, producing an associated output.
+        /// </summary>
+        /// <param name="input">The input data to which the transformation should be applied.</param>
+        /// <param name="result"></param>
+        /// <returns>
+        /// The output generated by applying this transformation to the given input.
+        /// </returns>
+        public override double[][] Transform(double[][] input, double[][] result)
+        {
+            input.Dot(Weights, result: result);
+            if (intercepts != null)
+                result.Add(intercepts, dimension: 0, result: result);
+            return result;
+        }
+
+        /// <summary>
+        /// Gets the overall regression standard error.
+        /// </summary>
+        /// 
+        /// <param name="inputs">The inputs used to train the model.</param>
+        /// <param name="outputs">The outputs used to train the model.</param>
+        /// 
+        public double[] GetStandardError(double[][] inputs, double[][] outputs)
+        {
+            // Calculate actual outputs (results)
+            double[][] results = Transform(inputs);
+
+            double[] SSe = new double[NumberOfOutputs];
+            for (int i = 0; i < inputs.Length; i++)
+            {
+                for (int j = 0; j < SSe.Length; j++)
+                {
+                    double d = outputs[i][j] - results[i][j];
+                    SSe[j] += d * d;
+                }
+            }
+
+            double DFe = GetDegreesOfFreedom(inputs.Length);
+            return Elementwise.Sqrt(SSe.Divide(DFe));
+        }
+
+        /// <summary>
+        /// Gets the degrees of freedom when fitting the regression.
+        /// </summary>
+        /// 
+        public double GetDegreesOfFreedom(int numberOfSamples)
+        {
+            return numberOfSamples - NumberOfParameters;
+        }
+
+        /// <summary>
+        /// Gets the standard error for each coefficient.
+        /// </summary>
+        /// 
+        /// <param name="mse">The overall regression standard error (can be computed from <see cref="GetStandardError(double[][], double[][])"/>.</param>
+        /// <param name="informationMatrix">The information matrix obtained when training the model (see <see cref="OrdinaryLeastSquares.GetInformationMatrix()"/>).</param>
+        /// 
+        public double[][] GetStandardErrors(double[] mse, double[][] informationMatrix)
+        {
+            double[][] se = Jagged.Zeros(NumberOfOutputs, informationMatrix.Length);
+            for (int j = 0; j < se.Length; j++)
+                for (int i = 0; i < informationMatrix.Length; i++)
+                    se[j][i] = mse[j] * Math.Sqrt(informationMatrix[i][i]);
+            return se;
+        }
+
+        /// <summary>
+        /// Gets the standard error of the fit for a particular input vector.
+        /// </summary>
+        /// 
+        /// <param name="input">The input vector where the standard error of the fit should be computed.</param>
+        /// <param name="mse">The overall regression standard error (can be computed from <see cref="GetStandardError(double[][], double[][])"/>.</param>        
+        /// <param name="informationMatrix">The information matrix obtained when training the model (see <see cref="OrdinaryLeastSquares.GetInformationMatrix()"/>).</param>
+        /// 
+        /// <returns>The standard error of the fit at the given input point.</returns>
+        /// 
+        public double[] GetStandardError(double[] input, double[] mse, double[][] informationMatrix)
+        {
+            double rim = predictionVariance(input, informationMatrix);
+            return mse.Multiply(Math.Sqrt(rim));
+        }
+
+        /// <summary>
+        /// Gets the standard error of the prediction for a particular input vector.
+        /// </summary>
+        /// 
+        /// <param name="input">The input vector where the standard error of the prediction should be computed.</param>
+        /// <param name="mse">The overall regression standard error (can be computed from <see cref="GetStandardError(double[][], double[][])"/>.</param>
+        /// <param name="informationMatrix">The information matrix obtained when training the model (see <see cref="OrdinaryLeastSquares.GetInformationMatrix()"/>).</param>
+        /// 
+        /// <returns>The standard error of the prediction given for the input point.</returns>
+        /// 
+        public double[] GetPredictionStandardError(double[] input, double[] mse, double[][] informationMatrix)
+        {
+            double rim = predictionVariance(input, informationMatrix);
+            return mse.Multiply(Math.Sqrt(1 + rim));
+        }
+
+        /// <summary>
+        /// Gets the confidence interval for an input point.
+        /// </summary>
+        /// 
+        /// <param name="input">The input vector.</param>
+        /// <param name="mse">The overall regression standard error (can be computed from <see cref="GetStandardError(double[][], double[][])"/>.</param>
+        /// <param name="numberOfSamples">The number of training samples used to fit the model.</param>
+        /// <param name="informationMatrix">The information matrix obtained when training the model (see <see cref="OrdinaryLeastSquares.GetInformationMatrix()"/>).</param>
+        /// <param name="percent">The prediction interval confidence (default is 95%).</param>
+        /// 
+        public DoubleRange[] GetConfidenceInterval(double[] input, double[] mse, int numberOfSamples, double[][] informationMatrix, double percent = 0.95)
+        {
+            double[] se = GetStandardError(input, mse, informationMatrix);
+            return createInterval(input, numberOfSamples, percent, se);
+        }
+
+        /// <summary>
+        /// Gets the prediction interval for an input point.
+        /// </summary>
+        /// 
+        /// <param name="input">The input vector.</param>
+        /// <param name="mse">The overall regression standard error (can be computed from <see cref="GetStandardError(double[][], double[][])"/>.</param>
+        /// <param name="numberOfSamples">The number of training samples used to fit the model.</param>
+        /// <param name="informationMatrix">The information matrix obtained when training the model (see <see cref="OrdinaryLeastSquares.GetInformationMatrix()"/>).</param>
+        /// <param name="percent">The prediction interval confidence (default is 95%).</param>
+        /// 
+        public DoubleRange[] GetPredictionInterval(double[] input, double[] mse, int numberOfSamples, double[][] informationMatrix, double percent = 0.95)
+        {
+            double[] se = GetPredictionStandardError(input, mse, informationMatrix);
+            return createInterval(input, numberOfSamples, percent, se);
+        }
+
+        private static double predictionVariance(double[] input, double[][] im)
+        {
+            if (input.Length < im.Length)
+                input = input.Concatenate(1);
+            return input.Dot(im).Dot(input);
+        }
+
+        private DoubleRange[] createInterval(double[] input, int numberOfSamples, double percent, double[] se)
+        {
+            double[] y = Transform(input);
+            double df = GetDegreesOfFreedom(numberOfSamples);
+            return se.Apply((x, i) =>
+                new TTest(estimatedValue: y[i], standardError: x, degreesOfFreedom: df)
+                    .GetConfidenceInterval(percent));
+        }
     }
 }

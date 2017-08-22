@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -30,6 +30,14 @@ namespace Accord.Tests.IO
     using NUnit.Framework;
     using Accord.Math;
     using System.Globalization;
+
+#if NO_CULTURE
+    using CultureInfo = Accord.Compat.CultureInfo;
+#endif
+
+#if NO_DEFAULT_ENCODING
+    using Encoding = Accord.Compat.Encoding;
+#endif
 
     [TestFixture]
     public class LibSvmModelTest
@@ -61,11 +69,12 @@ namespace Accord.Tests.IO
 
             var machine = reader.CreateMachine();
 
-            Assert.IsNull(machine.SupportVectors);
+            Assert.AreEqual(1, machine.SupportVectors.Length);
+            Assert.AreEqual(122, machine.SupportVectors[0].Length);
             Assert.AreEqual(machine.Threshold, a9a_weights[0]);
 
-            for (int i = 0; i < machine.Weights.Length; i++)
-                Assert.AreEqual(machine.Weights[i], a9a_weights[i + 1]);
+            for (int i = 0; i < machine.SupportVectors[0].Length; i++)
+                Assert.AreEqual(machine.SupportVectors[0][i], a9a_weights[i + 1]);
         }
 
         [Test]
@@ -75,12 +84,12 @@ namespace Accord.Tests.IO
 
             var model = new LibSvmModel()
             {
-                 Bias = -1,
-                 Classes = 2, 
-                 Dimension = 123,
-                 Labels = new[] { +1, -1 },
-                 Solver = LibSvmSolverType.L1RegularizedLogisticRegression,
-                 Weights = a9a_weights
+                Bias = -1,
+                Classes = 2,
+                Dimension = 123,
+                Labels = new[] { +1, -1 },
+                Solver = LibSvmSolverType.L1RegularizedLogisticRegression,
+                Weights = a9a_weights
             };
 
             model.Save(destination);
@@ -152,7 +161,7 @@ namespace Accord.Tests.IO
         }
 
 
-        private static double[] a9a_weights = 
+        private static double[] a9a_weights =
         {
             -1.582078049646382,   -0.642353059177759,   -0.03749159485897963,  0.2771411674145598,
              0.2653433548837567,   0.3415826259468487,  -0.05175901290550707,  0.664475778321269,
@@ -184,7 +193,7 @@ namespace Accord.Tests.IO
              0,                    0.1703791693215565,   0.2216059824256973,  -2.031437061283596,
              0,                   -0.4399798222194601,  -0.0728251038840361,   0,
              0,                    0.480264506314448,   -0.3699822088077383,  -0.1089542718979226,
-            -1.247016957015914,    0,                    0, 
+            -1.247016957015914,    0,                    0,
         };
     }
 }

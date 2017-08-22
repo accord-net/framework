@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -24,143 +24,31 @@ namespace Accord.MachineLearning
 {
     using System;
     using System.Collections.Generic;
-    using System.Threading.Tasks;
     using Accord.Math;
+    using Accord.MachineLearning.Performance;
+    using Accord.Compat;
+    using System.Threading.Tasks;
 
     /// <summary>
-    ///   Fitting function delegate.
+    ///   Obsolete. Please use <see cref="CrossValidation{TModel, TInput, TOutput}"/> instead.
     /// </summary>
-    /// 
-    /// <param name="k">
-    ///   The fold index.</param>
-    /// <param name="trainingSamples">
-    ///   The sample indexes to be used as training samples in
-    ///   the model fitting procedure. </param>
-    /// <param name="validationSamples">
-    ///   The sample indexes to be used as validation samples in
-    ///   the model fitting procedure. </param>
-    ///   
-    /// <remarks>
-    ///   The fitting function is called during the Cross-validation
-    ///   procedure to fit a model with the given set of samples for
-    ///   training and validation.
-    /// </remarks>
     /// 
     public delegate CrossValidationValues<TModel>
         CrossValidationFittingFunction<TModel>(int k, int[] trainingSamples, int[] validationSamples)
         where TModel : class;
 
     /// <summary>
-    ///   k-Fold cross-validation.
+    ///   Obsolete. Please use <see cref="CrossValidation{TModel, TInput, TOutput}"/> instead.
     /// </summary>
     /// 
-    /// <typeparam name="TModel">The type of the model being analyzed.</typeparam>
-    /// 
-    /// <remarks>
-    /// <para>
-    ///   Cross-validation is a technique for estimating the performance of a predictive
-    ///   model. It can be used to measure how the results of a statistical analysis will
-    ///   generalize to an independent data set. It is mainly used in settings where the
-    ///   goal is prediction, and one wants to estimate how accurately a predictive model
-    ///   will perform in practice.</para>
-    /// <para>
-    ///   One round of cross-validation involves partitioning a sample of data into
-    ///   complementary subsets, performing the analysis on one subset (called the
-    ///   training set), and validating the analysis on the other subset (called the
-    ///   validation set or testing set). To reduce variability, multiple rounds of 
-    ///   cross-validation are performed using different partitions, and the validation 
-    ///   results are averaged over the rounds.</para> 
-    ///   
-    /// <para>
-    ///   References:
-    ///   <list type="bullet">
-    ///     <item><description><a href="http://en.wikipedia.org/wiki/Cross-validation_(statistics)">
-    ///       Wikipedia, The Free Encyclopedia. Cross-validation (statistics). Available on:
-    ///       http://en.wikipedia.org/wiki/Cross-validation_(statistics) </a></description></item>
-    ///   </list></para> 
-    /// </remarks>
-    /// 
     /// <example>
-    ///   <code>
-    ///   // This is a sample code on how to use Cross-Validation
-    ///   // to access the performance of Support Vector Machines.
-    ///
-    ///   // Consider the example binary data. We will be trying
-    ///   // to learn a XOR problem and see how well does SVMs
-    ///   // perform on this data.
-    ///
-    ///   double[][] data =
-    ///   {
-    ///       new double[] { -1, -1 }, new double[] {  1, -1 },
-    ///       new double[] { -1,  1 }, new double[] {  1,  1 },
-    ///       new double[] { -1, -1 }, new double[] {  1, -1 },
-    ///       new double[] { -1,  1 }, new double[] {  1,  1 },
-    ///       new double[] { -1, -1 }, new double[] {  1, -1 },
-    ///       new double[] { -1,  1 }, new double[] {  1,  1 },
-    ///       new double[] { -1, -1 }, new double[] {  1, -1 },
-    ///       new double[] { -1,  1 }, new double[] {  1,  1 },
-    ///   };
-    ///
-    ///   int[] xor = // result of xor for the sample input data
-    ///   {
-    ///       -1,       1,
-    ///        1,      -1,
-    ///       -1,       1,
-    ///        1,      -1,
-    ///       -1,       1,
-    ///        1,      -1,
-    ///       -1,       1,
-    ///        1,      -1,
-    ///   };
-    ///
-    ///
-    ///   // Create a new Cross-validation algorithm passing the data set size and the number of folds
-    ///   var crossvalidation = new CrossValidation&lt;KernelSupportVectorMachine>(size: data.Length, folds: 3);
-    ///
-    ///   // Define a fitting function using Support Vector Machines. The objective of this
-    ///   // function is to learn a SVM in the subset of the data indicated by cross-validation.
-    ///
-    ///   crossvalidation.Fitting = delegate(int k, int[] indicesTrain, int[] indicesValidation)
-    ///   {
-    ///       // The fitting function is passing the indices of the original set which
-    ///       // should be considered training data and the indices of the original set
-    ///       // which should be considered validation data.
-    ///
-    ///       // Lets now grab the training data:
-    ///       var trainingInputs = data.Submatrix(indicesTrain);
-    ///       var trainingOutputs = xor.Submatrix(indicesTrain);
-    ///
-    ///       // And now the validation data:
-    ///       var validationInputs = data.Submatrix(indicesValidation);
-    ///       var validationOutputs = xor.Submatrix(indicesValidation);
-    ///
-    ///
-    ///       // Create a Kernel Support Vector Machine to operate on the set
-    ///       var svm = new KernelSupportVectorMachine(new Polynomial(2), 2);
-    ///
-    ///       // Create a training algorithm and learn the training data
-    ///       var smo = new SequentialMinimalOptimization(svm, trainingInputs, trainingOutputs);
-    ///
-    ///       double trainingError = smo.Run();
-    ///
-    ///       // Now we can compute the validation error on the validation data:
-    ///       double validationError = smo.ComputeError(validationInputs, validationOutputs);
-    ///
-    ///       // Return a new information structure containing the model and the errors achieved.
-    ///       return new CrossValidationValues&lt;KernelSupportVectorMachine>(svm, trainingError, validationError);
-    ///   };
-    ///
-    ///
-    ///   // Compute the cross-validation
-    ///   var result = crossvalidation.Compute();
-    ///
-    ///   // Finally, access the measured performance.
-    ///   double trainingErrors = result.Training.Mean;
-    ///   double validationErrors = result.Validation.Mean;
-    ///   </code>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\CrossValidationTest.cs" region="doc_learn" />
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\CrossValidationTest.cs" region="doc_learn_hmm" />
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\DecisionTrees\DecisionTreeTest.cs" region="doc_cross_validation" />
     /// </example>
     /// 
     [Serializable]
+    [Obsolete("Please use CrossValidation<TModel, TInput, TOutput> instead.")]
     public class CrossValidation<TModel> where TModel : class
     {
 
@@ -355,7 +243,8 @@ namespace Accord.MachineLearning
             validationCount = 0;
 
             for (int j = 0; j < folds.Length; j++)
-                if (validationFoldIndex != j) trainingCount += folds[j].Length;
+                if (validationFoldIndex != j)
+                    trainingCount += folds[j].Length;
 
             validationCount = folds[validationFoldIndex].Length;
         }

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -61,25 +61,11 @@ namespace Accord.Math.Optimization
     ///   The following example shows how to compute the maximum,
     ///   minimum and a single root of a univariate function.</para>
     ///   
-    /// <code>
-    /// // Suppose we were given the function x³ + 2x² - 10x and 
-    /// // we have to find its root, maximum and minimum inside 
-    /// // the interval [-4,3]. First, we express this function
-    /// // as a lambda expression:
-    /// Func&lt;double, double> function = x => x * x * x + 2 * x * x - 10 * x;
-    /// 
-    /// // And now we can create the search algorithm:
-    /// BrentSearch search = new BrentSearch(function, -4, 3);
-    /// 
-    /// // Finally, we can query the information we need
-    /// double max = search.Maximize();  // occurs at -2.61
-    /// double min = search.Minimize();  // occurs at  1.27
-    /// double root = search.FindRoot(); // occurs at  0.50
-    /// </code>
+    /// <code source="Unit Tests\Accord.Tests.Math\Optimization\BrentSearchTest.cs" region="doc_example" />
     /// </example>
     /// 
     /// 
-    public sealed class BrentSearch : IOptimizationMethod
+    public sealed class BrentSearch : IOptimizationMethod<double, double>
     {
 
         /// <summary>
@@ -94,6 +80,11 @@ namespace Accord.Math.Optimization
         public int NumberOfVariables
         {
             get { return 1; }
+            set
+            {
+                if (value != 1)
+                    throw new InvalidOperationException("Brent Search supports only one variable.");
+            }
         }
 
         /// <summary>
@@ -121,19 +112,7 @@ namespace Accord.Math.Optimization
         ///   or <see cref="FindRoot()"/>.
         /// </summary>
         /// 
-        public double Solution { get; private set; }
-
-        /// <summary>
-        ///   Gets the value at the solution found in the last call
-        ///   to <see cref="Minimize()"/>, <see cref="Maximize()"/>
-        ///   or <see cref="FindRoot()"/>.
-        /// </summary>
-        /// 
-        double[] IOptimizationMethod.Solution
-        {
-            get { return new double[] { Value }; }
-            set { Value = value[0]; }
-        }
+        public double Solution { get; set; }
 
         /// <summary>
         ///   Gets the value at the solution found in the last call
@@ -261,7 +240,7 @@ namespace Accord.Math.Optimization
             }
 
             // First step - always gold section
-            v = lowerBound + r * (upperBound - lowerBound); 
+            v = lowerBound + r * (upperBound - lowerBound);
             fv = function(v);
             x = v; fx = fv;
             w = v; fw = fv;

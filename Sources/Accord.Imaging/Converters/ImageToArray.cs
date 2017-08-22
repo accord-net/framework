@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -151,8 +151,7 @@ namespace Accord.Imaging.Converters
         /// 
         public void Convert(Bitmap input, out double[][] output)
         {
-            BitmapData bitmapData = input.LockBits(new Rectangle(0, 0, input.Width, input.Height),
-                System.Drawing.Imaging.ImageLockMode.ReadOnly, input.PixelFormat);
+            BitmapData bitmapData = input.LockBits(ImageLockMode.ReadOnly);
 
             Convert(new UnmanagedImage(bitmapData), out output);
 
@@ -168,8 +167,7 @@ namespace Accord.Imaging.Converters
         /// 
         public void Convert(Bitmap input, out float[][] output)
         {
-            BitmapData bitmapData = input.LockBits(new Rectangle(0, 0, input.Width, input.Height),
-                System.Drawing.Imaging.ImageLockMode.ReadOnly, input.PixelFormat);
+            BitmapData bitmapData = input.LockBits(ImageLockMode.ReadOnly);
 
             Convert(new UnmanagedImage(bitmapData), out output);
 
@@ -185,8 +183,7 @@ namespace Accord.Imaging.Converters
         /// 
         public void Convert(Bitmap input, out double[] output)
         {
-            BitmapData bitmapData = input.LockBits(new Rectangle(0, 0, input.Width, input.Height),
-                System.Drawing.Imaging.ImageLockMode.ReadOnly, input.PixelFormat);
+            BitmapData bitmapData = input.LockBits(ImageLockMode.ReadOnly);
 
             Convert(new UnmanagedImage(bitmapData), out output);
 
@@ -202,8 +199,7 @@ namespace Accord.Imaging.Converters
         /// 
         public void Convert(Bitmap input, out float[] output)
         {
-            BitmapData bitmapData = input.LockBits(new Rectangle(0, 0, input.Width, input.Height),
-                System.Drawing.Imaging.ImageLockMode.ReadOnly, input.PixelFormat);
+            BitmapData bitmapData = input.LockBits(ImageLockMode.ReadOnly);
 
             Convert(new UnmanagedImage(bitmapData), out output);
 
@@ -219,8 +215,7 @@ namespace Accord.Imaging.Converters
         /// 
         public void Convert(Bitmap input, out Color[] output)
         {
-            BitmapData bitmapData = input.LockBits(new Rectangle(0, 0, input.Width, input.Height),
-                System.Drawing.Imaging.ImageLockMode.ReadOnly, input.PixelFormat);
+            BitmapData bitmapData = input.LockBits(ImageLockMode.ReadOnly);
 
             Convert(new UnmanagedImage(bitmapData), out output);
 
@@ -238,8 +233,8 @@ namespace Accord.Imaging.Converters
         {
             int width = input.Width;
             int height = input.Height;
-            int pixelSize = System.Drawing.Image.GetPixelFormatSize(input.PixelFormat) / 8;
-            int offset = input.Stride - input.Width * pixelSize;
+            int pixelSize = input.PixelSize;
+            int offset = input.Offset;
 
             output = new double[width * height][];
 
@@ -272,8 +267,8 @@ namespace Accord.Imaging.Converters
         {
             int width = input.Width;
             int height = input.Height;
-            int pixelSize = System.Drawing.Image.GetPixelFormatSize(input.PixelFormat) / 8;
-            int offset = input.Stride - input.Width * pixelSize;
+            int pixelSize = input.PixelSize;
+            int offset = input.Offset;
 
             output = new float[width * height][];
 
@@ -309,8 +304,8 @@ namespace Accord.Imaging.Converters
         {
             int width = input.Width;
             int height = input.Height;
-            int pixelSize = System.Drawing.Image.GetPixelFormatSize(input.PixelFormat) / 8;
-            int offset = input.Stride - input.Width * pixelSize;
+            int pixelSize = input.PixelSize;
+            int offset = input.Offset;
 
             output = new double[width * height];
 
@@ -356,8 +351,8 @@ namespace Accord.Imaging.Converters
         {
             int width = input.Width;
             int height = input.Height;
-            int pixelSize = System.Drawing.Image.GetPixelFormatSize(input.PixelFormat) / 8;
-            int offset = input.Stride - input.Width * pixelSize;
+            int pixelSize = input.PixelSize;
+            int offset = input.Offset;
 
             output = new float[width * height];
 
@@ -407,8 +402,8 @@ namespace Accord.Imaging.Converters
             int width = input.Width;
             int height = input.Height;
 
-            int pixelSize = Bitmap.GetPixelFormatSize(input.PixelFormat) / 8;
-            int offset = input.Stride - input.Width * pixelSize;
+            int pixelSize = input.PixelSize;
+            int offset = input.Offset;
 
             output = new Color[input.Width * input.Height];
             int dst = 0;

@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <AssemblyName>Accord.Fuzzy</AssemblyName>
+    <RootNamespace>Accord.Fuzzy</RootNamespace>
+    <TargetFrameworks>netstandard2.0;netstandard1.4</TargetFrameworks>
+  </PropertyGroup>
+
+  <Import Project="$(SolutionDir)Accord.NET (NETStandard).targets" />
+
+  <ItemGroup>
+    <ProjectReference Include="..\Accord.Core\Accord.Core (NETStandard).csproj" />
+  </ItemGroup>
+
+</Project>

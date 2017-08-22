@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -24,11 +24,12 @@ namespace Accord.Math.Distances
 {
     using System;
     using System.Runtime.CompilerServices;
+    using Accord.Compat;
 
     /// <summary>
     ///   The Minkowski distance is a metric in a normed vector space which can be 
     ///   considered as a generalization of both the <see cref="Euclidean">Euclidean 
-    ///   distance</see> and the <see cref="Manhattan ">Manhattan distance</see>.
+    ///   distance</see> and the <see cref="Manhattan">Manhattan distance</see>.
     /// </summary>
     /// 
     /// <remarks>
@@ -46,7 +47,7 @@ namespace Accord.Math.Distances
     /// </remarks>
     /// 
     [Serializable]
-    public sealed class Minkowski : IMetric<double[]>, IMetric<int[]>
+    public struct Minkowski : IMetric<double[]>, IMetric<int[]>
     {
         private double p;
 
@@ -86,7 +87,7 @@ namespace Accord.Math.Distances
         ///   to the distance function implemented by this class.
         /// </returns>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public double Distance(int[] x, int[] y)
@@ -111,7 +112,7 @@ namespace Accord.Math.Distances
         ///   to the distance function implemented by this class.
         /// </returns>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public double Distance(double[] x, double[] y)

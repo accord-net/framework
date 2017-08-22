@@ -4,60 +4,41 @@
     <ProjectGuid>{4959A83D-F78F-439E-80A5-41583ECEAAC6}</ProjectGuid>
     <RootNamespace>Accord.Imaging</RootNamespace>
     <AssemblyName>Accord.Imaging</AssemblyName>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
-    <WarningLevel>4</WarningLevel>
-    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-    <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>Accord.snk</AssemblyOriginatorKeyFile>
-    <OldToolsVersion>3.5</OldToolsVersion>
-    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
-    <MapFileExtensions>true</MapFileExtensions>
-    <CodeAnalysisRuleSet>..\Accord.NET.ruleset</CodeAnalysisRuleSet>
-    <UseApplicationTrust>false</UseApplicationTrust>
-    <BootstrapperEnabled>true</BootstrapperEnabled>
-    <FileAlignment>4096</FileAlignment>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <DebugSymbols>true</DebugSymbols>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
-    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
-    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
   </PropertyGroup>
+  <Import Project="$(SolutionDir)Accord.NET.targets" />
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <OutputPath>bin\Debug\</OutputPath>
     <DebugType>Full</DebugType>
     <Optimize>False</Optimize>
-    <RunCodeAnalysis>False</RunCodeAnalysis>
     <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <OutputPath>$(SolutionDir)..\Debug\</OutputPath>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NET35|AnyCPU' ">
-    <OutputPath>$(SolutionDir)..\Release\net35</OutputPath>
-    <DefineConstants>TRACE;CODE_ANALYSIS;NET35</DefineConstants>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'net35|AnyCPU' ">
+    <DefineConstants>TRACE;NET35</DefineConstants>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-    <DocumentationFile>$(SolutionDir)..\Release\net35\Accord.Imaging.XML</DocumentationFile>
-    <CodeAnalysisLogFile>$(SolutionDir)..\Release\net35\Accord.Imaging.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NET40|AnyCPU' ">
-    <OutputPath>$(SolutionDir)..\Release\net40</OutputPath>
-    <DefineConstants>TRACE;CODE_ANALYSIS;NET40</DefineConstants>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'net40|AnyCPU' ">
+    <DefineConstants>TRACE;NET40</DefineConstants>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <DocumentationFile>$(SolutionDir)..\Release\net40\Accord.Imaging.XML</DocumentationFile>
-    <CodeAnalysisLogFile>$(SolutionDir)..\Release\net40\Accord.Imaging.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'NET45|AnyCPU'">
-    <OutputPath>$(SolutionDir)..\Release\net45</OutputPath>
-    <DefineConstants>TRACE;CODE_ANALYSIS;NET45</DefineConstants>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'net45|AnyCPU'">
+    <DefineConstants>TRACE;NET45</DefineConstants>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <DocumentationFile>$(SolutionDir)..\Release\net45\Accord.Imaging.XML</DocumentationFile>
-    <CodeAnalysisLogFile>$(SolutionDir)..\Release\net45\Accord.Imaging.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'net46|AnyCPU'">
+    <DefineConstants>TRACE;NET46</DefineConstants>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'net462|AnyCPU' ">
+    <DefineConstants>TRACE;NET462</DefineConstants>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'mono|AnyCPU'">
+    <DefineConstants>TRACE;MONO</DefineConstants>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -66,16 +47,20 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Numerics" Condition="'$(Configuration)' != 'NET35'" />
+    <Reference Include="System.Numerics" Condition="'$(Configuration)' != 'net35'" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\Accord.Core\Properties\VersionInfo.cs">
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
-    <Compile Include="AForge.Imaging\Blob.cs" />
-    <Compile Include="AForge.Imaging\BlobCounter.cs" />
-    <Compile Include="AForge.Imaging\BlobCounterBase.cs" />
+    <Compile Include="Accord.DataSets\TestImages.cs" />
+    <Compile Include="AForge.Imaging\Filters\2 Source filters\Divide.cs" />
+    <Compile Include="AForge.Imaging\Filters\2 Source filters\Multiply.cs" />
+    <Compile Include="AForge.Imaging\Filters\Convolution\FastBoxBlur.cs" />
+    <Compile Include="Blob Processing\Blob.cs" />
+    <Compile Include="Blob Processing\BlobCounter.cs" />
+    <Compile Include="Blob Processing\BlobCounterBase.cs" />
     <Compile Include="AForge.Imaging\BlockMatch.cs" />
     <Compile Include="AForge.Imaging\Color Reduction\BurkesColorDithering.cs" />
     <Compile Include="AForge.Imaging\Color Reduction\ColorErrorDiffusionToAdjacentNeighbors.cs" />
@@ -96,8 +81,8 @@
     <Compile Include="AForge.Imaging\DocumentSkewChecker.cs" />
     <Compile Include="AForge.Imaging\Drawing.cs" />
     <Compile Include="AForge.Imaging\Exceptions.cs" />
-    <Compile Include="AForge.Imaging\ExhaustiveBlockMatching.cs" />
-    <Compile Include="AForge.Imaging\ExhaustiveTemplateMatching.cs" />
+    <Compile Include="ExhaustiveBlockMatching.cs" />
+    <Compile Include="ExhaustiveTemplateMatching.cs" />
     <Compile Include="AForge.Imaging\Filters\2 Source filters\Add.cs" />
     <Compile Include="AForge.Imaging\Filters\2 Source filters\Difference.cs" />
     <Compile Include="AForge.Imaging\Filters\2 Source filters\Intersect.cs" />
@@ -182,26 +167,28 @@
     <Compile Include="AForge.Imaging\Filters\IlluminationCorrection\FlatFieldCorrection.cs" />
     <Compile Include="AForge.Imaging\Filters\Morphology\BottomHat.cs" />
     <Compile Include="AForge.Imaging\Filters\Morphology\Closing.cs" />
-    <Compile Include="AForge.Imaging\Filters\Morphology\Dilatation.cs" />
+    <Compile Include="AForge.Imaging\Filters\Morphology\Dilation.cs" />
     <Compile Include="AForge.Imaging\Filters\Morphology\Erosion.cs" />
     <Compile Include="AForge.Imaging\Filters\Morphology\HitAndMiss.cs" />
     <Compile Include="AForge.Imaging\Filters\Morphology\Opening.cs" />
-    <Compile Include="AForge.Imaging\Filters\Morphology\Specific Optimizations\BinaryDilatation3x3.cs" />
+    <Compile Include="AForge.Imaging\Filters\Morphology\Specific Optimizations\BinaryDilation3x3.cs" />
     <Compile Include="AForge.Imaging\Filters\Morphology\Specific Optimizations\BinaryErosion3x3.cs" />
-    <Compile Include="AForge.Imaging\Filters\Morphology\Specific Optimizations\Dilatation3x3.cs" />
+    <Compile Include="AForge.Imaging\Filters\Morphology\Specific Optimizations\Dilation3x3.cs" />
     <Compile Include="AForge.Imaging\Filters\Morphology\Specific Optimizations\Erosion3.x3.cs" />
     <Compile Include="AForge.Imaging\Filters\Morphology\TopHat.cs" />
     <Compile Include="AForge.Imaging\Filters\Noise generation\AdditiveNoise.cs" />
     <Compile Include="AForge.Imaging\Filters\Noise generation\SaltAndPepperNoise.cs" />
     <Compile Include="AForge.Imaging\Filters\Normalized RGB\ExtractNormalizedRGBChannel.cs" />
     <Compile Include="AForge.Imaging\Filters\Other\ApplyMask.cs" />
-    <Compile Include="AForge.Imaging\Filters\Other\BlobsFiltering.cs" />
+    <Compile Include="Blob Processing\IBlobsFilter.cs" />
+    <Compile Include="Filters\BinaryWatershed.cs" />
+    <Compile Include="Filters\DistanceTransform.cs" />
+    <Compile Include="Filters\Other\BlobsFiltering.cs" />
     <Compile Include="AForge.Imaging\Filters\Other\CanvasCrop.cs" />
     <Compile Include="AForge.Imaging\Filters\Other\CanvasFill.cs" />
     <Compile Include="AForge.Imaging\Filters\Other\CanvasMove.cs" />
-    <Compile Include="AForge.Imaging\Filters\Other\ConnectedComponentsLabeling.cs" />
+    <Compile Include="Filters\Other\ConnectedComponentsLabeling.cs" />
     <Compile Include="AForge.Imaging\Filters\Other\CornersMarker.cs" />
-    <Compile Include="AForge.Imaging\Filters\Other\ExtractBiggestBlob.cs" />
     <Compile Include="AForge.Imaging\Filters\Other\FillHoles.cs" />
     <Compile Include="AForge.Imaging\Filters\Other\HorizontalRunLengthSmoothing.cs" />
     <Compile Include="AForge.Imaging\Filters\Other\ImageWarp.cs" />
@@ -247,7 +234,6 @@
     <Compile Include="AForge.Imaging\HorizontalIntensityStatistics.cs" />
     <Compile Include="AForge.Imaging\HoughCircleTransformation.cs" />
     <Compile Include="AForge.Imaging\HoughLineTransformation.cs" />
-    <Compile Include="AForge.Imaging\IBlobsFilter.cs" />
     <Compile Include="AForge.Imaging\IBlockMatching.cs" />
     <Compile Include="AForge.Imaging\ICornersDetector.cs" />
     <Compile Include="AForge.Imaging\Image.cs" />
@@ -260,7 +246,7 @@
     <Compile Include="AForge.Imaging\MemoryManager.cs" />
     <Compile Include="AForge.Imaging\MoravecCornersDetector.cs" />
     <Compile Include="AForge.Imaging\QuadrilateralFinder.cs" />
-    <Compile Include="AForge.Imaging\RecursiveBlobCounter.cs" />
+    <Compile Include="Blob Processing\RecursiveBlobCounter.cs" />
     <Compile Include="AForge.Imaging\SusanCornersDetector.cs" />
     <Compile Include="AForge.Imaging\TemplateMatch.cs" />
     <Compile Include="AForge.Imaging\Textures\CloudsTexture.cs" />
@@ -272,7 +258,6 @@
     <Compile Include="AForge.Imaging\Textures\WoodTexture.cs" />
     <Compile Include="AForge.Imaging\UnmanagedImage.cs" />
     <Compile Include="AForge.Imaging\VerticalIntensityStatistics.cs" />
-    <Compile Include="BagOfVisualWords.cs" />
     <Compile Include="Contour\BorderFollowing.cs" />
     <Compile Include="Contour\IContourExtractionAlgorithm.cs" />
     <Compile Include="Converters\Accord.Imaging.Converters.cs" />
@@ -281,11 +266,10 @@
     <Compile Include="Converters\MatrixToImage.cs" />
     <Compile Include="Converters\ImageToArray.cs" />
     <Compile Include="Converters\ImageToMatrix.cs" />
-    <Compile Include="BagOfVisualWords`1.cs" />
-    <Compile Include="BagOfVisualWords`2.cs" />
     <Compile Include="Filters\DifferenceOfGaussians.cs" />
     <Compile Include="Filters\FastVariance.cs" />
     <Compile Include="Filters\HighBoost.cs" />
+    <Compile Include="Filters\Other\ExtractBiggestBlob.cs" />
     <Compile Include="Filters\RGChromacity.cs" />
     <Compile Include="Filters\SauvolaThreshold.cs" />
     <Compile Include="Filters\LineMarker.cs" />
@@ -297,8 +281,8 @@
     <Compile Include="Filters\WolfJolionThreshold.cs" />
     <Compile Include="Interest Points\Base\IFeatureDescriptor.cs" />
     <Compile Include="Interest Points\FeatureDescriptor.cs" />
-    <Compile Include="Interest Points\Matching\KNearestNeighborMatching`1.cs" />
     <Compile Include="ObjectiveFidelity.cs" />
+    <Compile Include="DrawingExtensions.cs" />
     <Compile Include="UnsafeTools.cs" />
     <Compile Include="Filters\CompassConvolution.cs" />
     <Compile Include="Filters\Exponential.cs" />
@@ -320,14 +304,12 @@
     <Compile Include="Interest Points\FREAK\FastRetinaKeypointPattern.cs" />
     <Compile Include="Interest Points\HistogramsOfOrientedGradients.cs" />
     <Compile Include="Interest Points\SURF\ResponseLayer.cs" />
-    <Compile Include="Interest Points\Matching\KNearestNeighborMatching.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Interest Points\CornerFeaturePoint.cs" />
     <Compile Include="Interest Points\CornerFeaturesDetector.cs" />
     <Compile Include="Interest Points\Base\IFeatureDetector.cs" />
     <Compile Include="Moments\HuMoments.cs" />
     <Compile Include="Moments\MomentsBase.cs" />
-    <Compile Include="RansacFundamentalEstimator.cs" />
     <Compile Include="Interest Points\Matching\CorrelationMatching.cs" />
     <Compile Include="Filters\CombineChannel.cs" />
     <Compile Include="Filters\Rectification.cs" />
@@ -349,7 +331,6 @@
     <Compile Include="MatrixH.cs" />
     <Compile Include="PointH.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RansacHomographyEstimator.cs" />
     <Compile Include="Interest Points\SURF\SpeededUpRobustFeaturesDescriptor.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -361,10 +342,9 @@
       <Name>Accord.Core</Name>
       <Private>False</Private>
     </ProjectReference>
-    <ProjectReference Include="..\Accord.MachineLearning\Accord.MachineLearning.csproj">
-      <Project>{7AB4BBCC-6222-423D-9FF9-BA9CB7C09199}</Project>
-      <Name>Accord.MachineLearning</Name>
-      <Private>False</Private>
+    <ProjectReference Include="..\Accord.Math.Core\Accord.Math.Core.csproj">
+      <Project>{ed3a336f-6da2-4f34-87fe-1ccffa029f8c}</Project>
+      <Name>Accord.Math.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\Accord.Math\Accord.Math.csproj">
       <Project>{F718E9A8-DB62-4785-8C49-4333A60D256A}</Project>
@@ -372,9 +352,8 @@
       <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\Accord.Statistics\Accord.Statistics.csproj">
-      <Project>{FD8101DD-C95D-42D6-AD44-AE01C25F2811}</Project>
+      <Project>{fd8101dd-c95d-42d6-ad44-ae01c25f2811}</Project>
       <Name>Accord.Statistics</Name>
-      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -24,7 +24,8 @@ namespace Accord.Statistics.Kernels
 {
     using System;
     using Accord.Math;
-    using AForge;
+    using Accord.Math.Distances;
+    using Accord.Compat;
 
     /// <summary>
     ///   Sigmoid Kernel.
@@ -38,7 +39,8 @@ namespace Accord.Statistics.Kernels
     /// </remarks>
     /// 
     [Serializable]
-    public sealed class Sigmoid : KernelBase, IKernel, ICloneable, IEstimable
+    public sealed class Sigmoid : KernelBase, IKernel, ICloneable, IEstimable,
+        IKernel<Sparse<double>>, IDistance<Sparse<double>>
     {
         private double alpha;
         private double constant;
@@ -201,6 +203,41 @@ namespace Accord.Statistics.Kernels
             double value = Math.Tanh(alpha * sum + constant);
 
             return value;
+        }
+
+        /// <summary>
+        ///   Sigmoid kernel function.
+        /// </summary>
+        /// 
+        /// <param name="x">Vector <c>x</c> in input space.</param>
+        /// <param name="y">Vector <c>y</c> in input space.</param>
+        /// 
+        /// <returns>Dot product in feature (kernel) space.</returns>
+        /// 
+        public double Function(Sparse<double> x, Sparse<double> y)
+        {
+            double sum = x.Dot(y);
+
+            double value = Math.Tanh(alpha * sum + constant);
+
+            return value;
+        }
+
+        /// <summary>
+        ///   Computes the squared distance in feature space
+        ///   between two points given in input space.
+        /// </summary>
+        /// 
+        /// <param name="x">Vector <c>x</c> in input space.</param>
+        /// <param name="y">Vector <c>y</c> in input space.</param>
+        /// 
+        /// <returns>
+        ///   Squared distance between <c>x</c> and <c>y</c> in feature (kernel) space.
+        /// </returns>
+        /// 
+        public double Distance(Sparse<double> x, Sparse<double> y)
+        {
+            return Function(x, x) + Function(y, y) - 2 * Function(x, y);
         }
 
         /// <summary>

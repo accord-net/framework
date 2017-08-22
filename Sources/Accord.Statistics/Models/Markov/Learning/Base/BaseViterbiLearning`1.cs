@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -24,6 +24,8 @@ namespace Accord.Statistics.Models.Markov.Learning
 {
     using Accord.Math;
     using System;
+    using Accord.Compat;
+    using System.Threading;
 
     /// <summary>
     ///   Base class for implementations of the Viterbi learning algorithm.
@@ -53,6 +55,13 @@ namespace Accord.Statistics.Models.Markov.Learning
         private int batches = 1;
 
         /// <summary>
+        ///   Gets or sets a cancellation token that can be used to
+        ///   stop the learning algorithm while it is running.
+        /// </summary>
+        /// 
+        public virtual CancellationToken Token { get; set; }
+
+        /// <summary>
         ///   Gets or sets the maximum change in the average log-likelihood
         ///   after an iteration of the algorithm used to detect convergence.
         /// </summary>
@@ -72,6 +81,17 @@ namespace Accord.Statistics.Models.Markov.Learning
         }
 
         /// <summary>
+        ///   Please use MaxIterations instead.
+        /// </summary>
+        /// 
+        [Obsolete("Please use MaxIterations instead.")]
+        public int Iterations
+        {
+            get { return convergence.MaxIterations; }
+            set { convergence.MaxIterations = value; }
+        }
+
+        /// <summary>
         ///   Gets or sets the maximum number of iterations
         ///   performed by the learning algorithm.
         /// </summary>
@@ -82,11 +102,30 @@ namespace Accord.Statistics.Models.Markov.Learning
         ///   likelihood respecting the desired limit.
         /// </remarks>
         /// 
-        public int Iterations
+        public int MaxIterations
         {
-            get { return convergence.Iterations; }
-            set { convergence.Iterations = value; }
+            get { return convergence.MaxIterations; }
+            set { convergence.MaxIterations = value; }
         }
+
+        /// <summary>
+        /// Gets the current iteration.
+        /// </summary>
+        /// <value>The current iteration.</value>
+        public int CurrentIteration
+        {
+            get { return convergence.CurrentIteration; }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether this instance has converged.
+        /// </summary>
+        /// <value><c>true</c> if this instance has converged; otherwise, <c>false</c>.</value>
+        public bool HasConverged
+        {
+            get { return convergence.HasConverged; }
+        }
+
 
         /// <summary>
         ///   Gets or sets on how many batches the learning data should be divided during learning.
@@ -129,6 +168,9 @@ namespace Accord.Statistics.Models.Markov.Learning
 
             do // Until convergence or max iterations is reached
             {
+                if (Token.IsCancellationRequested)
+                    return newLogLikelihood;
+
                 if (batches == 1)
                 {
                     RunEpoch(observations, paths);
@@ -142,8 +184,8 @@ namespace Accord.Statistics.Models.Markov.Learning
                     for (int j = 0; j < batches; j++)
                     {
                         var idx = groups.Find(x => x == j);
-                        var inputs = observations.Submatrix(idx);
-                        var outputs = paths.Submatrix(idx);
+                        var inputs = observations.Get(idx);
+                        var outputs = paths.Get(idx);
                         RunEpoch(inputs, outputs);
                     }
                 }
@@ -154,7 +196,7 @@ namespace Accord.Statistics.Models.Markov.Learning
                 // Check convergence
                 convergence.NewValue = newLogLikelihood;
 
-            } while (!convergence.HasConverged);
+            } while (!convergence.HasConverged && !Token.IsCancellationRequested);
 
             return newLogLikelihood;
         }

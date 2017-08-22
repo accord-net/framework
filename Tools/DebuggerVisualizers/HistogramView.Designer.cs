@@ -1,4 +1,4 @@
-﻿namespace AForge.DebuggerVisualizers
+﻿namespace Accord.DebuggerVisualizers
 {
     partial class HistogramView
     {
@@ -30,7 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager( typeof( HistogramView ) );
             this.mainPanel = new System.Windows.Forms.Panel( );
-            this.histogramControl = new AForge.Controls.Histogram( );
+            this.histogramControl = new Accord.Controls.Histogram( );
             this.textBox = new System.Windows.Forms.TextBox( );
             this.statsBox = new System.Windows.Forms.TextBox( );
             this.logCheck = new System.Windows.Forms.CheckBox( );
@@ -58,8 +58,8 @@
             this.histogramControl.Size = new System.Drawing.Size( 196, 73 );
             this.histogramControl.TabIndex = 0;
             this.histogramControl.Values = null;
-            this.histogramControl.SelectionChanged += new AForge.Controls.HistogramEventHandler( this.histogramControl_SelectionChanged );
-            this.histogramControl.PositionChanged += new AForge.Controls.HistogramEventHandler( this.histogramControl_PositionChanged );
+            this.histogramControl.SelectionChanged += new Accord.Controls.HistogramEventHandler( this.histogramControl_SelectionChanged );
+            this.histogramControl.PositionChanged += new Accord.Controls.HistogramEventHandler( this.histogramControl_PositionChanged );
             // 
             // textBox
             // 
@@ -118,7 +118,7 @@
         #endregion
 
         private System.Windows.Forms.Panel mainPanel;
-        private AForge.Controls.Histogram histogramControl;
+        private Accord.Controls.Histogram histogramControl;
         private System.Windows.Forms.TextBox textBox;
         private System.Windows.Forms.TextBox statsBox;
         private System.Windows.Forms.CheckBox logCheck;

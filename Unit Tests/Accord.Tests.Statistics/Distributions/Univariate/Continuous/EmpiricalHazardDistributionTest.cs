@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -35,14 +35,15 @@ namespace Accord.Tests.Statistics
         [Test]
         public void DocumentationExample_Aalen()
         {
+            #region doc_create
             // Consider the following hazard rates, occurring at the given time steps
             double[] times = { 0.5, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 14, 17, 20, 21 };
 
-            double[] hazards = 
-            { 
+            double[] hazards =
+            {
                 0, 0.111111111111111, 0.0625, 0.0714285714285714, 0.0769230769230769,
-                0, 0.0909090909090909, 0, 0.111111111111111, 0.125, 0, 
-                0.166666666666667, 0.2, 0, 0.5, 0 
+                0, 0.0909090909090909, 0, 0.111111111111111, 0.125, 0,
+                0.166666666666667, 0.2, 0, 0.5, 0
             };
 
             // Create a new distribution given the observations and event times
@@ -67,6 +68,7 @@ namespace Accord.Tests.Statistics
             double chf = distribution.CumulativeHazardFunction(x: 4);           //  0.32196275946275932
 
             string str = distribution.ToString(); // H(x; v, t)
+            #endregion
 
             try { double mode = distribution.Mode; Assert.Fail(); }
             catch { }
@@ -84,7 +86,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(-2.8869121169242962, lpdf);
             Assert.AreEqual(0.0769230769230769, hf);
             Assert.AreEqual(0.724725178982381, ccdf);
-            Assert.AreEqual(4.4588994137113307, icdf, 1e-8);
+            Assert.AreEqual(4.9284925495354344, icdf, 1e-8);
             Assert.AreEqual("H(x; v, t)", str);
 
             var range1 = distribution.GetRange(0.95);
@@ -92,14 +94,20 @@ namespace Accord.Tests.Statistics
             var range3 = distribution.GetRange(0.01);
 
             Assert.AreEqual(1, range1.Min, 1e-3);
-            Assert.AreEqual(20.562, range1.Max, 1e-3);
+            Assert.AreEqual(22, range1.Max, 1e-3);
             Assert.AreEqual(1, range2.Min, 1e-3);
-            Assert.AreEqual(20.562, range2.Max, 1e-3);
+            Assert.AreEqual(22, range2.Max, 1e-3);
             Assert.AreEqual(1, range3.Min, 1e-3);
-            Assert.AreEqual(20.562, range3.Max, 1e-3);
+            Assert.AreEqual(22, range3.Max, 1e-3);
 
             for (int i = 0; i < hazards.Length; i++)
                 Assert.AreEqual(hazards[i], distribution.HazardFunction(times[i]));
+
+            Assert.AreEqual(0, distribution.Support.Min);
+            Assert.AreEqual(22, distribution.Support.Max);
+
+            Assert.AreEqual(distribution.InverseDistributionFunction(0), distribution.Support.Min);
+            Assert.AreEqual(distribution.InverseDistributionFunction(1), distribution.Support.Max);
         }
 
         [Test]
@@ -108,11 +116,11 @@ namespace Accord.Tests.Statistics
             // Consider the following hazard rates, occurring at the given time steps
             double[] times = { 0.5, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 14, 17, 20, 21 };
 
-            double[] hazards = 
-            { 
+            double[] hazards =
+            {
                 0, 0.111111111111111, 0.0625, 0.0714285714285714, 0.0769230769230769,
-                0, 0.0909090909090909, 0, 0.111111111111111, 0.125, 0, 
-                0.166666666666667, 0.2, 0, 0.5, 0 
+                0, 0.0909090909090909, 0, 0.111111111111111, 0.125, 0,
+                0.166666666666667, 0.2, 0, 0.5, 0
             };
 
 
@@ -127,7 +135,7 @@ namespace Accord.Tests.Statistics
             // Cumulative distribution functions
             double cdf = distribution.DistributionFunction(x: 4);               //  0.275274821017619
             double ccdf = distribution.ComplementaryDistributionFunction(x: 4); //  0.018754904264376961
-            double icdf = distribution.InverseDistributionFunction(p: cdf);     //  4.4588994137113307
+            double icdf = distribution.InverseDistributionFunction(p: cdf);     //  5.1216931216931183
 
             // Probability density functions
             double pdf = distribution.ProbabilityDensityFunction(x: 4);         //  0.055748090690952365
@@ -155,7 +163,10 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(-2.9014215940827497, lpdf);
             Assert.AreEqual(0.0769230769230769, hf);
             Assert.AreEqual(0.71428571428571441, ccdf);
-            Assert.AreEqual(5.8785425101214548, icdf, 1e-8);
+
+            double iicdf = distribution.DistributionFunction(icdf);
+            Assert.AreEqual(iicdf, cdf);
+            Assert.AreEqual(5.1216931216931183, icdf, 1e-8);
             Assert.AreEqual("H(x; v, t)", str);
 
             var range1 = distribution.GetRange(0.95);
@@ -163,20 +174,27 @@ namespace Accord.Tests.Statistics
             var range3 = distribution.GetRange(0.01);
 
             Assert.AreEqual(1, range1.Min, 1e-3);
-            Assert.AreEqual(20.562, range1.Max, 1e-3);
+            Assert.AreEqual(22, range1.Max, 1e-3);
             Assert.AreEqual(1, range2.Min, 1e-3);
-            Assert.AreEqual(20.562, range2.Max, 1e-3);
+            Assert.AreEqual(22, range2.Max, 1e-3);
             Assert.AreEqual(1, range3.Min, 1e-3);
-            Assert.AreEqual(20.562, range3.Max, 1e-3);
+            Assert.AreEqual(22, range3.Max, 1e-3);
 
             for (int i = 0; i < hazards.Length; i++)
                 Assert.AreEqual(hazards[i], distribution.HazardFunction(times[i]));
+
+
+            Assert.AreEqual(0, distribution.Support.Min);
+            Assert.AreEqual(22, distribution.Support.Max);
+
+            Assert.AreEqual(distribution.InverseDistributionFunction(0), distribution.Support.Min);
+            Assert.AreEqual(distribution.InverseDistributionFunction(1), distribution.Support.Max);
         }
 
         [Test]
         public void MeasuresTest()
         {
-            double[] values = 
+            double[] values =
             {
                0.0000000000000000, 0.0351683340828711, 0.0267358118285064,
                0.0000000000000000, 0.0103643094219679, 0.9000000000000000,
@@ -216,7 +234,7 @@ namespace Accord.Tests.Statistics
         [Test]
         public void MedianTest()
         {
-            double[] values = 
+            double[] values =
             {
                0.0000000000000000, 0.0351683340828711, 0.0267358118285064,
                0.0000000000000000, 0.0103643094219679, 0.0000000000000000,
@@ -242,7 +260,7 @@ namespace Accord.Tests.Statistics
         public void DistributionFunctionTest2()
         {
 
-            double[] values = 
+            double[] values =
             {
                0.0000000000000000, 0.0351683340828711, 0.0267358118285064,
                0.0000000000000000, 0.0103643094219679, 0.0000000000000000,
@@ -258,19 +276,19 @@ namespace Accord.Tests.Statistics
 
             var target = new EmpiricalHazardDistribution(times, values);
 
-            double[] expected = 
+            double[] expected =
             {
-                1.000000000000000,	
-                0.999238023657475,	
-                0.999238023657475,	
-                0.999238023657475,	
-                0.999238023657475,	
-                0.999238023657475,	
-                0.98893509519066469,	
+                1.000000000000000,
+                0.999238023657475,
+                0.999238023657475,
+                0.999238023657475,
+                0.999238023657475,
+                0.999238023657475,
+                0.98893509519066469,
                 0.98893509519066469,
                 0.96284543081744489,
-                0.92957227114936058,	
-                0.92957227114936058,	
+                0.92957227114936058,
+                0.92957227114936058,
             };
 
 
@@ -309,10 +327,8 @@ namespace Accord.Tests.Statistics
 
             double[] t = { 1, 1, 2, 2, 3, 4, 4, 5, 5, 8, 8, 8, 8, 11, 11, 12, 12, 15, 17, 22, 23 };
 
-
-            var distribution = new EmpiricalHazardDistribution(SurvivalEstimator.KaplanMeier);
-
-            distribution.Fit(t, new EmpiricalHazardOptions { Estimator = HazardEstimator.KaplanMeier });
+            var distribution = EmpiricalHazardDistribution.Estimate(t, 
+                survival: SurvivalEstimator.KaplanMeier, hazard: HazardEstimator.KaplanMeier);
 
             Assert.AreEqual(1, distribution.Survivals[0]);
             Assert.AreEqual(0.905, distribution.Survivals[1], 1e-3);
@@ -355,13 +371,13 @@ namespace Accord.Tests.Statistics
             int[] c = { 0, 1, 1, 1, 1, 0, 0, 1, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0 };
 
             var distribution = EmpiricalHazardDistribution.Estimate(t, c,
-                SurvivalEstimator.KaplanMeier, HazardEstimator.KaplanMeier);
+                survival: SurvivalEstimator.KaplanMeier, hazard: HazardEstimator.KaplanMeier);
 
             int[] intervals = { 6, 7, 9, 10, 11, 13, 16, 17, 19, 20, 22, 23, 25, 32, 34, 35 };
 
-            double[] expected = 
+            double[] expected =
             {
-                0.8571 , 0.8067, 0.8067, 0.7529, 0.7529, 0.6902, 
+                0.8571 , 0.8067, 0.8067, 0.7529, 0.7529, 0.6902,
                 0.6275, 0.6275, 0.6275, 0.6275, 0.5378, 0.4482,
                 0.4482, 0.4482, 0.4482, 0.4482
             };
@@ -385,15 +401,13 @@ namespace Accord.Tests.Statistics
             double[] t = { 6, 6, 6, 6, 7, 9, 10, 10, 11, 13, 16, 17, 19, 20, 22, 23, 25, 32, 32, 34, 35 };
             int[] c = { 0, 1, 1, 1, 1, 0, 0, 1, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0 };
 
-            var distribution = new EmpiricalHazardDistribution(SurvivalEstimator.FlemingHarrington);
-
-            distribution.Fit(t, new SurvivalOptions { Outcome = c.To<SurvivalOutcome[]>() });
+            var distribution = EmpiricalHazardDistribution.Estimate(t, c, survival: SurvivalEstimator.FlemingHarrington);
 
             int[] intervals = { 6, 7, 9, 10, 11, 13, 16, 17, 19, 20, 22, 23, 25, 32, 34, 35 };
 
-            double[] expected = 
+            double[] expected =
             {
-                0.8571 , 0.8067, 0.8067, 0.7529, 0.7529, 0.6902, 
+                0.8571 , 0.8067, 0.8067, 0.7529, 0.7529, 0.6902,
                 0.6275, 0.6275, 0.6275, 0.6275, 0.5378, 0.4482,
                 0.4482, 0.4482, 0.4482, 0.4482
             };
@@ -419,13 +433,13 @@ namespace Accord.Tests.Statistics
             int[] c = { 0, 1, 1, 1, 1, 0, 0, 1, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0 };
 
             var distribution = EmpiricalHazardDistribution.Estimate(t, c,
-                SurvivalEstimator.KaplanMeier, HazardEstimator.BreslowNelsonAalen);
+                survival: SurvivalEstimator.KaplanMeier, hazard: HazardEstimator.BreslowNelsonAalen);
 
             int[] intervals = { 6, 7, 9, 10, 11, 13, 16, 17, 19, 20, 22, 23, 25, 32, 34, 35 };
 
-            double[] expected = 
+            double[] expected =
             {
-                0.8571 , 0.8067, 0.8067, 0.7529, 0.7529, 0.6902, 
+                0.8571 , 0.8067, 0.8067, 0.7529, 0.7529, 0.6902,
                 0.6275, 0.6275, 0.6275, 0.6275, 0.5378, 0.4482,
                 0.4482, 0.4482, 0.4482, 0.4482
             };
@@ -450,14 +464,14 @@ namespace Accord.Tests.Statistics
             double[] t = { 6, 6, 6, 6, 7, 9, 10, 10, 11, 13, 16, 17, 19, 20, 22, 23, 25, 32, 32, 34, 35 };
             int[] c = { 0, 1, 1, 1, 1, 0, 0, 1, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0 };
 
-            var distribution = EmpiricalHazardDistribution.Estimate(t, c,
-                SurvivalEstimator.FlemingHarrington, HazardEstimator.BreslowNelsonAalen);
+            var distribution = EmpiricalHazardDistribution.Estimate(t, outcome: c,
+                survival: SurvivalEstimator.FlemingHarrington, hazard: HazardEstimator.BreslowNelsonAalen);
 
             int[] intervals = { 6, 7, 9, 10, 11, 13, 16, 17, 19, 20, 22, 23, 25, 32, 34, 35 };
 
-            double[] expected = 
+            double[] expected =
             {
-                0.8571 , 0.8067, 0.8067, 0.7529, 0.7529, 0.6902, 
+                0.8571 , 0.8067, 0.8067, 0.7529, 0.7529, 0.6902,
                 0.6275, 0.6275, 0.6275, 0.6275, 0.5378, 0.4482,
                 0.4482, 0.4482, 0.4482, 0.4482
             };
@@ -482,11 +496,10 @@ namespace Accord.Tests.Statistics
             SurvivalOutcome[] censor;
             CreateExample1(out times, out censor);
 
-            var distribution = new EmpiricalHazardDistribution(SurvivalEstimator.KaplanMeier);
+            var distribution = EmpiricalHazardDistribution.Estimate(times, outcome: censor,
+                survival: SurvivalEstimator.KaplanMeier, hazard: HazardEstimator.KaplanMeier);
 
             Assert.AreEqual(SurvivalEstimator.KaplanMeier, distribution.Estimator);
-
-            distribution.Fit(times, new EmpiricalHazardOptions(HazardEstimator.KaplanMeier, censor));
 
             int[] t = { 1, 2, 3, 4, 6, 8, 9, 12, 14, 20 };
             double[] e = { 0.889, 0.833, 0.774, 0.714, 0.649, 0.577, 0.505, 0.421, 0.337, 0.168 };
@@ -514,9 +527,9 @@ namespace Accord.Tests.Statistics
             // Test with Breslow method
 
             {
-                var distribution = EmpiricalHazardDistribution.Estimate(times, censor, HazardTiesMethod.Breslow);
+                var distribution = EmpiricalHazardDistribution.Estimate(times, censor, ties: HazardTiesMethod.Breslow);
 
-                double[] expectedCHF = 
+                double[] expectedCHF =
                 {
                     0.0000000, 0.1111111, 0.1111111, 0.1736111, 0.1736111, 0.2450397, 0.3219628,
                     0.3219628, 0.4128719, 0.4128719, 0.5239830, 0.6489830, 0.6489830, 0.8156496,
@@ -537,7 +550,7 @@ namespace Accord.Tests.Statistics
             {
                 var distribution = EmpiricalHazardDistribution.Estimate(times, censor);
 
-                double[] expectedCHF = 
+                double[] expectedCHF =
                 {
                     0.0000000, 0.1111111, 0.1111111, 0.1756496, 0.1756496, 0.2497576, 0.3298003,
                     0.3298003, 0.4251104, 0.4251104, 0.5428935, 0.6764249, 0.6764249, 0.8587464,
@@ -563,7 +576,7 @@ namespace Accord.Tests.Statistics
             CreateExample1(out times, out censor);
 
             var distribution = EmpiricalHazardDistribution.Estimate(times, censor,
-                SurvivalEstimator.FlemingHarrington, HazardEstimator.BreslowNelsonAalen);
+                survival: SurvivalEstimator.FlemingHarrington, hazard: HazardEstimator.BreslowNelsonAalen);
 
             double[] t = distribution.Times;
             double[] s = distribution.Survivals;
@@ -600,7 +613,7 @@ namespace Accord.Tests.Statistics
         {
             // Example from http://sas-and-r.blogspot.fr/2010/05/example-738-kaplan-meier-survival.html
 
-            object[,] data = 
+            object[,] data =
             {
                 // time  event
                 { 0.5,   false },
@@ -631,7 +644,7 @@ namespace Accord.Tests.Statistics
         [Test]
         public void MeasuresTest_KaplanMeier()
         {
-            double[] values = 
+            double[] values =
             {
                0.0000000000000000, 0.0351683340828711, 0.0267358118285064,
                0.0000000000000000, 0.0103643094219679, 0.9000000000000000,
@@ -671,7 +684,7 @@ namespace Accord.Tests.Statistics
         [Test]
         public void MedianTest_KaplanMeier()
         {
-            double[] values = 
+            double[] values =
             {
                0.0000000000000000, 0.0351683340828711, 0.0267358118285064,
                0.0000000000000000, 0.0103643094219679, 0.0000000000000000,
@@ -698,7 +711,7 @@ namespace Accord.Tests.Statistics
         public void DistributionFunctionTest2_KaplanMeier()
         {
 
-            double[] values = 
+            double[] values =
             {
                0.0000000000000000, 0.0351683340828711, 0.0267358118285064,
                0.0000000000000000, 0.0103643094219679, 0.0000000000000000,
@@ -714,19 +727,19 @@ namespace Accord.Tests.Statistics
 
             var target = new EmpiricalHazardDistribution(times, values, SurvivalEstimator.KaplanMeier);
 
-            double[] expected = 
+            double[] expected =
             {
-                1.000000000000000,	
-                0.999238023657475,	
-                0.999238023657475,	
-                0.999238023657475,	
-                0.999238023657475,	
-                0.999238023657475,	
-                0.98893509519066469,	
+                1.000000000000000,
+                0.999238023657475,
+                0.999238023657475,
+                0.999238023657475,
+                0.999238023657475,
+                0.999238023657475,
+                0.98893509519066469,
                 0.98893509519066469,
                 0.96284543081744489,
-                0.92957227114936058,	
-                0.92957227114936058,	
+                0.92957227114936058,
+                0.92957227114936058,
             };
 
 
@@ -754,6 +767,54 @@ namespace Accord.Tests.Statistics
 
             Assert.AreEqual(1, target.ComplementaryDistributionFunction(0));
             Assert.AreEqual(0, target.ComplementaryDistributionFunction(Double.PositiveInfinity));
+        }
+
+        [Test]
+        public void inverse_cdf()
+        {
+            // Consider the following hazard rates, occurring at the given time steps
+            double[] times = { 0.5, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 14, 17, 20, 21 };
+
+            double[] hazards =
+            {
+                0, 0.111111111111111, 0.0625, 0.0714285714285714, 0.0769230769230769,
+                0, 0.0909090909090909, 0, 0.111111111111111, 0.125, 0,
+                0.166666666666667, 0.2, 0, 0.5, 0
+            };
+
+            var distribution = new EmpiricalHazardDistribution(times, hazards);
+
+            Assert.AreEqual(0, distribution.Support.Min);
+            Assert.AreEqual(22, distribution.Support.Max);
+
+            Assert.AreEqual(0, distribution.InverseDistributionFunction(0));
+            Assert.AreEqual(22, distribution.InverseDistributionFunction(1));
+            Assert.AreEqual(22, distribution.InverseDistributionFunction(0.999));
+
+            Assert.AreEqual(0, distribution.DistributionFunction(0));
+            Assert.AreEqual(0.1051606831856301d, distribution.DistributionFunction(1));
+            Assert.AreEqual(0.1593762566654946d, distribution.DistributionFunction(2));
+            Assert.AreEqual(0.78033456236530996d, distribution.DistributionFunction(20));
+
+            Assert.AreEqual(0.78033456236530996d, distribution.DistributionFunction(21));
+            Assert.AreEqual(0.78033456236530996d, distribution.InnerDistributionFunction(21));
+
+            Assert.AreEqual(1.0, distribution.DistributionFunction(22));
+            Assert.AreEqual(1.0, distribution.InnerDistributionFunction(22));
+
+            Assert.AreEqual(1.0, distribution.InnerDistributionFunction(23));
+            Assert.AreEqual(1.0, distribution.InnerDistributionFunction(24));
+            Assert.AreEqual(1.0, distribution.DistributionFunction(22));
+
+            double[] percentiles = Vector.Range(0.0, 1.0, stepSize: 0.1);
+
+            for (int i = 0; i < percentiles.Length; i++)
+            {
+                double p = percentiles[i];
+                double icdf = distribution.InverseDistributionFunction(p);
+                double cdf = distribution.DistributionFunction(icdf);
+                Assert.AreEqual(cdf, p, 0.09);
+            }
         }
     }
 }

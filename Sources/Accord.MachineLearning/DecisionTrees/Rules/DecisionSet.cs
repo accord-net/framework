@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -27,6 +27,9 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
     using Accord.Statistics.Filters;
     using System;
     using System.Globalization;
+    using Accord.Math;
+
+    // TODO: Implement the IClassifier interface / MulticlassClassifierBase base class
 
     /// <summary>
     ///   Decision rule set.
@@ -104,10 +107,24 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
         /// 
         public double? Compute(double[] input)
         {
-            foreach (DecisionRule rule in rules)
+            if (input.HasNaN())
             {
-                if (rule.Match(input))
-                    return rule.Output;
+                int[] outputs = new int[OutputClasses];
+                foreach (DecisionRule rule in rules)
+                {
+                    if (rule.Match(input))
+                        outputs[(int)rule.Output] += 1;
+                }
+
+                return outputs.ArgMax();
+            }
+            else
+            {
+                foreach (DecisionRule rule in rules)
+                {
+                    if (rule.Match(input))
+                        return rule.Output;
+                }
             }
 
             return null;
@@ -178,7 +195,7 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
         /// 
         public override string ToString()
         {
-            return toString(null, CultureInfo.CurrentUICulture);
+            return toString(null, null, CultureInfo.CurrentUICulture);
         }
 
         /// <summary>
@@ -189,9 +206,9 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
         ///   A <see cref="System.String"/> that represents this instance.
         /// </returns>
         /// 
-        public string ToString(Codification codebook, CultureInfo cultureInfo)
+        public string ToString(Codification<string> codebook, CultureInfo cultureInfo)
         {
-            return toString(codebook, cultureInfo);
+            return toString(codebook, null, cultureInfo);
         }
 
         /// <summary>
@@ -202,12 +219,25 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
         ///   A <see cref="System.String"/> that represents this instance.
         /// </returns>
         /// 
-        public string ToString(Codification codebook)
+        public string ToString(Codification<string> codebook)
         {
             return ToString(codebook, CultureInfo.CurrentUICulture);
         }
 
-        private string toString(Codification codebook, CultureInfo cultureInfo)
+        /// <summary>
+        ///   Returns a <see cref="System.String"/> that represents this instance.
+        /// </summary>
+        /// 
+        /// <returns>
+        ///   A <see cref="System.String"/> that represents this instance.
+        /// </returns>
+        /// 
+        public string ToString(Codification<string> codebook, string outputColumn, CultureInfo cultureInfo)
+        {
+            return toString(codebook, outputColumn, CultureInfo.CurrentUICulture);
+        }
+
+        private string toString(Codification<string> codebook, string outputColumn, CultureInfo cultureInfo)
         {
             var rulesArray = new DecisionRule[this.rules.Count];
 
@@ -218,7 +248,7 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
             if (codebook != null)
             {
                 foreach (DecisionRule rule in rulesArray)
-                    sb.AppendLine(rule.ToString(codebook, cultureInfo));
+                    sb.AppendLine(rule.ToString(codebook, outputColumn, cultureInfo));
             }
             else
             {
@@ -257,5 +287,7 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
             return rules.GetEnumerator();
         }
 
+
+        
     }
 }

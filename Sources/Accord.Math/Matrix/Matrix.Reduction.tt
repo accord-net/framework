@@ -6,7 +6,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -45,6 +45,7 @@ namespace Accord.Math
         "int", "short",
         "float", "double", 
         "long", "decimal",
+		"bool"
         //"byte", "sbyte", 
     };
 
@@ -63,6 +64,17 @@ namespace Accord.Math
             string op     = opt[2];
             string start  = opt[3];
             string r = a;
+			string before = "(" + r + ")";
+			string after = "";
+
+			if (a == "bool")
+			{
+				r = "int";
+				before = "(";
+				after = " ? 1 : 0)";
+			}
+
+			string cast = r;
 #>
 
         /// <summary>
@@ -71,14 +83,14 @@ namespace Accord.Math
         ///
         /// <param name="vector">A vector whose <#=name#> will be calculated.</param>
         ///
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static <#=r#> <#=method#>(this <#=a#>[] vector)
         {
             <#=r#> sum = <#=start#>;
             for (int i = 0; i < vector.Length; i++)
-                sum = (<#=r#>)(sum <#=op#> (<#=r#>)vector[i]);
+                sum = (<#=cast#>)(sum <#=op#> <#=before#>vector[i]<#=after#>);
             return sum;
         }
 
@@ -88,14 +100,14 @@ namespace Accord.Math
         ///
         /// <param name="matrix">A matrix whose <#=name#> will be calculated.</param>
         ///
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static <#=r#> <#=method#>(this <#=a#>[,] matrix)
         {
             <#=r#> sum = <#=start#>;
             foreach (var v in matrix)
-                sum = (<#=r#>)(sum <#=op#> (<#=r#>)v);
+                sum = (<#=cast#>)(sum <#=op#> <#=before#>v<#=after#>);
             return sum;
         }
 
@@ -105,7 +117,7 @@ namespace Accord.Math
         ///
         /// <param name="matrix">A matrix whose sums will be calculated.</param>
         ///
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static <#=r#> <#=method#>(this <#=a#>[][] matrix)
@@ -113,7 +125,7 @@ namespace Accord.Math
             <#=r#> sum = <#=start#>;
             for (int i = 0; i < matrix.Length; i++)
                 for (int j = 0; j < matrix[i].Length; j++)
-                    sum = (<#=r#>)(sum <#=op#> (<#=r#>)matrix[i][j]);
+                    sum = (<#=cast#>)(sum <#=op#> <#=before#>matrix[i][j]<#=after#>);
             return sum;
         }
 
@@ -126,7 +138,7 @@ namespace Accord.Math
         /// <param name="dimension">The dimension in which the <#=name#> will be
         ///   calculated.</param>
         ///
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static <#=r#>[] <#=method#>(this <#=a#>[][] matrix, int dimension)
@@ -143,7 +155,7 @@ namespace Accord.Math
         /// <param name="dimension">The dimension in which the <#=name#> will be
         ///   calculated.</param>
         ///
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static <#=r#>[] <#=method#>(this <#=a#>[,] matrix, int dimension)
@@ -160,12 +172,25 @@ namespace Accord.Math
     {
         foreach (string r in types)
         {
+			if (r == "bool")
+				continue;
+
             foreach (string[] opt in operations)
             {
                 string method = opt[0];
                 string name   = opt[1];
                 string op     = opt[2];
                 string start  = opt[3];
+
+				string before = "(" + r + ")";
+				string after = "";
+				string cast = r;
+
+				if (a == "bool")
+				{
+					before = "(";
+					after = " ? 1 : 0)";
+				}
 #>
         /// <summary>
         ///   Matrix <#=name#>.
@@ -177,7 +202,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static <#=r#>[] <#=method#>(this <#=a#>[][] matrix, int dimension, <#=r#>[] result)
@@ -194,7 +219,7 @@ namespace Accord.Math
                 {
                     <#=r#> s = <#=start#>;
                     for (int i = 0; i < rows; i++)
-                        s = (<#=r#>)(s <#=op#> (<#=r#>)matrix[i][j]);
+                        s = (<#=cast#>)(s <#=op#> <#=before#>matrix[i][j]<#=after#>);
                     result[j] = s;
                 }
             }
@@ -204,7 +229,7 @@ namespace Accord.Math
                 {
                     <#=r#> s = <#=start#>;
                     for (int i = 0; i < cols; i++)
-                        s = (<#=r#>)(s <#=op#> (<#=r#>)matrix[j][i]);
+                        s = (<#=cast#>)(s <#=op#> <#=before#>matrix[j][i]<#=after#>);
                     result[j] = s;
                 }
             }
@@ -226,7 +251,7 @@ namespace Accord.Math
         /// <param name="result">A location where the result of this operation will be stored,
         ///   avoiding unnecessary memory allocations.</param>
         ///
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static <#=r#>[] <#=method#>(this <#=a#>[,] matrix, int dimension, <#=r#>[] result)
@@ -243,7 +268,7 @@ namespace Accord.Math
                 {
                     <#=r#> s = <#=start#>;
                     for (int i = 0; i < rows; i++)
-                        s = (<#=r#>)(s <#=op#> (<#=r#>)matrix[i, j]);
+                        s = (<#=cast#>)(s <#=op#> <#=before#>matrix[i, j]<#=after#>);
                     result[j] = s;
                 }
             }
@@ -253,7 +278,7 @@ namespace Accord.Math
                 {
                     <#=r#> s = <#=start#>;
                     for (int i = 0; i < cols; i++)
-                        s = (<#=r#>)(s <#=op#> (<#=r#>)matrix[j, i]);
+                        s = (<#=cast#>)(s <#=op#> <#=before#>matrix[j, i]<#=after#>);
                     result[j] = s;
                 }
             }
@@ -267,7 +292,171 @@ namespace Accord.Math
 
 <#
             }
-        } 
+        }
+    }
+
+    foreach (string a in types)
+    {
+		if (a == "bool")
+			continue;
+#>
+
+        /// <summary>
+        ///   Matrix cumulative sum.
+        /// </summary>
+        ///
+        /// <param name="vector">A vector whose cumulative sum will be calculated.</param>
+        ///
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static <#=a#>[] CumulativeSum(this <#=a#>[] vector)
+        {
+            if (vector.Length == 0)
+                return new <#=a#>[0];
+
+            return CumulativeSum(vector, Accord.Math.Vector.CreateAs(vector));
+        }
+
+        /// <summary>
+        ///   Matrix cumulative sum.
+        /// </summary>
+        ///
+        /// <param name="vector">A vector whose cumulative sum will be calculated.</param>
+        /// <param name="result">A location where the result of this operation will be stored,
+        ///   avoiding unnecessary memory allocations.</param>
+        ///
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static <#=a#>[] CumulativeSum(this <#=a#>[] vector, <#=a#>[] result)
+        {
+            result[0] = vector[0];
+            for (int i = 1; i < vector.Length; i++)
+                result[i] = (<#=a#>)(result[i - 1] + vector[i]);
+            return result;
+        }
+
+        /// <summary>
+        ///   Matrix cumulative sum.
+        /// </summary>
+        ///
+        /// <param name="matrix">A matrix whose cumulative sum will be calculated.</param>
+        /// <param name="dimension">The dimension in which the cumulative will be
+        ///   calculated.</param>
+        ///
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static <#=a#>[][] CumulativeSum(this <#=a#>[][] matrix, int dimension)
+        {
+            int rows = matrix.Rows();
+            int cols = matrix.Columns();
+            if (dimension == 1)
+                return CumulativeSum(matrix, dimension, Jagged.Zeros<<#=a#>>(rows, cols));
+            return CumulativeSum(matrix, dimension, Jagged.Zeros<<#=a#>>(cols, rows));
+        }        
+
+        /// <summary>
+        ///   Matrix cumulative sum.
+        /// </summary>
+        ///
+        /// <param name="matrix">A matrix whose cumulative sum will be calculated.</param>
+        /// <param name="dimension">The dimension in which the cumulative will be
+        ///   calculated.</param>
+        /// <param name="result">A location where the result of this operation will be stored,
+        ///   avoiding unnecessary memory allocations.</param>
+        ///
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static <#=a#>[][] CumulativeSum(this <#=a#>[][] matrix, int dimension, <#=a#>[][] result)
+        {
+            int rows = matrix.Rows();
+            int cols = matrix.Columns();
+
+            if (dimension == 1)
+            {
+                matrix.GetRow(0, result: result[0]);
+                for (int i = 1; i < rows; i++)
+                    for (int j = 0; j < cols; j++)
+                        result[i][j] = (<#=a#>)(result[i - 1][j] + matrix[i][j]);
+            }
+            else if (dimension == 0)
+            {
+                matrix.GetColumn(0, result: result[0]);
+                for (int i = 1; i < cols; i++)
+                    for (int j = 0; j < rows; j++)
+                        result[i][j] = (<#=a#>)(result[i - 1][j] + matrix[j][i]);
+            }
+            else
+            {
+                throw new ArgumentException("Invalid dimension", "dimension");
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Matrix cumulative sum.
+        /// </summary>
+        ///
+        /// <param name="matrix">A matrix whose cumulative sum will be calculated.</param>
+        /// <param name="dimension">The dimension in which the cumulative will be
+        ///   calculated.</param>
+        ///
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static <#=a#>[,] CumulativeSum(this <#=a#>[,] matrix, int dimension)
+        {
+            int rows = matrix.Rows();
+            int cols = matrix.Columns();
+            if (dimension == 1)
+                return CumulativeSum(matrix, dimension, Matrix.Zeros<<#=a#>>(rows, cols));
+            return CumulativeSum(matrix, dimension, Matrix.Zeros<<#=a#>>(cols, rows)); 
+        }        
+
+        /// <summary>
+        ///   Matrix cumulative sum.
+        /// </summary>
+        ///
+        /// <param name="matrix">A matrix whose cumulative sum will be calculated.</param>
+        /// <param name="dimension">The dimension in which the cumulative will be
+        ///   calculated.</param>
+        /// <param name="result">A location where the result of this operation will be stored,
+        ///   avoiding unnecessary memory allocations.</param>
+        ///
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static <#=a#>[,] CumulativeSum(this <#=a#>[,] matrix, int dimension, <#=a#>[,] result)
+        {
+            int rows = matrix.Rows();
+            int cols = matrix.Columns();
+
+            if (dimension == 1)
+            {
+                result.SetColumn(0, matrix.GetRow(0));
+                for (int i = 1; i < rows; i++)
+                    for (int j = 0; j < cols; j++)
+                        result[i, j] = (<#=a#>)(result[i - 1, j] + matrix[i, j]);
+            }
+            else if (dimension == 0)
+            {
+                result.SetColumn(0, matrix.GetColumn(0));
+                for (int i = 1; i < cols; i++)
+                    for (int j = 0; j < rows; j++)
+                        result[i, j] = (<#=a#>)(result[i - 1, j] + matrix[j, i]);
+            }
+            else
+            {
+                throw new ArgumentException("Invalid dimension", "dimension");
+            }
+
+            return result;
+        }
+<#
     }
 #>
     }

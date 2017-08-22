@@ -1,7 +1,7 @@
 ﻿// Accord.NET Sample Applications
 // http://accord-framework.net
 //
-// Copyright © 2009-2014, César Souza
+// Copyright © 2009-2017, César Souza
 // All rights reserved. 3-BSD License:
 //
 //   Redistribution and use in source and binary forms, with or without
@@ -34,6 +34,8 @@ using Accord.Controls;
 using Accord.IO;
 using Accord.Math;
 using Accord.Statistics.Analysis;
+using Accord.Statistics.Models.Regression;
+using Accord.Statistics.Models.Regression.Linear;
 using Components;
 using System;
 using System.Collections.Generic;
@@ -50,6 +52,9 @@ namespace Regression.Linear
         private LogisticRegressionAnalysis lra;
         private MultipleLinearRegressionAnalysis mlr;
         private DataTable sourceTable;
+
+        double[][] inputs;
+        double[] outputs;
 
 
         public MainForm()
@@ -135,25 +140,30 @@ namespace Regression.Linear
 
 
             // Creates the input and output matrices from the source data table
-            double[][] input = independent.ToArray();
-            double[] output = dependent.Columns[dependentName].ToArray();
-
-            double[,] sourceMatrix = sourceTable.ToMatrix(independentNames);
+            this.inputs = independent.ToJagged();
+            this.outputs = dependent.Columns[dependentName].ToArray();
 
             // Creates the Simple Descriptive Analysis of the given source
-            var sda = new DescriptiveAnalysis(sourceMatrix, independentNames);
+            var sda = new DescriptiveAnalysis()
+            {
+                ColumnNames = independentNames
+            }.Learn(inputs);
 
-            sda.Compute();
+            // TODO: Standardize the InputNames/OutputNames properties
+
 
             // Populates statistics overview tab with analysis data
             dgvDistributionMeasures.DataSource = sda.Measures;
 
             // Creates the Logistic Regression Analysis of the given source
-            lra = new LogisticRegressionAnalysis(input, output, independentNames, dependentName);
-
+            this.lra = new LogisticRegressionAnalysis()
+            {
+                Inputs = independentNames,
+                Output = dependentName
+            };
 
             // Compute the Logistic Regression Analysis
-            lra.Compute();
+            LogisticRegression lr = lra.Learn(inputs, outputs);
 
             // Populates coefficient overview with analysis data
             dgvLogisticCoefficients.DataSource = lra.Coefficients;
@@ -167,10 +177,14 @@ namespace Regression.Linear
 
 
             // Create the Multiple Linear Regression Analysis of the given source
-            mlr = new MultipleLinearRegressionAnalysis(input, output, independentNames, dependentName, true);
+            this.mlr = new MultipleLinearRegressionAnalysis(intercept: true)
+            {
+                Inputs = independentNames,
+                Output = dependentName
+            };
 
             // Compute the Linear Regression Analysis
-            mlr.Compute();
+            MultipleLinearRegression reg = mlr.Learn(inputs, outputs);
 
             dgvLinearCoefficients.DataSource = mlr.Coefficients;
             dgvRegressionAnova.DataSource = mlr.Table;
@@ -200,29 +214,30 @@ namespace Regression.Linear
         {
             if (dgvDistributionMeasures.CurrentRow != null)
             {
-                DescriptiveMeasures m = dgvDistributionMeasures.CurrentRow.DataBoundItem as DescriptiveMeasures;
-                dataHistogramView1.DataSource = m.Samples;
+                DataGridViewRow row = (DataGridViewRow)dgvDistributionMeasures.CurrentRow;
+                DescriptiveMeasures measures = (DescriptiveMeasures)row.DataBoundItem;
+                dataHistogramView1.DataSource = inputs.InsertColumn(outputs).GetColumn(measures.Index);
             }
         }
+
 
         private void btnShift_Click(object sender, EventArgs e)
         {
             DataTable source = dgvProjectionSource.DataSource as DataTable;
 
-
             DataTable independent = source.DefaultView.ToTable(false, lra.Inputs);
             DataTable dependent = source.DefaultView.ToTable(false, lra.Output);
 
-            double[][] input = independent.ToArray();
+            double[][] input = independent.ToJagged();
             double[] output;
 
             if (comboBox2.SelectedItem as string == "Logistic")
             {
-                output = lra.Regression.Compute(input);
+                output = lra.Regression.Score(input);
             }
             else
             {
-                output = mlr.Regression.Compute(input);
+                output = mlr.Regression.Transform(input);
             }
 
             DataTable result = source.Clone();
@@ -230,9 +245,7 @@ namespace Regression.Linear
             {
                 DataRow row = result.NewRow();
                 for (int j = 0; j < lra.Inputs.Length; j++)
-                {
                     row[lra.Inputs[j]] = input[i][j];
-                }
                 row[lra.Output] = output[i];
 
                 result.Rows.Add(row);

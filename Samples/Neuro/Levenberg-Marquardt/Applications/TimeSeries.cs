@@ -242,8 +242,6 @@ namespace SampleApp
             // 
             this.chart.Location = new System.Drawing.Point(16, 29);
             this.chart.Name = "chart";
-            this.chart.RangeX = ((Range)(resources.GetObject("chart.RangeX")));
-            this.chart.RangeY = ((Range)(resources.GetObject("chart.RangeY")));
             this.chart.Size = new System.Drawing.Size(448, 512);
             this.chart.TabIndex = 0;
             // 
@@ -482,6 +480,7 @@ namespace SampleApp
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "TimeSeries";
             this.Text = "Time Series Prediction using Multi-Layer Neural Network (Levenberg-Marquardt)";

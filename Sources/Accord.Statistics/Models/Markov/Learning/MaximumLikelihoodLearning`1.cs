@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -27,101 +27,13 @@ namespace Accord.Statistics.Models.Markov.Learning
     using Accord.Statistics.Distributions;
     using Accord.Statistics.Distributions.Fitting;
     using System.Collections.Generic;
+#pragma warning disable 612, 618
 
     /// <summary>
-    ///    Maximum Likelihood learning algorithm for discrete-density Hidden Markov Models.
+    ///    Obsolete. Please use <see cref="MaximumLikelihoodLearning{TDistribution, TObservation}"/> instead.
     /// </summary>
     /// 
-    /// <remarks>
-    /// <para>
-    ///   The maximum likelihood estimate is a <see cref="ISupervisedLearning">
-    ///   supervised learning algorithm</see>. It considers both the sequence
-    ///   of observations as well as the sequence of states in the Markov model
-    ///   are visible and thus during training. </para>
-    ///   
-    /// <para>
-    ///   Often, the Maximum Likelihood Estimate can be used to give a starting
-    ///   point to a unsupervised algorithm, making possible to use semi-supervised
-    ///   techniques with HMMs. It is possible, for example, to use MLE to guess
-    ///   initial values for an HMM given a small set of manually labeled labels,
-    ///   and then further estimate this model using the <see cref="ViterbiLearning">
-    ///   Viterbi learning algorithm</see>.</para>
-    /// </remarks>
-    /// 
-    /// <example>
-    /// <para>
-    ///   The following example comes from Prof. Yechiam Yemini slides on Hidden Markov
-    ///   Models, available at http://www.cs.columbia.edu/4761/notes07/chapter4.3-HMM.pdf.
-    ///   In this example, we will be specifying both the sequence of observations and
-    ///   the sequence of states assigned to each observation in each sequence to learn
-    ///   our Markov model.
-    /// </para>
-    /// <code>
-    /// // Those are the observation sequences. Each sequence contains a variable number
-    /// // of observation (although in this example they have all the same length, this
-    /// // is just a coincidence and not something required).
-    /// 
-    /// int[][] observations = 
-    /// {
-    ///     new int[] { 0,0,0,1,0,0 }, 
-    ///     new int[] { 1,0,0,1,0,0 },
-    ///     new int[] { 0,0,1,0,0,0 },
-    ///     new int[] { 0,0,0,0,1,0 },
-    ///     new int[] { 1,0,0,0,1,0 },
-    ///     new int[] { 0,0,0,1,1,0 },
-    ///     new int[] { 1,0,0,0,0,0 },
-    ///     new int[] { 1,0,1,0,0,0 },
-    /// };
-    /// 
-    /// // Now those are the visible states associated with each observation in each 
-    /// // observation sequence above. Note that there is always one state assigned
-    /// // to each observation, so the lengths of the sequence of observations and 
-    /// // the sequence of states must always match.
-    /// 
-    /// int[][] paths = 
-    /// {
-    ///     new int[] { 0,0,1,0,1,0 },
-    ///     new int[] { 1,0,1,0,1,0 },
-    ///     new int[] { 1,0,0,1,1,0 },
-    ///     new int[] { 1,0,1,1,1,0 },
-    ///     new int[] { 1,0,0,1,0,1 },
-    ///     new int[] { 0,0,1,0,0,1 },
-    ///     new int[] { 0,0,1,1,0,1 },
-    ///     new int[] { 0,1,1,1,0,0 },
-    /// };
-    /// 
-    /// // Since the observation sequences are composed of discrete symbols, we can specify
-    /// // a GeneralDiscreteDistribution to simulate a standard discrete HiddenMarkovModel.
-    /// var initial = new GeneralDiscreteDistribution(symbols: 2);
-    /// 
-    /// // Create our Markov model with two states (0, 1) and two symbols (0, 1)
-    /// HiddenMarkovModel model = new HiddenMarkovModel&lt;(states: 2, symbols: 2);
-    /// 
-    /// // Now we can create our learning algorithm
-    /// MaximumLikelihoodLearning teacher = new MaximumLikelihoodLearning(model)
-    /// {
-    ///    // Set some options
-    ///    UseLaplaceRule = false
-    /// };
-    /// 
-    /// // and finally learn a model using the algorithm
-    /// double logLikelihood = teacher.Run(observations, paths);
-    /// 
-    /// 
-    /// // To check what has been learned, we can extract the emission
-    /// // and transition matrices, as well as the initial probability
-    /// // vector from the HMM to compare against expected values:
-    /// 
-    /// var pi = Matrix.Exp(model.Probabilities); // { 0.5, 0.5 }
-    /// var A = Matrix.Exp(model.Transitions);    // { { 7/20, 13/20 }, { 14/20, 6/20 } }
-    /// var B = Matrix.Exp(model.Emissions);      // { { 17/25, 8/25 }, { 19/23, 4/23 } }
-    /// </code>
-    /// </example>
-    /// 
-    /// <seealso cref="MaximumLikelihoodLearning"/>
-    /// <seealso cref="ViterbiLearning{TDistribution}"/>
-    /// <seealso cref="HiddenMarkovModel{TDistribution}"/>
-    /// 
+    [Obsolete("Please use MaximumLikelihoodLearning<TDistribution, TObservation> instead.")]
     public class MaximumLikelihoodLearning<TDistribution> : ISupervisedLearning
                 where TDistribution : IDistribution
     {
@@ -324,13 +236,13 @@ namespace Accord.Statistics.Models.Markov.Learning
 
 
             for (int i = 0; i < initial.Length; i++)
-                model.Probabilities[i] = Math.Log(initial[i] / (double)initialCount);
+                model.LogInitial[i] = Math.Log(initial[i] / (double)initialCount);
 
             for (int i = 0; i < transitionCount.Length; i++)
                 for (int j = 0; j < states; j++)
-                    model.Transitions[i, j] = Math.Log(transitions[i, j] / (double)transitionCount[i]);
+                    model.LogTransitions[i][j] = Math.Log(transitions[i, j] / (double)transitionCount[i]);
 
-            Accord.Diagnostics.Debug.Assert(!model.Probabilities.HasNaN());
+            Accord.Diagnostics.Debug.Assert(!model.LogInitial.HasNaN());
             Accord.Diagnostics.Debug.Assert(!model.Transitions.HasNaN());
 
 

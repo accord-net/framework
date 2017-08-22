@@ -5,7 +5,7 @@
 // Copyright © Christopher Evans, 2009-2011
 // http://www.chrisevansdev.com/
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -467,24 +467,18 @@ namespace Accord.Imaging
             }
 
             // lock source image
-            BitmapData imageData = image.LockBits(
-                new Rectangle(0, 0, image.Width, image.Height),
-                ImageLockMode.ReadOnly, image.PixelFormat);
-
-            List<SpeededUpRobustFeaturePoint> corners;
+            BitmapData imageData = image.LockBits(ImageLockMode.ReadOnly);
 
             try
             {
                 // process the image
-                corners = processImage(new UnmanagedImage(imageData));
+                return processImage(new UnmanagedImage(imageData));
             }
             finally
             {
                 // unlock image
                 image.UnlockBits(imageData);
             }
-
-            return corners;
         }
 
 
@@ -500,8 +494,8 @@ namespace Accord.Imaging
             double dy = (mid.Responses[yp1 * ms, x * ms] - mid.Responses[ym1 * ms, x * ms]) / 2f;
             double ds = (top.Responses[y, x] - bot.Responses[y * bs, x * bs]) / 2f;
 
-            double[] d = 
-            { 
+            double[] d =
+            {
                 -dx,
                 -dy,
                 -ds
@@ -530,6 +524,20 @@ namespace Accord.Imaging
 
 
 
+        IEnumerable<SpeededUpRobustFeaturePoint> IFeatureDetector<SpeededUpRobustFeaturePoint, double[]>.ProcessImage(Bitmap image)
+        {
+            return ProcessImage(image);
+        }
+
+        IEnumerable<SpeededUpRobustFeaturePoint> IFeatureDetector<SpeededUpRobustFeaturePoint, double[]>.ProcessImage(BitmapData imageData)
+        {
+            return ProcessImage(imageData);
+        }
+
+        IEnumerable<SpeededUpRobustFeaturePoint> IFeatureDetector<SpeededUpRobustFeaturePoint, double[]>.ProcessImage(UnmanagedImage image)
+        {
+            return ProcessImage(image);
+        }
 
 
         #region ICornersDetector Members
@@ -621,7 +629,9 @@ namespace Accord.Imaging
                 // free managed resources
             }
 
-            // free native resources if there are any.
+            this.responses = null;
+            this.integral = null;
+            this.descriptor = null;
         }
     }
 }

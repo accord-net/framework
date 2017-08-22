@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -22,15 +22,31 @@
 
 namespace Accord.Math.Optimization.Losses
 {
+    using Statistics;
     using System;
+    using Accord.Compat;
 
     /// <summary>
     ///   Hinge loss.
     /// </summary>
     /// 
     [Serializable]
-    public class HingeLoss : LossBase<double[][]>, ILoss<double[]>
+    public struct HingeLoss : ILoss<double[]>,
+        IDifferentiableLoss<bool, double, double>,
+        IDifferentiableLoss<double, double, double>
     {
+
+        private bool[][] expected;
+
+        /// <summary>
+        ///   Gets the expected outputs (the ground truth).
+        /// </summary>
+        /// 
+        public bool[][] Expected
+        {
+            get { return expected; }
+            set { expected = value; }
+        }
 
         /// <summary>
         ///   Initializes a new instance of the <see cref="HingeLoss"/> class.
@@ -39,8 +55,19 @@ namespace Accord.Math.Optimization.Losses
         /// <param name="expected">The expected outputs (ground truth).</param>
         /// 
         public HingeLoss(double[][] expected)
-            : base(expected)
         {
+            this.expected = Classes.Decide(expected);
+        }
+
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="HingeLoss"/> class.
+        /// </summary>
+        /// 
+        /// <param name="expected">The expected outputs (ground truth).</param>
+        /// 
+        public HingeLoss(double[] expected)
+        {
+            this.expected = Classes.Decide(Jagged.ColumnVector(expected));
         }
 
         /// <summary>
@@ -50,9 +77,23 @@ namespace Accord.Math.Optimization.Losses
         /// <param name="expected">The expected outputs (ground truth).</param>
         /// 
 
-        public HingeLoss(double[] expected)
-            : base(Jagged.ColumnVector(expected))
+        public HingeLoss(int[] expected)
         {
+            if (Classes.IsMinusOnePlusOne(expected))
+                expected = expected.ToZeroOne();
+
+            this.expected = Jagged.OneHot<bool>(expected);
+        }
+
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="HingeLoss"/> class.
+        /// </summary>
+        /// 
+        /// <param name="expected">The expected outputs (ground truth).</param>
+        /// 
+        public HingeLoss(bool[] expected)
+        {
+            this.expected = Jagged.ColumnVector(expected);
         }
 
         /// <summary>
@@ -67,18 +108,12 @@ namespace Accord.Math.Optimization.Losses
         ///   the actual predicted values.
         /// </returns>
         /// 
-        public override double Loss(double[][] actual)
+        public double Loss(double[][] actual)
         {
             double error = 0;
             for (int i = 0; i < Expected.Length; i++)
-            {
                 for (int j = 0; j < Expected[i].Length; j++)
-                {
-                    if (actual[i][j] < 0 ^ Expected[i][j] < 0)
-                        error += Math.Abs(Expected[i][j] - actual[i][j]);
-                }
-            }
-
+                    error += Loss(Expected[i][j], actual[i][j]);
             return error;
         }
 
@@ -98,14 +133,96 @@ namespace Accord.Math.Optimization.Losses
         {
             double error = 0;
             for (int i = 0; i < Expected.Length; i++)
-            {
-                if (actual[i] < 0 ^ Expected[i][0] < 0)
-                    error += Math.Abs(Expected[i][0] - actual[i]);
-            }
-
+                error += Loss(Expected[i][0], actual[i]);
             return error;
         }
 
+
+        /// <summary>
+        ///   Computes the derivative of the loss between the expected values (ground truth) 
+        ///   and the given actual values that have been predicted.
+        /// </summary>
+        /// 
+        /// <param name="actual">The actual values that have been predicted.</param>
+        /// <param name="expected">The expected values that should have been predicted.</param>
+        /// 
+        /// <returns>The loss value between the expected values and
+        ///   the actual predicted values.</returns>
+        /// 
+        public double Loss(bool expected, double actual)
+        {
+            if (expected)
+            {
+                if (actual > 1)
+                    return 0;
+                return 1 - actual;
+            }
+            else
+            {
+                if (actual < -1)
+                    return 0;
+                return 1 + actual;
+            }
+        }
+
+        /// <summary>
+        ///   Computes the derivative of the loss between the expected values (ground truth) 
+        ///   and the given actual values that have been predicted.
+        /// </summary>
+        /// 
+        /// <param name="actual">The actual values that have been predicted.</param>
+        /// <param name="expected">The expected values that should have been predicted.</param>
+        /// 
+        /// <returns>The loss value between the expected values and
+        ///   the actual predicted values.</returns>
+        /// 
+        public double Derivative(bool expected, double actual)
+        {
+            if (expected)
+            {
+                if (actual > 1)
+                    return 0;
+                return actual;
+            }
+            else
+            {
+                if (actual < -1)
+                    return 0;
+                return actual;
+            }
+        }
+
+        /// <summary>
+        ///   Computes the derivative of the loss between the expected values (ground truth) 
+        ///   and the given actual values that have been predicted.
+        /// </summary>
+        /// 
+        /// <param name="actual">The actual values that have been predicted.</param>
+        /// <param name="expected">The expected values that should have been predicted.</param>
+        /// 
+        /// <returns>The loss value between the expected values and
+        ///   the actual predicted values.</returns>
+        /// 
+        public double Loss(double expected, double actual)
+        {
+            return Loss(Classes.Decide(expected), actual);
+        }
+
+        /// <summary>
+        ///   Computes the derivative of the loss between the expected values (ground truth) 
+        ///   and the given actual values that have been predicted.
+        /// </summary>
+        /// 
+        /// <param name="actual">The actual values that have been predicted.</param>
+        /// <param name="expected">The expected values that should have been predicted.</param>
+        /// 
+        /// <returns>The loss value between the expected values and
+        ///   the actual predicted values.</returns>
+        /// 
+        public double Derivative(double expected, double actual)
+        {
+            return Derivative(Classes.Decide(expected), actual);
+        }
 
     }
 }

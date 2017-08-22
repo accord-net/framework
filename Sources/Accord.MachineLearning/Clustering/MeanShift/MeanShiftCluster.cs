@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -26,6 +26,9 @@ namespace Accord.MachineLearning
     using Accord.Math;
     using System;
     using System.Collections.Generic;
+    using Accord.Math.Distances;
+    using System.Collections;
+    using Accord.Compat;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -35,8 +38,11 @@ namespace Accord.MachineLearning
     /// <seealso cref="MeanShift"/>
     /// 
     [Serializable]
-    public class MeanShiftClusterCollection : ClusterCollection<double[], MeanShiftClusterCollection.MeanShiftCluster>
+    public class MeanShiftClusterCollection : MulticlassClassifierBase<double[]>,
+        IClusterCollectionEx<double[], MeanShiftClusterCollection.MeanShiftCluster>
     {
+        MeanShiftCluster.ClusterCollection collection;
+
         private MeanShift algorithm;
         private KDTree<int> tree;
         private double[][] modes;
@@ -49,20 +55,8 @@ namespace Accord.MachineLearning
         /// <seealso cref="MeanShiftClusterCollection"/>
         /// 
         [Serializable]
-        public class MeanShiftCluster : Cluster<MeanShiftClusterCollection>
+        public class MeanShiftCluster : Cluster<MeanShiftClusterCollection, double[], MeanShiftCluster>
         {
-            /// <summary>
-            ///   Initializes a new instance of the <see cref="MeanShiftCluster"/> class.
-            /// </summary>
-            /// 
-            /// <param name="owner">The owner collection.</param>
-            /// <param name="index">The cluster index.</param>
-            /// 
-            public MeanShiftCluster(MeanShiftClusterCollection owner, int index)
-                : base(owner, index)
-            {
-
-            }
         }
 
         /// <summary>
@@ -76,77 +70,24 @@ namespace Accord.MachineLearning
         /// </summary>
         /// 
         public MeanShiftClusterCollection(MeanShift algorithm, int k, KDTree<int> tree, double[][] modes)
-            : base(k, tree.Distance)
         {
+            this.collection = new MeanShiftCluster.ClusterCollection(this, k);
             this.algorithm = algorithm;
             this.tree = tree;
             this.modes = modes;
         }
 
         /// <summary>
-        ///   Returns the closest cluster to an input point.
-        /// </summary>v
-        /// 
-        /// <param name="point">The input vector.</param>
-        /// <returns>
-        ///   The index of the nearest cluster
-        ///   to the given data point. </returns>
-        /// 
-        public override int Nearest(double[] point)
+        /// Computes a class-label decision for a given <paramref name="input" />.
+        /// </summary>
+        /// <param name="input">The input vector that should be classified into
+        /// one of the <see cref="ITransform.NumberOfOutputs" /> possible classes.</param>
+        /// <returns>A class-label that best described <paramref name="input" /> according
+        /// to this classifier.</returns>
+        public override int Decide(double[] input)
         {
             // the tree contains the class label as the value for the seed point.
-            return tree.Nearest(point).Value;
-        }
-
-        /// <summary>
-        ///   Returns the closest cluster to an input point.
-        /// </summary>
-        /// 
-        /// <param name="point">The input vector.</param>
-        /// <param name="response">The responses for each of the cluster labels.</param>
-        /// 
-        /// <returns>
-        ///   The index of the nearest cluster
-        ///   to the given data point. </returns>
-        /// 
-        public override int Nearest(double[] point, out double[] response)
-        {
-            // the tree contains the class label as the value for the seed point.
-            var values = tree.Nearest(point, algorithm.Bandwidth, algorithm.Maximum);
-
-            response = new double[algorithm.Clusters.Count];
-            int[] counts = new int[algorithm.Clusters.Count];
-            double sum = 0;
-            foreach (var value in values)
-            {
-                int j = value.Node.Value;
-                response[j] += 1 / (1 + value.Distance);
-                counts[j] += 1;
-                sum += response[j];
-            }
-
-            Elementwise.Divide(response, counts, result: response);
-
-            return response.ArgMax();
-        }
-
-        /// <summary>
-        ///   Returns the closest cluster to an input point.
-        /// </summary>
-        /// 
-        /// <param name="point">The input vector.</param>
-        /// <returns>
-        ///   The index of the nearest cluster
-        ///   to the given data point. </returns>
-        /// 
-        public override int[] Nearest(double[][] point)
-        {
-            int[] labels = new int[point.Length];
-            Parallel.For(0, labels.Length, i =>
-            {
-                labels[i] = Nearest(point[i]);
-            });
-            return labels;
+            return tree.Nearest(input).Value;
         }
 
         /// <summary>
@@ -165,7 +106,7 @@ namespace Accord.MachineLearning
         ///   clusters' centroids.
         /// </returns>
         /// 
-        public override double Distortion(double[][] data, int[] labels = null, double[] weights = null)
+        public double Distortion(double[][] data, int[] labels = null, double[] weights = null)
         {
             if (labels != null)
                 throw new NotSupportedException();
@@ -175,7 +116,7 @@ namespace Accord.MachineLearning
 
             double error = 0.0;
 
-#if !NET35
+            // TODO: Use ParallelOptions in the loop below
             Parallel.For(0, data.Length,
 
                 () => 0.0,
@@ -192,15 +133,7 @@ namespace Accord.MachineLearning
                     lock (labels)
                         error += acc;
                 });
-#else
-            for (int i = 0; i < data.Length; i++)
-            {
 
-                double distance;
-                tree.Nearest(data[i], out distance);
-                error += weights[i] * distance;
-            }
-#endif
             return error / weights.Sum();
         }
 
@@ -220,7 +153,7 @@ namespace Accord.MachineLearning
         /// 
         /// <exception cref="System.NotSupportedException"></exception>
         /// 
-        public override double[] Transform(double[][] points, int[] labels, double[] weights = null, double[] result = null)
+        public double[] Transform(double[][] points, int[] labels, double[] weights = null, double[] result = null)
         {
             if (result == null)
                 result = new double[points.Length];
@@ -239,6 +172,80 @@ namespace Accord.MachineLearning
             });
 
             return result;
+        }
+
+
+
+        // Using composition over inheritance to achieve the closest as possible effect to a Mixin
+        // in C# - unfortunately needs a lot a boilerplate code to rewrire the interface methods to
+        // where their actual implementation is
+
+
+        /// <summary>
+        /// Gets the number of clusters in the collection.
+        /// </summary>
+        /// <value>The count.</value>
+        public int Count
+        {
+            get
+            {
+                return ((IClusterCollectionEx<double[], MeanShiftCluster>)collection).Count;
+            }
+        }
+
+        /// <summary>
+        /// Gets the collection of clusters currently modeled by the clustering algorithm.
+        /// </summary>
+        /// <value>The clusters.</value>
+        public MeanShiftCluster[] Clusters
+        {
+            get
+            {
+                return ((IClusterCollectionEx<double[], MeanShiftCluster>)collection).Clusters;
+            }
+        }
+
+        /// <summary>
+        /// Gets the proportion of samples in each cluster.
+        /// </summary>
+        /// 
+        public double[] Proportions
+        {
+            get
+            {
+                return ((IClusterCollectionEx<double[], MeanShiftCluster>)collection).Proportions;
+            }
+        }
+
+        /// <summary>
+        /// Gets the <see cref="MeanShiftCluster"/> at the specified index.
+        /// </summary>
+        /// <param name="index">The index.</param>
+        /// <returns>GaussianCluster.</returns>
+        public MeanShiftCluster this[int index]
+        {
+            get
+            {
+                return ((IClusterCollectionEx<double[], MeanShiftCluster>)collection)[index];
+            }
+        }
+
+        /// <summary>
+        /// Returns an enumerator that iterates through the collection.
+        /// </summary>
+        /// <returns>An enumerator that can be used to iterate through the collection.</returns>
+        public IEnumerator<MeanShiftCluster> GetEnumerator()
+        {
+            return ((IClusterCollectionEx<double[], MeanShiftCluster>)collection).GetEnumerator();
+        }
+
+        /// <summary>
+        /// Returns an enumerator that iterates through a collection.
+        /// </summary>
+        /// <returns>An <see cref="T:System.Collections.IEnumerator" /> object that can be used to iterate through the collection.</returns>
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return ((IClusterCollectionEx<double[], MeanShiftCluster>)collection).GetEnumerator();
         }
     }
 

@@ -14,7 +14,7 @@
     <description>
       Histograms, scatterplots and tabular data viewers for scientific applications. This package is part of the Accord.NET Framework.
     </description>
-    <summary>Accord.NET Control Library from the Accord.NET Framework</summary>
+    <summary>Plot histograms, scatterplots, tabular data, matrices and other objects in Windows Forms applications.</summary>
     <tags>accord.net aforge.net framework statistics data visualization histogram scatterplot boxplot chart</tags>
     <dependencies>
       <dependency id="Accord"                 version="$version$" />
@@ -22,7 +22,7 @@
       <dependency id="Accord.Math"            version="$version$" />
       <dependency id="Accord.Statistics"      version="$version$" />
 
-      <dependency id="ZedGraph"               version="5.1.6" />
+      <dependency id="ZedGraph"               version="5.1.7" />
     </dependencies>
   </metadata>
   <files>
@@ -34,5 +34,14 @@
 
     <file src="..\..\Release\net45\Accord.Controls.dll" target="lib\net45\Accord.Controls.dll" />
     <file src="..\..\Release\net45\Accord.Controls.xml" target="lib\net45\Accord.Controls.xml" />
+
+    <file src="..\..\Release\net46\Accord.Controls.dll" target="lib\net46\Accord.Controls.dll" />
+    <file src="..\..\Release\net46\Accord.Controls.xml" target="lib\net46\Accord.Controls.xml" />
+
+    <file src="..\..\Release\net462\Accord.Controls.dll" target="lib\net462\Accord.Controls.dll" />
+    <file src="..\..\Release\net462\Accord.Controls.xml" target="lib\net462\Accord.Controls.xml" />
+
+    <!-- <file src="..\..\Release\netstandard2.0\Accord.Controls.dll" target="lib\netstandard2.0\Accord.Controls.dll" /> -->
+    <!-- <file src="..\..\Release\netstandard2.0\Accord.Controls.xml" target="lib\netstandard2.0\Accord.Controls.xml" /> -->
   </files>
 </package>

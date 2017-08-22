@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -123,7 +123,7 @@ namespace Accord.Controls
                 return treeNode;
             }
 
-            string value = codebook.Translate(attrib.Name, node.Output.Value);
+            string value = codebook.Revert(attrib.Name, node.Output.Value);
             treeNode.Nodes.Add(new TreeNode(value));
             return treeNode;
         }

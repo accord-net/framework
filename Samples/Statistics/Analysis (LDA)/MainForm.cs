@@ -1,7 +1,7 @@
 ﻿// Accord.NET Sample Applications
 // http://accord-framework.net
 //
-// Copyright © 2009-2014, César Souza
+// Copyright © 2009-2017, César Souza
 // All rights reserved. 3-BSD License:
 //
 //   Redistribution and use in source and binary forms, with or without
@@ -33,6 +33,7 @@
 using Accord.Controls;
 using Accord.IO;
 using Accord.Math;
+using Accord.Statistics;
 using Accord.Statistics.Analysis;
 using Components;
 using System;
@@ -49,6 +50,8 @@ namespace Analysis.LDA
         private DescriptiveAnalysis sda;
 
         string[] columnNames;
+        double[][] inputs;
+        int[] outputs;
 
 
         public MainForm()
@@ -113,42 +116,36 @@ namespace Analysis.LDA
             }
 
             // Create a matrix from the source data table
-            double[,] sourceMatrix = (dgvAnalysisSource.DataSource as DataTable).ToMatrix(out columnNames);
-
-            int rows = sourceMatrix.GetLength(0);
-            int cols = sourceMatrix.GetLength(1);
-
+            double[][] sourceMatrix = (dgvAnalysisSource.DataSource as DataTable).ToJagged(out columnNames);
 
             // Create and compute a new Simple Descriptive Analysis
-            sda = new DescriptiveAnalysis(sourceMatrix, columnNames);
-
-            sda.Compute();
+            sda = new DescriptiveAnalysis(columnNames).Learn(sourceMatrix);
 
             // Show the descriptive analysis on the screen
             dgvDistributionMeasures.DataSource = sda.Measures;
 
 
             // Get the input values (the two first columns)
-            double[,] inputs = sourceMatrix.GetColumns(0, 1);
+            this.inputs = sourceMatrix.GetColumns(0, 1);
 
             // Get only the associated labels (last column)
-            int[] outputs = sourceMatrix.GetColumn(2).ToInt32();
-
-
+            this.outputs = sourceMatrix.GetColumn(2).ToMulticlass();
 
             // Create a Linear Discriminant Analysis for the data 
-            lda = new LinearDiscriminantAnalysis(inputs, outputs);
+            this.lda = new LinearDiscriminantAnalysis()
+            {
+                NumberOfOutputs = 2
+            };
+
+            // Compute the analysis!
+            var classifier = lda.Learn(inputs, outputs); 
 
 
-            lda.Compute(); // Finally, compute the analysis!
-
-
-            // Perform the transformation of the data using two dimensions
-            double[,] result = lda.Transform(inputs, 2);
+            // Perform the transformation of the data
+            double[][] result = lda.Transform(inputs);
 
             // Create a new plot with the original Z column
-            double[,] points = result.InsertColumn(sourceMatrix.GetColumn(2));
-
+            double[][] points = result.InsertColumn(sourceMatrix.GetColumn(2));
 
             // Create output scatter plot
             outputScatterplot.DataSource = points;
@@ -156,9 +153,8 @@ namespace Analysis.LDA
             // Create the output table
             dgvProjectionResult.DataSource = new ArrayDataView(points, columnNames);
 
-
             // Populate discriminants overview with analysis data
-            dgvFeatureVectors.DataSource = new ArrayDataView(lda.DiscriminantMatrix);
+            dgvFeatureVectors.DataSource = new ArrayDataView(lda.DiscriminantVectors);
             dgvScatterBetween.DataSource = new ArrayDataView(lda.ScatterBetweenClass);
             dgvScatterWithin.DataSource = new ArrayDataView(lda.ScatterWithinClass);
             dgvScatterTotal.DataSource = new ArrayDataView(lda.ScatterMatrix);
@@ -188,22 +184,16 @@ namespace Analysis.LDA
             dgvProjectionSource.EndEdit();
 
             // Creates a matrix from the source data table
-            double[,] sourceMatrix = (dgvProjectionSource.DataSource as DataTable).ToMatrix(out columnNames);
+            double[][] sourceMatrix = (dgvProjectionSource.DataSource as DataTable).ToJagged(out columnNames);
 
             // Gets only the X and Y
-            double[,] data = sourceMatrix.Submatrix(null, 0, 1);
+            double[][] data = sourceMatrix.GetColumns(0, 1);
 
             // Perform the transformation of the data using two components
-            double[,] result = lda.Transform(data, 2);
+            double[][] result = lda.Transform(data);
 
             // Create a new plot with the original Z column
-            double[,] graph = new double[sourceMatrix.GetLength(0), 3];
-            for (int i = 0; i < graph.GetLength(0); i++)
-            {
-                graph[i, 0] = result[i, 0];
-                graph[i, 1] = result[i, 1];
-                graph[i, 2] = sourceMatrix[i, 2];
-            }
+            double[][] graph = result.InsertColumn(sourceMatrix.GetColumn(2));
 
             // Create output scatter plot
             outputScatterplot.DataSource = graph;
@@ -219,8 +209,8 @@ namespace Analysis.LDA
             if (dgvDistributionMeasures.CurrentRow != null)
             {
                 DataGridViewRow row = (DataGridViewRow)dgvDistributionMeasures.CurrentRow;
-                dataHistogramView1.DataSource =
-                    ((DescriptiveMeasures)row.DataBoundItem).Samples;
+                DescriptiveMeasures measures = (DescriptiveMeasures)row.DataBoundItem;
+                dataHistogramView1.DataSource = inputs.InsertColumn(outputs).GetColumn(measures.Index);
             }
         }
 
@@ -229,9 +219,8 @@ namespace Analysis.LDA
             if (dgvClasses.CurrentRow != null)
             {
                 DiscriminantAnalysisClass dclass = (DiscriminantAnalysisClass)dgvClasses.CurrentRow.DataBoundItem;
-
                 dgvScatter.DataSource = new ArrayDataView(dclass.Scatter);
-                dgvClassData.DataSource = new ArrayDataView(dclass.Subset);
+                dgvClassData.DataSource = new ArrayDataView(inputs.Get(outputs.Find(x => x == dclass.Number)));
             }
         }
 
@@ -240,7 +229,7 @@ namespace Analysis.LDA
             if (dgvClassData.CurrentCell != null && dgvClassData.DataSource != null)
             {
                 int index = dgvClassData.CurrentCell.ColumnIndex;
-                double[,] subset = (double[,])(dgvClassData.DataSource as ArrayDataView).ArrayData;
+                double[][] subset = (double[][])(dgvClassData.DataSource as ArrayDataView).ArrayData;
                 dataHistogramView2.DataSource = subset.GetColumn(index);
             }
         }

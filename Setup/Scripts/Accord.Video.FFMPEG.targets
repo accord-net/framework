@@ -1,29 +1,9 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <AvailableItemName Include="NativeBinary" />
+    <NativeLibs Include="$(MSBuildThisFileDirectory)*.dll" />
+    <None Include="@(NativeLibs)">
+      <Link>%(FileName)%(Extension)</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
-  <ItemGroup>
-    <NativeBinary Include="$(MSBuildThisFileDirectory)x86\*">
-      <TargetPath>x86</TargetPath>
-    </NativeBinary>
-  </ItemGroup>
-  <PropertyGroup>
-    <PrepareForRunDependsOn>
-      $(PrepareForRunDependsOn);
-      CopyNativeBinaries
-    </PrepareForRunDependsOn>
-  </PropertyGroup>
-  <Target Name="CopyNativeBinaries" DependsOnTargets="CopyFilesToOutputDirectory">
-    <Copy SourceFiles="@(NativeBinary)"
-          DestinationFiles="@(NativeBinary->'$(OutDir)\%(TargetPath)\%(Filename).dll')"
-          Condition="'%(Extension)'=='.dll'">
-      <Output TaskParameter="DestinationFiles" ItemName="FileWrites" />
-    </Copy>
-    <Copy SourceFiles="@(NativeBinary)"
-          DestinationFiles="@(NativeBinary->'$(OutDir)\%(TargetPath)\%(Filename).%(Extension)')"
-          Condition="'%(Extension)'!='.dll'">
-      <Output TaskParameter="DestinationFiles" ItemName="FileWrites" />
-    </Copy>
-  </Target>
 </Project>

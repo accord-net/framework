@@ -176,7 +176,7 @@ namespace SampleApp
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(160, 24);
             this.label5.TabIndex = 9;
-            this.label5.Text = "Curren iteration:";
+            this.label5.Text = "Current iteration:";
             // 
             // stopButton
             // 

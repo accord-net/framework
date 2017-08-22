@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -22,19 +22,15 @@
 
 namespace Accord.MachineLearning.VectorMachines
 {
-    using Accord.MachineLearning;
+    using Accord.MachineLearning.VectorMachines.Learning;
     using Accord.Math;
     using Accord.Statistics.Kernels;
     using System;
-    using System.Collections.Generic;
     using System.IO;
     using System.Reflection;
     using System.Runtime.Serialization;
-    using System.Runtime.Serialization.Formatters.Binary;
-    using System.Threading;
+    using Accord.Compat;
     using System.Threading.Tasks;
-
-
 
     /// <summary>
     ///   One-against-one Multi-class Kernel Support Vector Machine Classifier.
@@ -66,92 +62,26 @@ namespace Accord.MachineLearning.VectorMachines
     /// </remarks>
     ///
     /// <example>
-    ///   <code>
-    ///   // Sample data
-    ///   //   The following is simple auto association function
-    ///   //   where each input correspond to its own class. This
-    ///   //   problem should be easily solved by a Linear kernel.
-    ///
-    ///   // Sample input data
-    ///   double[][] inputs =
-    ///   {
-    ///       new double[] { 0 },
-    ///       new double[] { 3 },
-    ///       new double[] { 1 },
-    ///       new double[] { 2 },
-    ///   };
-    ///   
-    ///   // Output for each of the inputs
-    ///   int[] outputs = { 0, 3, 1, 2 };
-    ///   
-    ///   
-    ///   // Create a new Linear kernel
-    ///   IKernel kernel = new Linear();
-    ///   
-    ///   // Create a new Multi-class Support Vector Machine with one input,
-    ///   //  using the linear kernel and for four disjoint classes.
-    ///   var machine = new MulticlassSupportVectorMachine(1, kernel, 4);
-    ///   
-    ///   // Create the Multi-class learning algorithm for the machine
-    ///   var teacher = new MulticlassSupportVectorLearning(machine, inputs, outputs);
-    ///   
-    ///   // Configure the learning algorithm to use SMO to train the
-    ///   //  underlying SVMs in each of the binary class subproblems.
-    ///   teacher.Algorithm = (svm, classInputs, classOutputs, i, j) =>
-    ///       new SequentialMinimalOptimization(svm, classInputs, classOutputs);
-    ///   
-    ///   // Run the learning algorithm
-    ///   double error = teacher.Run(); // output should be 0
-    ///   
-    ///   // Compute the decision output for one of the input vectors
-    ///   int decision = machine.Compute(new double[] { 3 }); // result should be 3
-    ///   </code>
+    /// <para>
+    ///   The following example shows how to learn a linear, multi-class support vector 
+    ///   machine using the <see cref="LinearDualCoordinateDescent"/> algorithm. </para>
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MulticlassSupportVectorLearningTest.cs" region="doc_learn_ldcd" />
+    /// 
+    /// <para>
+    ///   The following example shows how to learn a non-linear, multi-class support 
+    ///   vector machine using the <see cref="Gaussian"/> kernel and the 
+    ///   <see cref="SequentialMinimalOptimization"/> algorithm. </para>
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MulticlassSupportVectorLearningTest.cs" region="doc_learn_gaussian" />
     ///   
     /// <para>
-    ///   The next example is a simple 3 classes classification problem.
-    ///   It shows how to use a different kernel function, such as the
-    ///   polynomial kernel of degree 2.</para>
-    /// 
-    ///   <code>
-    ///   // Sample input data
-    ///   double[][] inputs =
-    ///   {
-    ///       new double[] { -1, 3, 2 },
-    ///       new double[] { -1, 3, 2 },
-    ///       new double[] { -1, 3, 2 },
-    ///       new double[] { 10, 82, 4 },
-    ///       new double[] { 10, 15, 4 },
-    ///       new double[] { 0, 0, 1 },
-    ///       new double[] { 0, 0, 2 },
-    ///   };
-    ///   
-    ///   // Output for each of the inputs
-    ///   int[] outputs = { 0, 3, 1, 2 };
-    ///   
-    ///   
-    ///   // Create a new polynomial kernel
-    ///   IKernel kernel = new Polynomial(2);
-    ///   
-    ///   // Create a new Multi-class Support Vector Machine with three inputs,
-    ///   //  using the linear kernel and for four disjoint classes.
-    ///   var machine = new MulticlassSupportVectorMachine(inputs: 3, kernel: kernel, classes: 4);
-    ///   
-    ///   // Create the Multi-class learning algorithm for the machine
-    ///   var teacher = new MulticlassSupportVectorLearning(machine, inputs, outputs);
-    ///   
-    ///   // Configure the learning algorithm to use SMO to train the
-    ///   //  underlying SVMs in each of the binary class subproblems.
-    ///   teacher.Algorithm = (svm, classInputs, classOutputs, i, j) =>
-    ///       new SequentialMinimalOptimization(svm, classInputs, classOutputs);
-    ///   
-    ///   // Run the learning algorithm
-    ///   double error = teacher.Run(); // output should be 0
-    ///   
-    ///   // Compute the decision output for one of the input vectors
-    ///   int decision = machine.Compute( new double[] { -1, 3, 2 });
-    ///   </code>
+    ///   Support vector machines can have their weights calibrated in order to produce 
+    ///   probability estimates (instead of simple class separation distances). The
+    ///   following example shows how to use <see cref="ProbabilisticOutputCalibration"/>
+    ///   within <see cref="MulticlassSupportVectorLearning"/> to generate a probabilistic
+    ///   SVM:</para>
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MulticlassSupportVectorLearningTest.cs" region="doc_learn_calibration" />
     /// </example>
-    ///
+    /// 
     /// <seealso cref="Learning.MulticlassSupportVectorLearning"/>
     /// 
     /// <seealso cref="SupportVectorMachine"/>
@@ -160,7 +90,9 @@ namespace Accord.MachineLearning.VectorMachines
     ///
     [Serializable]
     [Obsolete("Please use MulticlassSupportVectorMachine<TKernel> instead.")]
+#if !NETSTANDARD
     [SerializationBinder(typeof(MulticlassSupportVectorMachine.MulticlassSupportVectorMachineBinder))]
+#endif
     public class MulticlassSupportVectorMachine :
         MulticlassSupportVectorMachine<IKernel<double[]>>, ICloneable
     {
@@ -270,7 +202,7 @@ namespace Accord.MachineLearning.VectorMachines
         [Obsolete("Please use the Models property instead.")]
         public KernelSupportVectorMachine[][] Machines
         {
-            get { return Models.Convert(x => (KernelSupportVectorMachine)x); }
+            get { return Models.Apply((x, i, j) => (KernelSupportVectorMachine)x); }
         }
 
         /// <summary>
@@ -334,7 +266,7 @@ namespace Accord.MachineLearning.VectorMachines
                 Method = MulticlassComputeMethod.Elimination;
                 int decision;
                 output = this.Probabilities(inputs, out decision)[decision];
-                decisionPath = LastDecisionPath.Convert(x => x.Pair.ToTuple());
+                decisionPath = LastDecisionPath.Apply(x => x.Pair.ToTuple());
                 Method = prev;
                 return decision;
             }
@@ -476,8 +408,8 @@ namespace Accord.MachineLearning.VectorMachines
 
         /// <summary>
         ///   Gets whether this machine has been calibrated to
-        ///   produce probabilistic outputs (through the <see cref="BinaryGenerativeClassifierBase{TInput}.Probability(TInput)"/>
-        ///   and <see cref="BinaryGenerativeClassifierBase{TInput}.Probability(TInput)"/> methods).
+        ///   produce probabilistic outputs (through the Probability(TInput)
+        ///   and Probabilities(TInput) methods).
         /// </summary>
         /// 
         public bool IsProbabilistic
@@ -485,6 +417,7 @@ namespace Accord.MachineLearning.VectorMachines
             get { return Models[0][0].IsProbabilistic; }
         }
 
+#if !NETSTANDARD1_4
         /// <summary>
         ///   Saves the machine to a stream.
         /// </summary>
@@ -517,7 +450,7 @@ namespace Accord.MachineLearning.VectorMachines
         /// 
         /// <returns>The deserialized machine.</returns>
         /// 
-        [Obsolete("Please use Accord.IO.Serializer.Save() instead (or use it as an extension method).")]
+        [Obsolete("Please use Accord.IO.Serializer.Load<MulticlassSupportVectorMachine>(stream) instead.")]
         public static MulticlassSupportVectorMachine Load(Stream stream)
         {
             return Accord.IO.Serializer.Load<MulticlassSupportVectorMachine>(stream);
@@ -531,20 +464,17 @@ namespace Accord.MachineLearning.VectorMachines
         /// 
         /// <returns>The deserialized machine.</returns>
         /// 
-        [Obsolete("Please use Accord.IO.Serializer.Save() instead (or use it as an extension method).")]
+        [Obsolete("Please use Accord.IO.Serializer.Load<MulticlassSupportVectorMachine>(path) instead.")]
         public static MulticlassSupportVectorMachine Load(string path)
         {
             return Accord.IO.Serializer.Load<MulticlassSupportVectorMachine>(path);
         }
+#endif
         #endregion
 
 
-
-
-
-
         #region Serialization backwards compatibility
-
+#if !NETSTANDARD
         internal class MulticlassSupportVectorMachineBinder : SerializationBinder
         {
 
@@ -570,7 +500,6 @@ namespace Accord.MachineLearning.VectorMachines
 
 #pragma warning disable 0169
 #pragma warning disable 0649
-
         [Serializable]
         internal class MulticlassSupportVectorMachine_2_13
         {
@@ -593,7 +522,7 @@ namespace Accord.MachineLearning.VectorMachines
 
 #pragma warning restore 0169
 #pragma warning restore 0649
-
+#endif
         #endregion
 
     }
@@ -624,101 +553,33 @@ namespace Accord.MachineLearning.VectorMachines
     ///       <a href="http://nlp.stanford.edu/IR-book/html/htmledition/multiclass-svms-1.html">
     ///        http://nlp.stanford.edu/IR-book/html/htmledition/multiclass-svms-1.html </a></description></item>
     ///     </list></para>
-    ///     
     /// </remarks>
     ///
     /// <example>
-    ///   <code>
-    ///   // Sample data
-    ///   //   The following is simple auto association function
-    ///   //   where each input correspond to its own class. This
-    ///   //   problem should be easily solved by a Linear kernel.
-    ///
-    ///   // Sample input data
-    ///   double[][] inputs =
-    ///   {
-    ///       new double[] { 0 },
-    ///       new double[] { 3 },
-    ///       new double[] { 1 },
-    ///       new double[] { 2 },
-    ///   };
-    ///   
-    ///   // Output for each of the inputs
-    ///   int[] outputs = { 0, 3, 1, 2 };
-    ///   
-    ///   
-    ///   // Create a new Linear kernel
-    ///   IKernel kernel = new Linear();
-    ///   
-    ///   // Create a new Multi-class Support Vector Machine with one input,
-    ///   //  using the linear kernel and for four disjoint classes.
-    ///   var machine = new MulticlassSupportVectorMachine(1, kernel, 4);
-    ///   
-    ///   // Create the Multi-class learning algorithm for the machine
-    ///   var teacher = new MulticlassSupportVectorLearning(machine, inputs, outputs);
-    ///   
-    ///   // Configure the learning algorithm to use SMO to train the
-    ///   //  underlying SVMs in each of the binary class subproblems.
-    ///   teacher.Algorithm = (svm, classInputs, classOutputs, i, j) =>
-    ///       new SequentialMinimalOptimization(svm, classInputs, classOutputs);
-    ///   
-    ///   // Run the learning algorithm
-    ///   double error = teacher.Run(); // output should be 0
-    ///   
-    ///   // Compute the decision output for one of the input vectors
-    ///   int decision = machine.Compute(new double[] { 3 }); // result should be 3
-    ///   </code>
+    /// <para>
+    ///   The following example shows how to learn a linear, multi-class support vector 
+    ///   machine using the <see cref="LinearDualCoordinateDescent"/> algorithm. </para>
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MulticlassSupportVectorLearningTest.cs" region="doc_learn_ldcd" />
+    /// 
+    /// <para>
+    ///   The following example shows how to learn a non-linear, multi-class support 
+    ///   vector machine using the <see cref="Gaussian"/> kernel and the 
+    ///   <see cref="SequentialMinimalOptimization{TKernel}"/> algorithm. </para>
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MulticlassSupportVectorLearningTest.cs" region="doc_learn_gaussian" />
     ///   
     /// <para>
-    ///   The next example is a simple 3 classes classification problem.
-    ///   It shows how to use a different kernel function, such as the
-    ///   polynomial kernel of degree 2.</para>
-    /// 
-    ///   <code>
-    ///   // Sample input data
-    ///   double[][] inputs =
-    ///   {
-    ///       new double[] { -1, 3, 2 },
-    ///       new double[] { -1, 3, 2 },
-    ///       new double[] { -1, 3, 2 },
-    ///       new double[] { 10, 82, 4 },
-    ///       new double[] { 10, 15, 4 },
-    ///       new double[] { 0, 0, 1 },
-    ///       new double[] { 0, 0, 2 },
-    ///   };
-    ///   
-    ///   // Output for each of the inputs
-    ///   int[] outputs = { 0, 3, 1, 2 };
-    ///   
-    ///   
-    ///   // Create a new polynomial kernel
-    ///   IKernel kernel = new Polynomial(2);
-    ///   
-    ///   // Create a new Multi-class Support Vector Machine with one input,
-    ///   //  using the linear kernel and for four disjoint classes.
-    ///   var machine = new MulticlassSupportVectorMachine(inputs: 3, kernel: kernel, classes: 4);
-    ///   
-    ///   // Create the Multi-class learning algorithm for the machine
-    ///   var teacher = new MulticlassSupportVectorLearning(machine, inputs, outputs);
-    ///   
-    ///   // Configure the learning algorithm to use SMO to train the
-    ///   //  underlying SVMs in each of the binary class subproblems.
-    ///   teacher.Algorithm = (svm, classInputs, classOutputs, i, j) =>
-    ///       new SequentialMinimalOptimization(svm, classInputs, classOutputs);
-    ///   
-    ///   // Run the learning algorithm
-    ///   double error = teacher.Run(); // output should be 0
-    ///   
-    ///   // Compute the decision output for one of the input vectors
-    ///   int decision = machine.Compute( new double[] { -1, 3, 2 });
-    ///   </code>
+    ///   Support vector machines can have their weights calibrated in order to produce 
+    ///   probability estimates (instead of simple class separation distances). The
+    ///   following example shows how to use <see cref="ProbabilisticOutputCalibration"/>
+    ///   within <see cref="MulticlassSupportVectorLearning{TKernel}"/> to generate a probabilistic
+    ///   SVM:</para>
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MulticlassSupportVectorLearningTest.cs" region="doc_learn_calibration" />
     /// </example>
     ///
-    /// <seealso cref="Learning.MulticlassSupportVectorLearning"/>
+    /// <seealso cref="Learning.MulticlassSupportVectorLearning{TKernel}"/>
     /// 
     /// <seealso cref="SupportVectorMachine"/>
-    /// <seealso cref="KernelSupportVectorMachine"/>
-    /// <seealso cref="Learning.SequentialMinimalOptimization"/>
+    /// <seealso cref="Learning.SequentialMinimalOptimization{TKernel}"/>
     ///
     [Serializable]
     public class MulticlassSupportVectorMachine<TKernel> :
@@ -740,7 +601,7 @@ namespace Accord.MachineLearning.VectorMachines
         }
 
         /// <summary>
-        ///   Initializes a new instance of the <see cref="MulticlassSupportVectorMachine"/> class.
+        ///   Initializes a new instance of the <see cref="MulticlassSupportVectorMachine{TKernel}"/> class.
         /// </summary>
         /// 
         /// <param name="inputs">The number of inputs by the machine.</param>
@@ -752,7 +613,7 @@ namespace Accord.MachineLearning.VectorMachines
         {
         }
 
-        
+
     }
 
 

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -25,6 +25,7 @@ namespace Accord.Audio
     using System;
     using System.Threading;
     using System.Collections.Generic;
+    using Accord.Compat;
 
     /// <summary>
     ///   Software mixer for <see cref="IAudioSource">audio sources</see>.
@@ -323,7 +324,9 @@ namespace Accord.Audio
             if (this.IsRunning)
             {
                 needToStop = true;
+#if !NETSTANDARD1_4
                 thread.Abort();
+#endif
                 WaitForStop();
             }
         }
@@ -466,7 +469,7 @@ namespace Accord.Audio
 
 
 
-        #region IDisposable members
+#region IDisposable members
         /// <summary>
         ///   Releases unmanaged resources and performs other cleanup operations before the
         ///   <see cref="AudioSourceMixer"/> is reclaimed by garbage collection.
@@ -507,14 +510,16 @@ namespace Accord.Audio
                     {
                         if (stopEvents[i] != null)
                         {
+#if !NETSTANDARD1_4
                             stopEvents[i].Close();
+#endif
                             stopEvents[i] = null;
                         }
                     }
                 }
             }
         }
-        #endregion
+#endregion
 
     }
 }

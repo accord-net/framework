@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -23,6 +23,7 @@
 namespace Accord.Statistics.Kernels
 {
     using System;
+    using Accord.Compat;
 
     /// <summary>
     ///   Common interface for kernel functions that can explicitly 
@@ -31,7 +32,7 @@ namespace Accord.Statistics.Kernels
     /// 
     /// <seealso cref="IKernel"/>
     ///
-    public interface ITransform : IKernel, ICloneable
+    public interface ITransform : IKernel, ICloneable, ITransform<double[]>
     {
     }
     
@@ -56,6 +57,16 @@ namespace Accord.Statistics.Kernels
         /// 
         double[] Transform(TInput input);
 
-        
+        /// <summary>
+        ///   Projects an input point into feature space.
+        /// </summary>
+        /// 
+        /// <param name="input">The input point to be projected into feature space.</param>
+        /// 
+        /// <returns>
+        ///   The feature space representation of the given <paramref name="input"/> point.
+        /// </returns>
+        /// 
+        double[][] Transform(TInput[] input);
     }
 }

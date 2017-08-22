@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -28,6 +28,7 @@ namespace Accord.Math
     using System.Collections;
     using System.Reflection;
     using System.Runtime.CompilerServices;
+    using System.Linq;
 
     /// <summary>
     ///   Static class Distance. Defines a set of extension methods defining distance measures.
@@ -35,7 +36,6 @@ namespace Accord.Math
     /// 
     public static partial class Distance
     {
-
 
         /// <summary>
         ///   Checks whether a function is a real metric distance, i.e. respects
@@ -126,6 +126,11 @@ namespace Accord.Math
         ///   particular method of the <see cref="Distance"/> static class.
         /// </summary>
         /// 
+        /// <remarks>
+        ///   This method relies on reflection and might not work on all scenarios,
+        ///   environments, and/or platforms.
+        /// </remarks>
+        /// 
         /// <typeparam name="T">The type of the elements being compared in the distance function.</typeparam>
         /// 
         /// <param name="func">The method of <see cref="Distance"/>.</param>
@@ -136,12 +141,19 @@ namespace Accord.Math
         /// 
         public static IDistance<T> GetDistance<T>(Func<T, T, double> func)
         {
-            
-
-            var methods = typeof(Distance).GetMembers(BindingFlags.Public | BindingFlags.Static);
+#if NETSTANDARD1_4
+            var methods = typeof(Distance).GetTypeInfo().DeclaredMethods.Where(m=>m.IsPublic && m.IsStatic);
+#else
+            var methods = typeof(Distance).GetMethods(BindingFlags.Public | BindingFlags.Static);
+#endif
             foreach (var method in methods)
             {
-                if (func.Method == method)
+#if NETSTANDARD1_4
+                var methodInfo = func.GetMethodInfo();
+#else
+                var methodInfo = func.Method;
+#endif
+                if (methodInfo == method)
                 {
                     var t = Type.GetType("Accord.Math.Distances." + method.Name);
 
@@ -149,7 +161,7 @@ namespace Accord.Math
                     {
                         // TODO: Remove the following special case, as it is needed only
                         // for preserving compatibility for a few next releases more.
-                        if (func.Method.Name == "BitwiseHamming")
+                        if (methodInfo.Name == "BitwiseHamming")
                             return new Hamming() as IDistance<T>;
                     }
 
@@ -181,7 +193,7 @@ namespace Accord.Math
         /// 
         /// <returns>The Levenshtein distance between x and y.</returns>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Levenshtein<T>(T[] x, T[] y)

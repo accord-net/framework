@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -26,6 +26,9 @@ namespace Accord.Statistics.Models.Regression.Fitting
     using Accord.Math;
     using Accord.Math.Decompositions;
     using Accord.Statistics.Links;
+    using Accord.MachineLearning;
+    using Accord.Compat;
+    using System.Threading;
 
     /// <summary>
     ///   Iterative Reweighted Least Squares for Logistic Regression fitting.
@@ -44,8 +47,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
     /// <para>
     ///   The Iterative Reweighted Least Squares algorithm can also be used to learn
     ///   arbitrary generalized linear models. However, the use of this class to learn
-    ///   such models is currently experimental.
-    /// </para>
+    ///   such models is currently experimental.</para>
     /// 
     /// <para>
     ///   References:
@@ -66,90 +68,246 @@ namespace Accord.Statistics.Models.Regression.Fitting
     /// </remarks>
     /// 
     /// <example>
-    ///   <code>
-    ///    // Suppose we have the following data about some patients.
-    ///    // The first variable is continuous and represent patient
-    ///    // age. The second variable is dichotomic and give whether
-    ///    // they smoke or not (This is completely fictional data).
-    ///    double[][] input =
-    ///    {
-    ///        new double[] { 55, 0 }, // 0 - no cancer
-    ///        new double[] { 28, 0 }, // 0
-    ///        new double[] { 65, 1 }, // 0
-    ///        new double[] { 46, 0 }, // 1 - have cancer
-    ///        new double[] { 86, 1 }, // 1
-    ///        new double[] { 56, 1 }, // 1
-    ///        new double[] { 85, 0 }, // 0
-    ///        new double[] { 33, 0 }, // 0
-    ///        new double[] { 21, 1 }, // 0
-    ///        new double[] { 42, 1 }, // 1
-    ///    };
-    ///
-    ///    // We also know if they have had lung cancer or not, and 
-    ///    // we would like to know whether smoking has any connection
-    ///    // with lung cancer (This is completely fictional data).
-    ///    double[] output =
-    ///    {
-    ///        0, 0, 0, 1, 1, 1, 0, 0, 0, 1
-    ///    };
-    ///
-    ///
-    ///    // To verify this hypothesis, we are going to create a logistic
-    ///    // regression model for those two inputs (age and smoking).
-    ///    LogisticRegression regression = new LogisticRegression(inputs: 2);
-    ///
-    ///    // Next, we are going to estimate this model. For this, we
-    ///    // will use the Iteratively Reweighted Least Squares method.
-    ///    var teacher = new IterativeReweightedLeastSquares(regression);
-    ///
-    ///    // Now, we will iteratively estimate our model. The Run method returns
-    ///    // the maximum relative change in the model parameters and we will use
-    ///    // it as the convergence criteria.
-    ///
-    ///    double delta = 0;
-    ///    do
-    ///    {
-    ///        // Perform an iteration
-    ///        delta = teacher.Run(input, output);
-    ///
-    ///    } while (delta > 0.001);
-    ///
-    ///    // At this point, we can compute the odds ratio of our variables.
-    ///    // In the model, the variable at 0 is always the intercept term, 
-    ///    // with the other following in the sequence. Index 1 is the age
-    ///    // and index 2 is whether the patient smokes or not.
-    ///
-    ///    // For the age variable, we have that individuals with
-    ///    //   higher age have 1.021 greater odds of getting lung
-    ///    //   cancer controlling for cigarette smoking.
-    ///    double ageOdds = regression.GetOddsRatio(1); // 1.0208597028836701
-    ///
-    ///    // For the smoking/non smoking category variable, however, we
-    ///    //   have that individuals who smoke have 5.858 greater odds
-    ///    //   of developing lung cancer compared to those who do not 
-    ///    //   smoke, controlling for age (remember, this is completely
-    ///    //   fictional and for demonstration purposes only).
-    ///    double smokeOdds = regression.GetOddsRatio(2); // 5.8584748789881331
-    ///   </code>
+    ///     <code source="Unit Tests\Accord.Tests.Statistics\Models\Regression\LogisticRegressionTest.cs" region="doc_log_reg_1" />
     /// </example>
     /// 
-    public class IterativeReweightedLeastSquares : IRegressionFitting
+#pragma warning disable 612, 618
+    public class IterativeReweightedLeastSquares : IterativeReweightedLeastSquares<GeneralizedLinearRegression>,
+        IRegressionFitting
+#pragma warning restore 612, 618
     {
+        /// <summary>
+        ///   Constructs a new Iterative Reweighted Least Squares.
+        /// </summary>
+        /// 
+        /// <param name="regression">The regression to estimate.</param>
+        /// 
+        public IterativeReweightedLeastSquares(LogisticRegression regression)
+        {
+            // TODO: Remove this method
+            Initialize(regression);
+        }
 
-        private GeneralizedLinearRegression regression;
+        /// <summary>
+        ///   Constructs a new Iterative Reweighted Least Squares.
+        /// </summary>
+        /// 
+        /// <param name="regression">The regression to estimate.</param>
+        /// 
+        public IterativeReweightedLeastSquares(GeneralizedLinearRegression regression)
+        {
+            Initialize(regression);
+        }
+
+
+
+        /// <summary> 
+        /// Runs one iteration of the Reweighted Least Squares algorithm. 
+        /// </summary> 
+        /// <param name="inputs">The input data.</param> 
+        /// <param name="outputs">The outputs associated with each input vector.</param> 
+        /// <returns>The maximum relative change in the parameters after the iteration.</returns> 
+        ///  
+        [Obsolete("Please use Learn(x, y) instead.")]
+        public double Run(double[][] inputs, int[] outputs)
+        {
+            return Run(inputs, outputs.Apply(x => x > 0 ? 1.0 : 0.0));
+        }
+
+        /// <summary> 
+        /// Runs one iteration of the Reweighted Least Squares algorithm. 
+        /// </summary> 
+        /// <param name="inputs">The input data.</param> 
+        /// <param name="outputs">The outputs associated with each input vector.</param> 
+        /// <param name="weights">The weights associated with each sample.</param>
+        /// 
+        /// <returns>The maximum relative change in the parameters after the iteration.</returns> 
+        ///  
+        [Obsolete("Please use Learn(x, y) instead.")]
+        public double Run(double[][] inputs, int[] outputs, double[] weights)
+        {
+            return Run(inputs, outputs.Apply(x => x > 0 ? 1.0 : 0.0), weights);
+        }
+
+        /// <summary>
+        ///   Runs one iteration of the Reweighted Least Squares algorithm.
+        /// </summary>
+        /// 
+        /// <param name="inputs">The input data.</param>
+        /// <param name="outputs">The outputs associated with each input vector.</param>
+        /// 
+        /// <returns>The maximum relative change in the parameters after the iteration.</returns>
+        /// 
+        [Obsolete("Please use Learn(x, y) instead.")]
+        public double Run(double[][] inputs, int[][] outputs)
+        {
+            if (outputs[0].Length != 1)
+                throw new ArgumentException("Function must have a single output.", "outputs");
+            double[] output = new double[outputs.Length];
+            for (int i = 0; i < outputs.Length; i++)
+                output[i] = outputs[i][0] > 0 ? 1.0 : 0.0;
+            return Run(inputs, output);
+        }
+
+        /// <summary>
+        ///   Runs one iteration of the Reweighted Least Squares algorithm.
+        /// </summary>
+        /// 
+        /// <param name="inputs">The input data.</param>
+        /// <param name="outputs">The outputs associated with each input vector.</param>
+        /// <param name="sampleWeight">The weight associated with each sample.</param>
+        /// 
+        /// <returns>The maximum relative change in the parameters after the iteration.</returns>
+        /// 
+        [Obsolete("Please use Learn(x, y) instead.")]
+        public double Run(double[][] inputs, int[][] outputs, double[] sampleWeight)
+        {
+            if (outputs[0].Length != 1)
+                throw new ArgumentException("Function must have a single output.", "outputs");
+            double[] output = new double[outputs.Length];
+            for (int i = 0; i < outputs.Length; i++)
+                output[i] = outputs[i][0] > 0 ? 1.0 : 0.0;
+            return Run(inputs, output, sampleWeight);
+        }
+
+        /// <summary>
+        ///   Runs one iteration of the Reweighted Least Squares algorithm.
+        /// </summary>
+        /// 
+        /// <param name="inputs">The input data.</param>
+        /// <param name="outputs">The outputs associated with each input vector.</param>
+        /// 
+        /// <returns>The maximum relative change in the parameters after the iteration.</returns>
+        /// 
+        [Obsolete("Please use Learn(x, y) instead.")]
+        public double Run(double[][] inputs, double[][] outputs)
+        {
+            if (outputs[0].Length != 1)
+                throw new ArgumentException("Function must have a single output.", "outputs");
+
+            double[] output = new double[outputs.Length];
+            for (int i = 0; i < outputs.Length; i++)
+                output[i] = outputs[i][0];
+
+            return Run(inputs, output);
+        }
+
+        /// <summary>
+        ///   Runs one iteration of the Reweighted Least Squares algorithm.
+        /// </summary>
+        /// <param name="inputs">The input data.</param>
+        /// <param name="outputs">The outputs associated with each input vector.</param>
+        /// <returns>The maximum relative change in the parameters after the iteration.</returns>
+        /// 
+        [Obsolete("Please use Learn(x, y) instead.")]
+        public double Run(double[][] inputs, double[] outputs)
+        {
+            return Run(inputs, outputs, null);
+        }
+
+        /// <summary>
+        ///   Runs one iteration of the Reweighted Least Squares algorithm.
+        /// </summary>
+        /// 
+        /// <param name="inputs">The input data.</param>
+        /// <param name="outputs">The outputs associated with each input vector.</param>
+        /// <param name="sampleWeights">An weight associated with each sample.</param>
+        /// 
+        /// <returns>The maximum relative change in the parameters after the iteration.</returns>
+        /// 
+        [Obsolete("Please use Learn(x, y) instead.")]
+        public double Run(double[][] inputs, double[] outputs, double[] sampleWeights)
+        {
+            int old = Iterations;
+            Iterations = 1;
+            Learn(inputs, outputs, sampleWeights);
+            Iterations = old;
+            return Updates.Abs().Max();
+        }
+
+        /// <summary>
+        ///   Computes the sum-of-squared error between the
+        ///   model outputs and the expected outputs.
+        /// </summary>
+        /// 
+        /// <param name="inputs">The input data set.</param>
+        /// <param name="outputs">The output values.</param>
+        /// 
+        /// <returns>The sum-of-squared errors.</returns>
+        /// 
+        [Obsolete("Please use the LogLikelihoodLoss class instead.")]
+        public double ComputeError(double[][] inputs, double[] outputs)
+        {
+            double sum = 0;
+
+            for (int i = 0; i < inputs.Length; i++)
+            {
+                double actual = Model.Probability(inputs[i]);
+                double expected = outputs[i];
+                double delta = actual - expected;
+                sum += delta * delta;
+            }
+
+            return sum;
+        }
+
+    }
+
+    /// <summary>
+    ///   Iterative Reweighted Least Squares for fitting Generalized Linear Models.
+    /// </summary>
+    /// 
+    public class IterativeReweightedLeastSquares<TModel> :
+        ISupervisedLearning<TModel, double[], double>,
+        ISupervisedLearning<TModel, double[], int>,
+        ISupervisedLearning<TModel, double[], bool>,
+        IConvergenceLearning
+        where TModel : GeneralizedLinearRegression, new()
+    {
+        [NonSerialized]
+        CancellationToken token = new CancellationToken();
+
+        private TModel regression;
 
         private int parameterCount;
 
-        private double[,] hessian;
+        private double[][] hessian;
         private double[] gradient;
         private double[] previous;
+        private double[] deltas;
 
         private double lambda = 1e-10;
 
 
         private bool computeStandardErrors = true;
-        private ISolverMatrixDecomposition<double> decomposition;
+        private ISolverArrayDecomposition<double> decomposition;
+        private RelativeConvergence convergence;
 
+        /// <summary>
+        ///   Initializes this instance.
+        /// </summary>
+        /// 
+        protected void Initialize(TModel regression)
+        {
+            if (regression == null)
+                throw new ArgumentNullException("regression");
+
+            this.regression = regression;
+            this.parameterCount = regression.NumberOfParameters;
+            this.hessian = Jagged.Zeros(parameterCount, parameterCount);
+            this.gradient = new double[parameterCount];
+            this.previous = new double[parameterCount];
+        }
+
+        /// <summary>
+        ///   Gets or sets the regression model being learned.
+        /// </summary>
+        /// 
+        public TModel Model
+        {
+            get { return regression; }
+            set { regression = value; }
+        }
 
         /// <summary>
         ///   Gets the previous values for the coefficients which were
@@ -159,17 +317,26 @@ namespace Accord.Statistics.Models.Regression.Fitting
         public double[] Previous { get { return previous; } }
 
         /// <summary>
+        ///   Gets the last parameter updates in the last iteration.
+        /// </summary>
+        /// 
+        public double[] Updates { get { return deltas; } }
+
+        /// <summary>
         ///   Gets the current values for the coefficients.
         /// </summary>
         /// 
-        public double[] Solution { get { return regression.Coefficients; } }
+        public double[] Solution
+        {
+            get { return regression.Intercept.Concatenate(regression.Weights); }
+        }
 
         /// <summary>
         ///   Gets the Hessian matrix computed in 
         ///   the last Newton-Raphson iteration.
         /// </summary>
         /// 
-        public double[,] Hessian { get { return hessian; } }
+        public double[][] Hessian { get { return hessian; } }
 
         /// <summary>
         ///   Gets the Gradient vector computed in
@@ -184,6 +351,64 @@ namespace Accord.Statistics.Models.Regression.Fitting
         /// 
         public int Parameters { get { return parameterCount; } }
 
+        /// <summary>
+        /// Gets or sets a cancellation token that can be used to
+        /// stop the learning algorithm while it is running.
+        /// </summary>
+        public CancellationToken Token
+        {
+            get { return token; }
+            set { token = value; }
+        }
+
+        /// <summary>
+        ///   Please use MaxIterations instead.
+        /// </summary>
+        [Obsolete("Please use MaxIterations instead.")]
+        public int Iterations
+        {
+            get { return convergence.MaxIterations; }
+            set { convergence.MaxIterations = value; }
+        }
+
+        /// <summary>
+        ///   Gets or sets the tolerance value used to determine
+        ///   whether the algorithm has converged.
+        /// </summary>
+        public double Tolerance
+        {
+            get { return convergence.Tolerance; }
+            set { convergence.Tolerance = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the maximum number of iterations
+        /// performed by the learning algorithm.
+        /// </summary>
+        /// <value>The maximum iterations.</value>
+        public int MaxIterations
+        {
+            get { return convergence.MaxIterations; }
+            set { convergence.MaxIterations = value; }
+        }
+
+        /// <summary>
+        /// Gets the current iteration number.
+        /// </summary>
+        /// <value>The current iteration.</value>
+        public int CurrentIteration
+        {
+            get { return convergence.CurrentIteration; }
+        }
+
+        /// <summary>
+        /// Gets or sets whether the algorithm has converged.
+        /// </summary>
+        /// <value><c>true</c> if this instance has converged; otherwise, <c>false</c>.</value>
+        public bool HasConverged
+        {
+            get { return convergence.HasConverged; }
+        }
 
         /// <summary>
         ///   Gets or sets a value indicating whether standard
@@ -211,114 +436,60 @@ namespace Accord.Statistics.Models.Regression.Fitting
             set { lambda = value; }
         }
 
-        /// <summary>
-        ///   Constructs a new Iterative Reweighted Least Squares.
-        /// </summary>
-        /// 
-        /// <param name="regression">The regression to estimate.</param>
-        /// 
-        public IterativeReweightedLeastSquares(LogisticRegression regression)
-        {
-            constructor(GeneralizedLinearRegression.FromLogisticRegression(regression, makeCopy: false));
-        }
 
         /// <summary>
-        ///   Constructs a new Iterative Reweighted Least Squares.
+        /// Initializes a new instance of the <see cref="IterativeReweightedLeastSquares{TModel}"/> class.
         /// </summary>
-        /// 
-        /// <param name="regression">The regression to estimate.</param>
-        /// 
-        public IterativeReweightedLeastSquares(GeneralizedLinearRegression regression)
+        public IterativeReweightedLeastSquares()
         {
-            constructor(regression);
+            this.convergence = new RelativeConvergence()
+            {
+                MaxIterations = 0,
+                Tolerance = 1e-5
+            };
         }
 
-        private void constructor(GeneralizedLinearRegression regression)
-        {
-            if (regression == null)
-                throw new ArgumentNullException("regression");
 
-            this.regression = regression;
-            this.parameterCount = regression.Coefficients.Length;
-            this.hessian = new double[parameterCount, parameterCount];
-            this.gradient = new double[parameterCount];
-        }
 
-        /// <summary> 
-        /// Runs one iteration of the Reweighted Least Squares algorithm. 
-        /// </summary> 
-        /// <param name="inputs">The input data.</param> 
-        /// <param name="outputs">The outputs associated with each input vector.</param> 
-        /// <returns>The maximum relative change in the parameters after the iteration.</returns> 
-        ///  
-        public double Run(double[][] inputs, int[] outputs)
+        /// <summary>
+        /// Learns a model that can map the given inputs to the given outputs.
+        /// </summary>
+        /// <param name="x">The model inputs.</param>
+        /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
+        /// <param name="weights">The weight of importance for each input-output pair (if supported by the learning algorithm).</param>
+        /// <returns>
+        /// A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
+        /// </returns>
+        public TModel Learn(double[][] x, int[] y, double[] weights = null)
         {
-            return Run(inputs, outputs.Apply(x => x > 0 ? 1.0 : 0.0));
+            return Learn(x, y.ToDouble(), weights);
         }
 
         /// <summary>
-        ///   Runs one iteration of the Reweighted Least Squares algorithm.
+        /// Learns a model that can map the given inputs to the given outputs.
         /// </summary>
-        /// 
-        /// <param name="inputs">The input data.</param>
-        /// <param name="outputs">The outputs associated with each input vector.</param>
-        /// 
-        /// <returns>The maximum relative change in the parameters after the iteration.</returns>
-        /// 
-        public double Run(double[][] inputs, int[][] outputs)
+        /// <param name="x">The model inputs.</param>
+        /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
+        /// <param name="weights">The weight of importance for each input-output pair (if supported by the learning algorithm).</param>
+        /// <returns>
+        /// A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
+        /// </returns>
+        public TModel Learn(double[][] x, bool[] y, double[] weights = null)
         {
-            if (outputs[0].Length != 1)
-                throw new ArgumentException("Function must have a single output.", "outputs");
-            double[] output = new double[outputs.Length];
-            for (int i = 0; i < outputs.Length; i++)
-                output[i] = outputs[i][0] > 0 ? 1.0 : 0.0;
-            return Run(inputs, output);
+            return Learn(x, Classes.ToZeroOne(y), weights);
         }
 
         /// <summary>
-        ///   Runs one iteration of the Reweighted Least Squares algorithm.
+        /// Learns a model that can map the given inputs to the given outputs.
         /// </summary>
-        /// 
-        /// <param name="inputs">The input data.</param>
-        /// <param name="outputs">The outputs associated with each input vector.</param>
-        /// 
-        /// <returns>The maximum relative change in the parameters after the iteration.</returns>
-        /// 
-        public double Run(double[][] inputs, double[][] outputs)
-        {
-            if (outputs[0].Length != 1)
-                throw new ArgumentException("Function must have a single output.", "outputs");
-
-            double[] output = new double[outputs.Length];
-            for (int i = 0; i < outputs.Length; i++)
-                output[i] = outputs[i][0];
-
-            return Run(inputs, output);
-        }
-
-        /// <summary>
-        ///   Runs one iteration of the Reweighted Least Squares algorithm.
-        /// </summary>
-        /// <param name="inputs">The input data.</param>
-        /// <param name="outputs">The outputs associated with each input vector.</param>
-        /// <returns>The maximum relative change in the parameters after the iteration.</returns>
-        /// 
-        public double Run(double[][] inputs, double[] outputs)
-        {
-            return Run(inputs, outputs, null);
-        }
-
-        /// <summary>
-        ///   Runs one iteration of the Reweighted Least Squares algorithm.
-        /// </summary>
-        /// 
-        /// <param name="inputs">The input data.</param>
-        /// <param name="outputs">The outputs associated with each input vector.</param>
-        /// <param name="sampleWeights">An weight associated with each sample.</param>
-        /// 
-        /// <returns>The maximum relative change in the parameters after the iteration.</returns>
-        /// 
-        public double Run(double[][] inputs, double[] outputs, double[] sampleWeights)
+        /// <param name="x">The model inputs.</param>
+        /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
+        /// <param name="weights">The weight of importance for each input-output pair (if supported by the learning algorithm).</param>
+        /// <returns>
+        /// A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
+        /// </returns>
+        /// <exception cref="DimensionMismatchException">outputs;The number of input vectors and their associated output values must have the same size.</exception>
+        public TModel Learn(double[][] x, double[] y, double[] weights = null)
         {
             // Regress using Iteratively Reweighted Least Squares estimation.
 
@@ -326,147 +497,125 @@ namespace Accord.Statistics.Models.Regression.Fitting
             //  - Bishop, Christopher M.; Pattern Recognition 
             //    and Machine Learning. Springer; 1st ed. 2006.
 
-            if (inputs.Length != outputs.Length)
+            if (x.Length != y.Length)
             {
                 throw new DimensionMismatchException("outputs",
                     "The number of input vectors and their associated output values must have the same size.");
             }
 
-            // Initial definitions and memory allocations
-            int N = inputs.Length;
-
-            double[][] design = new double[N][];
-            double[] errors = new double[N];
-            double[] weights = new double[N];
-            double[] coefficients = this.regression.Coefficients;
-            double[] deltas;
-
-            // Compute the regression matrix
-            for (int i = 0; i < inputs.Length; i++)
+            if (regression == null)
             {
-                double[] row = design[i] = new double[parameterCount];
-
-                row[0] = 1; // for intercept
-                for (int j = 0; j < inputs[i].Length; j++)
-                    row[j + 1] = inputs[i][j];
-            }
-
-
-            // Compute errors and weighting matrix
-            for (int i = 0; i < inputs.Length; i++)
-            {
-                double y = regression.Compute(inputs[i]);
-
-                // Calculate error vector
-                errors[i] = y - outputs[i];
-
-                // Calculate weighting matrix
-                weights[i] = regression.Link.Derivative2(y);
-            }
-
-            if (sampleWeights != null)
-            {
-                for (int i = 0; i < weights.Length; i++)
+                Initialize(new TModel()
                 {
-                    errors[i] *= sampleWeights[i];
-                    weights[i] *= sampleWeights[i];
-                }
+                    NumberOfInputs = x.Columns()
+                });
             }
 
+            // Initial definitions and memory allocations
+            int N = x.Length;
 
+            double[] errors = new double[N];
+            double[] w = new double[N];
+            convergence.Clear();
 
-            // Reset Hessian matrix and gradient
-            Array.Clear(gradient, 0, gradient.Length);
-            Array.Clear(hessian, 0, hessian.Length);
+            double[][] design = x.InsertColumn(value: 1, index: 0);
 
-
-            // (Re-) Compute error gradient
-            for (int j = 0; j < design.Length; j++)
-                for (int i = 0; i < gradient.Length; i++)
-                    gradient[i] += design[j][i] * errors[j] + lambda * coefficients[i];
-
-            // (Re-) Compute weighted "Hessian" matrix 
-            for (int k = 0; k < weights.Length; k++)
+            do
             {
-                double[] row = design[k];
-                for (int j = 0; j < row.Length; j++)
-                    for (int i = 0; i < row.Length; i++)
-                        hessian[j, i] += row[i] * row[j] * weights[k];
-            }
+                if (Token.IsCancellationRequested)
+                    break;
 
+                // Compute errors and weighting matrix
+                for (int i = 0; i < x.Length; i++)
+                {
+                    double z = regression.Linear.Transform(x[i]);
+                    double actual = regression.Link.Inverse(z);
 
+                    // Calculate error vector
+                    errors[i] = actual - y[i];
 
-            // Decompose to solve the linear system. Usually the Hessian will
-            // be invertible and LU will succeed. However, sometimes the Hessian
-            // may be singular and a Singular Value Decomposition may be needed.
+                    // Calculate weighting matrix
+                    w[i] = regression.Link.Derivative2(actual);
+                }
 
-            // The SVD is very stable, but is quite expensive, being on average
-            // about 10-15 times more expensive than LU decomposition. There are
-            // other ways to avoid a singular Hessian. For a very interesting 
-            // reading on the subject, please see:
-            //
-            //  - Jeff Gill & Gary King, "What to Do When Your Hessian Is Not Invertible",
-            //    Sociological Methods & Research, Vol 33, No. 1, August 2004, 54-87.
-            //    Available in: http://gking.harvard.edu/files/help.pdf
-            //
+                if (weights != null)
+                {
+                    for (int i = 0; i < weights.Length; i++)
+                    {
+                        errors[i] *= weights[i];
+                        w[i] *= weights[i];
+                    }
+                }
 
-            // Moreover, the computation of the inverse is optional, as it will
-            // be used only to compute the standard errors of the regression.
+                // Reset Hessian matrix and gradient
+                gradient.Clear();
+                hessian.Clear();
 
-            // Hessian Matrix is singular, try pseudo-inverse solution
-            decomposition = new SingularValueDecomposition(hessian);
-            deltas = decomposition.Solve(gradient);
+                // (Re-) Compute error gradient
+                for (int j = 0; j < design.Length; j++)
+                    for (int i = 0; i < gradient.Length; i++)
+                        gradient[i] += design[j][i] * errors[j];
 
-            previous = (double[])coefficients.Clone();
+                // (Re-) Compute weighted "Hessian" matrix 
+                for (int k = 0; k < w.Length; k++)
+                {
+                    double[] row = design[k];
+                    for (int j = 0; j < row.Length; j++)
+                        for (int i = 0; i < row.Length; i++)
+                            hessian[j][i] += row[i] * row[j] * w[k];
+                }
 
-            // Update coefficients using the calculated deltas
-            for (int i = 0; i < coefficients.Length; i++)
-                coefficients[i] -= deltas[i];
+                // Apply L2 regularization
+                if (lambda > 0)
+                {
+                    // https://www.cs.ubc.ca/~murphyk/Teaching/CS540-Fall08/L6.pdf
+                    for (int i = 0; i < gradient.Length; i++)
+                    {
+                        gradient[i] += lambda * regression.GetCoefficient(i);
+                        hessian[i][i] += lambda;
+                    }
+                }
 
+                decomposition = new JaggedSingularValueDecomposition(hessian);
+                deltas = decomposition.Solve(gradient);
+
+                previous = (double[])this.Solution.Clone();
+
+                // Update coefficients using the calculated deltas
+                for (int i = 0; i < regression.Weights.Length; i++)
+                    regression.Weights[i] -= deltas[i + 1];
+                regression.Intercept -= deltas[0];
+
+                // Return the relative maximum parameter change
+                convergence.NewValue = deltas.Abs().Max();
+
+                if (Token.IsCancellationRequested)
+                    break;
+
+            } while (!convergence.HasConverged);
 
             if (computeStandardErrors)
             {
                 // Grab the regression information matrix
-                double[,] inverse = decomposition.Inverse();
+                double[][] inverse = decomposition.Inverse();
 
                 // Calculate coefficients' standard errors
                 double[] standardErrors = regression.StandardErrors;
                 for (int i = 0; i < standardErrors.Length; i++)
-                    standardErrors[i] = Math.Sqrt(inverse[i, i]);
+                    standardErrors[i] = Math.Sqrt(inverse[i][i]);
             }
 
-
-            // Return the relative maximum parameter change
-            for (int i = 0; i < deltas.Length; i++)
-                deltas[i] = Math.Abs(deltas[i]) / Math.Abs(previous[i]);
-
-            return Matrix.Max(deltas);
+            return regression;
         }
 
         /// <summary>
-        ///   Computes the sum-of-squared error between the
-        ///   model outputs and the expected outputs.
+        ///   Gets the information matrix used to update the regression
+        ///   weights in the last call to <see cref="Learn(double[][], double[], double[])"/>
         /// </summary>
         /// 
-        /// <param name="inputs">The input data set.</param>
-        /// <param name="outputs">The output values.</param>
-        /// 
-        /// <returns>The sum-of-squared errors.</returns>
-        /// 
-        public double ComputeError(double[][] inputs, double[] outputs)
+        public double[][] GetInformationMatrix()
         {
-            double sum = 0;
-
-            for (int i = 0; i < inputs.Length; i++)
-            {
-                double actual = regression.Compute(inputs[i]);
-                double expected = outputs[i];
-                double delta = actual - expected;
-                sum += delta * delta;
-            }
-
-            return sum;
+            return decomposition.Inverse();
         }
-
     }
 }

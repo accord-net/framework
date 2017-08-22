@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -23,6 +23,7 @@
 namespace Accord.Statistics.Running
 {
     using System;
+    using Accord.Compat;
 
     /// <summary>
     ///   Running (normal) statistics.
@@ -53,6 +54,7 @@ namespace Accord.Statistics.Running
     ///   </list></para>
     /// </remarks>
     /// 
+    [Serializable]
     public class RunningNormalStatistics : IRunningStatistics
     {
         private int count;
@@ -91,6 +93,17 @@ namespace Accord.Statistics.Running
         public double StandardDeviation
         {
             get { return Math.Sqrt(Variance); }
+        }
+
+        /// <summary>
+        /// Gets the current count of values seen.
+        /// </summary>
+        /// 
+        /// <value>The number of samples seen.</value>
+        /// 
+        public int Count
+        {
+            get { return count; }
         }
 
         /// <summary>

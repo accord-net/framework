@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -25,7 +25,7 @@ namespace Accord.Statistics.Distributions.Univariate
     using System;
     using Accord.Math;
     using Accord.Statistics.Distributions.Fitting;
-    using AForge;
+    using Accord.Compat;
 
     /// <summary>
     ///   Rayleigh distribution.
@@ -206,7 +206,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   See <see cref="RayleighDistribution"/>.
         /// </example>
         /// 
-        public override double DistributionFunction(double x)
+        protected internal override double InnerDistributionFunction(double x)
         {
             return 1.0 - Math.Exp(-x * x / (2 * sigma * sigma));
         }
@@ -232,7 +232,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   See <see cref="RayleighDistribution"/>.
         /// </example>
         ///
-        public override double ProbabilityDensityFunction(double x)
+        protected internal override double InnerProbabilityDensityFunction(double x)
         {
             return x / (sigma * sigma) * Math.Exp(-x * x / (2 * sigma * sigma));
         }
@@ -258,7 +258,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   See <see cref="RayleighDistribution"/>.
         /// </example>
         /// 
-        public override double LogProbabilityDensityFunction(double x)
+        protected internal override double InnerLogProbabilityDensityFunction(double x)
         {
             return Math.Log(x / (sigma * sigma)) + (-x * x / (2 * sigma * sigma));
         }
@@ -300,7 +300,7 @@ namespace Accord.Statistics.Distributions.Univariate
 
             double num = Gamma.Log(n) + 0.5 * Math.Log(n);
             double den = Gamma.Log(n + 0.5);
-            double correction =  Math.Exp(num - den);
+            double correction = Math.Exp(num - den);
 
             if (Double.IsPositiveInfinity(num) && Double.IsPositiveInfinity(den))
                 correction = 1;
@@ -344,23 +344,28 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <param name="samples">The number of samples to generate.</param>
         /// <param name="result">The location where to store the samples.</param>
-        /// 
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        ///   
         /// <returns>A random vector of observations drawn from this distribution.</returns>
         /// 
-        public override double[] Generate(int samples, double[] result)
+        public override double[] Generate(int samples, double[] result, Random source)
         {
-            return Random(sigma, samples, result);
+            return Random(sigma, samples, result, source);
         }
 
         /// <summary>
         ///   Generates a random observation from the current distribution.
         /// </summary>
         /// 
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        ///   
         /// <returns>A random observations drawn from this distribution.</returns>
         /// 
-        public override double Generate()
+        public override double Generate(Random source)
         {
-            return Random(sigma);
+            return Random(sigma, source);
         }
 
         /// <summary>
@@ -375,7 +380,24 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public static double[] Random(double sigma, int samples)
         {
-            return Random(sigma, samples, new double[samples]);
+            return Random(sigma, samples, Accord.Math.Random.Generator.Random);
+        }
+
+        /// <summary>
+        ///   Generates a random vector of observations from the 
+        ///   Rayleigh distribution with the given parameters.
+        /// </summary>
+        /// 
+        /// <param name="sigma">The Rayleigh distribution's sigma.</param>
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        ///   
+        /// <returns>An array of double values sampled from the specified Rayleigh distribution.</returns>
+        /// 
+        public static double[] Random(double sigma, int samples, Random source)
+        {
+            return Random(sigma, samples, new double[samples], source);
         }
 
         /// <summary>
@@ -391,10 +413,26 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public static double[] Random(double sigma, int samples, double[] result)
         {
-            var rand = Accord.Math.Random.Generator.Random;
+            return Random(sigma, samples, result, Accord.Math.Random.Generator.Random);
+        }
 
+        /// <summary>
+        ///   Generates a random vector of observations from the 
+        ///   Rayleigh distribution with the given parameters.
+        /// </summary>
+        /// 
+        /// <param name="sigma">The Rayleigh distribution's sigma.</param>
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="result">The location where to store the samples.</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        ///
+        /// <returns>An array of double values sampled from the specified Rayleigh distribution.</returns>
+        /// 
+        public static double[] Random(double sigma, int samples, double[] result, Random source)
+        {
             for (int i = 0; i < samples; i++)
-                result[i] = Math.Sqrt(-2 * sigma * sigma * Math.Log(rand.NextDouble()));
+                result[i] = Math.Sqrt(-2 * sigma * sigma * Math.Log(source.NextDouble()));
             return result;
         }
 
@@ -409,8 +447,23 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public static double Random(double sigma)
         {
-            double u = Accord.Math.Random.Generator.Random.NextDouble();
-            return Math.Sqrt(-2 * sigma * sigma * Math.Log(u));
+            return Random(sigma, Accord.Math.Random.Generator.Random);
+        }
+
+        /// <summary>
+        ///   Generates a random observation from the 
+        ///   Rayleigh distribution with the given parameters.
+        /// </summary>
+        /// 
+        /// <param name="sigma">The Rayleigh distribution's sigma.</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        /// 
+        /// <returns>A random double value sampled from the specified Rayleigh distribution.</returns>
+        /// 
+        public static double Random(double sigma, Random source)
+        {
+            return Math.Sqrt(-2 * sigma * sigma * Math.Log(source.NextDouble()));
         }
 
         #endregion

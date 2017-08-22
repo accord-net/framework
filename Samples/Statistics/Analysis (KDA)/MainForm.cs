@@ -1,7 +1,7 @@
 ﻿// Accord.NET Sample Applications
 // http://accord-framework.net
 //
-// Copyright © 2009-2014, César Souza
+// Copyright © 2009-2017, César Souza
 // All rights reserved. 3-BSD License:
 //
 //   Redistribution and use in source and binary forms, with or without
@@ -33,6 +33,7 @@
 using Accord.Controls;
 using Accord.IO;
 using Accord.Math;
+using Accord.Statistics;
 using Accord.Statistics.Analysis;
 using Accord.Statistics.Kernels;
 using Components;
@@ -51,6 +52,8 @@ namespace SampleApp
         private DescriptiveAnalysis sda;
 
         string[] columnNames;
+        double[][] inputs;
+        int[] outputs;
 
 
         public MainForm()
@@ -90,7 +93,7 @@ namespace SampleApp
                         this.dgvAnalysisSource.DataSource = tableSource;
                         this.dgvProjectionSource.DataSource = tableSource.Copy();
 
-                        double[,] graph = tableSource.ToMatrix(out columnNames);
+                        double[][] graph = tableSource.ToJagged(out columnNames); 
                         inputScatterplot.DataSource = graph;
                         createMappingScatterplot(graphMapInput, graph);
 
@@ -117,13 +120,11 @@ namespace SampleApp
             }
 
             // Creates a matrix from the source data table
-            double[,] sourceMatrix = (dgvAnalysisSource.DataSource as DataTable).ToMatrix(out columnNames);
+            double[][] sourceMatrix = (dgvAnalysisSource.DataSource as DataTable).ToJagged(out columnNames);
 
 
             // Create and compute a new Simple Descriptive Analysis
-            sda = new DescriptiveAnalysis(sourceMatrix, columnNames);
-
-            sda.Compute();
+            sda = new DescriptiveAnalysis(columnNames).Learn(sourceMatrix);
 
             // Show the descriptive analysis on the screen
             dgvDistributionMeasures.DataSource = sda.Measures;
@@ -133,35 +134,36 @@ namespace SampleApp
             IKernel kernel = createKernel();
 
             // Get the input values (the two first columns)
-            double[,] inputs = sourceMatrix.GetColumns(0, 1);
+            this.inputs = sourceMatrix.GetColumns(0, 1);
 
             // Get only the associated labels (last column)
-            int[] outputs = sourceMatrix.GetColumn(2).ToInt32();
+            this.outputs = sourceMatrix.GetColumn(2).ToMulticlass();
 
 
             // Creates the Kernel Discriminant Analysis of the given data
-            kda = new KernelDiscriminantAnalysis(inputs, outputs, kernel);
+            kda = new KernelDiscriminantAnalysis(kernel)
+            {
+                // Keep only the important components
+                Threshold = (double)numThreshold.Value,
+                NumberOfOutputs = 2 // use two components
+            };
 
-            // Keep only the important components
-            kda.Threshold = (double)numThreshold.Value;
-
-
-
-            kda.Compute(); // Finally, compute the analysis!
+            // Use the analysis to create a classifier
+            var classifier = kda.Learn(inputs, outputs);
 
 
             if (kda.Discriminants.Count < 2)
             {
                 MessageBox.Show("Could not gather enough components to create"
-                    + "create a 2D plot. Please try a smaller threshold value.");
+                    + " a 2D plot. Please try a smaller threshold value.");
                 return;
             }
 
-            // Perform the transformation of the data using two components
-            double[,] result = kda.Transform(inputs, 2);
+            // Perform the transformation of the data
+            double[][] result = kda.Transform(inputs);
 
             // Create a new plot with the original Z column
-            double[,] points = result.InsertColumn(sourceMatrix.GetColumn(2));
+            double[][] points = result.InsertColumn(sourceMatrix.GetColumn(2));
 
 
             // Create output scatter plot
@@ -173,7 +175,7 @@ namespace SampleApp
 
 
             // Populates components overview with analysis data
-            dgvFeatureVectors.DataSource = new ArrayDataView(kda.DiscriminantMatrix);
+            dgvFeatureVectors.DataSource = new ArrayDataView(kda.DiscriminantVectors.Transpose());
             dgvScatterBetween.DataSource = new ArrayDataView(kda.ScatterBetweenClass);
             dgvScatterWithin.DataSource = new ArrayDataView(kda.ScatterWithinClass);
             dgvScatterTotal.DataSource = new ArrayDataView(kda.ScatterMatrix);
@@ -204,22 +206,16 @@ namespace SampleApp
             dgvProjectionSource.EndEdit();
 
             // Creates a matrix from the source data table
-            double[,] sourceMatrix = (dgvProjectionSource.DataSource as DataTable).ToMatrix(out columnNames);
+            double[][] sourceMatrix = (dgvProjectionSource.DataSource as DataTable).ToJagged(out columnNames);
 
             // Gets only the X and Y
-            double[,] data = sourceMatrix.Submatrix(0, sourceMatrix.GetLength(0) - 1, 0, 1);
+            double[][] data = sourceMatrix.GetColumns(0, 1);
 
-            // Perform the transformation of the data using two components
-            double[,] result = kda.Transform(data, 2);
+            // Perform the transformation of the data
+            double[][] result = kda.Transform(data);
 
             // Create a new plot with the original Z column
-            double[,] graph = new double[sourceMatrix.GetLength(0), 3];
-            for (int i = 0; i < graph.GetLength(0); i++)
-            {
-                graph[i, 0] = result[i, 0];
-                graph[i, 1] = result[i, 1];
-                graph[i, 2] = sourceMatrix[i, 2];
-            }
+            double[][] graph = result.InsertColumn(sourceMatrix.GetColumn(2));
 
             // Create output scatter plot
             outputScatterplot.DataSource = graph;
@@ -250,8 +246,8 @@ namespace SampleApp
             if (dgvDistributionMeasures.CurrentRow != null)
             {
                 DataGridViewRow row = (DataGridViewRow)dgvDistributionMeasures.CurrentRow;
-                dataHistogramView1.DataSource =
-                    ((DescriptiveMeasures)row.DataBoundItem).Samples;
+                DescriptiveMeasures measures = (DescriptiveMeasures)row.DataBoundItem;
+                dataHistogramView1.DataSource = inputs.InsertColumn(outputs).GetColumn(measures.Index);
             }
         }
 
@@ -260,9 +256,8 @@ namespace SampleApp
             if (dgvClasses.CurrentRow != null)
             {
                 DiscriminantAnalysisClass dclass = (DiscriminantAnalysisClass)dgvClasses.CurrentRow.DataBoundItem;
-
                 dgvScatter.DataSource = new ArrayDataView(dclass.Scatter);
-                dgvClassData.DataSource = new ArrayDataView(dclass.Subset);
+                dgvClassData.DataSource = new ArrayDataView(inputs.Get(outputs.Find(x => x == dclass.Number)));
             }
         }
 
@@ -271,7 +266,7 @@ namespace SampleApp
             if (dgvClassData.CurrentCell != null && dgvClassData.DataSource != null)
             {
                 int index = dgvClassData.CurrentCell.ColumnIndex;
-                double[,] subset = (double[,])(dgvClassData.DataSource as ArrayDataView).ArrayData;
+                double[][] subset = (double[][])(dgvClassData.DataSource as ArrayDataView).ArrayData;
                 dataHistogramView2.DataSource = subset.GetColumn(index);
             }
         }
@@ -281,7 +276,7 @@ namespace SampleApp
         ///   Creates the space mapping scatter plot using ZedGraph.
         /// </summary>
         /// 
-        private void createMappingScatterplot(ZedGraphControl zgc, double[,] graph)
+        private void createMappingScatterplot(ZedGraphControl zgc, double[][] graph)
         {
             GraphPane myPane = zgc.GraphPane;
             myPane.CurveList.Clear();
@@ -299,12 +294,12 @@ namespace SampleApp
             PointPairList list3 = new PointPairList();
             for (int i = 0; i < graph.GetLength(0); i++)
             {
-                if (graph[i, 2] == 1.0)
-                    list1.Add(graph[i, 0], graph[i, 1]);
-                if (graph[i, 2] == 2.0)
-                    list2.Add(graph[i, 0], graph[i, 1]);
-                if (graph[i, 2] == 3.0)
-                    list3.Add(graph[i, 0], graph[i, 1]);
+                if (graph[i][2] == 1.0)
+                    list1.Add(graph[i][0], graph[i][1]);
+                if (graph[i][2] == 2.0)
+                    list2.Add(graph[i][0], graph[i][1]);
+                if (graph[i][2] == 3.0)
+                    list3.Add(graph[i][0], graph[i][1]);
             }
 
             // Add the curve
@@ -351,29 +346,23 @@ namespace SampleApp
             if (kda == null)
                 return;
 
-            double x;
-            double y;
+            double x, y;
             graphMapInput.GraphPane.ReverseTransform(new PointF(e.X, e.Y), out x, out y);
 
-            double[,] data = new double[1, 2];
-            data[0, 0] = x;
-            data[0, 1] = y;
+            double[] result = kda.Transform(new double[] { x, y });
 
-
-            double[,] result = kda.Transform(data);
-
-            int c = kda.Classify(new double[] { x, y });
+            int c = kda.Classifier.Decide(new double[] { x, y });
 
             graphMapFeature.GraphPane.CurveList["M1"].Clear();
             graphMapFeature.GraphPane.CurveList["M2"].Clear();
             graphMapFeature.GraphPane.CurveList["M3"].Clear();
 
-            if (c == 1)
-                graphMapFeature.GraphPane.CurveList["M1"].AddPoint(result[0, 0], result[0, 1]);
-            else if (c == 2)
-                graphMapFeature.GraphPane.CurveList["M2"].AddPoint(result[0, 0], result[0, 1]);
+            if (c == 0)
+                graphMapFeature.GraphPane.CurveList["M1"].AddPoint(result[0], result[1]);
+            else if (c == 1)
+                graphMapFeature.GraphPane.CurveList["M2"].AddPoint(result[0], result[1]);
             else
-                graphMapFeature.GraphPane.CurveList["M3"].AddPoint(result[0, 0], result[0, 1]);
+                graphMapFeature.GraphPane.CurveList["M3"].AddPoint(result[0], result[1]);
 
             graphMapFeature.Invalidate();
 
@@ -397,7 +386,7 @@ namespace SampleApp
             // Get the input values (the two first columns)
             double[,] inputs = sourceMatrix.GetColumns(0, 1);
 
-            numSigma.Value = (decimal)Gaussian.Estimate(inputs.ToArray()).Sigma;
+            numSigma.Value = (decimal)Gaussian.Estimate(inputs.ToJagged()).Sigma;
         }
 
         private void splitContainer12_Panel1_Paint(object sender, PaintEventArgs e)

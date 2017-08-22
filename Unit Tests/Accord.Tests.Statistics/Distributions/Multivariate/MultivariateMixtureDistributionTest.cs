@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -316,12 +316,14 @@ namespace Accord.Tests.Statistics
  */ 
         }
 
+#if !NO_EXCEL
         [Test]
+        [Category("Office")]
         public void MixtureWeightsFitTest2()
         {
-            MemoryStream stream = new MemoryStream(Resources.CircleWithWeights);
+            string path = Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources", "CircleWithWeights.xls");
 
-            ExcelReader reader = new ExcelReader(stream, xlsx: false);
+            ExcelReader reader = new ExcelReader(path);
 
             DataTable table = reader.GetWorksheet("Sheet1");
 
@@ -351,6 +353,6 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.11814483652855159, mean10, 1e-10);
             Assert.AreEqual(-0.12029275652994373, mean11, 1e-10);
         }
-
+#endif
     }
 }

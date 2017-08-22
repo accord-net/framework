@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -60,6 +60,8 @@ namespace Accord.Math.Optimization
 {
     using System;
     using System.Diagnostics;
+    using System.Threading;
+    using Accord.Compat;
 
     /// <summary>
     ///   Simplified Trust Region Newton Method (TRON) for non-linear optimization.
@@ -228,6 +230,9 @@ namespace Accord.Math.Optimization
 
             while (iter <= max_iter && search == 1)
             {
+                if (Token.IsCancellationRequested)
+                    break;
+
                 cg_iter = trcg(delta, g, s, r);
 
                 for (int j = 0; j < w_new.Length; j++)
@@ -319,7 +324,7 @@ namespace Accord.Math.Optimization
         {
             int n = NumberOfVariables;
             double[] d = new double[n];
-            
+
             for (int i = 0; i < g.Length; i++)
             {
                 s[i] = 0;
@@ -438,7 +443,7 @@ namespace Accord.Math.Optimization
 
             return cg_iter;
         }
-      
+
     }
 }
 

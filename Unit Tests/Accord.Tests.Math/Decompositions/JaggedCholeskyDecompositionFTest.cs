@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -30,21 +30,6 @@ namespace Accord.Tests.Math
     [TestFixture]
     public class JaggedCholeskyDecompositionFTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
 
 
         [Test]
@@ -104,13 +89,13 @@ namespace Accord.Tests.Math
             var chol = new JaggedCholeskyDecompositionF(value);
             float[][] L = chol.LeftTriangularFactor;
 
-            Assert.IsTrue(Matrix.IsEqual(L, expected, 0.0001f));
+            Assert.IsTrue(Matrix.IsEqual(L, expected, 1e-4f));
 
             // Decomposition Identity
-            Assert.IsTrue(Matrix.IsEqual(Matrix.Multiply(L, L.Transpose()), value, 0.001f));
+            Assert.IsTrue(Matrix.IsEqual(Matrix.Multiply(L, L.Transpose()), value, 1e-3f));
 
             Assert.AreEqual(new JaggedLuDecompositionF(value).Determinant, chol.Determinant, 1e-5);
-            Assert.AreEqual(true, chol.PositiveDefinite);
+            Assert.IsTrue(chol.IsPositiveDefinite);
         }
 
         [Test]
@@ -175,22 +160,22 @@ namespace Accord.Tests.Math
                new float[] {  6, -2,  0,  0 },
             };
 
-            JaggedCholeskyDecompositionF chol = new JaggedCholeskyDecompositionF(value, robust: true);
+            var chol = new JaggedCholeskyDecompositionF(value, robust: true);
             float[][] L = chol.LeftTriangularFactor;
 
             float[][] B = Matrix.Identity(4).ToSingle().ToJagged();
 
-            float[][] expected = 
+            float[][] expected =
             {
                 new float[] { 0.4000f,    1.2000f,    1.4000f,   -0.5000f },
                 new float[] { 1.2000f,    3.6000f,    4.2000f,   -2.0000f },
                 new float[] { 1.4000f,    4.2000f,    5.4000f,   -2.5000f },
-                new float[] { -0.5000f,  -2.0000f,   -2.5000f,    1.0000f }, 
+                new float[] { -0.5000f,  -2.0000f,   -2.5000f,    1.0000f },
             };
 
             float[][] actual = chol.Solve(B);
 
-            Assert.IsTrue(Matrix.IsEqual(expected, actual, 1e-5f));
+            Assert.IsTrue(Matrix.IsEqual(expected, actual, 1e-4f));
         }
 
         [Test]
@@ -227,7 +212,7 @@ namespace Accord.Tests.Math
                new float[] {  6, -2,  0,  0 },
             };
 
-            JaggedCholeskyDecompositionF chol = new JaggedCholeskyDecompositionF(value, robust: true);
+            var chol = new JaggedCholeskyDecompositionF(value, robust: true);
             float[][] L = chol.LeftTriangularFactor;
 
             float[][] expected =
@@ -240,7 +225,7 @@ namespace Accord.Tests.Math
 
             float[][] actual = chol.Inverse();
 
-            Assert.IsTrue(Matrix.IsEqual(expected, actual, 1e-6f));
+            Assert.IsTrue(Matrix.IsEqual(expected, actual, 1e-4f));
         }
 
         [Test]
@@ -253,10 +238,11 @@ namespace Accord.Tests.Math
                new float[] {  0, -1,  2 }
             };
 
-            JaggedCholeskyDecompositionF chol = new JaggedCholeskyDecompositionF(value, robust: false);
+            var chol = new JaggedCholeskyDecompositionF(value, robust: false);
+            Assert.IsTrue(chol.IsPositiveDefinite);
             float[][] L = chol.LeftTriangularFactor;
 
-            float[][] expected = 
+            float[][] expected =
             {
                 new float[] { 0.750f, 0.500f, 0.250f },
                 new float[] { 0.500f, 1.000f, 0.500f },
@@ -264,10 +250,10 @@ namespace Accord.Tests.Math
             };
 
             float[][] actual = chol.Inverse();
+            Assert.IsTrue(actual.IsEqual(expected, 1e-5f));
 
-            for (int i = 0; i < actual.Length; i++)
-                for (int j = 0; j < actual.Length; j++)
-                    Assert.AreEqual(expected[i][j], actual[i][j], 1e-6f);
+            float[][] inv = chol.Solve(Jagged.Identity<float>(3));
+            Assert.IsTrue(inv.IsEqual(expected, 1e-5f));
         }
 
         [Test]
@@ -280,7 +266,7 @@ namespace Accord.Tests.Math
                new float[] {  0, -1,  2 }
             };
 
-            JaggedCholeskyDecompositionF chol = new JaggedCholeskyDecompositionF(value, robust: false);
+            var chol = new JaggedCholeskyDecompositionF(value, robust: false);
             float[][] L = chol.LeftTriangularFactor;
 
             float[] expected = Matrix.Inverse(value.ToMatrix().ToDouble()).ToSingle().ToJagged().Diagonal();
@@ -302,8 +288,7 @@ namespace Accord.Tests.Math
 
             float[] expected = Matrix.Inverse(value.ToMatrix().ToDouble()).ToSingle().ToJagged().Diagonal();
 
-            JaggedCholeskyDecompositionF chol = new JaggedCholeskyDecompositionF(value,
-                robust: false, inPlace: true);
+            var chol = new JaggedCholeskyDecompositionF(value, robust: false, inPlace: true);
 
             float[] actual = chol.InverseDiagonal();
 
@@ -324,8 +309,7 @@ namespace Accord.Tests.Math
 
             float[] expected = Matrix.Inverse(value.ToMatrix().ToDouble()).ToSingle().ToJagged().Diagonal();
 
-            JaggedCholeskyDecompositionF chol = new JaggedCholeskyDecompositionF(value,
-                robust: true, inPlace: true);
+            var chol = new JaggedCholeskyDecompositionF(value, robust: true, inPlace: true);
 
             float[] actual = chol.InverseDiagonal();
 
@@ -349,7 +333,7 @@ namespace Accord.Tests.Math
 
             Assert.IsTrue(value.IsSymmetric());
 
-            JaggedCholeskyDecompositionF chol = new JaggedCholeskyDecompositionF(value, robust: false, inPlace: true);
+            var chol = new JaggedCholeskyDecompositionF(value, robust: false, inPlace: true);
             float[] diagonal = value.Diagonal();
 
             // Upper triangular should contain the original matrix (except diagonal)
@@ -358,7 +342,7 @@ namespace Accord.Tests.Math
                     Assert.AreEqual(original[i][j], value[i][j]);
 
             // Lower triangular should contain the Cholesky factorization
-            float[][] expected = 
+            float[][] expected =
             {
                 new float[] {  3.000f,       0,       0,       0,       0 },
                 new float[] { -0.333f,  3.300f,       0,       0,       0 },
@@ -399,18 +383,18 @@ namespace Accord.Tests.Math
             };
 
 
-
-            JaggedCholeskyDecompositionF chol = new JaggedCholeskyDecompositionF(value, true);
+            var chol = new JaggedCholeskyDecompositionF(value, true);
             float[][] L = chol.LeftTriangularFactor;
             float[][] D = chol.DiagonalMatrix;
             Assert.IsTrue(Matrix.IsEqual(L, expected, 0.001f));
             Assert.IsTrue(Matrix.IsEqual(D, diagonal, 0.001f));
 
             // Decomposition Identity
-            Assert.IsTrue(Matrix.IsEqual(Matrix.Multiply(Matrix.Multiply(L, D), L.Transpose()), value, 0.001f));
+            Assert.IsTrue(Matrix.IsEqual(Matrix.Multiply(Matrix.Multiply(L, D), L.Transpose()), value, 1e-3f));
+            Assert.IsTrue(Matrix.IsEqual(chol.Reverse(), value, 1e-3f));
 
             Assert.AreEqual(new JaggedLuDecompositionF(value).Determinant, chol.Determinant, 1e-10);
-            Assert.AreEqual(true, chol.PositiveDefinite);
+            Assert.IsTrue(chol.IsPositiveDefinite);
         }
 
         [Test]
@@ -440,18 +424,19 @@ namespace Accord.Tests.Math
                 new float[] {      0f,         0f,         0f,    1.0000f },
             };
 
-            JaggedCholeskyDecompositionF chol = new JaggedCholeskyDecompositionF(value, robust: true);
+            var chol = new JaggedCholeskyDecompositionF(value, robust: true);
             float[][] L = chol.LeftTriangularFactor;
             float[][] D = chol.DiagonalMatrix;
 
-            Assert.IsTrue(Matrix.IsEqual(L, expected, 0.001f));
-            Assert.IsTrue(Matrix.IsEqual(D, diagonal, 0.001f));
+            Assert.IsTrue(Matrix.IsEqual(L, expected, 1e-3f));
+            Assert.IsTrue(Matrix.IsEqual(D, diagonal, 1e-3f));
 
             // Decomposition Identity
-            Assert.IsTrue(Matrix.IsEqual(Matrix.Multiply(Matrix.Multiply(L, D), L.Transpose()), value, 0.001f));
+            Assert.IsTrue(Matrix.IsEqual(Matrix.Multiply(Matrix.Multiply(L, D), L.Transpose()), value, 1e-3f));
+            Assert.IsTrue(Matrix.IsEqual(chol.Reverse(), value, 1e-3f));
 
-            Assert.AreEqual(new JaggedLuDecompositionF(value).Determinant, chol.Determinant, 1e-4);
-            Assert.AreEqual(false, chol.PositiveDefinite);
+            Assert.AreEqual(new JaggedLuDecompositionF(value).Determinant, chol.Determinant, 1e-4f);
+            Assert.IsFalse(chol.IsPositiveDefinite);
         }
 
         [Test]
@@ -474,29 +459,63 @@ namespace Accord.Tests.Math
             };
 
 
-            JaggedCholeskyDecompositionF chol = new JaggedCholeskyDecompositionF(value, false, true);
+            var chol = new JaggedCholeskyDecompositionF(value, robust: false, valueType: MatrixType.LowerTriangular);
             float[][] L = chol.LeftTriangularFactor;
 
             Assert.IsTrue(Matrix.IsEqual(L, expected, 0.0001f));
             Assert.AreEqual(4, chol.Determinant, 1e-6);
-            Assert.AreEqual(true, chol.PositiveDefinite);
+            Assert.IsTrue(chol.IsPositiveDefinite);
+            var reverse = chol.Reverse();
+            Assert.IsTrue(Matrix.IsEqual(reverse, value.GetSymmetric(MatrixType.LowerTriangular), 1e-6f));
+
 
 
             float[][] expected2 =
             {
-                 new float[] {  1.0000f,  0.0000f,  0.0000f },
-                 new float[] {  0.0000f,  1.0000f,  0.0000f },
-                 new float[] {  0.0000f,  0.0000f,  1.0000f }
+                 new float[] {  1.0f,  0.0f,        0.0f },
+                 new float[] { -0.5f,  1.0f,        0.0f },
+                 new float[] {  0.0f, -0.6666667f,  1.0f }
             };
 
-            chol = new JaggedCholeskyDecompositionF(value, true, true);
+            chol = new JaggedCholeskyDecompositionF(value, robust: true, valueType: MatrixType.LowerTriangular);
             L = chol.LeftTriangularFactor;
 
             Assert.IsTrue(Matrix.IsEqual(L, expected2, 0.0001f));
-            Assert.AreEqual(2, chol.Determinant, 1e-6);
-            Assert.AreEqual(true, chol.PositiveDefinite);
+            Assert.AreEqual(4, chol.Determinant, 1e-6);
+            Assert.IsTrue(chol.IsPositiveDefinite);
+            reverse = chol.Reverse();
+            Assert.IsTrue(Matrix.IsEqual(reverse, value.GetSymmetric(MatrixType.LowerTriangular), 1e-6f));
         }
 
+        [Test]
+        public void solve_for_diagonal()
+        {
+            float[][] value = // not positive-definite
+            {
+               new float[] {  6, -1,  2,  6 },
+               new float[] { -1,  3, -3, -2 },
+               new float[] {  2, -3,  2,  0 },
+               new float[] {  6, -2,  0,  0 },
+            };
 
+            var chol = new JaggedCholeskyDecompositionF(value, robust: true);
+            float[][] L = chol.LeftTriangularFactor;
+
+            float[] B = new float[] { 1, 2, 3, 4 };
+
+            float[][] expected = 
+            {
+                new float[] { 0.4f,    2.4f,      4.2f,  -2 },
+                new float[] { 1.2f,    7.2f,     12.6f,  -8 },
+                new float[] { 1.4f,    8.4f,     16.2f, -10 },
+                new float[] { -0.5f,  -4.0f,     -7.5f,   4 }
+            };
+
+            float[][] actual = chol.SolveForDiagonal(B);
+
+            Assert.IsTrue(Matrix.IsEqual(expected, actual, 1e-4f));
+            float[][] reverse = chol.Reverse();
+            Assert.IsTrue(Matrix.IsEqual(value, reverse, atol: 1e-3f));
+        }
     }
 }

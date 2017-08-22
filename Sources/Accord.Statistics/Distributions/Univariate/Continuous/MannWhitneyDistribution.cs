@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -26,7 +26,44 @@ namespace Accord.Statistics.Distributions.Univariate
     using Accord.Math;
     using Accord.Statistics.Testing;
     using Accord.Statistics;
-    using AForge;
+    using System.Linq;
+    using System.Diagnostics;
+    using Accord.Compat;
+    using System.Threading.Tasks;
+
+    /// <summary>
+    ///   Continuity correction to be used when aproximating
+    ///   discrete values through a continuous distribution.
+    /// </summary>
+    /// 
+    public enum ContinuityCorrection
+    {
+        /// <summary>
+        ///   No correction for continuity should be applied.
+        /// </summary>
+        /// 
+        None,
+
+        /// <summary>
+        ///   The correction for continuity is -0.5 when the statistic is 
+        ///   greater than the mean and +0.5 when it is less than the mean.
+        /// </summary>
+        /// 
+        /// <remarks>
+        ///   This correction is used/described in http://vassarstats.net/textbook/ch12a.html.
+        /// </remarks>
+        /// 
+        Midpoint,
+
+        /// <summary>
+        ///   The correction for continuity will be -0.5 when computing values at the 
+        ///   <see cref="DistributionTail.OneUpper">right (upper) tail</see> of the 
+        ///   distribution, and +0.5 when computing at the <see cref="DistributionTail.OneLower">
+        ///   left (lower) tail</see>.
+        /// </summary>
+        /// 
+        KeepInside
+    }
 
     /// <summary>
     ///   Mann-Whitney's U statistic distribution.
@@ -36,7 +73,7 @@ namespace Accord.Statistics.Distributions.Univariate
     /// <para>
     ///   This is the distribution for <see cref="MannWhitneyWilcoxonTest">Mann-Whitney's U</see>
     ///   statistic used in <see cref="MannWhitneyWilcoxonTest"/>. This distribution is based on
-    ///   sample <see cref="Accord.Statistics.Tools.Rank(double[], bool)"/> statistics.</para>
+    ///   sample <see cref="Accord.Statistics.Tools.Rank(double[], bool, bool)"/> statistics.</para>
     /// <para>
     ///   This is the distribution for the first sample statistic, U1. Some textbooks
     ///   (and statistical packages) use alternate definitions for U, which should be
@@ -75,35 +112,68 @@ namespace Accord.Statistics.Distributions.Univariate
     /// </example>
     /// 
     /// <seealso cref="MannWhitneyWilcoxonTest"/>
-    /// <seealso cref="Accord.Statistics.Tools.Rank"/>
+    /// <seealso cref="Accord.Statistics.Tools.Rank(Double[], bool, bool)"/>
     /// <seealso cref="WilcoxonDistribution"/>
     /// 
     [Serializable]
     public class MannWhitneyDistribution : UnivariateContinuousDistribution
     {
-
-        private bool smallSample;
+        private bool exact;
         private double[] table;
+
+        private int n1;
+        private int n2;
+
+        private NormalDistribution approximation;
 
 
         /// <summary>
         ///   Gets the number of observations in the first sample. 
         /// </summary>
         /// 
-        public int Samples1 { get; private set; }
+        public int NumberOfSamples1 { get { return n1; } }
 
         /// <summary>
         ///   Gets the number of observations in the second sample.
         /// </summary>
         /// 
-        public int Samples2 { get; private set; }
+        public int NumberOfSamples2 { get { return n2; } }
 
         /// <summary>
-        ///   Gets the rank statistics for the distribution.
+        ///   Gets or sets the <see cref="ContinuityCorrection">continuity correction</see>
+        ///   to be applied when using the Normal approximation to this distribution.
         /// </summary>
         /// 
-        public double[] Ranks { get; private set; }
+        public ContinuityCorrection Correction { get; set; }
 
+        /// <summary>
+        ///   Gets whether this distribution computes the exact probabilities
+        ///   (by searching all possible rank combinations) or gives fast 
+        ///   approximations.
+        /// </summary>
+        /// 
+        /// <value><c>true</c> if this distribution is exact; otherwise, <c>false</c>.</value>
+        /// 
+        public bool Exact { get { return exact; } }
+
+        /// <summary>
+        ///   Gets the statistic values for all possible combinations
+        ///   of ranks. This is used to compute the exact distribution.
+        /// </summary>
+        /// 
+        public double[] Table { get { return table; } }
+
+        /// <summary>
+        ///   Constructs a Mann-Whitney's U-statistic distribution.
+        /// </summary>
+        /// 
+        /// <param name="n1">The number of observations in the first sample.</param>
+        /// <param name="n2">The number of observations in the second sample.</param>
+        /// 
+        public MannWhitneyDistribution([PositiveInteger] int n1, [PositiveInteger] int n2)
+        {
+            init(n1, n2, null, null);
+        }
 
         /// <summary>
         ///   Constructs a Mann-Whitney's U-statistic distribution.
@@ -112,44 +182,139 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <param name="ranks">The rank statistics.</param>
         /// <param name="n1">The number of observations in the first sample.</param>
         /// <param name="n2">The number of observations in the second sample.</param>
+        /// <param name="exact">True to compute the exact distribution. May require a significant 
+        ///   amount of processing power for large samples (n > 30). If left at null, whether to
+        ///   compute the exact or approximate distribution will depend on the number of samples.
+        /// </param>
         /// 
-        public MannWhitneyDistribution(double[] ranks, 
-            [PositiveInteger] int n1, [PositiveInteger] int n2)
+        public MannWhitneyDistribution(double[] ranks, [PositiveInteger]int n1, [PositiveInteger]int n2, bool? exact = null)
         {
-            this.Ranks = ranks;
-            this.Samples1 = n1;
-            this.Samples2 = n2;
-            int nt = n1 + n2;
-
-            if (n1 <= 0)
-            {
-                throw new ArgumentOutOfRangeException("n1",
-                    "The first number of samples must be positive.");
-            }
-
-            if (n2 <= 0)
-            {
-                throw new ArgumentOutOfRangeException("n2",
-                    "The second number of samples must be positive.");
-            }
-
-            this.smallSample = (n1 <= 30 && n2 <= 30);
-
-            if (smallSample)
-            {
-                // For a small sample (< 30) the distribution is exact.
-
-                int nc = (int)Special.Binomial(nt, n1);
-                table = new double[nc];
-
-                int i = 0; // Consider all possible combinations of samples
-                foreach (double[] combination in Combinatorics.Combinations(Ranks, n1))
-                    table[i++] = USample1(combination, Samples2);
-
-                Array.Sort(table);
-            }
+            init(n1, n2, ranks, exact);
         }
 
+        /// <summary>
+        ///   Constructs a Mann-Whitney's U-statistic distribution.
+        /// </summary>
+        /// 
+        /// <param name="ranks1">The global rank statistics for the first sample.</param>
+        /// <param name="ranks2">The global rank statistics for the second sample.</param>
+        /// <param name="exact">True to compute the exact distribution. May require a significant 
+        ///   amount of processing power for large samples (n > 30). If left at null, whether to
+        ///   compute the exact or approximate distribution will depend on the number of samples.
+        /// </param>
+        /// 
+        public MannWhitneyDistribution(double[] ranks1, double[] ranks2, bool? exact = null)
+        {
+            double[] ranks = ranks1.Concatenate(ranks2);
+            init(ranks1.Length, ranks2.Length, ranks, exact);
+        }
+
+
+        private void init(int n1, int n2, double[] ranks, bool? exact)
+        {
+            if (n1 <= 0)
+                throw new ArgumentOutOfRangeException("n1", "The number of observations in the first sample (n1) must be higher than zero.");
+
+            if (n2 <= 0)
+                throw new ArgumentOutOfRangeException("n2", "The number of observations in the second sample (n2) must be higher than zero.");
+
+            if (n1 > n2)
+                Trace.TraceWarning("Creating a MannWhitneyDistribution where the first sample is larger than the second sample. If possible, please re-organize your samples such that the first sample is smaller than the second sample.");
+
+            if (ranks != null)
+            {
+                if (ranks.Length <= 1)
+                    throw new ArgumentOutOfRangeException("ranks", "The rank vector must contain a minimum of 2 elements.");
+
+                for (int i = 0; i < ranks.Length; i++)
+                    if (ranks[i] < 0)
+                        throw new ArgumentOutOfRangeException("The rank values cannot be negative.");
+            }
+
+            int n = n1 + n2;
+            this.n1 = n1;
+            this.n2 = n2;
+
+            // From https://en.wikipedia.org/wiki/Mann%E2%80%93Whitney_U_test: For large samples, U 
+            // is approximately normally distributed. In that case, the standardized value is given 
+            // by z = (U - mean) / stdDev where: 
+            double mean = (n1 * n2) / 2.0;
+            double stdDev = Math.Sqrt((n1 * n2 * (n + 1)) / 12.0);
+
+            bool hasVectors = ranks != null;
+
+            // For small samples (< 30) the distribution can be exact
+            this.exact = hasVectors && (n1 <= 30 && n2 <= 30);
+
+            if (exact.HasValue)
+            {
+                if (exact.Value && !hasVectors)
+                    throw new ArgumentException("exact", "Cannot use exact method if rank vectors are not specified.");
+                this.exact = exact.Value; // force
+            }
+
+            if (hasVectors)
+            {
+                // Apply correction to the variance
+                double correction = MannWhitneyDistribution.correction(ranks);
+                double a = (n1 * n2) / 12.0;
+                double b = (n + 1.0) - correction;
+                stdDev = Math.Sqrt(a * b);
+
+                if (this.exact)
+                    initExactMethod(ranks);
+            }
+
+            this.approximation = new NormalDistribution(mean, stdDev);
+        }
+
+        private static double correction(double[] ranks)
+        {
+            // Computes the tie correction term for the variance as described in
+            // https://en.wikipedia.org/wiki/Mann%E2%80%93Whitney_U_test#Normal_approximation_and_tie_correction
+
+            int n = ranks.Length;
+
+            if (n <= 1)
+                throw new ArgumentOutOfRangeException("ranks");
+
+            // Compute number of ties
+            int[] ties = ranks.Ties();
+
+            double sum = 0;
+            for (int i = 0; i < ties.Length; i++)
+            {
+                double t3 = ties[i] * ties[i] * ties[i];
+                sum += t3 - ties[i];
+            }
+
+            return sum / (n * (n - 1));
+        }
+
+        private void initExactMethod(double[] ranks)
+        {
+            int min = Math.Min(n1, n2);
+            long combinations = (long)Special.Binomial(n1 + n2, min);
+
+            this.table = new double[combinations];
+
+#if NET35
+            var seq = EnumerableEx.Zip<double[], long, Tuple<double[], long>>(
+                Combinatorics.Combinations(ranks, min), Vector.Range(combinations),
+                (double[] c, long i) => new Tuple<double[], long>(c, i));
+#else
+            var seq = Enumerable.Zip<double[], long, Tuple<double[], long>>(
+                Combinatorics.Combinations(ranks, min), Vector.Range(combinations),
+                (double[] c, long i) => new Tuple<double[], long>(c, i));
+#endif
+
+            Parallel.ForEach(seq, i =>
+            {
+                this.table[i.Item2] = MannWhitneyU(i.Item1);
+            });
+
+            Array.Sort(table);
+        }
 
         /// <summary>
         ///   Gets the cumulative distribution function (cdf) for
@@ -163,77 +328,105 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value or any value smaller than it will occur.
         /// </remarks>
         /// 
-        public override double DistributionFunction(double x)
+        protected internal override double InnerDistributionFunction(double x)
         {
-            if (!smallSample)
-            {
-                // Normal approximation
-                double z = ((x + 0.5) - Mean) / Math.Sqrt(Variance);
+            if (NumberOfSamples1 <= NumberOfSamples2)
+                return distributionFunction(x);
 
-                double p = NormalDistribution.Standard.DistributionFunction(Math.Abs(z));
+            Trace.TraceWarning("Warning: Using a MannWhitneyDistribution where the first sample is larger than the second.");
+            return complementaryDistributionFunction(x);
+        }
 
-                return p;
-            }
-            else
+        /// <summary>
+        /// Gets the complementary cumulative distribution function
+        /// (ccdf) for this distribution evaluated at point <c>x</c>.
+        /// This function is also known as the Survival function.
+        /// </summary>
+        /// <param name="x">A single point in the distribution range.</param>
+        /// <returns>System.Double.</returns>
+        /// <remarks>The Complementary Cumulative Distribution Function (CCDF) is
+        /// the complement of the Cumulative Distribution Function, or 1
+        /// minus the CDF.</remarks>
+        protected internal override double InnerComplementaryDistributionFunction(double x)
+        {
+            if (NumberOfSamples1 <= NumberOfSamples2)
+                return complementaryDistributionFunction(x);
+
+            Trace.TraceWarning("Warning: Using a MannWhitneyDistribution where the first sample is larger than the second.");
+            return distributionFunction(x);
+        }
+
+
+
+        private double distributionFunction(double x)
+        {
+            if (exact)
             {
                 // For small samples (< 30) and if there are not very large
                 // differences in samples sizes, this distribution is exact.
-
-                for (int i = 0; i < table.Length; i++)
-                    if (x <= table[i])
-                        return i / (double)table.Length;
-
-                return 1;
+                return WilcoxonDistribution.exactMethod(x, table);
             }
+
+            if (Correction == ContinuityCorrection.Midpoint)
+            {
+                if (x > Mean)
+                {
+                    x = x - 0.5;
+                }
+                else
+                {
+                    x = x + 0.5;
+                }
+            }
+            else if (Correction == ContinuityCorrection.KeepInside)
+            {
+                x = x + 0.5;
+            }
+
+            return approximation.DistributionFunction(x);
         }
 
 
-        /// <summary>
-        ///   Gets the Mann-Whitney's U statistic for the smaller sample.
-        /// </summary>
-        /// 
-        public static double UMinimum(double[] ranks, int n1, int n2)
+
+        private double complementaryDistributionFunction(double x)
         {
-            // Split the rankings back and sum
-            double[] rank1 = ranks.Submatrix(0, n1 - 1);
-            double[] rank2 = ranks.Submatrix(n1, n1 + n2 - 1);
+            if (exact)
+            {
+                // For small samples (< 30) and if there are not very large
+                // differences in samples sizes, this distribution is exact.
+                return WilcoxonDistribution.exactComplement(x, table);
+            }
 
-            double t1 = rank1.Sum();
-            double t2 = rank2.Sum();
+            if (Correction == ContinuityCorrection.Midpoint)
+            {
+                if (x > Mean)
+                {
+                    x = x - 0.5;
+                }
+                else
+                {
+                    x = x + 0.5;
+                }
+            }
+            else if (Correction == ContinuityCorrection.KeepInside)
+            {
+                x = x - 0.5;
+            }
 
-            double t1max = n1 * n2 + (n1 * (n1 + 1)) / 2.0;
-            double t2max = n1 * n2 + (n2 * (n2 + 1)) / 2.0;
-
-            double u1 = t1max - t1;
-            double u2 = t2max - t2;
-
-            return Math.Min(u1, u2);
+            return approximation.ComplementaryDistributionFunction(x);
         }
+
 
         /// <summary>
         ///   Gets the Mann-Whitney's U statistic for the first sample.
         /// </summary>
         /// 
-        public static double USample1(double[] rank1, int n2)
+        public static double MannWhitneyU(double[] ranks)
         {
-            int n1 = rank1.Length;
-            double t1 = rank1.Sum();
-            double t1max = n1 * n2 + (n1 * (n1 + 1)) / 2.0;
-            double u1 = t1max - t1;
-            return u1;
-        }
-
-        /// <summary>
-        ///   Gets the Mann-Whitney's U statistic for the second sample.
-        /// </summary>
-        /// 
-        public static double USample2(double[] rank2, int n1)
-        {
-            int n2 = rank2.Length;
-            double t2 = rank2.Sum();
-            double t2max = n2 * n1 + (n2 * (n2 + 1)) / 2.0;
-            double u2 = t2max - t2;
-            return u2;
+            int n = ranks.Length;
+            double rankSum = ranks.Sum();
+            double u = rankSum - (n * (n + 1.0)) / 2.0;
+            return u;
         }
 
         /// <summary>
@@ -245,7 +438,14 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override object Clone()
         {
-            return new MannWhitneyDistribution(Ranks, Samples1, Samples2);
+            var clone = new MannWhitneyDistribution(NumberOfSamples1, NumberOfSamples2);
+            clone.exact = exact;
+            clone.table = table;
+            clone.n1 = n1;
+            clone.n2 = n2;
+            clone.Correction = Correction;
+            clone.approximation = (NormalDistribution)approximation.Clone();
+            return clone;
         }
 
 
@@ -262,12 +462,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double Mean
         {
-            get
-            {
-                int n1 = Samples1;
-                int n2 = Samples2;
-                return (n1 * n2) / 2.0;
-            }
+            get { return approximation.Mean; }
         }
 
         /// <summary>
@@ -283,12 +478,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double Variance
         {
-            get
-            {
-                int n1 = Samples1;
-                int n2 = Samples2;
-                return (n1 * n2 * (n1 + n2 + 1)) / 12;
-            }
+            get { return approximation.Variance; }
         }
 
         /// <summary>
@@ -297,7 +487,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double Mode
         {
-            get { throw new NotSupportedException(); }
+            get { return approximation.Mode; }
         }
 
         /// <summary>
@@ -306,7 +496,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double Entropy
         {
-            get { throw new NotSupportedException(); }
+            get { return approximation.Entropy; }
         }
 
         /// <summary>
@@ -320,9 +510,11 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override DoubleRange Support
         {
-            get { return new DoubleRange(Double.NegativeInfinity, Double.PositiveInfinity); }
+            get
+            {
+                return new DoubleRange(Double.NegativeInfinity, Double.PositiveInfinity);
+            }
         }
-
 
         /// <summary>
         ///   Gets the probability density function (pdf) for
@@ -345,15 +537,12 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   See <see cref="MannWhitneyDistribution"/>.
         /// </example>
         /// 
-        public override double ProbabilityDensityFunction(double x)
+        protected internal override double InnerProbabilityDensityFunction(double x)
         {
-            // For all possible values for U, find how many
-            // of them are equal to the requested value.
+            if (this.exact)
+                return WilcoxonDistribution.count(x, table) / (double)table.Length;
 
-            int count = 0;
-            for (int j = 0; j < table.Length; j++)
-                if (table[j] == x) count++;
-            return count / (double)table.Length;
+            return approximation.ProbabilityDensityFunction(x);
         }
 
         /// <summary>
@@ -377,12 +566,33 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   See <see cref="MannWhitneyDistribution"/>.
         /// </example>
         /// 
-        public override double LogProbabilityDensityFunction(double x)
+        protected internal override double InnerLogProbabilityDensityFunction(double x)
         {
-            int count = 0;
-            for (int j = 0; j < table.Length; j++)
-                if (table[j] == x) count++;
-            return Math.Log(count) - Math.Log(table.Length);
+            if (exact)
+                return Math.Log(WilcoxonDistribution.count(x, table)) - Math.Log(table.Length);
+
+            return approximation.ProbabilityDensityFunction(x);
+        }
+
+        /// <summary>
+        ///   Gets the inverse of the cumulative distribution function (icdf) for
+        ///   this distribution evaluated at probability <c>p</c>. This function
+        ///   is also known as the Quantile function.
+        /// </summary>
+        /// 
+        /// <param name="p">A probability value between 0 and 1.</param>
+        /// 
+        /// <returns>
+        ///   A sample which could original the given probability
+        ///   value when applied in the <see cref="UnivariateContinuousDistribution.DistributionFunction(double)"/>.
+        /// </returns>
+        /// 
+        protected internal override double InnerInverseDistributionFunction(double p)
+        {
+            if (this.exact)
+                return base.InnerInverseDistributionFunction(p);
+
+            return approximation.InverseDistributionFunction(p);
         }
 
         /// <summary>
@@ -396,8 +606,8 @@ namespace Accord.Statistics.Distributions.Univariate
         public override string ToString(string format, IFormatProvider formatProvider)
         {
             return String.Format(formatProvider, "MannWhitney(u; n1 = {0}, n2 = {1})",
-                Samples1.ToString(format, formatProvider), 
-                Samples2.ToString(format, formatProvider));
+                NumberOfSamples1.ToString(format, formatProvider),
+                NumberOfSamples2.ToString(format, formatProvider));
         }
     }
 }

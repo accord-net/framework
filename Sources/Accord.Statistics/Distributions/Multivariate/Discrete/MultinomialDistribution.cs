@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -26,6 +26,7 @@ namespace Accord.Statistics.Distributions.Multivariate
     using System.Globalization;
     using Accord.Math;
     using Accord.Statistics.Distributions.Fitting;
+    using Accord.Compat;
 
     /// <summary>
     ///   Multinomial probability distribution.
@@ -199,10 +200,26 @@ namespace Accord.Statistics.Distributions.Multivariate
         }
 
         /// <summary>
+        /// Gets the support interval for this distribution.
+        /// </summary>
+        /// <value>A <see cref="IntRange" /> containing
+        /// the support interval for this distribution.</value>
+        public override IntRange[] Support
+        {
+            get
+            {
+                var range = new IntRange[Dimension];
+                for (int i = 0; i < range.Length; i++)
+                    range[i] = new IntRange(0, N);
+                return range;
+            }
+        }
+
+        /// <summary>
         ///   Not supported.
         /// </summary>
         /// 
-        public override double DistributionFunction(params int[] x)
+        protected internal override double InnerDistributionFunction(params int[] x)
         {
             // TODO: Implement an approximation of the multinomial CDF
             //  "A Representation for Multinomial Cumulative Distribution Functions",  
@@ -227,7 +244,7 @@ namespace Accord.Statistics.Distributions.Multivariate
         ///   probability that a given value <c>x</c> will occur.
         /// </remarks>
         /// 
-        public override double ProbabilityMassFunction(params int[] x)
+        protected internal override double InnerProbabilityMassFunction(params int[] x)
         {
             if (x.Length != Dimension)
                 throw new DimensionMismatchException("x",
@@ -265,7 +282,7 @@ namespace Accord.Statistics.Distributions.Multivariate
         ///   probability that a given value <c>x</c> will occur.
         /// </remarks>
         /// 
-        public override double LogProbabilityMassFunction(params int[] x)
+        protected internal override double InnerLogProbabilityMassFunction(params int[] x)
         {
             if (x.Length != Dimension)
                 throw new DimensionMismatchException("x",

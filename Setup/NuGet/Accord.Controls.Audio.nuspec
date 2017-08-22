@@ -14,7 +14,7 @@
     <description>
       Windows Forms controls to display waveforms and audio-related information. This package is part of the Accord.NET Framework.
     </description>
-    <summary>Accord.NET Audio Controls Library from the Accord.NET Framework</summary>
+    <summary>Display waveforms and audio-related visualizations in Windows Forms.</summary>
     <tags>accord.net aforge.net framework winforms controls audio</tags>
     <dependencies>
       <dependency id="Accord"            version="$version$" />
@@ -33,5 +33,14 @@
 
     <file src="..\..\Release\net45\Accord.Controls.Audio.dll" target="lib\net45\Accord.Controls.Audio.dll" />
     <file src="..\..\Release\net45\Accord.Controls.Audio.xml" target="lib\net45\Accord.Controls.Audio.xml" />
+
+    <file src="..\..\Release\net46\Accord.Controls.Audio.dll" target="lib\net46\Accord.Controls.Audio.dll" />
+    <file src="..\..\Release\net46\Accord.Controls.Audio.xml" target="lib\net46\Accord.Controls.Audio.xml" />
+
+    <file src="..\..\Release\net462\Accord.Controls.Audio.dll" target="lib\net462\Accord.Controls.Audio.dll" />
+    <file src="..\..\Release\net462\Accord.Controls.Audio.xml" target="lib\net462\Accord.Controls.Audio.xml" />
+
+    <!-- <file src="..\..\Release\netstandard2.0\Accord.Controls.Audio.dll" target="lib\netstandard2.0\Accord.Controls.Audio.dll" /> -->
+    <!-- <file src="..\..\Release\netstandard2.0\Accord.Controls.Audio.xml" target="lib\netstandard2.0\Accord.Controls.Audio.xml" /> -->
   </files>
 </package>

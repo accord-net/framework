@@ -2,7 +2,7 @@
 // The Accord.NET Framework (LGPL) 
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 // Copyright © Masakazu Ohtsuka, 2008
@@ -37,9 +37,11 @@ namespace Accord.Vision.Detection
     using System;
     using System.Collections.Generic;
     using System.Drawing;
-    using System.Threading.Tasks;
     using Accord.Imaging;
     using System.Drawing.Imaging;
+    using Cascades;
+    using Accord.Compat;
+    using System.Threading.Tasks;
 
     /// <summary>
     ///   Object detector options for the search procedure.
@@ -126,11 +128,18 @@ namespace Accord.Vision.Detection
     ///         of Simple Features.</a></description></item>
     ///       <item><description>
     ///         <a href="http://en.wikipedia.org/wiki/Viola-Jones_object_detection_framework">
-    ///         http://en.wikipedia.org/wiki/Viola-Jones_object_detection_framework</a>
+    ///         http://en.wikipedia.org/wiki/Viola-Jones_object_detection_framework </a>
     ///       </description></item>
     ///     </list>
     ///   </para>
     /// </remarks>
+    /// 
+    /// <example>
+    ///   <code source="Unit Tests\Accord.Tests.Vision\ObjectDetectorTest.cs" region="doc_example"/>
+    /// </example>
+    /// 
+    /// <seealso cref="FaceHaarCascade"/> 
+    /// <seealso cref="NoseHaarCascade"/> 
     /// 
     public class HaarObjectDetector : IObjectDetector
     {

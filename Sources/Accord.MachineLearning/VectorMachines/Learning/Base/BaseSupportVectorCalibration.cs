@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -23,16 +23,12 @@
 namespace Accord.MachineLearning.VectorMachines.Learning
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
     using Accord.Statistics.Kernels;
-    using System.Threading;
-    using System.Diagnostics;
     using Accord.Math;
     using Accord.Math.Optimization.Losses;
     using Accord.Statistics;
-    using System.Collections;
+    using Accord.Compat;
+    using System.Threading;
 
     /// <summary>
     ///   Base class for <see cref="SupportVectorMachine"/> calibration algorithms.
@@ -42,14 +38,22 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         ISupervisedBinaryLearning<TModel, TInput>
         where TKernel : IKernel<TInput>
         where TModel : SupportVectorMachine<TKernel, TInput>
+#if !NETSTANDARD1_4
         where TInput : ICloneable
+#endif
     {
+        [NonSerialized]
+        CancellationToken token = new CancellationToken();
 
         /// <summary>
         /// Gets or sets a cancellation token that can be used to
         /// stop the learning algorithm while it is running.
         /// </summary>
-        public CancellationToken Token { get; set; }
+        public CancellationToken Token
+        {
+            get { return token; }
+            set { token = value; }
+        }
 
         // Support Vector Machine parameters
         private TModel machine;
@@ -86,10 +90,12 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             var type = typeof(TModel);
             if (type == typeof(SupportVectorMachine))
                 result = new SupportVectorMachine(inputs) as TModel;
+#if !NETSTANDARD1_4
 #pragma warning disable 0618
             else if (type == typeof(KernelSupportVectorMachine))
                 result = new KernelSupportVectorMachine(kernel as IKernel, inputs) as TModel;
 #pragma warning restore 0618
+#endif
             else if (type == typeof(SupportVectorMachine<TKernel, TInput>))
                 result = new SupportVectorMachine<TKernel, TInput>(inputs, kernel) as TModel;
 
@@ -153,13 +159,13 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         /// </summary>
         /// <param name="x">The model inputs.</param>
         /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
-        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <param name="weights">The weight of importance for each input-output pair (if supported by the learning algorithm).</param>
         /// <returns>
         /// A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
         /// </returns>
-        public TModel Learn(TInput[] x, int[] y, double[] weights)
+        public TModel Learn(TInput[] x, double[] y, double[] weights = null)
         {
-            return Learn(x, y.ToBoolean(), weights);
+            return Learn(x, Classes.Decide(y), weights);
         }
 
         /// <summary>
@@ -167,13 +173,13 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         /// </summary>
         /// <param name="x">The model inputs.</param>
         /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
-        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <param name="weights">The weight of importance for each input-output pair (if supported by the learning algorithm).</param>
         /// <returns>
         /// A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
         /// </returns>
-        public TModel Learn(TInput[] x, int[][] y, double[] weights)
+        public TModel Learn(TInput[] x, int[] y, double[] weights = null)
         {
-            return Learn(x, y.GetColumn(0).ToBoolean(), weights);
+            return Learn(x, Classes.Decide(y), weights);
         }
 
         /// <summary>
@@ -181,11 +187,25 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         /// </summary>
         /// <param name="x">The model inputs.</param>
         /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
-        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <param name="weights">The weight of importance for each input-output pair (if supported by the learning algorithm).</param>
         /// <returns>
         /// A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
         /// </returns>
-        public TModel Learn(TInput[] x, bool[][] y, double[] weights)
+        public TModel Learn(TInput[] x, int[][] y, double[] weights = null)
+        {
+            return Learn(x, Classes.Decide(y.GetColumn(0)), weights);
+        }
+
+        /// <summary>
+        /// Learns a model that can map the given inputs to the given outputs.
+        /// </summary>
+        /// <param name="x">The model inputs.</param>
+        /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
+        /// <param name="weights">The weight of importance for each input-output pair (if supported by the learning algorithm).</param>
+        /// <returns>
+        /// A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
+        /// </returns>
+        public TModel Learn(TInput[] x, bool[][] y, double[] weights = null)
         {
             return Learn(x, y.GetColumn(0), weights);
         }
@@ -195,19 +215,24 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         /// </summary>
         /// <param name="x">The model inputs.</param>
         /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
-        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <param name="weights">The weight of importance for each input-output pair (if supported by the learning algorithm).</param>
         /// <returns>
         /// A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
         /// </returns>
-        public TModel Learn(TInput[] x, bool[] y, double[] weights)
+        public TModel Learn(TInput[] x, bool[] y, double[] weights = null)
         {
-            if (machine == null)
+            Accord.MachineLearning.Tools.CheckArgs(x, y, weights, () =>
             {
-                int numberOfInputs = 0;
-                if (x[0] is IList)
-                    numberOfInputs = (x[0] as IList).Count;
-                this.machine = Create(numberOfInputs, Kernel);            
-            }
+                if (Model == null)
+                {
+                    int numberOfInputs = SupportVectorLearningHelper.GetNumberOfInputs(kernel, x);
+                    Model = Create(numberOfInputs, Kernel);
+                }
+
+                return Model;
+            }, 
+            
+            onlyBinary: true);
 
             InnerRun();
 
@@ -236,7 +261,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         ///   Obsolete.
         /// </summary>
         [Obsolete("Please use Learn() instead.")]
-        public double Run()
+        public virtual double Run()
         {
             Learn(Input, Output, null);
             var classifier = (IClassifier<TInput, bool>)machine;

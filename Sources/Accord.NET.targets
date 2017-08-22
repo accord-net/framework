@@ -1,0 +1,36 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">  
+    <PropertyGroup>  
+		<PlatformTarget>AnyCPU</PlatformTarget>
+		<OutputType>Library</OutputType>
+		<AppDesignerFolder>Properties</AppDesignerFolder>
+		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+		<WarningLevel>4</WarningLevel>
+		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+		<SignAssembly>true</SignAssembly>
+		<AssemblyOriginatorKeyFile>Accord.snk</AssemblyOriginatorKeyFile>
+		<OldToolsVersion>3.5</OldToolsVersion>
+		<CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
+		<MapFileExtensions>true</MapFileExtensions>
+		<CodeAnalysisRuleSet>..\Accord.NET.ruleset</CodeAnalysisRuleSet>
+		<UseApplicationTrust>false</UseApplicationTrust>
+		<BootstrapperEnabled>true</BootstrapperEnabled>
+		<FileAlignment>4096</FileAlignment>
+		<Optimize>true</Optimize>
+		<DebugType>pdbonly</DebugType>
+		<DebugSymbols>true</DebugSymbols>
+		<RunCodeAnalysis>false</RunCodeAnalysis>
+		<CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+		<CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+		
+		<OutputPath>$(SolutionDir)..\Release\$(Configuration)</OutputPath>
+		<DocumentationFile>$(SolutionDir)..\Release\$(Configuration)\$(AssemblyName).XML</DocumentationFile>
+		<CodeAnalysisLogFile>$(SolutionDir)..\Release\$(Configuration)\$(AssemblyName).dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+		
+		<TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+	</PropertyGroup>
+
+  <Target Name="SpicNSpan"  AfterTargets="Clean">
+    <RemoveDir Directories="$(BaseIntermediateOutputPath)" />
+    <RemoveDir Directories="$(BaseOutputPath)" />
+  </Target>
+</Project>  

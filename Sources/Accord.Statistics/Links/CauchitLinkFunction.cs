@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -24,6 +24,7 @@ namespace Accord.Statistics.Links
 {
     using System;
     using Accord.Statistics.Distributions.Univariate;
+    using Accord.Compat;
 
     /// <summary>
     ///   Cauchy link function.
@@ -76,8 +77,10 @@ namespace Accord.Statistics.Links
         ///   Creates a new Cauchit link function.
         /// </summary>
         /// 
-        public CauchitLinkFunction() 
-            : this(1.0 / Math.PI, 0.5) { }
+        public CauchitLinkFunction()
+            : this(1.0 / Math.PI, 0.5)
+        {
+        }
 
         /// <summary>
         ///   The Cauchit link function.
@@ -111,6 +114,14 @@ namespace Accord.Statistics.Links
         public double Inverse(double x)
         {
             return Math.Atan(x) * B + A;
+        }
+
+        /// <summary>The logarithm of the inverse of the link function.</summary>
+        /// <param name="x">A transformed value.</param>
+        /// <returns>The log of the reverse transformed value.</returns>
+        public double Log(double x)
+        {
+            return Math.Log(Math.Atan(x) * B + A);
         }
 
         /// <summary>

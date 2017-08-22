@@ -1,14 +1,38 @@
 // AForge Image Processing Library
 // AForge.NET framework
+// http://www.aforgenet.com/framework/
 //
-// Copyright © Andrew Kirillov, 2005-2008
+// Copyright © Andrew Kirillov, 2005-2009
 // andrew.kirillov@aforgenet.com
+//
+// Accord Imaging Library
+// The Accord.NET Framework
+// http://accord-framework.net
+//
+// Copyright © César Souza, 2009-2017
+// cesarsouza at gmail.com
+//
+//    This library is free software; you can redistribute it and/or
+//    modify it under the terms of the GNU Lesser General Public
+//    License as published by the Free Software Foundation; either
+//    version 2.1 of the License, or (at your option) any later version.
+//
+//    This library is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+//    Lesser General Public License for more details.
+//
+//    You should have received a copy of the GNU Lesser General Public
+//    License along with this library; if not, write to the Free Software
+//    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 // Original idea of the SharpenEx found in Paint.NET project
 // http://www.eecs.wsu.edu/paint.net/
 //
+
 namespace Accord.Imaging.Filters
 {
+    using Accord.Math;
     using System;
     using System.Drawing;
     using System.Drawing.Imaging;
@@ -48,8 +72,8 @@ namespace Accord.Imaging.Filters
     ///
     public class GaussianSharpen : Convolution
     {
-        private double      sigma = 1.4;
-        private int         size = 5;
+        private double sigma = 1.4;
+        private int size = 5;
 
         /// <summary>
         /// Gaussian sigma value, [0.5, 5.0].
@@ -67,13 +91,13 @@ namespace Accord.Imaging.Filters
             set
             {
                 // get new sigma value
-                sigma = Math.Max( 0.5, Math.Min( 5.0, value ) );
+                sigma = Math.Max(0.5, Math.Min(5.0, value));
                 // create filter
-                CreateFilter( );
+                CreateFilter();
             }
         }
 
-         /// <summary>
+        /// <summary>
         /// Kernel size, [3, 5].
         /// </summary>
         /// 
@@ -87,8 +111,8 @@ namespace Accord.Imaging.Filters
             get { return size; }
             set
             {
-                size = Math.Max( 3, Math.Min( 21, value | 1 ) );
-                CreateFilter( );
+                size = Math.Max(3, Math.Min(21, value | 1));
+                CreateFilter();
             }
         }
 
@@ -96,9 +120,9 @@ namespace Accord.Imaging.Filters
         /// Initializes a new instance of the <see cref="GaussianSharpen"/> class.
         /// </summary>
         /// 
-        public GaussianSharpen( )
+        public GaussianSharpen()
         {
-            CreateFilter( );
+            CreateFilter();
         }
 
         /// <summary>
@@ -107,7 +131,7 @@ namespace Accord.Imaging.Filters
         /// 
         /// <param name="sigma">Gaussian sigma value.</param>
         /// 
-        public GaussianSharpen( double sigma )
+        public GaussianSharpen(double sigma)
         {
             Sigma = sigma;
         }
@@ -119,54 +143,51 @@ namespace Accord.Imaging.Filters
         /// <param name="sigma">Gaussian sigma value.</param>
         /// <param name="size">Kernel size.</param>
         /// 
-        public GaussianSharpen( double sigma, int size )
+        public GaussianSharpen(double sigma, int size)
         {
             Sigma = sigma;
             Size = size;
         }
 
-        // Private members
-        #region Private Members
+
 
         // Create Gaussian filter
-        private void CreateFilter( )
+        private void CreateFilter()
         {
-            // create Gaussian function
-            AForge.Math.Gaussian gaus = new AForge.Math.Gaussian( sigma );
-            // create kernel
-            double[,] kernel = gaus.Kernel2D( size );
+            // create Gaussian kernel
+            double[,] kernel = Normal.Kernel2D(sigma * sigma, size);
             double min = kernel[0, 0];
+
             // integer kernel
             int[,] intKernel = new int[size, size];
             int sum = 0;
             int divisor = 0;
 
             // calculate integer kernel
-            for ( int i = 0; i < size; i++ )
+            for (int i = 0; i < size; i++)
             {
-                for ( int j = 0; j < size; j++ )
+                for (int j = 0; j < size; j++)
                 {
                     double v = kernel[i, j] / min;
 
-                    if ( v > ushort.MaxValue )
-                    {
+                    if (v > ushort.MaxValue)
                         v = ushort.MaxValue;
-                    }
-                    intKernel[i, j] = (int) v;
+
+                    intKernel[i, j] = (int)v;
 
                     // collect sum
                     sum += intKernel[i, j];
                 }
             }
 
-            // recalc kernel
+            // recalculate kernel
             int c = size >> 1;
 
-            for ( int i = 0; i < size; i++ )
+            for (int i = 0; i < size; i++)
             {
-                for ( int j = 0; j < size; j++ )
+                for (int j = 0; j < size; j++)
                 {
-                    if ( ( i == c ) && ( j == c ) )
+                    if ((i == c) && (j == c))
                     {
                         // calculate central value
                         intKernel[i, j] = 2 * sum - intKernel[i, j];
@@ -186,6 +207,5 @@ namespace Accord.Imaging.Filters
             this.Kernel = intKernel;
             this.Divisor = divisor;
         }
-        #endregion
     }
 }

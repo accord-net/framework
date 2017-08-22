@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -25,6 +25,7 @@ namespace Accord.Math
     using Accord.Math.Comparers;
     using System;
     using System.Collections.Generic;
+    using Accord.Compat;
 
     /// <summary>
     ///   Static class Vector. Defines a set of extension methods
@@ -167,7 +168,11 @@ namespace Accord.Math
         /// </summary>
         /// 
         public static TList Shuffled<TList, T>(this TList array)
-            where TList : ICloneable, IList<T>
+            where TList :
+#if !NETSTANDARD1_4
+            ICloneable,
+#endif
+            IList<T>
         {
             var clone = (TList)array.Clone();
             Shuffle(clone);
@@ -193,6 +198,19 @@ namespace Accord.Math
             where T : IComparable<T>
         {
             var clone = (T[])values.Clone();
+            Sort(clone, stable);
+            return clone;
+        }
+
+        /// <summary>
+        ///   Sorts the elements of an entire one-dimensional array using the given comparison.
+        /// </summary>
+        /// 
+        public static T[] Sorted<T>(this ICollection<T> values, bool stable = false)
+            where T : IComparable<T>
+        {
+            T[] clone = new T[values.Count];
+            values.CopyTo(clone, 0);
             Sort(clone, stable);
             return clone;
         }

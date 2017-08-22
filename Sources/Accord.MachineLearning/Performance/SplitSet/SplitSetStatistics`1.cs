@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -22,14 +22,17 @@
 
 namespace Accord.MachineLearning
 {
+    using Accord.MachineLearning.Performance;
     using System;
+    using Accord.Compat;
 
     /// <summary>
     ///   Summary statistics for a Split-set validation trial.
     /// </summary>
     /// 
     [Serializable]
-    public class SplitSetStatistics<TModel> where TModel : class
+    public class SplitSetStatistics<TModel> 
+        where TModel : class
     {
 
         /// <summary>
@@ -90,9 +93,10 @@ namespace Accord.MachineLearning
     }
 
     /// <summary>
-    ///   Summary statistics for a Split-set validation trial.
+    ///   Obsolete. Please refer to <see cref="SplitSetValidation{TModel, TInput, TOutput}"/> instead.
     /// </summary>
     /// 
+    [Obsolete("Please refer to SplitSetValidation<TModel, TInput> instead.")]
     public class SplitSetStatistics : SplitSetStatistics<object>
     {
         /// <summary>

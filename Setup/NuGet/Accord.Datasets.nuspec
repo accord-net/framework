@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Accord.DataSets</id>
+    <version>$version$</version>
+    <title>Accord.DataSets</title>
+    <authors>Accord.NET</authors>
+    <owners>Accord.NET</owners>
+    <licenseUrl>http://accord-framework.net/license.txt</licenseUrl>
+    <projectUrl>http://accord-framework.net</projectUrl>
+    <iconUrl>http://accord-framework.net/logo.png</iconUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>
+      Contains classes to download and parse machine learning datasets such as MNIST, News20, Iris. This package is part of the Accord.NET Framework.
+    </description>
+    <summary>Download and open standard machine learning datasets from the web, such as MNIST, Newsgroups, Iris and others.</summary>
+    <tags>accord.net aforge.net framework statistics mnist machine learning cifar imagenet</tags>
+    <dependencies>
+      <dependency id="Accord"         version="$version$" />
+      <dependency id="Accord.IO"      version="$version$" />
+      <dependency id="Accord.Math"    version="$version$" />
+      <dependency id="SharpZipLib "   version="0.86.0" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="..\..\Release\net35\Accord.DataSets.dll" target="lib\net35\Accord.DataSets.dll" />
+    <file src="..\..\Release\net35\Accord.DataSets.xml" target="lib\net35\Accord.DataSets.xml" />
+
+    <file src="..\..\Release\net40\Accord.DataSets.dll" target="lib\net40\Accord.DataSets.dll" />
+    <file src="..\..\Release\net40\Accord.DataSets.xml" target="lib\net40\Accord.DataSets.xml" />
+
+    <file src="..\..\Release\net45\Accord.DataSets.dll" target="lib\net45\Accord.DataSets.dll" />
+    <file src="..\..\Release\net45\Accord.DataSets.xml" target="lib\net45\Accord.DataSets.xml" />
+
+    <file src="..\..\Release\net46\Accord.DataSets.dll" target="lib\net46\Accord.DataSets.dll" />
+    <file src="..\..\Release\net46\Accord.DataSets.xml" target="lib\net46\Accord.DataSets.xml" />
+
+    <file src="..\..\Release\net462\Accord.DataSets.dll" target="lib\net462\Accord.DataSets.dll" />
+    <file src="..\..\Release\net462\Accord.DataSets.xml" target="lib\net462\Accord.DataSets.xml" />
+
+    <file src="..\..\Release\netstandard2.0\Accord.DataSets.dll" target="lib\netstandard2.0\Accord.DataSets.dll" />
+    <file src="..\..\Release\netstandard2.0\Accord.DataSets.xml" target="lib\netstandard2.0\Accord.DataSets.xml" />
+
+    <file src="..\..\Release\netstandard1.4\Accord.DataSets.dll" target="lib\netstandard1.4\Accord.DataSets.dll" />
+    <file src="..\..\Release\netstandard1.4\Accord.DataSets.xml" target="lib\netstandard1.4\Accord.DataSets.xml" />
+  </files>
+</package>

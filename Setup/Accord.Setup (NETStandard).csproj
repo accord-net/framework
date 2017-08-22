@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <AssemblyName>Accord.Setup</AssemblyName>
+    <RootNamespace>Accord.Setup</RootNamespace>
+    <Configurations>Debug</Configurations>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageId>Accord.Setup</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>Accord.Setup</Authors>
+    <Company>Accord.Setup</Company>
+    <Product>Accord.Setup</Product>
+    <Description>Package Description</Description>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>TRACE;DEBUG;NETSTANDARD2_0</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Sources\Accord.Core\Accord.Core (NETStandard).csproj" />
+  </ItemGroup>
+
+</Project>

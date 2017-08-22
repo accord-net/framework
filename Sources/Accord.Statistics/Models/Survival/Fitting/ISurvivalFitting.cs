@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -23,12 +23,16 @@
 namespace Accord.Statistics.Models.Regression.Fitting
 {
     using Accord.Statistics.Distributions.Univariate;
+    using System;
 
     /// <summary>
     ///   Common interface for regression fitting methods.
     /// </summary>
     /// 
+#pragma warning disable 612, 618
+    [Obsolete("Please use ISupervisedLearning instead.")]
     interface ISurvivalFitting : IRegressionFitting
+#pragma warning restore 612, 618
     {
 
         /// <summary>

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -25,10 +25,32 @@ namespace Accord.Tests.Imaging
     using Accord.Imaging;
     using Accord.Imaging.Converters;
     using NUnit.Framework;
+    using System.Collections.Generic;
+    using System.Drawing;
+    using Accord.Math;
+    using Accord.Tests.Imaging.Properties;
+#if NO_BITMAP
+    using Resources = Accord.Tests.Imaging.Properties.Resources_Standard;
+#endif
 
     [TestFixture]
     public class HistogramsOfOrientedGradientsTest
     {
+        public static Bitmap[] GetImages()
+        {
+            Bitmap[] images =
+            {
+                Accord.Imaging.Image.Clone(Resources.flower01),
+                Accord.Imaging.Image.Clone(Resources.flower02),
+                Accord.Imaging.Image.Clone(Resources.flower03),
+                Accord.Imaging.Image.Clone(Resources.flower04),
+                Accord.Imaging.Image.Clone(Resources.flower05),
+                Accord.Imaging.Image.Clone(Resources.flower06),
+            };
+
+            return images;
+        }
+
 
         [Test]
         public void MagnitudeDirectionTest()
@@ -43,7 +65,7 @@ namespace Accord.Tests.Imaging
             new MatrixToImage().Convert(gradient, out output);
 
             //ImageBox.Show(output);
-            HistogramsOfOrientedGradients hog = new HistogramsOfOrientedGradients();
+            var hog = new HistogramsOfOrientedGradients();
             var result = hog.ProcessImage(output);
 
             float[,] actualDir = hog.Direction;
@@ -68,6 +90,27 @@ namespace Accord.Tests.Imaging
                         Assert.AreEqual(1, actualMag[i, j]);
                 }
             }
+        }
+
+        [Test]
+        public void CloneTest()
+        {
+            var images = GetImages();
+
+            var hog = new HistogramsOfOrientedGradients();
+            var clone1 = (HistogramsOfOrientedGradients)hog.Clone();
+
+            List<double[]> features1 = hog.ProcessImage(images[0]);
+            Assert.AreEqual(features1.Count, 2352);
+
+            List<double[]> features2 = clone1.ProcessImage(images[0]);
+            Assert.AreEqual(features2.Count, 2352);
+            Assert.IsTrue(features1.ToArray().IsEqual(features2.ToArray()));
+
+            var clone2 = (HistogramsOfOrientedGradients)hog.Clone();
+            List<double[]> features3 = clone2.ProcessImage(images[0]);
+            Assert.AreEqual(features3.Count, 2352);
+            Assert.IsTrue(features1.ToArray().IsEqual(features3.ToArray()));
         }
     }
 }

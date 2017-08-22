@@ -3142,11 +3142,10 @@ L556:
 	if (*gd >= 0.) {
 /*                               the directional derivative >=0. */
 /*                               Line search is impossible. */
-	    s_wsle(&io___177);
-	    do_lio(&c__9, &c__1, " ascent direction in projection gd = ", (
-		    ftnlen)37);
+	    /*s_wsle(&io___177);
+	    do_lio(&c__9, &c__1, " ascent direction in projection gd = ", (ftnlen)37);
 	    do_lio(&c__5, &c__1, (char *)&(*gd), (ftnlen)sizeof(doublereal));
-	    e_wsle();
+	    e_wsle();*/
 	    *info = -4;
 	    return 0;
 	}

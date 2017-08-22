@@ -17,7 +17,7 @@
 // Copyright © Sylvain Roy, 2002
 // sro33 at student.canterbury.ac.nz
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //   Portions of this file have been based on the GPL code by Sylvain
@@ -61,6 +61,10 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// </para>
     /// 
     /// <para>
+    ///   For a non-GPL'd version, see <see cref="FanChenLinSupportVectorRegression{TKernel}"/>.
+    /// </para>
+    /// 
+    /// <para>
     ///   To use this class, add a reference to the <c>Accord.MachineLearning.GPL.dll</c> assembly
     ///   that resides inside the Release/GPL folder of the framework's installation directory.</para>
     ///   
@@ -83,44 +87,13 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// </remarks>
     /// 
     /// <example>
-    /// <code>
-    /// // Example regression problem. Suppose we are trying
-    /// // to model the following equation: f(x, y) = 2x + y
-    /// 
-    /// double[][] inputs = // (x, y)
-    /// {
-    ///     new double[] { 0,  1 }, // 2*0 + 1 =  1
-    ///     new double[] { 4,  3 }, // 2*4 + 3 = 11
-    ///     new double[] { 8, -8 }, // 2*8 - 8 =  8
-    ///     new double[] { 2,  2 }, // 2*2 + 2 =  6
-    ///     new double[] { 6,  1 }, // 2*6 + 1 = 13
-    ///     new double[] { 5,  4 }, // 2*5 + 4 = 14
-    ///     new double[] { 9,  1 }, // 2*9 + 1 = 19
-    ///     new double[] { 1,  6 }, // 2*1 + 6 =  8
-    /// };
-    /// 
-    /// double[] outputs = // f(x, y)
-    /// {
-    ///         1, 11, 8, 6, 13, 14, 20, 8
-    /// };
-    /// 
-    /// // Create Kernel Support Vector Machine with a Polynomial Kernel of 2nd degree
-    /// var machine = new KernelSupportVectorMachine(new Polynomial(2), inputs: 2);
-    /// 
-    /// // Create the sequential minimal optimization teacher
-    /// var learn = new SequentialMinimalOptimizationRegression(machine, inputs, outputs);
-    /// 
-    /// // Run the learning algorithm
-    /// double error = learn.Run();
-    /// 
-    /// // Compute the answer for one particular example
-    /// double fxy = machine.Compute(inputs[0]); // 1.0003849827673186
-    /// </code>
+    /// <code source="Sources\Extras\Accord.Tests.MachineLearning.GPL\SequentialMinimalOptimizationRegressionTest.cs" region="doc_learn" />
     /// </example>
     /// 
+    //[Obsolete("Please use SequentialMinimalOptimizationRegression<TKernel> instead.")]
     public class SequentialMinimalOptimizationRegression :
         BaseSequentialMinimalOptimizationRegression<
-            SupportVectorMachine<IKernel<double[]>>, IKernel<double[]>, double[]>
+            SupportVectorMachine<IKernel>, IKernel, double[]>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SequentialMinimalOptimizationRegression"/> class.
@@ -143,9 +116,9 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         /// <summary>
         ///   Obsolete.
         /// </summary>
-        protected override SupportVectorMachine<IKernel<double[]>> Create(int inputs, IKernel<double[]> kernel)
+        protected override SupportVectorMachine<IKernel> Create(int inputs, IKernel kernel)
         {
-            return new SupportVectorMachine<IKernel<double[]>>(inputs, kernel);
+            return new SupportVectorMachine<IKernel>(inputs, kernel);
         }
     }
 
@@ -199,39 +172,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// </remarks>
     /// 
     /// <example>
-    /// <code>
-    /// // Example regression problem. Suppose we are trying
-    /// // to model the following equation: f(x, y) = 2x + y
-    /// 
-    /// double[][] inputs = // (x, y)
-    /// {
-    ///     new double[] { 0,  1 }, // 2*0 + 1 =  1
-    ///     new double[] { 4,  3 }, // 2*4 + 3 = 11
-    ///     new double[] { 8, -8 }, // 2*8 - 8 =  8
-    ///     new double[] { 2,  2 }, // 2*2 + 2 =  6
-    ///     new double[] { 6,  1 }, // 2*6 + 1 = 13
-    ///     new double[] { 5,  4 }, // 2*5 + 4 = 14
-    ///     new double[] { 9,  1 }, // 2*9 + 1 = 19
-    ///     new double[] { 1,  6 }, // 2*1 + 6 =  8
-    /// };
-    /// 
-    /// double[] outputs = // f(x, y)
-    /// {
-    ///         1, 11, 8, 6, 13, 14, 20, 8
-    /// };
-    /// 
-    /// // Create Kernel Support Vector Machine with a Polynomial Kernel of 2nd degree
-    /// var machine = new KernelSupportVectorMachine(new Polynomial(2), inputs: 2);
-    /// 
-    /// // Create the sequential minimal optimization teacher
-    /// var learn = new SequentialMinimalOptimizationRegression(machine, inputs, outputs);
-    /// 
-    /// // Run the learning algorithm
-    /// double error = learn.Run();
-    /// 
-    /// // Compute the answer for one particular example
-    /// double fxy = machine.Compute(inputs[0]); // 1.0003849827673186
-    /// </code>
+    /// <code source="Sources\Extras\Accord.Tests.MachineLearning.GPL\SequentialMinimalOptimizationRegressionTest.cs" region="doc_learn" />
     /// </example>
     /// 
     public class SequentialMinimalOptimizationRegression<TKernel> :
@@ -300,46 +241,16 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// </remarks>
     /// 
     /// <example>
-    /// <code>
-    /// // Example regression problem. Suppose we are trying
-    /// // to model the following equation: f(x, y) = 2x + y
-    /// 
-    /// double[][] inputs = // (x, y)
-    /// {
-    ///     new double[] { 0,  1 }, // 2*0 + 1 =  1
-    ///     new double[] { 4,  3 }, // 2*4 + 3 = 11
-    ///     new double[] { 8, -8 }, // 2*8 - 8 =  8
-    ///     new double[] { 2,  2 }, // 2*2 + 2 =  6
-    ///     new double[] { 6,  1 }, // 2*6 + 1 = 13
-    ///     new double[] { 5,  4 }, // 2*5 + 4 = 14
-    ///     new double[] { 9,  1 }, // 2*9 + 1 = 19
-    ///     new double[] { 1,  6 }, // 2*1 + 6 =  8
-    /// };
-    /// 
-    /// double[] outputs = // f(x, y)
-    /// {
-    ///         1, 11, 8, 6, 13, 14, 20, 8
-    /// };
-    /// 
-    /// // Create Kernel Support Vector Machine with a Polynomial Kernel of 2nd degree
-    /// var machine = new KernelSupportVectorMachine(new Polynomial(2), inputs: 2);
-    /// 
-    /// // Create the sequential minimal optimization teacher
-    /// var learn = new SequentialMinimalOptimizationRegression(machine, inputs, outputs);
-    /// 
-    /// // Run the learning algorithm
-    /// double error = learn.Run();
-    /// 
-    /// // Compute the answer for one particular example
-    /// double fxy = machine.Compute(inputs[0]); // 1.0003849827673186
-    /// </code>
+    /// <code source="Sources\Extras\Accord.Tests.MachineLearning.GPL\SequentialMinimalOptimizationRegressionTest.cs" region="doc_learn" />
     /// </example>
     /// 
     public class SequentialMinimalOptimizationRegression<TKernel, TInput> :
         BaseSequentialMinimalOptimizationRegression<
             SupportVectorMachine<TKernel, TInput>, TKernel, TInput>
         where TKernel : IKernel<TInput>
+#if !NETSTANDARD1_4
         where TInput : ICloneable
+#endif
     {
         /// <summary>
         /// Creates an instance of the model to be learned. Inheritors
@@ -359,7 +270,9 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         BaseSupportVectorRegression<TModel, TKernel, TInput>
         where TKernel : IKernel<TInput>
         where TModel : SupportVectorMachine<TKernel, TInput>
+#if !NETSTANDARD1_4
         where TInput : ICloneable
+#endif
     {
 
         // Learning algorithm parameters
@@ -402,8 +315,6 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
 
 
-
-        #region Properties
         /// <summary>
         ///   Convergence tolerance. Default value is 1e-3.
         /// </summary>
@@ -415,9 +326,6 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             get { return this.tolerance; }
             set { this.tolerance = value; }
         }
-        #endregion
-
-
 
 
         /// <summary>
@@ -438,6 +346,9 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
             // Initialize variables
             int N = Inputs.Length;
+            
+            // Set the value of the ε parameter controlled the width of the ε-insensitive zone
+            epsilon = Epsilon;
 
             // Lagrange multipliers
             this.alpha_a = new double[N];
@@ -467,6 +378,9 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             bool examineAll = true;
             while (numChanged > 0 || examineAll)
             {
+                if (Token.IsCancellationRequested)
+                    break;
+
                 numChanged = 0;
                 if (examineAll)
                 {
@@ -524,10 +438,6 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         }
 
 
-
-
-
-
         /// <summary>
         ///  Chooses which multipliers to optimize using heuristics.
         /// </summary>
@@ -539,7 +449,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             double alpha2b = alpha_b[i2]; // Lagrange multiplier a* for i2 
 
 
-            #region Compute example error
+#region Compute example error
             double e2 = 0.0;
             if (I0.Contains(i2))
             {
@@ -576,10 +486,10 @@ namespace Accord.MachineLearning.VectorMachines.Learning
                     biasUpperIndex = i2;
                 }
             }
-            #endregion
+#endregion
 
 
-            #region Check optimality using current thresholds
+#region Check optimality using current thresholds
             // Check optimality using current thresholds then select
             //   the best i1 to joint optimize when appropriate.
 
@@ -675,7 +585,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             {
                 throw new InvalidOperationException("The index could not be found.");
             }
-            #endregion
+#endregion
 
 
             if (optimal)
@@ -727,7 +637,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
 
 
-            #region Optimize
+#region Optimize
             bool case1 = false;
             bool case2 = false;
             bool case3 = false;
@@ -917,7 +827,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             // If nothing has changed, return false.
             if (!changed)
                 return false;
-            #endregion
+#endregion
 
 
 

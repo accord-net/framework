@@ -5,7 +5,7 @@
 // Copyright © 1995, 1996, 1997, 1998
 // Berwin A. Turlach <bturlach@stats.adelaide.edu.au>
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -97,150 +97,18 @@ namespace Accord.Math.Optimization
     /// 
     /// <para>
     ///   This is an example stating the problem using lambdas:</para>
-    /// <code>
-    /// // Solve the following optimization problem:
-    /// //
-    /// //  min f(x) = 2x² - xy + 4y² - 5x - 6y
-    /// // 
-    /// //  s.t.   x - y  ==   5  (x minus y should be equal to 5)
-    /// //             x  >=  10  (x should be greater than or equal to 10)
-    /// //
-    ///
-    /// // In this example we will be using some symbolic processing. 
-    /// // The following variables could be initialized to any value.
-    /// double x = 0, y = 0;
-    ///
-    /// // Create our objective function using a lambda expression
-    /// var f = new QuadraticObjectiveFunction(() => 2 * (x * x) - (x * y) + 4 * (y * y) - 5 * x - 6 * y);
-    ///
-    /// // Now, create the constraints
-    /// List&lt;LinearConstraint> constraints = new List&lt;LinearConstraint>();
-    /// constraints.Add(new LinearConstraint(f, () => x - y == 5));
-    /// constraints.Add(new LinearConstraint(f, () => x >= 10));
-    ///
-    /// // Now we create the quadratic programming solver for 2 variables, using the constraints.
-    /// GoldfarbIdnani solver = new GoldfarbIdnani(f, constraints);
-    ///
-    /// // And attempt to solve it.
-    /// double minimumValue = solver.Minimize();
-    /// </code>
+    ///   <code source="Unit Tests\Accord.Tests.Math\Optimization\GoldfarbIdnaniTest.cs" region="doc_lambdas" />
     /// 
     /// <para>
     ///   This is an example stating the problem using strings:</para>
-    /// <code>
-    /// // Solve the following optimization problem:
-    /// //
-    /// //  max f(x) = -2x² + xy - y² + 5y
-    /// // 
-    /// //  s.t.   x - y  ==   5  (x minus y should be equal to 5)
-    /// //             x  >=  10  (x should be greater than or equal to 10)
-    /// //
-    /// //
-    ///
-    /// // Create our objective function using a text string
-    /// var f = new QuadraticObjectiveFunction("-2x² + xy - y² + 5y");
-    ///
-    /// // Now, create the constraints
-    /// List&lt;LinearConstraint> constraints = new List&lt;LinearConstraint>();
-    /// constraints.Add(new LinearConstraint(f, "x - y ==  5"));
-    /// constraints.Add(new LinearConstraint(f, "    x >= 10"));
-    ///
-    /// // Now we create the quadratic programming solver for 2 variables, using the constraints.
-    /// GoldfarbIdnani solver = new GoldfarbIdnani(f, constraints);
-    ///
-    /// // And attempt to solve it.
-    /// double maxValue = solver.Maximize();
-    /// </code>
+    ///   <code source="Unit Tests\Accord.Tests.Math\Optimization\GoldfarbIdnaniTest.cs" region="doc_string" />
     ///   
     /// <para>
     ///   And finally, an example stating the problem using matrices:</para>
-    /// <code>
-    /// // Solve the following optimization problem:
-    /// //
-    /// //  min f(x) = 2x² - xy + 4y² - 5x - 6y
-    /// // 
-    /// //  s.t.   x - y  ==   5  (x minus y should be equal to 5)
-    /// //             x  >=  10  (x should be greater than or equal to 10)
-    /// //
-    /// 
-    /// // Lets first group the quadratic and linear terms. The
-    /// // quadratic terms are +2x², +3y² and -4xy. The linear 
-    /// // terms are -2x and +1y. So our matrix of quadratic
-    /// // terms can be expressed as:
-    ///
-    /// double[,] Q = // 2x² -1xy +4y²
-    /// {   
-    ///     /*           x              y      */
-    ///     /*x*/ { +2 /*xx*/ *2,  -1 /*xy*/    }, 
-    ///     /*y*/ { -1 /*xy*/   ,  +4 /*yy*/ *2 },
-    /// };
-    ///
-    /// // Accordingly, our vector of linear terms is given by:
-    ///
-    /// double[] d = { -5 /*x*/, -6 /*y*/ }; // -5x -6y
-    ///
-    /// // We have now to express our constraints. We can do it
-    /// // either by directly specifying a matrix A in which each
-    /// // line refers to one of the constraints, expressing the
-    /// // relationship between the different variables in the
-    /// // constraint, like this:
-    ///
-    /// double[,] A = 
-    /// {
-    ///     { 1, -1 }, // This line says that x + (-y) ... (a)
-    ///     { 1,  0 }, // This line says that x alone  ... (b)
-    /// };
-    ///
-    /// double[] b = 
-    /// {
-    ///      5, // (a) ... should be equal to 5.
-    ///     10, // (b) ... should be greater than or equal to 10.
-    /// };
-    ///
-    /// // Equalities must always come first, and in this case
-    /// // we have to specify how many of the constraints are
-    /// // actually equalities:
-    ///
-    /// int numberOfEqualities = 1;
-    ///
-    ///
-    /// // Alternatively, we may use a more explicitly form:
-    /// List&lt;LinearConstraint> list = new List&lt;LinearConstraint>();
-    ///
-    /// // Define the first constraint, which involves only x
-    /// list.Add(new LinearConstraint(numberOfVariables: 1)
-    ///     {
-    ///         // x is the first variable, thus located at
-    ///         // index 0. We are specifying that x >= 10:
-    ///
-    ///         VariablesAtIndices = new[] { 0 }, // index 0 (x)
-    ///         ShouldBe = ConstraintType.GreaterThanOrEqualTo,
-    ///         Value = 10
-    ///     });
-    ///
-    /// // Define the second constraint, which involves x and y
-    /// list.Add(new LinearConstraint(numberOfVariables: 2)
-    ///     {
-    ///         // x is the first variable, located at index 0, and y is
-    ///         // the second, thus located at 1. We are specifying that
-    ///         // x - y = 5 by saying that the variable at position 0 
-    ///         // times 1 plus the variable at position 1 times -1 
-    ///         // should be equal to 5.
-    ///
-    ///         VariablesAtIndices = new int[] { 0, 1 }, // index 0 (x) and index 1 (y)
-    ///         CombinedAs = new double[] { 1, -1 }, // when combined as x - y
-    ///         ShouldBe = ConstraintType.EqualTo,
-    ///         Value = 5
-    ///     });
-    ///
-    ///
-    /// // Now we can finally create our optimization problem
-    /// var target = new GoldfarbIdnani(Q, d, constraints: list);
-    ///
-    /// // And attempt to solve it.
-    /// double minimumValue = target.Minimize();
-    /// </code>
+    ///   <code source="Unit Tests\Accord.Tests.Math\Optimization\GoldfarbIdnaniTest.cs" region="doc_matrix" />
     /// </example>
+    /// 
+    /// <seealso cref="AugmentedLagrangian"/>
     /// 
     public class GoldfarbIdnani : BaseGradientOptimizationMethod,
         IOptimizationMethod, IOptimizationMethod<GoldfarbIdnaniStatus>
@@ -357,8 +225,8 @@ namespace Accord.Math.Optimization
 
         /// <summary>
         ///   Get the exit code returned in the last call to the
-        ///   <see cref="IOptimizationMethod.Maximize()"/> or 
-        ///   <see cref="IOptimizationMethod.Minimize()"/> methods.
+        ///   <see cref="IOptimizationMethod{TInput, TOutput}.Maximize()"/> or 
+        ///   <see cref="IOptimizationMethod{TInput, TOutput}.Minimize()"/> methods.
         /// </summary>
         /// 
         public GoldfarbIdnaniStatus Status { get; private set; }
@@ -425,7 +293,7 @@ namespace Accord.Math.Optimization
             if (numberOfEqualities < 0 || numberOfEqualities > constraintValues.Length)
                 throw new ArgumentOutOfRangeException("numberOfEqualities");
 
-            constraintTolerances = new double[constraintValues.Length];
+            constraintTolerances = Vector.Create(constraintValues.Length, LinearConstraint.DefaultTolerance);
 
             initialize(function.NumberOfVariables, function.QuadraticTerms,
                 function.LinearTerms, constraintMatrix, constraintValues, numberOfEqualities);
@@ -478,12 +346,12 @@ namespace Accord.Math.Optimization
 
         /// <summary>
         ///   Finds the minimum value of a function. The solution vector
-        ///   will be made available at the <see cref="IOptimizationMethod.Solution"/> property.
+        ///   will be made available at the <see cref="IOptimizationMethod{TInput, TOutput}.Solution"/> property.
         /// </summary>
         /// 
         /// <returns>
-        ///   Returns <c>true</c> if the method converged to a <see cref="IOptimizationMethod.Solution"/>.
-        ///   In this case, the found value will also be available at the <see cref="IOptimizationMethod.Value"/>
+        ///   Returns <c>true</c> if the method converged to a <see cref="IOptimizationMethod{TInput, TOutput}.Solution"/>.
+        ///   In this case, the found value will also be available at the <see cref="IOptimizationMethod{TInput, TOutput}.Value"/>
         ///   property.
         /// </returns>
         /// 
@@ -510,11 +378,11 @@ namespace Accord.Math.Optimization
 
         /// <summary>
         ///   Finds the maximum value of a function. The solution vector
-        ///   will be made available at the <see cref="IOptimizationMethod.Solution"/> property.
+        ///   will be made available at the <see cref="IOptimizationMethod{TInput, TOutput}.Solution"/> property.
         /// </summary>
         /// <returns>
-        ///   Returns <c>true</c> if the method converged to a <see cref="IOptimizationMethod.Solution"/>.
-        ///   In this case, the found value will also be available at the <see cref="IOptimizationMethod.Value"/>
+        ///   Returns <c>true</c> if the method converged to a <see cref="IOptimizationMethod{TInput, TOutput}.Solution"/>.
+        ///   In this case, the found value will also be available at the <see cref="IOptimizationMethod{TInput, TOutput}.Value"/>
         ///   property.
         /// </returns>
         /// 
@@ -569,7 +437,7 @@ namespace Accord.Math.Optimization
             }
 
             // Extract Lagrange multipliers from the work vector
-            ActiveConstraints = activeConstraints.Submatrix(numberOfActiveConstraints);
+            ActiveConstraints = activeConstraints.First(numberOfActiveConstraints);
 
             for (int i = 0; i < ActiveConstraints.Length; i++)
                 Lagrangian[ActiveConstraints[i]] = iwuv[i];
@@ -722,7 +590,6 @@ namespace Accord.Math.Optimization
 
             f = 0.0;
 
-
             // calculate some constants, i.e., from which index on 
             // the different quantities are stored in the work matrix 
 
@@ -757,6 +624,9 @@ namespace Accord.Math.Optimization
 
 
         L50: // start a new iteration 
+
+            if (Token.IsCancellationRequested)
+                return;
 
             Iterations++;
 
@@ -997,7 +867,6 @@ namespace Accord.Math.Optimization
 
                 if (t2min)
                 {
-
                     // we took a full step. Thus add constraint nvl to the list of active 
                     // constraints and update J and R 
 

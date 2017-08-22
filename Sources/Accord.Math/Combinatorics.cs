@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -22,9 +22,10 @@
 
 namespace Accord.Math
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Accord.Compat;
+
 
     /// <summary>
     ///   Static class for combinatorics functions.
@@ -107,6 +108,8 @@ namespace Accord.Math
         /// </code>
         /// </example>
         /// 
+        /// <seealso cref="Combinatorics.Sequences(int,int,bool)"/> 
+        /// 
         public static int[][] TruthTable(int symbols, int length)
         {
             int[] sym = new int[length];
@@ -156,6 +159,8 @@ namespace Accord.Math
         /// };
         /// </code></example>
         ///
+        /// <seealso cref="Combinatorics.Sequences(int,int,bool)"/> 
+        /// 
         public static int[][] TruthTable(this int[] symbols)
         {
             int size = 1;
@@ -182,6 +187,58 @@ namespace Accord.Math
             }
 
             return sequences;
+        }
+
+        /// <summary>
+        ///   Provides a way to enumerate all possible ordered permutations
+        ///   with repetitions allowed (i.e. a truth table), without using
+        ///   many memory allocations.
+        /// </summary>
+        /// 
+        /// <param name="length">The length of the sequence to generate.</param>
+        /// <param name="inPlace">
+        ///   If set to true, the different generated sequences will be stored in 
+        ///   the same array, thus preserving memory. However, this may prevent the
+        ///   samples from being stored in other locations without having to clone
+        ///   them. If set to false, a new memory block will be allocated for each
+        ///   new object in the sequence.</param>
+        ///   
+        /// <example>
+        /// <para>
+        ///   Suppose we would like to generate the same sequences shown
+        ///   in the <see cref="Combinatorics.TruthTable(int,int)"/>example,
+        ///   however, without explicitly storing all possible combinations
+        ///   in an array. In order to iterate over all possible combinations
+        ///   efficiently, we can use:
+        /// </para>
+        /// 
+        /// <code>
+        /// int length = 3;  // The number of variables; or number 
+        ///                  // of columns in the generated table.
+        /// 
+        /// foreach (int[] row in Combinatorics.Sequences(length))
+        /// {
+        ///     // The following sequences will be generated in order:
+        ///     //
+        ///     //   new int[] { 0, 0, 0 },
+        ///     //   new int[] { 0, 0, 1 },
+        ///     //   new int[] { 0, 1, 0 },
+        ///     //   new int[] { 0, 1, 1 },
+        ///     //   new int[] { 1, 0, 0 },
+        ///     //   new int[] { 1, 0, 1 },
+        ///     //   new int[] { 1, 1, 0 },
+        ///     //   new int[] { 1, 1, 1 },
+        /// }
+        /// </code>
+        /// </example>
+        /// 
+        public static IEnumerable<int[]> Sequences(int length, bool inPlace = false)
+        {
+            int[] sym = new int[length];
+            for (int i = 0; i < sym.Length; i++)
+                sym[i] = 2;
+
+            return Sequences(sym, inPlace);
         }
 
         /// <summary>
@@ -322,27 +379,7 @@ namespace Accord.Math
         ///   new object in the sequence.</param>
         ///   
         /// <example>
-        /// <code>
-        ///   // Let's say we would like to generate all possible combinations
-        ///   // of the elements (1, 2, 3). In order to enumerate all those 
-        ///   // combinations, we can use:
-        /// 
-        ///   int[] values = { 1, 2, 3 };
-        ///   
-        ///   foreach (int[] combination in Combinatorics.Combinations(values))
-        ///   {
-        ///       // The combinations will be generated in the following order:
-        ///       //
-        ///       //   { 1 };
-        ///       //   { 2 };
-        ///       //   { 3 };
-        ///       //   { 1, 2 };
-        ///       //   { 1, 3 };
-        ///       //   { 2, 3 };
-        ///       //   { 1, 2, 3 };
-        ///       //
-        ///   }
-        /// </code>
+        /// <code source="Unit Tests\Accord.Tests.Math\CombinatoricsTest.cs" region="doc_combinations" />
         /// </example>
         /// 
         public static IEnumerable<T[]> Combinations<T>(this T[] values, bool inPlace = false)
@@ -367,23 +404,7 @@ namespace Accord.Math
         ///   new object in the sequence.</param>
         ///   
         /// <example>
-        /// <code>
-        ///   // Let's say we would like to generate all possible combinations
-        ///   // of size 2 of the elements (1, 2, 3). In order to enumerate all 
-        ///   // those combinations, we can use:
-        /// 
-        ///   int[] values = { 1, 2, 3 };
-        ///   
-        ///   foreach (int[] combination in Combinatorics.Combinations(values, 2))
-        ///   {
-        ///       // The combinations will be generated in the following order:
-        ///       //
-        ///       //   { 1, 2 };
-        ///       //   { 1, 3 };
-        ///       //   { 2, 3 };
-        ///       //
-        ///   }
-        /// </code>
+        /// <code source="Unit Tests\Accord.Tests.Math\CombinatoricsTest.cs" region="doc_combinations_k" />
         /// </example>
         /// 
         public static IEnumerable<T[]> Combinations<T>(this T[] values, int k, bool inPlace = false)
@@ -448,7 +469,17 @@ namespace Accord.Math
         ///   Generates all possibles subsets of the given set.
         /// </summary>
         /// 
-        public static IEnumerable<SortedSet<T>> Subsets<T>(this ISet<T> set, bool inPlace = false)
+        /// <example>
+        /// <code source="Unit Tests\Accord.Tests.Math\CombinatoricsTest.cs" region="doc_subsets" />
+        /// </example>
+        /// 
+        public static IEnumerable<SortedSet<T>> Subsets<T>(this
+#if NET35
+            IEnumerable<T>
+#else
+            ISet<T> 
+#endif
+            set, bool inPlace = false)
         {
             // TODO: Optimize
             T[] values = set.ToArray();
@@ -461,7 +492,17 @@ namespace Accord.Math
         ///   Generates all possibles subsets of size k of the given set.
         /// </summary>
         /// 
-        public static IEnumerable<SortedSet<T>> Subsets<T>(this ISet<T> set, int k, bool inPlace = false)
+        /// <example>
+        /// <code source="Unit Tests\Accord.Tests.Math\CombinatoricsTest.cs" region="doc_subsets_k" />
+        /// </example>
+        /// 
+        public static IEnumerable<SortedSet<T>> Subsets<T>(this
+#if NET35
+            IEnumerable<T>
+#else
+            ISet<T> 
+#endif
+            set, int k, bool inPlace = false)
         {
             // TODO: Optimize
             T[] values = set.ToArray();
@@ -482,25 +523,7 @@ namespace Accord.Math
         ///   new object in the sequence.</param>
         /// 
         /// <example>
-        /// <code>
-        ///   // Let's say we would like to generate all possible permutations
-        ///   // of the elements (1, 2, 3). In order to enumerate all those
-        ///   // permutations, we can use:
-        /// 
-        ///   int[] values = { 1, 2, 3 };
-        ///   
-        ///   foreach (int[] permutation in Combinatorics.Permutations(values))
-        ///   {
-        ///       // The permutations will be generated in the following order:
-        ///       //
-        ///       //   { 1, 3, 2 };
-        ///       //   { 2, 1, 3 };
-        ///       //   { 2, 3, 1 };
-        ///       //   { 3, 1, 2 };
-        ///       //   { 3, 2, 1 };
-        ///       //
-        ///   }
-        /// </code>
+        /// <code source="Unit Tests\Accord.Tests.Math\CombinatoricsTest.cs" region="doc_permutation" />
         /// </example>
         /// 
         public static IEnumerable<T[]> Permutations<T>(T[] values, bool inPlace = false)

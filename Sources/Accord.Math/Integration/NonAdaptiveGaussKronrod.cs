@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -23,7 +23,8 @@
 namespace Accord.Math.Integration
 {
     using System;
-    using AForge;
+    using System.Diagnostics;
+    using Accord.Compat;
 
     /// <summary>
     ///   Status codes for the <see cref="NonAdaptiveGaussKronrod"/>
@@ -507,7 +508,7 @@ namespace Accord.Math.Integration
             }
         L80:
             //throw new Exception("abnormal return from  qng ");
-            System.Diagnostics.Trace.Write("abnormal return from  qng");
+            Trace.Write("abnormal return from  qng");
 
         L999:
             return 0;

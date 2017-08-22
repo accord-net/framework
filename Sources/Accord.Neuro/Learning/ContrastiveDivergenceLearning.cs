@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -23,14 +23,14 @@
 namespace Accord.Neuro.Learning
 {
     using System;
-    using System.Threading;
-    using System.Threading.Tasks;
     using Accord.Neuro.Layers;
     using Accord.Neuro.Networks;
     using Accord.Neuro.Neurons;
     using Accord.Math;
     using Accord.Neuro.ActivationFunctions;
-
+    using Accord.Compat;
+    using System.Threading;
+    using System.Threading.Tasks;
 
     /// <summary>
     ///   Contrastive Divergence learning algorithm for Restricted Boltzmann Machines.

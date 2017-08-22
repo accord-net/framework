@@ -196,4 +196,22 @@
   <data name="pseudoInverse1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\pseudoInverse1.csv;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
+  <data name="data16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\data16.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="labels16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\labels16.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="unf_1_constraintMat" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\unfeasible_qp_1\unf_1_constraintMat.csv;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="unf_1_constraintValues" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\unfeasible_qp_1\unf_1_constraintValues.csv;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="unf_1_linTerms" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\unfeasible_qp_1\unf_1_linTerms.csv;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="unf_1_quadTerms" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\unfeasible_qp_1\unf_1_quadTerms.csv;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
 </root>

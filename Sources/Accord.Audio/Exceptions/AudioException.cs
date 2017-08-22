@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 // Copyright © AForge.NET, 2005-2011
@@ -27,6 +27,7 @@ namespace Accord.Audio
 {
     using System;
     using System.Runtime.Serialization;
+    using Accord.Compat;
 
     /// <summary>
     ///   Audio related exception.

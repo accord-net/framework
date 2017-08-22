@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -37,15 +37,13 @@ namespace Accord
         ///   Initializes a new instance of the <see cref="PositiveAttribute"/> class.
         /// </summary>
         /// 
-        public PositiveAttribute()
-            : base(double.Epsilon, double.MaxValue) { }
+        public PositiveAttribute(double minimum = Double.Epsilon, double maximum = Double.MaxValue)
+            : base(minimum, maximum)
+        {
+            if (minimum <= 0)
+                throw new ArgumentOutOfRangeException("minimum");
+        }
 
-        /// <summary>
-        ///   Initializes a new instance of the <see cref="PositiveAttribute"/> class.
-        /// </summary>
-        /// 
-        public PositiveAttribute(double minimum)
-            : base(minimum, double.MaxValue) { }
     }
 
     /// <summary>
@@ -60,15 +58,13 @@ namespace Accord
         ///   Initializes a new instance of the <see cref="NegativeAttribute"/> class.
         /// </summary>
         /// 
-        public NegativeAttribute()
-            : base(double.MinValue, -double.Epsilon) { }
+        public NegativeAttribute(double minimum = double.MinValue, double maximum = -double.Epsilon)
+            : base(minimum, maximum)
+        {
+            if (maximum >= 0)
+                throw new ArgumentOutOfRangeException("maximum");
+        }
 
-        /// <summary>
-        ///   Initializes a new instance of the <see cref="NegativeAttribute"/> class.
-        /// </summary>
-        /// 
-        public NegativeAttribute(double maximum)
-            : base(double.MinValue, maximum) { }
     }
 
     /// <summary>
@@ -83,8 +79,12 @@ namespace Accord
         ///   Initializes a new instance of the <see cref="NonpositiveAttribute"/> class.
         /// </summary>
         /// 
-        public NonpositiveAttribute()
-            : base(double.MinValue, 0) { }
+        public NonpositiveAttribute(double minimum = double.MinValue, double maximum = 0)
+            : base(minimum, maximum)
+        {
+            if (maximum < 0)
+                throw new ArgumentOutOfRangeException("maximum");
+        }
     }
 
     /// <summary>
@@ -99,8 +99,12 @@ namespace Accord
         ///   Initializes a new instance of the <see cref="NonnegativeAttribute"/> class.
         /// </summary>
         /// 
-        public NonnegativeAttribute()
-            : base(0, double.MaxValue) { }
+        public NonnegativeAttribute(double minimum = 0, double maximum = Double.MaxValue)
+            : base(0, double.MaxValue)
+        {
+            if (maximum < 0)
+                throw new ArgumentOutOfRangeException("maximum");
+        }
     }
 
     /// <summary>
@@ -115,15 +119,10 @@ namespace Accord
         ///   Initializes a new instance of the <see cref="RealAttribute"/> class.
         /// </summary>
         /// 
-        public RealAttribute()
-            : base(double.MinValue, double.MaxValue) { }
-
-        /// <summary>
-        ///   Initializes a new instance of the <see cref="RealAttribute"/> class.
-        /// </summary>
-        /// 
-        public RealAttribute(double minimum, double maximum)
-            : base(minimum, maximum) { }
+        public RealAttribute(double minimum = Double.MinValue, double maximum = Double.MaxValue)
+            : base(minimum, maximum)
+        {
+        }
 
         /// <summary>
         ///   Gets the minimum allowed field value.

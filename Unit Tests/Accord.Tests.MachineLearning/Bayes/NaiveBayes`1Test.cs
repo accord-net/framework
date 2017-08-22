@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -22,10 +22,12 @@
 
 namespace Accord.Tests.MachineLearning
 {
+#if !MONO
     using Accord;
     using Accord.IO;
     using Accord.MachineLearning.Bayes;
     using Accord.Math;
+    using Accord.Math.Optimization.Losses;
     using Accord.Statistics.Distributions;
     using Accord.Statistics.Distributions.Fitting;
     using Accord.Statistics.Distributions.Multivariate;
@@ -109,6 +111,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(3, target.Distributions.GetLength(1));
         }
 
+#if !NO_DATA_TABLE
         [Test]
         public void ComputeTest()
         {
@@ -234,10 +237,10 @@ namespace Accord.Tests.MachineLearning
             double[] responses;
 
             // Compute the result for a sunny, cool, humid and windy day:
-            double[] instance = new double[] 
+            double[] instance = new double[]
             {
-                codebook.Translate(columnName:"Outlook", value:"Sunny"), 
-                12.0, 
+                codebook.Translate(columnName:"Outlook", value:"Sunny"),
+                12.0,
                 90.0,
                 codebook.Translate(columnName:"Wind", value:"Strong")
             };
@@ -257,7 +260,7 @@ namespace Accord.Tests.MachineLearning
 
             Assert.AreEqual(c, c2);
         }
-
+#endif
 
         [Test]
         public void ComputeTest3()
@@ -315,6 +318,293 @@ namespace Accord.Tests.MachineLearning
         }
 
         [Test]
+        public void gh_758()
+        {
+            // Let's say we have the following data to be classified into three 
+            // non -mutually-exclusive possible classes. Those are the samples:
+            //
+            double[][] inputs =
+            {
+                //               input         output
+                new double[] { 0, 1, 1, 0 }, //  0 
+                new double[] { 0, 1, 0, 0 }, //  0
+                new double[] { 0, 0, 1, 0 }, //  0
+                new double[] { 0, 1, 1, 0 }, //  0, 1
+                new double[] { 0, 1, 0, 0 }, //  0, 1
+                new double[] { 1, 0, 0, 0 }, //     1
+                new double[] { 1, 0, 0, 0 }, //     1
+                new double[] { 1, 0, 0, 1 }, //     1, 2
+                new double[] { 0, 0, 0, 1 }, //     1, 2
+                new double[] { 0, 0, 0, 1 }, //     1, 2
+                new double[] { 1, 1, 1, 1 }, //        2
+                new double[] { 1, 0, 1, 1 }, //        2
+                new double[] { 1, 1, 0, 1 }, //        2
+                new double[] { 0, 1, 1, 1 }, //        2
+                new double[] { 1, 1, 1, 1 }, //        2
+            };
+
+            int[][] outputs = // those are the class labels
+            {
+                new[] { 1, 0, 0 },
+                new[] { 1, 0, 0 },
+                new[] { 1, 0, 0 },
+                new[] { 1, 1, 0 },
+                new[] { 1, 1, 0 },
+                new[] { 0, 1, 0 },
+                new[] { 0, 1, 0 },
+                new[] { 0, 1, 1 },
+                new[] { 0, 1, 1 },
+                new[] { 0, 1, 1 },
+                new[] { 0, 0, 1 },
+                new[] { 0, 0, 1 },
+                new[] { 0, 0, 1 },
+                new[] { 0, 0, 1 },
+                new[] { 0, 0, 1 },
+            };
+
+            // Create a new Naive teacher for 4-dimensional Gaussian distributions
+            var teacher = new NaiveBayesLearning<NormalDistribution, NormalOptions, double>()
+            {
+                Options = new IndependentOptions<NormalOptions>()
+                {
+                    InnerOption = new NormalOptions()
+                    {
+                        Regularization = 1e-10
+                    }
+                }
+            };
+
+            teacher.ParallelOptions.MaxDegreeOfParallelism = 1;
+
+            var bayes = teacher.Learn(inputs, outputs);
+
+            double[][] prediction = bayes.Probabilities(inputs);
+
+            // Teach the Naive Bayes model. The error should be zero:
+            double error = new BinaryCrossEntropyLoss(outputs).Loss(prediction);
+
+            Assert.AreEqual(78.465768833015233, error, 1e-8);
+
+            Assert.IsTrue(teacher.optimized);
+        }
+
+#if !NO_DATA_TABLE
+        [Test]
+        public void learn_test_mitchell()
+        {
+            #region doc_mitchell_1
+            // We will represent Mitchell's Tennis example using a DataTable. However,
+            // the use of a DataTable is not required in order to use the Naive Bayes. 
+            // Please take a look at the other examples below for simpler approaches.
+            DataTable data = new DataTable("Mitchell's Tennis Example");
+            data.Columns.Add("Day", "Outlook", "Temperature", "Humidity", "Wind", "PlayTennis");
+            // We will set Temperature and Humidity to be continuous
+            data.Columns["Temperature"].DataType = typeof(double);
+            data.Columns["Humidity"].DataType = typeof(double);
+            // Add some data
+            data.Rows.Add("D1", "Sunny", 38.0, 96.0, "Weak", "No");
+            data.Rows.Add("D2", "Sunny", 39.0, 90.0, "Strong", "No");
+            data.Rows.Add("D3", "Overcast", 38.0, 75.0, "Weak", "Yes");
+            data.Rows.Add("D4", "Rain", 25.0, 87.0, "Weak", "Yes");
+            data.Rows.Add("D5", "Rain", 12.0, 30.0, "Weak", "Yes");
+            data.Rows.Add("D6", "Rain", 11.0, 35.0, "Strong", "No");
+            data.Rows.Add("D7", "Overcast", 10.0, 40.0, "Strong", "Yes");
+            data.Rows.Add("D8", "Sunny", 24.0, 90.0, "Weak", "No");
+            data.Rows.Add("D9", "Sunny", 12.0, 26.0, "Weak", "Yes");
+            data.Rows.Add("D10", "Rain", 25, 30.0, "Weak", "Yes");
+            data.Rows.Add("D11", "Sunny", 26.0, 40.0, "Strong", "Yes");
+            data.Rows.Add("D12", "Overcast", 27.0, 97.0, "Strong", "Yes");
+            data.Rows.Add("D13", "Overcast", 39.0, 41.0, "Weak", "Yes");
+            data.Rows.Add("D14", "Rain", 23.0, 98.0, "Strong", "No");
+            #endregion
+
+            #region doc_mitchell_2
+            // Create a new codification codebook to
+            // convert strings into discrete symbols
+            Codification codebook = new Codification(data);
+            #endregion
+
+            #region doc_mitchell_3
+            // Some distributions require constructor parameters, and as such, cannot 
+            // be automatically initialized by the learning algorithm. For this reason, 
+            // we might need to specify how each component should be initialized:
+            IUnivariateFittableDistribution[] priors =
+            {
+                new GeneralDiscreteDistribution(codebook["Outlook"].Symbols),   // 3 possible values (Sunny, overcast, rain)
+                new NormalDistribution(),                                       // Continuous value (Celsius)
+                new NormalDistribution(),                                       // Continuous value (percentage)
+                new GeneralDiscreteDistribution(codebook["Wind"].Symbols)       // 2 possible values (Weak, strong)
+            };
+
+            // Create a new Naive Bayes classifiers for the two classes
+            var learner = new NaiveBayesLearning<IUnivariateFittableDistribution>()
+            {
+                // Tell the learner how to initialize the distributions
+                Distribution = (classIndex, variableIndex) => priors[variableIndex]
+            };
+
+            // Extract symbols from data and train the classifier
+            DataTable symbols = codebook.Apply(data);
+            double[][] inputs = symbols.ToArray("Outlook", "Temperature", "Humidity", "Wind");
+            int[] outputs = symbols.ToArray<int>("PlayTennis");
+
+            // Learn the Naive Bayes model
+            var naiveBayes = learner.Learn(inputs, outputs);
+            #endregion
+
+            #region doc_mitchell_4
+            // Create an instance representing a "sunny, cool, humid and windy day":
+            double[] instance = new double[]
+            {
+                codebook.Translate(columnName:"Outlook", value:"Sunny"), //n 0
+                12.0,
+                90.0,
+                codebook.Translate(columnName:"Wind", value:"Strong") // 1
+            };
+
+            // We can obtain a class prediction using
+            int predicted = naiveBayes.Decide(instance);
+
+            // Or compute probabilities of each class using
+            double[] probabilities = naiveBayes.Probabilities(instance);
+
+            // Or obtain the log-likelihood of prediction
+            double ll = naiveBayes.LogLikelihood(instance);
+
+            // Finally, the result can be translated back using
+            string result = codebook.Translate("PlayTennis", predicted); // Should be "No"
+            #endregion
+
+            Assert.AreEqual("No", result);
+            Assert.AreEqual(0, predicted);
+            Assert.AreEqual(0.840, probabilities[0], 1e-3);
+            Assert.AreEqual(-10.493243476691351, ll, 1e-6);
+            Assert.AreEqual(1, probabilities.Sum(), 1e-10);
+            Assert.AreEqual(2, probabilities.Length);
+        }
+#endif
+
+        [Test]
+        public void learn_test()
+        {
+            #region doc_learn
+            // Let's say we have the following data to be classified
+            // into three possible classes. Those are the samples:
+            //
+            double[][] inputs =
+            {
+                //               input         output
+                new double[] { 0, 1, 1, 0 }, //  0 
+                new double[] { 0, 1, 0, 0 }, //  0
+                new double[] { 0, 0, 1, 0 }, //  0
+                new double[] { 0, 1, 1, 0 }, //  0
+                new double[] { 0, 1, 0, 0 }, //  0
+                new double[] { 1, 0, 0, 0 }, //  1
+                new double[] { 1, 0, 0, 0 }, //  1
+                new double[] { 1, 0, 0, 1 }, //  1
+                new double[] { 0, 0, 0, 1 }, //  1
+                new double[] { 0, 0, 0, 1 }, //  1
+                new double[] { 1, 1, 1, 1 }, //  2
+                new double[] { 1, 0, 1, 1 }, //  2
+                new double[] { 1, 1, 0, 1 }, //  2
+                new double[] { 0, 1, 1, 1 }, //  2
+                new double[] { 1, 1, 1, 1 }, //  2
+            };
+
+            int[] outputs = // those are the class labels
+            {
+                0, 0, 0, 0, 0,
+                1, 1, 1, 1, 1,
+                2, 2, 2, 2, 2,
+            };
+
+            // Create a new Gaussian distribution naive Bayes learner
+            var teacher = new NaiveBayesLearning<NormalDistribution>();
+
+            // Set options for the component distributions
+            teacher.Options.InnerOption = new NormalOptions
+            {
+                Regularization = 1e-5 // to avoid zero variances
+            };
+
+            // Learn the naive Bayes model
+            NaiveBayes<NormalDistribution> bayes = teacher.Learn(inputs, outputs);
+
+            // Use the model to predict class labels
+            int[] predicted = bayes.Decide(inputs);
+
+            // Estimate the model error. The error should be zero:
+            double error = new ZeroOneLoss(outputs).Loss(predicted);
+
+            // Now, let's test  the model output for the first input sample:
+            int answer = bayes.Decide(new double[] { 1, 0, 0, 1 }); // should be 1
+            #endregion
+
+            Assert.AreEqual(0, error);
+            Assert.AreEqual(1, answer);
+            Assert.IsTrue(predicted.IsEqual(outputs));
+        }
+
+        [Test]
+        public void learn_test_with_options()
+        {
+            #region doc_learn_options
+            // Let's say we have the following data to be classified
+            // into three possible classes. Those are the samples:
+            //
+            double[][] inputs =
+            {
+                //               input         output
+                new double[] { 0, 1, 1, 0 }, //  0 
+                new double[] { 0, 1, 0, 0 }, //  0
+                new double[] { 0, 0, 1, 0 }, //  0
+                new double[] { 0, 1, 1, 0 }, //  0
+                new double[] { 0, 1, 0, 0 }, //  0
+                new double[] { 1, 0, 0, 0 }, //  1
+                new double[] { 1, 0, 0, 0 }, //  1
+                new double[] { 1, 0, 0, 1 }, //  1
+                new double[] { 0, 0, 0, 1 }, //  1
+                new double[] { 0, 0, 0, 1 }, //  1
+                new double[] { 1, 1, 1, 1 }, //  2
+                new double[] { 1, 0, 1, 1 }, //  2
+                new double[] { 1, 1, 0, 1 }, //  2
+                new double[] { 0, 1, 1, 1 }, //  2
+                new double[] { 1, 1, 1, 1 }, //  2
+            };
+
+            int[] outputs = // those are the class labels
+            {
+                0, 0, 0, 0, 0,
+                1, 1, 1, 1, 1,
+                2, 2, 2, 2, 2,
+            };
+
+            // Create a new Gaussian distribution naive Bayes learner
+            var teacher = new NaiveBayesLearning<NormalDistribution, NormalOptions>();
+
+            // Set options for the component distributions
+            teacher.Options.InnerOption.Regularization = 1e-5; // to avoid zero variances
+
+            // Learn the naive Bayes model
+            NaiveBayes<NormalDistribution> bayes = teacher.Learn(inputs, outputs);
+
+            // Use the model to predict class labels
+            int[] predicted = bayes.Decide(inputs);
+
+            // Estimate the model error. The error should be zero:
+            double error = new ZeroOneLoss(outputs).Loss(predicted);
+
+            // Now, let's test  the model output for the first input sample:
+            int answer = bayes.Decide(new double[] { 1, 0, 0, 1 }); // should be 1
+            #endregion
+
+            Assert.AreEqual(0, error);
+            Assert.AreEqual(1, answer);
+            Assert.IsTrue(predicted.IsEqual(outputs));
+        }
+
+
+        [Test]
         public void DistributionsTest()
         {
             int classes = 3;
@@ -327,7 +617,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(symbols.Length, actual.GetLength(1));
         }
 
-
+#if !NO_BINARY_SERIALIZATION
         [Test]
         public void SerializationTest()
         {
@@ -355,7 +645,9 @@ namespace Accord.Tests.MachineLearning
             Codification codebook = new Codification(data,
                 "Outlook", "Temperature", "Humidity", "Wind", "PlayTennis");
 
-            var target = Serializer.Load<NaiveBayes<GeneralDiscreteDistribution>>(new MemoryStream(Resources.nb));
+            string fileName = Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources", "nb.bin");
+
+            var target = Serializer.Load<NaiveBayes<GeneralDiscreteDistribution>>(fileName);
 
             Assert.AreEqual(target.InputCount, 4);
             Assert.AreEqual(target.ClassCount, 2);
@@ -376,7 +668,8 @@ namespace Accord.Tests.MachineLearning
             Assert.IsFalse(double.IsNaN(responses[0]));
             Assert.AreEqual(2, responses.Length);
         }
-
-
+#endif
     }
+
+#endif
 }

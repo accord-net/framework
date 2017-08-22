@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -28,16 +28,34 @@ namespace Accord.Tests.Imaging
     using NUnit.Framework;
     using System.Collections.Generic;
     using System.Drawing;
+#if NO_BITMAP
+    using Resources = Accord.Tests.Imaging.Properties.Resources_Standard;
+#endif
 
     [TestFixture]
     public class SpeededUpRobustFeaturesDetectorTest
     {
+        // Load some test images
+        public static Bitmap[] GetImages()
+        {
+            Bitmap[] images =
+            {
+                Accord.Imaging.Image.Clone(Resources.flower01),
+                Accord.Imaging.Image.Clone(Resources.flower02),
+                Accord.Imaging.Image.Clone(Resources.flower03),
+                Accord.Imaging.Image.Clone(Resources.flower04),
+                Accord.Imaging.Image.Clone(Resources.flower05),
+                Accord.Imaging.Image.Clone(Resources.flower06),
+            };
+
+            return images;
+        }
 
         [Test]
         public void ProcessImageTest()
         {
             // Load an Image
-            Bitmap img = Accord.Imaging.Image.Clone(Properties.Resources.sample_trans);
+            Bitmap img = Accord.Imaging.Image.Clone(Resources.sample_trans);
 
             // Extract the interest points
             var surf = new SpeededUpRobustFeaturesDetector(0.0002f, 5, 2);
@@ -104,7 +122,7 @@ namespace Accord.Tests.Imaging
         public void ProcessImageTest2()
         {
             // Load an Image
-            Bitmap img = Accord.Imaging.Image.Clone(Properties.Resources.sample_trans);
+            Bitmap img = Accord.Imaging.Image.Clone(Resources.sample_trans);
 
             // Extract the interest points
             var surf = new SpeededUpRobustFeaturesDetector(0.0002f, 5, 2);
@@ -160,7 +178,7 @@ namespace Accord.Tests.Imaging
         public void ProcessImageTest3()
         {
             // Load an Image
-            Bitmap img = Accord.Imaging.Image.Clone(Properties.Resources.sample_trans);
+            Bitmap img = Accord.Imaging.Image.Clone(Resources.sample_trans);
 
             // Extract the interest points
             var surf = new SpeededUpRobustFeaturesDetector(0.0002f, 5, 2);
@@ -223,7 +241,7 @@ namespace Accord.Tests.Imaging
         [Test]
         public void ZeroWidthTest()
         {
-            Bitmap img = Accord.Imaging.Image.Clone(Properties.Resources.surf_bug_1);
+            Bitmap img = Accord.Imaging.Image.Clone(Resources.surf_bug_1);
 
             var iimg = OpenSURFcs.IntegralImage.FromImage(img);
             var expected = OpenSURFcs.FastHessian.getIpoints(0.0002f, 5, 2, iimg);
@@ -238,10 +256,10 @@ namespace Accord.Tests.Imaging
         }
 
 
-        [Test, Ignore]
+        [Test, Ignore("Random")]
         public void ProcessImageTest4()
         {
-            var bitmaps = BagOfVisualWordsTest.GetImages();
+            var bitmaps = GetImages();
             var surf = new SpeededUpRobustFeaturesDetector();
 
             int current = 0;
@@ -282,8 +300,8 @@ namespace Accord.Tests.Imaging
 
                 for (int i = 0; i < expected.Count; i++)
                 {
-                    var e = expected[i];
-                    var a = actual[i];
+                    SpeededUpRobustFeaturePoint e = expected[i];
+                    SpeededUpRobustFeaturePoint a = actual[i];
                     Assert.AreEqual(e, a);
                 }
             }

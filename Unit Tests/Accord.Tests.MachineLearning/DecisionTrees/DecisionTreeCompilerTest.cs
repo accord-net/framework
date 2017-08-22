@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -30,24 +30,7 @@ namespace Accord.Tests.MachineLearning
     public class DecisionTreeCompilerTest
     {
 
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
-#if !NET35
+#if !NET35 && !NO_DATA_TABLE
         [Test]
         public void CreateTest()
         {

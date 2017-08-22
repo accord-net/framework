@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -58,6 +58,8 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     using System.Threading;
     using Accord.Statistics.Kernels;
     using Accord.Math;
+    using Statistics.Models.Regression.Linear;
+    using Diagnostics;
 
     /// <summary>
     ///   L2-regularized L2-loss linear support vector classification (primal).
@@ -79,11 +81,22 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// </para>
     /// </remarks>
     /// 
-    /// <seealso cref="SequentialMinimalOptimization"/>
+    /// <examples>
+    /// <para>
+    ///   The following example shows how to obtain a <see cref="MultipleLinearRegression"/> 
+    ///   from a linear <see cref="SupportVectorMachine"/>. It contains exactly the same data 
+    ///   used in the <see cref="OrdinaryLeastSquares"/> documentation page for 
+    ///   <see cref="MultipleLinearRegression"/>.</para>
+    ///   
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\LinearNewtonMethodTest.cs" region="doc_linreg"/>
+    /// </examples>
+    /// 
+    /// 
+    /// <seealso cref="SequentialMinimalOptimization{TKernel}"/>
     /// <seealso cref="LinearDualCoordinateDescent"/>
     /// 
     public class LinearNewtonMethod :
-        LinearNewtonMethod<SupportVectorMachine, Linear>,
+        BaseLinearNewtonMethod<SupportVectorMachine, Linear>,
         ILinearSupportVectorMachineLearning
     {
         /// <summary>
@@ -105,21 +118,50 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="LinearNewtonMethod"/> class.
+        ///   Initializes a new instance of the <see cref="LinearNewtonMethod"/> class.
         /// </summary>
+        /// 
         public LinearNewtonMethod()
         {
 
         }
 
         /// <summary>
-        /// Creates an instance of the model to be learned. Inheritors
-        /// of this abstract class must define this method so new models
-        /// can be created from the training data.
+        ///   Creates an instance of the model to be learned. Inheritors
+        ///   of this abstract class must define this method so new models
+        ///   can be created from the training data.
         /// </summary>
+        /// 
         protected override SupportVectorMachine Create(int inputs, Linear kernel)
         {
             return new SupportVectorMachine(inputs) { Kernel = kernel };
+        }
+
+        internal static void Xv<TKernel, TInput>(TKernel kernel, TInput[] x, int biasIndex, double[] v, double[] Xv)
+            where TKernel : struct, ILinear<TInput>
+        {
+            for (int i = 0; i < x.Length; i++)
+                Xv[i] = kernel.Function(v, x[i]) + v[biasIndex];
+        }
+
+        internal static void subXv<TKernel, TInput>(TKernel kernel, TInput[] x, int biasIndex, int[] I, int sizeI, double[] v, double[] Xv)
+            where TKernel : struct, ILinear<TInput>
+        {
+            for (int i = 0; i < sizeI; i++)
+                Xv[i] = kernel.Function(v, x[I[i]]) + v[biasIndex];
+        }
+
+        internal static void subXTv<TKernel, TInput>(TKernel kernel, TInput[] x, int biasIndex, int[] I, int sizeI, double[] v, double[] XTv)
+            where TKernel : struct, ILinear<TInput>
+        {
+            for (int i = 0; i < XTv.Length; i++)
+                XTv[i] = 0;
+
+            for (int i = 0; i < sizeI; i++)
+            {
+                kernel.Product(v[i], x[I[i]], accumulate: XTv);
+                XTv[biasIndex] += v[i];
+            }
         }
     }
 
@@ -143,15 +185,113 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// </para>
     /// </remarks>
     /// 
-    /// <seealso cref="SequentialMinimalOptimization"/>
+    /// <examples>
+    /// <para>
+    ///   The following example shows how to obtain a <see cref="MultipleLinearRegression"/> 
+    ///   from a linear <see cref="SupportVectorMachine"/>. It contains exactly the same data 
+    ///   used in the <see cref="OrdinaryLeastSquares"/> documentation page for 
+    ///   <see cref="MultipleLinearRegression"/>.</para>
+    ///   
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\LinearNewtonMethodTest.cs" region="doc_linreg_sparse"/>
+    /// </examples>
+    /// 
+    /// 
+    /// <seealso cref="SequentialMinimalOptimization{TKernel}"/>
     /// <seealso cref="LinearDualCoordinateDescent"/>
     /// 
-    public abstract class LinearNewtonMethod<TModel, TKernel> :
-        BaseSupportVectorClassification<TModel, TKernel, double[]>
+    public class LinearNewtonMethod<TKernel, TInput> :
+        BaseLinearNewtonMethod<SupportVectorMachine<TKernel, TInput>, TKernel, TInput>
+        where TKernel : struct, IKernel<TInput>, ILinear<TInput>
+    {
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="LinearNewtonMethod{TKernel, TInput}"/> class.
+        /// </summary>
+        /// 
+        public LinearNewtonMethod()
+        {
+
+        }
+
+        /// <summary>
+        ///   Creates an instance of the model to be learned. Inheritors
+        ///   of this abstract class must define this method so new models
+        ///   can be created from the training data.
+        /// </summary>
+        /// 
+        protected override SupportVectorMachine<TKernel, TInput> Create(int inputs, TKernel kernel)
+        {
+            return new SupportVectorMachine<TKernel, TInput>(inputs, kernel);
+        }
+    }
+
+    /// <summary>
+    ///   Base class for L2-regularized L2-loss linear support vector classification (primal).
+    /// </summary>
+    /// 
+    public abstract class BaseLinearNewtonMethod<TModel, TKernel> :
+        BaseLinearNewtonMethod<TModel, TKernel, double[]>
         where TKernel : struct, ILinear<double[]>
         where TModel : SupportVectorMachine<TKernel, double[]>
     {
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="BaseLinearNewtonMethod{TModel, TKernel}"/> class.
+        /// </summary>
+        /// 
+        protected BaseLinearNewtonMethod()
+        {
+        }
+
+        /// <summary>
+        ///   Obsolete.
+        /// </summary>
+        /// 
+        [Obsolete]
+        protected BaseLinearNewtonMethod(ISupportVectorMachine<double[]> model, double[][] input, int[] output)
+            : base(model, input, output)
+        {
+        }
+
+        /// <summary>
+        ///   Obsolete.
+        /// </summary>
+        /// 
+        protected BaseLinearNewtonMethod(TModel model, double[][] input, int[] output)
+            : base(model, input, output)
+        {
+        }
+    }
+
+    /// <summary>
+    ///   L2-regularized L2-loss linear support vector classification (primal).
+    /// </summary>
+    /// 
+    /// <remarks>
+    /// <para>
+    ///   This class implements a L2-regularized L2-loss support vector machine
+    ///   learning algorithm that operates in the primal form of the optimization
+    ///   problem. This method has been based on liblinear's <c>l2r_l2_svc_fun</c>
+    ///   problem specification, optimized using a <see cref="TrustRegionNewtonMethod">
+    ///   Trust-region Newton method</see>. This method might be faster than the often
+    ///   preferred <see cref="LinearDualCoordinateDescent"/>. </para>
+    ///   
+    /// <para>
+    ///   Liblinear's solver <c>-s 2</c>: <c>L2R_L2LOSS_SVC</c>. A trust region newton
+    ///   algorithm for the primal of L2-regularized, L2-loss linear support vector 
+    ///   classification.
+    /// </para>
+    /// </remarks>
+    /// 
+    /// <seealso cref="SequentialMinimalOptimization{TKernel}"/>
+    /// <seealso cref="LinearDualCoordinateDescent"/>
+    /// 
+    public abstract class BaseLinearNewtonMethod<TModel, TKernel, TInput> :
+        BaseSupportVectorClassification<TModel, TKernel, TInput>
+        where TKernel : struct, ILinear<TInput>
+        where TModel : SupportVectorMachine<TKernel, TInput>
+    {
         TrustRegionNewtonMethod tron;
+
+        int parameters;
 
         double[] z;
         int[] I;
@@ -172,7 +312,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         ///   Support Vector Classification problems in the primal form (-s 2).
         /// </summary>
         /// 
-        public LinearNewtonMethod()
+        public BaseLinearNewtonMethod()
         {
 
         }
@@ -208,7 +348,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         {
             int[] y = Outputs;
 
-            Xv(Inputs, biasIndex, w, z);
+            LinearNewtonMethod.Xv(Kernel, Inputs, biasIndex, w, z);
 
             double f = 0;
             for (int i = 0; i < w.Length; i++)
@@ -241,7 +381,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
                 }
             }
 
-            subXTv(Inputs, biasIndex, I, sizeI, z, g);
+            LinearNewtonMethod.subXTv(Kernel, Inputs, biasIndex, I, sizeI, z, g);
 
             for (int i = 0; i < w.Length; i++)
                 g[i] = w[i] + 2 * g[i];
@@ -251,63 +391,15 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
         private double[] hessian(double[] s)
         {
-            subXv(Inputs, biasIndex, I, sizeI, s, wa);
+            LinearNewtonMethod.subXv(Kernel, Inputs, biasIndex, I, sizeI, s, wa);
             for (int i = 0; i < sizeI; i++)
                 wa[i] = C[I[i]] * wa[i];
 
-            subXTv(Inputs, biasIndex, I, sizeI, wa, h);
+            LinearNewtonMethod.subXTv(Kernel, Inputs, biasIndex, I, sizeI, wa, h);
             for (int i = 0; i < s.Length; i++)
                 h[i] = s[i] + 2 * h[i];
 
             return h;
-        }
-
-        internal static void Xv(double[][] x, int biasIndex, double[] v, double[] Xv)
-        {
-            for (int i = 0; i < x.Length; i++)
-            {
-                double[] s = x[i];
-
-                Accord.Diagnostics.Debug.Assert(s.Length == v.Length - 1);
-
-                double sum = v[biasIndex];
-                for (int j = 0; j < s.Length; j++)
-                    sum += v[j] * s[j];
-                Xv[i] = sum;
-            }
-        }
-
-        internal static void subXv(double[][] x, int biasIndex, int[] I, int sizeI, double[] v, double[] Xv)
-        {
-            for (int i = 0; i < sizeI; i++)
-            {
-                double[] s = x[I[i]];
-
-                Accord.Diagnostics.Debug.Assert(s.Length == v.Length - 1);
-
-                double sum = v[biasIndex];
-                for (int j = 0; j < s.Length; j++)
-                    sum += v[j] * s[j];
-                Xv[i] = sum;
-            }
-        }
-
-        internal static void subXTv(double[][] x, int biasIndex, int[] I, int sizeI, double[] v, double[] XTv)
-        {
-            for (int i = 0; i < XTv.Length; i++)
-                XTv[i] = 0;
-
-            for (int i = 0; i < sizeI; i++)
-            {
-                double[] s = x[I[i]];
-
-                Accord.Diagnostics.Debug.Assert(s.Length == XTv.Length - 1);
-
-                for (int j = 0; j < s.Length; j++)
-                    XTv[j] += v[i] * s[j];
-
-                XTv[biasIndex] += v[i];
-            }
         }
 
 
@@ -318,7 +410,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         protected override void InnerRun()
         {
             int samples = Inputs.Length;
-            int parameters = Inputs[0].Length + 1;
+            this.parameters = Kernel.GetLength(Inputs) + 1;
 
             this.z = new double[samples];
             this.I = new int[samples];
@@ -334,7 +426,8 @@ namespace Accord.MachineLearning.VectorMachines.Learning
                 Gradient = gradient,
                 Hessian = hessian,
                 MaxIterations = maxIterations,
-                Tolerance = tolerance
+                Tolerance = tolerance,
+                Token = Token
             };
 
             for (int i = 0; i < tron.Solution.Length; i++)
@@ -342,18 +435,29 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
             tron.Minimize();
 
-            double[] w = tron.Solution;
+            // Get the solution found by TRON
+            double[] weightsWithBias = tron.Solution;
 
-            Model.SupportVectors = new[] { w.Submatrix(Model.NumberOfInputs) };
+            // Separate the weights and the bias coefficient
+            double[] weights = weightsWithBias.Get(0, -1);
+            double bias = weightsWithBias[biasIndex];
+
+            Debug.Assert(weights.Length == parameters - 1);
+
+            // Create the machine
+            Model.NumberOfInputs = weights.Length;
+            Model.SupportVectors = new[] { Kernel.CreateVector(weights) };
             Model.Weights = new[] { 1.0 };
-            Model.Threshold = w[biasIndex];
+            Model.Threshold = bias;
         }
+
 
         /// <summary>
         ///   Obsolete.
         /// </summary>
+        /// 
         [Obsolete]
-        protected LinearNewtonMethod(ISupportVectorMachine<double[]> model, double[][] input, int[] output)
+        protected BaseLinearNewtonMethod(ISupportVectorMachine<TInput> model, TInput[] input, int[] output)
             : base(model, input, output)
         {
         }
@@ -361,7 +465,8 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         /// <summary>
         ///   Obsolete.
         /// </summary>
-        protected LinearNewtonMethod(TModel model, double[][] input, int[] output)
+        /// 
+        protected BaseLinearNewtonMethod(TModel model, TInput[] input, int[] output)
             : base(model, input, output)
         {
         }

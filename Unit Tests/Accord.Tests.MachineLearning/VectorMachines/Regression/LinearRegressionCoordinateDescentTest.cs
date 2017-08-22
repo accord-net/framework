@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -33,23 +33,6 @@ namespace Accord.Tests.MachineLearning
     [TestFixture]
     public class LinearRegressionCoordinateDescentTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
 
         [Test]
         public void RunTest()
@@ -96,6 +79,102 @@ namespace Accord.Tests.MachineLearning
             double[] answers = new double[inputs.Length];
             for (int i = 0; i < answers.Length; i++)
                 answers[i] = machine.Compute(inputs[i]);
+
+            Assert.AreEqual(1.0, fxy, 1e-5);
+            for (int i = 0; i < outputs.Length; i++)
+                Assert.AreEqual(outputs[i], answers[i], 1e-2);
+        }
+
+        [Test]
+        public void learn_test()
+        {
+            Accord.Math.Random.Generator.Seed = 0;
+
+            #region doc_learn
+            // Example regression problem. Suppose we are trying
+            // to model the following equation: f(x, y) = 2x + y
+
+            double[][] inputs = // (x, y)
+            {
+                new double[] { 0,  1 }, // 2*0 + 1 =  1
+                new double[] { 4,  3 }, // 2*4 + 3 = 11
+                new double[] { 8, -8 }, // 2*8 - 8 =  8
+                new double[] { 2,  2 }, // 2*2 + 2 =  6
+                new double[] { 6,  1 }, // 2*6 + 1 = 13
+                new double[] { 5,  4 }, // 2*5 + 4 = 14
+                new double[] { 9,  1 }, // 2*9 + 1 = 19
+                new double[] { 1,  6 }, // 2*1 + 6 =  8
+            };
+
+            double[] outputs = // f(x, y)
+            {
+                    1, 11, 8, 6, 13, 14, 19, 8
+            };
+
+            // Create the linear regression coordinate descent teacher
+            var learn = new LinearRegressionCoordinateDescent()
+            {
+                Complexity = 10000000,
+                Epsilon = 1e-10
+            };
+
+            // Run the learning algorithm
+            var svm = learn.Learn(inputs, outputs);
+
+            // Compute the answer for one particular example
+            double fxy = svm.Score(inputs[0]); // 1.000
+
+            // Check for correct answers
+            double[] answers = svm.Score(inputs);
+            #endregion
+
+            Assert.AreEqual(1.0, fxy, 1e-5);
+            for (int i = 0; i < outputs.Length; i++)
+                Assert.AreEqual(outputs[i], answers[i], 1e-2);
+        }
+
+        [Test]
+        public void learn_sparse_test()
+        {
+            Accord.Math.Random.Generator.Seed = 0;
+
+            #region doc_learn_sparse
+            // Example regression problem. Suppose we are trying
+            // to model the following equation: f(x, y) = 2x + y
+
+            Sparse<double>[] inputs = // (x, y)
+            {
+                Sparse.FromDense(new double[] { 0,  1 }), // 2*0 + 1 =  1
+                Sparse.FromDense(new double[] { 4,  3 }), // 2*4 + 3 = 11
+                Sparse.FromDense(new double[] { 8, -8 }), // 2*8 - 8 =  8
+                Sparse.FromDense(new double[] { 2,  2 }), // 2*2 + 2 =  6
+                Sparse.FromDense(new double[] { 6,  1 }), // 2*6 + 1 = 13
+                Sparse.FromDense(new double[] { 5,  4 }), // 2*5 + 4 = 14
+                Sparse.FromDense(new double[] { 9,  1 }), // 2*9 + 1 = 19
+                Sparse.FromDense(new double[] { 1,  6 }), // 2*1 + 6 =  8
+            };
+
+            double[] outputs = // f(x, y)
+            {
+                1, 11, 8, 6, 13, 14, 19, 8
+            };
+
+            // Create the linear regression coordinate descent teacher
+            var learn = new LinearRegressionCoordinateDescent<Linear, Sparse<double>>()
+            {
+                Complexity = 10000000,
+                Epsilon = 1e-10
+            };
+
+            // Run the learning algorithm
+            var svm = learn.Learn(inputs, outputs);
+
+            // Compute the answer for one particular example
+            double fxy = svm.Score(inputs[0]); // 1.000
+
+            // Check for correct answers
+            double[] answers = svm.Score(inputs);
+            #endregion
 
             Assert.AreEqual(1.0, fxy, 1e-5);
             for (int i = 0; i < outputs.Length; i++)

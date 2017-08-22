@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -40,7 +40,7 @@ namespace Accord.Tests.Math
         [Test]
         public void IsEqualTest1()
         {
-            double[,] a = 
+            double[,] a =
             {
                 { 0.2 },
             };
@@ -59,7 +59,7 @@ namespace Accord.Tests.Math
         [Test]
         public void IsEqualTest2()
         {
-            double[,] a = 
+            double[,] a =
             {
                 { 0.2,  0.1, 0.0                     },
                 { 0.2, -0.5, Double.NaN              },
@@ -107,6 +107,43 @@ namespace Accord.Tests.Math
             actual = Matrix.IsEqual(matrix, 0.0);
             Assert.AreEqual(false, actual);
         }
+
+        [Test]
+        public void isequal_objects_small()
+        {
+            object[,] expectedTable =
+            {
+                { "Label",                 "6" },
+                { "Total",                2025 },
+            };
+
+            object[,] differentTable1 =
+            {
+                { "Label",                 "6"  },
+                { "Total",          /*m*/    1  },
+            };
+
+            Assert.IsFalse(expectedTable.IsEqual(differentTable1, atol: 1e-10));
+        }
+
+        [Test]
+        public void isequal_objects_null()
+        {
+            object[,] expectedTable =
+            {
+                { "Label",                 "6" },
+                { "Total",                null },
+            };
+
+            object[,] differentTable1 =
+            {
+                { "Label",                 "6"  },
+                { "Total",          /*m*/    0  },
+            };
+
+            Assert.IsFalse(expectedTable.IsEqual(differentTable1, atol: 1e-10));
+        }
+
         #endregion
 
         #region Matrix and vector creation
@@ -114,7 +151,7 @@ namespace Accord.Tests.Math
         public void ColumnVectorTest()
         {
             double[] values = { 1, 2, 3 };
-            double[,] expected = { 
+            double[,] expected = {
                                    { 1 },
                                    { 2 },
                                    { 3 }
@@ -128,7 +165,7 @@ namespace Accord.Tests.Math
         public void RowVectorTest()
         {
             double[] values = { 1, 2, 3 };
-            double[,] expected = { 
+            double[,] expected = {
                                     { 1, 2, 3 },
                                  };
             double[,] actual;
@@ -143,7 +180,7 @@ namespace Accord.Tests.Math
             int cols = 3;
 
             double value = -4.2;
-            double[,] expected = 
+            double[,] expected =
             {
                 { -4.2,  0.0, 0.0 },
                 {  0.0, -4.2, 0.0 }
@@ -161,7 +198,7 @@ namespace Accord.Tests.Math
             int cols = 2;
 
             double value = -4.2;
-            double[,] expected = 
+            double[,] expected =
             {
                 { -4.2,  0.0 },
                 {  0.0, -4.2 },
@@ -303,13 +340,13 @@ namespace Accord.Tests.Math
         [Test]
         public void ElementwiseDivideTest1()
         {
-            double[,] a = 
+            double[,] a =
             {
                 { 1, 2, 3 },
                 { 4, 5, 6 },
             };
 
-            double[,] b = 
+            double[,] b =
             {
                 { 2, 1, 0.5 },
                 { 2, 5, 3.0 },
@@ -328,7 +365,7 @@ namespace Accord.Tests.Math
         [Test]
         public void ElementwiseDivideTest()
         {
-            double[,] a = 
+            double[,] a =
             {
                 { 1, 2, 3 },
                 { 4, 5, 6 }
@@ -336,7 +373,7 @@ namespace Accord.Tests.Math
 
             double[] b = { 1, 2 };
             int dimension = 1;
-            double[,] expected = 
+            double[,] expected =
             {
                 { 1, 2, 3 },
                 { 2, 2.5, 3},
@@ -362,12 +399,12 @@ namespace Accord.Tests.Math
         public void DivideTest1()
         {
             double scalar = -2;
-            double[,] matrix = 
+            double[,] matrix =
             {
                 { 4.2,  1.2, -0.6 },
                 { 1.2, -0.6,  0.8 },
             };
-            double[,] expected = 
+            double[,] expected =
             {
                 { -2/ 4.2, -2/ 1.2, -2/-0.6 },
                 { -2/ 1.2, -2/-0.6, -2/ 0.8 },
@@ -391,13 +428,13 @@ namespace Accord.Tests.Math
         [Test]
         public void ElementwiseMultiplyTest1()
         {
-            double[,] a = 
+            double[,] a =
             {
                 { 1, 2, 3 },
                 { 4, 5, 6 },
             };
 
-            double[,] b = 
+            double[,] b =
             {
                 { 2, 1, 0.5 },
                 { 2, 5, 3.0 },
@@ -436,19 +473,19 @@ namespace Accord.Tests.Math
         [Test]
         public void ElementwiseMultiplyTest2()
         {
-            int[,] a = 
+            int[,] a =
             {
                 { 1, -5 },
                 { 2,  0 },
             };
 
-            int[,] b = 
+            int[,] b =
             {
                 { -6, -5 },
                 {  2,  9 },
             };
 
-            int[,] expected = 
+            int[,] expected =
             {
                 { -6, 25 },
                 {  4,  0 },
@@ -461,13 +498,13 @@ namespace Accord.Tests.Math
         [Test]
         public void AddTest()
         {
-            double[,] a = 
+            double[,] a =
             {
                 { 2, 5, -1 },
                 { 5, 0,  2 },
             };
 
-            double[,] b = 
+            double[,] b =
             {
                 {  1, 5, 1 },
                 { -5, 2, 2 },
@@ -486,13 +523,13 @@ namespace Accord.Tests.Math
         [Test]
         public void AddTest1()
         {
-            double[][] a = 
+            double[][] a =
             {
                 new double[] { 2, 5, -1 },
                 new double[] { 5, 0,  2 },
             };
 
-            double[][] b = 
+            double[][] b =
             {
                 new double[] {  1, 5, 1 },
                 new double[] { -5, 2, 2 },
@@ -511,7 +548,7 @@ namespace Accord.Tests.Math
         [Test]
         public void AddToDiagTest1()
         {
-            double[,] a = 
+            double[,] a =
             {
                 { 2, 5, -1 },
                 { 5, 0,  2 },
@@ -533,7 +570,7 @@ namespace Accord.Tests.Math
         [Test]
         public void AddToDiagTest2()
         {
-            double[][] a = 
+            double[][] a =
             {
                 new double[] { 2, 5, -1 },
                 new double[] { 5, 0,  2 },
@@ -555,7 +592,7 @@ namespace Accord.Tests.Math
         [Test]
         public void ElementwiseMultiplyTest4()
         {
-            double[,] a = 
+            double[,] a =
             {
                 { 1,  5, 1 },
                 { 0, -2, 1 },
@@ -589,13 +626,13 @@ namespace Accord.Tests.Math
         [Test]
         public void SubtractTest()
         {
-            double[,] a = 
+            double[,] a =
             {
                 { 2, 5, -1 },
                 { 5, 0,  2 },
             };
 
-            double[,] b = 
+            double[,] b =
             {
                 {  1, 5, 1 },
                 { -5, 2, 2 },
@@ -645,7 +682,7 @@ namespace Accord.Tests.Math
             double[,] b = Matrix.Create(5, 4, 0.0);
             double[] u = { 1, 2, 3, 4, 5 };
 
-            double[,] expected2 = 
+            double[,] expected2 =
             {
                 { 1, 1, 1, 1, },
                 { 2, 2, 2, 2, },
@@ -663,13 +700,13 @@ namespace Accord.Tests.Math
         public void SubtractTest1()
         {
             double a = 0.1;
-            double[,] b = 
+            double[,] b =
             {
                 { 0.2, 0.5, 0.2 },
                 { 0.2, 0.7, 0.1 },
             };
 
-            double[,] expected = 
+            double[,] expected =
             {
                 { -0.1, -0.4, -0.1 },
                 { -0.1, -0.6, -0.0 },
@@ -683,13 +720,13 @@ namespace Accord.Tests.Math
         [Test]
         public void AbsTest()
         {
-            double[,] value = 
+            double[,] value =
             {
                 { -1.0,  2.1 },
                 {  0.1, -0.7 }
             };
 
-            double[,] expected = 
+            double[,] expected =
             {
                 {  1.0,  2.1 },
                 {  0.1,  0.7 }
@@ -699,13 +736,13 @@ namespace Accord.Tests.Math
             Assert.IsTrue(actual.IsEqual(expected));
 
 
-            int[,] ivalue = 
+            int[,] ivalue =
             {
                 { -1,  2 },
                 {  0, -6 }
             };
 
-            int[,] iexpected = 
+            int[,] iexpected =
             {
                 {  1,  2 },
                 {  0,  6 }
@@ -724,15 +761,15 @@ namespace Accord.Tests.Math
         [Test]
         public void SqrtTest()
         {
-            double[,] value = 
+            double[,] value =
             {
                 { 3,  2 },
                 { 1, -2 },
             };
 
-            double[,] expected = 
+            double[,] expected =
             {
-                { 1.7321,  Accord.Math.Constants.Sqrt2 },          
+                { 1.7321,  Accord.Math.Constants.Sqrt2 },
                 { 1.0000, Double.NaN },
             };
 
@@ -751,6 +788,7 @@ namespace Accord.Tests.Math
             Assert.IsTrue(expected.IsEqual(actual));
         }
 
+#if !NO_DATA_TABLE
         [Test]
         public void ToArrayTest()
         {
@@ -842,11 +880,12 @@ namespace Accord.Tests.Math
 
             Assert.IsTrue(expectedNames.IsEqual(actualNames));
         }
+#endif
 
         [Test]
         public void ToDoubleTest()
         {
-            float[,] matrix = 
+            float[,] matrix =
             {
                 { 2.1f,  5.2f },
                 { 0.1f, -0.2f }
@@ -877,8 +916,8 @@ namespace Accord.Tests.Math
             double[][] cartesian = u.CartesianProduct(v); // all possible pair-wise combinations
 
             Assert.AreEqual(39, inner);
-            Assert.IsTrue(new double[,] 
-            { 
+            Assert.IsTrue(new double[,]
+            {
                {  9,  4,  2 },
                { 54, 24, 12 },
                { 27, 12,  6 },
@@ -903,7 +942,7 @@ namespace Accord.Tests.Math
             Assert.IsTrue(log.IsEqual(new double[] { 0, 1.79, 1.09 }, 1e-2));
             Assert.IsTrue(cos.IsEqual(new double[] { 0.54, 0.96, -0.989 }, 1e-2));
 
-            double[,] m = 
+            double[,] m =
             {
                 { 0, 5, 2 },
                 { 2, 1, 5 }
@@ -926,7 +965,7 @@ namespace Accord.Tests.Math
         [Test]
         public void SumTest()
         {
-            double[,] value = 
+            double[,] value =
             {
                 { 1, 2, 3, 4 },
                 { 5, 6, 7, 8 }
@@ -958,7 +997,7 @@ namespace Accord.Tests.Math
         [Test]
         public void SumTest2()
         {
-            int[,] value = 
+            int[,] value =
             {
                 { 2, 5, -1 },
                 { 5, 0,  2 },
@@ -983,7 +1022,7 @@ namespace Accord.Tests.Math
         [Test]
         public void SumTest4()
         {
-            double[,] value = 
+            double[,] value =
             {
                 { 2.2, 5.1, -1.0 },
                 { 5.8, 0.0,  2.7 },
@@ -1031,13 +1070,13 @@ namespace Accord.Tests.Math
 
             Assert.IsTrue(actual1.IsEqual(expected1));
 
-            double[,] A = 
-            { 
+            double[,] A =
+            {
                 { 1, 2, 3 },
                 { 4, 5, 6 }
             };
 
-            double[][] actual2 = A.CumulativeSum(1);
+            double[][] actual2 = A.ToJagged().CumulativeSum(1);
             double[][] expected2 =
             {
                 new double[] { 1, 2, 3 },
@@ -1046,11 +1085,11 @@ namespace Accord.Tests.Math
 
             Assert.IsTrue(actual2.IsEqual(expected2));
 
-            double[][] actual3 = A.CumulativeSum(0);
-            double[][] expected3 = 
+            double[][] actual3 = A.ToJagged().CumulativeSum(0);
+            double[][] expected3 =
             {
                 new double[] {1,  4 },
-                new double[] {3,  9 }, 
+                new double[] {3,  9 },
                 new double[] {6, 15 }
             };
 
@@ -1086,13 +1125,13 @@ namespace Accord.Tests.Math
                 {
                       {0, 1}
                 },
-                
+
                 new int[,]
                 {
                       {1, 0},
                       {1, 0}
                 },
-                
+
                 new int[,]
                 {
                       {0, 2}
@@ -1100,7 +1139,7 @@ namespace Accord.Tests.Math
             };
 
 
-            int[,] expected = 
+            int[,] expected =
             {
                  {0, 1},
                  {1, 0},
@@ -1173,7 +1212,7 @@ namespace Accord.Tests.Math
                 new double[] { 13, 14, 15 },
             };
 
-            double[][] expected = 
+            double[][] expected =
             {
                 new double[] {  1,  2,  3,  4,  5 },
                 new double[] {  6,  7,  8,  9, 10 },
@@ -1197,7 +1236,7 @@ namespace Accord.Tests.Math
             double[,] A = Matrix.Square(2, 2.0);
             double[,] B = Matrix.Square(2, 1.0);
 
-            double[,] expected = 
+            double[,] expected =
             {
                 { 2, 2 },
                 { 2, 2 },
@@ -1205,7 +1244,7 @@ namespace Accord.Tests.Math
                 { 1, 1 }
             };
 
-            double[,] actual = Matrix.Stack<double>(new [] { A, B });
+            double[,] actual = Matrix.Stack<double>(new[] { A, B });
 
             Assert.IsTrue(Matrix.IsEqual(expected, actual));
         }
@@ -1217,7 +1256,7 @@ namespace Accord.Tests.Math
         {
             double[] a = { 1, 2, 3, 4 };
             double[] b = { 1, 2, 3, 4 };
-            double[,] expected = 
+            double[,] expected =
             {
                 { 1.000,  2.000,  3.000,  4.000 },
                 { 2.000,  4.000,  6.000,  8.000 },
@@ -1225,15 +1264,39 @@ namespace Accord.Tests.Math
                 { 4.000,  8.000, 12.000, 16.000 }
             };
 
-            double[,] actual;
-            actual = Matrix.OuterProduct(a, b);
+            double[,] actual = Matrix.OuterProduct(a, b);
             Assert.IsTrue(expected.IsEqual(actual));
+        }
+
+        [Test]
+        public void OuterProductTestDifferentOverloads()
+        {
+            double[] a = { 1, 2, 3 };
+            double[] b = { 4, 5 };
+
+            double[,] expected = new double[,]
+            {
+              {  4,  5 },
+              {  8, 10 },
+              { 12, 15 },
+            };
+
+            double[,] actual2 = Matrix.Random(a.Length, b.Length);
+            double[][] actual3 = actual2.ToJagged();
+
+            double[,] actual1 = a.Outer(b);
+            double[][] actual3a = a.Outer(b, actual3);
+
+            Assert.AreSame(actual3, actual3a);
+
+            Assert.IsTrue(expected.IsEqual(actual1));
+            Assert.IsTrue(expected.IsEqual(actual3));
         }
 
         [Test]
         public void CartesianProductTest()
         {
-            int[][] sequences = 
+            int[][] sequences =
             {
                 new int[] { 1, 2, 3},
                 new int[] { 4, 5, 6},
@@ -1262,7 +1325,7 @@ namespace Accord.Tests.Math
         [Test]
         public void CartesianProductTest2()
         {
-            int[][] sequences = 
+            int[][] sequences =
             {
                 new int[] { 1, 2, 3},
                 new int[] { 4, 5, 6},
@@ -1285,7 +1348,7 @@ namespace Accord.Tests.Math
         [Test]
         public void CartesianProductTest3()
         {
-            int[][] sequences = 
+            int[][] sequences =
             {
                 new int[] { 1, 2, 3},
                 new int[] { 4, 5, 6},
@@ -1310,10 +1373,10 @@ namespace Accord.Tests.Math
         [Test]
         public void InverseTest2x2()
         {
-            double[,] value = 
-            { 
+            double[,] value =
+            {
                 { 3.0, 1.0 },
-                { 2.0, 2.0 }  
+                { 2.0, 2.0 }
             };
 
             double[,] expected = new SingularValueDecomposition(value).Inverse();
@@ -1326,11 +1389,11 @@ namespace Accord.Tests.Math
         [Test]
         public void InverseTest3x3()
         {
-            double[,] value = 
-            { 
+            double[,] value =
+            {
                 { 6.0, 1.0, 2.0 },
-                { 0.0, 8.0, 1.0 },  
-                { 2.0, 4.0, 5.0 }  
+                { 0.0, 8.0, 1.0 },
+                { 2.0, 4.0, 5.0 }
             };
 
             Assert.IsFalse(value.IsSingular());
@@ -1362,10 +1425,10 @@ namespace Accord.Tests.Math
         [Test]
         public void PseudoInverse1()
         {
-            double[,] value = 
+            double[,] value =
             {
                  {  1,  1,  1 },
-                 {  2,  2,  2 }  
+                 {  2,  2,  2 }
              };
 
             double[,] expected =
@@ -1380,19 +1443,25 @@ namespace Accord.Tests.Math
 
             actual = Matrix.PseudoInverse(value.Transpose());
             Assert.IsTrue(Matrix.IsEqual(expected.Transpose(), actual, 0.001));
+
+            actual = Matrix.PseudoInverse(value.ToJagged()).ToMatrix();
+            Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.001));
+
+            actual = Matrix.PseudoInverse(value.ToJagged().Transpose()).ToMatrix();
+            Assert.IsTrue(Matrix.IsEqual(expected.Transpose(), actual, 0.001));
         }
 
         [Test]
         public void PseudoInverse2()
         {
-            double[,] X = 
+            double[,] X =
             {
                { 2.5, 2.3 }
             };
 
             double[,] actual = X.PseudoInverse();
 
-            double[,] expected = 
+            double[,] expected =
             {
                { 0.2166 },
                { 0.1993 }
@@ -1404,7 +1473,7 @@ namespace Accord.Tests.Math
         [Test]
         public void PseudoInverse3()
         {
-            double[,] X = 
+            double[,] X =
             {
                { 2.5 },
                { 2.3 }
@@ -1412,7 +1481,7 @@ namespace Accord.Tests.Math
 
             double[,] actual = X.PseudoInverse();
 
-            double[,] expected = 
+            double[,] expected =
             {
                { 0.2166, 0.1993 }
             };
@@ -1462,8 +1531,10 @@ namespace Accord.Tests.Math
             };
 
             double[] actual = Matrix.Solve(value, rhs);
+            Assert.IsTrue(Matrix.IsEqual(expected, actual, 1e-3));
 
-            Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.001));
+            actual = Matrix.Solve(value.ToJagged(), rhs);
+            Assert.IsTrue(Matrix.IsEqual(expected, actual, 1e-3));
         }
 
         [Test]
@@ -1481,14 +1552,67 @@ namespace Accord.Tests.Math
             double[] expected = { 2.5000, 4.0000, 3.5000 };
 
             double[] actual = Matrix.Solve(value, b);
+            Assert.IsTrue(Matrix.IsEqual(expected, actual, 1e-10));
 
-            Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.0000000000001));
+            actual = Matrix.Solve(value.ToJagged(), b);
+            Assert.IsTrue(Matrix.IsEqual(expected, actual, 1e-10));
+        }
+
+        [Test]
+        public void NullTest()
+        {
+            double[,] value =
+            {
+                { 3.0, 1.0 },
+                { 2.0, 2.0 }
+            };
+
+            double[,] actual = Matrix.Null(value);
+
+            Assert.AreEqual(2, actual.Rows());
+            Assert.AreEqual(0, actual.Columns());
+        }
+
+        [Test]
+        public void NullTest2()
+        {
+            double[] value = new double[] { 1, 2, 3 };
+
+            double[,] expected =
+            {
+                { -0.53452248382484879, -0.80178372573727341 },
+                { 0.77454192058843829,  -0.33818711911734273 },
+                { -0.33818711911734267,  0.49271932132398588 },
+            };
+
+            double[][] actual = Matrix.Null(value);
+
+            var a = Jagged.RowVector(value).Dot(expected.GetColumn(0));
+            var b = Jagged.RowVector(value).Dot(expected.GetColumn(1));
+            Assert.IsTrue(Matrix.IsEqual(a, new[] { 0 }, 1e-6));
+            Assert.IsTrue(Matrix.IsEqual(b, new[] { 0 }, 1e-6));
+
+            Assert.IsTrue(Matrix.IsEqual(expected, actual, 1e-6));
+        }
+
+        [Test]
+        public void FindTest2()
+        {
+            double[] value = new double[] { 1, 2, 3 };
+
+            int[] expected =
+            {
+            };
+
+            int[] actual = Matrix.Find(value, x => x < 0);
+
+            Assert.IsTrue(Matrix.IsEqual(expected, actual));
         }
 
         [Test]
         public void DivideTest()
         {
-            double[,] a = 
+            double[,] a =
             {
                 { 2, 1, 4 },
                 { 6, 2, 2 },
@@ -1510,18 +1634,23 @@ namespace Accord.Tests.Math
             };
 
             double[,] actual = Matrix.Divide(a, b);
-            Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.001));
+            Assert.IsTrue(Matrix.IsEqual(expected, actual, 1e-3));
+
+            actual = Matrix.Divide(a.ToJagged(), b.ToJagged()).ToMatrix();
+            Assert.IsTrue(Matrix.IsEqual(expected, actual, 1e-3));
         }
 
         [Test]
         public void DivideTest2()
         {
-            double[,] a = 
+            double[,] a =
             {
                 { 2, 1, 4, 1 },
                 { 6, 2, 2, 2 },
                 { 0, 1, 6, 1 },
             };
+
+            var stra = a.ToString(OctaveMatrixFormatProvider.InvariantCulture);
 
             double[,] b =
             {
@@ -1529,6 +1658,8 @@ namespace Accord.Tests.Math
                 { 5, 2, 1, 2 },
                 { 1, 5, 2, 1 },
             };
+
+            var strb = b.ToString(OctaveMatrixFormatProvider.InvariantCulture);
 
             double[,] expected =
             {
@@ -1538,13 +1669,16 @@ namespace Accord.Tests.Math
             };
 
             double[,] actual = Matrix.Divide(a, b);
-            Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.001));
+            Assert.IsTrue(Matrix.IsEqual(expected, actual, 1e-3));
+
+            actual = Matrix.Divide(a.ToJagged(), b.ToJagged()).ToMatrix();
+            Assert.IsTrue(Matrix.IsEqual(expected, actual, 1e-3));
         }
 
         [Test]
         public void DivideTest3()
         {
-            double[,] a = 
+            double[,] a =
             {
                 { 1,     0,     5 },
                 { 1,     2,     1 },
@@ -1554,6 +1688,8 @@ namespace Accord.Tests.Math
                 { 5,     1,     1 }
             };
 
+            var stra = a.ToString(OctaveMatrixFormatProvider.InvariantCulture);
+
             double[,] b =
             {
                 { 1, 0, 0 },
@@ -1561,8 +1697,13 @@ namespace Accord.Tests.Math
                 { 0, 0, 1 },
             };
 
+            var strb = b.ToString(OctaveMatrixFormatProvider.InvariantCulture);
+
             double[,] actual = Matrix.Divide(a, b);
-            Assert.IsTrue(Matrix.IsEqual(a, actual, 0.001));
+            Assert.IsTrue(Matrix.IsEqual(a, actual, 1e-3));
+
+            actual = Matrix.Divide(a.ToJagged(), b.ToJagged()).ToMatrix();
+            Assert.IsTrue(Matrix.IsEqual(a, actual, 1e-3));
         }
 
         [Test]
@@ -1583,7 +1724,10 @@ namespace Accord.Tests.Math
             Matrix.DivideByDiagonal(a, b, result);
 
             double[,] expected = Matrix.Divide(a, Matrix.Diagonal(b));
+            Assert.IsTrue(expected.IsEqual(result, 1e-6));
 
+            result = Matrix.DivideByDiagonal(a.ToJagged(), b).ToMatrix();
+            expected = Matrix.Divide(a.ToJagged(), Jagged.Diagonal(b)).ToMatrix();
             Assert.IsTrue(expected.IsEqual(result, 1e-6));
         }
         #endregion
@@ -1636,13 +1780,14 @@ namespace Accord.Tests.Math
         {
             double[,] m =
             {
-                { 0.000, 4.000, 0.000, 2.000 },
-                { 4.000, 1.000, 2.000, 4.000 },
-                { 0.000, 2.000, 1.000, 1.000 },
-                { 2.000, 4.000, 1.000, 1.000 }
+                { 0, 4, 0, 2 },
+                { 4, 1, 2, 4 },
+                { 0, 2, 1, 1 },
+                { 2, 4, 1, 1 }
             };
 
             Assert.IsTrue(m.IsSymmetric());
+            Assert.IsFalse(m.IsPositiveDefinite());
 
             double expected = 44;
 
@@ -1755,7 +1900,7 @@ namespace Accord.Tests.Math
         [Test]
         public void IsSymmetricTest()
         {
-            double[,] matrix = 
+            double[,] matrix =
             {
                 { 1, 2 },
                 { 3, 4 }
@@ -1765,7 +1910,7 @@ namespace Accord.Tests.Math
             bool actual = Matrix.IsSymmetric(matrix);
             Assert.AreEqual(expected, actual);
 
-            double[,] matrix2 = 
+            double[,] matrix2 =
             {
                 { 1, 2 },
                 { 2, 1 }
@@ -1851,14 +1996,14 @@ namespace Accord.Tests.Math
         [Test]
         public void UpperTriangularTest()
         {
-            double[,] U = 
+            double[,] U =
             {
                 { 1, 2, 1, },
                 { 0, 2, 1, },
                 { 0, 0, 1, },
             };
 
-            double[,] L = 
+            double[,] L =
             {
                 { 1, 0, 0, },
                 { 5, 2, 0, },
@@ -1888,14 +2033,14 @@ namespace Accord.Tests.Math
         [Test]
         public void UpperTriangularTest2()
         {
-            double[][] U = 
+            double[][] U =
             {
                 new double[] { 1, 2, 1, },
                 new double[] { 0, 2, 1, },
                 new double[] { 0, 0, 1, },
             };
 
-            double[][] L = 
+            double[][] L =
             {
                 new double[] { 1, 0, 0, },
                 new double[] { 5, 2, 0, },
@@ -1921,6 +2066,72 @@ namespace Accord.Tests.Math
             Assert.IsTrue(D.IsLowerTriangular());
             Assert.IsTrue(D.IsDiagonal());
         }
+
+        [Test]
+        public void ToUpperTriangularTest()
+        {
+            double[,] U =
+            {
+                { 1, 2, 1, },
+                { 0, 2, 1, },
+                { 0, 0, 1, },
+            };
+
+            double[,] L =
+            {
+                { 1, 0, 0, },
+                { 5, 2, 0, },
+                { 2, 1, 1, },
+            };
+
+            double[,] X =
+            {
+                { 1, 0, 5, },
+                { 0, 2, 0, },
+                { 6, 0, 3, },
+            };
+
+            Assert.IsTrue(U.ToUpperTriangular(from: MatrixType.UpperTriangular).GetUpperTriangle(true).IsEqual(U));
+            Assert.IsTrue(U.ToLowerTriangular(from: MatrixType.UpperTriangular).GetLowerTriangle(true).IsEqual(U.Transpose()));
+
+            Assert.IsTrue(L.ToUpperTriangular(from: MatrixType.LowerTriangular).GetUpperTriangle(true).IsEqual(L.Transpose()));
+            Assert.IsTrue(L.ToLowerTriangular(from: MatrixType.LowerTriangular).GetLowerTriangle(true).IsEqual(L));
+
+            var LowerToUpper = X.ToUpperTriangular(from: MatrixType.LowerTriangular);
+            var UpperToUpper = X.ToUpperTriangular(from: MatrixType.UpperTriangular);
+            var LowerToLower = X.ToLowerTriangular(from: MatrixType.LowerTriangular);
+            var UpperToLower = X.ToLowerTriangular(from: MatrixType.UpperTriangular);
+
+            var a = LowerToUpper.ToCSharp();
+            var b = UpperToUpper.ToCSharp();
+            var c = LowerToLower.ToCSharp();
+            var d = UpperToLower.ToCSharp();
+
+            Assert.IsTrue(LowerToUpper.IsEqual(new double[,] {
+                { 1, 0, 6 },
+                { 0, 2, 0 },
+                { 5, 0, 3 }
+            }));
+
+            Assert.IsTrue(UpperToUpper.IsEqual(new double[,] {
+                { 1, 0, 5 },
+                { 0, 2, 0 },
+                { 6, 0, 3 }
+            }));
+
+            Assert.IsTrue(LowerToLower.IsEqual(new double[,] {
+                { 1, 0, 5 },
+                { 0, 2, 0 },
+                { 6, 0, 3 }
+            }));
+
+            Assert.IsTrue(UpperToLower.IsEqual(new double[,] {
+                { 1, 0, 6 },
+                { 0, 2, 0 },
+                { 5, 0, 3 }
+            }));
+        }
+
         #endregion
 
         #region Transpose
@@ -1928,7 +2139,7 @@ namespace Accord.Tests.Math
         public void TransposeTest()
         {
             int[] value = { 1, 5, 2 };
-            int[,] expected = 
+            int[,] expected =
             {
                 { 1 },
                 { 5 },
@@ -1943,13 +2154,13 @@ namespace Accord.Tests.Math
         public void TransposeTest2()
         {
             int[,] value =
-            { 
+            {
                 { 1, 2, 3 },
                 { 4, 5, 6 },
                 { 7, 8, 9 }
             };
 
-            int[,] expected = 
+            int[,] expected =
             {
                 { 1, 4, 7 },
                 { 2, 5, 8 },
@@ -1992,7 +2203,7 @@ namespace Accord.Tests.Math
         [Test]
         public void GeneralizedTransposeTest()
         {
-            double[,] a = 
+            double[,] a =
             {
                 { 5, 1, 6, 3, 1 },
                 { 7, 5, 1, 2, 8 },
@@ -2027,18 +2238,18 @@ namespace Accord.Tests.Math
         public void ApplyTest2()
         {
             double[,] data =
-            { 
-                { 42, 1, -5 }, 
-                { 42, 1, -5 }, 
+            {
+                { 42, 1, -5 },
+                { 42, 1, -5 },
             };
 
             Func<double, double> func = x => x - x;
 
             double[,] actual;
             double[,] expected =
-            { 
-                { 0, 0, 0 }, 
-                { 0, 0, 0 }, 
+            {
+                { 0, 0, 0 },
+                { 0, 0, 0 },
             };
 
             actual = Matrix.Apply(data, func);
@@ -2067,18 +2278,18 @@ namespace Accord.Tests.Math
         public void ApplyTest4()
         {
             double[,] data =
-            { 
-                { 42, 1, -5 }, 
-                { 42, 1, -5 }, 
+            {
+                { 42, 1, -5 },
+                { 42, 1, -5 },
             };
 
             Func<double, int> func = x => (int)(x - x);
 
             int[,] actual;
             int[,] expected =
-            { 
-                { 0, 0, 0 }, 
-                { 0, 0, 0 }, 
+            {
+                { 0, 0, 0 },
+                { 0, 0, 0 },
             };
 
             actual = Matrix.Apply(data, func);
@@ -2089,7 +2300,7 @@ namespace Accord.Tests.Math
         [Test]
         public void ApplyTest1()
         {
-            int[,] matrix = 
+            int[,] matrix =
             {
                 { 1, 2, 3 },
                 { 4, 5, 6 }
@@ -2155,12 +2366,12 @@ namespace Accord.Tests.Math
         [Test]
         public void CeilingTest()
         {
-            double[,] matrix = 
+            double[,] matrix =
             {
                 {  0.1, 0.5, 1.5 },
                 { -1.1, 2.5, 0.5 },
             };
-            double[,] expected = 
+            double[,] expected =
             {
                 {  1.0, 1.0, 2.0 },
                 { -1.0, 3.0, 1.0 },
@@ -2188,12 +2399,12 @@ namespace Accord.Tests.Math
         [Test]
         public void FloorTest()
         {
-            double[,] matrix = 
+            double[,] matrix =
             {
                 {  0.1, 0.5, 1.5 },
                 { -1.1, 2.5, 0.5 },
             };
-            double[,] expected = 
+            double[,] expected =
             {
                 {  0.0, 0.0, 1.0 },
                 { -2.0, 2.0, 0.0 },
@@ -2245,7 +2456,7 @@ namespace Accord.Tests.Math
         [Test]
         public void ExpandTest()
         {
-            double[][] data = 
+            double[][] data =
             {
                new double[] { 0, 0 },
                new double[] { 0, 1 },
@@ -2253,7 +2464,7 @@ namespace Accord.Tests.Math
                new double[] { 1, 1 }
             };
 
-            int[] count = 
+            int[] count =
             {
                 2,
                 1,
@@ -2261,7 +2472,7 @@ namespace Accord.Tests.Math
                 1
             };
 
-            double[][] expected = 
+            double[][] expected =
             {
                 new double[] { 0, 0 },
                 new double[] { 0, 0 }, // 2
@@ -2324,7 +2535,7 @@ namespace Accord.Tests.Math
         [Test]
         public void FindTest()
         {
-            double[,] data = 
+            double[,] data =
             {
                 { 1, 2, 0, 3 },
                 { 1, 0, 1, 3 },
@@ -2332,7 +2543,7 @@ namespace Accord.Tests.Math
 
             Func<double, bool> func = x => x == 0;
             bool firstOnly = false;
-            int[][] expected = 
+            int[][] expected =
             {
                 new int[] { 0, 2 },
                 new int[] { 1, 1 },
@@ -2345,7 +2556,7 @@ namespace Accord.Tests.Math
         [Test]
         public void InsertColumnTest()
         {
-            double[,] m = 
+            double[,] m =
             {
                 {  2, 10, 0 },
                 {  0,  2, 4 },
@@ -2353,7 +2564,7 @@ namespace Accord.Tests.Math
 
             double[] column = { 1, 1 };
 
-            double[,] expected = 
+            double[,] expected =
             {
                 {  2, 1, 10, 0 },
                 {  0, 1,  2, 4 },
@@ -2425,10 +2636,10 @@ namespace Accord.Tests.Math
         public void InsertRowTest2()
         {
             double[,] a =
-            { 
+            {
                { 100.00, 27.56, 33.89},
                { 27.56, 100.00, 24.76},
-               { 33.89, 24.76, 100.00} 
+               { 33.89, 24.76, 100.00}
              };
 
             Assert.AreEqual(3, a.GetLength(0));
@@ -2463,10 +2674,10 @@ namespace Accord.Tests.Math
         public void InsertRowTest5()
         {
             double[][] a =
-            { 
+            {
                new double[] { 100.00, 27.56, 33.89},
                new double[] { 27.56, 100.00, 24.76},
-               new double[] { 33.89, 24.76, 100.00} 
+               new double[] { 33.89, 24.76, 100.00}
              };
 
             Assert.AreEqual(3, a.Length);
@@ -2501,10 +2712,10 @@ namespace Accord.Tests.Math
         public void InsertRowTest3()
         {
             double[,] a =
-            { 
+            {
                { 100.00, 27.56, 33.89},
                { 27.56, 100.00, 24.76},
-               { 33.89, 24.76, 100.00} 
+               { 33.89, 24.76, 100.00}
              };
 
             Assert.AreEqual(3, a.GetLength(0));
@@ -2535,10 +2746,10 @@ namespace Accord.Tests.Math
         public void InsertRowTest4()
         {
             double[][] a =
-            { 
+            {
                new double[] { 100.00, 27.56, 33.89},
                new double[] { 27.56, 100.00, 24.76},
-               new double[] { 33.89, 24.76, 100.00} 
+               new double[] { 33.89, 24.76, 100.00}
              };
 
             Assert.AreEqual(3, a.Length);
@@ -2624,19 +2835,19 @@ namespace Accord.Tests.Math
         [Test]
         public void TensorProductTest()
         {
-            double[,] a = 
+            double[,] a =
             {
                 { 1, 2 },
                 { 3, 4 },
             };
 
-            double[,] b = 
+            double[,] b =
             {
                 { 0, 5 },
                 { 6, 7 },
             };
 
-            double[,] expected = 
+            double[,] expected =
             {
                 {  0,  5,  0, 10 },
                 {  6,  7, 12, 14 },
@@ -2667,7 +2878,7 @@ namespace Accord.Tests.Math
         [Test]
         public void ConcatenateTest()
         {
-            double[,] matrix = 
+            double[,] matrix =
             {
                 { 1, 2 },
                 { 3, 4 },
@@ -2675,7 +2886,7 @@ namespace Accord.Tests.Math
 
             double[] vector = { 5, 6 };
 
-            double[,] expected = 
+            double[,] expected =
             {
                 { 1, 2, 5 },
                 { 3, 4, 6 },
@@ -2696,7 +2907,7 @@ namespace Accord.Tests.Math
             DoubleRange colRange = new DoubleRange(-1, 1);
             double rowSteps = 0.5f;
             double colSteps = 0.5f;
-            double[][] expected = 
+            double[][] expected =
             {
                 new double[] { -1.0, -1.0 },
                 new double[] { -1.0, -0.5 },
@@ -2709,7 +2920,7 @@ namespace Accord.Tests.Math
                 new double[] { -0.5,  0.0 },
                 new double[] { -0.5,  0.5 },
                 new double[] { -0.5,  1.0 },
-                
+
                 new double[] {  0.0, -1.0 },
                 new double[] {  0.0, -0.5 },
                 new double[] {  0.0,  0.0 },
@@ -2838,7 +3049,7 @@ namespace Accord.Tests.Math
                 { 4, 5, 6 },
             };
 
-            double[, ,] expected =
+            double[,,] expected =
             {
                 { { 1, 4 }, { 1, 5 }, { 1, 6 } },
                 { { 2, 4 }, { 2, 5 }, { 2, 6 } },
@@ -2862,13 +3073,13 @@ namespace Accord.Tests.Math
         [Test]
         public void MultiplyByTransposeTestFloat()
         {
-            float[,] a = 
+            float[,] a =
             {
                 { 1, 2, 3 },
                 { 4, 5, 6 },
             };
 
-            float[,] b = 
+            float[,] b =
             {
                 {  7,  8,  9 },
                 { 10, 11, 12 },
@@ -2891,15 +3102,15 @@ namespace Accord.Tests.Math
         [Test]
         public void ConcatenateTest1()
         {
-            double[][,] matrices = 
+            double[][,] matrices =
             {
-                new double[,] 
+                new double[,]
                 {
                     { 0, 1 },
                     { 2, 3 },
                 },
 
-                new double[,] 
+                new double[,]
                 {
                     { 4, 5 },
                     { 6, 7 },
@@ -2907,7 +3118,7 @@ namespace Accord.Tests.Math
             };
 
 
-            double[,] expected = 
+            double[,] expected =
             {
                 { 0, 1, 4, 5 },
                 { 2, 3, 6, 7 },
@@ -2922,7 +3133,7 @@ namespace Accord.Tests.Math
         [Test]
         public void RemoveColumnTest()
         {
-            double[,] matrix = 
+            double[,] matrix =
             {
                 { 1, 2, 3 },
                 { 4, 5, 6 },
@@ -2939,13 +3150,13 @@ namespace Accord.Tests.Math
                 { 5, 6 },
             };
 
-            double[,] expectedB = 
+            double[,] expectedB =
             {
                 { 1, 3 },
                 { 4, 6 },
             };
 
-            double[,] expectedC = 
+            double[,] expectedC =
             {
                 { 1, 2 },
                 { 4, 5 },
@@ -2960,7 +3171,7 @@ namespace Accord.Tests.Math
         [Test]
         public void RemoveRowTest()
         {
-            double[,] matrix = 
+            double[,] matrix =
             {
                 { 1, 2 },
                 { 3, 4 },
@@ -2980,14 +3191,14 @@ namespace Accord.Tests.Math
                 { 7, 8 },
             };
 
-            double[,] expectedB = 
+            double[,] expectedB =
             {
                 { 1, 2 },
                 { 5, 6 },
                 { 7, 8 },
             };
 
-            double[,] expectedC = 
+            double[,] expectedC =
             {
                 { 1, 2 },
                 { 3, 4 },
@@ -3003,13 +3214,13 @@ namespace Accord.Tests.Math
         [Test]
         public void SolveTest1()
         {
-            double[,] a = 
+            double[,] a =
             {
                 { 1, 2, 3 },
                 { 4, 5, 6 },
             };
 
-            double[,] b = 
+            double[,] b =
             {
                 {  7,  8,  9 },
                 { 10, 11, 12 },
@@ -3022,7 +3233,7 @@ namespace Accord.Tests.Math
 
                 Assert.IsTrue(matrix.GetLength(0) > matrix.GetLength(1));
 
-                double[,] expected = 
+                double[,] expected =
                 {
                     { -1, -2 },
                     {  2,  3 }
@@ -3042,7 +3253,7 @@ namespace Accord.Tests.Math
                 Assert.IsTrue(matrix.GetLength(0) < matrix.GetLength(1));
 
 
-                double[,] expected = 
+                double[,] expected =
                 {
                     { -13/6.0,  -8/3.0, -19/6.0 },
                     {   2/6.0,   2/6.0,   2/6.0 },
@@ -3060,7 +3271,7 @@ namespace Accord.Tests.Math
         {
             // Test with more rows than columns
             {
-                double[,] matrix = 
+                double[,] matrix =
                 {
                     { 1, 2 },
                     { 3, 4 },
@@ -3076,7 +3287,7 @@ namespace Accord.Tests.Math
 
                 Assert.IsTrue(matrix.GetLength(0) > matrix.GetLength(1));
 
-                double[,] expected = 
+                double[,] expected =
                 {
                     { -6   },
                     {  6.5 }
@@ -3089,13 +3300,13 @@ namespace Accord.Tests.Math
 
             // test with more columns than rows
             {
-                double[,] matrix = 
+                double[,] matrix =
                 {
                     { 1, 2, 3 },
                     { 4, 5, 6 },
                 };
 
-                double[,] rightSide = 
+                double[,] rightSide =
                 {
                     { 7 },
                     { 8 }
@@ -3104,9 +3315,9 @@ namespace Accord.Tests.Math
                 Assert.IsTrue(matrix.GetLength(0) < matrix.GetLength(1));
 
 
-                double[,] expected = 
+                double[,] expected =
                 {
-                   { -55 / 18.0 }, 
+                   { -55 / 18.0 },
                    {  1  /  9.0 },
                    {  59 / 18.0 },
                 };
@@ -3122,7 +3333,7 @@ namespace Accord.Tests.Math
         {
             // Test with more rows than columns
             {
-                double[,] matrix = 
+                double[,] matrix =
                 {
                     { 1, 2 },
                     { 3, 4 },
@@ -3142,7 +3353,7 @@ namespace Accord.Tests.Math
 
             // test with more columns than rows
             {
-                double[,] matrix = 
+                double[,] matrix =
                 {
                     { 1, 2, 3 },
                     { 4, 5, 6 },
@@ -3170,7 +3381,7 @@ namespace Accord.Tests.Math
                 // is singular (i.e. not invertible), so only a 
                 // least squares solution would be feasible here.
 
-                double[,] matrix = 
+                double[,] matrix =
                 {
                     { 1, 2, 3 },
                     { 4, 5, 6 },
@@ -3190,7 +3401,7 @@ namespace Accord.Tests.Math
                 Assert.IsTrue(expected.IsEqual(x, 1e-10));
             }
             {
-                double[,] matrix = 
+                double[,] matrix =
                 {
                     { 1, 2, 3 },
                     { 4, 5, 6 },
@@ -3245,15 +3456,15 @@ namespace Accord.Tests.Math
             {
                 double[] values = Matrix.Random(20, -1.0, 1.0);
 
-                for (int k = 0; k < 11; k++)
+                for (int k = 1; k < 11; k++)
                 {
                     double[] actualTop = values.Submatrix(values.Top(k));
                     double[] actualBottom = values.Submatrix(values.Bottom(k));
 
                     Array.Sort(values);
 
-                    double[] expectedTop = values.Submatrix(values.Length - k, values.Length - 1);
-                    double[] expectedBottom = values.Submatrix(0, k - 1);
+                    double[] expectedTop = values.Get(values.Length - k, values.Length);
+                    double[] expectedBottom = values.Get(0, k);
 
                     Assert.AreEqual(k, actualTop.Length);
                     Assert.AreEqual(k, actualBottom.Length);
@@ -3276,13 +3487,13 @@ namespace Accord.Tests.Math
         {
             double[,] v = Matrix.Ones(2, 3);
             int[][] idx = v.GetIndices().ToArray();
-            Assert.IsTrue(idx.IsEqual(Jagged.Create(new [,] 
+            Assert.IsTrue(idx.IsEqual(Jagged.Create(new[,]
                 {
-                    {0, 0}, 
-                    {0, 1}, 
-                    {0, 2}, 
-                    {1, 0}, 
-                    {1, 1}, 
+                    {0, 0},
+                    {0, 1},
+                    {0, 2},
+                    {1, 0},
+                    {1, 1},
                     {1, 2},
                 })));
         }
@@ -3301,6 +3512,50 @@ namespace Accord.Tests.Math
             double[,] v = Matrix.Ones(0, 3);
             int[][] idx = v.GetIndices().ToArray();
             Assert.AreEqual(idx.Length, 0);
+        }
+
+        [Test]
+        public void GetIndicesTest4()
+        {
+            double[][] v = Jagged.Ones(0, 3);
+            int[][] idx = v.GetIndices().ToArray();
+            Assert.AreEqual(idx.Length, 1);
+        }
+
+        [Test]
+        public void find_test_1()
+        {
+            int[] a = { 5, 1, 10, 5 };
+            Assert.AreEqual(new[] { 0, 3 }, a.Find(x => x == 5));
+            Assert.AreEqual(1, a.Find(x => x == 1)[0]);
+            Assert.AreEqual(2, a.Find(x => x == 10)[0]);
+            Assert.AreEqual(0, a.Find(x => x == 0).Length);
+            Assert.AreEqual(0, a.Find(x => x == 2).Length);
+            Assert.AreEqual(0, a.Find(x => x == 11).Length);
+        }
+
+        [Test]
+        public void first_test()
+        {
+            int[] a = { 5, 1, 10 };
+            Assert.AreEqual(0, a.First(x => x == 5));
+            Assert.AreEqual(1, a.First(x => x == 1));
+            Assert.AreEqual(2, a.First(x => x == 10));
+            Assert.Throws<IndexOutOfRangeException>(() => a.First(x => x == 0));
+            Assert.Throws<IndexOutOfRangeException>(() => a.First(x => x == 2));
+            Assert.Throws<IndexOutOfRangeException>(() => a.First(x => x == 11));
+        }
+
+        [Test]
+        public void first_or_default_test()
+        {
+            int[] a = { 5, 1, 10 };
+            Assert.AreEqual(0, a.FirstOrNull(x => x == 5));
+            Assert.AreEqual(1, a.FirstOrNull(x => x == 1));
+            Assert.AreEqual(2, a.FirstOrNull(x => x == 10));
+            Assert.IsNull(a.FirstOrNull(x => x == 0));
+            Assert.IsNull(a.FirstOrNull(x => x == 2));
+            Assert.IsNull(a.FirstOrNull(x => x == 11));
         }
     }
 }

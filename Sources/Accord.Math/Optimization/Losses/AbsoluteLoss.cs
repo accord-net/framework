@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -23,6 +23,7 @@
 namespace Accord.Math.Optimization.Losses
 {
     using System;
+    using Accord.Compat;
 
     /// <summary>
     ///   Absolute loss, also known as L1-loss. 
@@ -57,8 +58,8 @@ namespace Accord.Math.Optimization.Losses
         /// <param name="expected">The expected outputs (ground truth).</param>
         /// 
         public AbsoluteLoss(double[][] expected)
-            : base(expected)
         {
+            this.Expected = expected;
         }
 
         /// <summary>

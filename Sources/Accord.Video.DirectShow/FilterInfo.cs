@@ -35,10 +35,10 @@ namespace Accord.Video.DirectShow
         /// 
         /// <param name="monikerString">Filters's moniker string.</param>
         /// 
-        public FilterInfo( string monikerString )
+        public FilterInfo(string monikerString)
         {
             MonikerString = monikerString;
-            Name = GetName( monikerString );
+            Name = GetName(monikerString);
         }
 
         /// <summary>
@@ -47,10 +47,10 @@ namespace Accord.Video.DirectShow
         /// 
         /// <param name="moniker">Filter's moniker object.</param>
         /// 
-        internal FilterInfo( IMoniker moniker )
+        internal FilterInfo(IMoniker moniker)
         {
-            MonikerString = GetMonikerString( moniker );
-            Name = GetName( moniker );
+            MonikerString = GetMonikerString(moniker);
+            Name = GetName(moniker);
         }
 
         /// <summary>
@@ -61,14 +61,14 @@ namespace Accord.Video.DirectShow
         /// 
         /// <returns>A signed number indicating the relative values of this instance and <b>value</b>.</returns>
         /// 
-        public int CompareTo( object value )
+        public int CompareTo(object value)
         {
-            FilterInfo f = (FilterInfo) value;
+            FilterInfo f = (FilterInfo)value;
 
-            if ( f == null )
+            if (f == null)
                 return 1;
 
-            return ( this.Name.CompareTo( f.Name ) );
+            return (this.Name.CompareTo(f.Name));
         }
 
         /// <summary>
@@ -81,7 +81,7 @@ namespace Accord.Video.DirectShow
         /// 
         /// <remarks>The returned filter's object should be released using <b>Marshal.ReleaseComObject()</b>.</remarks>
         /// 
-        public static object CreateFilter( string filterMoniker )
+        public static object CreateFilter(string filterMoniker)
         {
             // filter's object
             object filterObject = null;
@@ -92,61 +92,82 @@ namespace Accord.Video.DirectShow
             int n = 0;
 
             // create bind context
-            if ( Win32.CreateBindCtx( 0, out bindCtx ) == 0 )
+            if (Win32.CreateBindCtx(0, out bindCtx) == 0)
             {
-                // convert moniker`s string to a moniker
-                if ( Win32.MkParseDisplayName( bindCtx, filterMoniker, ref n, out moniker ) == 0 )
+                // convert moniker's string to a moniker
+                if (Win32.MkParseDisplayName(bindCtx, filterMoniker, ref n, out moniker) == 0)
                 {
                     // get device base filter
-                    Guid filterId = typeof( IBaseFilter ).GUID;
-                    moniker.BindToObject( null, null, ref filterId, out filterObject );
+                    Guid filterId = typeof(IBaseFilter).GUID;
+                    moniker.BindToObject(null, null, ref filterId, out filterObject);
 
-                    Marshal.ReleaseComObject( moniker );
+                    Marshal.ReleaseComObject(moniker);
                 }
-                Marshal.ReleaseComObject( bindCtx );
+                Marshal.ReleaseComObject(bindCtx);
             }
             return filterObject;
+        }
+
+        /// <summary>
+        ///   Gets the supported property pages for the filter, if any.
+        /// </summary>
+        /// 
+        /// <param name="filterMoniker">The filter moniker.</param>
+        /// 
+        public static Guid[] GetPropertyPages(string filterMoniker)
+        {
+            var filter = CreateFilter(filterMoniker);
+
+            var pages = filter as ISpecifyPropertyPages;
+
+            if (pages == null)
+                return new Guid[0];
+
+            CAUUID caGUID;
+            pages.GetPages(out caGUID);
+
+            return caGUID.ToGuidArray();
         }
 
         //
         // Get moniker string of the moniker
         //
-        private string GetMonikerString( IMoniker moniker )
+        private string GetMonikerString(IMoniker moniker)
         {
             string str;
-            moniker.GetDisplayName( null, null, out str );
+            moniker.GetDisplayName(null, null, out str);
             return str;
         }
 
         //
         // Get filter name represented by the moniker
         //
-        private string GetName( IMoniker moniker )
+        private string GetName(IMoniker moniker)
         {
             Object bagObj = null;
             IPropertyBag bag = null;
 
             try
             {
-                Guid bagId = typeof( IPropertyBag ).GUID;
+                Guid bagId = typeof(IPropertyBag).GUID;
                 // get property bag of the moniker
-                moniker.BindToStorage( null, null, ref bagId, out bagObj );
-                bag = (IPropertyBag) bagObj;
+                moniker.BindToStorage(null, null, ref bagId, out bagObj);
+                bag = (IPropertyBag)bagObj;
 
                 // read FriendlyName
                 object val = "";
-                int hr = bag.Read( "FriendlyName", ref val, IntPtr.Zero );
-                if ( hr != 0 )
-                    Marshal.ThrowExceptionForHR( hr );
+                int hr = bag.Read("FriendlyName", ref val, IntPtr.Zero);
+                if (hr != 0)
+                    Marshal.ThrowExceptionForHR(hr);
 
                 // get it as string
-                string ret = (string) val;
-                if ( ( ret == null ) || ( ret.Length < 1 ) )
-                    throw new ApplicationException( );
+                string ret = (string)val;
+                if ((ret == null) || (ret.Length < 1))
+                    throw new ApplicationException();
 
                 return ret;
             }
-            catch ( Exception )
+            catch (Exception)
             {
                 return "";
             }
@@ -154,9 +175,9 @@ namespace Accord.Video.DirectShow
             {
                 // release all COM objects
                 bag = null;
-                if ( bagObj != null )
+                if (bagObj != null)
                 {
-                    Marshal.ReleaseComObject( bagObj );
+                    Marshal.ReleaseComObject(bagObj);
                     bagObj = null;
                 }
             }
@@ -165,7 +186,7 @@ namespace Accord.Video.DirectShow
         //
         // Get filter name represented by the moniker string
         //
-        private string GetName( string monikerString )
+        private string GetName(string monikerString)
         {
             IBindCtx bindCtx = null;
             IMoniker moniker = null;
@@ -173,21 +194,30 @@ namespace Accord.Video.DirectShow
             int n = 0;
 
             // create bind context
-            if ( Win32.CreateBindCtx( 0, out bindCtx ) == 0 )
+            if (Win32.CreateBindCtx(0, out bindCtx) == 0)
             {
                 // convert moniker`s string to a moniker
-                if ( Win32.MkParseDisplayName( bindCtx, monikerString, ref n, out moniker ) == 0 )
+                if (Win32.MkParseDisplayName(bindCtx, monikerString, ref n, out moniker) == 0)
                 {
                     // get device name
-                    name = GetName( moniker );
+                    name = GetName(moniker);
 
-                    Marshal.ReleaseComObject( moniker );
+                    Marshal.ReleaseComObject(moniker);
                     moniker = null;
                 }
-                Marshal.ReleaseComObject( bindCtx );
+                Marshal.ReleaseComObject(bindCtx);
                 bindCtx = null;
             }
             return name;
+        }
+
+        /// <summary>
+        /// Returns a <see cref="System.String" /> that represents this instance.
+        /// </summary>
+        /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
+        public override string ToString()
+        {
+            return String.Format("{0} ({1})", Name, MonikerString);
         }
     }
 }

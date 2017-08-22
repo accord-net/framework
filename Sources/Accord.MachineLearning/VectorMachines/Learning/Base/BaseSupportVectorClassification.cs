@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -33,6 +33,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     using Accord.Math.Optimization.Losses;
     using Accord.Statistics;
     using System.Collections;
+    using Accord.Compat;
 
     /// <summary>
     ///   Base class for <see cref="SupportVectorMachine"/> learning algorithms.
@@ -48,6 +49,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         private bool useKernelEstimation = false;
         private bool useComplexityHeuristic = true;
         private bool useClassLabelProportion;
+        private bool hasKernelBeenSet;
 
         private double complexity = 1;
         private double positiveWeight = 1;
@@ -70,9 +72,9 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseSupportVectorClassification{TModel, TKernel, TInput}"/> class.
         /// </summary>
-        public BaseSupportVectorClassification()
+        /// 
+        protected BaseSupportVectorClassification()
         {
-
         }
 
         /// <summary>
@@ -89,14 +91,16 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
 
         /// <summary>
-        ///   Gets or sets the input vectors for calibration.
+        ///   Gets or sets the input vectors for training.
         /// </summary>
-        public TInput[] Inputs { get; set; }
+        /// 
+        protected TInput[] Inputs { get; set; }
 
         /// <summary>
-        ///   Gets or sets the output labels for each calibration vector.
+        ///   Gets or sets the output labels for each training vector.
         /// </summary>
-        public int[] Outputs { get; set; }
+        /// 
+        protected int[] Outputs { get; set; }
 
 
 
@@ -273,6 +277,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             {
                 this.kernel = value;
                 this.useKernelEstimation = false;
+                this.hasKernelBeenSet = true;
             }
         }
 
@@ -281,7 +286,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         ///   Gets or sets the cost values associated with each input vector.
         /// </summary>
         /// 
-        public double[] C { get; set; }
+        protected double[] C { get; set; }
 
         /// <summary>
         ///   Creates an instance of the model to be learned. Inheritors
@@ -303,29 +308,47 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         /// </summary>
         /// <param name="x">The model inputs.</param>
         /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
-        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <param name="weights">The weight of importance for each input-output pair (if supported by the learning algorithm).</param>
         /// <returns>
         /// A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
         /// </returns>
         public override TModel Learn(TInput[] x, bool[] y, double[] weights = null)
         {
-            bool initialized = false;
-
-            if (kernel == null)
+            Accord.MachineLearning.Tools.CheckArgs(x, y, weights, () =>
             {
-                if (!typeof(TKernel).HasDefaultConstructor())
-                    throw new InvalidOperationException("Please set the kernel function before learning a model.");
-                kernel = SupportVectorLearningHelper.CreateKernel<TKernel, TInput>(x);
-                initialized = true;
-            }
+                bool initialized = false;
 
-            if (!initialized && useKernelEstimation)
-                kernel = SupportVectorLearningHelper.EstimateKernel(kernel, x);
+                if (kernel == null)
+                {
+                    kernel = SupportVectorLearningHelper.CreateKernel<TKernel, TInput>(x);
+                    initialized = true;
+                }
 
-            if (Model == null)
-                this.Model = Create(SupportVectorLearningHelper.GetNumberOfInputs(x), kernel);
+                if (!initialized)
+                {
+                    if (useKernelEstimation)
+                    {
+                        kernel = SupportVectorLearningHelper.EstimateKernel(kernel, x);
+                    }
+                    else
+                    {
+                        if (!hasKernelBeenSet)
+                        {
+                            Trace.TraceWarning("The Kernel property has not been set and the UseKernelEstimation property is set to false. Please" +
+                                " make sure that the default parameters of the kernel are suitable for your application, otherwise the learning" +
+                                " will result in a model with very poor performance.");
+                        }
+                    }
+                }
 
-            Model.Kernel = kernel;
+                if (Model == null)
+                    Model = Create(SupportVectorLearningHelper.GetNumberOfInputs(kernel, x), kernel);
+
+                Model.Kernel = kernel;
+                return Model;
+            },
+
+            onlyBinary: true);
 
 
             // Count class prevalence
@@ -395,7 +418,6 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             }
         }
 
-
         /// <summary>
         ///   Runs the main body of the learning algorithm.
         /// </summary>
@@ -416,7 +438,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         public double ComputeError(TInput[] inputs, int[] expectedOutputs)
         {
             var classifier = (IClassifier<TInput, bool>)Model;
-            var loss = new ZeroOneLoss(expectedOutputs)
+            var loss = new ZeroOneLoss(Classes.Decide(expectedOutputs))
             {
                 Mean = true
             };
@@ -436,7 +458,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             Learn(Inputs, Outputs, null);
 
             var classifier = (IClassifier<TInput, bool>)Model;
-            return new ZeroOneLoss(Outputs)
+            return new ZeroOneLoss(Classes.Decide(Outputs))
             {
                 Mean = true,
             }.Loss(classifier.Decide(Inputs));
@@ -453,7 +475,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             if (computeError)
             {
                 var classifier = (IClassifier<TInput, bool>)Model;
-                return new ZeroOneLoss(Outputs)
+                return new ZeroOneLoss(Classes.Decide(Outputs))
                 {
                     Mean = true,
                 }.Loss(classifier.Decide(Inputs));
@@ -463,27 +485,29 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         }
 
 
-        ISupportVectorMachine<TInput> ISupervisedLearning<ISupportVectorMachine<TInput>, TInput, int[]>.Learn(TInput[] x, int[][] y, double[] weights)
+        ISupportVectorMachine<TInput> ISupervisedLearning<ISupportVectorMachine<TInput>, TInput, int>.Learn(TInput[] x, int[] y, double[] weights)
         {
             return Learn(x, y, weights);
         }
 
+        ISupportVectorMachine<TInput> ISupervisedLearning<ISupportVectorMachine<TInput>, TInput, int[]>.Learn(TInput[] x, int[][] y, double[] weights)
+        {
+            return Learn(x, y, weights);
+        }
 
         ISupportVectorMachine<TInput> ISupervisedLearning<ISupportVectorMachine<TInput>, TInput, bool[]>.Learn(TInput[] x, bool[][] y, double[] weights)
         {
             return Learn(x, y, weights);
         }
 
-
         ISupportVectorMachine<TInput> ISupervisedLearning<ISupportVectorMachine<TInput>, TInput, bool>.Learn(TInput[] x, bool[] y, double[] weights)
         {
             return Learn(x, y, weights);
         }
 
-
         ISupportVectorMachine<TInput> ISupervisedLearning<ISupportVectorMachine<TInput>, TInput, double>.Learn(TInput[] x, double[] y, double[] weights)
         {
-            throw new NotImplementedException();
+            return Learn(x, y, weights);
         }
     }
 }

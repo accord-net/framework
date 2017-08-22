@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -92,6 +92,12 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(14.770661223067844, range2.Max);
             Assert.AreEqual(-4.7706612258820993, range3.Min);
             Assert.AreEqual(14.770661223067844, range3.Max);
+
+            Assert.AreEqual(double.NegativeInfinity, distribution.Support.Min);
+            Assert.AreEqual(double.PositiveInfinity, distribution.Support.Max);
+
+            Assert.AreEqual(distribution.InverseDistributionFunction(0), distribution.Support.Min);
+            Assert.AreEqual(distribution.InverseDistributionFunction(1), distribution.Support.Max);
         }
 
         [Test]

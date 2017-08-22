@@ -12,9 +12,9 @@
     <iconUrl>http://accord-framework.net/logo.png</iconUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>
-      Windows Forms controls to show and handle images. Contains a convenient ImageBox control which mimics the traditional MessageBox behavior for quickly displaying or inspecting images. This package is part of the Accord.NET Framework.
+      Windows Forms controls to show and handle images. Contains Color Sliders, Hue Pickers, PictureBox with extended format support, video players, and a convenient ImageBox control which mimics the traditional MessageBox behavior for quickly displaying or inspecting images. This package is part of the Accord.NET Framework.
     </description>
-    <summary>Accord.NET Imaging Controls Library from the Accord.NET Framework</summary>
+    <summary>PictureBox with support for 16-bit images, color sliders, hue pickers, video player controls for Windows Forms.</summary>
     <tags>accord.net aforge.net framework computer image processing filters winforms controls complex fft</tags>
     <dependencies>
       <dependency id="Accord"          version="$version$" />
@@ -31,5 +31,14 @@
 
     <file src="..\..\Release\net45\Accord.Controls.Imaging.dll" target="lib\net45\Accord.Controls.Imaging.dll" />
     <file src="..\..\Release\net45\Accord.Controls.Imaging.xml" target="lib\net45\Accord.Controls.Imaging.xml" />
+
+    <file src="..\..\Release\net46\Accord.Controls.Imaging.dll" target="lib\net46\Accord.Controls.Imaging.dll" />
+    <file src="..\..\Release\net46\Accord.Controls.Imaging.xml" target="lib\net46\Accord.Controls.Imaging.xml" />
+
+    <file src="..\..\Release\net462\Accord.Controls.Imaging.dll" target="lib\net462\Accord.Controls.Imaging.dll" />
+    <file src="..\..\Release\net462\Accord.Controls.Imaging.xml" target="lib\net462\Accord.Controls.Imaging.xml" />
+
+    <!-- <file src="..\..\Release\netstandard2.0\Accord.Controls.Imaging.dll" target="lib\netstandard2.0\Accord.Controls.Imaging.dll" /> -->
+    <!-- <file src="..\..\Release\netstandard2.0\Accord.Controls.Imaging.xml" target="lib\netstandard2.0\Accord.Controls.Imaging.xml" /> -->
   </files>
 </package>

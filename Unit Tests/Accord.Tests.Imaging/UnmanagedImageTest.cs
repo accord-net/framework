@@ -1,4 +1,4 @@
-﻿// Copyright © César Souza, 2009-2016
+﻿// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -224,7 +224,6 @@ namespace Accord.Imaging.Tests
         [TestCase(PixelFormat.Format16bppGrayScale)]
         [TestCase(PixelFormat.Format48bppRgb)]
         [TestCase(PixelFormat.Format64bppArgb)]
-        [TestCase(PixelFormat.Format32bppPArgb, ExpectedException = typeof(UnsupportedImageFormatException))]
         public void SetPixelTest(PixelFormat pixelFormat)
         {
             UnmanagedImage image = UnmanagedImage.Create(320, 240, pixelFormat);
@@ -251,6 +250,26 @@ namespace Accord.Imaging.Tests
             Assert.IsTrue(pixels.Contains(new IntPoint(0, 239)));
             Assert.IsTrue(pixels.Contains(new IntPoint(319, 239)));
             Assert.IsTrue(pixels.Contains(new IntPoint(160, 120)));
+        }
+
+        public void SetPixelTestUnsupported(PixelFormat pixelFormat)
+        {
+            UnmanagedImage image = UnmanagedImage.Create(320, 240, pixelFormat);
+            Color color = Color.White;
+            byte value = 255;
+
+            image.SetPixel(0, 0, color);
+            image.SetPixel(319, 0, color);
+            image.SetPixel(0, 239, color);
+            image.SetPixel(319, 239, value);
+            image.SetPixel(160, 120, value);
+
+            image.SetPixel(-1, -1, color);
+            image.SetPixel(320, 0, color);
+            image.SetPixel(0, 240, value);
+            image.SetPixel(320, 240, value);
+
+            Assert.Throws<UnsupportedImageFormatException>(() => image.CollectActivePixels(), "");
         }
 
         [Test]
@@ -321,7 +340,6 @@ namespace Accord.Imaging.Tests
         [TestCase(PixelFormat.Format16bppGrayScale)]
         [TestCase(PixelFormat.Format48bppRgb)]
         [TestCase(PixelFormat.Format64bppArgb)]
-        [TestCase(PixelFormat.Format32bppPArgb, ExpectedException = typeof(UnsupportedImageFormatException))]
         public void SetPixelsTest(PixelFormat pixelFormat)
         {
             UnmanagedImage image = UnmanagedImage.Create(320, 240, pixelFormat);
@@ -350,6 +368,28 @@ namespace Accord.Imaging.Tests
             Assert.IsTrue(pixels.Contains(new IntPoint(0, 239)));
             Assert.IsTrue(pixels.Contains(new IntPoint(319, 239)));
             Assert.IsTrue(pixels.Contains(new IntPoint(160, 120)));
+        }
+
+        [TestCase(PixelFormat.Format32bppPArgb)]
+        public void SetPixelsTestUnsupported(PixelFormat pixelFormat)
+        {
+            UnmanagedImage image = UnmanagedImage.Create(320, 240, pixelFormat);
+            Color color = Color.White;
+            List<IntPoint> points = new List<IntPoint>();
+
+            points.Add(new IntPoint(0, 0));
+            points.Add(new IntPoint(319, 0));
+            points.Add(new IntPoint(0, 239));
+            points.Add(new IntPoint(319, 239));
+            points.Add(new IntPoint(160, 120));
+
+            points.Add(new IntPoint(-1, -1));
+            points.Add(new IntPoint(320, 0));
+            points.Add(new IntPoint(0, 240));
+            points.Add(new IntPoint(320, 240));
+
+            Assert.Throws<UnsupportedImageFormatException>(() => image.SetPixels(points, color),
+                "The pixel format is not supported: Format32bppPArgb");
         }
 
         [TestCase(PixelFormat.Format24bppRgb, 1, 1, 240, 0, 0)]

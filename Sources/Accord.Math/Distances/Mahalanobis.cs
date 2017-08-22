@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -25,25 +25,18 @@ namespace Accord.Math.Distances
     using Accord.Math.Decompositions;
     using System;
     using System.Runtime.CompilerServices;
+    using Accord.Compat;
 
     /// <summary>
     ///   Mahalanobis distance.
     /// </summary>
     /// 
     [Serializable]
-    public sealed class Mahalanobis : IMetric<double[]>
+    public struct Mahalanobis : IMetric<double[]>
     {
         CholeskyDecomposition chol;
         SingularValueDecomposition svd;
         double[,] precision;
-
-        /// <summary>
-        ///   Initializes a new instance of the <see cref="Mahalanobis"/> class.
-        /// </summary>
-        /// 
-        public Mahalanobis()
-        {
-        }
 
         /// <summary>
         ///   Initializes a new instance of the <see cref="Mahalanobis"/> class.
@@ -54,6 +47,8 @@ namespace Accord.Math.Distances
         public Mahalanobis(CholeskyDecomposition chol)
         {
             this.chol = chol;
+            this.svd = null;
+            this.precision = null;
         }
 
         /// <summary>
@@ -64,7 +59,9 @@ namespace Accord.Math.Distances
         /// 
         public Mahalanobis(SingularValueDecomposition svd)
         {
+            this.chol = null;
             this.svd = svd;
+            this.precision = null;
         }
 
         /// <summary>
@@ -75,6 +72,8 @@ namespace Accord.Math.Distances
         /// 
         public Mahalanobis(double[,] precision)
         {
+            this.chol = null;
+            this.svd = null;
             this.precision = precision;
         }
 
@@ -92,7 +91,7 @@ namespace Accord.Math.Distances
         ///   to the distance function implemented by this class.
         /// </returns>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public double Distance(double[] x, double[] y)

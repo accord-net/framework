@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -26,6 +26,7 @@ namespace Accord.Statistics.Running
     using Accord.Math;
     using Accord.Statistics.Distributions;
     using Accord.Statistics.Models.Markov;
+    using Accord.Compat;
 
     /// <summary>
     ///   Hidden Markov Classifier filter.
@@ -80,9 +81,9 @@ namespace Accord.Statistics.Running
         {
             this.Classifier = model;
 
-            this.Responses = new double[model.Classes];
-            this.models = new RunningMarkovStatistics[model.Classes];
-            for (int i = 0; i < model.Classes; i++)
+            this.Responses = new double[model.NumberOfClasses];
+            this.models = new RunningMarkovStatistics[model.NumberOfClasses];
+            for (int i = 0; i < model.NumberOfClasses; i++)
                 this.models[i] = new RunningMarkovStatistics(model[i]);
 
             if (model.Threshold != null)

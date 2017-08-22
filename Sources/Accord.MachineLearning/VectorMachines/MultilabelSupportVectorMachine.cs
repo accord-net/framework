@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -24,8 +24,8 @@ namespace Accord.MachineLearning.VectorMachines
 {
     using System;
     using System.IO;
+    using Accord.MachineLearning.VectorMachines.Learning;
     using System.Runtime.Serialization.Formatters.Binary;
-    using System.Threading.Tasks;
     using Accord.Math;
     using Accord.Statistics.Kernels;
     using System.Collections.Generic;
@@ -33,6 +33,8 @@ namespace Accord.MachineLearning.VectorMachines
     using System.Runtime.Serialization;
     using Accord.MachineLearning;
     using System.Reflection;
+    using Accord.Compat;
+    using System.Threading.Tasks;
 
     /// <summary>
     ///   One-against-all Multi-label Kernel Support Vector Machine Classifier.
@@ -60,11 +62,36 @@ namespace Accord.MachineLearning.VectorMachines
     ///       <a href="http://nlp.stanford.edu/IR-book/html/htmledition/multiclass-svms-1.html">
     ///        http://nlp.stanford.edu/IR-book/html/htmledition/multiclass-svms-1.html </a></description></item>
     ///     </list></para>
-    ///
     /// </remarks>
+    /// 
+    /// <example>
+    /// <para>
+    ///   The following example shows how to learn a linear, multi-label (one-vs-rest) support 
+    ///   vector machine using the <see cref="LinearDualCoordinateDescent"/> algorithm. </para>
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MultilabelSupportVectorLearningTest.cs" region="doc_learn_ldcd" />
+    /// 
+    /// <para>
+    ///   The following example shows how to learn a non-linear, multi-label (one-vs-rest) 
+    ///   support vector machine using the <see cref="Gaussian"/> kernel and the 
+    ///   <see cref="SequentialMinimalOptimization"/> algorithm. </para>
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MultilabelSupportVectorLearningTest.cs" region="doc_learn_gaussian" />
+    ///   
+    /// <para>
+    ///   Support vector machines can have their weights calibrated in order to produce probability 
+    ///   estimates (instead of simple class separation distances). The following example shows how 
+    ///   to use <see cref="ProbabilisticOutputCalibration"/> within <see cref="MulticlassSupportVectorLearning"/> 
+    ///   to generate a probabilistic SVM:</para>
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MultilabelSupportVectorLearningTest.cs" region="doc_learn_calibration" />
+    /// </example>
+    /// 
+    /// <seealso cref="MultilabelSupportVectorLearning"/>
+    /// <seealso cref="MulticlassSupportVectorMachine"/>
+    /// 
     [Serializable]
     [Obsolete("Please use MultilabelSupportVectorMachine<TKernel> instead.")]
+#if !NETSTANDARD1_4
     [SerializationBinder(typeof(MultilabelSupportVectorMachine.MultilabelSupportVectorMachineBinder))]
+#endif
     public class MultilabelSupportVectorMachine :
         MultilabelSupportVectorMachine<IKernel<double[]>>
     {
@@ -114,6 +141,7 @@ namespace Accord.MachineLearning.VectorMachines
 
 
         #region Obsolete
+#if !NETSTANDARD1_4
         /// <summary>
         ///   Gets the classifier for class <paramref name="index"/>.
         /// </summary>
@@ -130,7 +158,7 @@ namespace Accord.MachineLearning.VectorMachines
         /// 
         /// <param name="stream">The stream to which the machine is to be serialized.</param>
         /// 
-        [Obsolete("Please use Accord.IO.Serializer.Save() instead (or use it as an extension method).")]
+        [Obsolete("Please use Accord.IO.Serializer.Save(stream) instead (or use it as an extension method).")]
         public void Save(Stream stream)
         {
             Accord.IO.Serializer.Save(this, stream);
@@ -142,7 +170,7 @@ namespace Accord.MachineLearning.VectorMachines
         /// 
         /// <param name="path">The path to the file to which the machine is to be serialized.</param>
         /// 
-        [Obsolete("Please use Accord.IO.Serializer.Save() instead (or use it as an extension method).")]
+        [Obsolete("Please use Accord.IO.Serializer.Save(path) instead (or use it as an extension method).")]
         public void Save(string path)
         {
             Accord.IO.Serializer.Save(this, path);
@@ -156,7 +184,7 @@ namespace Accord.MachineLearning.VectorMachines
         /// 
         /// <returns>The deserialized machine.</returns>
         /// 
-        [Obsolete("Please use Accord.IO.Serializer.Save() instead (or use it as an extension method).")]
+        [Obsolete("Please use Accord.IO.Serializer.Load<MultilabelSupportVectorMachine>(stream) instead.")]
         public static MultilabelSupportVectorMachine Load(Stream stream)
         {
             return Accord.IO.Serializer.Load<MultilabelSupportVectorMachine>(stream);
@@ -170,11 +198,12 @@ namespace Accord.MachineLearning.VectorMachines
         /// 
         /// <returns>The deserialized machine.</returns>
         /// 
-        [Obsolete("Please use Accord.IO.Serializer.Save() instead (or use it as an extension method).")]
+        [Obsolete("Please use Accord.IO.Serializer.Load<MultilabelSupportVectorMachine>(path) instead.")]
         public static MultilabelSupportVectorMachine Load(string path)
         {
             return Accord.IO.Serializer.Load<MultilabelSupportVectorMachine>(path);
         }
+#endif
 
 
         /// <summary>
@@ -206,7 +235,7 @@ namespace Accord.MachineLearning.VectorMachines
         [Obsolete("Please use Models instead.")]
         public KernelSupportVectorMachine[] Machines
         {
-            get { return Models.Convert(x => (KernelSupportVectorMachine)x); }
+            get { return Models.Apply(x => (KernelSupportVectorMachine)x); }
         }
 #pragma warning restore 0618
 
@@ -264,12 +293,8 @@ namespace Accord.MachineLearning.VectorMachines
         #endregion
 
 
-
-
-
-
         #region Serialization backwards compatibility
-
+#if !NETSTANDARD1_4
         internal class MultilabelSupportVectorMachineBinder : SerializationBinder
         {
 
@@ -318,7 +343,7 @@ namespace Accord.MachineLearning.VectorMachines
 
 #pragma warning restore 0169
 #pragma warning restore 0649
-
+#endif
         #endregion
     }
 
@@ -348,13 +373,36 @@ namespace Accord.MachineLearning.VectorMachines
     ///       <a href="http://nlp.stanford.edu/IR-book/html/htmledition/multiclass-svms-1.html">
     ///        http://nlp.stanford.edu/IR-book/html/htmledition/multiclass-svms-1.html </a></description></item>
     ///     </list></para>
-    ///
     /// </remarks>
+    /// 
+    /// <example>
+    /// <para>
+    ///   The following example shows how to learn a linear, multi-label (one-vs-rest) support 
+    ///   vector machine using the <see cref="LinearDualCoordinateDescent"/> algorithm. </para>
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MultilabelSupportVectorLearningTest.cs" region="doc_learn_ldcd" />
+    /// 
+    /// <para>
+    ///   The following example shows how to learn a non-linear, multi-label (one-vs-rest) 
+    ///   support vector machine using the <see cref="Gaussian"/> kernel and the 
+    ///   <see cref="SequentialMinimalOptimization{TKernel}"/> algorithm. </para>
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MultilabelSupportVectorLearningTest.cs" region="doc_learn_gaussian" />
+    ///   
+    /// <para>
+    ///   Support vector machines can have their weights calibrated in order to produce probability 
+    ///   estimates (instead of simple class separation distances). The following example shows how 
+    ///   to use <see cref="ProbabilisticOutputCalibration"/> within <see cref="MulticlassSupportVectorLearning{TKernel}"/> 
+    ///   to generate a probabilistic SVM:</para>
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MultilabelSupportVectorLearningTest.cs" region="doc_learn_calibration" />
+    /// </example>
+    /// 
+    /// <seealso cref="MultilabelSupportVectorLearning{TKernel}"/>
+    /// <seealso cref="MulticlassSupportVectorMachine{TKernel}"/>
+    /// 
     [Serializable]
     public class MultilabelSupportVectorMachine<TKernel> :
         MultilabelSupportVectorMachine<
-            SupportVectorMachine<TKernel>, 
-            TKernel, 
+            SupportVectorMachine<TKernel>,
+            TKernel,
             double[]>
         where TKernel : IKernel<double[]>
     {

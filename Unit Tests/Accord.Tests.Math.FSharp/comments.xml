@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doc>
+  <assembly>
+    <name>Accord.Tests.MachineLearning</name>
+  </assembly>
+  <members>
+    <member name="" />
+    <member name="N:Accord.Tests.MachineLearning" />
+    <member name="M:Accord.Tests.MachineLearning.C45LearningTest.same_input_different_output_minimal" />
+  </members>
+</doc>

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -29,22 +29,6 @@ namespace Accord.Tests.Statistics
     [TestFixture]
     public class LogLogisticDistributionTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
 
 
         [Test]
@@ -94,6 +78,7 @@ namespace Accord.Tests.Statistics
             var range1 = log.GetRange(0.95);
             var range2 = log.GetRange(0.99);
             var range3 = log.GetRange(0.01);
+            var range4 = log.GetRange(1.00);
 
             Assert.AreEqual(0.11015333581796467, range1.Min);
             Assert.AreEqual(1.6014040672496028, range1.Max);
@@ -101,7 +86,23 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(3.3912218129781762, range2.Max);
             Assert.AreEqual(0.0520166505549471, range3.Min);
             Assert.AreEqual(3.3912218129781762, range3.Max);
+            Assert.AreEqual(0, range4.Min);
+            Assert.AreEqual(double.PositiveInfinity, range4.Max);
+
+            Assert.AreEqual(0, log.Support.Min);
+            Assert.AreEqual(double.PositiveInfinity, log.Support.Max);
+
+            Assert.AreEqual(log.InverseDistributionFunction(0), log.Support.Min);
+            Assert.AreEqual(log.InverseDistributionFunction(1), log.Support.Max);
         }
 
+        [Test]
+        public void default_ctor_test()
+        {
+            var log = new LogLogisticDistribution();
+
+            Assert.AreEqual(1, log.Shape);
+            Assert.AreEqual(1, log.Scale);
+        }
     }
 }

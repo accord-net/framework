@@ -12,6 +12,7 @@
 namespace Accord.Math
 {
     using System;
+    using Accord.Compat;
     using System.Numerics;
 
     /// <summary>
@@ -292,7 +293,7 @@ namespace Accord.Math
             }
         }
 
-        #region Private Region
+#region Private Region
 
         private const int minLength = 2;
         private const int maxLength = 16384;
@@ -385,6 +386,6 @@ namespace Accord.Math
             }
         }
 
-        #endregion
+#endregion
     }
 }

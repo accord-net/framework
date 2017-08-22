@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -87,12 +87,23 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Please use MaxIterations instead.
+        /// </summary>
+        /// 
+        [Obsolete("Please use MaxIterations instead.")]
+        public int Iterations
+        {
+            get { return MaxIterations; }
+            set { MaxIterations = value; }
+        }
+
+        /// <summary>
         ///   Gets or sets the maximum number of iterations
         ///   performed by the iterative algorithm. Default 
         ///   is 100.
         /// </summary>
         /// 
-        public int Iterations
+        public int MaxIterations
         {
             get { return maxIterations; }
             set
@@ -123,11 +134,14 @@ namespace Accord.Math
         /// <param name="tolerance">The maximum change in the watched value
         ///   after an iteration of the algorithm used to detect convergence.
         ///   Default is 0.</param>
+        /// <param name="startValue">The initial value for the <see cref="NewValue"/> and
+        ///   <see cref="OldValue"/> properties.</param>
         /// 
-        public AbsoluteConvergence(int iterations, double tolerance)
+        public AbsoluteConvergence(int iterations = 100, double tolerance = 0, double startValue = 0)
         {
-            this.Iterations = iterations;
+            this.MaxIterations = iterations;
             this.tolerance = tolerance;
+            this.newValue = startValue;
         }
 
         /// <summary>
@@ -155,7 +169,7 @@ namespace Accord.Math
         ///   Gets or sets the current iteration number.
         /// </summary>
         /// 
-        public int CurrentIteration { get; private set; }
+        public int CurrentIteration { get; set; }
 
         /// <summary>
         ///   Gets whether the algorithm has converged.
@@ -165,7 +179,9 @@ namespace Accord.Math
         {
             get
             {
-                // Update and verify stop criteria
+                if (maxIterations > 0 && CurrentIteration >= maxIterations)
+                    return true;
+
                 if (tolerance > 0)
                 {
                     // Stopping criteria is likelihood convergence
@@ -173,26 +189,11 @@ namespace Accord.Math
 
                     if (delta <= tolerance)
                         return true;
-
-                    if (maxIterations > 0)
-                    {
-                        // Maximum iterations should also be respected
-                        if (CurrentIteration >= maxIterations)
-                            return true;
-                    }
-                }
-                else
-                {
-                    // Stopping criteria is number of iterations
-                    if (CurrentIteration >= maxIterations)
-                        return true;
                 }
 
                 // Check if we have reached an invalid or perfectly separable answer
-                if (Double.IsNaN(NewValue) || Double.IsInfinity(NewValue))
-                {
+                if (Double.IsNaN(NewValue) || (Double.IsInfinity(OldValue) && Double.IsInfinity(NewValue)))
                     return true;
-                }
 
                 return false;
             }

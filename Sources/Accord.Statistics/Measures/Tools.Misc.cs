@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -22,11 +22,13 @@
 
 namespace Accord.Statistics
 {
+    using Accord.Diagnostics;
     using Accord.Math;
     using Accord.Math.Decompositions;
     using Accord.Statistics.Kernels;
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     static partial class Tools
     {
@@ -58,7 +60,18 @@ namespace Accord.Statistics
         ///   Gets the rank of a sample, often used with order statistics.
         /// </summary>
         /// 
-        public static double[] Rank(this double[] samples, bool alreadySorted = false)
+        public static double[] Rank(this double[] samples, bool alreadySorted = false, bool adjustForTies = true)
+        {
+            bool hasTies;
+            return Rank(samples, hasTies: out hasTies, alreadySorted: alreadySorted, adjustForTies: adjustForTies);
+        }
+
+        /// <summary>
+        ///   Gets the rank of a sample, often used with order statistics.
+        /// </summary>
+        /// 
+        public static double[] Rank(this double[] samples, out bool hasTies,
+            bool alreadySorted = false, bool adjustForTies = true)
         {
             int[] idx = Vector.Range(0, samples.Length);
 
@@ -72,39 +85,66 @@ namespace Accord.Statistics
 
             double tieSum = 0;
             int tieSize = 0;
+            hasTies = false;
 
             int start = 0;
-            while (samples[start] == 0) start++;
+            while (samples[start] == 0)
+                start++;
 
             ranks[start] = 1;
-            for (int i = start + 1, r = 1; i < ranks.Length; i++)
+            if (adjustForTies)
             {
-                // Check if we have a tie
-                if (samples[i] != samples[i - 1])
+                int r = 1;
+                for (int i = start + 1; i < ranks.Length; i++)
                 {
-                    // This is not a tie.
-                    // Was a tie before?
-                    if (tieSize > 0)
+                    // Check if we have a tie
+                    if (samples[i] != samples[i - 1])
                     {
-                        // Yes. Then set the previous
-                        // elements with the average.
+                        // This is not a tie.
+                        // Was a tie before?
+                        if (tieSize > 0)
+                        {
+                            // Yes. Then set the previous
+                            // elements with the average.
 
-                        for (int j = 0; j < tieSize + 1; j++)
-                            ranks[i - j - 1] = (r + tieSum) / (tieSize + 1);
+                            for (int j = 0; j < tieSize + 1; j++)
+                            {
+                                int k = i - j - 1;
+                                ranks[k] = (r + tieSum) / (tieSize + 1.0);
+                            }
 
-                        tieSize = 0;
-                        tieSum = 0;
+                            tieSize = 0;
+                            tieSum = 0;
+                        }
+
+                        ranks[i] = ++r;
                     }
+                    else
+                    {
+                        // This is a tie. Compute how 
+                        // long we have been in a tie.
+                        tieSize++;
+                        tieSum += r++;
+                        hasTies = true;
+                    }
+                }
 
-                    ranks[i] = ++r;
-                }
-                else
+                // Handle the last ties
+                if (tieSize > 0)
                 {
-                    // This is a tie. Compute how 
-                    // long we have been in a tie.
-                    tieSize++;
-                    tieSum += r++;
+                    // We were still in the middle of a tie
+                    for (int j = 0; j < tieSize + 1; j++)
+                    {
+                        int k = samples.Length - j - 1;
+                        ranks[k] = (r + tieSum) / (tieSize + 1.0);
+                    }
                 }
+            }
+            else
+            {
+                // No need to adjust for ties
+                for (int i = start + 1, r = 1; i < ranks.Length; i++)
+                    ranks[i] = ++r;
             }
 
             if (!alreadySorted)
@@ -113,7 +153,30 @@ namespace Accord.Statistics
             return ranks;
         }
 
+        /// <summary>
+        ///   Gets the number of ties and distinct elements in a rank vector.
+        /// </summary>
+        /// 
+        public static int[] Ties(this double[] ranks)
+        {
+            var counts = new Dictionary<double, int>();
+            for (int i = 0; i < ranks.Length; i++)
+            {
+                double r = ranks[i];
 
+                int c;
+                if (!counts.TryGetValue(r, out c))
+                    c = 0;
+
+                counts[r] = c + 1;
+            }
+
+            int[] ties = new int[counts.Count];
+            double[] sorted = counts.Keys.Sorted();
+            for (int i = 0; i < sorted.Length; i++)
+                ties[i] = counts[sorted[i]];
+            return ties;
+        }
 
 
 
@@ -401,10 +464,13 @@ namespace Accord.Statistics
 
             double[,] result = inPlace ? matrix : new double[rows, cols];
 
-            for (int i = 0; i < standardDeviations.Length; i++)
-                if (standardDeviations[i] == 0 && tol == 0)
-                    throw new ArithmeticException("Standard deviation cannot be" +
-                    " zero (cannot standardize the constant variable at column index " + i + ").");
+            if (tol == 0)
+            {
+                for (int i = 0; i < standardDeviations.Length; i++)
+                    if (standardDeviations[i] == 0 && tol == 0)
+                        throw new ArithmeticException("Standard deviation cannot be" +
+                        " zero (cannot standardize the constant variable at column index " + i + ").");
+            }
 
             for (int i = 0; i < rows; i++)
             {
@@ -448,10 +514,13 @@ namespace Accord.Statistics
         {
             double[][] result = inPlace ? matrix : Jagged.CreateAs(matrix);
 
-            for (int i = 0; i < standardDeviations.Length; i++)
-                if (standardDeviations[i] == 0)
-                    throw new ArithmeticException("Standard deviation cannot be" +
-                    " zero (cannot standardize the constant variable at column index " + i + ").");
+            if (tol == 0)
+            {
+                for (int i = 0; i < standardDeviations.Length; i++)
+                    if (standardDeviations[i] == 0)
+                        throw new ArithmeticException("Standard deviation cannot be" +
+                        " zero (cannot standardize the constant variable at column index " + i + ").");
+            }
 
 
             for (int i = 0; i < matrix.Length; i++)
@@ -468,29 +537,6 @@ namespace Accord.Statistics
             return result;
         }
 
-        /// <summary>
-        ///   Computes the split information measure.
-        /// </summary>
-        /// 
-        /// <param name="samples">The total number of samples.</param>
-        /// <param name="partitions">The partitioning.</param>
-        /// 
-        /// <returns>The split information for the given partitions.</returns>
-        /// 
-        public static double SplitInformation(int samples, int[][] partitions)
-        {
-            double info = 0;
-
-            for (int i = 0; i < partitions.Length; i++)
-            {
-                double p = (double)partitions[i].Length / samples;
-
-                if (p != 0)
-                    info -= p * Math.Log(p, 2);
-            }
-
-            return info;
-        }
 
     }
 }

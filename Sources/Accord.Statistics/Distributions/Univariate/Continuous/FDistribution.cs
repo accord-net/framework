@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -25,7 +25,7 @@ namespace Accord.Statistics.Distributions.Univariate
     using System;
     using Accord.Math;
     using Accord.Statistics.Distributions.Fitting;
-    using AForge;
+    using Accord.Compat;
 
     /// <summary>
     ///   F (Fisher-Snedecor) distribution.
@@ -257,11 +257,8 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   u is given as u = (d1 * x) / (d1 * x + d2)</para>.
         /// </remarks>
         /// 
-        public override double DistributionFunction(double x)
+        protected internal override double InnerDistributionFunction(double x)
         {
-            if (x <= 0)
-                return 0;
-
             double u = (d1 * x) / (d1 * x + d2);
             return Beta.Incomplete(d1 * 0.5, d2 * 0.5, u);
         }
@@ -278,11 +275,8 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   u is given as u = (d2 * x) / (d2 * x + d1)</para>.
         /// </remarks>
         /// 
-        public override double ComplementaryDistributionFunction(double x)
+        protected internal override double InnerComplementaryDistributionFunction(double x)
         {
-            if (x <= 0)
-                return 1;
-
             double u = d2 / (d2 + d1 * x);
             return Beta.Incomplete(d2 * 0.5, d1 * 0.5, u);
         }
@@ -299,15 +293,11 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   or below, with that probability.
         /// </remarks>
         /// 
-        public override double InverseDistributionFunction(double p)
+        protected internal override double InnerInverseDistributionFunction(double p)
         {
             // Cephes Math Library Release 2.8:  June, 2000
             // Copyright 1984, 1987, 1995, 2000 by Stephen L. Moshier
             // Adapted under the LGPL with permission of original author.
-
-            if (p <= 0.0 || p > 1.0)
-                throw new ArgumentOutOfRangeException("p", "Input must be between zero and one.");
-
 
             double d1 = this.d1;
             double d2 = this.d2;
@@ -347,11 +337,8 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value <c>x</c> will occur.
         /// </remarks>
         /// 
-        public override double ProbabilityDensityFunction(double x)
+        protected internal override double InnerProbabilityDensityFunction(double x)
         {
-            if (x <= 0)
-                return 0;
-
             double u = Math.Pow(d1 * x, d1) * Math.Pow(d2, d2) /
                 Math.Pow(d1 * x + d2, d1 + d2);
             return Math.Sqrt(u) / (x * b);
@@ -374,11 +361,8 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value <c>x</c> will occur.
         /// </remarks>
         /// 
-        public override double LogProbabilityDensityFunction(double x)
+        protected internal override double InnerLogProbabilityDensityFunction(double x)
         {
-            if (x <= 0)
-                return Double.NegativeInfinity;
-
             double lnu = d1 * Math.Log(d1 * x) + d2 * Math.Log(d2) -
                 (d1 + d2) * Math.Log(d1 * x + d2);
             return 0.5 * lnu - Math.Log(x * b);
@@ -414,12 +398,14 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <param name="samples">The number of samples to generate.</param>
         /// <param name="result">The location where to store the samples.</param>
-        ///
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        /// 
         /// <returns>A random vector of observations drawn from this distribution.</returns>
         /// 
-        public override double[] Generate(int samples, double[] result)
+        public override double[] Generate(int samples, double[] result, Random source)
         {
-            return Random(d1, d2, samples, result);
+            return Random(d1, d2, samples, result, source);
         }
 
         /// <summary>
@@ -428,9 +414,9 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <returns>A random observations drawn from this distribution.</returns>
         /// 
-        public override double Generate()
+        public override double Generate(Random source)
         {
-            return Random(d1, d2);
+            return Random(d1, d2, source);
         }
 
         /// <summary>
@@ -446,7 +432,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public static double[] Random(int d1, int d2, int samples)
         {
-            return Random(d1, d2, samples, new double[samples]);
+            return Random(d1, d2, samples, Accord.Math.Random.Generator.Random);
         }
 
         /// <summary>
@@ -463,12 +449,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public static double[] Random(int d1, int d2, int samples, double[] result)
         {
-            double[] x = GammaDistribution.Random(shape: d1 / 2.0, scale: 2, samples: samples, result: result);
-            double[] y = GammaDistribution.Random(shape: d2 / 2.0, scale: 2, samples: samples);
-
-            for (int i = 0; i < x.Length; i++)
-                x[i] /= y[i];
-            return x;
+            return Random(d1, d2, samples, result, Accord.Math.Random.Generator.Random);
         }
 
         /// <summary>
@@ -483,8 +464,71 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public static double Random(int d1, int d2)
         {
-            double x = GammaDistribution.Random(shape: d1 / 2.0, scale: 2);
-            double y = GammaDistribution.Random(shape: d2 / 2.0, scale: 2);
+            return Random(d1, d2, Accord.Math.Random.Generator.Random);
+        }
+
+
+
+
+
+        /// <summary>
+        ///   Generates a random vector of observations from the 
+        ///   F-distribution with the given parameters.
+        /// </summary>
+        /// 
+        /// <param name="d1">The first degree of freedom.</param>
+        /// <param name="d2">The second degree of freedom.</param>
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        ///
+        /// <returns>An array of double values sampled from the specified F-distribution.</returns>
+        /// 
+        public static double[] Random(int d1, int d2, int samples, Random source)
+        {
+            return Random(d1, d2, samples, new double[samples], source);
+        }
+
+        /// <summary>
+        ///   Generates a random vector of observations from the 
+        ///   F-distribution with the given parameters.
+        /// </summary>
+        /// 
+        /// <param name="d1">The first degree of freedom.</param>
+        /// <param name="d2">The second degree of freedom.</param>
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="result">The location where to store the samples.</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        ///
+        /// <returns>An array of double values sampled from the specified F-distribution.</returns>
+        /// 
+        public static double[] Random(int d1, int d2, int samples, double[] result, Random source)
+        {
+            double[] x = GammaDistribution.Random(shape: d1 / 2.0, scale: 2, samples: samples, result: result, source: source);
+            double[] y = GammaDistribution.Random(shape: d2 / 2.0, scale: 2, samples: samples, source: source);
+
+            for (int i = 0; i < x.Length; i++)
+                x[i] /= y[i];
+            return x;
+        }
+
+        /// <summary>
+        ///   Generates a random observation from the 
+        ///   F-distribution with the given parameters.
+        /// </summary>
+        /// 
+        /// <param name="d1">The first degree of freedom.</param>
+        /// <param name="d2">The second degree of freedom.</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        /// 
+        /// <returns>A random double value sampled from the specified F-distribution.</returns>
+        /// 
+        public static double Random(int d1, int d2, Random source)
+        {
+            double x = GammaDistribution.Random(shape: d1 / 2.0, scale: 2, source: source);
+            double y = GammaDistribution.Random(shape: d2 / 2.0, scale: 2, source: source);
             return x / y;
         }
 

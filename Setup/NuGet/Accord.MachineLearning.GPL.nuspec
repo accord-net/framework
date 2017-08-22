@@ -14,12 +14,13 @@
     <description>
       This package contains libraries of the Accord.NET Framework that are NOT available under the LGPL. It currently includes Accord.MachineLearning.GPL, which contains GPL code and thus can only be used inside GPL-compliant applications. Please take extra care before including this library in your projects.
     </description>
-    <summary>Accord.NET Non-LGPL machine learning libraries from the Accord.NET framework.</summary>
+    <summary>Extra non-LGPL machine learning libraries from the Accord.NET framework, containing Sequential Minimal Optimization for Regression (SMOreg).</summary>
     <tags>accord.net aforge.net aforge.net machine learning artificial intelligence smo svm gpl kernel</tags>
     <dependencies>
-      <dependency id="Accord"            version="$version$" />
-      <dependency id="Accord.Math"       version="$version$" />
-      <dependency id="Accord.Statistics" version="$version$" />
+      <dependency id="Accord"                 version="$version$" />
+      <dependency id="Accord.Math"            version="$version$" />
+      <dependency id="Accord.Statistics"      version="$version$" />
+      <dependency id="Accord.MachineLearning" version="$version$" />
     </dependencies>
   </metadata>
   <files>
@@ -31,5 +32,17 @@
 
     <file src="..\..\Release\net45\GPL\Accord.MachineLearning.GPL.dll" target="lib\net45\Accord.MachineLearning.GPL.dll" />
     <file src="..\..\Release\net45\GPL\Accord.MachineLearning.GPL.xml" target="lib\net45\Accord.MachineLearning.GPL.xml" />
+
+    <file src="..\..\Release\net46\GPL\Accord.MachineLearning.GPL.dll" target="lib\net46\Accord.MachineLearning.GPL.dll" />
+    <file src="..\..\Release\net46\GPL\Accord.MachineLearning.GPL.xml" target="lib\net46\Accord.MachineLearning.GPL.xml" />
+
+    <file src="..\..\Release\net462\GPL\Accord.MachineLearning.GPL.dll" target="lib\net462\Accord.MachineLearning.GPL.dll" />
+    <file src="..\..\Release\net462\GPL\Accord.MachineLearning.GPL.xml" target="lib\net462\Accord.MachineLearning.GPL.xml" />
+
+    <file src="..\..\Release\netstandard2.0\GPL\Accord.MachineLearning.GPL.dll" target="lib\netstandard2.0\Accord.MachineLearning.GPL.dll" />
+    <file src="..\..\Release\netstandard2.0\GPL\Accord.MachineLearning.GPL.xml" target="lib\netstandard2.0\Accord.MachineLearning.GPL.xml" />
+
+    <file src="..\..\Release\netstandard1.4\GPL\Accord.MachineLearning.GPL.dll" target="lib\netstandard1.4\Accord.MachineLearning.GPL.dll" />
+    <file src="..\..\Release\netstandard1.4\GPL\Accord.MachineLearning.GPL.xml" target="lib\netstandard1.4\Accord.MachineLearning.GPL.xml" />
   </files>
 </package>

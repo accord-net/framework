@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -25,6 +25,7 @@ namespace Accord.Math.Distances
     using System;
     using System.Collections;
     using System.Runtime.CompilerServices;
+    using Accord.Compat;
 
     /// <summary>
     ///   Hamming distance.
@@ -33,17 +34,9 @@ namespace Accord.Math.Distances
     /// <typeparam name="T">The type of the elements to be compared.</typeparam>
     /// 
     [Serializable]
-    public sealed class Hamming<T> : IMetric<T[]>
+    public struct Hamming<T> : IMetric<T[]>
         where T : IEquatable<T>
     {
-        /// <summary>
-        ///   Initializes a new instance of the <see cref="Hamming"/> class.
-        /// </summary>
-        /// 
-        public Hamming()
-        {
-        }
-
         /// <summary>
         ///   Computes the distance <c>d(x,y)</c> between points
         ///   <paramref name="x"/> and <paramref name="y"/>.
@@ -58,7 +51,7 @@ namespace Accord.Math.Distances
         ///   to the distance function implemented by this class.
         /// </returns>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public double Distance(T[] x, T[] y)

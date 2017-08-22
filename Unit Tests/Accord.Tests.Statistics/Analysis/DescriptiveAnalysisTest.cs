@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -33,23 +33,6 @@ namespace Accord.Tests.Statistics
     public class DescriptiveAnalysisTest
     {
 
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
         [Test]
         public void DescriptiveAnalysisConstructorTest1()
         {
@@ -69,6 +52,36 @@ namespace Accord.Tests.Statistics
 
             // Compute
             analysis.Compute();
+
+            test(analysis);
+        }
+
+        [Test]
+        public void new_method()
+        {
+            #region doc_learn
+            // Suppose we would like to compute descriptive
+            // statistics from the following data samples:
+            double[][] data =
+            {
+                new double[] { 1, 52, 5 },
+                new double[] { 2, 12, 5 },
+                new double[] { 1, 65, 5 },
+                new double[] { 1, 25, 5 },
+                new double[] { 2, 62, 5 },
+            };
+
+            // Create the descriptive analysis
+            var analysis = new DescriptiveAnalysis();
+
+            // Learn the data
+            analysis.Learn(data);
+
+            // Query different measures
+            double[] means = analysis.Means;
+            double[] variance = analysis.Variances;
+            DoubleRange[] quartiles = analysis.Quartiles;
+            #endregion
 
             test(analysis);
         }
@@ -193,7 +206,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(q.Max, quartiles[0].Max);
 
             Assert.AreEqual(12, quartiles[0].Min);
-            Assert.AreEqual(62, quartiles[0].Max);
+            Assert.AreEqual(62.75, quartiles[0].Max);
         }
 
         [Test]
@@ -207,6 +220,73 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual("x", target.ColumnNames[0]);
             Assert.AreEqual("y", target.ColumnNames[1]);
             Assert.AreEqual("z", target.ColumnNames[2]);
+
+
+            Assert.IsTrue(target.CorrelationMatrix.IsEqual(new double[,]
+            {
+                {  1.0000,   -0.7559,    0.1429 },
+                { -0.7559,    1.0000,   -0.7559 },
+                {  0.1429,   -0.7559,    1.0000 },
+            }, atol: 0.0001));
+
+            Assert.IsTrue(target.CovarianceMatrix.IsEqual(new double[,]
+            {
+                {  7,    -8,     1 },
+                { -8,    16,    -8 },
+                {  1,    -8,     7 },
+            }, atol: 0.00000001));
+
+            Assert.IsTrue(target.StandardScores.IsEqual(new double[,]
+            { 
+                { 1.1339,   -1.0000,    0.3780 },
+                { -0.7559,         0,    0.7559 },
+                { -0.3780,    1.0000,   -1.1339 },
+            }, atol: 0.001));
+
+            Assert.IsTrue(target.Means.IsEqual(new double[] { 5, 5, 5 }));
+
+            Assert.IsTrue(target.StandardDeviations.IsEqual(new double[] { 2.6458, 4.0000, 2.6458 }, 0.001));
+
+            Assert.IsTrue(target.Medians.IsEqual(new double[] { 4, 5, 6 }));
+
+
+            Assert.AreEqual(3, target.Ranges[0].Min);
+            Assert.AreEqual(8, target.Ranges[0].Max);
+            Assert.AreEqual(1, target.Ranges[1].Min);
+            Assert.AreEqual(9, target.Ranges[1].Max);
+            Assert.AreEqual(2, target.Ranges[2].Min);
+            Assert.AreEqual(7, target.Ranges[2].Max);
+
+            Assert.AreEqual(3, target.Samples);
+            Assert.AreEqual(3, target.Variables);
+
+            Assert.IsTrue(target.Source.IsEqual(Matrix.Magic(3)));
+
+            Assert.IsTrue(target.Sums.IsEqual(new double[] { 15, 15, 15 }));
+
+            Assert.IsTrue(target.Variances.IsEqual(new double[] { 7, 16, 7 }));
+
+            Assert.AreEqual(3, target.Quartiles[0].Min);
+            Assert.AreEqual(8, target.Quartiles[0].Max);
+            Assert.AreEqual(1, target.Quartiles[1].Min);
+            Assert.AreEqual(9, target.Quartiles[1].Max);
+            Assert.AreEqual(2, target.Quartiles[2].Min);
+            Assert.AreEqual(7, target.Quartiles[2].Max);
+        }
+
+        [Test]
+        public void new_method_column_names()
+        {
+            double[][] data = Jagged.Magic(3);
+            string[] columnNames = { "x", "y", "z" };
+            var target = new DescriptiveAnalysis(columnNames);
+            target.Learn(data);
+
+            Assert.AreEqual("x", target.ColumnNames[0]);
+            Assert.AreEqual("y", target.ColumnNames[1]);
+            Assert.AreEqual("z", target.ColumnNames[2]);
+
+            target.ColumnNames = columnNames;
 
 
             Assert.IsTrue(target.CorrelationMatrix.IsEqual(new double[,]
@@ -507,7 +587,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(distinct.IsEqual(new int[] { 2 }));
             Assert.IsTrue(kurtosis.IsEqual(new double[] { Double.NaN }));
             Assert.IsTrue(means.IsEqual(new double[] { 47 }));
-            Assert.IsTrue(medians.IsEqual(new double[] { 94 }));
+            Assert.IsTrue(medians.IsEqual(new double[] { 47 }));
             Assert.IsTrue(modes.IsEqual(new double[] { 52.0 })
                        || modes.IsEqual(new double[] { 42.0 }));
             Assert.IsTrue(samples == 2);
@@ -538,16 +618,16 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(56.799819922700266, confidence[0].Max);
 
             Assert.AreEqual(1, quartiles.Length);
-            Assert.AreEqual(73, quartiles[0].Min);
-            Assert.AreEqual(68, quartiles[0].Max);
+            Assert.AreEqual(42, quartiles[0].Min);
+            Assert.AreEqual(52, quartiles[0].Max);
 
             Assert.AreEqual(1, innerFence.Length);
-            Assert.AreEqual(80.5, innerFence[0].Min);
-            Assert.AreEqual(60.5, innerFence[0].Max);
+            Assert.AreEqual(27, innerFence[0].Min);
+            Assert.AreEqual(67, innerFence[0].Max);
 
             Assert.AreEqual(1, outerFence.Length);
-            Assert.AreEqual(88, outerFence[0].Min);
-            Assert.AreEqual(53, outerFence[0].Max);
+            Assert.AreEqual(12, outerFence[0].Min);
+            Assert.AreEqual(82, outerFence[0].Max);
         }
 
         [Test]

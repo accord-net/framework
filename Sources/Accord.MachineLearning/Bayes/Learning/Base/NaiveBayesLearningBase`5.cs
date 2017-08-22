@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -28,6 +28,7 @@ namespace Accord.MachineLearning.Bayes
     using Accord.Statistics.Distributions;
     using Accord.Statistics.Distributions.Fitting;
 
+#if !MONO
     /// <summary>
     ///   Base class for Naive Bayes learning algorithms.
     /// </summary>
@@ -38,7 +39,7 @@ namespace Accord.MachineLearning.Bayes
     /// <typeparam name="TOptions">The fitting options for the independent distribution.</typeparam>
     /// <typeparam name="TInnerOptions">The individual fitting options for the component distributions.</typeparam>
     /// 
-    public class NaiveBayesLearningBase<TModel, TDistribution, TInput, TOptions, TInnerOptions> :
+    public abstract class NaiveBayesLearningBase<TModel, TDistribution, TInput, TOptions, TInnerOptions> :
         NaiveBayesLearningBase<TModel, TDistribution, TInput, TOptions>
         where TDistribution : IFittableDistribution<TInput, TInnerOptions>,
                               IUnivariateDistribution<TInput>,
@@ -51,9 +52,12 @@ namespace Accord.MachineLearning.Bayes
         /// <summary>
         /// Fits one of the distributions in the naive bayes model.
         /// </summary>
-        protected override void Fit(int i, TInput[][] values, double[] weights)
+        protected override void Fit(int i, TInput[][] values, double[] weights, bool transposed)
         {
+            Options.Transposed = transposed;
             Model.Distributions[i].Fit(values, weights, Options);
+            this.optimized = true;
         }
     }
+#endif
 }

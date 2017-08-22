@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -32,12 +32,19 @@ namespace Accord.Tests.MachineLearning
     using Accord.Imaging;
     using Accord.Imaging.Filters;
     using Accord.Math.Geometry;
+    using System.Diagnostics;
+#if NO_BITMAP
+    using Resources = Accord.Tests.Imaging.Properties.Resources_Standard;
+#endif
 
     [TestFixture]
     public class RansacLineImageTest
     {
 
         [Test]
+#if MONO
+        [Ignore("Disabled on Mono")]
+#endif
         public void RansacLineConstructorTest2()
         {
             Accord.Math.Random.Generator.Seed = 0;
@@ -57,8 +64,8 @@ namespace Accord.Tests.MachineLearning
             RansacLine ransac = new RansacLine(5, 1e-10);
             Line line = ransac.Estimate(cloud);
 
-            Assert.AreEqual(0.501134932f, line.Intercept);
-            Assert.AreEqual(-0.865369201f, line.Slope);
+            Assert.AreEqual(0.501134932f, line.Intercept, 1e-5);
+            Assert.AreEqual(-0.865369201f, line.Slope, 1e-5);
 
             //var result = new LineMarker(line).Apply(image);
             //Accord.Controls.ImageBox.Show(result);

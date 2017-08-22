@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -30,23 +30,6 @@ namespace Accord.Tests.Statistics
     [TestFixture]
     public class PolynomialTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
 
         [Test]
         public void DistanceTest()
@@ -216,7 +199,8 @@ namespace Accord.Tests.Statistics
             };
 
             var target = new Polynomial(1);
-            var linear = new Linear();
+            var linear = new Linear(constant: 1);
+            Assert.AreEqual(target.Constant, linear.Constant);
 
             double[][] expected = data.Apply(x => linear.Transform(x));
             double[][] actual = data.Apply(target.Transform);
@@ -243,6 +227,15 @@ namespace Accord.Tests.Statistics
             double[][] actual = data.Apply(target.Transform);
 
             Assert.IsTrue(expected.IsEqual(actual, 1e-10));
+        }
+
+        [Test]
+        public void DegreeChangeTest()
+        {
+            // https://github.com/accord-net/framework/issues/745
+            var polynomial = new Polynomial();
+            polynomial.Degree = 3;
+            Assert.AreEqual(3, polynomial.Degree);
         }
 
     }

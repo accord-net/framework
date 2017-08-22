@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -29,8 +29,8 @@ namespace Accord.Controls
     using System.Threading;
     using System.Windows.Forms;
     using Accord.Math;
-    using AForge;
     using ZedGraph;
+    using Accord.Compat;
 
     /// <summary>
     ///   Data Series Box for quickly displaying a form with a time
@@ -311,7 +311,7 @@ namespace Accord.Controls
             Array.Sort(x, idx);
 
             for (int i = 0; i < series.Length; i++)
-                series[i] = series[i].Submatrix(idx);
+                series[i] = series[i].Get(idx);
 
             AutoResetEvent stopWaitHandle = new AutoResetEvent(false);
 

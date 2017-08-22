@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -22,6 +22,7 @@
 
 namespace Accord.Statistics.Models.Markov
 {
+#pragma warning disable 612, 618
 
     using System;
     using Accord.Statistics.Distributions;
@@ -31,7 +32,7 @@ namespace Accord.Statistics.Models.Markov
     ///   Forward-Backward algorithms for Hidden Markov Models.
     /// </summary>
     /// 
-    public static class ForwardBackwardAlgorithm
+    public static partial class ForwardBackwardAlgorithm
     {
 
         /// <summary>
@@ -41,7 +42,7 @@ namespace Accord.Statistics.Models.Markov
         public static void Forward(HiddenMarkovModel model, int[] observations, double[] scaling, double[,] fwd)
         {
             int states = model.States;
-            var A = model.Transitions.Exp();
+            var A = model.LogTransitions.Exp();
             var B = model.Emissions.Exp();
             var pi = model.Probabilities.Exp();
 
@@ -77,7 +78,7 @@ namespace Accord.Statistics.Models.Markov
                 {
                     double sum = 0.0;
                     for (int j = 0; j < states; j++)
-                        sum += fwd[t - 1, j] * A[j, i];
+                        sum += fwd[t - 1, j] * A[j][i];
                     fwd[t, i] = sum * B[i, obs];
 
                     s += fwd[t, i]; // scaling coefficient
@@ -101,7 +102,7 @@ namespace Accord.Statistics.Models.Markov
         public static double[,] Forward(HiddenMarkovModel model, int[] observations)
         {
             int states = model.States;
-            var A = Elementwise.Exp(model.Transitions);
+            var A = Elementwise.Exp(model.LogTransitions);
             var B = Elementwise.Exp(model.Emissions);
             var pi = Elementwise.Exp(model.Probabilities);
 
@@ -121,7 +122,7 @@ namespace Accord.Statistics.Models.Markov
                 {
                     double sum = 0.0;
                     for (int j = 0; j < states; j++)
-                        sum += fwd[t - 1, j] * A[j, i];
+                        sum += fwd[t - 1, j] * A[j][i];
                     fwd[t, i] = sum * B[i, obs];
                 }
             }
@@ -296,7 +297,7 @@ namespace Accord.Statistics.Models.Markov
         public static void Backward(HiddenMarkovModel model, int[] observations, double[] scaling, double[,] bwd)
         {
             int states = model.States;
-            var A = Elementwise.Exp(model.Transitions);
+            var A = Elementwise.Exp(model.LogTransitions);
             var B = Elementwise.Exp(model.Emissions);
 
             int T = observations.Length;
@@ -320,7 +321,7 @@ namespace Accord.Statistics.Models.Markov
                 {
                     double sum = 0;
                     for (int j = 0; j < states; j++)
-                        sum += A[i, j] * B[j, observations[t + 1]] * bwd[t + 1, j];
+                        sum += A[i][j] * B[j, observations[t + 1]] * bwd[t + 1, j];
                     bwd[t, i] = sum / scaling[t];
                 }
             }
@@ -334,7 +335,7 @@ namespace Accord.Statistics.Models.Markov
         public static double[,] Backward(HiddenMarkovModel model, int[] observations)
         {
             int states = model.States;
-            var A = Elementwise.Exp(model.Transitions);
+            var A = Elementwise.Exp(model.LogTransitions);
             var B = Elementwise.Exp(model.Emissions);
 
             int T = observations.Length;
@@ -351,7 +352,7 @@ namespace Accord.Statistics.Models.Markov
                 {
                     double sum = 0;
                     for (int j = 0; j < states; j++)
-                        sum += A[i, j] * B[j, observations[t + 1]] * bwd[t + 1, j];
+                        sum += A[i][j] * B[j, observations[t + 1]] * bwd[t + 1, j];
                     bwd[t, i] = sum;
                 }
             }
@@ -452,7 +453,7 @@ namespace Accord.Statistics.Models.Markov
         public static void LogForward(HiddenMarkovModel model, int[] observations, double[,] lnFwd)
         {
             int states = model.States;
-            var logA = model.Transitions;
+            var logA = model.LogTransitions;
             var logB = model.Emissions;
             var logPi = model.Probabilities;
 
@@ -477,7 +478,7 @@ namespace Accord.Statistics.Models.Markov
                 {
                     double sum = Double.NegativeInfinity;
                     for (int j = 0; j < states; j++)
-                        sum = Special.LogSum(sum, lnFwd[t - 1, j] + logA[j, i]);
+                        sum = Special.LogSum(sum, lnFwd[t - 1, j] + logA[j][i]);
                     lnFwd[t, i] = sum + logB[i, x];
                 }
             }
@@ -577,7 +578,7 @@ namespace Accord.Statistics.Models.Markov
             return lnFwd;
         }
 
-         /// <summary>
+        /// <summary>
         ///   Computes Forward probabilities for a given hidden Markov model and a set of observations.
         /// </summary>
         public static double[,] LogForward<TDistribution>(HiddenMarkovModel<TDistribution> model, double[][] observations)
@@ -600,7 +601,7 @@ namespace Accord.Statistics.Models.Markov
         public static void LogBackward(HiddenMarkovModel model, int[] observations, double[,] lnBwd)
         {
             int states = model.States;
-            var logA = model.Transitions;
+            var logA = model.LogTransitions;
             var logB = model.Emissions;
             var logPi = model.Probabilities;
 
@@ -622,7 +623,7 @@ namespace Accord.Statistics.Models.Markov
                 {
                     double sum = Double.NegativeInfinity;
                     for (int j = 0; j < states; j++)
-                        sum = Special.LogSum(sum, lnBwd[t + 1, j] + logA[i, j] + logB[j, observations[t + 1]]);
+                        sum = Special.LogSum(sum, lnBwd[t + 1, j] + logA[i][j] + logB[j, observations[t + 1]]);
                     lnBwd[t, i] = sum;
                 }
             }

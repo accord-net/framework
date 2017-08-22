@@ -1,7 +1,7 @@
 ﻿// Accord.NET Sample Applications
 // http://accord-framework.net
 //
-// Copyright © 2009-2014, César Souza
+// Copyright © 2009-2017, César Souza
 // All rights reserved. 3-BSD License:
 //
 //   Redistribution and use in source and binary forms, with or without
@@ -39,6 +39,7 @@ using System.Windows.Forms;
 using Accord.IO;
 using Accord.Math;
 using Accord.Statistics.Analysis;
+using Accord.Statistics.Models.Regression;
 
 namespace Survival.Cox
 {
@@ -47,6 +48,12 @@ namespace Survival.Cox
 
         private ProportionalHazardsAnalysis pha;
         private DataTable sourceTable;
+
+        double[][] sourceMatrix;
+
+        double[][] inputs;
+        double[] time;
+        int[] censor;
 
 
         public MainForm()
@@ -124,41 +131,36 @@ namespace Survival.Cox
             String[] independentNames = names.ToArray();
 
             // Creates the input and output matrices from the source data table
-            double[][] input;
-            double[] time = timeTable.Columns[dependentName].ToArray();
-            int[] censor = censorTable.Columns[censorName].ToArray().ToInt32();
+            this.time = timeTable.Columns[dependentName].ToArray();
+            this.censor = censorTable.Columns[censorName].ToArray().ToInt32();
 
             if (independentNames.Length == 0)
             {
-                input = new double[time.Length][];
-                for (int i = 0; i < input.Length; i++)
-                    input[i] = new double[0];
+                this.inputs = Jagged.Zeros(time.Length, 0);
             }
             else
             {
                 DataTable independent = sourceTable.DefaultView.ToTable(false, independentNames);
-                input = independent.ToArray();
+                this.inputs = independent.ToJagged();
             }
 
 
             String[] sourceColumns;
-            double[,] sourceMatrix = sourceTable.ToMatrix(out sourceColumns);
+            this.sourceMatrix = sourceTable.ToJagged(out sourceColumns);
 
             // Creates the Simple Descriptive Analysis of the given source
-            DescriptiveAnalysis sda = new DescriptiveAnalysis(sourceMatrix, sourceColumns);
-            sda.Compute();
+            var sda = new DescriptiveAnalysis(sourceColumns).Learn(sourceMatrix);
 
             // Populates statistics overview tab with analysis data
             dgvDistributionMeasures.DataSource = sda.Measures;
 
 
             // Creates the Logistic Regression Analysis of the given source
-            pha = new ProportionalHazardsAnalysis(input, time, censor,
-                independentNames, dependentName, censorName);
+            pha = new ProportionalHazardsAnalysis(independentNames, dependentName, censorName);
 
 
             // Compute the Logistic Regression Analysis
-            pha.Compute();
+            ProportionalHazards model = pha.Learn(inputs, time, censor);
 
             // Populates coefficient overview with analysis data
             dgvLogisticCoefficients.DataSource = pha.Coefficients;
@@ -187,8 +189,9 @@ namespace Survival.Cox
         {
             if (dgvDistributionMeasures.CurrentRow != null)
             {
-                DescriptiveMeasures m = dgvDistributionMeasures.CurrentRow.DataBoundItem as DescriptiveMeasures;
-                dataHistogramView1.DataSource = m.Samples;
+                DataGridViewRow row = (DataGridViewRow)dgvDistributionMeasures.CurrentRow;
+                DescriptiveMeasures measures = (DescriptiveMeasures)row.DataBoundItem;
+                dataHistogramView1.DataSource = sourceMatrix.GetColumn(measures.Index);
             }
         }
 
@@ -212,17 +215,12 @@ namespace Survival.Cox
             else
             {
                 DataTable independent = sourceTable.DefaultView.ToTable(false, pha.InputNames);
-                input = independent.ToArray();
+                input = independent.ToJagged();
             }
-
 
 
             for (int i = 0; i < input.Length; i++)
-            {
-                double[] x = input[i];
-
-                output[i] = pha.Regression.Compute(x, times[i]);
-            }
+                output[i] = pha.Regression.Probability(Tuple.Create(input[i], times[i]));
 
 
             DataTable result = source.Clone();

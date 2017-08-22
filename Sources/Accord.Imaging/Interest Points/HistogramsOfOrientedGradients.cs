@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -31,13 +31,10 @@ namespace Accord.Imaging
     using Accord.Imaging.Filters;
 
     /// <summary>
-    ///   Histograms of Oriented Gradients [experimental].
+    ///   Histograms of Oriented Gradients.
     /// </summary>
     /// 
     /// <remarks>
-    /// <para>
-    ///   This class is currently very experimental. Use with care.</para>
-    ///   
     /// <para>
     ///   References:
     ///   <list type="bullet">
@@ -48,7 +45,8 @@ namespace Accord.Imaging
     ///   </list></para>
     /// </remarks>
     /// 
-    public class HistogramsOfOrientedGradients : IFeatureDetector<FeatureDescriptor>
+    public class HistogramsOfOrientedGradients : IFeatureDetector<FeatureDescriptor>,
+        IFeatureDetector<IFeatureDescriptor<double[]>>
     {
 
         int numberOfBins = 9;
@@ -117,6 +115,15 @@ namespace Accord.Imaging
         ///   Initializes a new instance of the <see cref="HistogramsOfOrientedGradients"/> class.
         /// </summary>
         /// 
+        public HistogramsOfOrientedGradients()
+        {
+            this.binWidth = (2.0 * System.Math.PI) / numberOfBins; // 0 to 360
+        }
+
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="HistogramsOfOrientedGradients"/> class.
+        /// </summary>
+        /// 
         /// <param name="numberOfBins">The number of histogram bins.</param>
         /// <param name="blockSize">The size of a block, measured in cells.</param>
         /// <param name="cellSize">The size of a cell, measured in pixels.</param>
@@ -178,8 +185,17 @@ namespace Accord.Imaging
 
 
             // 1. Calculate partial differences
-            direction = new float[height, width];
-            magnitude = new float[height, width];
+            if (direction == null || height > direction.GetLength(0) || width > direction.GetLength(1))
+            {
+                direction = new float[height, width];
+                magnitude = new float[height, width];
+            }
+            else
+            {
+                System.Diagnostics.Debug.Write(String.Format("Reusing storage for direction and magnitude. " +
+                    "Need ({0}, {1}), have ({1}, {2})", height, width, direction.Rows(), direction.Columns()));
+            }
+
 
             unsafe
             {
@@ -230,7 +246,19 @@ namespace Accord.Imaging
             // 2. Compute cell histograms
             int cellCountX = (int)Math.Floor(width / (double)cellSize);
             int cellCountY = (int)Math.Floor(height / (double)cellSize);
-            histograms = new double[cellCountX, cellCountY][];
+
+            if (histograms == null || cellCountX > histograms.GetLength(0) || cellCountY > histograms.GetLength(1))
+            {
+                this.histograms = new double[cellCountX, cellCountY][];
+                for (int i = 0; i < cellCountX; i++)
+                    for (int j = 0; j < cellCountY; j++)
+                        this.histograms[i, j] = new double[NumberOfBins];
+            }
+            else
+            {
+                System.Diagnostics.Debug.Write(String.Format("Reusing storage for histograms. " +
+                    "Need ({0}, {1}), have ({1}, {2})", cellCountX, cellCountY, histograms.Rows(), histograms.Columns()));
+            }
 
             // For each cell
             for (int i = 0; i < cellCountX; i++)
@@ -238,7 +266,8 @@ namespace Accord.Imaging
                 for (int j = 0; j < cellCountY; j++)
                 {
                     // Compute the histogram
-                    double[] histogram = new double[numberOfBins];
+                    double[] histogram = this.histograms[i, j];
+                    Array.Clear(histogram, 0, histogram.Length);
 
                     int startCellX = i * cellSize;
                     int startCellY = j * cellSize;
@@ -257,8 +286,6 @@ namespace Accord.Imaging
                             histogram[bin] += mag;
                         }
                     }
-
-                    histograms[i, j] = histogram;
                 }
             }
 
@@ -266,13 +293,13 @@ namespace Accord.Imaging
             int blocksCountX = (int)Math.Floor(cellCountX / (double)blockSize);
             int blocksCountY = (int)Math.Floor(cellCountY / (double)blockSize);
 
-            List<double[]> blocks = new List<double[]>();
+            var blocks = new List<double[]>();
 
             for (int i = 0; i < blocksCountX; i++)
             {
                 for (int j = 0; j < blocksCountY; j++)
                 {
-                    double[] v = new double[blockSize * blockSize * numberOfBins];
+                    double[] block = new double[blockSize * blockSize * numberOfBins];
 
                     int startBlockX = i * blockSize;
                     int startBlockY = j * blockSize;
@@ -283,17 +310,16 @@ namespace Accord.Imaging
                     {
                         for (int y = 0; y < blockSize; y++)
                         {
-                            double[] histogram =
-                                histograms[startBlockX + x, startBlockY + y];
+                            double[] histogram = histograms[startBlockX + x, startBlockY + y];
 
                             // Copy all histograms to the block vector
                             for (int k = 0; k < histogram.Length; k++)
-                                v[c++] = histogram[k];
+                                block[c++] = histogram[k];
                         }
                     }
 
-                    double[] block = (normalize) ?
-                        v.Divide(v.Euclidean() + epsilon) : v;
+                    if (normalize)
+                        block.Divide(block.Euclidean() + epsilon, result: block);
 
                     blocks.Add(block);
                 }
@@ -347,40 +373,49 @@ namespace Accord.Imaging
             }
 
             // lock source image
-            BitmapData imageData = image.LockBits(
-                new Rectangle(0, 0, image.Width, image.Height),
-                ImageLockMode.ReadOnly, image.PixelFormat);
-
-            List<double[]> blocks;
+            BitmapData imageData = image.LockBits(ImageLockMode.ReadOnly);
 
             try
             {
                 // process the image
-                blocks = ProcessImage(new UnmanagedImage(imageData));
+                return ProcessImage(new UnmanagedImage(imageData));
             }
             finally
             {
                 // unlock image
                 image.UnlockBits(imageData);
             }
-
-            return blocks;
         }
 
 
-        List<FeatureDescriptor> IFeatureDetector<FeatureDescriptor, double[]>.ProcessImage(Bitmap image)
+        IEnumerable<FeatureDescriptor> IFeatureDetector<FeatureDescriptor, double[]>.ProcessImage(Bitmap image)
         {
             return ProcessImage(image).ConvertAll(p => new FeatureDescriptor(p));
         }
 
-        List<FeatureDescriptor> IFeatureDetector<FeatureDescriptor, double[]>.ProcessImage(BitmapData imageData)
+        IEnumerable<FeatureDescriptor> IFeatureDetector<FeatureDescriptor, double[]>.ProcessImage(BitmapData imageData)
         {
             return ProcessImage(imageData).ConvertAll(p => new FeatureDescriptor(p));
         }
 
-        List<FeatureDescriptor> IFeatureDetector<FeatureDescriptor, double[]>.ProcessImage(UnmanagedImage image)
+        IEnumerable<FeatureDescriptor> IFeatureDetector<FeatureDescriptor, double[]>.ProcessImage(UnmanagedImage image)
         {
             return ProcessImage(image).ConvertAll(p => new FeatureDescriptor(p));
+        }
+
+        IEnumerable<IFeatureDescriptor<double[]>> IFeatureDetector<IFeatureDescriptor<double[]>, double[]>.ProcessImage(Bitmap image)
+        {
+            return ProcessImage(image).ConvertAll(p => (IFeatureDescriptor<double[]>)new FeatureDescriptor(p));
+        }
+
+        IEnumerable<IFeatureDescriptor<double[]>> IFeatureDetector<IFeatureDescriptor<double[]>, double[]>.ProcessImage(BitmapData imageData)
+        {
+            return ProcessImage(imageData).ConvertAll(p => (IFeatureDescriptor<double[]>)new FeatureDescriptor(p));
+        }
+
+        IEnumerable<IFeatureDescriptor<double[]>> IFeatureDetector<IFeatureDescriptor<double[]>, double[]>.ProcessImage(UnmanagedImage image)
+        {
+            return ProcessImage(image).ConvertAll(p => (IFeatureDescriptor<double[]>)new FeatureDescriptor(p));
         }
 
         /// <summary>
@@ -394,10 +429,7 @@ namespace Accord.Imaging
         public object Clone()
         {
             var clone = new HistogramsOfOrientedGradients(numberOfBins, blockSize, cellSize);
-            clone.direction = (float[,])direction.Clone();
             clone.epsilon = epsilon;
-            clone.histograms = (double[,][])histograms.Clone();
-            clone.magnitude = (float[,])magnitude.Clone();
             clone.normalize = normalize;
             return clone;
         }

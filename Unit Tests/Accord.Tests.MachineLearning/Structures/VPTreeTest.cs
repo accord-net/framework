@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -22,6 +22,7 @@
 
 namespace Accord.Tests.MachineLearning
 {
+#if !MONO
     using Accord.Collections;
     using Accord.MachineLearning;
     using Accord.Math;
@@ -126,6 +127,6 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(9, tree.Root.Right.Right.Position[0]);
             Assert.AreEqual(6, tree.Root.Right.Right.Position[1]);
         }
-
     }
+#endif
 }

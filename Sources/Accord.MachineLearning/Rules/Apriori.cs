@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -25,8 +25,8 @@ namespace Accord.MachineLearning.Rules
     using Accord.Math;
     using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
+    using Accord.Compat;
+    using System.Threading;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -67,6 +67,9 @@ namespace Accord.MachineLearning.Rules
         IUnsupervisedLearning<AssociationRuleMatcher<T>, SortedSet<T>, SortedSet<T>[]>,
         IUnsupervisedLearning<AssociationRuleMatcher<T>, T[], T[][]>
     {
+        [NonSerialized]
+        CancellationToken token = new CancellationToken();
+
         private int supportMin;
         private double confidence;
         private Dictionary<SortedSet<T>, int> frequent;
@@ -81,6 +84,16 @@ namespace Accord.MachineLearning.Rules
             get { return frequent; }
         }
 
+        /// <summary>
+        /// Gets or sets a cancellation token that can be used to
+        /// stop the learning algorithm while it is running.
+        /// </summary>
+        /// <value>The token.</value>
+        public CancellationToken Token
+        {
+            get { return token; }
+            set { token = value; }
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Apriori{T}"/> class.
@@ -104,13 +117,14 @@ namespace Accord.MachineLearning.Rules
         /// </summary>
         /// 
         /// <param name="x">The model inputs.</param>
+        /// <param name="weights">The weight of importance for each input sample.</param>
         /// 
         /// <returns>A model that has learned how to produce suitable outputs
         ///   given the input data <paramref name="x"/>.</returns>
         /// 
-        public AssociationRuleMatcher<T> Learn(T[][] x)
+        public AssociationRuleMatcher<T> Learn(T[][] x, double[] weights = null)
         {
-            return Learn(x.Apply(xi => new SortedSet<T>(xi)));
+            return Learn(x.Apply(xi => new SortedSet<T>(xi)), weights);
         }
 
         /// <summary>
@@ -118,11 +132,12 @@ namespace Accord.MachineLearning.Rules
         /// </summary>
         /// 
         /// <param name="x">The model inputs.</param>
+        /// <param name="weights">The weight of importance for each input sample.</param>
         /// 
         /// <returns>A model that has learned how to produce suitable outputs
         ///   given the input data <paramref name="x"/>.</returns>
         /// 
-        public AssociationRuleMatcher<T> Learn(SortedSet<T>[] x)
+        public AssociationRuleMatcher<T> Learn(SortedSet<T>[] x, double[] weights = null)
         {
             frequent.Clear();
             var L = new HashSet<SortedSet<T>>(new Comparer());

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -22,14 +22,20 @@
 
 namespace Accord.Audio.Filters
 {
+    using System;
     using System.Collections.Generic;
+    using Accord.Compat;
 
     /// <summary>
     ///   Base in-place signal processing filter
     /// </summary>
     /// 
+    [Serializable]
     public abstract class BaseInPlaceFilter : IInPlaceFilter, IFilter
     {
+
+        private readonly Dictionary<SampleFormat, SampleFormat> formatTranslations =
+            new Dictionary<SampleFormat, SampleFormat>();
 
         /// <summary>
         ///   Format translations dictionary.
@@ -42,7 +48,10 @@ namespace Accord.Audio.Filters
         ///   source signals and which sample format will be used for resulting signal.
         /// </remarks>
         /// 
-        public abstract Dictionary<SampleFormat, SampleFormat> FormatTranslations { get; }
+        public Dictionary<SampleFormat, SampleFormat> FormatTranslations
+        {
+            get { return formatTranslations; }
+        }
 
 
         /// <summary>

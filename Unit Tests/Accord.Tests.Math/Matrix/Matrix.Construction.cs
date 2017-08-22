@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -24,9 +24,147 @@ namespace Accord.Tests.Math
 {
     using Accord.Math;
     using NUnit.Framework;
+    using System;
+    using System.Collections.Generic;
 
     public partial class MatrixTest
     {
+
+        [Test]
+        public void CreateJaggedTest()
+        {
+            Array jagged = Jagged.Create(typeof(int), 2, 3, 1);
+
+            foreach (var idx in jagged.GetIndices(deep: true))
+            {
+                Assert.AreEqual(0, jagged.GetValue(deep: true, indices: idx));
+                jagged.SetValue(idx.Sum(), deep: true, indices: idx);
+            }
+
+            int[][][] expected =
+            {
+                new int[][] { new[] { 0 }, new[] { 1 }, new[] { 2 } },
+                new int[][] { new[] { 1 }, new[] { 2 }, new[] { 3 } }
+            };
+
+            Assert.IsTrue(expected.IsEqual(jagged));
+        }
+
+        [Test]
+        public void CreateMatrixTest()
+        {
+            Array matrix = Matrix.Create(typeof(int), 2, 3, 1);
+
+            foreach (var idx in matrix.GetIndices())
+            {
+                Assert.AreEqual(0, matrix.GetValue(deep: true, indices: idx));
+                matrix.SetValue(idx.Sum(), deep: true, indices: idx);
+            }
+
+            int[,,] expected =
+            {
+                { { 0 }, { 1 }, { 2 } },
+                { { 1 }, { 2 }, { 3 } }
+            };
+
+            Assert.IsTrue(expected.IsEqual(matrix));
+        }
+
+        [Test]
+        public void EnumerateJaggedTest()
+        {
+            int[][][] input =
+            {
+                new int[][] { new[] { 0 }, new[] { 1 }, new[] { 2 } },
+                new int[][] { new[] { 1 }, new[] { 2 }, new[] { 3 } }
+            };
+
+            int[] expected = { 0, 1, 2, 1, 2, 3 };
+
+            List<int> actual = new List<int>();
+            foreach (object obj in Jagged.Enumerate(input, new int[] { 2, 3, 1 }))
+                actual.Add((int)obj);
+
+            Assert.IsTrue(expected.IsEqual(actual.ToArray()));
+
+            actual.Clear();
+            foreach (int obj in Jagged.Enumerate<int>(input, new int[] { 2, 3, 1 }))
+                actual.Add(obj);
+
+            Assert.IsTrue(expected.IsEqual(actual.ToArray()));
+        }
+
+        [Test]
+        public void EnumerateJaggedTest2()
+        {
+            int[][] input =
+            {
+                new int[] { 0, 1, 2 },
+                new int[] { 1, 2, 3 }
+            };
+
+            int[] expected = { 0, 1, 2, 1, 2, 3 };
+
+            List<int> actual = new List<int>();
+            foreach (object obj in Jagged.Enumerate(input, new int[] { 2 }))
+                actual.AddRange((int[])obj);
+
+            Assert.IsTrue(expected.IsEqual(actual.ToArray()));
+
+            actual.Clear();
+            foreach (int[] obj in Jagged.Enumerate<int[]>(input, new int[] { 2 }))
+                actual.AddRange(obj);
+
+            Assert.IsTrue(expected.IsEqual(actual.ToArray()));
+        }
+
+        [Test]
+        public void EnumerateJaggedNoShapeTest()
+        {
+            int[][][] input =
+            {
+                new int[][] { new[] { 0 }, new[] { 1 }, new[] { 2 } },
+                new int[][] { new[] { 1 }, new[] { 2 }, new[] { 3 } }
+            };
+
+            int[] expected = { 0, 1, 2, 1, 2, 3 };
+
+            List<int> actual = new List<int>();
+            foreach (object obj in Jagged.Enumerate(input))
+                actual.Add((int)obj);
+
+            Assert.IsTrue(expected.IsEqual(actual.ToArray()));
+
+            actual.Clear();
+            foreach (int obj in Jagged.Enumerate<int>(input))
+                actual.Add(obj);
+
+            Assert.IsTrue(expected.IsEqual(actual.ToArray()));
+        }
+
+        [Test]
+        public void EnumerateJaggedVariableLengthTest()
+        {
+            int[][][] input =
+            {
+                new int[][] { new[] { 0 }, new[] { 1 } },
+                new int[][] { new[] { 9 }, new int[] { }, new[] { 3 } }
+            };
+
+            int[] expected = { 0, 1, 0, 9, 0, 3 };
+
+            List<int> actual = new List<int>();
+            foreach (object obj in Jagged.Enumerate(input, new int[] { 2, 3, 1 }))
+                actual.Add(obj == null ? 0 : (int)obj);
+
+            Assert.IsTrue(expected.IsEqual(actual.ToArray()));
+
+            actual.Clear();
+            foreach (int obj in Jagged.Enumerate<int>(input, new int[] { 2, 3, 1 }))
+                actual.Add(obj);
+
+            Assert.IsTrue(expected.IsEqual(actual.ToArray()));
+        }
 
 
         [Test]

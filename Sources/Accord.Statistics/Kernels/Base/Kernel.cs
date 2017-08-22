@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -25,9 +25,7 @@ namespace Accord.Statistics.Kernels
     using Accord.Math;
     using Accord.Math.Distances;
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
+    using Accord.Compat;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -77,7 +75,7 @@ namespace Accord.Statistics.Kernels
         ///   feature (kernel) space between each vector in <paramref name="x"/>
         ///   and the ones in <paramref name="y"/>.</returns>
         ///   
-        public static double[,] ToMatrix<TKernel, TInput>(this TKernel kernel, TInput[] x, TInput[] y, double[,] result = null)
+        public static double[,] ToMatrix2<TKernel, TInput>(this TKernel kernel, TInput[] x, TInput[] y, double[,] result = null)
             where TKernel : IKernel<TInput>
         {
             if (result == null)
@@ -131,7 +129,7 @@ namespace Accord.Statistics.Kernels
         ///   feature (kernel) space between each vector in <paramref name="x"/>
         ///   and the ones in <paramref name="y"/>.</returns>
         ///   
-        public static double[][] ToJagged<TKernel, TInput>(this TKernel kernel, TInput[] x, TInput[] y, double[][] result = null)
+        public static double[][] ToJagged2<TKernel, TInput>(this TKernel kernel, TInput[] x, TInput[] y, double[][] result = null)
             where TKernel : IKernel<TInput>
         {
             if (result == null)
@@ -290,6 +288,40 @@ namespace Accord.Statistics.Kernels
         }
 
         /// <summary>
+        ///   Computes the set of all distances between 
+        ///   all points in a random subset of the data.
+        /// </summary>
+        /// 
+        /// <param name="kernel">The inner kernel.</param>
+        /// <param name="inputs">The inputs points.</param>
+        /// <param name="samples">The number of samples.</param>
+        /// 
+        public static double[] Distances<TKernel, TData>(this TKernel kernel, TData[] inputs, int samples)
+            where TKernel : IDistance<TData>, ICloneable
+        {
+            int[] idx = Vector.Sample(samples, inputs.Length);
+            int[] idy = Vector.Sample(samples, inputs.Length);
+
+            double[] distances = new double[samples * samples];
+
+            for (int i = 0; i < idx.Length; i++)
+            {
+                TData x = inputs[idx[i]];
+
+                for (int j = 0; j < idy.Length; j++)
+                {
+                    TData y = inputs[idy[j]];
+
+                    distances[i * samples + j] = kernel.Distance(x, y);
+                }
+            }
+
+            Array.Sort(distances);
+
+            return distances;
+        }
+
+        /// <summary>
         ///   Centers the given kernel matrix K.
         /// </summary>
         /// 
@@ -328,7 +360,8 @@ namespace Accord.Statistics.Kernels
         /// 
         public static double[][] Center(double[][] kernelMatrix, out double[] rowMean, out double mean, double[][] result = null)
         {
-            result = (result == null) ? Jagged.CreateAs(kernelMatrix) : kernelMatrix;
+            if (result == null)
+                result = Jagged.CreateAs(kernelMatrix);
 
             rowMean = kernelMatrix.Mean(dimension: 1);
 #if DEBUG
@@ -357,12 +390,15 @@ namespace Accord.Statistics.Kernels
         /// 
         public static double[,] Center(double[,] kernelMatrix, double[] rowMean, double mean, double[,] result = null)
         {
-            result = (result == null) ? Matrix.CreateAs(kernelMatrix) : kernelMatrix;
+            if (result == null)
+                result = Matrix.CreateAs(kernelMatrix);
 
-            int samples = kernelMatrix.GetLength(0);
+            int rows = kernelMatrix.Rows();
+            int cols = kernelMatrix.Columns();
+
             double[] rowMean1 = kernelMatrix.Mean(1);
-            for (int i = 0; i < samples; i++)
-                for (int j = 0; j < rowMean.Length; j++)
+            for (int i = 0; i < rows; i++)
+                for (int j = 0; j < cols; j++)
                     result[i, j] = kernelMatrix[i, j] - rowMean1[i] - rowMean[j] + mean;
 
             return result;
@@ -379,13 +415,24 @@ namespace Accord.Statistics.Kernels
         /// 
         public static double[][] Center(double[][] kernelMatrix, double[] rowMean, double mean, double[][] result = null)
         {
-            result = (result == null) ? Jagged.CreateAs(kernelMatrix) : kernelMatrix;
+            if (result == null)
+                result = Jagged.CreateAs(kernelMatrix);
 
-            int samples = kernelMatrix.GetLength(0);
+#if DEBUG
+            double[,] r = Center(kernelMatrix.ToMatrix(), rowMean, mean);
+#endif
+
+            int cols = kernelMatrix.Columns();
+             
             double[] rowMean1 = kernelMatrix.Mean(1);
-            for (int i = 0; i < rowMean1.Length; i++)
-                for (int j = 0; j < rowMean.Length; j++)
+            for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < kernelMatrix[i].Length; j++)
                     result[i][j] = kernelMatrix[i][j] - rowMean1[i] - rowMean[j] + mean;
+
+#if DEBUG
+            if (!r.IsEqual(result, 1e-8))
+                throw new Exception();
+#endif
 
             return result;
         }

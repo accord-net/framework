@@ -1,9 +1,8 @@
-﻿
-// Accord Math Library
+﻿// Accord Math Library
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 // Original work copyright © Lutz Roeder, 2000
@@ -30,6 +29,7 @@ namespace Accord.Math.Decompositions
 {
     using System;
     using Accord.Math;
+    using Accord.Compat;
 
     /// <summary>
     ///   QR decomposition for a rectangular matrix.
@@ -45,29 +45,30 @@ namespace Accord.Math.Decompositions
     ///   full rank, so the constructor will never fail. The primary use of the
     ///   QR decomposition is in the least squares solution of nonsquare systems
     ///   of simultaneous linear equations.
-    ///   This will fail if <see cref="FullRank"/> returns <see langword="false"/>.</para>  
+    ///   This will fail if <see cref="FullRank"/> returns <see langword="false"/>.</para> 
     /// </remarks>
     /// 
     public sealed class JaggedQrDecompositionF : ICloneable, ISolverArrayDecomposition<Single>
     {
         private int n; 
         private int m;
+        private int p;
+        private bool economy;
 
         private Single[][] qr;
         private Single[] Rdiag;
 
         /// <summary>Constructs a QR decomposition.</summary>    
         /// <param name="value">The matrix A to be decomposed.</param>
-        public JaggedQrDecompositionF(Single[][] value)
-            : this(value, false)
-        {
-        }
-
-        /// <summary>Constructs a QR decomposition.</summary>    
-        /// <param name="value">The matrix A to be decomposed.</param>
         /// <param name="transpose">True if the decomposition should be performed on
         /// the transpose of A rather than A itself, false otherwise. Default is false.</param>
-        public JaggedQrDecompositionF(Single[][] value, bool transpose)
+        /// <param name="inPlace">True if the decomposition should be done in place,
+        /// overriding the given matrix <paramref name="value"/>. Default is false.</param>
+        /// <param name="economy">True to perform the economy decomposition, where only
+        ///.the information needed to solve linear systems is computed. If set to false,
+        /// the full QR decomposition will be computed.</param>
+        public JaggedQrDecompositionF(Single[][] value, bool transpose = false, 
+            bool economy = true, bool inPlace = false)
         {
             if (value == null)
             {
@@ -80,10 +81,42 @@ namespace Accord.Math.Decompositions
                 throw new ArgumentException("Matrix has more columns than rows.", "value");
             }
 
-            this.qr = transpose ? value.Transpose() : (Single[][])value.MemberwiseClone();
+            // https://www.inf.ethz.ch/personal/gander/papers/qrneu.pdf
 
-            this.n = qr.Length;
-            this.m = qr[0].Length;
+            if (transpose)
+            {
+                this.p = value.Rows();
+
+                if (economy)
+                {
+                    // Compute the faster, economy-sized QR decomposition 
+                    this.qr = value.Transpose(inPlace: inPlace);
+                }
+                else
+                {
+                    // Create room to store the full decomposition
+                    this.qr = Jagged.Create(value.Columns(), value.Columns(), value, transpose: true);
+                }
+            }
+            else
+            {
+                this.p = value.Columns();
+
+                if (economy)
+                {
+                    // Compute the faster, economy-sized QR decomposition 
+                    this.qr = inPlace ? value : value.Copy();
+                }
+                else
+                {
+                    // Create room to store the full decomposition
+                    this.qr = Jagged.Create(value.Rows(), value.Rows(), value, transpose: false);
+                }
+            }
+
+            this.economy = economy;
+            this.n = qr.Rows();
+            this.m = qr.Columns();
             this.Rdiag = new Single[m];
 
             for (int k = 0; k < m; k++)
@@ -108,12 +141,10 @@ namespace Accord.Math.Decompositions
                     for (int j = k + 1; j < m; j++)
                     {
                         Single s = 0;
-
                         for (int i = k; i < qr.Length; i++)
                             s += qr[i][k] * qr[i][j];
 
                         s = -s / qr[k][k];
-
                         for (int i = k; i < qr.Length; i++)
                             qr[i][j] += s * qr[i][k];
                     }
@@ -133,35 +164,33 @@ namespace Accord.Math.Decompositions
             if (value == null)
                 throw new ArgumentNullException("value", "Matrix cannot be null.");
 
-            if (value.Length != qr.Length)
+            if (value.Length != n)
                 throw new ArgumentException("Matrix row dimensions must agree.");
 
             if (!this.FullRank)
                 throw new InvalidOperationException("Matrix is rank deficient.");
 
             // Copy right hand side
-            int count = value[0].Length;
-            var X = (Single[][])value.MemberwiseClone();
+            int count = value.Columns();
+            var X = value.Copy();
 
             // Compute Y = transpose(Q)*B
-            for (int k = 0; k < m; k++)
+            for (int k = 0; k < p; k++)
             {
                 for (int j = 0; j < count; j++)
                 {
                     Single s = 0;
-
                     for (int i = k; i < qr.Length; i++)
                         s += qr[i][k] * X[i][j];
 
                     s = -s / qr[k][k];
-
                     for (int i = k; i < qr.Length; i++)
                         X[i][j] += s * qr[i][k];
                 }
             }
 
             // Solve R*X = Y;
-            for (int k = m - 1; k >= 0; k--)
+            for (int k = p - 1; k >= 0; k--)
             {
                 for (int j = 0; j < X[k].Length; j++)
                     X[k][j] /= Rdiag[k];
@@ -171,15 +200,7 @@ namespace Accord.Math.Decompositions
                         X[i][j] -= X[k][j] * qr[i][k];
             }
 
-            var r = new Single[n][];
-            for (int i = 0; i < n; i++)
-            {
-                r[i] = new Single[count];
-                for (int j = 0; j < r[i].Length; j++)
-                    r[i][j] = X[i][j];
-            }
-
-            return r;
+            return Jagged.Create(p, count, X, transpose: false);
         }
 
         /// <summary>Least squares solution of <c>X * A = B</c></summary>
@@ -192,52 +213,43 @@ namespace Accord.Math.Decompositions
             if (value == null)
                 throw new ArgumentNullException("value", "Matrix cannot be null.");
 
-            if (value[0].Length != qr.Length)
+            if (value.Columns() != qr.Length)
                 throw new ArgumentException("Matrix row dimensions must agree.");
 
             if (!this.FullRank)
                 throw new InvalidOperationException("Matrix is rank deficient.");
 
             // Copy right hand side
+            int count = value.Length;
             var X = value.Transpose();
 
             // Compute Y = transpose(Q)*B
-            for (int k = 0; k < m; k++)
+            for (int k = 0; k < p; k++)
             {
-                for (int j = 0; j < X[k].Length; j++)
+                for (int j = 0; j < count; j++)
                 {
                     Single s = 0;
-
-                    for (int i = k; i < qr.Length; i++)
+                    for (int i = k; i < n; i++)
                         s += qr[i][k] * X[i][j];
 
                     s = -s / qr[k][k];
-
-                    for (int i = k; i < qr.Length; i++)
+                    for (int i = k; i < n; i++)
                         X[i][j] += s * qr[i][k];
                 }
             }
 
             // Solve R*X = Y;
-            for (int k = m - 1; k >= 0; k--)
+            for (int k = p - 1; k >= 0; k--)
             {
-                for (int j = 0; j < X[k].Length; j++)
+                for (int j = 0; j < count; j++)
                     X[k][j] /= Rdiag[k];
 
                 for (int i = 0; i < k; i++)
-                    for (int j = 0; j < X[i].Length; j++)
+                    for (int j = 0; j < count; j++)
                         X[i][j] -= X[k][j] * qr[i][k];
             }
 
-            var r = new Single[X.Length][]; // count
-            for (int i = 0; i < r.Length; i++)
-                r[i] = new Single[n];
-
-            for (int i = 0; i < X.Length; i++)    
-                for (int j = 0; j < X[i].Length; j++)
-                    r[j][i] = X[i][j];
-
-            return r;
+            return Jagged.Create(count, p, X, transpose: true);
         }
 
         /// <summary>Least squares solution of <c>A * X = B</c></summary>
@@ -257,24 +269,22 @@ namespace Accord.Math.Decompositions
                 throw new InvalidOperationException("Matrix is rank deficient.");
 
             // Copy right hand side
-            var X = (Single[])value.Clone();
+            var X = value.Copy();
 
             // Compute Y = transpose(Q)*B
-            for (int k = 0; k < m; k++)
+            for (int k = 0; k < p; k++)
             {
                 Single s = 0;
-
                 for (int i = k; i < qr.Length; i++)
                     s += qr[i][k] * X[i];
 
                 s = -s / qr[k][k];
-
                 for (int i = k; i < qr.Length; i++)
                     X[i] += s * qr[i][k];
             }
 
             // Solve R*X = Y;
-            for (int k = m - 1; k >= 0; k--)
+            for (int k = p - 1; k >= 0; k--)
             {
                 X[k] /= Rdiag[k];
 
@@ -282,7 +292,21 @@ namespace Accord.Math.Decompositions
                     X[i] -= X[k] * qr[i][k];
             }
 
-            return X.Submatrix(n);
+            return X.First(p);
+        }
+
+		/// <summary>
+        ///   Solves a set of equation systems of type <c>A * X = B</c> where B is a diagonal matrix.
+        /// </summary>
+        /// <param name="diagonal">Diagonal fo the right hand side matrix with as many rows as <c>A</c>.</param>
+        /// <returns>Matrix <c>X</c> so that <c>L * U * X = B</c>.</returns>
+        /// 
+        public Single[][] SolveForDiagonal(Single[] diagonal)
+        {
+            if (diagonal == null)
+                throw new ArgumentNullException("diagonal");
+
+            return Solve(Jagged.Diagonal(diagonal));
         }
 
         /// <summary>Shows if the matrix <c>A</c> is of full rank.</summary>
@@ -291,12 +315,9 @@ namespace Accord.Math.Decompositions
         {
             get
             {
-                for (int i = 0; i < Rdiag.Length; i++)
-                {
+                for (int i = 0; i < p; i++)
                     if (this.Rdiag[i] == 0)
                         return false;
-                }
-
                 return true;
             }
         }
@@ -306,26 +327,17 @@ namespace Accord.Math.Decompositions
         {
             get
             {
-                var x = new Single[n][];
-                for (int i = 0; i < n; i++)
-                    x[i] = new Single[n];
+                int rows = economy ? m : n;
+                var x = Jagged.Zeros<Single>(rows, p);
 
                 for (int i = 0; i < x.Length; i++)
                 {
                     for (int j = 0; j < x[i].Length; j++)
                     {
                         if (i < j)
-                        {
                             x[i][j] = qr[i][j];
-                        }
                         else if (i == j)
-                        {
                             x[i][j] = Rdiag[i];
-                        }
-                        else
-                        {
-                            x[i][j] = 0;
-                        }
                     }
                 }
 
@@ -333,32 +345,31 @@ namespace Accord.Math.Decompositions
             }
         }
 
-        /// <summary>Returns the orthogonal factor <c>Q</c>.</summary>
+        /// <summary>
+        ///   Returns the orthogonal factor <c>Q</c>.
+        /// </summary>
         public Single[][] OrthogonalFactor
         {
             get
             {
-                var x = new Single[n][];
-                for (int i = 0; i < n; i++)
-                    x[i] = new Single[m];
+                int cols = economy ? m : n;
+                var x = Jagged.Zeros<Single>(n, cols);
 
-                for (int k = m - 1; k >= 0; k--)
+                for (int k = cols - 1; k >= 0; k--)
                 {
-                    for (int i = 0; i < x.Length; i++)
+                    for (int i = 0; i < n; i++)
                         x[i][k] = 0;
 
                     x[k][k] = 1;
-                    for (int j = k; j < m; j++)
+                    for (int j = k; j < cols; j++)
                     {
                         if (qr[k][k] != 0)
                         {
                             Single s = 0;
-
                             for (int i = k; i < qr.Length; i++)
                                 s += qr[i][k] * x[i][j];
 
                             s = -s / qr[k][k];
-
                             for (int i = k; i < qr.Length; i++)
                                 x[i][j] += s * qr[i][k];
                         }
@@ -381,49 +392,30 @@ namespace Accord.Math.Decompositions
             if (!this.FullRank)
                 throw new InvalidOperationException("Matrix is rank deficient.");
 
-            // Copy right hand side
-            var X = new Single[m][];
-            for (int i = 0; i < m; i++)
-                X[i] = new Single[m];
-
-            // Compute Y = transpose(Q)
-            for (int k = n - 1; k >= 0; k--)
-            {
-                for (int i = 0; i < m; i++)
-                    X[k][i] = 0;
-
-                X[k][k] = 1;
-                for (int j = k; j < n; j++)
-                {
-                    if (qr[k][k] != 0)
-                    {
-                        Single s = 0;
-
-                        for (int i = k; i < m; i++)
-                            s += qr[i][k] * X[j][i];
-
-                        s = -s / qr[k][k];
-
-                        for (int i = k; i < m; i++)
-                            X[j][i] += s * qr[i][k];
-                    }
-                }
-            }
-
-            // Solve R*X = Y;
-            for (int k = n - 1; k >= 0; k--)
-            {
-                for (int j = 0; j < m; j++)
-                    X[k][j] /= Rdiag[k];
-
-                for (int i = 0; i < k; i++)
-                    for (int j = 0; j < m; j++)
-                        X[i][j] -= X[k][j] * qr[i][k];
-            }
-
-            return X;
+            return Solve(Jagged.Diagonal(n, n, (Single)1));
         }
 
+        /// <summary>
+        ///   Reverses the decomposition, reconstructing the original matrix <c>X</c>.
+        /// </summary>
+        /// 
+        public Single[][] Reverse()
+        {
+            return OrthogonalFactor.Dot(UpperTriangularFactor);
+        }
+
+        /// <summary>
+        ///   Computes <c>(Xt * X)^1</c> (the inverse of the covariance matrix). This
+        ///   matrix can be used to determine standard errors for the coefficients when
+        ///   solving a linear set of equations through any of the <see cref="Solve(Single[][])"/>
+        ///   methods.
+        /// </summary>
+        /// 
+        public Single[][] GetInformationMatrix()
+        {
+            var X = Reverse();
+            return X.TransposeAndDot(X).Inverse();
+        }
 
 
         #region ICloneable Members
@@ -441,10 +433,12 @@ namespace Accord.Math.Decompositions
         public object Clone()
         {
             var clone = new JaggedQrDecompositionF();
-            clone.qr = (Single[][])qr.MemberwiseClone();
-            clone.Rdiag = (Single[])Rdiag.Clone();
-            clone.m = m;
+            clone.qr = qr.Copy();
+            clone.Rdiag = Rdiag.Copy();
             clone.n = n;
+            clone.p = p;
+            clone.m = m;
+            clone.economy = economy;
             return clone;
         }
 

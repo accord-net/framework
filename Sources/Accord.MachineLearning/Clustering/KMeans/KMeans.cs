@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 // Copyright © Antonino Porcino, 2010
@@ -27,16 +27,13 @@ namespace Accord.MachineLearning
 {
     using System;
     using Accord.Math;
-    using Accord.Statistics.Distributions.Univariate;
-    using System.Threading.Tasks;
-    using System.Threading;
-    using Accord.Math.Comparers;
     using System.Runtime.Serialization;
     using Accord.Math.Distances;
     using System.Collections.Generic;
     using System.Reflection;
-    using Accord.IO;
     using Accord.Statistics;
+    using Accord.Compat;
+    using System.Threading.Tasks;
 
     /// <summary>
     ///   Initialization schemes for clustering algorithms.
@@ -60,7 +57,13 @@ namespace Accord.MachineLearning
         ///   Use the kmeans++ seeding algorithm for generating initial centroids.
         /// </summary>
         /// 
-        KMeansPlusPlus
+        KMeansPlusPlus,
+
+        /// <summary>
+        ///   Use the PAM BUILD algorithm for generating initial centroids.
+        /// </summary>
+        /// 
+        PamBuild
     };
 
     /// <summary>
@@ -115,74 +118,26 @@ namespace Accord.MachineLearning
     ///       http://home.dei.polimi.it/matteucc/Clustering/tutorial_html/kmeans.html </description></item>
     ///   </list></para>
     /// </remarks>
+    /// 
     /// <example>
-    ///   How to perform clustering with K-Means.
-    ///   <code>
-    ///   // Declare some observations
-    ///   double[][] observations = 
-    ///   {
-    ///       new double[] { -5, -2, -1 },
-    ///       new double[] { -5, -5, -6 },
-    ///       new double[] {  2,  1,  1 },
-    ///       new double[] {  1,  1,  2 },
-    ///       new double[] {  1,  2,  2 },
-    ///       new double[] {  3,  1,  2 },
-    ///       new double[] { 11,  5,  4 },
-    ///       new double[] { 15,  5,  6 },
-    ///       new double[] { 10,  5,  6 },
-    ///   };
-    ///  
-    ///   // Create a new K-Means algorithm with 3 clusters 
-    ///   KMeans kmeans = new KMeans(3);
-    ///  
-    ///   // Compute the algorithm, retrieving an integer array
-    ///   //  containing the labels for each of the observations
-    ///   int[] labels = kmeans.Compute(observations);
-    ///  
-    ///   // As result, the first two observations should belong to the
-    ///   // same cluster (thus having the same label). The same should
-    ///   // happen to the next four observations and to the last three.
-    ///   
-    ///   // In order to classify new, unobserved instances, you can
-    ///   // use the kmeans.Clusters.Nearest method, as shown below:
-    ///   int c = kmeans.Clusters.Nearest(new double[] { 4, 1, 9) });
-    ///   </code>
+    /// <para>
+    ///   How to perform clustering with K-Means.</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\Clustering\KMeansTest.cs" region="doc_learn" />
     ///   
     /// <para>
-    ///   The following example demonstrates how to use the Mean Shift algorithm
-    ///   for color clustering. It is the same code which can be found in the
-    ///   <a href="">color clustering sample application</a>.</para>
+    ///   How to perform clustering with K-Means applying different weights to different columns (dimensions) in the data.</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\Clustering\KMeansTest.cs" region="doc_learn_weights" />
     ///   
-    /// <code>
-    ///
-    ///  int k = 5; 
-    ///  
-    ///  // Load a test image (shown below)
-    ///  Bitmap image = ...
-    ///  
-    ///  // Create converters
-    ///  ImageToArray imageToArray = new ImageToArray(min: -1, max: +1);
-    ///  ArrayToImage arrayToImage = new ArrayToImage(image.Width, image.Height, min: -1, max: +1);
-    ///  
-    ///  // Transform the image into an array of pixel values
-    ///  double[][] pixels; imageToArray.Convert(image, out pixels);
-    ///  
-    ///  
-    ///  // Create a K-Means algorithm using given k and a
-    ///  //  square Euclidean distance as distance metric.
-    ///  KMeans kmeans = new KMeans(k, Distance.SquareEuclidean);
-    ///  
-    ///  // Compute the K-Means algorithm until the difference in
-    ///  //  cluster centroids between two iterations is below 0.05
-    ///  int[] idx = kmeans.Compute(pixels, 0.05);
-    ///  
-    ///  
-    ///  // Replace every pixel with its corresponding centroid
-    ///  pixels.ApplyInPlace((x, i) => kmeans.Clusters.Centroids[idx[i]]);
-    ///  
-    ///  // Retrieve the resulting image in a picture box
-    ///  Bitmap result; arrayToImage.Convert(pixels, out result);
-    /// </code>
+    /// <para>
+    ///   How to perform clustering with K-Means with mixed discrete, continuous and categorical data.</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\Clustering\KMeansTest.cs" region="doc_learn_mixed" />
+    ///   
+    /// <para>
+    ///   The following example demonstrates how to use the K-Means algorithm for color clustering. It is the same code which can be 
+    ///   found in the <a href="https://github.com/accord-net/framework/wiki/Sample-applications#clustering-k-means-and-meanshift">
+    ///   color clustering sample application</a>.</para>
+    ///   
+    /// <code source="Unit Tests\Accord.Tests.Vision\ColorClusteringTest.cs" region="doc_kmeans" />
     /// 
     /// <para>
     ///   The original image is shown below:</para>
@@ -201,15 +156,17 @@ namespace Accord.MachineLearning
     /// <seealso cref="GaussianMixtureModel"/>
     ///
     [Serializable]
+#if !NETSTANDARD1_4
     [SerializationBinder(typeof(KMeans.KMeansBinder))]
-    public class KMeans : IClusteringAlgorithm<double[], double>
+#endif
+    public class KMeans : ParallelLearningBase,
+        IUnsupervisedLearning<KMeansClusterCollection, double[], int>,
+#pragma warning disable 0618
+        IClusteringAlgorithm<double[], double>
+#pragma warning restore 0618
     {
 
         private KMeansClusterCollection clusters;
-
-        [NonSerialized]
-        private ParallelOptions parallelOptions;
-
 
         /// <summary>
         ///   Gets the clusters found by K-means.
@@ -218,6 +175,16 @@ namespace Accord.MachineLearning
         public KMeansClusterCollection Clusters
         {
             get { return clusters; }
+        }
+
+        /// <summary>
+        ///   Gets or sets the cluster centroids. 
+        /// </summary>
+        /// 
+        public double[][] Centroids
+        {
+            get { return clusters.Centroids; }
+            set { clusters.Centroids = value; }
         }
 
         /// <summary>
@@ -235,7 +202,7 @@ namespace Accord.MachineLearning
         /// 
         public int Dimension
         {
-            get { return clusters.Dimension; }
+            get { return clusters.NumberOfInputs; }
         }
 
         /// <summary>
@@ -285,7 +252,7 @@ namespace Accord.MachineLearning
         ///   last call to this class' Compute methods.
         /// </summary>
         /// 
-        public int Iterations { get; private set; }
+        public int Iterations { get; protected set; }
 
         /// <summary>
         ///   Gets the cluster distortion error after the 
@@ -301,21 +268,6 @@ namespace Accord.MachineLearning
         /// </summary>
         /// 
         public Seeding UseSeeding { get; set; }
-
-        /// <summary>
-        ///   Gets or sets parallelization options.
-        /// </summary>
-        /// 
-        public ParallelOptions ParallelOptions
-        {
-            get
-            {
-                if (parallelOptions == null)
-                    parallelOptions = new ParallelOptions();
-                return parallelOptions;
-            }
-            set { parallelOptions = value; }
-        }
 
         /// <summary>
         ///   Initializes a new instance of KMeans algorithm
@@ -378,8 +330,49 @@ namespace Accord.MachineLearning
         public void Randomize(double[][] points)
         {
             clusters.Randomize(points, UseSeeding);
+
+            Accord.Diagnostics.Debug.Assert(clusters.NumberOfInputs == points[0].Length);
         }
 
+        /// <summary>
+        /// Learns a model that can map the given inputs to the desired outputs.
+        /// </summary>
+        /// <param name="x">The model inputs.</param>
+        /// <param name="weights">The weight of importance for each input sample.</param>
+        /// <returns>A model that has learned how to produce suitable outputs
+        /// given the input data <paramref name="x" />.</returns>
+        public virtual KMeansClusterCollection Learn(double[][] x, double[] weights = null)
+        {
+            // Initial argument checking
+            if (x == null)
+                throw new ArgumentNullException("x");
+
+            if (x.Length < K)
+                throw new ArgumentException("Not enough points. There should be more points than the number K of clusters.", "x");
+
+            if (weights == null)
+                weights = Vector.Ones(x.Length);
+
+            if (x.Length != weights.Length)
+                throw new DimensionMismatchException("weights", "Data weights vector must be the same length as data samples.");
+
+            double weightSum = weights.Sum();
+            if (weightSum <= 0)
+                throw new ArgumentException("Not enough points. There should be more points than the number K of clusters.", "x");
+
+            int cols = x[0].Length;
+            for (int i = 0; i < x.Length; i++)
+                if (x[i].Length != cols)
+                    throw new DimensionMismatchException("x", "The points matrix should be rectangular. The vector at position {} has a different length than previous ones.");
+
+            compute(x, weights, weightSum);
+
+            Accord.Diagnostics.Debug.Assert(clusters.NumberOfClasses == K);
+            Accord.Diagnostics.Debug.Assert(clusters.NumberOfOutputs == K);
+            Accord.Diagnostics.Debug.Assert(clusters.NumberOfInputs == x[0].Length);
+
+            return clusters;
+        }
 
         /// <summary>
         ///   Divides the input data into K clusters. 
@@ -387,6 +380,7 @@ namespace Accord.MachineLearning
         /// 
         /// <param name="data">The data where to compute the algorithm.</param>
         ///   
+        [Obsolete("Please use Learn(x) instead.")]
         public int[] Compute(double[][] data)
         {
             return Compute(data, Vector.Ones(data.Length));
@@ -399,66 +393,75 @@ namespace Accord.MachineLearning
         /// <param name="data">The data where to compute the algorithm.</param>
         /// <param name="weights">The weight associated with each data point.</param>
         ///   
+        [Obsolete("Please use Learn(x) instead.")]
         public virtual int[] Compute(double[][] data, double[] weights)
         {
-            // Initial argument checking
-            if (data == null)
-                throw new ArgumentNullException("data");
-
-            if (data.Length < K)
-                throw new ArgumentException("Not enough points. There should be more points than the number K of clusters.");
-
-            if (weights == null)
-                throw new ArgumentNullException("weights");
-
-            if (data.Length != weights.Length)
-                throw new ArgumentException("Data weights vector must be the same length as data samples.");
-
-            double weightSum = weights.Sum();
-            if (weightSum <= 0)
-                throw new ArgumentException("Not enough points. There should be more points than the number K of clusters.");
-
-            int cols = data[0].Length;
-            for (int i = 0; i < data.Length; i++)
-                if (data[i].Length != cols)
-                    throw new DimensionMismatchException("data", "The points matrix should be rectangular. The vector at position {} has a different length than previous ones.");
-
-            int[] labels = Compute(data, weights, weightSum);
-
-            ComputeInformation(data, labels);
-
-            return labels;
+            return Learn(data, weights).Decide(data);
         }
 
-        private void ComputeInformation(double[][] data, int[] labels)
+        /// <summary>
+        /// Computes the information about each cluster (covariance, proportions and error).
+        /// </summary>
+        /// 
+        /// <param name="data">The data points.</param>
+        /// 
+        protected void ComputeInformation(double[][] data)
+        {
+            if (ComputeCovariances || ComputeError)
+                ComputeInformation(data, clusters.Decide(data));
+        }
+
+        /// <summary>
+        /// Computes the information about each cluster (covariance, proportions and error).
+        /// </summary>
+        /// 
+        /// <param name="data">The data points.</param>
+        /// <param name="labels">The assigned labels.</param>
+        /// 
+        protected void ComputeInformation(double[][] data, int[] labels)
         {
             // Compute distortion and other metrics regarding the clustering
             if (ComputeCovariances)
             {
                 // Compute cluster information (optional)
-                Parallel.For(0, clusters.Count, ParallelOptions, i =>
+                // Note: If you get OutOfMemoryExceptions here, just disable the 
+                // computation of variances by setting ComputeCovariances = false
+                if (ParallelOptions.MaxDegreeOfParallelism == 1)
                 {
-                    double[][] centroids = clusters.Centroids;
-
-                    // Extract the data for the current cluster
-                    double[][] sub = data.Submatrix(labels.Find(x => x == i));
-
-                    if (sub.Length > 0)
+                    for (int i = 0; i < clusters.Count; i++)
+                        innerComputeCovariance(data, labels, i);
+                }
+                else
+                {
+                    Parallel.For(0, clusters.Count, ParallelOptions, i =>
                     {
-                        // Compute the current cluster variance
-                        clusters.Covariances[i] = sub.Covariance(centroids[i]);
-                    }
-                    else
-                    {
-                        // The cluster doesn't have any samples
-                        clusters.Covariances[i] = new double[Dimension, Dimension];
-                    }
-                });
+                        innerComputeCovariance(data, labels, i);
+                    });
+                }
             }
 
             if (ComputeError)
             {
                 Error = clusters.Distortion(data);
+            }
+        }
+
+        private void innerComputeCovariance(double[][] data, int[] labels, int i)
+        {
+            double[][] centroids = clusters.Centroids;
+
+            // Extract the data for the current cluster
+            double[][] sub = data.Get(labels.Find(x => x == i));
+
+            if (sub.Length > 0)
+            {
+                // Compute the current cluster variance
+                clusters.Covariances[i] = sub.Covariance(centroids[i]);
+            }
+            else
+            {
+                // The cluster doesn't have any samples
+                clusters.Covariances[i] = Jagged.Zeros(Dimension, Dimension);
             }
         }
 
@@ -470,7 +473,7 @@ namespace Accord.MachineLearning
         /// <param name="weights">The weight to consider for each data sample. This is used in weighted K-Means</param>
         /// <param name="weightSum">The total sum of the weights in <paramref name="weights"/>.</param>
         ///   
-        protected virtual int[] Compute(double[][] data, double[] weights, double weightSum)
+        private int[] compute(double[][] data, double[] weights, double weightSum)
         {
             this.Iterations = 0;
 
@@ -494,12 +497,10 @@ namespace Accord.MachineLearning
             }
 
             // Initial variables
-            int[] labels = new int[rows];
-            double[] count = new double[k];
+            var labels = new int[rows];
+            var count = new double[k];
             double[][] centroids = clusters.Centroids;
-            double[][] newCentroids = new double[k][];
-            for (int i = 0; i < newCentroids.Length; i++)
-                newCentroids[i] = new double[cols];
+            double[][] newCentroids = Jagged.Zeros(k, cols);
 
             Object[] syncObjects = new Object[K];
             for (int i = 0; i < syncObjects.Length; i++)
@@ -527,7 +528,7 @@ namespace Accord.MachineLearning
                     double weight = weights[i];
 
                     // Get the nearest cluster centroid
-                    int c = labels[i] = Clusters.Nearest(point);
+                    int c = labels[i] = Clusters.Decide(point);
 
                     // Get the closest cluster centroid
                     double[] centroid = newCentroids[c];
@@ -575,6 +576,8 @@ namespace Accord.MachineLearning
                 clusters.Proportions[i] = count[i] / weightSum;
             }
 
+            ComputeInformation(data, labels);
+
             return labels;
         }
 
@@ -589,11 +592,14 @@ namespace Accord.MachineLearning
         /// <returns>Returns <see langword="true"/> if all centroids had a percentage change
         ///    less than <see param="threshold"/>. Returns <see langword="false"/> otherwise.</returns>
         ///    
-        private bool converged(double[][] centroids, double[][] newCentroids)
+        protected bool converged(double[][] centroids, double[][] newCentroids)
         {
             Iterations++;
 
-            if (MaxIterations > 0 && Iterations > MaxIterations)
+            if (MaxIterations > 0 && Iterations >= MaxIterations)
+                return true;
+
+            if (Token.IsCancellationRequested)
                 return true;
 
             for (int i = 0; i < centroids.Length; i++)
@@ -611,10 +617,17 @@ namespace Accord.MachineLearning
             return true;
         }
 
+#pragma warning disable 0618
         IClusterCollection<double[]> IClusteringAlgorithm<double[]>.Clusters
         {
-            get { return clusters; }
+            get { return (IClusterCollection<double[]>)clusters; }
         }
+
+        IClusterCollection<double[]> IUnsupervisedLearning<IClusterCollection<double[]>, double[], int>.Learn(double[][] x, double[] weights)
+        {
+            return (IClusterCollection<double[]>)Learn(x);
+        }
+#pragma warning restore 0618
 
         [OnDeserialized]
         private void OnDeserializedMethod(StreamingContext context)
@@ -642,14 +655,14 @@ namespace Accord.MachineLearning
         [Obsolete("Please get the error value through this class' Error property.")]
         public int[] Compute(double[][] data, out double error)
         {
-            int[] labels = Compute(data);
+            int[] labels = Learn(data).Decide(data);
             error = Error;
             return labels;
         }
 
 
-        #region Serialization backwards compatibility
-
+#region Serialization backwards compatibility
+#if !NETSTANDARD1_4
         internal class KMeansBinder : SerializationBinder
         {
             public override Type BindToType(string assemblyName, string typeName)
@@ -712,7 +725,7 @@ namespace Accord.MachineLearning
                 {
                     kmeans.Clusters.Proportions[i] = obj.clusters.proportions[i];
                     kmeans.Clusters.Centroids[i] = obj.clusters.centroids[i];
-                    kmeans.Clusters.Covariances[i] = obj.clusters.covariances[i];
+                    kmeans.Clusters.Covariances[i] = obj.clusters.covariances[i].ToJagged();
                 }
 
                 return kmeans;
@@ -738,7 +751,10 @@ namespace Accord.MachineLearning
 
 #pragma warning restore 0169
 #pragma warning restore 0649
+#endif
+#endregion
 
-        #endregion
+
+
     }
 }

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -120,7 +120,7 @@ namespace Accord.Tests.Statistics
                 {
                     double actual = running.Peek(sequence[j]);
 
-                    double[][] window = sequence.Submatrix(2);
+                    double[][] window = sequence.First(2);
                     double expected = hmm.Evaluate(window.Concatenate(sequence[j]));
 
                     Assert.AreEqual(expected, actual);

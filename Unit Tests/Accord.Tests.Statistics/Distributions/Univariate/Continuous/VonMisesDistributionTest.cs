@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -29,22 +29,6 @@ namespace Accord.Tests.Statistics
     [TestFixture]
     public class VonMisesDistributionTest
     {
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
 
         [Test]
         public void ConstructorTest()
@@ -94,6 +78,12 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(3.2755782410688861, range2.Max, 1e-14);
             Assert.AreEqual(-2.4355782410688764, range3.Min, 1e-14);
             Assert.AreEqual(3.2755782410688861, range3.Max, 1e-14);
+
+            Assert.AreEqual(-2.7215926535897932, vonMises.Support.Min, 1e-10);
+            Assert.AreEqual(3.561592653589793, vonMises.Support.Max, 1e-10);
+
+            Assert.AreEqual(vonMises.InverseDistributionFunction(0), vonMises.Support.Min);
+            Assert.AreEqual(vonMises.InverseDistributionFunction(1), vonMises.Support.Max);
         }
 
 

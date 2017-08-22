@@ -5,7 +5,7 @@
 // Copyright © Darko Jurić, 2013
 // https://code.google.com/p/accord/issues/detail?id=27
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -27,6 +27,7 @@ namespace Accord.MachineLearning.Boosting
 {
     using System;
     using System.Collections.Generic;
+    using Accord.Compat;
 
     /// <summary>
     ///   Weighted Weak Classifier.

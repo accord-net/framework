@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -289,7 +289,7 @@ namespace Accord.Math
         public static double[][] ParseJagged(string str, IMatrixFormatProvider provider)
         {
             // remove excess spaces
-            str = Regex.Replace(str, @" +", " ");
+            str = Regex.Replace(str.Replace('\t', ' '), @" +", " ");
 
             // First remove starting and trailing tokens
             str = str.Remove(0, provider.ParseMatrixStart.Length);

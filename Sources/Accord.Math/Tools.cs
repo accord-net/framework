@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -134,12 +134,12 @@ namespace Accord.Math
         /// 
         public static int GreatestCommonDivisor(int a, int b)
         {
-            int x = a - b * (int)Math.Floor((double)(a / b));
+            int x = a - b * (int)Math.Floor(a / (double)b);
             while (x != 0)
             {
                 a = b;
                 b = x;
-                x = a - b * (int)Math.Floor((double)(a / b));
+                x = a - b * (int)Math.Floor(a / (double)b);
             }
             return b;
         }
@@ -304,7 +304,7 @@ namespace Accord.Math
         [Obsolete("Please use Vector.Scale instead.")]
         public static int Scale(this IntRange from, IntRange to, int x)
         {
-            return Accord.Math.Vector.Scale(x, from, to);
+            return Accord.Math.Vector.Scale(x, (IRange<int>)from, (IRange<int>)to);
         }
 
         /// <summary>
@@ -359,7 +359,7 @@ namespace Accord.Math
         [Obsolete("Please use Vector.Scale instead.")]
         public static int[] Scale(IntRange from, IntRange to, int[] x)
         {
-            return Accord.Math.Vector.Scale(x, from, to);
+            return Accord.Math.Vector.Scale(x, (IRange<int>)from, (IRange<int>)to);
         }
 
         /// <summary>
@@ -392,7 +392,7 @@ namespace Accord.Math
         [Obsolete("Please use Vector.Scale instead.")]
         public static float[] Scale(Range from, Range to, float[] x)
         {
-            return Accord.Math.Vector.Scale(x, from, to);
+            return Accord.Math.Vector.Scale(x, (IRange<float>)from, (IRange<float>)to);
         }
 
         /// <summary>
@@ -600,7 +600,7 @@ namespace Accord.Math
         ///   Fast inverse floating-point square root.
         /// </summary>
         ///
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static float InvSqrt(float f)
@@ -872,6 +872,28 @@ namespace Accord.Math
                 return 30;
             }
             return 31;
+        }
+
+        /// <summary>
+        ///   Returns the square root of the specified <see cref="decimal"/> number.
+        /// </summary>
+        /// 
+        public static decimal Sqrt(decimal x, decimal epsilon = 0.0M)
+        {
+            if (x < 0)
+                throw new OverflowException("Cannot calculate square root from a negative number.");
+
+            decimal current = (decimal)Math.Sqrt((double)x), previous;
+
+            do
+            {
+                previous = current;
+                if (previous == 0.0M) return 0;
+                current = (previous + x / previous) / 2;
+            }
+            while (Math.Abs(previous - current) > epsilon);
+
+            return current;
         }
     }
 }

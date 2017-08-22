@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -30,23 +30,7 @@ namespace Accord.Tests.Statistics
     [TestFixture]
     public class InverseGammaDistributionTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
+        
 
         [Test]
         public void InverseGammaDistributionConstructorTest()
@@ -136,6 +120,12 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(38513.540845383861, range2.Max);
             Assert.AreEqual(0.16305763832571132, range3.Min);
             Assert.AreEqual(38513.540845383861, range3.Max);
+
+            Assert.AreEqual(4.94065645841247E-324, invGamma.Support.Min);
+            Assert.AreEqual(double.PositiveInfinity, invGamma.Support.Max);
+
+            Assert.AreEqual(invGamma.InverseDistributionFunction(0), invGamma.Support.Min);
+            Assert.AreEqual(invGamma.InverseDistributionFunction(1), invGamma.Support.Max);
         }
 
         [Test]

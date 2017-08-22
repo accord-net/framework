@@ -1,30 +1,47 @@
-// AForge Image Processing Library
-// AForge.NET framework
-// http://www.aforgenet.com/framework/
+// Accord Imaging Library
+// The Accord.NET Framework
+// http://accord-framework.net
 //
-// Copyright © AForge.NET, 2005-2011
-// contacts@aforgenet.com
-//
-// Implemented Multiply filter by HZ, March-2016
+// Copyright © Hashem Zawary, 2016
 // hashemzawary@gmail.com
 // https://www.linkedin.com/in/hashem-zavvari-53b01457
 //
+// Copyright © César Souza, 2009-2017
+// cesarsouza at gmail.com
+//
+//    This library is free software; you can redistribute it and/or
+//    modify it under the terms of the GNU Lesser General Public
+//    License as published by the Free Software Foundation; either
+//    version 2.1 of the License, or (at your option) any later version.
+//
+//    This library is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+//    Lesser General Public License for more details.
+//
+//    You should have received a copy of the GNU Lesser General Public
+//    License along with this library; if not, write to the Free Software
+//    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+//
 
-namespace AForge.Imaging.Filters
+namespace Accord.Imaging.Filters
 {
     using System.Collections.Generic;
     using System.Drawing;
     using System.Drawing.Imaging;
 
     /// <summary>
-    /// Multiply filter - multiply pixel values of two images.
+    ///   Multiply filter - multiply pixel values of two images.
     /// </summary>
     /// 
     /// <remarks><para>The multiply filter takes two images (source and overlay images)
     /// of the same size and pixel format and produces an image, where each pixel equals
-    /// to the multiply value of corresponding pixels from provided images (formulated
-    /// for 8bpp: (srcPix * ovrPix) / 255, 
-    /// for 16bpp: (srcPix * ovrPix) / 65535.</para>
+    /// to the multiplication value of corresponding pixels from provided images.</para>
+    /// 
+    /// <code>
+    ///  - For 8bpp: (srcPix * ovrPix) / 255, 
+    ///  - For 16bpp: (srcPix * ovrPix) / 65535.
+    /// </code>
     /// 
     /// <para>The filter accepts 8 and 16 bpp grayscale images and 24, 32, 48 and 64 bpp
     /// color images for processing.</para>
@@ -32,9 +49,10 @@ namespace AForge.Imaging.Filters
     /// <para>Sample usage:</para>
     /// <code>
     /// // create filter
-    /// Multiply filter = new Multiply( overlayImage );
+    /// Multiply filter = new Multiply(overlayImage);
+    /// 
     /// // apply the filter
-    /// Bitmap resultImage = filter.Apply( sourceImage );
+    /// Bitmap resultImage = filter.Apply(sourceImage);
     /// </code>
     /// </remarks>
     /// 
@@ -52,7 +70,10 @@ namespace AForge.Imaging.Filters
         /// <summary>
         /// Format translations dictionary.
         /// </summary>
-        public override Dictionary<PixelFormat, PixelFormat> FormatTranslations => _formatTranslations;
+        public override Dictionary<PixelFormat, PixelFormat> FormatTranslations
+        {
+            get { return _formatTranslations; }
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Multiply"/> class.
@@ -107,13 +128,11 @@ namespace AForge.Imaging.Filters
         ///
         protected override unsafe void ProcessFilter(UnmanagedImage image, UnmanagedImage overlay)
         {
-            var pixelFormat = image.PixelFormat;
-            // get image dimension
-            var width = image.Width;
-            var height = image.Height;
+            PixelFormat pixelFormat = image.PixelFormat;
+            int width = image.Width;
+            int height = image.Height;
 
-            if (
-                (pixelFormat == PixelFormat.Format8bppIndexed) ||
+            if ((pixelFormat == PixelFormat.Format8bppIndexed) ||
                 (pixelFormat == PixelFormat.Format24bppRgb) ||
                 (pixelFormat == PixelFormat.Format32bppRgb) ||
                 (pixelFormat == PixelFormat.Format32bppArgb))
@@ -136,9 +155,7 @@ namespace AForge.Imaging.Filters
                 {
                     // for each pixel
                     for (var x = 0; x < lineSize; x++, ptr++, ovr++)
-                    {
                         *ptr = (byte)((*ptr * *ovr) / 255);
-                    }
                     ptr += srcOffset;
                     ovr += ovrOffset;
                 }
@@ -146,11 +163,11 @@ namespace AForge.Imaging.Filters
             else
             {
                 // initialize other variables
-                var pixelSize = (pixelFormat == PixelFormat.Format16bppGrayScale) ? 1 :
+                int pixelSize = (pixelFormat == PixelFormat.Format16bppGrayScale) ? 1 :
                     (pixelFormat == PixelFormat.Format48bppRgb) ? 3 : 4;
-                var lineSize = width * pixelSize;
-                var srcStride = image.Stride;
-                var ovrStride = overlay.Stride;
+                int lineSize = width * pixelSize;
+                int srcStride = image.Stride;
+                int ovrStride = overlay.Stride;
                 // new pixel value
 
                 // do the job
@@ -165,9 +182,7 @@ namespace AForge.Imaging.Filters
 
                     // for each pixel
                     for (var x = 0; x < lineSize; x++, ptr++, ovr++)
-                    {
                         *ptr = (ushort)((*ptr * *ovr) / 65535);
-                    }
                 }
             }
         }

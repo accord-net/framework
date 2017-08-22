@@ -1,7 +1,7 @@
 ﻿// Accord.NET Sample Applications
 // http://accord-framework.net
 //
-// Copyright © 2009-2014, César Souza
+// Copyright © 2009-2017, César Souza
 // All rights reserved. 3-BSD License:
 //
 //   Redistribution and use in source and binary forms, with or without
@@ -65,22 +65,21 @@ namespace SampleApp
                 return;
 
             // Gather the available data
-            double[][] data = dataTable.ToArray();
-
+            double[][] data = dataTable.ToJagged();
 
             // First, fit simple linear regression directly for comparison reasons.
             double[] x = data.GetColumn(0); // Extract the independent variable
             double[] y = data.GetColumn(1); // Extract the dependent variable
 
-            // Create a simple linear regression
-            var regression = new SimpleLinearRegression();
+            // Use Ordinary Least Squares to learn the regression
+            OrdinaryLeastSquares ols = new OrdinaryLeastSquares();
 
             // Estimate a line passing through the (x, y) points
-            double sumOfSquaredErrors = regression.Regress(x, y);
+            SimpleLinearRegression regression = ols.Learn(x, y);
 
             // Now, compute the values predicted by the 
             // regression for the original input points
-            double[] commonOutput = regression.Compute(x);
+            double[] commonOutput = regression.Transform(x);
 
 
             // Now, fit simple linear regression using RANSAC
@@ -100,13 +99,11 @@ namespace SampleApp
                 Fitting = delegate(int[] sample)
                 {
                     // Retrieve the training data
-                    double[] inputs = x.Submatrix(sample);
-                    double[] outputs = y.Submatrix(sample);
+                    double[] inputs = x.Get(sample);
+                    double[] outputs = y.Get(sample);
 
                     // Build a Simple Linear Regression model
-                    var r = new SimpleLinearRegression();
-                    r.Regress(inputs, outputs);
-                    return r;
+                    return new OrdinaryLeastSquares().Learn(inputs, outputs);
                 },
 
                 // Define a check for degenerate samples
@@ -123,7 +120,7 @@ namespace SampleApp
                     for (int i = 0; i < x.Length; i++)
                     {
                         // Compute error for each point
-                        double error = r.Compute(x[i]) - y[i];
+                        double error = r.Transform(x[i]) - y[i];
 
                         // If the squared error is below the given threshold,
                         //  the point is considered to be an inlier.
@@ -152,12 +149,12 @@ namespace SampleApp
 
 
             // Compute the output of the model fitted by RANSAC
-            double[] ransacOutput = robustRegression.Compute(x);
+            double[] ransacOutput = robustRegression.Transform(x);
 
             // Create scatter plot comparing the outputs from the standard
             //  linear regression and the RANSAC-fitted linear regression.
             CreateScatterplot(graphInput, x, y, commonOutput, ransacOutput,
-                x.Submatrix(inlierIndices), y.Submatrix(inlierIndices));
+                x.Get(inlierIndices), y.Get(inlierIndices));
 
             lbStatus.Text = "Regression created! Please compare the RANSAC "
                 + "regression (blue) with the simple regression (in red).";

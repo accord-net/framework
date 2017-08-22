@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -32,11 +32,16 @@ namespace Accord.Tests.Math
     [TestFixture]
     public class MatReaderTest
     {
+        public static FileStream GetMat(string resourceName)
+        {
+            string fileName = Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources", "mat", resourceName);
+            return new FileStream(fileName, FileMode.Open, FileAccess.Read);
+        }
 
         [Test]
         public void ConstructorTest()
         {
-            MemoryStream file = new MemoryStream(Resources.simplestruct);
+            var file = GetMat("simplestruct.mat");
 
             // Create a new MAT file reader
             var reader = new MatReader(file);
@@ -91,7 +96,7 @@ namespace Accord.Tests.Math
         [Test]
         public void readInt8()
         {
-            MemoryStream file = new MemoryStream(Resources.int8);
+            var file = GetMat("int8.mat");
             MatReader reader = new MatReader(file);
 
             Assert.AreEqual(
@@ -115,7 +120,7 @@ namespace Accord.Tests.Math
         [Test]
         public void readInt32()
         {
-            MemoryStream file = new MemoryStream(Resources.int32);
+            var file = GetMat("int32.mat");
             MatReader reader = new MatReader(file);
 
             Assert.AreEqual(
@@ -139,7 +144,7 @@ namespace Accord.Tests.Math
         [Test]
         public void readInt64()
         {
-            MemoryStream file = new MemoryStream(Resources.int64);
+            var file = GetMat("int64.mat");
             MatReader reader = new MatReader(file);
 
             Assert.AreEqual(
@@ -163,7 +168,7 @@ namespace Accord.Tests.Math
         [Test]
         public void readInt64_2()
         {
-            MemoryStream file = new MemoryStream(Resources.a64);
+            var file = GetMat("a64.mat");
             MatReader reader = new MatReader(file);
 
             Assert.AreEqual(
@@ -191,7 +196,7 @@ namespace Accord.Tests.Math
         [Test]
         public void readUInt64()
         {
-            MemoryStream file = new MemoryStream(Resources.uint64);
+            var file = GetMat("uint64.mat");
             MatReader reader = new MatReader(file);
 
             Assert.AreEqual(
@@ -215,7 +220,7 @@ namespace Accord.Tests.Math
         [Test]
         public void readSingle()
         {
-            MemoryStream file = new MemoryStream(Resources.single);
+            var file = GetMat("single.mat");
             MatReader reader = new MatReader(file);
 
             Assert.AreEqual(
@@ -239,7 +244,7 @@ namespace Accord.Tests.Math
         [Test]
         public void readDouble()
         {
-            MemoryStream file = new MemoryStream(Resources.matnativedouble);
+            var file = GetMat("matnativedouble.mat");
             MatReader reader = new MatReader(file);
 
             Assert.AreEqual(
@@ -265,7 +270,7 @@ namespace Accord.Tests.Math
         [Test]
         public void readDouble2()
         {
-            MemoryStream file = new MemoryStream(Resources.matnativedouble2);
+            var file = GetMat("matnativedouble2.mat");
             MatReader reader = new MatReader(file);
 
             Assert.AreEqual(
@@ -291,7 +296,7 @@ namespace Accord.Tests.Math
         [Test]
         public void readLogical()
         {
-            MemoryStream file = new MemoryStream(Resources.logical);
+            var file = GetMat("logical.mat");
             MatReader reader = new MatReader(file);
 
             Assert.AreEqual(
@@ -315,7 +320,7 @@ namespace Accord.Tests.Math
         [Test]
         public void readStruct()
         {
-            MemoryStream file = new MemoryStream(Resources.simplestruct);
+            var file = GetMat("simplestruct.mat");
             MatReader reader = new MatReader(file);
 
             Assert.AreEqual(
@@ -349,7 +354,7 @@ namespace Accord.Tests.Math
         [Test]
         public void readCell()
         {
-            MemoryStream file = new MemoryStream(Resources.cell);
+            var file = GetMat("cell.mat");
             MatReader reader = new MatReader(file);
 
             Assert.AreEqual(

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -27,21 +27,37 @@ namespace Accord.Statistics.Models.Regression
     using Accord.Statistics.Distributions.Univariate;
     using Accord.Statistics.Testing;
     using Accord.Math;
+    using Accord.MachineLearning;
+    using Accord.Compat;
 
     /// <summary>
     ///   Cox's Proportional Hazards Model.
     /// </summary>
     /// 
+    /// <example>
+    ///   <code source="Unit Tests\Accord.Tests.Statistics\Models\Regression\CoxProportionalHazardsTest.cs" region="doc_learn" />
+    /// </example>
+    /// 
+    /// <seealso cref="Accord.Statistics.Models.Regression.Fitting.ProportionalHazardsNewtonRaphson"/>
+    /// <seealso cref="Accord.Statistics.Analysis.ProportionalHazardsAnalysis"/>
+    /// 
     [Serializable]
-    public class ProportionalHazards
+    public sealed class ProportionalHazards :
+        BinaryLikelihoodClassifierBase<Tuple<double[], double>>
     {
 
         /// <summary>
-        ///   Gets the mean vector used to center
-        ///   observations before computations.
+        ///   Gets the mean vector used to center observations before computations.
         /// </summary>
         /// 
+        [Obsolete("Please use Intercept instead.")]
         public double[] Offsets { get; private set; }
+
+        /// <summary>
+        ///   Gets or sets the intercept (bias) for the regression model.
+        /// </summary>
+        /// 
+        public double Intercept { get; set; }
 
         /// <summary>
         ///   Gets the coefficient vector, in which the
@@ -67,6 +83,7 @@ namespace Accord.Statistics.Models.Regression
         ///   Gets the number of inputs handled by this model.
         /// </summary>
         /// 
+        [Obsolete("Please use NumberOfInputs instead.")]
         public int Inputs
         {
             get { return Coefficients.Length; }
@@ -86,29 +103,25 @@ namespace Accord.Statistics.Models.Regression
         /// </summary>
         /// 
         /// <param name="inputs">The number of input variables for the model.</param>
-        /// <param name="baseline">The initial baseline hazard distribution.</param>
+        /// <param name="baseline">The initial baseline hazard distribution. Default is the <see cref="EmpiricalHazardDistribution"/>.</param>
         /// 
         public ProportionalHazards(int inputs, IUnivariateDistribution baseline)
         {
-            Offsets = new double[inputs];
             Coefficients = new double[inputs];
             StandardErrors = new double[inputs];
+#pragma warning disable 612, 618
+            Offsets = new double[inputs];
+#pragma warning restore 612, 618
             BaselineHazard = baseline;
         }
 
         /// <summary>
-        ///   Computes the model output for the given input vector.
+        ///   Creates a new Cox Proportional-Hazards Model.
         /// </summary>
         /// 
-        /// <param name="input">The input vector.</param>
-        /// <returns>The output value.</returns>
-        /// 
-        public double Compute(double[] input)
+        public ProportionalHazards()
         {
-            double sum = 0;
-            for (int i = 0; i < Coefficients.Length; i++)
-                sum += Coefficients[i] * (input[i] - Offsets[i]);
-            return Math.Exp(sum);
+            BaselineHazard = new EmpiricalHazardDistribution();
         }
 
         /// <summary>
@@ -118,12 +131,23 @@ namespace Accord.Statistics.Models.Regression
         /// <param name="input">The input vector.</param>
         /// <returns>The output value.</returns>
         /// 
+        [Obsolete("Please use Probability() instead.")]
+        public double Compute(double[] input)
+        {
+            return Probability(input);
+        }
+
+        /// <summary>
+        ///   Computes the model output for the given input vector.
+        /// </summary>
+        /// 
+        /// <param name="input">The input vector.</param>
+        /// <returns>The output value.</returns>
+        /// 
+        [Obsolete("Please use Probability() instead.")]
         public double[] Compute(double[][] input)
         {
-            double[] result = new double[input.Length];
-            for (int i = 0; i < result.Length; i++)
-                result[i] = Compute(input[i]);
-            return result;
+            return Probability(input);
         }
 
         /// <summary>
@@ -136,19 +160,10 @@ namespace Accord.Statistics.Models.Regression
         /// <returns>The probabilities of the event occurring at 
         /// the given time for the given observation.</returns>
         /// 
+        [Obsolete("Please use Probability() instead.")]
         public double Compute(double[] input, double time)
         {
-            if (BaselineHazard == null)
-                throw new InvalidOperationException();
-
-            double sum = 0;
-            for (int i = 0; i < Coefficients.Length; i++)
-                sum += Coefficients[i] * (input[i] - Offsets[i]);
-            double exp = Math.Exp(sum);
-
-            double h0 = BaselineHazard.CumulativeHazardFunction(time);
-
-            return h0 * exp;
+            return Probability(input, time);
         }
 
         /// <summary>
@@ -159,12 +174,10 @@ namespace Accord.Statistics.Models.Regression
         /// 
         /// <returns>The probabilities of the event occurring at the given time.</returns>
         /// 
+        [Obsolete("Please use Probability() instead.")]
         public double Compute(double time)
         {
-            if (BaselineHazard == null)
-                throw new InvalidOperationException();
-
-            return BaselineHazard.CumulativeHazardFunction(time);
+            return Probability(time);
         }
 
         /// <summary>
@@ -195,12 +208,10 @@ namespace Accord.Statistics.Models.Regression
         /// <returns>The probabilities of the event occurring at 
         /// the given times for the given observations.</returns>
         /// 
+        [Obsolete("Please use Probability() instead.")]
         public double[] Compute(double[][] input, double[] time)
         {
-            double[] result = new double[input.Length];
-            for (int i = 0; i < result.Length; i++)
-                result[i] = Compute(input[i], time[i]);
-            return result;
+            return Probability(input, time);
         }
 
         /// <summary>
@@ -273,10 +284,13 @@ namespace Accord.Statistics.Models.Regression
         /// 
         public double GetPartialLogLikelihood(double[][] inputs, double[] time, SurvivalOutcome[] output)
         {
+#pragma warning disable 612, 618
+
             double sum1 = 0, sum2 = 0;
             for (int i = 0; i < inputs.Length; i++)
             {
-                if (output[i] == 0) continue;
+                if (output[i] == 0)
+                    continue;
 
                 // Compute the first sum
                 for (int j = 0; j < Coefficients.Length; j++)
@@ -298,6 +312,7 @@ namespace Accord.Statistics.Models.Regression
             }
 
             return sum1 - sum2;
+#pragma warning restore 612, 618
         }
 
         /// <summary>
@@ -416,7 +431,7 @@ namespace Accord.Statistics.Models.Regression
         {
             return 2.0 * (this.GetPartialLogLikelihood(input, time, output) - hazards.GetPartialLogLikelihood(input, time, output));
         }
-        
+
         /// <summary>
         ///   The likelihood ratio test of the overall model, also called the model chi-square test.
         /// </summary>
@@ -462,7 +477,7 @@ namespace Accord.Statistics.Models.Regression
         /// 
         public ChiSquareTest ChiSquare(double[][] input, double[] time, SurvivalOutcome[] output)
         {
-            ProportionalHazards regression = new ProportionalHazards(Inputs);
+            ProportionalHazards regression = new ProportionalHazards(NumberOfInputs);
 
             double ratio = GetLogLikelihoodRatio(input, time, output, regression);
 
@@ -480,7 +495,7 @@ namespace Accord.Statistics.Models.Regression
             var regression = new ProportionalHazards(Coefficients.Length);
             regression.Coefficients = (double[])this.Coefficients.Clone();
             regression.StandardErrors = (double[])this.StandardErrors.Clone();
-            regression.Offsets = (double[])this.Offsets.Clone();
+            regression.Intercept = this.Intercept;
             return regression;
         }
 
@@ -503,5 +518,307 @@ namespace Accord.Statistics.Models.Regression
         {
             return Math.Exp(Coefficients[index]);
         }
+
+
+
+
+        /// <summary>
+        /// Predicts a class label vector for the given input vectors, returning the
+        /// log-likelihood that the input vector belongs to its predicted class.
+        /// </summary>
+        /// 
+        /// <param name="input">The input vector.</param>
+        /// <param name="result">An array where the log-likelihoods will be stored,
+        /// avoiding unnecessary memory allocations.</param>
+        /// 
+        public override double[] LogLikelihood(Tuple<double[], double>[] input, double[] result)
+        {
+#pragma warning disable 612, 618
+            for (int j = 0; j < input.Length; j++)
+            {
+                double sum = Intercept;
+                for (int i = 0; i < Coefficients.Length; i++)
+                    sum += Coefficients[i] * (input[j].Item1[i] - Offsets[i]);
+                double h0 = BaselineHazard.LogCumulativeHazardFunction(input[j].Item2);
+                result[j] = h0 + sum;
+            }
+            return result;
+#pragma warning restore 612, 618
+        }
+
+
+        /// <summary>
+        ///   Computes class-label decisions for each vector in the given <paramref name="input"/>.
+        /// </summary>
+        /// 
+        /// <param name="input">The input vector.</param>
+        /// <param name="time">The event times.</param>
+        /// 
+        public SurvivalOutcome Decide(double[] input, double time)
+        {
+            return Decide(Tuple.Create(input, time)) ? SurvivalOutcome.Failed : SurvivalOutcome.Censored;
+        }
+
+        /// <summary>
+        ///   Computes class-label decisions for each vector in the given <paramref name="input"/>.
+        /// </summary>
+        /// 
+        /// <param name="input">The input vector.</param>
+        /// <param name="time">The event times.</param>
+        /// 
+        public SurvivalOutcome[] Decide(double[][] input, double[] time)
+        {
+            var result = new SurvivalOutcome[input.Length];
+            for (int i = 0; i < input.Length; i++)
+                result[i] = Decide(input[i], time[i]);
+            return result;
+        }
+
+        /// <summary>
+        /// Computes a numerical score measuring the association between
+        /// the given <paramref name="input" /> vector and each class.
+        /// </summary>
+        /// 
+        /// <param name="input">The input vector.</param>
+        /// <param name="time">The event times.</param>
+        /// 
+        public double Score(double[] input, double time)
+        {
+            return Probability(Tuple.Create(input, time));
+        }
+
+        /// <summary>
+        /// Computes a numerical score measuring the association between
+        /// the given <paramref name="input" /> vector and each class.
+        /// </summary>
+        /// 
+        /// <param name="input">The input vector.</param>
+        /// <param name="time">The event times.</param>
+        /// 
+        public double[] Score(double[][] input, double[] time)
+        {
+            var result = new double[input.Length];
+            for (int i = 0; i < input.Length; i++)
+                result[i] = Probability(input[i], time[i]);
+            return result;
+        }
+
+
+        /// <summary>
+        /// Predicts a class label for the given input vector, returning the
+        /// probability that the input vector belongs to its predicted class.
+        /// </summary>
+        /// 
+        /// <param name="input">The input vector.</param>
+        /// <param name="time">The event times.</param>
+        /// 
+        /// <returns>The probabilities of the event occurring at 
+        /// the given times for the given observations.</returns>
+        /// 
+        public double Probability(double[] input, double time)
+        {
+            return Probability(Tuple.Create(input, time));
+        }
+
+        /// <summary>
+        /// Predicts a class label for the given input vector, returning the
+        /// probability that the input vector belongs to its predicted class.
+        /// </summary>
+        /// 
+        /// <param name="input">The input vector.</param>
+        /// <param name="time">The event times.</param>
+        /// 
+        /// <returns>The probabilities of the event occurring at 
+        /// the given times for the given observations.</returns>
+        /// 
+        public double[] Probability(double[][] input, double[] time)
+        {
+            var result = new double[input.Length];
+            for (int i = 0; i < input.Length; i++)
+                result[i] = Probability(input[i], time[i]);
+            return result;
+        }
+
+
+        /// <summary>
+        /// Predicts a class label vector for the given input vectors, returning the
+        /// log-likelihood that the input vector belongs to its predicted class.
+        /// </summary>
+        /// 
+        /// <param name="input">The input vector.</param>
+        /// <param name="time">The event times.</param>
+        /// 
+        public double LogLikelihood(double[] input, double time)
+        {
+            return LogLikelihood(Tuple.Create(input, time));
+        }
+
+        /// <summary>
+        /// Predicts a class label vector for the given input vectors, returning the
+        /// log-likelihood that the input vector belongs to its predicted class.
+        /// </summary>
+        /// 
+        /// <param name="input">The input vector.</param>
+        /// <param name="time">The event times.</param>
+        /// 
+        public double[] LogLikelihood(double[][] input, double[] time)
+        {
+            var result = new double[input.Length];
+            for (int i = 0; i < input.Length; i++)
+                result[i] = LogLikelihood(input[i], time[i]);
+            return result;
+        }
+
+
+
+
+
+
+        /// <summary>
+        ///   Computes class-label decisions for each vector in the given <paramref name="input"/>.
+        /// </summary>
+        /// 
+        /// <param name="input">The input vectors that should be classified into
+        ///   one of the <see cref="ITransform.NumberOfOutputs"/> possible classes.</param>
+        /// 
+        public SurvivalOutcome Decide(double[] input)
+        {
+            return Probability(input) > 0.5 ? SurvivalOutcome.Failed : SurvivalOutcome.Censored;
+        }
+
+        /// <summary>
+        ///   Computes class-label decisions for each vector in the given <paramref name="input"/>.
+        /// </summary>
+        /// 
+        /// <param name="input">The input vectors that should be classified into
+        ///   one of the <see cref="ITransform.NumberOfOutputs"/> possible classes.</param>
+        /// 
+        public SurvivalOutcome[] Decide(double[][] input)
+        {
+            var result = new SurvivalOutcome[input.Length];
+            for (int i = 0; i < input.Length; i++)
+                result[i] = Decide(input[i]);
+            return result;
+        }
+
+        /// <summary>
+        /// Computes a numerical score measuring the association between
+        /// the given <paramref name="input" /> vector and each class.
+        /// </summary>
+        /// 
+        /// <param name="input">The input vector.</param>
+        /// 
+        public double Score(double[] input)
+        {
+            return LogLikelihood(input) - Math.Log(0.5);
+        }
+
+        /// <summary>
+        /// Computes a numerical score measuring the association between
+        /// the given <paramref name="input" /> vector and each class.
+        /// </summary>
+        /// 
+        /// <param name="input">The input vector.</param>
+        /// 
+        public double[] Score(double[][] input)
+        {
+            var result = new double[input.Length];
+            for (int i = 0; i < input.Length; i++)
+                result[i] = Score(input[i]);
+            return result;
+        }
+
+
+        /// <summary>
+        /// Predicts a class label for the given input vector, returning the
+        /// probability that the input vector belongs to its predicted class.
+        /// </summary>
+        /// 
+        /// <param name="input">The input vector.</param>
+        /// 
+        public double Probability(double[] input)
+        {
+            return Math.Exp(LogLikelihood(input));
+        }
+
+        /// <summary>
+        /// Predicts a class label for the given input vector, returning the
+        /// probability that the input vector belongs to its predicted class.
+        /// </summary>
+        /// 
+        /// <param name="input">The input vector.</param>
+        /// 
+        public double[] Probability(double[][] input)
+        {
+            var result = new double[input.Length];
+            for (int i = 0; i < input.Length; i++)
+                result[i] = Probability(input[i]);
+            return result;
+        }
+
+
+        /// <summary>
+        /// Predicts a class label vector for the given input vectors, returning the
+        /// log-likelihood that the input vector belongs to its predicted class.
+        /// </summary>
+        /// 
+        /// <param name="input">The input vector.</param>
+        /// 
+        public double LogLikelihood(double[] input)
+        {
+#pragma warning disable 612, 618
+            double sum = Intercept;
+            for (int i = 0; i < Coefficients.Length; i++)
+                sum += Coefficients[i] * (input[i] - Offsets[i]);
+            return sum;
+#pragma warning restore 612, 618
+        }
+
+        /// <summary>
+        /// Predicts a class label vector for the given input vectors, returning the
+        /// log-likelihood that the input vector belongs to its predicted class.
+        /// </summary>
+        /// 
+        /// <param name="input">The input vector.</param>
+        /// 
+        public double[] LogLikelihood(double[][] input)
+        {
+            var result = new double[input.Length];
+            for (int i = 0; i < input.Length; i++)
+                result[i] = LogLikelihood(input[i]);
+            return result;
+        }
+
+
+        /// <summary>
+        /// Predicts a class label for the given input vector, returning the
+        /// probability that the input vector belongs to its predicted class.
+        /// </summary>
+        /// 
+        /// <param name="time">The event times.</param>
+        /// 
+        public double Probability(double time)
+        {
+            if (BaselineHazard == null)
+                throw new InvalidOperationException();
+
+            return BaselineHazard.CumulativeHazardFunction(time);
+        }
+
+        /// <summary>
+        /// Predicts a class label for the given input vector, returning the
+        /// log-likelihood that the input vector belongs to its predicted class.
+        /// </summary>
+        /// 
+        /// <param name="time">The event times.</param>
+        /// 
+        public double LogLikelihood(double time)
+        {
+            if (BaselineHazard == null)
+                throw new InvalidOperationException();
+
+            return BaselineHazard.LogCumulativeHazardFunction(time);
+        }
+
     }
 }

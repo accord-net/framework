@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -40,8 +40,6 @@ namespace Accord.Imaging
     ///   The general transformation matrix has 8 degrees of freedom, as the last
     ///   element is just a scale parameter.</para>  
     /// </remarks>
-    /// 
-    /// <seealso cref="RansacHomographyEstimator"/>
     /// 
     [Serializable]
     public class MatrixH

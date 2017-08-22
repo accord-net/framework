@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -22,8 +22,8 @@
 
 namespace Accord.Math
 {
-    using AForge;
     using System;
+    using Accord.Compat;
     using System.Numerics;
     using System.Runtime.CompilerServices;
 
@@ -380,7 +380,7 @@ namespace Accord.Math
         ///   Gets the squared magnitude of a complex number.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double SquaredMagnitude(this Complex value)

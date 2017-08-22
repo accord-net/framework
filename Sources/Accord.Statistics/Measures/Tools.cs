@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -27,40 +27,9 @@ namespace Accord.Statistics
     using Accord.Math;
     using Accord.Math.Decompositions;
     using Accord.Statistics.Kernels;
-    using AForge;
-
-    /// <summary>
-    ///   Sample weight types.
-    /// </summary>
-    /// 
-    public enum WeightType
-    {
-        /// <summary>
-        ///   Weights should be ignored.
-        /// </summary>
-        /// 
-        None,
-
-        /// <summary>
-        ///   Weights are integers representing how many times a sample should repeat itself.
-        /// </summary>
-        /// 
-        Repetition,
-
-        /// <summary>
-        ///   Weights are fractional numbers that sum up to one.
-        /// </summary>
-        /// 
-        Fraction,
-
-        /// <summary>
-        ///   If weights sum up to one, they are handled as <see cref="Fraction">fractional
-        ///   weights</see>. If they sum to a whole number, they are handled as <see cref="Repetition">
-        ///   integer repetition counts</see>.
-        /// </summary>
-        /// 
-        Automatic,
-    }
+    using Accord.Statistics.Distributions;
+    using Accord.Statistics.Distributions.Fitting;
+    using Accord.Compat;
 
     /// <summary>
     ///   Set of statistics functions.
@@ -410,7 +379,7 @@ namespace Accord.Statistics
             double[,] cov = value.Covariance();
 
             // Diagonalizes the covariance matrix
-            SingularValueDecomposition svd = new SingularValueDecomposition(cov,
+            var svd = new SingularValueDecomposition(cov,
                 true,  // compute left vectors (to become a transformation matrix)
                 false, // do not compute right vectors since they aren't necessary
                 true,  // transpose if necessary to avoid erroneous assumptions in SVD
@@ -428,6 +397,165 @@ namespace Accord.Statistics
 
             // Return the transformed data
             return Matrix.Dot(value, transformMatrix);
+        }
+
+        /// <summary>
+        ///   Computes the whitening transform for the given data, making
+        ///   its covariance matrix equals the identity matrix.
+        /// </summary>
+        /// <param name="value">A matrix where each column represent a
+        ///   variable and each row represent a observation.</param>
+        /// <param name="transformMatrix">The base matrix used in the
+        ///   transformation.</param>
+        /// <returns>
+        ///   The transformed source data (which now has unit variance).
+        /// </returns>
+        /// 
+        public static double[][] Whitening(double[][] value, out double[][] transformMatrix)
+        {
+            // TODO: Move into PCA and mark as obsolete
+            if (value == null)
+                throw new ArgumentNullException("value");
+
+
+            int cols = value.Columns();
+
+            double[][] cov = value.Covariance();
+
+            // Diagonalizes the covariance matrix
+            var svd = new JaggedSingularValueDecomposition(cov,
+                true,  // compute left vectors (to become a transformation matrix)
+                false, // do not compute right vectors since they aren't necessary
+                true,  // transpose if necessary to avoid erroneous assumptions in SVD
+                true); // perform operation in-place, reducing memory usage
+
+
+            // Retrieve the transformation matrix
+            transformMatrix = svd.LeftSingularVectors;
+
+            // Perform scaling to have unit variance
+            double[] singularValues = svd.Diagonal;
+            for (int i = 0; i < cols; i++)
+                for (int j = 0; j < singularValues.Length; j++)
+                    transformMatrix[i][j] /= Math.Sqrt(singularValues[j]);
+
+            // Return the transformed data
+            return Matrix.Dot(value, transformMatrix);
+        }
+
+        /// <summary>
+        ///   Creates a new distribution that has been fit to a given set of observations.
+        /// </summary>
+        /// 
+        /// <param name="observations">The array of observations to fit the model against. The array
+        ///   elements can be either of type double (for univariate data) or
+        ///   type double[] (for multivariate data).</param>
+        /// <param name="weights">The weight vector containing the weight for each of the samples.</param>
+        ///   
+        public static TDistribution Fit<TDistribution>(this double[] observations, double[] weights = null)
+            where TDistribution : IFittable<double>, new()
+        {
+            var dist = new TDistribution();
+            dist.Fit(observations, weights);
+            return dist;
+        }
+
+        /// <summary>
+        ///   Creates a new distribution that has been fit to a given set of observations.
+        /// </summary>
+        /// 
+        /// <param name="observations">The array of observations to fit the model against. The array
+        ///   elements can be either of type double (for univariate data) or
+        ///   type double[] (for multivariate data).</param>
+        /// <param name="weights">The weight vector containing the weight for each of the samples.</param>
+        ///   
+        public static TDistribution Fit<TDistribution>(this double[][] observations, double[] weights = null)
+            where TDistribution : IFittable<double[]>, new()
+        {
+            var dist = new TDistribution();
+            dist.Fit(observations, weights);
+            return dist;
+        }
+
+        /// <summary>
+        ///   Creates a new distribution that has been fit to a given set of observations.
+        /// </summary>
+        /// 
+        /// <param name="observations">The array of observations to fit the model against. The array
+        ///   elements can be either of type double (for univariate data) or
+        ///   type double[] (for multivariate data).</param>
+        /// <param name="weights">The weight vector containing the weight for each of the samples.</param>
+        /// <param name="options">Optional arguments which may be used during fitting, such
+        ///   as regularization constants and additional parameters.</param>
+        ///   
+        public static TDistribution Fit<TDistribution, TOptions>(this double[] observations, TOptions options, double[] weights = null)
+            where TDistribution : IFittable<double, TOptions>, new()
+            where TOptions : class, IFittingOptions
+        {
+            var dist = new TDistribution();
+            dist.Fit(observations, weights, options);
+            return dist;
+        }
+
+        /// <summary>
+        ///   Creates a new distribution that has been fit to a given set of observations.
+        /// </summary>
+        /// 
+        /// <param name="observations">The array of observations to fit the model against. The array
+        ///   elements can be either of type double (for univariate data) or
+        ///   type double[] (for multivariate data).</param>
+        /// <param name="weights">The weight vector containing the weight for each of the samples.</param>
+        /// <param name="options">Optional arguments which may be used during fitting, such
+        ///   as regularization constants and additional parameters.</param>
+        ///   
+        public static TDistribution Fit<TDistribution, TOptions>(this double[][] observations, TOptions options, double[] weights = null)
+            where TDistribution : IFittable<double[], TOptions>, new()
+            where TOptions : class, IFittingOptions
+        {
+            var dist = new TDistribution();
+            dist.Fit(observations, weights, options);
+            return dist;
+        }
+
+        /// <summary>
+        ///   Creates a new distribution that has been fit to a given set of observations.
+        /// </summary>
+        /// 
+        /// <param name="distribution">The distribution whose parameters should be fitted to the samples.</param>
+        /// <param name="observations">The array of observations to fit the model against. The array
+        ///   elements can be either of type double (for univariate data) or
+        ///   type double[] (for multivariate data).</param>
+        /// <param name="weights">The weight vector containing the weight for each of the samples.</param>
+        ///   
+        public static TDistribution FitNew<TDistribution, TObservations>(
+            this TDistribution distribution, TObservations[] observations, double[] weights = null)
+            where TDistribution : IFittable<TObservations>, ICloneable
+        {
+            var clone = (TDistribution)distribution.Clone();
+            clone.Fit(observations, weights);
+            return clone;
+        }
+
+        /// <summary>
+        ///   Creates a new distribution that has been fit to a given set of observations.
+        /// </summary>
+        /// 
+        /// <param name="distribution">The distribution whose parameters should be fitted to the samples.</param>
+        /// <param name="observations">The array of observations to fit the model against. The array
+        ///   elements can be either of type double (for univariate data) or
+        ///   type double[] (for multivariate data).</param>
+        /// <param name="weights">The weight vector containing the weight for each of the samples.</param>
+        /// <param name="options">Optional arguments which may be used during fitting, such
+        ///   as regularization constants and additional parameters.</param>
+        ///   
+        public static TDistribution FitNew<TDistribution, TObservations, TOptions>(
+            this TDistribution distribution, TObservations[] observations, TOptions options, double[] weights = null)
+            where TDistribution : IFittable<TObservations, TOptions>, ICloneable
+            where TOptions : class, IFittingOptions
+        {
+            var clone = (TDistribution)distribution.Clone();
+            clone.Fit(observations, weights, options);
+            return clone;
         }
 
     }

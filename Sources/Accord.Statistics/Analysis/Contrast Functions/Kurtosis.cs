@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -23,12 +23,14 @@
 namespace Accord.Statistics.Analysis.ContrastFunctions
 {
     using System;
+    using Accord.Compat;
 
     /// <summary>
     ///   Kurtosis contrast function.
     /// </summary>
+    /// 
     /// <remarks>
-    ///   According to using to Hyvärinen, the kurtosis contrast function is
+    ///   According to Hyvärinen, the kurtosis contrast function is
     ///   justified on statistical grounds only for estimating sub-Gaussian
     ///   independent components when there are no outliers.
     /// </remarks>
@@ -43,7 +45,9 @@ namespace Accord.Statistics.Analysis.ContrastFunctions
         ///   Initializes a new instance of the <see cref="Kurtosis"/> class.
         /// </summary>
         /// 
-        public Kurtosis() { }
+        public Kurtosis()
+        {
+        }
 
         /// <summary>
         ///   Contrast function.
@@ -71,7 +75,7 @@ namespace Accord.Statistics.Analysis.ContrastFunctions
                 output[j] = v * v * v;
 
                 // g'(w*x)
-                derivative[j] = (1.0 / 3.0) * v * v;
+                derivative[j] = 3.0 * v * v;
             }
         }
     }

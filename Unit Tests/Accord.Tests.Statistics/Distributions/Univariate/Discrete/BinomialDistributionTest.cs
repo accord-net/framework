@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -32,22 +32,6 @@ namespace Accord.Tests.Statistics
     [TestFixture]
     public class BinomialDistributionTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
 
 
         [Test]
@@ -117,7 +101,7 @@ namespace Accord.Tests.Statistics
                 0.0, 0.0260838446329553, 0.104335628936830,  0.198238170750635,
                 0.237886375826922,  0.202203904741285,  0.129410809619744,
                 0.0647055601029058, 0.0258822861585249, 0.00841176318971187,
-                0.00224314223412042 
+                0.00224314223412042
             };
 
             int trials = 20;
@@ -316,6 +300,55 @@ namespace Accord.Tests.Statistics
             {
                 BinomialDistribution target = new BinomialDistribution(trials, 1.0);
                 Assert.AreEqual(target.Median, target.InverseDistributionFunction(0.5));
+            }
+        }
+
+        [Test]
+        public void icdf()
+        {
+            int trials = 1;
+
+            BinomialDistribution dist = new BinomialDistribution(trials, 0.5);
+            double icdf000 = dist.InverseDistributionFunction(0.0);
+            Assert.AreEqual(0, icdf000);
+
+            double icdf001 = dist.InverseDistributionFunction(0.1);
+            Assert.AreEqual(0, icdf001);
+
+            double icdf050 = dist.InverseDistributionFunction(0.5); // important
+            Assert.AreEqual(0, icdf050);
+
+            double icdf090 = dist.InverseDistributionFunction(0.9);
+            Assert.AreEqual(1, icdf090);
+
+            double icdf100 = dist.InverseDistributionFunction(0.9);
+            Assert.AreEqual(1, icdf100);
+
+            Assert.AreEqual(dist.Median, icdf050);
+        }
+
+        [Test]
+        public void icdf2()
+        {
+            int trials = 1;
+
+            BinomialDistribution dist = new BinomialDistribution(trials, 0.5);
+
+            double[] percentiles = Vector.Range(0.0, 1.0, stepSize: 0.1);
+            for (int i = 0; i < percentiles.Length; i++)
+            {
+                double x = percentiles[i];
+                int icdf = dist.InverseDistributionFunction(x);
+                double cdf = dist.DistributionFunction(icdf);
+                int iicdf = dist.InverseDistributionFunction(cdf);
+                double iiicdf = dist.DistributionFunction(iicdf);
+                Assert.AreEqual(iicdf, icdf, 1e-5);
+
+                double rx = Math.Round(x);
+                double rc = Math.Round(cdf);
+
+                Assert.AreEqual(rx, rc, 1e-5);
+                Assert.AreEqual(iiicdf, cdf, 1e-5);
             }
         }
 

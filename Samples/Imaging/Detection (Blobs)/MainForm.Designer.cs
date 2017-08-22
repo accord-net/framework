@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent( )
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.mainMenu = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -40,11 +41,11 @@
             this.blobsCountLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.splitContainer = new System.Windows.Forms.SplitContainer();
-            this.blobsBrowser = new BlobsBrowser();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.showRectangleAroundSelectionCheck = new System.Windows.Forms.CheckBox();
             this.highlightTypeCombo = new System.Windows.Forms.ComboBox();
             this.propertyGrid = new System.Windows.Forms.PropertyGrid();
+            this.blobsBrowser = new SampleApp.BlobsBrowser();
             this.mainMenu.SuspendLayout();
             this.statusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
@@ -81,26 +82,26 @@
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
             this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(229, 30);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(242, 30);
             this.openToolStripMenuItem.Text = "&Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // loaddemoImageToolStripMenuItem
             // 
             this.loaddemoImageToolStripMenuItem.Name = "loaddemoImageToolStripMenuItem";
-            this.loaddemoImageToolStripMenuItem.Size = new System.Drawing.Size(229, 30);
+            this.loaddemoImageToolStripMenuItem.Size = new System.Drawing.Size(242, 30);
             this.loaddemoImageToolStripMenuItem.Text = "Load &demo image";
             this.loaddemoImageToolStripMenuItem.Click += new System.EventHandler(this.loaddemoImageToolStripMenuItem_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(226, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(239, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(229, 30);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(242, 30);
             this.exitToolStripMenuItem.Text = "E&xit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -115,7 +116,7 @@
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(134, 30);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(147, 30);
             this.aboutToolStripMenuItem.Text = "&About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
@@ -124,10 +125,10 @@
             this.statusStrip.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.blobsCountLabel});
-            this.statusStrip.Location = new System.Drawing.Point(0, 649);
+            this.statusStrip.Location = new System.Drawing.Point(0, 639);
             this.statusStrip.Name = "statusStrip";
             this.statusStrip.Padding = new System.Windows.Forms.Padding(2, 0, 21, 0);
-            this.statusStrip.Size = new System.Drawing.Size(1066, 22);
+            this.statusStrip.Size = new System.Drawing.Size(1066, 32);
             this.statusStrip.TabIndex = 1;
             // 
             // blobsCountLabel
@@ -138,7 +139,7 @@
             | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
             this.blobsCountLabel.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenInner;
             this.blobsCountLabel.Name = "blobsCountLabel";
-            this.blobsCountLabel.Size = new System.Drawing.Size(1043, 17);
+            this.blobsCountLabel.Size = new System.Drawing.Size(1043, 27);
             this.blobsCountLabel.Spring = true;
             this.blobsCountLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -165,21 +166,10 @@
             this.splitContainer.Panel2.Controls.Add(this.groupBox1);
             this.splitContainer.Panel2.Controls.Add(this.propertyGrid);
             this.splitContainer.Panel2MinSize = 100;
-            this.splitContainer.Size = new System.Drawing.Size(1066, 614);
+            this.splitContainer.Size = new System.Drawing.Size(1066, 604);
             this.splitContainer.SplitterDistance = 746;
             this.splitContainer.SplitterWidth = 6;
             this.splitContainer.TabIndex = 2;
-            // 
-            // blobsBrowser
-            // 
-            this.blobsBrowser.Highlighting = BlobsBrowser.HightlightType.Quadrilateral;
-            this.blobsBrowser.Location = new System.Drawing.Point(212, 186);
-            this.blobsBrowser.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.blobsBrowser.Name = "blobsBrowser";
-            this.blobsBrowser.ShowRectangleAroundSelection = false;
-            this.blobsBrowser.Size = new System.Drawing.Size(322, 242);
-            this.blobsBrowser.TabIndex = 0;
-            this.blobsBrowser.BlobSelected += new BlobSelectionHandler(this.blobsBrowser_BlobSelected);
             // 
             // groupBox1
             // 
@@ -191,7 +181,7 @@
             this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.groupBox1.Size = new System.Drawing.Size(298, 100);
+            this.groupBox1.Size = new System.Drawing.Size(296, 100);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Highlight Type";
@@ -222,7 +212,7 @@
             this.highlightTypeCombo.Location = new System.Drawing.Point(9, 31);
             this.highlightTypeCombo.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.highlightTypeCombo.Name = "highlightTypeCombo";
-            this.highlightTypeCombo.Size = new System.Drawing.Size(278, 28);
+            this.highlightTypeCombo.Size = new System.Drawing.Size(276, 28);
             this.highlightTypeCombo.TabIndex = 0;
             this.highlightTypeCombo.SelectedIndexChanged += new System.EventHandler(this.highlightTypeCombo_SelectedIndexChanged);
             // 
@@ -235,9 +225,20 @@
             this.propertyGrid.Location = new System.Drawing.Point(0, 114);
             this.propertyGrid.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.propertyGrid.Name = "propertyGrid";
-            this.propertyGrid.Size = new System.Drawing.Size(312, 500);
+            this.propertyGrid.Size = new System.Drawing.Size(310, 490);
             this.propertyGrid.TabIndex = 0;
             this.propertyGrid.ToolbarVisible = false;
+            // 
+            // blobsBrowser
+            // 
+            this.blobsBrowser.Highlighting = SampleApp.BlobsBrowser.HightlightType.Quadrilateral;
+            this.blobsBrowser.Location = new System.Drawing.Point(212, 181);
+            this.blobsBrowser.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.blobsBrowser.Name = "blobsBrowser";
+            this.blobsBrowser.ShowRectangleAroundSelection = false;
+            this.blobsBrowser.Size = new System.Drawing.Size(322, 242);
+            this.blobsBrowser.TabIndex = 0;
+            this.blobsBrowser.BlobSelected += new SampleApp.BlobSelectionHandler(this.blobsBrowser_BlobSelected);
             // 
             // MainForm
             // 
@@ -247,6 +248,7 @@
             this.Controls.Add(this.splitContainer);
             this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.mainMenu);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.mainMenu;
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.MinimumSize = new System.Drawing.Size(709, 524);

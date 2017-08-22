@@ -1,7 +1,7 @@
 // Accord.NET Sample Applications
 // http://accord-framework.net
 //
-// Copyright © 2009-2014, César Souza
+// Copyright © 2009-2017, César Souza
 // All rights reserved. 3-BSD License:
 //
 //   Redistribution and use in source and binary forms, with or without
@@ -239,8 +239,6 @@ namespace SampleApp
             // 
             this.chart.Location = new System.Drawing.Point(16, 29);
             this.chart.Name = "chart";
-            this.chart.RangeX = ((Accord.Range)(resources.GetObject("chart.RangeX")));
-            this.chart.RangeY = ((Accord.Range)(resources.GetObject("chart.RangeY")));
             this.chart.Size = new System.Drawing.Size(448, 512);
             this.chart.TabIndex = 0;
             // 
@@ -468,6 +466,7 @@ namespace SampleApp
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "TimeSeries";
             this.Text = "Time Series Prediction using Multi-Layer Neural Network (Resilient Backpropagatio" +

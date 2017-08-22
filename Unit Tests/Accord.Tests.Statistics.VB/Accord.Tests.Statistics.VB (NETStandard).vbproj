@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>Accord.Tests.Statistics</RootNamespace>
+    <AssemblyName>Accord.Tests.Statistics.VB</AssemblyName>
+    <TargetFrameworks>netcoreapp2.0;netcoreapp1.1</TargetFrameworks>
+  </PropertyGroup>
+
+  <Import Project="$(SolutionDir)../Unit Tests/Accord.Tests (NETStandard).targets" />
+
+  <PropertyGroup>
+    <DefineConstants>NETCORE</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="My Project\*.*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Sources\Accord.Math.Core\Accord.Math.Core (NETStandard).csproj" />
+    <ProjectReference Include="..\..\Sources\Accord.Math\Accord.Math (NETStandard).csproj" />
+    <ProjectReference Include="..\..\Sources\Accord.Statistics\Accord.Statistics (NETStandard).csproj" />
+  </ItemGroup>
+
+</Project>

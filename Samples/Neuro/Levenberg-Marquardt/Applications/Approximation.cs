@@ -1,7 +1,7 @@
 // Accord.NET Sample Applications
 // http://accord-framework.net
 //
-// Copyright © 2009-2014, César Souza
+// Copyright © 2009-2017, César Souza
 // All rights reserved. 3-BSD License:
 //
 //   Redistribution and use in source and binary forms, with or without
@@ -241,8 +241,6 @@ namespace SampleApp
             // 
             this.chart.Location = new System.Drawing.Point(16, 29);
             this.chart.Name = "chart";
-            this.chart.RangeX = ((Range)(resources.GetObject("chart.RangeX")));
-            this.chart.RangeY = ((Range)(resources.GetObject("chart.RangeY")));
             this.chart.Size = new System.Drawing.Size(448, 424);
             this.chart.TabIndex = 0;
             // 
@@ -441,6 +439,7 @@ namespace SampleApp
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "Approximation";
             this.Text = "Approximation using Multi-Layer Neural Network (Levenberg-Marquardt)";
@@ -619,8 +618,8 @@ namespace SampleApp
 
             // prepare learning data
             DoubleRange unit = new DoubleRange(-1, 1);
-            double[][] input = data.GetColumn(0).Scale(fromRange: xRange, toRange: unit).ToArray();
-            double[][] output = data.GetColumn(1).Scale(fromRange: yRange, toRange: unit).ToArray();
+            double[][] input = data.GetColumn(0).Scale(fromRange: xRange, toRange: unit).ToJagged();
+            double[][] output = data.GetColumn(1).Scale(fromRange: yRange, toRange: unit).ToJagged();
 
 
             // create multi-layer neural network

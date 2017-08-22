@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -25,7 +25,8 @@ namespace Accord.Statistics.Testing
     using System;
     using Accord.Statistics.Distributions.Univariate;
     using Accord.Statistics.Testing.Power;
-    using AForge;
+    using System.Diagnostics;
+    using Accord.Compat;
 
     /// <summary>
     ///   Two sample Z-Test.
@@ -137,8 +138,7 @@ namespace Accord.Statistics.Testing
 
             if (samples1 < 30 || samples2 < 30)
             {
-                System.Diagnostics.Trace.TraceWarning(
-                    "Warning: running a Z test for less than 30 samples. Consider running a Student's T Test instead.");
+                Trace.TraceWarning("Warning: running a Z test for less than 30 samples. Consider running a Student's T Test instead.");
             }
 
             double mean1 = sample1.Mean();
@@ -179,8 +179,7 @@ namespace Accord.Statistics.Testing
 
             if (samples1 < 30 || samples2 < 30)
             {
-                System.Diagnostics.Trace.TraceWarning(
-                    "Warning: running a Z test for less than 30 samples. Consider running a Student's T Test instead.");
+                Trace.TraceWarning("Warning: running a Z test for less than 30 samples. Consider running a Student's T Test instead.");
             }
 
             double sqStdError1 = var1 / samples1;

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -23,33 +23,29 @@
 namespace Accord.Math.Optimization.Losses
 {
     using System;
+    using Accord.Compat;
 
     /// <summary>
     ///   Base class for <see cref="ILoss{T}">loss functions</see>.
     /// </summary>
     /// 
-    /// <typeparam name="T">The type for the expected data.</typeparam>
+    /// <typeparam name="TInput">The type for the expected data.</typeparam>
+    /// <typeparam name="TScore">The type for the predicted score values.</typeparam>
+    /// <typeparam name="TLoss">The type for the loss value. Default is double.</typeparam>
     /// 
     [Serializable]
-    public abstract class LossBase<T> : ILoss<T>
+    public abstract class LossBase<TInput, TScore, TLoss> : ILoss<TScore, TLoss>
     {
-        private T expected;
+        private TInput expected;
 
         /// <summary>
         ///   Gets the expected outputs (the ground truth).
         /// </summary>
         /// 
-        public T Expected { get { return expected; } }
-
-        /// <summary>
-        ///   Initializes a new instance of the <see cref="LossBase{T}"/> class.
-        /// </summary>
-        /// 
-        /// <param name="expected">The expected outputs (ground truth).</param>
-        /// 
-        public LossBase(T expected)
+        public TInput Expected
         {
-            this.expected = expected;
+            get { return expected; }
+            protected set { expected = value; }
         }
 
         /// <summary>
@@ -64,8 +60,18 @@ namespace Accord.Math.Optimization.Losses
         ///   the actual predicted values.
         /// </returns>
         /// 
-        public abstract double Loss(T actual);
+        public abstract TLoss Loss(TScore actual);
+    }
 
-      
+    /// <summary>
+    ///   Base class for <see cref="ILoss{T}">loss functions</see>.
+    /// </summary>
+    /// 
+    /// <typeparam name="T">The type for the expected data.</typeparam>
+    /// 
+    [Serializable]
+    public abstract class LossBase<T> : LossBase<T, T, double>, ILoss<T>
+    {
+
     }
 }

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -457,7 +457,7 @@ namespace Accord.Tests.Neuro
                     double j1 = jacobian1[i][j];
                     double j2 = jacobian2[i][j];
 
-                    Assert.AreEqual(j1, j2, 1e-4);
+                    Assert.AreEqual(j1, j2, 1e-3);
 
                     Assert.IsFalse(Double.IsNaN(j1));
                     Assert.IsFalse(Double.IsNaN(j2));
@@ -517,7 +517,7 @@ namespace Accord.Tests.Neuro
                     double j1 = jacobian1[i][j];
                     double j2 = jacobian2[i][j];
 
-                    Assert.AreEqual(j1, j2, 1e-5);
+                    Assert.AreEqual(j1, j2, 1e-4);
 
                     Assert.IsFalse(Double.IsNaN(j1));
                     Assert.IsFalse(Double.IsNaN(j2));
@@ -727,7 +727,9 @@ namespace Accord.Tests.Neuro
 
             // create teacher
             var teacher = new LevenbergMarquardtLearning(network, true);
-
+#if MONO
+            teacher.ParallelOptions.MaxDegreeOfParallelism = 1;
+#endif
             teacher.LearningRate = 1;
 
             // iterations

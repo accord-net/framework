@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -46,6 +46,16 @@ namespace Accord.MachineLearning
         /// <returns>This instance seen as an <see cref="IMulticlassClassifier{TInput}"/>.</returns>
         /// 
         IMulticlassClassifier<TInput> ToMulticlass();
+
+        /// <summary>
+        ///   Views this instance as a multi-class classifier,
+        ///   giving access to more advanced methods, such as the prediction
+        ///   of integer labels.
+        /// </summary>
+        /// 
+        /// <returns>This instance seen as an <see cref="IMulticlassClassifier{TInput}"/>.</returns>
+        /// 
+        IMulticlassClassifier<TInput, T> ToMulticlass<T>();
     }
 
     /// <summary>

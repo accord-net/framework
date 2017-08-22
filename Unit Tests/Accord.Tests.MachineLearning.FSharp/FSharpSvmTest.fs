@@ -1,5 +1,7 @@
 ﻿namespace Accord.Tests.FSharp.MachineLearning
 
+#nowarn "0044"
+
 open System
 open System.IO
 
@@ -204,15 +206,7 @@ type FSharpSvmTest() =
         I can just keep going. 
         *)
 
-
-
-
-
-    [<TestCase()>]
-    member x.fsharp_multiclass_convergence_exception() =
-        let (error, validation) = FSharpSvmTest.Run(1.0)
-        Assert.AreEqual(Double.NaN, error)
-        Assert.AreEqual(0.9, validation, 0.01)
+#if RELEASE // the following tests can take a very long time
                 
     [<TestCase()>]
     member x.fsharp_multiclass_old_methd() =
@@ -226,8 +220,11 @@ type FSharpSvmTest() =
         Assert.AreEqual(0.9, validation, 0.005)
         Assert.AreEqual(0, error)
 
-
-#if RELEASE // the following tests can take a very long time
+    [<TestCase()>]
+    member x.fsharp_multiclass_convergence_exception() =
+        let (error, validation) = FSharpSvmTest.Run(1.0)
+        Assert.AreEqual(Double.NaN, error)
+        Assert.AreEqual(0.9, validation, 0.01)
 
     [<TestCase()>]
     member x.fsharp_multiclass_voting() =
@@ -252,11 +249,12 @@ type FSharpSvmTest() =
         let (error, validation) = FSharpSvmTest.Run(0.0);
         Assert.AreEqual(0.92, validation, 0.005);
         Assert.AreEqual(0.0546, error, 0.002);
-#endif
 
     [<TestCase()>]
     member x.fsharp_multiclass_auto_complexity_new_methd() =
         let (error, validation) = FSharpSvmTest.RunNew(0.0);
         Assert.AreEqual(0.92, validation, 0.005);
         Assert.AreEqual(0.0546, error, 0.002);
+
+#endif
 

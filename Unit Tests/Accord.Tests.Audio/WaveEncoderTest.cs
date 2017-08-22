@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -32,22 +32,6 @@ namespace Accord.Tests.Audio
     public class WaveEncoderTest
     {
 
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
         [Test]
         public void WaveEncoderConstructorTest()
         {
@@ -65,7 +49,7 @@ namespace Accord.Tests.Audio
             // sizeof(int)   = 4
             // sizeof(short) = 2
 
-            UnmanagedMemoryStream sourceStream = Properties.Resources.a;
+            var sourceStream = SignalTest.GetSignal("a.wav");
             MemoryStream destinationStream = new MemoryStream();
 
             // Create a decoder for the source stream
@@ -82,7 +66,7 @@ namespace Accord.Tests.Audio
             Signal sourceSignal = sourceDecoder.Decode();
             Assert.AreEqual(352800, sourceSignal.Samples);
             Assert.AreEqual(176400, sourceSignal.Length);
-            Assert.AreEqual(4000, sourceSignal.Duration);
+            Assert.AreEqual(4000, sourceSignal.Duration.TotalMilliseconds);
             Assert.AreEqual(2, sourceSignal.Channels);
             Assert.AreEqual(44100, sourceSignal.SampleRate);
             Assert.AreEqual(sizeof(float) * 352800, sourceSignal.RawData.Length);

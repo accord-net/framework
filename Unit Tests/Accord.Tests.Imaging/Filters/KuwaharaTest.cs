@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -27,6 +27,10 @@ namespace Accord.Tests.Imaging
     using Accord.Imaging.Filters;
     using Accord.Math;
     using NUnit.Framework;
+    using Accord.Tests.Imaging.Properties;
+#if NO_BITMAP
+    using Resources = Accord.Tests.Imaging.Properties.Resources_Standard;
+#endif
 
     [TestFixture]
     public class KuwaharaTest
@@ -36,7 +40,7 @@ namespace Accord.Tests.Imaging
         [Test]
         public void KuwaharaTest1()
         {
-            Bitmap image = Accord.Imaging.Image.Clone(Properties.Resources.lena512);
+            Bitmap image = Accord.Imaging.Image.Clone(Resources.lena512);
 
             Kuwahara kuwahara = new Kuwahara();
 

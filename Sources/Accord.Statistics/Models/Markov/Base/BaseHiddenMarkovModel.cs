@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -24,6 +24,8 @@ namespace Accord.Statistics.Models.Markov
 {
     using System;
     using Accord.Statistics.Models.Markov.Topology;
+    using Accord.Math;
+    using Accord.Compat;
 
     /// <summary>
     ///   Base class for Hidden Markov Models. This class cannot
@@ -39,7 +41,7 @@ namespace Accord.Statistics.Models.Markov
 
 
         // Model is defined as M = (A, B, pi)
-        private double[,] logA; // Transition probabilities
+        private double[][] logA; // Transition probabilities
         private double[] logPi; // Initial state probabilities
 
 
@@ -50,7 +52,9 @@ namespace Accord.Statistics.Models.Markov
         /// 
         protected BaseHiddenMarkovModel(ITopology topology)
         {
-            this.states = topology.Create(true, out logA, out logPi);
+            double[,] a;
+            this.states = topology.Create(true, out a, out logPi);
+            this.logA = a.ToJagged();
         }
 
 
@@ -68,7 +72,17 @@ namespace Accord.Statistics.Models.Markov
         ///   Gets the log-initial probabilities <c>log(pi)</c> for this model.
         /// </summary>
         /// 
+        [Obsolete("Please use the Initial property instead.")]
         public double[] Probabilities
+        {
+            get { return this.logPi; }
+        }
+
+        /// <summary>
+        ///   Gets the log-initial probabilities <c>log(pi)</c> for this model.
+        /// </summary>
+        /// 
+        public double[] LogInitial
         {
             get { return this.logPi; }
         }
@@ -77,7 +91,17 @@ namespace Accord.Statistics.Models.Markov
         ///   Gets the log-transition matrix <c>log(A)</c> for this model.
         /// </summary>
         /// 
+        [Obsolete("Please use LogTransitions instead.")]
         public double[,] Transitions
+        {
+            get { return this.logA.ToMatrix(); }
+        }
+
+        /// <summary>
+        ///   Gets the log-transition matrix <c>log(A)</c> for this model.
+        /// </summary>
+        /// 
+        public double[][] LogTransitions
         {
             get { return this.logA; }
         }

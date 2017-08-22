@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -24,7 +24,7 @@ namespace Accord.Statistics.Distributions.Univariate
 {
     using System;
     using Accord.Math;
-    using AForge;
+    using Accord.Compat;
 
     /// <summary>
     ///   Student's t-distribution.
@@ -104,7 +104,7 @@ namespace Accord.Statistics.Distributions.Univariate
     public class TDistribution : UnivariateContinuousDistribution, IFormattable
     {
 
-        private double constant;
+        private double lnconstant;
 
 
         /// <summary>
@@ -120,7 +120,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <param name="degreesOfFreedom">The degrees of freedom.</param>
         /// 
-        public TDistribution([Positive] double degreesOfFreedom)
+        public TDistribution([Positive(minimum: 1)] double degreesOfFreedom)
         {
             if (degreesOfFreedom < 1)
                 throw new ArgumentOutOfRangeException("degreesOfFreedom");
@@ -129,8 +129,9 @@ namespace Accord.Statistics.Distributions.Univariate
 
             double v = degreesOfFreedom;
 
-            // TODO: Use LogGamma instead.
-            this.constant = Gamma.Function((v + 1) / 2.0) / (Math.Sqrt(v * Math.PI) * Gamma.Function(v / 2.0));
+            double num = Gamma.Log((v + 1) / 2.0);
+            double den = 0.5 * Math.Log(v * Math.PI) + Gamma.Log(v / 2.0);
+            this.lnconstant = num - den;
         }
 
 
@@ -218,7 +219,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   See <see cref="TDistribution"/>.
         /// </example>
         /// 
-        public override double DistributionFunction(double x)
+        protected internal override double InnerDistributionFunction(double x)
         {
             double v = DegreesOfFreedom;
             double sqrt = Math.Sqrt(x * x + v);
@@ -247,10 +248,9 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   See <see cref="TDistribution"/>.
         /// </example>
         /// 
-        public override double ProbabilityDensityFunction(double x)
+        protected internal override double InnerProbabilityDensityFunction(double x)
         {
-            double v = DegreesOfFreedom;
-            return constant * Math.Pow(1 + (x * x) / DegreesOfFreedom, -(v + 1) / 2.0);
+            return Math.Exp(LogProbabilityDensityFunction(x));
         }
 
         /// <summary>
@@ -274,10 +274,9 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   See <see cref="TDistribution"/>.
         /// </example>
         /// 
-        public override double LogProbabilityDensityFunction(double x)
+        protected internal override double InnerLogProbabilityDensityFunction(double x)
         {
-            double v = DegreesOfFreedom;
-            return Math.Log(constant) - ((v + 1) / 2.0) * Math.Log(1 + (x * x) / DegreesOfFreedom);
+            return lnconstant - ((DegreesOfFreedom + 1) / 2.0) * Special.Log1p((x * x) / DegreesOfFreedom);
         }
 
         /// <summary>
@@ -296,7 +295,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   See <see cref="TDistribution"/>.
         /// </example>
         /// 
-        public override double InverseDistributionFunction(double p)
+        protected internal override double InnerInverseDistributionFunction(double p)
         {
             return inverseDistributionLeftTail(DegreesOfFreedom, p);
         }
@@ -333,7 +332,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override string ToString(string format, IFormatProvider formatProvider)
         {
-            return String.Format(formatProvider, "T(x; df = {0})",
+            return String.Format("T(x; df = {0})",
                 DegreesOfFreedom.ToString(format, formatProvider));
         }
 
@@ -350,6 +349,11 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         private static double inverseDistributionLeftTail(double df, double p)
         {
+            if (p == 0)
+                return Double.NegativeInfinity;
+            if (p == 1)
+                return Double.PositiveInfinity;
+
             if (p > 0.25 && p < 0.75)
             {
                 if (p == 0.5)

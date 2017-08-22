@@ -27,6 +27,19 @@
     <file src="..\..\Release\net45\Accord.dll" target="lib\net45\Accord.dll" />
     <file src="..\..\Release\net45\Accord.xml" target="lib\net45\Accord.xml" />
 
+    <file src="..\..\Release\net46\Accord.dll" target="lib\net46\Accord.dll" />
+    <file src="..\..\Release\net46\Accord.xml" target="lib\net46\Accord.xml" />
+
+    <file src="..\..\Release\net462\Accord.dll" target="lib\net462\Accord.dll" />
+    <file src="..\..\Release\net462\Accord.xml" target="lib\net462\Accord.xml" />
+
+    <file src="..\..\Release\netstandard2.0\Accord.dll" target="lib\netstandard2.0\Accord.dll" />
+    <file src="..\..\Release\netstandard2.0\Accord.xml" target="lib\netstandard2.0\Accord.xml" />
+
+    <file src="..\..\Release\netstandard1.4\Accord.dll" target="lib\netstandard1.4\Accord.dll" />
+    <file src="..\..\Release\netstandard1.4\Accord.xml" target="lib\netstandard1.4\Accord.xml" />
+
+
     <file src="..\..\Release\net45\Accord.dll.config" target="build\Accord.dll.config" />
     <file src="..\..\Setup\Scripts\Accord.targets" target="build\Accord.targets" />
   </files>

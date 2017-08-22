@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -25,6 +25,7 @@ namespace Accord.Statistics.Kernels
     using System;
     using Accord.Math;
     using Accord.Math.Distances;
+    using Accord.Compat;
 
     /// <summary>
     ///   Taylor approximation for the explicit Gaussian kernel.
@@ -43,8 +44,7 @@ namespace Accord.Statistics.Kernels
     /// </remarks>
     /// 
     [Serializable]
-    public struct TaylorGaussian : ITransform, ILinear,
-        IReverseDistance, IDistance
+    public struct TaylorGaussian : ITransform, ILinear, IReverseDistance, IDistance
     {
         Gaussian gaussian;
         Linear linear;
@@ -161,7 +161,23 @@ namespace Accord.Statistics.Kernels
             return features;
         }
 
-
+        /// <summary>
+        ///   Projects a set of input points into feature space.
+        /// </summary>
+        /// 
+        /// <param name="inputs">The input points to be projected into feature space.</param>
+        /// 
+        /// <returns>
+        ///   The feature space representation of the given <paramref name="inputs"/> points.
+        /// </returns>
+        /// 
+        public double[][] Transform(double[][] inputs)
+        {
+            double[][] r = new double[inputs.Length][];
+            for (int i = 0; i < inputs.Length; i++)
+                r[i] = Transform(inputs[i]);
+            return r;
+        }
 
 
         private void createCoefficients(int degree)
@@ -252,9 +268,59 @@ namespace Accord.Statistics.Kernels
         /// <param name="result">An array to store the result.</param>
         /// <returns>The same vector passed as result.</returns>
         /// 
-        public double[] Add(double[] a, double[] b, double[] result)
+        public void Add(double[] a, double[] b, double[] result)
         {
-            return linear.Add(Transform(a), Transform(b), result);
+            linear.Add(Transform(a), Transform(b), result);
+        }
+
+        /// <summary>
+        ///   Gets the number of parameters in the input vectors.
+        /// </summary>
+        /// 
+        public int GetLength(double[][] inputs)
+        {
+            return coefficients.Length;
+        }
+
+        /// <summary>
+        ///   Creates an input vector from the given double values.
+        /// </summary>
+        /// 
+        public double[] CreateVector(double[] values)
+        {
+            return Vector.Create(values);
+        }
+
+        ///// <summary>
+        /////   Creates an input vector with the given dimensions.
+        ///// </summary>
+        ///// 
+        //public double[] CreateVector(int dimensions)
+        //{
+        //    return new double[dimensions];
+        //}
+
+        /// <summary>
+        ///   Elementwise multiplication of vector a and vector b, accumulating in result.
+        /// </summary>
+        /// 
+        /// <param name="a">The vector to be multiplied.</param>
+        /// <param name="b">The vector to be multiplied.</param>
+        /// <param name="accumulate">An array to store the result.</param>
+        /// 
+        public void Product(double[] a, double[] b, double[] accumulate)
+        {
+            for (int i = 0; i < a.Length; i++)
+                accumulate[i] += a[i] * b[i];
+        }
+
+        /// <summary>
+        ///   Converts the input vectors to a double-precision representation.
+        /// </summary>
+        /// 
+        public double[][] ToDouble(double[][] input)
+        {
+            return input;
         }
     }
 }

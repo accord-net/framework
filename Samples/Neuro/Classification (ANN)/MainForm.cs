@@ -1,7 +1,7 @@
 ﻿// Accord.NET Sample Applications
 // http://accord-framework.net
 //
-// Copyright © 2009-2014, César Souza
+// Copyright © 2009-2017, César Souza
 // All rights reserved. 3-BSD License:
 //
 //   Redistribution and use in source and binary forms, with or without
@@ -209,18 +209,17 @@ namespace SampleApp
             int samples = sourceMatrix.GetLength(0);
 
             // prepare learning data
-            double[][] inputs = sourceMatrix.Submatrix(null, 0, 1).ToArray();
-            double[][] outputs = sourceMatrix.GetColumn(2).Transpose().ToArray();
+            double[][] inputs = sourceMatrix.GetColumns(0, 1).ToJagged();
+            double[][] outputs = sourceMatrix.GetColumn(2).Transpose().ToJagged();
 
             // create multi-layer neural network
-            ann = new ActivationNetwork(
-                new BipolarSigmoidFunction(sigmoidAlphaValue),
+            this.ann = new ActivationNetwork(new BipolarSigmoidFunction(sigmoidAlphaValue),
                 2, neuronsInFirstLayer, 1);
 
             if (useNguyenWidrow)
             {
                 if (useSameWeights)
-                    Accord.Math.Random.Generator.Seed = 0;
+                    Accord.Math.Random.Generator.Seed = 1;
 
                 NguyenWidrow initializer = new NguyenWidrow(ann);
                 initializer.Randomize();

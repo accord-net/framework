@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -257,7 +257,7 @@ namespace Accord.Imaging
 
         private void createGaussian()
         {
-            double[] aforgeKernel = new AForge.Math.Gaussian(sigma).Kernel(size);
+            double[] aforgeKernel = Normal.Kernel(sigma * sigma, size);
             this.kernel = Array.ConvertAll<double, float>(aforgeKernel, Convert.ToSingle);
         }
         #endregion
@@ -352,7 +352,7 @@ namespace Accord.Imaging
                         }
 
                         // Skip last column
-                        dx++; dy++; dxy++; 
+                        dx++; dy++; dxy++;
                         src += offset + 1;
                     }
 

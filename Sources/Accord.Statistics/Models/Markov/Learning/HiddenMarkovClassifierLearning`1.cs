@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -22,191 +22,21 @@
 
 namespace Accord.Statistics.Models.Markov.Learning
 {
+#pragma warning disable 612, 618
+
     using System;
     using System.Threading;
-    using System.Threading.Tasks;
     using Accord.Math;
     using Accord.Statistics.Distributions;
     using Accord.Statistics.Models.Markov.Topology;
+    using Accord.Compat;
+    using System.Threading.Tasks;
 
     /// <summary>
-    ///   Learning algorithm for <see cref="HiddenMarkovClassifier{TDistribution}">
-    ///   arbitrary-density generative hidden Markov sequence classifiers</see>.
+    ///   Obsolete. Please use <see cref="HiddenMarkovClassifierLearning{TDistribution, TObservation}"/> instead.
     /// </summary>
     /// 
-    /// <remarks>
-    /// <para>
-    ///   This class acts as a teacher for <see cref="HiddenMarkovClassifier{TDistribution}">
-    ///   classifiers based on arbitrary-density hidden Markov models</see>. The learning
-    ///   algorithm uses a generative approach. It works by training each model in the
-    ///   generative classifier separately.</para>
-    ///   
-    /// <para>
-    ///   This can teach models that use any <see cref="IDistribution">probability
-    ///   distribution</see>. Such <see cref="HiddenMarkovModel{T}">arbitrary-density models
-    ///   </see> can be used for any kind of observation values or vectors. When 
-    ///   
-    /// 
-    ///   be used whenever the sequence of observations is discrete or can be represented
-    ///   by discrete symbols, such as class labels, integers, and so on. If you need
-    ///   to classify sequences of other entities, such as real numbers, vectors (i.e.
-    ///   multivariate observations), then you can use 
-    ///   <see cref="HiddenMarkovClassifierLearning{TDistribution}">generic-density
-    ///   hidden Markov models</see>. Those models can be modeled after any kind of
-    ///   <see cref="IDistribution">probability distribution</see> implementing
-    ///   the <see cref="IDistribution"/> interface.</para>
-    ///   
-    /// <para>
-    ///   For a more thorough explanation on <see cref="HiddenMarkovModel">hidden Markov models</see>
-    ///   with practical examples on gesture recognition, please see 
-    ///   <a href="http://www.codeproject.com/Articles/541428/Sequence-Classifiers-in-Csharp-Part-I-Hidden-Marko">
-    ///   Sequence Classifiers in C#, Part I: Hidden Markov Models</a> [1].</para>
-    ///     
-    /// <para>
-    ///   [1]: <a href="http://www.codeproject.com/Articles/541428/Sequence-Classifiers-in-Csharp-Part-I-Hidden-Marko"> 
-    ///           http://www.codeproject.com/Articles/541428/Sequence-Classifiers-in-Csharp-Part-I-Hidden-Marko </a>
-    /// </para>
-    /// </remarks>
-    /// 
-    /// <example>
-    ///   <para>
-    ///   The following example creates a continuous-density hidden Markov model sequence
-    ///   classifier to recognize two classes of univariate observation sequences.</para>
-    ///   
-    ///   <code>
-    ///   // Create a Continuous density Hidden Markov Model Sequence Classifier
-    ///   // to detect a univariate sequence and the same sequence backwards.
-    ///   double[][] sequences = new double[][] 
-    ///   {
-    ///       new double[] { 0,1,2,3,4 }, // This is the first  sequence with label = 0
-    ///       new double[] { 4,3,2,1,0 }, // This is the second sequence with label = 1
-    ///   };
-    ///   
-    ///   // Labels for the sequences
-    ///   int[] labels = { 0, 1 };
-    ///
-    ///   // Creates a new Continuous-density Hidden Markov Model Sequence Classifier
-    ///   //  containing 2 hidden Markov Models with 2 states and an underlying Normal
-    ///   //  distribution as the continuous probability density.
-    ///   NormalDistribution density = new NormalDistribution();
-    ///   var classifier = new HiddenMarkovClassifier&lt;NormalDistribution&gt;(2, new Ergodic(2), density);
-    ///
-    ///   // Create a new learning algorithm to train the sequence classifier
-    ///   var teacher = new HiddenMarkovClassifierLearning&lt;NormalDistribution&gt;(classifier,
-    ///
-    ///       // Train each model until the log-likelihood changes less than 0.001
-    ///       modelIndex => new BaumWelchLearning&lt;NormalDistribution&gt;(classifier.Models[modelIndex])
-    ///       {
-    ///           Tolerance = 0.0001,
-    ///           Iterations = 0
-    ///       }
-    ///   );
-    ///   
-    ///   // Train the sequence classifier using the algorithm
-    ///   teacher.Run(sequences, labels);
-    ///   
-    ///   
-    ///   // Calculate the probability that the given
-    ///   //  sequences originated from the model
-    ///   double likelihood;
-    ///   
-    ///   // Try to classify the first sequence (output should be 0)
-    ///   int c1 = classifier.Compute(sequences[0], out likelihood);
-    ///   
-    ///   // Try to classify the second sequence (output should be 1)
-    ///   int c2 = classifier.Compute(sequences[1], out likelihood);
-    ///   </code>
-    ///   
-    /// 
-    ///   <para>
-    ///   The following example creates a continuous-density hidden Markov model sequence
-    ///   classifier to recognize two classes of multivariate sequence of observations.
-    ///   This example uses multivariate Normal distributions as emission densities. </para>
-    ///   
-    ///   <para>
-    ///   When there is insufficient training data, or one of the variables is constant,
-    ///   the Normal distribution estimation may fail with a "Covariance matrix is not
-    ///   positive-definite". In this case, it is possible to sidestep this issue by
-    ///   specifying a small regularization constant to be added to the diagonal elements
-    ///   of the covariance matrix. </para>
-    ///   
-    ///   <code>
-    ///   // Create a Continuous density Hidden Markov Model Sequence Classifier
-    ///   // to detect a multivariate sequence and the same sequence backwards.
-    ///   
-    ///   double[][][] sequences = new double[][][]
-    ///   {
-    ///       new double[][] 
-    ///       { 
-    ///           // This is the first  sequence with label = 0
-    ///           new double[] { 0, 1 },
-    ///           new double[] { 1, 2 },
-    ///           new double[] { 2, 3 },
-    ///           new double[] { 3, 4 },
-    ///           new double[] { 4, 5 },
-    ///       }, 
-    ///   
-    ///       new double[][]
-    ///       {
-    ///               // This is the second sequence with label = 1
-    ///           new double[] { 4,  3 },
-    ///           new double[] { 3,  2 },
-    ///           new double[] { 2,  1 },
-    ///           new double[] { 1,  0 },
-    ///           new double[] { 0, -1 },
-    ///       }
-    ///   };
-    ///   
-    ///   // Labels for the sequences
-    ///   int[] labels = { 0, 1 };
-    ///   
-    ///   
-    ///   var initialDensity = new MultivariateNormalDistribution(2);
-    ///   
-    ///   // Creates a sequence classifier containing 2 hidden Markov Models with 2 states
-    ///   // and an underlying multivariate mixture of Normal distributions as density.
-    ///   var classifier = new HiddenMarkovClassifier&lt;MultivariateNormalDistribution>(
-    ///       classes: 2, topology: new Forward(2), initial: initialDensity);
-    ///   
-    ///   // Configure the learning algorithms to train the sequence classifier
-    ///   var teacher = new HiddenMarkovClassifierLearning&lt;MultivariateNormalDistribution>(
-    ///       classifier,
-    ///   
-    ///       // Train each model until the log-likelihood changes less than 0.0001
-    ///       modelIndex => new BaumWelchLearning&lt;MultivariateNormalDistribution>(
-    ///           classifier.Models[modelIndex])
-    ///       {
-    ///           Tolerance = 0.0001,
-    ///           Iterations = 0,
-    ///   
-    ///           FittingOptions = new NormalOptions()
-    ///           {
-    ///               Diagonal = true,      // only diagonal covariance matrices
-    ///               Regularization = 1e-5 // avoid non-positive definite errors
-    ///           }
-    ///       }
-    ///   );
-    ///   
-    ///   // Train the sequence classifier using the algorithm
-    ///   double logLikelihood = teacher.Run(sequences, labels);
-    ///   
-    ///   
-    ///   // Calculate the probability that the given
-    ///   //  sequences originated from the model
-    ///   double likelihood, likelihood2;
-    ///   
-    ///   // Try to classify the 1st sequence (output should be 0)
-    ///   int c1 = classifier.Compute(sequences[0], out likelihood);
-    ///   
-    ///   // Try to classify the 2nd sequence (output should be 1)
-    ///   int c2 = classifier.Compute(sequences[1], out likelihood2);
-    ///   </code>
-    /// </example>
-    /// 
-    /// <seealso cref="HiddenMarkovClassifier{TDistribution}"/>
-    /// <seealso cref="HiddenMarkovClassifier"/>
-    /// <seealso cref="HiddenMarkovClassifierLearning"/>
-    /// 
+    [Obsolete("Please use HiddenMarkovClassifierLearning<TDistribution, TObservation> instead.")]
     public class HiddenMarkovClassifierLearning<TDistribution> :
         BaseHiddenMarkovClassifierLearning<HiddenMarkovClassifier<TDistribution>,
         HiddenMarkovModel<TDistribution>>

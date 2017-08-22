@@ -29,6 +29,7 @@
         private void InitializeComponent( )
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.videoSourcePlayer = new Accord.Controls.VideoSourcePlayer();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.fpsLabel = new System.Windows.Forms.ToolStripStatusLabel();
@@ -427,9 +428,10 @@
             this.Controls.Add(this.mainPanel);
             this.Controls.Add(this.topPanel);
             this.Controls.Add(this.statusStrip);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "MainForm";
-            this.Text = "Ximea Video Acqusition Sample";
+            this.Text = "Ximea Video Acquisition Sample";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.statusStrip.ResumeLayout(false);

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -22,15 +22,16 @@
 
 namespace Accord.MachineLearning
 {
+    using Accord.MachineLearning.Performance;
     using System;
     using System.IO;
     using System.Runtime.Serialization.Formatters.Binary;
 
     /// <summary>
-    ///   Bootstrap validation analysis results.
+    ///   Obsolete. Please refer to <see cref="Bootstrap{TModel, TInput, TOutput}"/> instead.
     /// </summary>
     /// 
-    [Serializable]
+    [Obsolete("Please use Bootstrap<TModel, TInput, TOutput> instead.")]
     public class BootstrapResult
     {
         /// <summary>
@@ -92,6 +93,7 @@ namespace Accord.MachineLearning
             this.Estimate = 0.632 * Validation.Mean + 0.368 * Training.Mean;
         }
 
+#if !NETSTANDARD1_4
         /// <summary>
         ///   Saves the result to a stream.
         /// </summary>
@@ -141,6 +143,6 @@ namespace Accord.MachineLearning
         {
             return Load(new FileStream(path, FileMode.Open));
         }
+#endif
     }
-
 }

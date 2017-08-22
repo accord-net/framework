@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -22,7 +22,8 @@
 
 namespace Accord.Math.Optimization
 {
-    using System;
+    using Accord.Compat;
+    using System.Threading;
 
     /// <summary>
     ///   Least Squares function delegate.
@@ -68,6 +69,13 @@ namespace Accord.Math.Optimization
     {
 
         /// <summary>
+        ///   Gets or sets a cancellation token that can be used to
+        ///   stop the learning algorithm while it is running.
+        /// </summary>
+        /// 
+        CancellationToken Token { get; set; }
+
+        /// <summary>
         ///   Gets or sets a parameterized model function mapping input vectors
         ///   into output values, whose optimum parameters must be found.
         /// </summary>
@@ -91,7 +99,7 @@ namespace Accord.Math.Optimization
         /// 
         /// <value>The number of parameters.</value>
         /// 
-        int NumberOfVariables { get; }
+        int NumberOfVariables { get; set; }
 
         /// <summary>
         ///   Attempts to find the best values for the parameter vector
@@ -118,5 +126,11 @@ namespace Accord.Math.Optimization
         /// 
         double[] StandardErrors { get; }
 
+        /// <summary>
+        ///   Gets the value at the solution found. This should be
+        ///   the minimum value found for the objective function.
+        /// </summary>
+        /// 
+        double Value { get; set; }
     }
 }

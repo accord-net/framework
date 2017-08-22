@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -29,22 +29,6 @@ namespace Accord.Tests.Math
     [TestFixture]
     public class JaggedSingularValueDecompositionTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
 
         [Test]
         public void InverseTestNaN()
@@ -89,10 +73,35 @@ namespace Accord.Tests.Math
             };
 
             var actual = target.Solve(Matrix.JaggedIdentity(2));
-            Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.001));
-
+            Assert.IsTrue(Matrix.IsEqual(expected, actual, 1e-3));
+            Assert.IsTrue(Matrix.IsEqual(value, target.Reverse(), 1e-5));
             actual = target.Inverse();
-            Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.001));
+            Assert.IsTrue(Matrix.IsEqual(expected, actual, 1e-3));
+        }
+
+        [Test]
+        public void InverseTest2()
+        {
+            int n = 5;
+
+            var I = Jagged.Identity(n);
+
+            for (int i = 0; i < n; i++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    double[][] value = Jagged.Magic(n);
+
+                    var target = new JaggedSingularValueDecomposition(value);
+
+                    double[][] solution = target.Solve(I);
+                    double[][] inverse = target.Inverse();
+                    double[][] reverse = target.Reverse();
+
+                    Assert.IsTrue(Matrix.IsEqual(solution, inverse, 1e-4));
+                    Assert.IsTrue(Matrix.IsEqual(value, reverse, 1e-4));
+                }
+            }
         }
 
         [Test]
@@ -122,7 +131,8 @@ namespace Accord.Tests.Math
                 target.RightSingularVectors.Transpose());
 
             // Checking the decomposition
-            Assert.IsTrue(Matrix.IsEqual(actual, value, 0.01));
+            Assert.IsTrue(Matrix.IsEqual(actual, value, 1e-2));
+            Assert.IsTrue(Matrix.IsEqual(value, target.Reverse(), 1e-2));
 
             // Checking values
             var U = new double[][]
@@ -154,7 +164,7 @@ namespace Accord.Tests.Math
             };
 
             // The diagonal values should be equal
-            Assert.IsTrue(Matrix.IsEqual(target.Diagonal.Submatrix(2), Matrix.Diagonal(S), 0.001));
+            Assert.IsTrue(Matrix.IsEqual(target.Diagonal.First(2), Matrix.Diagonal(S), 0.001));
         }
 
 
@@ -181,7 +191,8 @@ namespace Accord.Tests.Math
                 target.RightSingularVectors.Transpose());
 
             // Checking the decomposition
-            Assert.IsTrue(Matrix.IsEqual(actual, value, 0.01));
+            Assert.IsTrue(Matrix.IsEqual(actual, value, 1e-2));
+            Assert.IsTrue(Matrix.IsEqual(value, target.Reverse(), 1e-2));
 
             // Checking values
             double[][] U =
@@ -238,7 +249,8 @@ namespace Accord.Tests.Math
                                 target.RightSingularVectors.Transpose());
 
             // Checking the decomposition
-            Assert.IsTrue(Matrix.IsEqual(actual, value, 0.01));
+            Assert.IsTrue(Matrix.IsEqual(actual, value, 1e-2));
+            Assert.IsTrue(Matrix.IsEqual(value, target.Reverse(), 1e-5));
 
             double[][] U = // economy svd
             {
@@ -399,13 +411,20 @@ namespace Accord.Tests.Math
 
             var value2 = value1.Transpose();
 
-            var target1 = new JaggedSingularValueDecomposition(value1, true, true, true, true);
-            var target2 = new JaggedSingularValueDecomposition(value2, true, true, true, true);
+            var cvalue1 = value1.Copy();
+            var cvalue2 = value2.Copy();
+
+            var target1 = new JaggedSingularValueDecomposition(cvalue1, true, true, true, true);
+            var target2 = new JaggedSingularValueDecomposition(cvalue2, true, true, true, true);
+
+            Assert.IsFalse(value1.IsEqual(cvalue1, 1e-3));
+            Assert.IsTrue(value2.IsEqual(cvalue2, 1e-3)); // due to auto-transpose
 
             Assert.IsTrue(target1.LeftSingularVectors.IsEqual(target2.RightSingularVectors));
             Assert.IsTrue(target1.RightSingularVectors.IsEqual(target2.LeftSingularVectors));
             Assert.IsTrue(target1.DiagonalMatrix.IsEqual(target2.DiagonalMatrix));
-
+            Assert.IsTrue(Matrix.IsEqual(value1, target1.Reverse(), 1e-2));
+            Assert.IsTrue(Matrix.IsEqual(value2, target2.Reverse(), 1e-2));
         }
 
         [Test]
@@ -435,7 +454,7 @@ namespace Accord.Tests.Math
 
             {
                 double[][] expected = value;
-                double[][] actual = Matrix.Multiply(Matrix.Multiply(target.LeftSingularVectors, 
+                double[][] actual = Matrix.Multiply(Matrix.Multiply(target.LeftSingularVectors,
                     target.DiagonalMatrix),
                     target.RightSingularVectors.Transpose());
 
@@ -451,6 +470,97 @@ namespace Accord.Tests.Math
 
                 Assert.IsTrue(Matrix.IsEqual(actual, expected, 1e-8));
             }
+        }
+
+
+        [Test]
+        public void solve_for_diagonal()
+        {
+            int count = 3;
+            double[][] value = new double[count][];
+            double[] output = new double[count];
+
+            for (int i = 0; i < count; i++)
+            {
+                value[i] = new double[3];
+
+                double x = i + 1;
+                double y = 2 * (i + 1) - 1;
+                value[i][0] = x;
+                value[i][1] = y;
+                value[i][2] = System.Math.Pow(x, 2);
+                output[i] = 4 * x - y + 3;
+            }
+
+
+
+            var target = new JaggedSingularValueDecomposition(value,
+                computeLeftSingularVectors: true,
+                computeRightSingularVectors: true);
+
+            {
+                double[][] expected = value;
+                double[][] actual = Matrix.Multiply(Matrix.Multiply(target.LeftSingularVectors,
+                    target.DiagonalMatrix),
+                    target.RightSingularVectors.Transpose());
+
+                // Checking the decomposition
+                Assert.IsTrue(Matrix.IsEqual(actual, expected, 1e-8));
+            }
+
+            {
+                double[][] expected = value.Inverse();
+                double[][] actual = Matrix.Multiply(Matrix.Multiply(
+                    target.RightSingularVectors.Transpose().Inverse(),
+                    target.DiagonalMatrix.Inverse()),
+                    target.LeftSingularVectors.Inverse()
+                    );
+
+                // Checking the invers decomposition
+                Assert.IsTrue(Matrix.IsEqual(actual, expected, 1e-8));
+            }
+
+
+            {
+                double[][] solution = target.SolveForDiagonal(output);
+
+                double[][] expected = Jagged.Diagonal(output);
+                double[][] actual = value.Dot(solution);
+
+                Assert.IsTrue(Matrix.IsEqual(actual, expected, 1e-8));
+            }
+        }
+
+        [Test]
+        public void issue_614()
+        {
+            // https://github.com/accord-net/framework/issues/614
+
+            double[][] A =
+            {
+                new double[] { 1 },
+                new double[] { 0 }
+            };
+
+            double[][] B =
+            {
+                new double[] { 1 },
+                new double[] { 0 }
+            };
+
+
+            double[][] X = Accord.Math.Matrix.Solve(A, B, true);
+
+            double[][] expected =
+            {
+                new double[] { 1 }
+            };
+
+            Assert.IsTrue(expected.IsEqual(X));
+
+            X = new JaggedSingularValueDecomposition(A).Solve(B);
+
+            Assert.IsTrue(expected.IsEqual(X));
         }
     }
 }

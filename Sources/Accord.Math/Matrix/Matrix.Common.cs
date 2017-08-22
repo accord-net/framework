@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -29,9 +29,80 @@ namespace Accord.Math
     using System.Collections;
     using System.Runtime.CompilerServices;
     using System.Reflection;
+    using System.Runtime.InteropServices;
+
+    /// <summary>
+    ///   Special matrix types.
+    /// </summary>
+    /// 
+    [Flags]
+    public enum MatrixType
+    {
+        /// <summary>
+        ///   Symmetric matrix.
+        /// </summary>
+        /// 
+        Symmetric,
+
+        /// <summary>
+        ///   Lower (left) triangular matrix.
+        /// </summary>
+        /// 
+        LowerTriangular,
+
+        /// <summary>
+        ///   Upper (right) triangular matrix.
+        /// </summary>
+        /// 
+        UpperTriangular,
+
+        /// <summary>
+        ///   Diagonal matrix.
+        /// </summary>
+        /// 
+        Diagonal,
+
+        /// <summary>
+        ///   Rectangular matrix.
+        /// </summary>
+        /// 
+        Rectangular,
+
+        /// <summary>
+        ///   Square matrix.
+        /// </summary>
+        /// 
+        Square,
+    }
 
     public static partial class Matrix
     {
+        /// <summary>
+        /// Determines whether the specified type is a jagged array.
+        /// </summary>
+        /// 
+        public static bool IsJagged(this Type type)
+        {
+            return type.IsArray && type.GetElementType().IsArray;
+        }
+
+        /// <summary>
+        /// Gets the type of the element in a jagged or multi-dimensional matrix.
+        /// </summary>
+        /// 
+        /// <param name="array">The array whose element type should be computed.</param>
+        /// 
+        public static Type GetInnerMostType(this Array array)
+        {
+            Type type = array.GetType();
+
+            while (type.IsArray)
+                type = type.GetElementType();
+
+            return type;
+        }
+
+
 
         #region Comparison
 
@@ -44,7 +115,7 @@ namespace Accord.Math
         /// 
         /// <returns>True if the number if an integer, false otherwise.</returns>
         /// 
-        public static bool IsInteger(this double x, double threshold)
+        public static bool IsInteger(this double x, double threshold = Constants.DoubleSmall)
         {
             double a = Math.Round(x);
             double b = x;
@@ -62,7 +133,7 @@ namespace Accord.Math
         ///   Compares two values for equality, considering a relative acceptance threshold.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         [Obsolete("Use IsEqual(a, b, rtol) with the named parameter rtol instead.")]
@@ -73,52 +144,39 @@ namespace Accord.Math
 
 
 
-        /// <summary>
-        ///   Compares two matrices for equality.
-        /// </summary>
-        /// 
-        public static bool IsEqual<T>(this T[][] objA, T[][] objB)
+        /// <summary>Compares two objects for equality, performing an elementwise comparison if the elements are vectors or matrices.</summary>
+        public static bool IsEqual(this object objA, object objB, decimal atol = 0, decimal rtol = 0)
         {
-            // TODO: Make this method recursive, or create
-            // a enumerator to read all values from jagged
-            // matrices sequentially
-            if (objA == objB)
+            if (Object.Equals(objA, objB))
                 return true;
+#if !NETSTANDARD1_4
+            if (objA is DBNull)
+                objA = null;
 
-            if (objA == null)
-                throw new ArgumentNullException("objA");
-
-            if (objB == null)
-                throw new ArgumentNullException("objB");
-
-            if (objA.Length != objB.Length)
+            if (objB is DBNull)
+                objB = null;
+#endif
+            if (objA == null ^ objB == null)
                 return false;
 
-            for (int i = 0; i < objA.Length; i++)
+            try
             {
-                if (objA[i] == objB[i])
-                    continue;
-
-                if (objA[i] == null || objB[i] == null)
-                    return false;
-
-                if (objA[i].Length != objB[i].Length)
-                    return false;
-
-                for (int j = 0; j < objA[i].Length; j++)
-                {
-                    var elemA = objA[i][j];
-                    var elemB = objB[i][j];
-
-                    if (!elemA.Equals(elemB))
-                        return false;
-                }
+                decimal a = System.Convert.ToDecimal(objA);
+                decimal b = System.Convert.ToDecimal(objB);
+                if (a == b)
+                    return true;
+                if (atol > 0)
+                    return Math.Abs(a - b) < atol;
+                if (rtol > 0)
+                    return Math.Abs(a - b) < rtol * b;
             }
-            return true;
+            catch { } // TODO: Remove this try-catch block
+
+            return false;
         }
 
-        private static readonly Dictionary<Tuple<Type, Type>, MethodInfo> equalsCache =
-            new Dictionary<Tuple<Type, Type>, MethodInfo>();
+        //private static readonly Dictionary<Tuple<Type, Type>, MethodInfo> equalsCache =
+        //    new Dictionary<Tuple<Type, Type>, MethodInfo>();
 
         /// <summary>Compares two matrices for equality.</summary>
         public static bool IsEqual(this Array objA, Array objB, double atol = 0, double rtol = 0)
@@ -135,63 +193,31 @@ namespace Accord.Math
             if (!objA.GetLength().IsEqual(objB.GetLength()))
                 return false;
 
+            bool jaggedA = objA.IsJagged();
+            bool jaggedB = objB.IsJagged();
+
             // TODO: Implement this cache mechanism here
             // http://blog.slaks.net/2015-06-26/code-snippets-fast-property-access-reflection/
 
-            // Base case: arrays contain values, not other arrays
-            if (!objA.GetType().GetElementType().IsArray)
-            {
-                var typeA = objA.GetType();
-                var typeB = objB.GetType();
-                var equals = typeof(Matrix).GetMethod("IsEqual", new Type[]
-                {
-                    typeA, typeB, typeof(double), typeof(double) 
+            // Check if there is already an optimized method to perform this comparison
+            Type typeA = objA.GetType();
+            Type typeB = objB.GetType();
+
+#if !NETSTANDARD1_4
+            MethodInfo equals = typeof(Matrix).GetMethod("IsEqual", new Type[] {
+                    typeA, typeB, typeof(double), typeof(double)
                 });
 
-                var _this = typeof(Matrix).GetMethod("IsEqual", new Type[] {
+            MethodInfo _this = typeof(Matrix).GetMethod("IsEqual", new Type[] {
                     typeof(Array), typeof(Array), typeof(double), typeof(double)
                 });
 
-                if (equals != _this)
-                {
-                    return (bool)equals.Invoke(null, new object[] { objA, objB, atol, rtol });
-                }
-                if (atol == 0 && rtol == 0)
-                {
-                    var a = objA.GetEnumerator();
-                    var b = objB.GetEnumerator();
+            if (equals != _this)
+                return (bool)equals.Invoke(null, new object[] { objA, objB, atol, rtol });
+#endif
 
-                    while (a.MoveNext() && b.MoveNext())
-                    {
-                        if (a.Current == b.Current)
-                            continue;
-
-                        Array arrA = a.Current as Array;
-                        Array arrB = b.Current as Array;
-                        if (arrA != null && arrB != null && IsEqual(arrA, arrB))
-                            continue;
-
-                        if (Object.Equals(a.Current, b.Current))
-                            continue;
-
-                        try
-                        {
-                            if (System.Convert.ToDecimal(a.Current) == System.Convert.ToDecimal(b.Current))
-                                continue;
-                        }
-                        catch { } // TODO: Remove this try-catch block
-
-                        return false;
-                    }
-
-                    return true;
-                }
-                else
-                {
-                    throw new Exception();
-                }
-            }
-            else
+            // Base case: arrays contain elements of same nature (both arrays, or both values)
+            if (objA.GetType().GetElementType().IsArray == objB.GetType().GetElementType().IsArray)
             {
                 var a = objA.GetEnumerator();
                 var b = objB.GetEnumerator();
@@ -203,10 +229,25 @@ namespace Accord.Math
 
                     Array arrA = a.Current as Array;
                     Array arrB = b.Current as Array;
-                    if (arrA != null && arrB != null && IsEqual(arrA, arrB))
+                    if (arrA != null && arrB != null && IsEqual(arrA, arrB, atol, rtol))
                         continue;
 
-                    if (!Object.Equals(arrA, arrB))
+                    if (!IsEqual(a.Current, b.Current, (decimal)atol, (decimal)rtol))
+                        return false;
+                }
+
+                return true;
+            }
+            else
+            {
+                // Arrays contain mixed elements (i.e. one is jagged and other multidimensional)
+                foreach (int[] idx in Matrix.GetIndices(objA, deep: true, max: true))
+                {
+                    object a = 0, b = 0;
+                    objA.TryGetValue(deep: true, indices: idx, value: out a);
+                    objB.TryGetValue(deep: true, indices: idx, value: out b);
+
+                    if (!IsEqual(a, b, (decimal)atol, (decimal)rtol))
                         return false;
                 }
 
@@ -424,10 +465,10 @@ namespace Accord.Math
             return false;
         }
 
-        #endregion
+#endregion
 
 
-        #region Transpose
+#region Transpose
 
         /// <summary>
         ///   Gets the transpose of a matrix.
@@ -463,6 +504,10 @@ namespace Accord.Math
                 if (rows != cols)
                     throw new ArgumentException("Only square matrices can be transposed in place.", "matrix");
 
+#if DEBUG
+                T[,] expected = matrix.Transpose();
+#endif
+
                 for (int i = 0; i < rows; i++)
                 {
                     for (int j = i; j < cols; j++)
@@ -472,6 +517,11 @@ namespace Accord.Math
                         matrix[i, j] = element;
                     }
                 }
+
+#if DEBUG
+                if (!expected.IsEqual(matrix))
+                    throw new Exception();
+#endif
 
                 return matrix;
             }
@@ -499,23 +549,6 @@ namespace Accord.Math
         public static T[,] Transpose<T>(this T[] rowVector)
         {
             var result = new T[rowVector.Length, 1];
-            for (int i = 0; i < rowVector.Length; i++)
-                result[i, 0] = rowVector[i];
-            return result;
-        }
-
-        /// <summary>
-        ///   Gets the transpose of a row vector.
-        /// </summary>
-        /// 
-        /// <param name="rowVector">A row vector.</param>
-        /// <param name="result">The matrix where to store the transpose.</param>
-        ///
-        /// <returns>The transpose of the given vector.</returns>
-        /// 
-        public static T[,] Transpose<T>(this T[] rowVector, out T[,] result)
-        {
-            result = new T[rowVector.Length, 1];
             for (int i = 0; i < rowVector.Length; i++)
                 result[i, 0] = rowVector[i];
             return result;
@@ -562,7 +595,7 @@ namespace Accord.Math
         /// <returns>The transpose of the given tensor.</returns>
         /// 
         public static T Transpose<T>(this T array, int[] order)
-            where T : class, ICloneable, IList
+            where T : class, IList
         {
             Array arr = array as Array;
 
@@ -582,12 +615,12 @@ namespace Accord.Math
             for (int i = 0; i < size.Length; i++)
                 size[i] = array.GetLength(i);
 
-            Array r = Array.CreateInstance(array.GetType().GetElementType(), size.Submatrix(order));
+            Array r = Array.CreateInstance(array.GetType().GetElementType(), size.Get(order));
 
             // Generate all indices for accessing the matrix 
             foreach (int[] pos in Combinatorics.Sequences(size, true))
             {
-                int[] newPos = pos.Submatrix(order);
+                int[] newPos = pos.Get(order);
                 object value = array.GetValue(pos);
                 r.SetValue(value, newPos);
             }
@@ -595,10 +628,93 @@ namespace Accord.Math
             return r;
         }
 
-        #endregion
+#endregion
 
 
-        #region Matrix Characteristics
+#region Matrix Characteristics
+
+        /// <summary>
+        /// Gets the total number of elements in the vector.
+        /// </summary>
+        /// 
+        public static int GetNumberOfElements<T>(this T[] value)
+        {
+            return value.Length;
+        }
+
+        /// <summary>
+        /// Gets the total number of elements in the matrix.
+        /// </summary>
+        /// 
+        public static int GetNumberOfElements<T>(this T[][] value)
+        {
+            int sum = 0;
+            for (int i = 0; i < value.Length; i++)
+                sum += value[i].Length;
+            return sum;
+        }
+
+        /// <summary>
+        /// Gets the total number of elements in the matrix.
+        /// </summary>
+        /// 
+        public static int GetNumberOfElements<T>(this T[,] elements)
+        {
+            return elements.GetLength().Product();
+        }
+
+        /// <summary>
+        /// Gets the size of a vector, in bytes.
+        /// </summary>
+        /// 
+        public static int GetSizeInBytes<T>(this T[] elements)
+        {
+#if NETSTANDARD1_4
+            return elements.GetNumberOfElements() * Marshal.SizeOf<T>();
+#else
+            return elements.GetNumberOfElements() * Marshal.SizeOf(typeof(T));
+#endif
+        }
+
+        /// <summary>
+        /// Gets the size of a matrix, in bytes.
+        /// </summary>
+        /// 
+        public static int GetSizeInBytes<T>(this T[][] elements)
+        {
+#if NETSTANDARD1_4
+            return elements.GetNumberOfElements() * Marshal.SizeOf<T>();
+#else
+            return elements.GetNumberOfElements() * Marshal.SizeOf(typeof(T));
+#endif
+        }
+
+        /// <summary>
+        /// Gets the size of a matrix, in bytes.
+        /// </summary>
+        /// 
+        public static int GetSizeInBytes<T>(this T[,] elements)
+        {
+#if NETSTANDARD1_4
+            return elements.GetNumberOfElements() * Marshal.SizeOf<T>();
+#else
+            return elements.GetNumberOfElements() * Marshal.SizeOf(typeof(T));
+#endif
+        }
+
+        /// <summary>
+        ///   Gets the number of rows in a vector.
+        /// </summary>
+        /// 
+        /// <typeparam name="T">The type of the elements in the column vector.</typeparam>
+        /// <param name="vector">The vector whose number of rows must be computed.</param>
+        /// 
+        /// <returns>The number of rows in the column vector.</returns>
+        /// 
+        public static int Rows<T>(this T[] vector)
+        {
+            return vector.Length;
+        }
 
         /// <summary>
         ///   Gets the number of rows in a multidimensional matrix.
@@ -743,6 +859,171 @@ namespace Accord.Math
                         return false;
 
             return true;
+        }
+
+        /// <summary>
+        ///   Converts a matrix to lower triangular form, if possible.
+        /// </summary>
+        /// 
+        public static T[,] ToLowerTriangular<T>(this T[,] matrix, MatrixType from, T[,] result = null)
+        {
+            if (result == null)
+                result = Matrix.CreateAs(matrix);
+            matrix.CopyTo(result);
+
+            switch (from)
+            {
+                case MatrixType.LowerTriangular:
+                case MatrixType.Diagonal:
+                    break;
+
+                case MatrixType.UpperTriangular:
+                    Transpose(result, inPlace: true);
+                    break;
+
+                default:
+                    throw new ArgumentException("Only LowerTriangular, UpperTriangular and Diagonal matrices are supported at this time.", "matrixType");
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a matrix to upper triangular form, if possible.
+        /// </summary>
+        /// 
+        public static T[,] ToUpperTriangular<T>(this T[,] matrix, MatrixType from, T[,] result = null)
+        {
+            if (result == null)
+                result = Matrix.CreateAs(matrix);
+            matrix.CopyTo(result);
+
+            switch (from)
+            {
+                case MatrixType.UpperTriangular:
+                case MatrixType.Diagonal:
+                    break;
+
+                case MatrixType.LowerTriangular:
+                    Transpose(result, inPlace: true);
+                    break;
+
+                default:
+                    throw new ArgumentException("Only LowerTriangular, UpperTriangular and Diagonal matrices are supported at this time.", "matrixType");
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a matrix to lower triangular form, if possible.
+        /// </summary>
+        /// 
+        public static T[][] ToLowerTriangular<T>(this T[][] matrix, MatrixType from, T[][] result = null)
+        {
+            if (result == null)
+                result = Jagged.CreateAs(matrix);
+            matrix.CopyTo(result);
+
+            switch (from)
+            {
+                case MatrixType.LowerTriangular:
+                case MatrixType.Diagonal:
+                    break;
+
+                case MatrixType.UpperTriangular:
+                    Transpose(result, inPlace: true);
+                    break;
+
+                default:
+                    throw new ArgumentException("Only LowerTriangular, UpperTriangular and Diagonal matrices are supported at this time.", "matrixType");
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a matrix to upper triangular form, if possible.
+        /// </summary>
+        /// 
+        public static T[][] ToUpperTriangular<T>(this T[][] matrix, MatrixType from, T[][] result = null)
+        {
+            if (result == null)
+                result = Jagged.CreateAs(matrix);
+            matrix.CopyTo(result);
+
+            switch (from)
+            {
+                case MatrixType.UpperTriangular:
+                case MatrixType.Diagonal:
+                    break;
+
+                case MatrixType.LowerTriangular:
+                    Transpose(result, inPlace: true);
+                    break;
+
+                default:
+                    throw new ArgumentException("Only LowerTriangular, UpperTriangular and Diagonal matrices are supported at this time.", "matrixType");
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Gets the lower triangular part of a matrix.
+        /// </summary>
+        /// 
+        public static T[,] GetLowerTriangle<T>(this T[,] matrix, bool includeDiagonal = true)
+        {
+            int s = includeDiagonal ? 1 : 0;
+            var r = Matrix.CreateAs(matrix);
+            for (int i = 0; i < matrix.Rows(); i++)
+                for (int j = 0; j < i + s; j++)
+                    r[i, j] = matrix[i, j]; ;
+            return r;
+        }
+
+        /// <summary>
+        ///   Gets the upper triangular part of a matrix.
+        /// </summary>
+        /// 
+        public static T[,] GetUpperTriangle<T>(this T[,] matrix, bool includeDiagonal = false)
+        {
+            int s = includeDiagonal ? 0 : 1;
+            var r = Matrix.CreateAs(matrix);
+            for (int i = 0; i < matrix.Rows(); i++)
+                for (int j = i + s; j < matrix.Columns(); j++)
+                    r[i, j] = matrix[i, j]; ;
+            return r;
+        }
+
+        /// <summary>
+        ///   Transforms a triangular matrix in a symmetric matrix by copying
+        ///   its elements to the other, unfilled part of the matrix.
+        /// </summary>
+        /// 
+        public static T[,] GetSymmetric<T>(this T[,] matrix, MatrixType type, T[,] result = null)
+        {
+            if (result == null)
+                result = Matrix.CreateAs(matrix);
+
+            switch (type)
+            {
+                case MatrixType.LowerTriangular:
+                    for (int i = 0; i < matrix.Rows(); i++)
+                        for (int j = 0; j <= i; j++)
+                            result[i, j] = result[j, i] = matrix[i, j];
+                    break;
+                case MatrixType.UpperTriangular:
+                    for (int i = 0; i < matrix.Rows(); i++)
+                        for (int j = i; j <= matrix.Columns(); j++)
+                            result[i, j] = result[j, i] = matrix[i, j];
+                    break;
+                default:
+                    throw new Exception("Matrix type can be either LowerTriangular or UpperTrianguler.");
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -901,9 +1182,9 @@ namespace Accord.Math
 
             if (symmetric) // Use faster robust Cholesky decomposition
             {
-                var chol = new CholeskyDecomposition(matrix, robust: true, lowerTriangular: true);
+                var chol = new CholeskyDecomposition(matrix, robust: true);
 
-                if (!chol.PositiveDefinite)
+                if (!chol.IsPositiveDefinite)
                 {
                     throw new ArgumentException("The matrix could not be decomposed using " +
                         " a robust Cholesky decomposition. Please specify symmetric as false " +
@@ -937,9 +1218,9 @@ namespace Accord.Math
 
             if (symmetric) // Use faster robust Cholesky decomposition
             {
-                var chol = new CholeskyDecomposition(matrix, robust: true, lowerTriangular: true);
+                var chol = new CholeskyDecomposition(matrix, robust: true);
 
-                if (!chol.PositiveDefinite)
+                if (!chol.IsPositiveDefinite)
                 {
                     throw new ArgumentException("The matrix could not be decomposed using " +
                         " a robust Cholesky decomposition. Please specify symmetric as false " +
@@ -967,6 +1248,20 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Gets the pseudo-determinant of a matrix.
+        /// </summary>
+        /// 
+        public static double PseudoDeterminant(this double[][] matrix)
+        {
+            if (matrix == null)
+                throw new ArgumentNullException("matrix");
+
+            return new JaggedSingularValueDecomposition(matrix,
+                computeLeftSingularVectors: false, computeRightSingularVectors: false,
+                autoTranspose: true, inPlace: false).PseudoDeterminant;
+        }
+
+        /// <summary>
         ///   Gets the log of the pseudo-determinant of a matrix.
         /// </summary>
         /// 
@@ -976,6 +1271,20 @@ namespace Accord.Math
                 throw new ArgumentNullException("matrix");
 
             return new SingularValueDecomposition(matrix,
+                computeLeftSingularVectors: false, computeRightSingularVectors: false,
+                autoTranspose: true, inPlace: false).LogPseudoDeterminant;
+        }
+
+        /// <summary>
+        ///   Gets the log of the pseudo-determinant of a matrix.
+        /// </summary>
+        /// 
+        public static double LogPseudoDeterminant(this double[][] matrix)
+        {
+            if (matrix == null)
+                throw new ArgumentNullException("matrix");
+
+            return new JaggedSingularValueDecomposition(matrix,
                 computeLeftSingularVectors: false, computeRightSingularVectors: false,
                 autoTranspose: true, inPlace: false).LogPseudoDeterminant;
         }
@@ -1022,81 +1331,14 @@ namespace Accord.Math
         {
             if (matrix == null) throw new ArgumentNullException("matrix");
 
-            return new CholeskyDecomposition(matrix).PositiveDefinite;
+            return new CholeskyDecomposition(matrix).IsPositiveDefinite;
         }
 
-        #endregion
+#endregion
 
 
 
-
-        /// <summary>Calculates a vector cumulative sum.</summary>
-        public static double[] CumulativeSum(this double[] vector)
-        {
-            if (vector == null) throw new ArgumentNullException("vector");
-
-            if (vector.Length == 0)
-                return new double[0];
-
-            double[] sum = new double[vector.Length];
-
-            sum[0] = vector[0];
-            for (int i = 1; i < vector.Length; i++)
-                sum[i] += sum[i - 1] + vector[i];
-            return sum;
-        }
-
-        /// <summary>Calculates the matrix Sum vector.</summary>
-        /// <param name="matrix">A matrix whose sums will be calculated.</param>
-        /// <param name="dimension">The dimension in which the cumulative sum will be calculated.</param>
-        /// <returns>Returns a vector containing the sums of each variable in the given matrix.</returns>
-        public static double[][] CumulativeSum(this double[,] matrix, int dimension)
-        {
-            if (matrix == null) throw new ArgumentNullException("matrix");
-
-            double[][] sum;
-
-            if (dimension == 1)
-            {
-                sum = new double[matrix.GetLength(0)][];
-                sum[0] = matrix.GetRow(0);
-
-                // for each row
-                for (int i = 1; i < matrix.GetLength(0); i++)
-                {
-                    sum[i] = new double[matrix.GetLength(1)];
-
-                    // for each column
-                    for (int j = 0; j < matrix.GetLength(1); j++)
-                        sum[i][j] += sum[i - 1][j] + matrix[i, j];
-                }
-            }
-            else if (dimension == 0)
-            {
-                sum = new double[matrix.GetLength(1)][];
-                sum[0] = matrix.GetColumn(0);
-
-                // for each column
-                for (int i = 1; i < matrix.GetLength(1); i++)
-                {
-                    sum[i] = new double[matrix.GetLength(0)];
-
-                    // for each row
-                    for (int j = 0; j < matrix.GetLength(0); j++)
-                        sum[i][j] += sum[i - 1][j] + matrix[j, i];
-                }
-            }
-            else
-            {
-                throw new ArgumentException("Invalid dimension", "dimension");
-            }
-
-            return sum;
-        }
-
-
-
-        #region Operation Mapping (Apply)
+#region Operation Mapping (Apply)
 
         /// <summary>
         ///   Applies a function to every element of the array.
@@ -1263,10 +1505,10 @@ namespace Accord.Math
                 result[i] = func(vector[i]);
             return result;
         }
-        #endregion
+#endregion
 
 
-        #region Rounding and discretization
+#region Rounding and discretization
         /// <summary>
         ///   Rounds a double-precision floating-point matrix to a specified number of fractional digits.
         /// </summary>
@@ -1369,10 +1611,28 @@ namespace Accord.Math
             return result;
         }
 
-        #endregion
+#endregion
 
 
-        #region Morphological operations
+#region Morphological operations
+
+        /// <summary>
+        ///   Transforms a jagged array matrix into a single vector.
+        /// </summary>
+        /// 
+        /// <param name="array">A jagged array.</param>
+        /// 
+        public static Array DeepFlatten(this Array array)
+        {
+            int totalLength = array.GetTotalLength(deep: true);
+            var elementType = array.GetInnerMostType();
+            Array result = Array.CreateInstance(elementType, totalLength);
+
+            int k = 0;
+            foreach (object v in array.Enumerate())
+                result.SetValue(v, k++);
+            return result;
+        }
 
         /// <summary>
         ///   Transforms a matrix into a single vector.
@@ -1549,7 +1809,7 @@ namespace Accord.Math
             return result;
         }
 
-        #endregion
+#endregion
 
         /// <summary>
         ///   Convolves an array with the given kernel.
@@ -1626,13 +1886,23 @@ namespace Accord.Math
 
         /// <summary>
         ///   Creates a memberwise copy of a vector matrix. Vector elements
-        ///   themselves are copied only in a shallowed manner (i.e. not cloned).
+        ///   themselves are copied only in a shallow manner (i.e. not cloned).
         /// </summary>
         /// 
         public static T[] MemberwiseClone<T>(this T[] a)
         {
             // TODO: Rename to Copy and implement shallow and deep copies
             return (T[])a.Clone();
+        }
+
+        /// <summary>
+        ///   Creates a memberwise copy of a matrix. Matrix elements
+        ///   themselves are copied only in a shallow manner (i.e. not cloned).
+        /// </summary>
+        /// 
+        public static T[,] Copy<T>(this T[,] a)
+        {
+            return (T[,])a.Clone();
         }
 
         /// <summary>
@@ -1643,10 +1913,78 @@ namespace Accord.Math
         /// 
         /// <param name="matrix">The source matrix to be copied.</param>
         /// <param name="destination">The matrix where the elements should be copied to.</param>
+        /// <param name="transpose">Whether to transpose the matrix when copying or not. Default is false.</param>
         /// 
-        public static void CopyTo<T>(this T[,] matrix, T[,] destination)
+        public static void CopyTo<T>(this T[,] matrix, T[,] destination, bool transpose = false)
         {
-            Array.Copy(matrix, 0, destination, 0, matrix.Length);
+            if (matrix == destination)
+            {
+                if (transpose)
+                    matrix.Transpose(inPlace: true);
+            }
+            else
+            {
+                if (transpose)
+                {
+                    int rows = Math.Min(matrix.Rows(), destination.Columns());
+                    int cols = Math.Min(matrix.Columns(), destination.Rows());
+                    for (int i = 0; i < rows; i++)
+                        for (int j = 0; j < cols; j++)
+                            destination[j, i] = matrix[i, j];
+                }
+                else
+                {
+                    if (matrix.Length == destination.Length)
+                    {
+                        Array.Copy(matrix, 0, destination, 0, matrix.Length);
+                    }
+                    else
+                    {
+                        int rows = Math.Min(matrix.Rows(), destination.Rows());
+                        int cols = Math.Min(matrix.Columns(), destination.Columns());
+                        for (int i = 0; i < rows; i++)
+                            for (int j = 0; j < cols; j++)
+                                destination[i, j] = matrix[i, j];
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        ///   Copies the content of an array to another array.
+        /// </summary>
+        /// 
+        /// <typeparam name="T">The type of the elements to be copied.</typeparam>
+        /// 
+        /// <param name="matrix">The source matrix to be copied.</param>
+        /// <param name="destination">The matrix where the elements should be copied to.</param>
+        /// <param name="transpose">Whether to transpose the matrix when copying or not. Default is false.</param>
+        /// 
+        public static void CopyTo<T>(this T[,] matrix, T[][] destination, bool transpose = false)
+        {
+            if (transpose)
+            {
+                int rows = Math.Min(matrix.Rows(), destination.Columns());
+                int cols = Math.Min(matrix.Columns(), destination.Rows());
+                for (int i = 0; i < rows; i++)
+                    for (int j = 0; j < cols; j++)
+                        destination[j][i] = matrix[i, j];
+            }
+            else
+            {
+                if (matrix.Length == destination.Length)
+                {
+                    Array.Copy(matrix, 0, destination, 0, matrix.Length);
+                }
+                else
+                {
+                    int rows = Math.Min(matrix.Rows(), destination.Rows());
+                    int cols = Math.Min(matrix.Columns(), destination.Columns());
+                    for (int i = 0; i < rows; i++)
+                        for (int j = 0; j < cols; j++)
+                            destination[i][j] = matrix[i, j];
+                }
+            }
         }
 
 
@@ -1677,7 +2015,23 @@ namespace Accord.Math
         /// 
         public static void SetTo<T>(this T[] destination, T[] matrix)
         {
-            Array.Copy(matrix, 0, destination, 0, matrix.Length);
+            if (matrix != destination)
+                Array.Copy(matrix, 0, destination, 0, matrix.Length);
+        }
+
+        /// <summary>
+        ///   Copies the content of an array to another array.
+        /// </summary>
+        /// 
+        /// <typeparam name="T">The type of the elements to be copied.</typeparam>
+        /// 
+        /// <param name="destination">The matrix where the elements should be set.</param>
+        /// <param name="value">The value to which the matrix elements should be set to.</param>
+        /// 
+        public static void SetTo<T>(this T[] destination, T value)
+        {
+            for (int i = 0; i < destination.Length; i++)
+                destination[i] = value;
         }
 
         /// <summary>
@@ -1767,6 +2121,16 @@ namespace Accord.Math
         public static void Clear(this Array array)
         {
             Array.Clear(array, 0, array.Length);
+        }
+
+        /// <summary>
+        ///   Sets all elements in an array to zero.
+        /// </summary>
+        /// 
+        public static void Clear<T>(this T[][] array)
+        {
+            for (int i = 0; i < array.Length; i++)
+                Array.Clear(array[i], 0, array[i].Length);
         }
 
         /// <summary>

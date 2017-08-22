@@ -12,10 +12,10 @@
     <iconUrl>http://accord-framework.net/logo.png</iconUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>
-      Contains chromosome and selection classes to create Genetic Algorithms (GA), Genetic Programming (GP) and Gene Expression Programming (GEP). This package originated from the AForge.NET Framework  and is part of the Accord.NET Framework.
+      Contains chromosome and selection classes to create Genetic Algorithms (GA), Genetic Programming (GP) and Gene Expression Programming (GEP). This package originated from the AForge.NET Framework and is now part of the Accord.NET Framework.
     </description>
-    <summary>Accord.NET Genetics Library from the Accord.NET Framework</summary>
-    <tags>accord.net aforge.net framework genetic algorithms programming</tags>
+    <summary>Genetic Algorithms (GA), Genetic Programming (GP) and Gene Expression Programming (GEP) for non-linear optimization.</summary>
+    <tags>accord.net aforge.net framework genetic algorithms programming GA GP GEP</tags>
     <dependencies>
       <dependency id="Accord"       version="$version$" />
       <dependency id="Accord.Math"  version="$version$" />
@@ -30,5 +30,17 @@
 
     <file src="..\..\Release\net45\Accord.Genetic.dll" target="lib\net45\Accord.Genetic.dll" />
     <file src="..\..\Release\net45\Accord.Genetic.xml" target="lib\net45\Accord.Genetic.xml" />
+
+    <file src="..\..\Release\net46\Accord.Genetic.dll" target="lib\net46\Accord.Genetic.dll" />
+    <file src="..\..\Release\net46\Accord.Genetic.xml" target="lib\net46\Accord.Genetic.xml" />
+
+    <file src="..\..\Release\net462\Accord.Genetic.dll" target="lib\net462\Accord.Genetic.dll" />
+    <file src="..\..\Release\net462\Accord.Genetic.xml" target="lib\net462\Accord.Genetic.xml" />
+
+    <file src="..\..\Release\netstandard2.0\Accord.Genetic.dll" target="lib\netstandard2.0\Accord.Genetic.dll" />
+    <file src="..\..\Release\netstandard2.0\Accord.Genetic.xml" target="lib\netstandard2.0\Accord.Genetic.xml" />
+
+    <file src="..\..\Release\netstandard1.4\Accord.Genetic.dll" target="lib\netstandard1.4\Accord.Genetic.dll" />
+    <file src="..\..\Release\netstandard1.4\Accord.Genetic.xml" target="lib\netstandard1.4\Accord.Genetic.xml" />
   </files>
 </package>

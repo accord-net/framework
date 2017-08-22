@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -25,13 +25,17 @@ namespace Accord.MachineLearning
     using System;
     using System.Collections.ObjectModel;
     using Accord.Math;
+    using Accord.MachineLearning.Performance;
+    using Accord.Compat;
 
     /// <summary>
     ///   Range of parameters to be tested in a grid search.
     /// </summary>
     /// 
+    /// <seealso cref="GridSearch"/>
+    /// 
     [Serializable]
-    public class GridSearchRange
+    public class GridSearchRange 
     {
 
         /// <summary>
@@ -91,6 +95,8 @@ namespace Accord.MachineLearning
     /// <summary>
     ///   GridSearchRange collection.
     /// </summary>
+    /// 
+    /// <seealso cref="GridSearch"/>
     /// 
     [Serializable]
     public class GridSearchRangeCollection : KeyedCollection<string, GridSearchRange>

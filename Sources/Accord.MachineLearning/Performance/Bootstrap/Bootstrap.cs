@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -24,122 +24,23 @@ namespace Accord.MachineLearning
 {
     using System;
     using System.Linq;
-    using System.Threading.Tasks;
     using Accord.Math;
+    using Accord.MachineLearning.Performance;
+    using Accord.Compat;
+    using System.Threading.Tasks;
 
     /// <summary>
-    ///   Fitting function delegate.
+    ///   Obsolete. Please refer to <see cref="Bootstrap{TModel, TInput, TOutput}"/> instead.
     /// </summary>
     /// 
-    /// <param name="trainingSamples">
-    ///   The sample indexes to be used as training samples in
-    ///   the model fitting procedure. </param>
-    /// <param name="validationSamples">
-    ///   The sample indexes to be used as validation samples in
-    ///   the model fitting procedure. </param>
-    ///   
-    /// <remarks>
-    ///   The fitting function is called during the Bootstrap
-    ///   procedure to fit a model with the given set of samples
-    ///   for training and validation.
-    /// </remarks>
-    /// 
+    [Obsolete("Please refer to Bootstrap<TModel, TInput, TOutput> instead.")]
     public delegate BootstrapValues BootstrapFittingFunction(int[] trainingSamples, int[] validationSamples);
 
     /// <summary>
-    ///   Bootstrap method for generalization
-    ///   performance measurements.
+    ///   Obsolete. Please use <see cref="Bootstrap{TModel, TInput, TOutput}"/> instead.
     /// </summary>
     /// 
-    /// <example>
-    /// <code>
-    /// // This is a sample code on how to use Bootstrap estimate
-    /// // to assess the performance of Support Vector Machines.
-    /// 
-    /// // Consider the example binary data. We will be trying
-    /// // to learn a XOR problem and see how well does SVMs
-    /// // perform on this data.
-    /// 
-    /// double[][] data =
-    /// {
-    ///     new double[] { -1, -1 }, new double[] {  1, -1 },
-    ///     new double[] { -1,  1 }, new double[] {  1,  1 },
-    ///     new double[] { -1, -1 }, new double[] {  1, -1 },
-    ///     new double[] { -1,  1 }, new double[] {  1,  1 },
-    ///     new double[] { -1, -1 }, new double[] {  1, -1 },
-    ///     new double[] { -1,  1 }, new double[] {  1,  1 },
-    ///     new double[] { -1, -1 }, new double[] {  1, -1 },
-    ///     new double[] { -1,  1 }, new double[] {  1,  1 },
-    /// };
-    /// 
-    /// int[] xor = // result of xor for the sample input data
-    /// {
-    ///     -1,       1,
-    ///      1,      -1,
-    ///     -1,       1,
-    ///      1,      -1,
-    ///     -1,       1,
-    ///      1,      -1,
-    ///     -1,       1,
-    ///      1,      -1,
-    /// };
-    /// 
-    /// 
-    /// // Create a new Bootstrap algorithm passing the set size and the number of resamplings
-    /// var bootstrap = new Bootstrap(size: data.Length, subsamples: 50);
-    /// 
-    /// // Define a fitting function using Support Vector Machines. The objective of this
-    /// // function is to learn a SVM in the subset of the data indicated by the bootstrap.
-    /// 
-    /// bootstrap.Fitting = delegate(int[] indicesTrain, int[] indicesValidation)
-    /// {
-    ///     // The fitting function is passing the indices of the original set which
-    ///     // should be considered training data and the indices of the original set
-    ///     // which should be considered validation data.
-    /// 
-    ///     // Lets now grab the training data:
-    ///     var trainingInputs = data.Submatrix(indicesTrain);
-    ///     var trainingOutputs = xor.Submatrix(indicesTrain);
-    /// 
-    ///     // And now the validation data:
-    ///     var validationInputs = data.Submatrix(indicesValidation);
-    ///     var validationOutputs = xor.Submatrix(indicesValidation);
-    /// 
-    /// 
-    ///     // Create a Kernel Support Vector Machine to operate on the set
-    ///     var svm = new KernelSupportVectorMachine(new Polynomial(2), 2);
-    /// 
-    ///     // Create a training algorithm and learn the training data
-    ///     var smo = new SequentialMinimalOptimization(svm, trainingInputs, trainingOutputs);
-    /// 
-    ///     double trainingError = smo.Run();
-    /// 
-    ///     // Now we can compute the validation error on the validation data:
-    ///     double validationError = smo.ComputeError(validationInputs, validationOutputs);
-    /// 
-    ///     // Return a new information structure containing the model and the errors achieved.
-    ///     return new BootstrapValues(trainingError, validationError);
-    /// };
-    /// 
-    /// 
-    /// // Compute the bootstrap estimate
-    /// var result = bootstrap.Compute();
-    /// 
-    /// // Finally, access the measured performance.
-    /// double trainingErrors = result.Training.Mean;
-    /// double validationErrors = result.Validation.Mean;
-    /// 
-    /// // And compute the 0.632 estimate
-    /// double estimate = result.Estimate;
-    /// </code>
-    /// </example>
-    /// 
-    /// <seealso cref="CrossValidation"/>
-    /// <seealso cref="CrossValidation{T}"/>
-    /// 
-    /// <seealso cref="SplitSetValidation"/>
-    /// <seealso cref="SplitSetValidation{T}"/>
-    /// 
+    [Obsolete("Please use Bootstrap<TModel, TInput, TOutput> instead.")]
     [Serializable]
     public class Bootstrap
     {

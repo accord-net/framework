@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -20,15 +20,20 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-using Accord.Imaging;
-using Accord.Imaging.Filters;
-using Accord.Math;
-using Accord.Math.Wavelets;
-using NUnit.Framework;
-using System.Drawing;
-
 namespace Accord.Tests.Imaging
 {
+    using Accord.Imaging;
+    using Accord.Imaging.Converters;
+    using Accord.Imaging.Filters;
+    using Accord.Math;
+    using Accord.Math.Wavelets;
+    using Accord.Tests.Imaging.Properties;
+    using NUnit.Framework;
+    using System.Drawing;
+#if NO_BITMAP
+    using Resources = Accord.Tests.Imaging.Properties.Resources_Standard;
+#endif
+
     [TestFixture]
     public class WaveletTransformTest
     {
@@ -36,7 +41,7 @@ namespace Accord.Tests.Imaging
         [Test]
         public void Example1()
         {
-            Bitmap image = Accord.Imaging.Image.Clone(Properties.Resources.lena512);
+            Bitmap image = Accord.Imaging.Image.Clone(Resources.lena512);
 
             // Create a new Haar Wavelet transform filter
             var wavelet = new WaveletTransform(new Haar(1));
@@ -47,9 +52,9 @@ namespace Accord.Tests.Imaging
             // Show on the screen
             //ImageBox.Show(result);
             Assert.IsNotNull(result);
-            
+
             // Extract only one of the resulting images
-            var crop = new Crop(new Rectangle(0, 0, 
+            var crop = new Crop(new Rectangle(0, 0,
                 image.Width / 2, image.Height / 2));
 
             Bitmap quarter = crop.Apply(result);
@@ -63,7 +68,7 @@ namespace Accord.Tests.Imaging
         public void WaveletTransformConstructorTest()
         {
             // Start with a grayscale image
-            Bitmap src = Accord.Imaging.Image.Clone(Properties.Resources.lena512);
+            Bitmap src = Accord.Imaging.Image.Clone(Resources.lena512);
 
             // Create a wavelet filter            
             IWavelet wavelet = new Accord.Math.Wavelets.Haar(2);
@@ -76,10 +81,8 @@ namespace Accord.Tests.Imaging
             target.Backward = true;
             Bitmap org = target.Apply(dst);
 
-#pragma warning disable 0618
-            double[,] actual = org.ToDoubleMatrix(0);
-            double[,] expected = src.ToDoubleMatrix(0);
-#pragma warning restore 0618
+            double[,] actual; new ImageToMatrix().Convert(org, out actual);
+            double[,] expected; new ImageToMatrix().Convert(src, out expected);
 
             Assert.IsTrue(actual.IsEqual(expected, atol: 0.102));
         }

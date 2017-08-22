@@ -14,7 +14,7 @@
     <description>
       Contains Fuzzy logic tools, such as fuzzy sets, linguistic variables and inference systems. This package originated from the AForge.NET Framework and is part of the Accord.NET Framework.
     </description>
-    <summary>Accord.NET Machine Learning Library from the Accord.NET framework.</summary>
+    <summary>Create fuzzy decision systems using fuzzy logic. Contains Fuzzy sets, linguistic variables and fuzzy inference systems.</summary>
     <tags>accord.net aforge.net fuzzy logic math</tags>
     <dependencies>
       <dependency id="Accord"            version="$version$" />
@@ -31,5 +31,17 @@
 
     <file src="..\..\Release\net45\Accord.Fuzzy.dll" target="lib\net45\Accord.Fuzzy.dll" />
     <file src="..\..\Release\net45\Accord.Fuzzy.xml" target="lib\net45\Accord.Fuzzy.xml" />
+
+    <file src="..\..\Release\net46\Accord.Fuzzy.dll" target="lib\net46\Accord.Fuzzy.dll" />
+    <file src="..\..\Release\net46\Accord.Fuzzy.xml" target="lib\net46\Accord.Fuzzy.xml" />
+
+    <file src="..\..\Release\net462\Accord.Fuzzy.dll" target="lib\net462\Accord.Fuzzy.dll" />
+    <file src="..\..\Release\net462\Accord.Fuzzy.xml" target="lib\net462\Accord.Fuzzy.xml" />
+
+    <file src="..\..\Release\netstandard2.0\Accord.Fuzzy.dll" target="lib\netstandard2.0\Accord.Fuzzy.dll" />
+    <file src="..\..\Release\netstandard2.0\Accord.Fuzzy.xml" target="lib\netstandard2.0\Accord.Fuzzy.xml" />
+
+    <file src="..\..\Release\netstandard1.4\Accord.Fuzzy.dll" target="lib\netstandard1.4\Accord.Fuzzy.dll" />
+    <file src="..\..\Release\netstandard1.4\Accord.Fuzzy.xml" target="lib\netstandard1.4\Accord.Fuzzy.xml" />
   </files>
 </package>

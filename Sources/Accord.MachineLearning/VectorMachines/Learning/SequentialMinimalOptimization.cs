@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -25,10 +25,13 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     using Accord.Math;
     using Accord.Statistics;
     using Accord.Statistics.Kernels;
+    using Math.Optimization;
     using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.Threading;
+    using System.Diagnostics;
+    using Accord.Compat;
 
     /// <summary>
     ///   Gets the selection strategy to be used in SMO.
@@ -39,7 +42,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
         /// <summary>
         ///   Uses the sequential selection strategy as
-        ///    suggested by Keerthi et al's algorithm 1.
+        ///   suggested by Keerthi et al's algorithm 1.
         /// </summary>
         /// 
         Sequential,
@@ -50,7 +53,14 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         ///   Keerthi et al's algorithm 2.
         /// </summary>
         /// 
-        WorstPair
+        WorstPair,
+
+        /// <summary>
+        ///   Use a second order selection algorithm, using
+        ///   the same algorithm as LibSVM's implementation.
+        /// </summary>
+        /// 
+        SecondOrder,
     };
 
     /// <summary>
@@ -68,8 +78,8 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     ///   by Keerthi et al.</para>
     ///   
     /// <para>
-    ///   This class can also be used in combination with <see cref="MulticlassSupportVectorLearning"/>
-    ///   or <see cref="MultilabelSupportVectorLearning"/> to learn <see cref="MulticlassSupportVectorMachine"/>s
+    ///   This class can also be used in combination with <see cref="MulticlassSupportVectorLearning{TKernel}"/>
+    ///   or <see cref="MultilabelSupportVectorLearning{TKernel}"/> to learn <see cref="MulticlassSupportVectorMachine{TKernel}"/>s
     ///   using the <c>one-vs-one</c> or <c>one-vs-all</c> multi-class decision strategies, respectively.</para>
     ///  
     /// <para>
@@ -95,49 +105,29 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// </remarks>
     /// 
     /// <example>
-    ///   <code>
-    ///   // Example XOR problem
-    ///   double[][] inputs =
-    ///   {
-    ///       new double[] { 0, 0 }, // 0 xor 0: 1 (label +1)
-    ///       new double[] { 0, 1 }, // 0 xor 1: 0 (label -1)
-    ///       new double[] { 1, 0 }, // 1 xor 0: 0 (label -1)
-    ///       new double[] { 1, 1 }  // 1 xor 1: 1 (label +1)
-    ///   };
-    ///    
-    ///   // Dichotomy SVM outputs should be given as [-1;+1]
-    ///   int[] labels =
-    ///   {
-    ///          1, -1, -1, 1
-    ///   };
-    ///  
-    ///   // Create a Kernel Support Vector Machine for the given inputs
-    ///   KernelSupportVectorMachine svm = new KernelSupportVectorMachine(new Gaussian(0.1), inputs[0].Length);
-    /// 
-    ///   // Instantiate a new learning algorithm for SVMs
-    ///   SequentialMinimalOptimization smo = new SequentialMinimalOptimization(svm, inputs, labels);
-    /// 
-    ///   // Set up the learning algorithm
-    ///   smo.Complexity = 1.0;
-    /// 
-    ///   // Run the learning algorithm
-    ///   double error = smo.Run();
+    ///   <para>The following example shows how to use a SVM to learn a simple XOR function.</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\SequentialMinimalOptimizationTest.cs" region="doc_xor_normal" />
     ///   
-    ///   // Compute the decision output for one of the input vectors
-    ///   int decision = System.Math.Sign(svm.Compute(inputs[0])); // +1
-    ///  </code>
+    ///   <para>The next example shows how to solve a multi-class problem using a one-vs-one SVM 
+    ///   where the binary machines are learned using SMO.</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MulticlassSupportVectorLearningTest.cs" region="doc_learn" />
+    ///   
+    ///   <para>The same as before, but using a Gaussian kernel.</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MulticlassSupportVectorLearningTest.cs" region="doc_learn_gaussian" />
+    ///   
+    ///   <para>
+    ///   The following example shows how to learn a simple binary SVM using
+    ///    a precomputed kernel matrix obtained from a Gaussian kernel.</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\SequentialMinimalOptimizationTest.cs" region="doc_precomputed" />
     /// </example>
     /// 
     /// <seealso cref="SupportVectorMachine"/>
-    /// <seealso cref="KernelSupportVectorMachine"/>
-    /// 
     /// <seealso cref="ProbabilisticOutputCalibration"/>
-    /// <seealso cref="MulticlassSupportVectorLearning"/>
+    /// <seealso cref="MulticlassSupportVectorLearning{TKernel}"/>
     /// 
-    [Obsolete]
+    //[Obsolete("Please use SequentialMinimalOptimization<TKernel> instead.")]
     public class SequentialMinimalOptimization :
-        BaseSequentialMinimalOptimization<
-            ISupportVectorMachine<double[]>, IKernel<double[]>, double[]>,
+        BaseSequentialMinimalOptimization<ISupportVectorMachine<double[]>, IKernel<double[]>, double[]>,
         ISupportVectorMachineLearning
     {
         /// <summary>
@@ -197,7 +187,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         /// </summary>
         /// <param name="x">The model inputs.</param>
         /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
-        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <param name="weights">The weight of importance for each input-output pair (if supported by the learning algorithm).</param>
         /// <returns>
         /// A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
         /// </returns>
@@ -211,7 +201,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         /// </summary>
         /// <param name="x">The model inputs.</param>
         /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
-        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <param name="weights">The weight of importance for each input-output pair (if supported by the learning algorithm).</param>
         /// <returns>
         /// A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
         /// </returns>
@@ -225,7 +215,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         /// </summary>
         /// <param name="x">The model inputs.</param>
         /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
-        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <param name="weights">The weight of importance for each input-output pair (if supported by the learning algorithm).</param>
         /// <returns>
         /// A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
         /// </returns>
@@ -239,7 +229,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         /// </summary>
         /// <param name="x">The model inputs.</param>
         /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
-        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <param name="weights">The weight of importance for each input-output pair (if supported by the learning algorithm).</param>
         /// <returns>
         /// A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
         /// </returns>
@@ -253,7 +243,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         /// </summary>
         /// <param name="x">The model inputs.</param>
         /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
-        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <param name="weights">The weight of importance for each input-output pair (if supported by the learning algorithm).</param>
         /// <returns>
         /// A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
         /// </returns>
@@ -262,11 +252,10 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             ISupportVectorMachine<double[]> svm = base.Learn(x, y, weights);
             return (SupportVectorMachine)svm;
         }
-
     }
 
     /// <summary>
-    ///   Sequential Minimal Optimization (SMO) Algorithm
+    ///   Sequential Minimal Optimization (SMO) Algorithm.
     /// </summary>
     /// 
     /// <remarks>
@@ -280,8 +269,8 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     ///   by Keerthi et al.</para>
     ///   
     /// <para>
-    ///   This class can also be used in combination with <see cref="MulticlassSupportVectorLearning"/>
-    ///   or <see cref="MultilabelSupportVectorLearning"/> to learn <see cref="MulticlassSupportVectorMachine"/>s
+    ///   This class can also be used in combination with <see cref="MulticlassSupportVectorLearning{TKernel}"/>
+    ///   or <see cref="MultilabelSupportVectorLearning{TKernel}"/> to learn <see cref="MulticlassSupportVectorMachine{TKernel}"/>s
     ///   using the <c>one-vs-one</c> or <c>one-vs-all</c> multi-class decision strategies, respectively.</para>
     ///  
     /// <para>
@@ -307,44 +296,26 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// </remarks>
     /// 
     /// <example>
-    ///   <code>
-    ///   // Example XOR problem
-    ///   double[][] inputs =
-    ///   {
-    ///       new double[] { 0, 0 }, // 0 xor 0: 1 (label +1)
-    ///       new double[] { 0, 1 }, // 0 xor 1: 0 (label -1)
-    ///       new double[] { 1, 0 }, // 1 xor 0: 0 (label -1)
-    ///       new double[] { 1, 1 }  // 1 xor 1: 1 (label +1)
-    ///   };
-    ///    
-    ///   // Dichotomy SVM outputs should be given as [-1;+1]
-    ///   int[] labels =
-    ///   {
-    ///          1, -1, -1, 1
-    ///   };
-    ///  
-    ///   // Create a Kernel Support Vector Machine for the given inputs
-    ///   KernelSupportVectorMachine svm = new KernelSupportVectorMachine(new Gaussian(0.1), inputs[0].Length);
-    /// 
-    ///   // Instantiate a new learning algorithm for SVMs
-    ///   SequentialMinimalOptimization smo = new SequentialMinimalOptimization(svm, inputs, labels);
-    /// 
-    ///   // Set up the learning algorithm
-    ///   smo.Complexity = 1.0;
-    /// 
-    ///   // Run the learning algorithm
-    ///   double error = smo.Run();
+    ///   <para>The following example shows how to use a SVM to learn a simple XOR function.</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\SequentialMinimalOptimizationTest.cs" region="doc_xor_normal" />
     ///   
-    ///   // Compute the decision output for one of the input vectors
-    ///   int decision = System.Math.Sign(svm.Compute(inputs[0])); // +1
-    ///  </code>
+    ///   <para>The next example shows how to solve a multi-class problem using a one-vs-one SVM 
+    ///   where the binary machines are learned using SMO.</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MulticlassSupportVectorLearningTest.cs" region="doc_learn" />
+    ///   
+    ///   <para>The same as before, but using a Gaussian kernel.</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MulticlassSupportVectorLearningTest.cs" region="doc_learn_gaussian" />
+    ///   
+    ///   <para>
+    ///   The following example shows how to learn a simple binary SVM using
+    ///    a precomputed kernel matrix obtained from a Gaussian kernel.</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\SequentialMinimalOptimizationTest.cs" region="doc_precomputed" />
     /// </example>
     /// 
     /// <seealso cref="SupportVectorMachine"/>
-    /// <seealso cref="KernelSupportVectorMachine"/>
     /// 
     /// <seealso cref="ProbabilisticOutputCalibration"/>
-    /// <seealso cref="MulticlassSupportVectorLearning"/>
+    /// <seealso cref="MulticlassSupportVectorLearning{TKernel}"/>
     /// 
     public class SequentialMinimalOptimization<TKernel> :
     BaseSequentialMinimalOptimization<
@@ -363,7 +334,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     }
 
     /// <summary>
-    ///   Sequential Minimal Optimization (SMO) Algorithm
+    ///   Sequential Minimal Optimization (SMO) Algorithm (for arbitrary data types).
     /// </summary>
     /// 
     /// <remarks>
@@ -377,8 +348,8 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     ///   by Keerthi et al.</para>
     ///   
     /// <para>
-    ///   This class can also be used in combination with <see cref="MulticlassSupportVectorLearning"/>
-    ///   or <see cref="MultilabelSupportVectorLearning"/> to learn <see cref="MulticlassSupportVectorMachine"/>s
+    ///   This class can also be used in combination with <see cref="MulticlassSupportVectorLearning{TKernel}"/>
+    ///   or <see cref="MultilabelSupportVectorLearning{TKernel}"/> to learn <see cref="MulticlassSupportVectorMachine{TKernel}"/>s
     ///   using the <c>one-vs-one</c> or <c>one-vs-all</c> multi-class decision strategies, respectively.</para>
     ///  
     /// <para>
@@ -403,51 +374,33 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     ///     </list></para>  
     /// </remarks>
     /// 
+    /// 
     /// <example>
-    ///   <code>
-    ///   // Example XOR problem
-    ///   double[][] inputs =
-    ///   {
-    ///       new double[] { 0, 0 }, // 0 xor 0: 1 (label +1)
-    ///       new double[] { 0, 1 }, // 0 xor 1: 0 (label -1)
-    ///       new double[] { 1, 0 }, // 1 xor 0: 0 (label -1)
-    ///       new double[] { 1, 1 }  // 1 xor 1: 1 (label +1)
-    ///   };
-    ///    
-    ///   // Dichotomy SVM outputs should be given as [-1;+1]
-    ///   int[] labels =
-    ///   {
-    ///          1, -1, -1, 1
-    ///   };
-    ///  
-    ///   // Create a Kernel Support Vector Machine for the given inputs
-    ///   KernelSupportVectorMachine svm = new KernelSupportVectorMachine(new Gaussian(0.1), inputs[0].Length);
-    /// 
-    ///   // Instantiate a new learning algorithm for SVMs
-    ///   SequentialMinimalOptimization smo = new SequentialMinimalOptimization(svm, inputs, labels);
-    /// 
-    ///   // Set up the learning algorithm
-    ///   smo.Complexity = 1.0;
-    /// 
-    ///   // Run the learning algorithm
-    ///   double error = smo.Run();
+    ///   <para>The following example shows how to use a SVM to learn a simple XOR function.</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\SequentialMinimalOptimizationTest.cs" region="doc_xor_normal" />
     ///   
-    ///   // Compute the decision output for one of the input vectors
-    ///   int decision = System.Math.Sign(svm.Compute(inputs[0])); // +1
-    ///  </code>
+    ///   <para>The next example shows how to solve a multi-class problem using a one-vs-one SVM 
+    ///   where the binary machines are learned using SMO.</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MulticlassSupportVectorLearningTest.cs" region="doc_learn" />
+    ///   
+    ///   <para>The same as before, but using a Gaussian kernel.</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MulticlassSupportVectorLearningTest.cs" region="doc_learn_gaussian" />
+    ///   
+    ///   <para>
+    ///   The following example shows how to learn a simple binary SVM using
+    ///    a precomputed kernel matrix obtained from a Gaussian kernel.</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\SequentialMinimalOptimizationTest.cs" region="doc_precomputed" />
     /// </example>
     /// 
     /// <seealso cref="SupportVectorMachine"/>
-    /// <seealso cref="KernelSupportVectorMachine"/>
     /// 
     /// <seealso cref="ProbabilisticOutputCalibration"/>
-    /// <seealso cref="MulticlassSupportVectorLearning"/>
+    /// <seealso cref="MulticlassSupportVectorLearning{TKernel}"/>
     /// 
     public class SequentialMinimalOptimization<TKernel, TInput> :
         BaseSequentialMinimalOptimization<
             SupportVectorMachine<TKernel, TInput>, TKernel, TInput>
         where TKernel : IKernel<TInput>
-        where TInput : ICloneable
     {
         /// <summary>
         /// Creates an instance of the model to be learned. Inheritors
@@ -463,18 +416,19 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// <summary>
     ///   Base class for Sequential Minimal Optimization.
     /// </summary>
+    /// 
     public abstract class BaseSequentialMinimalOptimization<TModel, TKernel, TInput> :
         BaseSupportVectorClassification<TModel, TKernel, TInput>,
         ISupportVectorMachineLearning<TInput>
         where TKernel : IKernel<TInput>
-        where TInput : ICloneable
         where TModel : ISupportVectorMachine<TInput>
-    // TODO: after a few releases, the TModel constraint should be changed to:
-    // where TModel : SupportVectorMachine<TKernel, TInput>, ISupportVectorMachine<TInput>
+        // TODO: after a few releases, the TModel constraint should be changed to:
+        // where TModel : SupportVectorMachine<TKernel, TInput>, ISupportVectorMachine<TInput>
     {
         // Learning algorithm parameters
         private double tolerance = 1e-2;
         private double epsilon = 1e-6;
+        private bool shrinking;
 
         // Support Vector Machine parameters
         private double[] alpha;
@@ -493,7 +447,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         // Error cache to speed up computations
         private double[] errors;
 
-        private int cacheSize;
+        private int cacheSize = -1;
         private KernelFunctionCache<TKernel, TInput> kernelCache;
 
         private SelectionStrategy strategy = SelectionStrategy.WorstPair;
@@ -513,7 +467,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
 
         /// <summary>
-        ///   Epsilon for round-off errors. Default value is 1e-12.
+        ///   Epsilon for round-off errors. Default value is 1e-6.
         /// </summary>
         /// 
         public double Epsilon
@@ -558,23 +512,47 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         }
 
         /// <summary>
-        ///   Gets or sets the cache size to partially stored the kernel 
-        ///   matrix. Default is the same number of input vectors. If set
-        ///   to zero, the cache will be disabled and all operations will
+        ///   Gets or sets the cache size to partially store the kernel 
+        ///   matrix. Default is the same number of input vectors, meaning
+        ///   the entire kernel matrix will be computed and cached in memory.
+        ///   If set to zero, the cache will be disabled and all operations will
         ///   be computed as needed.
         /// </summary>
+        /// 
+        /// <remarks>
+        ///   In order to know how many rows can fit under a amount of memory, you can use
+        ///   <see cref="KernelFunctionCache.GetNumberOfRowsForMaximumSizeInBytes(int)"/>.
+        ///   Be sure to also test the algorithm with the cache disabled, as sometimes the
+        ///   cost of the extra memory allocations needed by the cache will be higher than
+        ///   the cost of evaluating the kernel function, specially for fast kernels such
+        ///   as <see cref="Linear"/>.
+        /// </remarks>
         /// 
         public int CacheSize
         {
             get { return cacheSize; }
             set
             {
-                if (cacheSize < 0)
+                if (value < 0)
                     throw new ArgumentOutOfRangeException("value");
                 this.cacheSize = value;
             }
         }
 
+        /// <summary>
+        ///   Gets or sets a value indicating whether shrinking heuristics should be used. Default is false. Note: 
+        ///   this property can only be used when <see cref="Strategy"/> is set to <see cref="SelectionStrategy.SecondOrder"/>.
+        /// </summary>
+        /// 
+        /// <value>
+        ///   <c>true</c> to use shrinking heuristics; otherwise, <c>false</c>.
+        /// </value>
+        /// 
+        public bool Shrinking
+        {
+            get { return shrinking; }
+            set { shrinking = value; }
+        }
         /// <summary>
         ///   Gets the value for the Lagrange multipliers
         ///   (alpha) for every observation vector.
@@ -638,21 +616,6 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         /// 
         protected override void InnerRun()
         {
-
-            // The SMO algorithm chooses to solve the smallest possible optimization problem
-            // at every step. At every step, SMO chooses two Lagrange multipliers to jointly
-            // optimize, finds the optimal values for these multipliers, and updates the SVM
-            // to reflect the new optimal values.
-            //
-            // Reference: http://research.microsoft.com/en-us/um/people/jplatt/smoTR.pdf
-
-            // The algorithm has been updated to implement the improvements suggested
-            // by Keerthi et al. The code has been based on the pseudo-code available
-            // on the author's technical report.
-            //
-            // Reference: http://www.cs.iastate.edu/~honavar/keerthi-svm.pdf
-
-
             // Initialize variables
             int samples = Inputs.Length;
             double[] c = C;
@@ -662,148 +625,212 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             // Lagrange multipliers
             this.alpha = new double[samples];
 
-            // Error cache
-            this.errors = new double[samples];
-
-            // Kernel cache
-            this.cacheSize = samples;
-
-
-            // Lagrange multipliers
-            Array.Clear(alpha, 0, alpha.Length);
-
-            // Error cache
-            Array.Clear(errors, 0, errors.Length);
-
-            // Kernel evaluations cache
-            this.kernelCache = new KernelFunctionCache<TKernel, TInput>(Kernel, Inputs, cacheSize);
-
-            // [Keerthi] Initialize b_up to -1 and 
-            //   i_up to any one index of class 1:
-            this.b_upper = -1;
-            this.i_upper = y.First(y_i => y_i > 0);
-
-            // [Keerthi] Initialize b_low to +1 and 
-            //   i_low to any one index of class 2:
-            this.b_lower = +1;
-            this.i_lower = y.First(y_i => y_i < 0);
-
-            // [Keerthi] Set error cache for i_low and i_up:
-            this.errors[i_lower] = +1;
-            this.errors[i_upper] = -1;
-
-
             // Prepare indices sets
             activeExamples = new HashSet<int>();
             nonBoundExamples = new HashSet<int>();
             atBoundsExamples = new HashSet<int>();
 
-            // Algorithm:
-            int numChanged = 0;
-            int wholeSetChecks = 0;
-            bool examineAll = true;
-            bool diverged = false;
-            bool shouldStop = false;
+            // Kernel cache
+            if (this.cacheSize == -1)
+                this.cacheSize = samples;
 
-            while ((numChanged > 0 || examineAll) && !shouldStop)
+            using (this.kernelCache = new KernelFunctionCache<TKernel, TInput>(Kernel, Inputs, cacheSize))
             {
-                numChanged = 0;
-                if (examineAll)
-                {
-                    // loop I over all training examples
-                    for (int i = 0; i < samples; i++)
-                        if (examineExample(i))
-                            numChanged++;
+                bool diverged = false;
 
-                    wholeSetChecks++;
-                }
-                else
+
+                if (Strategy == SelectionStrategy.SecondOrder)
                 {
-                    if (strategy == SelectionStrategy.Sequential)
+                    double[] minusOnes = Vector.Create(Inputs.Length, -1.0);
+                    Func<int, int[], int, double[], double[]> Q;
+
+                    if (kernelCache.Enabled)
                     {
-                        // loop I over examples not at bounds
-                        for (int i = 0; i < alpha.Length; i++)
+                        Q = (int i, int[] indices, int length, double[] row) =>
                         {
-                            if (alpha[i] != 0 && alpha[i] != c[i])
-                            {
+                            for (int j = 0; j < length; j++)
+                                row[j] = y[i] * y[indices[j]] * kernelCache.GetOrCompute(i, indices[j]);
+                            return row;
+                        };
+                    }
+                    else
+                    {
+                        Q = (int i, int[] indices, int length, double[] row) =>
+                        {
+                            for (int j = 0; j < length; j++)
+                                row[j] = y[i] * y[indices[j]] * Kernel.Function(x[i], x[indices[j]]);
+                            return row;
+                        };
+                    }
+
+                    var s = new FanChenLinQuadraticOptimization(alpha.Length, Q, minusOnes, y)
+                    {
+                        Tolerance = tolerance,
+                        Shrinking = this.shrinking,
+                        Solution = alpha,
+                        Token = Token,
+                        UpperBounds = c
+                    };
+
+                    diverged = !s.Minimize();
+
+                    // Store information about active examples
+                    for (int i = 0; i < alpha.Length; i++)
+                    {
+                        if (alpha[i] > 0)
+                            activeExamples.Add(i);
+                    }
+
+                    b_lower = b_upper = s.Rho;
+                }
+                else // Strategy is Strategy.WorstPair or Strategy.Sequential
+                {
+                    if (shrinking)
+                        throw new InvalidOperationException("Shrinking heuristic can only be used if Strategy is set to SelectionStrategy.SecondOrder.");
+
+                    // The SMO algorithm chooses to solve the smallest possible optimization problem
+                    // at every step. At every step, SMO chooses two Lagrange multipliers to jointly
+                    // optimize, finds the optimal values for these multipliers, and updates the SVM
+                    // to reflect the new optimal values.
+                    //
+                    // Reference: http://research.microsoft.com/en-us/um/people/jplatt/smoTR.pdf
+
+                    // The algorithm has been updated to implement the improvements suggested
+                    // by Keerthi et al. The code has been based on the pseudo-code available
+                    // on the author's technical report.
+                    //
+                    // Reference: http://www.cs.iastate.edu/~honavar/keerthi-svm.pdf
+
+
+                    // Error cache
+                    this.errors = new double[samples];
+
+                    // [Keerthi] Initialize b_up to -1 and 
+                    //   i_up to any one index of class 1:
+                    this.b_upper = -1;
+                    this.i_upper = y.First(y_i => y_i > 0);
+
+                    // [Keerthi] Initialize b_low to +1 and 
+                    //   i_low to any one index of class 2:
+                    this.b_lower = +1;
+                    this.i_lower = y.First(y_i => y_i < 0);
+
+                    // [Keerthi] Set error cache for i_low and i_up:
+                    this.errors[i_lower] = +1;
+                    this.errors[i_upper] = -1;
+
+
+                    // Algorithm:
+                    int numChanged = 0;
+                    int wholeSetChecks = 0;
+                    bool examineAll = true;
+                    bool shouldStop = false;
+
+                    while ((numChanged > 0 || examineAll) && !shouldStop)
+                    {
+                        if (Token.IsCancellationRequested)
+                            break;
+
+                        numChanged = 0;
+                        if (examineAll)
+                        {
+                            // loop I over all training examples
+                            for (int i = 0; i < samples; i++)
                                 if (examineExample(i))
                                     numChanged++;
 
-                                if (b_upper > b_lower - 2.0 * tolerance)
+                            wholeSetChecks++;
+                        }
+                        else
+                        {
+                            if (strategy == SelectionStrategy.Sequential)
+                            {
+                                // loop I over examples not at bounds
+                                for (int i = 0; i < alpha.Length; i++)
                                 {
-                                    numChanged = 0; break;
+                                    if (alpha[i] != 0 && alpha[i] != c[i])
+                                    {
+                                        if (examineExample(i))
+                                            numChanged++;
+
+                                        if (b_upper > b_lower - 2.0 * tolerance)
+                                        {
+                                            numChanged = 0; break;
+                                        }
+                                    }
                                 }
                             }
+                            else if (strategy == SelectionStrategy.WorstPair)
+                            {
+                                int attempts = 0;
+                                do
+                                {
+                                    attempts++;
+
+                                    if (!takeStep(i_upper, i_lower))
+                                        break;
+
+                                    if (attempts > samples * maxChecks)
+                                        break;
+                                }
+                                while ((b_upper <= b_lower - 2.0 * tolerance));
+
+                                numChanged = 0;
+                            }
+                            else
+                            {
+                                throw new InvalidOperationException("Unknown strategy");
+                            }
                         }
-                    }
-                    else // strategy == Strategy.WorstPair
-                    {
-                        int attempts = 0;
-                        do
-                        {
-                            attempts++;
 
-                            if (!takeStep(i_upper, i_lower))
-                                break;
+                        if (examineAll)
+                            examineAll = false;
 
-                            if (attempts > samples * maxChecks)
-                                break;
-                        }
-                        while ((b_upper <= b_lower - 2.0 * tolerance));
+                        else if (numChanged == 0)
+                            examineAll = true;
 
-                        numChanged = 0;
+                        if (wholeSetChecks > maxChecks)
+                            shouldStop = diverged = true;
+
+                        if (Token.IsCancellationRequested)
+                            shouldStop = true;
                     }
                 }
 
-                if (examineAll)
-                    examineAll = false;
 
-                else if (numChanged == 0)
-                    examineAll = true;
-
-                if (wholeSetChecks > maxChecks)
-                    shouldStop = diverged = true;
-
-                if (Token.IsCancellationRequested)
-                    shouldStop = true;
-            }
+                // Store information about bounded examples
+                for (int i = 0; i < alpha.Length; i++)
+                {
+                    if (alpha[i] == c[i])
+                        atBoundsExamples.Add(i);
+                }
 
 
-            // Store information about bounded examples
-            for (int i = 0; i < alpha.Length; i++)
-            {
-                if (alpha[i] == c[i])
-                    atBoundsExamples.Add(i);
-            }
+                // Store Support Vectors in the SV Machine. Only vectors which have Lagrange multipliers
+                // greater than zero will be stored as only those are actually required during evaluation.
 
+                int activeCount = activeExamples.Count;
+                Model.SupportVectors = new TInput[activeCount];
+                Model.Weights = new double[activeCount];
+                int index = 0;
+                foreach (var j in activeExamples)
+                {
+                    Model.SupportVectors[index] = x[j];
+                    Model.Weights[index] = alpha[j] * y[j];
+                    index++;
+                }
 
-            // Store Support Vectors in the SV Machine. Only vectors which have Lagrange multipliers
-            // greater than zero will be stored as only those are actually required during evaluation.
+                Model.Threshold = -(b_lower + b_upper) / 2;
 
-            int activeCount = activeExamples.Count;
-            Model.SupportVectors = new TInput[activeCount];
-            Model.Weights = new double[activeCount];
-            int index = 0;
-            foreach (var j in activeExamples)
-            {
-                Model.SupportVectors[index] = x[j];
-                Model.Weights[index] = alpha[j] * y[j];
-                index++;
-            }
-            Model.Threshold = -(b_lower + b_upper) / 2;
+                if (isCompact)
+                    Model.Compress();
 
-            if (isCompact)
-                Model.Compress();
-
-            // Clear function cache
-            this.kernelCache.Clear();
-            this.kernelCache = null;
-
-            if (diverged)
-            {
-                throw new ConvergenceException("Convergence could not be attained. " +
-                            "Please reduce the cost of misclassification errors by reducing " +
-                            "the complexity parameter C or try a different kernel function.");
+                if (diverged)
+                {
+                    throw new ConvergenceException("Convergence could not be attained. " +
+                                "Please reduce the cost of misclassification errors by reducing " +
+                                "the complexity parameter C or try a different kernel function.");
+                }
             }
         }
 
@@ -922,7 +949,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             if (i1 == i2)
                 return false;
 
-            TInput p1 = Inputs[i1]; // Input point at index i1
+            //TInput p1 = Inputs[i1]; // Input point at index i1
             double alph1 = alpha[i1]; // Lagrange multiplier for p1
             double y1 = Outputs[i1];  // Classification label for p1
             double c1 = C[i1];
@@ -930,7 +957,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             // SVM output on p1 - y1 [without bias threshold]. Check if it has already been computed
             double e1 = (alph1 > 0 && alph1 < c1) ? errors[i1] : errors[i1] = computeNoBias(i1) - y1;
 
-            TInput p2 = Inputs[i2]; // Input point at index i2
+            //TInput p2 = Inputs[i2]; // Input point at index i2
             double alph2 = alpha[i2]; // Lagrange multiplier for p2
             double y2 = Outputs[i2];  // Classification label for p2
             double c2 = C[i2];
@@ -1006,7 +1033,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
                 else if (Lobj < Hobj - epsilon) a2 = H;
                 else a2 = alph2;
 
-                System.Diagnostics.Trace.WriteLine("SMO: eta is zero.");
+                Trace.WriteLine("SMO: eta is zero.");
             }
 
             if (Math.Abs(a2 - alph2) < epsilon * (a2 + alph2 + epsilon))

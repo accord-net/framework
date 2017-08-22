@@ -5,7 +5,7 @@
 // LumenWorks.Framework.IO.CSV.CsvReader
 // Copyright (c) 2005 Sébastien Lorion
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 // This class has been based on the original work by Sébastien Lorion, originally
@@ -36,14 +36,15 @@ namespace Accord.IO
     using System;
     using System.Globalization;
     using System.Runtime.Serialization;
-    using System.Security.Permissions;
     using Accord.IO.Resources;
+    using Accord.Compat;
+    using System.Security.Permissions;
 
     /// <summary>
     ///   Represents the exception that is thrown when a CSV file is malformed.
     /// </summary>
     /// 
-    [Serializable()]
+    [Serializable]
     public class MalformedCsvException : Exception
     {
         string message;
@@ -118,10 +119,11 @@ namespace Accord.IO
             CurrentRecordIndex = currentRecordIndex;
             CurrentFieldIndex = currentFieldIndex;
 
-            message = String.Format(CultureInfo.InvariantCulture, ExceptionMessage.MalformedCsvException,
+            message = String.Format(System.Globalization.CultureInfo.InvariantCulture, ExceptionMessage.MalformedCsvException,
                 CurrentRecordIndex, CurrentFieldIndex, CurrentPosition, RawData);
         }
 
+#if !NETSTANDARD1_4
         /// <summary>
         /// Initializes a new instance of the MalformedCsvException class with serialized data.
         /// </summary>
@@ -137,7 +139,7 @@ namespace Accord.IO
             CurrentRecordIndex = info.GetInt64("CurrentRecordIndex");
             CurrentFieldIndex = info.GetInt32("CurrentFieldIndex");
         }
-
+#endif
 
         /// <summary>
         ///   Gets the raw data when the error occurred.
@@ -179,6 +181,7 @@ namespace Accord.IO
         /// 
         public override string Message { get { return message; } }
 
+#if !NETSTANDARD1_4
         /// <summary>
         ///   When overridden in a derived class, sets the <see cref="T:SerializationInfo"/> with information about the exception.
         /// </summary>
@@ -200,6 +203,6 @@ namespace Accord.IO
             info.AddValue("CurrentRecordIndex", CurrentRecordIndex);
             info.AddValue("CurrentFieldIndex", CurrentFieldIndex);
         }
-
+#endif
     }
 }

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -25,6 +25,7 @@ namespace Accord.Statistics.Kernels
     using System;
     using Accord.Math;
     using Accord.Math.Distances;
+    using Accord.Compat;
 
     /// <summary>
     ///   Quadratic Kernel.
@@ -179,6 +180,24 @@ namespace Accord.Statistics.Kernels
         public double[] Transform(double[] input)
         {
             return Transform(input, constant);
+        }
+
+        /// <summary>
+        ///   Projects a set of input points into feature space.
+        /// </summary>
+        /// 
+        /// <param name="inputs">The input points to be projected into feature space.</param>
+        /// 
+        /// <returns>
+        ///   The feature space representation of the given <paramref name="inputs"/> points.
+        /// </returns>
+        /// 
+        public double[][] Transform(double[][] inputs)
+        {
+            double[][] r = new double[inputs.Length][];
+            for (int i = 0; i < inputs.Length; i++)
+                r[i] = Transform(inputs[i]);
+            return r;
         }
 
         /// <summary>

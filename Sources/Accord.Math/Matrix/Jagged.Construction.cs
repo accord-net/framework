@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -25,6 +25,7 @@ namespace Accord.Math
     using Accord.Math.Comparers;
     using Accord.Math.Random;
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
     using System.Runtime.CompilerServices;
@@ -48,7 +49,7 @@ namespace Accord.Math
         /// 
         /// <returns>A matrix of the specified size.</returns>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[][] Zeros<T>(int rows, int columns)
@@ -69,7 +70,7 @@ namespace Accord.Math
         /// 
         /// <returns>A matrix of the specified size.</returns>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[][] Ones<T>(int rows, int columns)
@@ -88,7 +89,7 @@ namespace Accord.Math
         /// 
         /// <returns>A vector of the specified size.</returns>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Zeros(int rows, int columns)
@@ -105,7 +106,7 @@ namespace Accord.Math
         /// 
         /// <returns>A vector of the specified size.</returns>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] Ones(int rows, int columns)
@@ -124,7 +125,7 @@ namespace Accord.Math
         /// 
         /// <returns>A matrix of the specified size.</returns>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[][] Create<T>(int rows, int columns, T value)
@@ -144,6 +145,50 @@ namespace Accord.Math
         ///   Creates a jagged matrix with all values set to a given value.
         /// </summary>
         /// 
+        /// <param name="elementType">The type of the elements to be contained in the matrix.</param>
+        /// <param name="shape">The number of dimensions that the matrix should have.</param>
+        /// 
+        /// <returns>A matrix of the specified size.</returns>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Array Create(Type elementType, params int[] shape)
+        {
+            int s = shape[0];
+
+            if (shape.Length == 1)
+            {
+                return Array.CreateInstance(elementType, s);
+            }
+            else
+            {
+                int[] rest = shape.Get(1, 0);
+
+                if (s == 0)
+                {
+                    Array dummy = Array.CreateInstance(elementType, rest);
+                    Array container = Array.CreateInstance(dummy.GetType(), 0);
+                    return container;
+                }
+                else
+                {
+                    Array first = Jagged.Create(elementType, rest);
+                    Array container = Array.CreateInstance(first.GetType(), s);
+
+                    container.SetValue(first, 0);
+                    for (int i = 1; i < container.Length; i++)
+                        container.SetValue(Create(elementType, rest), i);
+
+                    return container;
+                }
+            }
+        }
+
+        /// <summary>
+        ///   Creates a jagged matrix with all values set to a given value.
+        /// </summary>
+        /// 
         /// <param name="size">The number of rows and columns in the matrix.</param>
         /// <param name="value">The initial values for the matrix.</param>
         /// 
@@ -151,7 +196,7 @@ namespace Accord.Math
         /// 
         /// <seealso cref="Matrix.Create{T}(int, int, T)"/>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[][] Square<T>(int size, T value)
@@ -169,7 +214,7 @@ namespace Accord.Math
         /// 
         /// <returns>A matrix of the specified size.</returns>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[][] Create<T>(int rows, int columns, params T[] values)
@@ -185,12 +230,33 @@ namespace Accord.Math
         /// 
         /// <param name="rows">The row vectors in the matrix.</param>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[][] Create<T>(params T[][] rows)
         {
-            return rows;
+            return rows.Copy();
+        }
+
+        /// <summary>
+        ///   Creates a matrix with all values set to a given value.
+        /// </summary>
+        /// 
+        /// <param name="rows">The number of rows in the matrix.</param>
+        /// <param name="columns">The number of columns in the matrix.</param>
+        /// <param name="values">The initial values for the matrix.</param>
+        /// <param name="transpose">Whether to transpose the matrix when copying or not. Default is false.</param>
+        /// 
+        /// <returns>A matrix of the specified size.</returns>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static T[][] Create<T>(int rows, int columns, T[][] values, bool transpose = false)
+        {
+            var result = Zeros<T>(rows, columns);
+            Matrix.CopyTo(values, destination: result, transpose: transpose);
+            return result;
         }
 
         /// <summary>
@@ -199,7 +265,7 @@ namespace Accord.Math
         /// 
         /// <param name="values">The values in the matrix.</param>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[][] Create<T>(T[,] values)
@@ -220,7 +286,7 @@ namespace Accord.Math
         /// <returns>A matrix containing one-hot vectors where only a single position
         ///   is one and the others are zero.</returns>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[][] OneHot<T>(bool[] mask)
@@ -240,12 +306,12 @@ namespace Accord.Math
         /// <returns>A matrix containing one-hot vectors where only a single position
         /// is one and the others are zero.</returns>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[][] OneHot<T>(int[] indices)
         {
-            return OneHot<T>(indices, indices.DistinctCount());
+            return OneHot<T>(indices, indices.Max() + 1);
         }
 
         /// <summary>
@@ -258,12 +324,12 @@ namespace Accord.Math
         /// <returns>A matrix containing one-hot vectors where only a single position
         /// is one and the others are zero.</returns>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] OneHot(int[] indices)
         {
-            return OneHot(indices, indices.DistinctCount());
+            return OneHot(indices, indices.Max() + 1);
         }
 
         /// <summary>
@@ -295,7 +361,7 @@ namespace Accord.Math
         /// <returns>A matrix containing one-hot vectors where only a single position
         /// is one and the others are zero.</returns>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] OneHot(int[] indices, int columns)
@@ -317,7 +383,7 @@ namespace Accord.Math
         /// <returns>A matrix containing one-hot vectors where only a single position
         ///   is one and the others are zero.</returns>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[][] OneHot<T>(bool[] mask, T[][] result)
@@ -344,7 +410,7 @@ namespace Accord.Math
         /// <returns>A matrix containing one-hot vectors where only a single position
         /// is one and the others are zero.</returns>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[][] OneHot<T>(int[] indices, T[][] result)
@@ -366,7 +432,7 @@ namespace Accord.Math
         /// <returns>A matrix containing one-hot vectors where only a single position
         /// is one and the others are zero.</returns>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] OneHot(int[] indices, double[][] result)
@@ -390,7 +456,7 @@ namespace Accord.Math
         /// <returns>A matrix containing one-hot vectors where only a single position
         ///   is one and the others are zero.</returns>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[][] KHot<T>(bool[][] mask)
@@ -411,7 +477,7 @@ namespace Accord.Math
         /// <returns>A matrix containing k-hot vectors where only elements at the indicated 
         ///   <paramref name="indices"/> are set to one and the others are zero.</returns>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[][] KHot<T>(int[][] indices, int columns)
@@ -430,7 +496,7 @@ namespace Accord.Math
         /// <returns>A matrix containing k-hot vectors where only elements at the indicated 
         ///   <paramref name="indices"/> are set to one and the others are zero.</returns>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] KHot(int[][] indices, int columns)
@@ -450,7 +516,7 @@ namespace Accord.Math
         /// <returns>A matrix containing one-hot vectors where only a single position
         ///   is one and the others are zero.</returns>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] KHot(bool[][] mask, int columns)
@@ -472,7 +538,7 @@ namespace Accord.Math
         /// <returns>A matrix containing one-hot vectors where only a single position
         ///   is one and the others are zero.</returns>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[][] KHot<T>(bool[][] mask, T[][] result)
@@ -498,7 +564,7 @@ namespace Accord.Math
         /// <returns>A matrix containing k-hot vectors where only elements at the indicated 
         ///   <paramref name="indices"/> are set to one and the others are zero.</returns>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[][] KHot<T>(int[][] indices, T[][] result)
@@ -521,7 +587,7 @@ namespace Accord.Math
         /// <returns>A matrix containing k-hot vectors where only elements at the indicated 
         ///   <paramref name="indices"/> are set to one and the others are zero.</returns>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[][] KHot(int[][] indices, double[][] result)
@@ -539,7 +605,7 @@ namespace Accord.Math
         ///   Creates a new multidimensional matrix with the same shape as another matrix.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[][] CreateAs<T>(T[,] matrix)
@@ -556,7 +622,7 @@ namespace Accord.Math
         ///   Returns a new multidimensional matrix.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[][] CreateAs<T>(T[][] matrix)
@@ -599,6 +665,15 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Creates a square matrix with ones across its diagonal.
+        /// </summary>
+        /// 
+        public static T[][] Identity<T>(int size)
+        {
+            return Diagonal(size, (T)System.Convert.ChangeType(1, typeof(T)));
+        }
+
+        /// <summary>
         ///   Creates a jagged magic square matrix.
         /// </summary>
         /// 
@@ -612,7 +687,7 @@ namespace Accord.Math
         ///   Returns a square diagonal matrix of the given size.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[][] Diagonal<T>(int size, T value)
@@ -624,7 +699,7 @@ namespace Accord.Math
         ///   Returns a square diagonal matrix of the given size.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[][] Diagonal<T>(int size, T value, T[][] result)
@@ -638,7 +713,7 @@ namespace Accord.Math
         ///   Returns a matrix of the given size with value on its diagonal.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[][] Diagonal<T>(int rows, int cols, T value)
@@ -650,7 +725,7 @@ namespace Accord.Math
         ///   Returns a matrix of the given size with value on its diagonal.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[][] Diagonal<T>(int rows, int cols, T value, T[][] result)
@@ -665,7 +740,7 @@ namespace Accord.Math
         ///   Return a square matrix with a vector of values on its diagonal.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[][] Diagonal<T>(T[] values)
@@ -677,7 +752,7 @@ namespace Accord.Math
         ///   Return a square matrix with a vector of values on its diagonal.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[][] Diagonal<T>(T[] values, T[][] result)
@@ -691,7 +766,7 @@ namespace Accord.Math
         ///   Return a square matrix with a vector of values on its diagonal.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[][] Diagonal<T>(int size, T[] values)
@@ -703,7 +778,7 @@ namespace Accord.Math
         ///   Return a square matrix with a vector of values on its diagonal.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[][] Diagonal<T>(int size, T[] values, T[][] result)
@@ -715,7 +790,7 @@ namespace Accord.Math
         ///   Returns a matrix with a vector of values on its diagonal.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[][] Diagonal<T>(int rows, int cols, T[] values)
@@ -727,7 +802,7 @@ namespace Accord.Math
         ///   Returns a matrix with a vector of values on its diagonal.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[][] Diagonal<T>(int rows, int cols, T[] values, T[][] result)
@@ -742,7 +817,7 @@ namespace Accord.Math
         ///   Returns a block-diagonal matrix with the given matrices on its diagonal.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[][] Diagonal<T>(T[][][] blocks)
@@ -779,7 +854,7 @@ namespace Accord.Math
         ///   Returns a new multidimensional matrix.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static TOutput[][] CreateAs<TInput, TOutput>(TInput[,] matrix)
@@ -796,7 +871,7 @@ namespace Accord.Math
         ///   Returns a new multidimensional matrix.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static TOutput[][] CreateAs<TInput, TOutput>(TInput[][] matrix)
@@ -804,6 +879,25 @@ namespace Accord.Math
             var r = new TOutput[matrix.Length][];
             for (int i = 0; i < r.Length; i++)
                 r[i] = new TOutput[matrix[i].Length];
+            return r;
+        }
+
+        /// <summary>
+        ///   Returns a new multidimensional matrix.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static TOutput[][][] CreateAs<TInput, TOutput>(TInput[][][] matrix)
+        {
+            var r = new TOutput[matrix.Length][][];
+            for (int i = 0; i < r.Length; i++)
+            {
+                r[i] = new TOutput[matrix[i].Length][];
+                for (int j = 0; j < r[i].Length; j++)
+                    r[i][j] = new TOutput[matrix[i][j].Length];
+            }
             return r;
         }
 
@@ -839,24 +933,6 @@ namespace Accord.Math
             }
 
             return result;
-        }
-
-        /// <summary>
-        ///   Creates a vector containing every index that can be used to
-        ///   address a given jagged <paramref name="array"/>, in order. 
-        /// </summary>
-        /// 
-        /// <param name="array">The array whose indices will be returned.</param>
-        /// 
-        /// <seealso cref="Matrix.GetIndices"/>
-        /// 
-        public static Tuple<int, int>[] GetIndices<T>(this T[][] array)
-        {
-            var list = new List<Tuple<int, int>>();
-            for (int i = 0; i < array.Length; i++)
-                for (int j = 0; j < array[i].Length; j++)
-                    list.Add(Tuple.Create(i, j));
-            return list.ToArray();
         }
 
 
@@ -905,18 +981,271 @@ namespace Accord.Math
             return result;
         }
 
+        #endregion
+
 
 
 
         /// <summary>
-        ///   Creates a rows-by-cols matrix random data drawn from a given distribution.
+        ///   Enumerates through all elements in a matrix.
         /// </summary>
         /// 
-        public static double[][] Random(int rows, int cols, double minValue = 0, double maxValue = 1)
+        /// <param name="array">The array to be iterated.</param>
+        /// <param name="shape">The full shape of <paramref name="array"/> .</param>
+        /// 
+        public static IEnumerable Enumerate(this Array array, int[] shape)
         {
-            return Random<double>(rows, cols, new ZigguratUniformGenerator(minValue, maxValue));
+            if (array.IsMatrix())
+            {
+                if (array.Rank != shape.Length)
+                    throw new NotSupportedException();
+
+                foreach (var e in array)
+                    yield return e;
+                yield break;
+            }
+
+            var arrays = new Stack<Array>();
+            var counters = new Stack<int>();
+
+            arrays.Push(array);
+            counters.Push(0);
+            int depth = 1;
+
+            Array a = array;
+            int i = 0;
+
+            while (arrays.Count > 0)
+            {
+                if (i >= shape[depth - 1])
+                {
+                    a = arrays.Pop();
+                    i = counters.Pop() + 1;
+                    depth--;
+                }
+                else
+                {
+                    if (a == null || i >= a.Length)
+                    {
+                        if (depth == shape.Length)
+                        {
+                            yield return null;
+                            i++;
+                        }
+                        else
+                        {
+                            arrays.Push(a);
+                            counters.Push(i);
+                            a = null;
+                            i = 0;
+                            depth++;
+                        }
+                    }
+                    else
+                    {
+                        if (depth == shape.Length)
+                        {
+                            yield return a.GetValue(i);
+                            i++;
+                        }
+                        else
+                        {
+                            arrays.Push(a);
+                            counters.Push(i);
+                            a = (Array)a.GetValue(i);
+                            i = 0;
+                            depth++;
+                        }
+                    }
+                }
+            }
         }
-        #endregion
+
+        /// <summary>
+        ///   Enumerates through all elements in a matrix.
+        /// </summary>
+        /// 
+        /// <param name="array">The array to be iterated.</param>
+        /// <param name="shape">The full shape of <paramref name="array"/> .</param>
+        /// 
+        public static IEnumerable<T> Enumerate<T>(this Array array, int[] shape)
+        {
+            if (array.IsMatrix())
+            {
+                if (array.Rank != shape.Length)
+                    throw new NotSupportedException();
+
+                foreach (var e in array)
+                    yield return (T)e;
+                yield break;
+            }
+
+            var arrays = new Stack<Array>();
+            var counters = new Stack<int>();
+
+            arrays.Push(array);
+            counters.Push(0);
+            int depth = 1;
+
+            Array a = array;
+            int i = 0;
+
+            while (arrays.Count > 0)
+            {
+                if (i >= shape[depth - 1])
+                {
+                    a = arrays.Pop();
+                    i = counters.Pop() + 1;
+                    depth--;
+                }
+                else
+                {
+                    if (a == null || i >= a.Length)
+                    {
+                        if (depth == shape.Length)
+                        {
+                            int n = shape[shape.Length - 1];
+                            for (; i < n; i++)
+                                yield return default(T);
+                        }
+                        else
+                        {
+                            arrays.Push(a);
+                            counters.Push(i);
+                            a = null;
+                            i = 0;
+                            depth++;
+                        }
+                    }
+                    else
+                    {
+                        if (depth == shape.Length)
+                        {
+                            T[] t = (T[])a;
+                            for (; i < t.Length; i++)
+                                yield return t[i];
+                        }
+                        else
+                        {
+                            arrays.Push(a);
+                            counters.Push(i);
+                            a = (Array)a.GetValue(i);
+                            i = 0;
+                            depth++;
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        ///   Enumerates through all elements in a matrix.
+        /// </summary>
+        /// 
+        /// <param name="array">The array to be iterated.</param>
+        /// 
+        public static IEnumerable<T> Enumerate<T>(this Array array)
+        {
+            if (array.IsMatrix())
+            {
+                foreach (var e in array)
+                    yield return (T)e;
+                yield break;
+            }
+
+            var arrays = new Stack<Array>();
+            var counters = new Stack<int>();
+
+            arrays.Push(array);
+            counters.Push(0);
+            int depth = 1;
+
+            Array a = array;
+            int i = 0;
+
+            while (arrays.Count > 0)
+            {
+                if (i >= a.Length)
+                {
+                    a = arrays.Pop();
+                    i = counters.Pop() + 1;
+                    depth--;
+                }
+                else
+                {
+                    Object e = a.GetValue(i);
+                    T[] next = e as T[];
+                    if (next != null)
+                    {
+                        foreach (T t in next)
+                            yield return t;
+                        i++;
+                    }
+                    else
+                    {
+                        arrays.Push(a);
+                        counters.Push(i);
+                        a = (Array)e;
+                        i = 0;
+                        depth++;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        ///   Enumerates through all elements in a matrix.
+        /// </summary>
+        /// 
+        /// <param name="array">The array to be iterated.</param>
+        /// 
+        public static IEnumerable Enumerate(this Array array)
+        {
+            if (array.IsMatrix())
+            {
+                foreach (var e in array)
+                    yield return e;
+                yield break;
+            }
+
+            var arrays = new Stack<Array>();
+            var counters = new Stack<int>();
+
+            arrays.Push(array);
+            counters.Push(0);
+            int depth = 1;
+
+            Array a = array;
+            int i = 0;
+
+            while (arrays.Count > 0)
+            {
+                if (i >= a.Length)
+                {
+                    a = arrays.Pop();
+                    i = counters.Pop() + 1;
+                    depth--;
+                }
+                else
+                {
+                    Object e = a.GetValue(i);
+                    Array next = e as Array;
+                    if (next == null)
+                    {
+                        yield return e;
+                        i++;
+                    }
+                    else
+                    {
+                        arrays.Push(a);
+                        counters.Push(i);
+                        a = next;
+                        i = 0;
+                        depth++;
+                    }
+                }
+            }
+        }
 
     }
 }

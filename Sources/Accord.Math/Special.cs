@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -74,7 +74,7 @@ namespace Accord.Math
             9.34528527171957607540E2,
             1.02755188689515710272E3,
             5.57535335369399327526E2
-		};
+        };
 
         private static readonly double[] erfc_Q =
         {
@@ -86,7 +86,7 @@ namespace Accord.Math
             2.24633760818710981792E3,
             1.65666309194161350182E3,
             5.57535340817727675546E2
-		};
+        };
 
         private static readonly double[] erfc_R =
         {
@@ -96,7 +96,7 @@ namespace Accord.Math
             6.16021097993053585195E0,
             7.40974269950448939160E0,
             2.97886665372100240670E0
-		};
+        };
 
         private static readonly double[] erfc_S =
         {
@@ -106,7 +106,7 @@ namespace Accord.Math
             1.70814450747565897222E1,
             9.60896809063285878198E0,
             3.36907645100081516050E0
-		};
+        };
 
         /// <summary>
         ///   Complementary error function of the specified value.
@@ -122,16 +122,20 @@ namespace Accord.Math
 
             if (value < 0.0)
                 x = -value;
-            else x = value;
+            else
+                x = value;
 
-            if (x < 1.0) return 1.0 - Erf(value);
+            if (x < 1.0)
+                return 1.0 - Erf(value);
 
             z = -value * value;
 
             if (z < -Constants.LogMax)
             {
-                if (value < 0) return (2.0);
-                else return (0.0);
+                if (value < 0)
+                    return (2.0);
+                else
+                    return (0.0);
             }
 
             z = System.Math.Exp(z);
@@ -149,13 +153,15 @@ namespace Accord.Math
 
             y = (z * p) / q;
 
-            if (value < 0) y = 2.0 - y;
+            if (value < 0)
+                y = 2.0 - y;
 
             if (y == 0.0)
             {
-                if (value < 0) 
+                if (value < 0)
                     return 2.0;
-                else return (0.0);
+                else
+                    return (0.0);
             }
 
             return y;
@@ -168,7 +174,7 @@ namespace Accord.Math
             2.23200534594684319226E3,
             7.00332514112805075473E3,
             5.55923013010394962768E4
-		};
+        };
 
         private static readonly double[] erfc_U =
         {
@@ -177,7 +183,7 @@ namespace Accord.Math
             4.59432382970980127987E3,
             2.26290000613890934246E4,
             4.92673942608635921086E4
-		};
+        };
 
         /// <summary>
         ///   Error function of the specified value.
@@ -256,28 +262,24 @@ namespace Accord.Math
         /// <summary>
         ///   Computes the Basic Spline of order <c>n</c>
         /// </summary>
+        /// 
         public static double BSpline(int n, double x)
         {
             // ftp://ftp.esat.kuleuven.ac.be/pub/SISTA/hamers/PhD_bhamers.pdf
             // http://sepwww.stanford.edu/public/docs/sep105/sergey2/paper_html/node5.html
 
-            if (n == Int32.MaxValue)
-                throw new ArgumentOutOfRangeException("n");
-
-
-            double a = 1.0 / Special.Factorial(n);
-            double c;
-
+            double sum = 0.0;
             bool positive = true;
             for (int k = 0; k <= n + 1; k++)
             {
-                c = Binomial(n + 1, k) * Tools.TruncatedPower(x + (n + 1.0) / 2.0 - k, n);
-                a += positive ? c : -c;
+                double c = Binomial(n + 1, k) * Tools.TruncatedPower(x + (n + 1.0) / 2.0 - k, n);
+                sum += positive ? c : -c;  // Sum terms over k
                 positive = !positive;
             }
 
-            return a;
+            return (1.0 / Special.Factorial(n)) * sum;  // Finally apply the 1/n! factor
         }
+
         #endregion
 
         #region Factorial and related functions
@@ -376,9 +378,12 @@ namespace Accord.Math
             {
                 // Initialize factorial cache
                 fcache = new double[33];
-                fcache[0] = 1; fcache[1] = 1;
-                fcache[2] = 2; fcache[3] = 6;
-                fcache[4] = 24; ftop = 4;
+                fcache[0] = 1;
+                fcache[1] = 1;
+                fcache[2] = 2;
+                fcache[3] = 6;
+                fcache[4] = 24;
+                ftop = 4;
             }
 
             if (n < 0)
@@ -418,7 +423,7 @@ namespace Accord.Math
         ///   Computes log(1-x) without losing precision for small values of x.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Log1m(double x)
@@ -443,7 +448,7 @@ namespace Accord.Math
         ///   - http://www.johndcook.com/csharp_log_one_plus_x.html
         /// </remarks>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Log1p(double x)
@@ -467,7 +472,7 @@ namespace Accord.Math
         ///   - http://www.johndcook.com/cpp_expm1.html
         /// </remarks>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Expm1(double x)
@@ -496,7 +501,8 @@ namespace Accord.Math
             c = b + b + b;
             eps = System.Math.Abs(c - 1.0);
 
-            if (eps == 0.0) goto L10;
+            if (eps == 0.0)
+                goto L10;
 
             return eps * System.Math.Abs(x);
         }
@@ -512,7 +518,7 @@ namespace Accord.Math
         /// 
         /// <returns>If B > 0 then the result is ABS(A), else it is -ABS(A).</returns>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Sign(double a, double b)
@@ -525,13 +531,13 @@ namespace Accord.Math
         ///   Computes x + y without losing precision using ln(x) and ln(y).
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double LogDiff(double lna, double lnc)
+        public static double LogDiff(double lnx, double lny)
         {
-            if (lna > lnc)
-                return lna + Math.Exp(1.0 - Math.Exp(lnc - lna));
+            if (lnx > lny)
+                return lnx + Math.Exp(1.0 - Math.Exp(lny - lnx));
 
             return Double.NegativeInfinity;
         }
@@ -540,43 +546,71 @@ namespace Accord.Math
         ///   Computes x + y without losing precision using ln(x) and ln(y).
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double LogSum(double lna, double lnc)
+        public static double LogSum(double lnx, double lny)
         {
-            if (lna == Double.NegativeInfinity)
-                return lnc;
-            if (lnc == Double.NegativeInfinity)
-                return lna;
+            if (lnx == Double.NegativeInfinity)
+                return lny;
+            if (lny == Double.NegativeInfinity)
+                return lnx;
 
-            if (lna > lnc)
-                return lna + Special.Log1p(Math.Exp(lnc - lna));
+            if (lnx > lny)
+                return lnx + Special.Log1p(Math.Exp(lny - lnx));
 
-            return lnc + Special.Log1p(Math.Exp(lna - lnc));
+            return lny + Special.Log1p(Math.Exp(lnx - lny));
         }
 
         /// <summary>
         ///   Computes x + y without losing precision using ln(x) and ln(y).
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double LogSum(float lna, float lnc)
+        public static double LogSum(float lnx, float lny)
         {
-            if (lna == Single.NegativeInfinity)
-                return lnc;
-            if (lnc == Single.NegativeInfinity)
-                return lna;
+            if (lnx == Single.NegativeInfinity)
+                return lny;
+            if (lny == Single.NegativeInfinity)
+                return lnx;
 
-            if (lna > lnc)
-                return lna + Special.Log1p(Math.Exp(lnc - lna));
+            if (lnx > lny)
+                return lnx + Special.Log1p(Math.Exp(lny - lnx));
 
-            return lnc + Special.Log1p(Math.Exp(lna - lnc));
+            return lny + Special.Log1p(Math.Exp(lnx - lny));
         }
 
+        /// <summary>
+        ///   Computes x + y without losing precision using ln(x) and ln(y).
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double LogSum(double[] values)
+        {
+            double logsum = Double.NegativeInfinity;
+            for (int i = 0; i < values.Length; i++)
+                logsum = Special.LogSum(logsum, values[i]);
+            return logsum;
+        }
 
+        /// <summary>
+        ///   Computes sum(x) without losing precision using ln(x_0) ... ln(x_n).
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double LogSumExp(this double[] array)
+        {
+            double sum = Double.NegativeInfinity;
+            for (int i = 0; i < array.Length; i++)
+                sum = Special.LogSum(array[i], sum);
+            return sum;
+        }
         #endregion
 
 
@@ -587,7 +621,7 @@ namespace Accord.Math
         /// <summary>
         ///   Secant.
         /// </summary>
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Sec(double x)
@@ -598,7 +632,7 @@ namespace Accord.Math
         /// <summary>
         ///   Cosecant.
         /// </summary>
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Cosec(double x)
@@ -609,7 +643,7 @@ namespace Accord.Math
         /// <summary>
         ///   Cotangent.
         /// </summary>
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Cotan(double x)
@@ -621,7 +655,7 @@ namespace Accord.Math
         ///   Inverse secant.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Asec(double x)
@@ -644,7 +678,7 @@ namespace Accord.Math
         ///   Inverse cotangent.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Acotan(double x)
@@ -656,7 +690,7 @@ namespace Accord.Math
         ///   Hyperbolic secant.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Sech(double x)
@@ -668,7 +702,7 @@ namespace Accord.Math
         ///   Hyperbolic secant.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Cosech(double x)
@@ -680,7 +714,7 @@ namespace Accord.Math
         ///   Hyperbolic cotangent.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Cotanh(double x)
@@ -692,7 +726,7 @@ namespace Accord.Math
         ///   Inverse hyperbolic sin.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Asinh(double x)
@@ -705,7 +739,7 @@ namespace Accord.Math
         ///   Inverse hyperbolic cos.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Acosh(double x)
@@ -718,7 +752,7 @@ namespace Accord.Math
         ///   Inverse hyperbolic tangent.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Atanh(double x)
@@ -730,7 +764,7 @@ namespace Accord.Math
         ///   Inverse hyperbolic secant.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Asech(double x)
@@ -743,7 +777,7 @@ namespace Accord.Math
         ///   Inverse hyperbolic cosecant.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Acosech(double x)
@@ -756,7 +790,7 @@ namespace Accord.Math
         ///   Inverse hyperbolic cotangent.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Acotanh(double x)
@@ -777,7 +811,7 @@ namespace Accord.Math
         /// <returns>A vector with the same number of dimensions as <paramref name="input"/>
         ///   but where values lie between 0 and 1.</returns>
         ///   
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Softmax(double[] input)
@@ -797,7 +831,7 @@ namespace Accord.Math
         /// <returns>A vector with the same number of dimensions as <paramref name="input"/>
         ///   but where values lie between 0 and 1.</returns>
         ///   
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[] Softmax(double[] input, double[] result)
@@ -810,8 +844,11 @@ namespace Accord.Math
                 sum += u;
             }
 
-            for (int i = 0; i < result.Length; i++)
-                result[i] /= sum;
+            if (sum != 0)
+            {
+                for (int i = 0; i < result.Length; i++)
+                    result[i] /= sum;
+            }
 
             return result;
         }
@@ -820,7 +857,7 @@ namespace Accord.Math
         ///   Computes log(1 + exp(x)) without losing precision.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Log1pexp(double x)

@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Accord.Text</id>
+    <version>$version$</version>
+    <title>Accord.Text</title>
+    <authors>Accord.NET</authors>
+    <owners>Accord.NET</owners>
+    <licenseUrl>http://accord-framework.net/license.txt</licenseUrl>
+    <projectUrl>http://accord-framework.net</projectUrl>
+    <iconUrl>http://accord-framework.net/logo.png</iconUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>
+      Contains Snowball language stemmers for C#/.NET. This package is part of the Accord.NET Framework.
+    </description>
+    <summary>Snowball language stemmers for C#/.NET.</summary>
+    <tags>accord.net aforge.net text tf-idf snowball stemmer nlp natural language processing</tags>
+    <dependencies>
+      <dependency id="Accord"            version="$version$" />
+      <dependency id="Accord.Math"       version="$version$" />
+      <dependency id="Accord.Statistics" version="$version$" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="..\..\Release\net35\Accord.Text.dll" target="lib\net35\Accord.Text.dll" />
+    <file src="..\..\Release\net35\Accord.Text.xml" target="lib\net35\Accord.Text.xml" />
+
+    <file src="..\..\Release\net40\Accord.Text.dll" target="lib\net40\Accord.Text.dll" />
+    <file src="..\..\Release\net40\Accord.Text.xml" target="lib\net40\Accord.Text.xml" />
+
+    <file src="..\..\Release\net45\Accord.Text.dll" target="lib\net45\Accord.Text.dll" />
+    <file src="..\..\Release\net45\Accord.Text.xml" target="lib\net45\Accord.Text.xml" />
+
+    <file src="..\..\Release\net46\Accord.Text.dll" target="lib\net46\Accord.Text.dll" />
+    <file src="..\..\Release\net46\Accord.Text.xml" target="lib\net46\Accord.Text.xml" />
+
+    <file src="..\..\Release\net462\Accord.Text.dll" target="lib\net462\Accord.Text.dll" />
+    <file src="..\..\Release\net462\Accord.Text.xml" target="lib\net462\Accord.Text.xml" />
+
+    <file src="..\..\Release\netstandard2.0\Accord.Text.dll" target="lib\netstandard2.0\Accord.Text.dll" />
+    <file src="..\..\Release\netstandard2.0\Accord.Text.xml" target="lib\netstandard2.0\Accord.Text.xml" />
+
+    <file src="..\..\Release\netstandard1.4\Accord.Text.dll" target="lib\netstandard1.4\Accord.Text.dll" />
+    <file src="..\..\Release\netstandard1.4\Accord.Text.xml" target="lib\netstandard1.4\Accord.Text.xml" />
+  </files>
+</package>

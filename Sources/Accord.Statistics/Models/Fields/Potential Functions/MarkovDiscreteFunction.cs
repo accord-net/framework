@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -19,6 +19,7 @@
 //    License along with this library; if not, write to the Free Software
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
+#pragma warning disable 612, 618
 
 namespace Accord.Statistics.Models.Fields.Functions
 {
@@ -27,6 +28,9 @@ namespace Accord.Statistics.Models.Fields.Functions
     using Accord.Statistics.Models.Markov;
     using Accord.Statistics.Models.Fields.Features;
     using Accord.Statistics.Models.Fields.Functions.Specialized;
+    using Accord.Statistics.Distributions.Univariate;
+    using Accord.Math.Random;
+    using Accord.Compat;
 
     /// <summary>
     ///   Potential function modeling Hidden Markov Models.
@@ -202,7 +206,7 @@ namespace Accord.Statistics.Models.Fields.Functions
                 // Create features for initial state probabilities
                 for (int i = 0; i < model.States; i++)
                 {
-                    edgeParams.Add(model.Probabilities[i]);
+                    edgeParams.Add(model.LogInitial[i]);
                     edgeFeatures.Add(new InitialFeature<int>(this, c, i));
                 }
 
@@ -271,11 +275,131 @@ namespace Accord.Statistics.Models.Fields.Functions
         ///   Constructs a new potential function modeling Hidden Markov Models.
         /// </summary>
         /// 
+        /// <param name="classifier">The classifier model.</param>
+        /// <param name="includePriors">True to include class features (priors), false otherwise.</param>
+        /// 
+        public MarkovDiscreteFunction(HiddenMarkovClassifier<GeneralDiscreteDistribution, int> classifier, bool includePriors = true)
+        {
+            this.Symbols = classifier.Models[0].Emissions[0].Length;
+            this.Outputs = classifier.Classes;
+
+            int factorIndex = 0;
+            var factorParams = new List<double>();
+            var factorFeatures = new List<IFeature<int>>();
+
+            this.Factors = new FactorPotential<int>[Outputs];
+
+            int[] classOffset = new int[classifier.Classes];
+            int[] edgeOffset = new int[classifier.Classes];
+            int[] stateOffset = new int[classifier.Classes];
+            int[] classCount = new int[classifier.Classes];
+            int[] edgeCount = new int[classifier.Classes];
+            int[] stateCount = new int[classifier.Classes];
+
+
+            // Create features for initial class probabilities
+            for (int c = 0; c < classifier.Classes; c++)
+            {
+                var stateParams = new List<double>();
+                var stateFeatures = new List<IFeature<int>>();
+
+                var edgeParams = new List<double>();
+                var edgeFeatures = new List<IFeature<int>>();
+
+                var classParams = new List<double>();
+                var classFeatures = new List<IFeature<int>>();
+
+                var model = classifier[c];
+
+                if (includePriors)
+                {
+                    // Create features for class labels
+                    classParams.Add(Math.Log(classifier.Priors[c]));
+                    classFeatures.Add(new OutputFeature<int>(this, c, c));
+                }
+
+                // Create features for initial state probabilities
+                for (int i = 0; i < model.States; i++)
+                {
+                    edgeParams.Add(model.LogInitial[i]);
+                    edgeFeatures.Add(new InitialFeature<int>(this, c, i));
+                }
+
+                // Create features for state transition probabilities
+                for (int i = 0; i < model.States; i++)
+                {
+                    for (int j = 0; j < model.States; j++)
+                    {
+                        edgeParams.Add(model.LogTransitions[i][j]);
+                        edgeFeatures.Add(new TransitionFeature<int>(this, c, i, j));
+                    }
+                }
+
+                // Create features for symbol emission probabilities
+                for (int i = 0; i < model.States; i++)
+                {
+                    for (int k = 0; k < model.Emissions[i].Length; k++)
+                    {
+                        stateParams.Add(model.Emissions[i][k]);
+                        stateFeatures.Add(new EmissionFeature(this, c, i, k));
+                    }
+                }
+
+
+                classOffset[c] = factorIndex;
+                edgeOffset[c] = factorIndex + classParams.Count;
+                stateOffset[c] = factorIndex + classParams.Count + edgeParams.Count;
+
+                classCount[c] = classParams.Count;
+                edgeCount[c] = edgeParams.Count;
+                stateCount[c] = stateParams.Count;
+
+
+                // 1. classes
+                factorFeatures.AddRange(classFeatures);
+                factorParams.AddRange(classParams);
+
+                // 2. edges
+                factorFeatures.AddRange(edgeFeatures);
+                factorParams.AddRange(edgeParams);
+
+                // 3. states
+                factorFeatures.AddRange(stateFeatures);
+                factorParams.AddRange(stateParams);
+
+                factorIndex += classParams.Count + stateParams.Count + edgeParams.Count;
+            }
+
+            Accord.Diagnostics.Debug.Assert(factorIndex == factorParams.Count);
+            Accord.Diagnostics.Debug.Assert(factorIndex == factorFeatures.Count);
+
+            this.Weights = factorParams.ToArray();
+            this.Features = factorFeatures.ToArray();
+
+
+            for (int c = 0; c < classifier.Models.Length; c++)
+            {
+                Factors[c] = new MarkovDiscreteFactor(this, classifier.Models[c].States, c, Symbols,
+                    classIndex: classOffset[c], classCount: classCount[c],  // 1. classes
+                    edgeIndex: edgeOffset[c], edgeCount: edgeCount[c],      // 2. edges
+                    stateIndex: stateOffset[c], stateCount: stateCount[c]); // 3. states
+            }
+        }
+
+
+        /// <summary>
+        ///   Constructs a new potential function modeling Hidden Markov Models.
+        /// </summary>
+        /// 
         /// <param name="states">The number of states.</param>
         /// <param name="symbols">The number of symbols.</param>
+        /// <param name="initialization">The random number generator to use when initializing weights.</param>
         /// 
-        public MarkovDiscreteFunction(int states, int symbols)
+        public MarkovDiscreteFunction(int states, int symbols, IRandomNumberGenerator<double> initialization = null)
         {
+            if (initialization == null)
+                initialization = new ConstantGenerator(0);
+
             this.Symbols = symbols;
 
             var factorParams = new List<double>();
@@ -291,7 +415,7 @@ namespace Accord.Statistics.Models.Fields.Functions
             // Create features for initial state probabilities
             for (int i = 0; i < states; i++)
             {
-                edgeParams.Add(0);
+                edgeParams.Add(initialization.Generate());
                 edgeFeatures.Add(new InitialFeature<int>(this, 0, i));
             }
 
@@ -300,7 +424,7 @@ namespace Accord.Statistics.Models.Fields.Functions
             {
                 for (int j = 0; j < states; j++)
                 {
-                    edgeParams.Add(0);
+                    edgeParams.Add(initialization.Generate());
                     edgeFeatures.Add(new TransitionFeature<int>(this, 0, i, j));
                 }
             }
@@ -310,7 +434,7 @@ namespace Accord.Statistics.Models.Fields.Functions
             {
                 for (int k = 0; k < symbols; k++)
                 {
-                    stateParams.Add(0);
+                    stateParams.Add(initialization.Generate());
                     stateFeatures.Add(new EmissionFeature(this, 0, i, k));
                 }
             }
@@ -330,11 +454,11 @@ namespace Accord.Statistics.Models.Fields.Functions
 
 
             this.Factors = new[] // First features and parameters always belong to edges
-            { 
+            {
                 new MarkovDiscreteFactor(this, states, 0, symbols,
                   edgeIndex: 0, edgeCount: edgeParams.Count,                    // 1. edges
                   stateIndex: edgeParams.Count, stateCount: stateParams.Count)  // 2. states
-            };  
+            };
         }
 
         /// <summary>
@@ -361,7 +485,7 @@ namespace Accord.Statistics.Models.Fields.Functions
             // Create features for initial state probabilities
             for (int i = 0; i < states; i++)
             {
-                edgeParams.Add(model.Probabilities[i]);
+                edgeParams.Add(model.LogInitial[i]);
                 edgeFeatures.Add(new InitialFeature<int>(this, 0, i));
             }
 
@@ -398,12 +522,12 @@ namespace Accord.Statistics.Models.Fields.Functions
             this.Weights = factorParams.ToArray();
 
 
-            this.Factors = new[] 
+            this.Factors = new[]
             {
                 new MarkovDiscreteFactor(this, states, 0, Symbols,
                   edgeIndex: 0, edgeCount: edgeParams.Count,                   // 1. edges
                   stateIndex: edgeParams.Count, stateCount: stateParams.Count) // 2. states
-            };  
+            };
         }
 
 

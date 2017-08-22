@@ -1,11 +1,11 @@
-// Accord Math Library
+ï»¿// Accord Math Library
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright Â© CÃ©sar Souza, 2009-2017
 // cesarsouza at gmail.com
 //
-// Original work copyright © Lutz Roeder, 2000
+// Original work copyright Â© Lutz Roeder, 2000
 //  Adapted from Mapack for .NET, September 2000
 //  Adapted from Mapack for COM and Jama routines
 //  http://www.aisto.com/roeder/dotnet
@@ -29,6 +29,7 @@ namespace Accord.Math.Decompositions
 {
     using System;
     using Accord.Math;
+    using Accord.Compat;
 
     /// <summary>
     ///   LU decomposition of a rectangular matrix.
@@ -312,9 +313,6 @@ namespace Accord.Math.Decompositions
             if (!Nonsingular)
                 throw new SingularMatrixException("Matrix is singular.");
 
-
-            int count = rows;
-
             // Copy right hand side with pivoting
             var X = new Single[rows][];
             for (int i = 0; i < rows; i++)
@@ -327,23 +325,45 @@ namespace Accord.Math.Decompositions
             // Solve L*Y = B(piv,:)
             for (int k = 0; k < rows; k++)
                 for (int i = k + 1; i < rows; i++)
-                    for (int j = 0; j < count; j++)
+                    for (int j = 0; j < rows; j++)
                         X[i][j] -= X[k][j] * lu[i][k];
 
             // Solve U*X = I;
             for (int k = rows - 1; k >= 0; k--)
             {
-                for (int j = 0; j < count; j++)
+                for (int j = 0; j < rows; j++)
                     X[k][j] /= lu[k][k];
 
                 for (int i = 0; i < k; i++)
-                    for (int j = 0; j < count; j++)
+                    for (int j = 0; j < rows; j++)
                         X[i][j] -= X[k][j] * lu[i][k];
             }
 
             return X;
         }
 
+        /// <summary>
+        ///   Reverses the decomposition, reconstructing the original matrix <c>X</c>.
+        /// </summary>
+        /// 
+        public Single[][] Reverse()
+        {
+            return LowerTriangularFactor.Dot(UpperTriangularFactor)
+                .Get(PivotPermutationVector.ArgSort(), null);
+        }
+
+        /// <summary>
+        ///   Computes <c>(Xt * X)^1</c> (the inverse of the covariance matrix). This
+        ///   matrix can be used to determine standard errors for the coefficients when
+        ///   solving a linear set of equations through any of the <see cref="Solve(Single[][])"/>
+        ///   methods.
+        /// </summary>
+        /// 
+        public Single[][] GetInformationMatrix()
+        {
+            var X = Reverse();
+            return X.TransposeAndDot(X).Inverse();
+        }
 
         /// <summary>
         ///   Solves a set of equation systems of type <c>A * X = B</c>.
@@ -365,7 +385,7 @@ namespace Accord.Math.Decompositions
 
             // Copy right hand side with pivoting
             int count = value[0].Length;
-            var X = value.Submatrix(pivotVector, null);
+            var X = value.Get(pivotVector, null);
 
 
             // Solve L*Y = B(piv,:)
@@ -388,6 +408,20 @@ namespace Accord.Math.Decompositions
             return X;
         }
 
+		/// <summary>
+        ///   Solves a set of equation systems of type <c>A * X = B</c> where B is a diagonal matrix.
+        /// </summary>
+        /// <param name="diagonal">Diagonal fo the right hand side matrix with as many rows as <c>A</c>.</param>
+        /// <returns>Matrix <c>X</c> so that <c>L * U * X = B</c>.</returns>
+        /// 
+        public Single[][] SolveForDiagonal(Single[] diagonal)
+        {
+            if (diagonal == null)
+                throw new ArgumentNullException("diagonal");
+
+            return Solve(Jagged.Diagonal(diagonal));
+        }
+
         /// <summary>
         ///   Solves a set of equation systems of type <c>X * A = B</c>.
         /// </summary>
@@ -407,7 +441,7 @@ namespace Accord.Math.Decompositions
 
 
             // Copy right hand side with pivoting
-            var X = value.Submatrix(null, pivotVector);
+            var X = value.Get(null, pivotVector);
 
             int count = X[0].Length;
 

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -27,6 +27,7 @@ namespace Accord.MachineLearning
     using System.Linq;
     using System.Text;
     using System.Threading;
+    using Accord.Compat;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -39,7 +40,8 @@ namespace Accord.MachineLearning
     /// <typeparam name="TInput">The type for the input data that enters the model.</typeparam>
     /// 
     public interface ISupervisedMulticlassLearning<out TModel, in TInput> :
-        ISupervisedMultilabelLearning<TModel, TInput>
+        ISupervisedMultilabelLearning<TModel, TInput>,
+        ISupervisedLearning<TModel, TInput, int>
         where TModel : IMulticlassClassifier<TInput>
     {
 

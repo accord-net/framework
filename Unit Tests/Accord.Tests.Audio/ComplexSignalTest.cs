@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -27,16 +27,16 @@ namespace Accord.Tests.Audio
     using Accord.Audio.Formats;
     using Accord.Audio.Windows;
     using Accord.Math;
-    using AForge.Math;
     using NUnit.Framework;
     using System;
+    using Accord.Compat;
     using System.Numerics;
 
     [TestFixture]
     public class ComplexSignalTest
     {
 
-        private Complex[,] data = 
+        private Complex[,] data =
         {
             { new Complex( 0.42, 0.0), new Complex(0.2, 0.0) },
             { new Complex( 0.32, 0.0), new Complex(0.1, 0.0) },
@@ -72,7 +72,7 @@ namespace Accord.Tests.Audio
         [Test]
         public void ComplexSignalConstructor()
         {
-            UnmanagedMemoryStream sourceStream = Properties.Resources.a;
+            var sourceStream = SignalTest.GetSignal("a.wav");
             MemoryStream destinationStream = new MemoryStream();
 
             // Create a decoder for the source stream
@@ -100,7 +100,7 @@ namespace Accord.Tests.Audio
             {
                 ComplexSignal c = complex[i];
                 Assert.AreEqual(2, c.Channels);
-                Assert.AreEqual(92, c.Duration);
+                Assert.AreEqual(93, c.Duration.TotalMilliseconds);
                 Assert.AreEqual(4096, c.Length);
                 Assert.AreEqual(SampleFormat.Format128BitComplex, c.SampleFormat);
                 Assert.AreEqual(44100, c.SampleRate);

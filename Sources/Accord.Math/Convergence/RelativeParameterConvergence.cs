@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -94,7 +94,7 @@ namespace Accord.Math
         ///   performed by the iterative algorithm.
         /// </summary>
         /// 
-        public int Iterations
+        public int MaxIterations
         {
             get { return maxIterations; }
             set
@@ -105,6 +105,17 @@ namespace Accord.Math
 
                 maxIterations = value;
             }
+        }
+
+        /// <summary>
+        ///   Please use MaxIterations instead.
+        /// </summary>
+        /// 
+        [Obsolete("Please use MaxIterations instead.")]
+        public int Iterations
+        {
+            get { return MaxIterations; }
+            set { MaxIterations = value; }
         }
 
         /// <summary>
@@ -128,7 +139,7 @@ namespace Accord.Math
         /// 
         public RelativeParameterConvergence(int iterations, double tolerance)
         {
-            this.Iterations = iterations;
+            this.MaxIterations = iterations;
             this.tolerance = tolerance;
         }
 
@@ -193,6 +204,9 @@ namespace Accord.Math
         {
             get
             {
+                if (maxIterations > 0 && CurrentIteration >= maxIterations)
+                    return true;
+
                 if (NewValues == null && OldValues == null)
                     return true;
                 if (OldValues == null)
@@ -227,19 +241,6 @@ namespace Accord.Math
 
                     if (maxChange <= tolerance)
                         return true;
-
-                    if (maxIterations > 0)
-                    {
-                        // Maximum iterations should also be respected
-                        if (CurrentIteration >= maxIterations)
-                            return true;
-                    }
-                }
-                else
-                {
-                    // Stopping criteria is number of iterations
-                    if (CurrentIteration == maxIterations)
-                        return true;
                 }
 
                 return false;
@@ -263,5 +264,6 @@ namespace Accord.Math
             get { return NewValues; }
             set { NewValues = value; }
         }
+
     }
 }

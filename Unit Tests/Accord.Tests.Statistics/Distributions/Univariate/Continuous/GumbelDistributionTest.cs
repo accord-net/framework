@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -32,22 +32,6 @@ namespace Accord.Tests.Statistics
     [TestFixture]
     public class GumbelDistributionTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
 
 
         [Test]
@@ -107,6 +91,11 @@ namespace Accord.Tests.Statistics
              
              */
 
+            Assert.AreEqual(double.NegativeInfinity, gumbel.Support.Min);
+            Assert.AreEqual(double.PositiveInfinity, gumbel.Support.Max);
+
+            Assert.AreEqual(gumbel.InverseDistributionFunction(0), gumbel.Support.Min);
+            Assert.AreEqual(gumbel.InverseDistributionFunction(1), gumbel.Support.Max);
         }
 
     }

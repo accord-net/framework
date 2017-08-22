@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -24,6 +24,7 @@ namespace Accord.Statistics.Links
 {
     using System;
     using Accord.Statistics.Distributions.Univariate;
+    using Accord.Compat;
 
     /// <summary>
     ///   Threshold link function.
@@ -54,7 +55,10 @@ namespace Accord.Statistics.Links
         ///   Creates a new Absolute link function.
         /// </summary>
         /// 
-        public ThresholdLinkFunction() : this(0) { }
+        public ThresholdLinkFunction()
+            : this(0)
+        {
+        }
 
         /// <summary>
         ///   The Absolute link function.
@@ -80,6 +84,18 @@ namespace Accord.Statistics.Links
         public double Inverse(double x)
         {
             return (x > Threshold) ? +1 : -1;
+        }
+
+        /// <summary>
+        /// The logarithm of the inverse of the link function.
+        /// </summary>
+        /// <param name="x">A transformed value.</param>
+        /// <returns>
+        /// The log of the reverse transformed value.
+        /// </returns>
+        public double Log(double x)
+        {
+            return (x > Threshold) ? Math.Log(+1) : Math.Log(-1);
         }
 
         /// <summary>

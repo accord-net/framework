@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -23,18 +23,15 @@
 namespace Accord.MachineLearning
 {
     using System;
-    using System.Collections.Concurrent;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
     using Accord.Math;
     using System.Threading;
-    using Accord.MachineLearning;
     using Accord.MachineLearning.VectorMachines.Learning;
-    using Accord.MachineLearning.VectorMachines;
     using Accord.Statistics.Kernels;
-
+    using System.Diagnostics;
+    using Accord.Compat;
+    using System.Collections.Concurrent;
+    using System.Threading.Tasks;
 
     /// <summary>
     ///   Base learning algorithm for <see cref="OneVsOne{TBinary, TBinary}"/> multi-class classifiers.
@@ -42,6 +39,8 @@ namespace Accord.MachineLearning
     /// 
     /// <typeparam name="TBinary">The type for the inner binary classifiers used in the one-vs-one approach.</typeparam>
     /// <typeparam name="TModel">The type of the model being learned.</typeparam>
+    /// 
+    /// <seealso cref="Accord.MachineLearning.VectorMachines.Learning.MulticlassSupportVectorLearning{TKernel}"/>
     /// 
     public abstract class OneVsOneLearning<TBinary, TModel> :
         OneVsOneLearning<double[], TBinary, TModel>
@@ -58,11 +57,18 @@ namespace Accord.MachineLearning
     /// <typeparam name="TBinary">The type for the inner binary classifiers used in the one-vs-one approach.</typeparam>
     /// <typeparam name="TModel">The type of the model being learned.</typeparam>
     /// 
+    /// <seealso cref="Accord.MachineLearning.VectorMachines.Learning.MulticlassSupportVectorLearning{TKernel}"/>
+    /// 
+    [Serializable]
     public abstract class OneVsOneLearning<TInput, TBinary, TModel> : ParallelLearningBase,
         ISupervisedLearning<TModel, TInput, int>
         where TModel : OneVsOne<TBinary, TInput>
         where TBinary : class, IBinaryClassifier<TInput>, ICloneable
     {
+        private ClassPair[] pairs;
+        private Func<InnerParameters<TBinary, TInput>, ISupervisedLearning<TBinary, TInput, bool>> learner;
+        private ConcurrentDictionary<ClassPair, ISupervisedLearning<TBinary, TInput, bool>> teachers;
+        private bool aggregateExceptions = true;
 
         /// <summary>
         ///   Gets or sets the model being learned.
@@ -76,7 +82,27 @@ namespace Accord.MachineLearning
         ///   needed by the one-vs-one classification strategy.
         /// </summary>
         /// 
-        public Func<InnerParameters<TBinary, TInput>, ISupervisedLearning<TBinary, TInput, bool>> Learner { get; set; }
+        public Func<InnerParameters<TBinary, TInput>, ISupervisedLearning<TBinary, TInput, bool>> Learner
+        {
+            get { return learner; }
+            set
+            {
+                learner = value;
+                teachers = null; // reset the teaching algorithm cache
+            }
+        }
+
+        /// <summary>
+        ///   Gets or sets a value indicating whether the entire training algorithm should stop
+        ///   in case an exception has been detected at just one of the inner binary learning
+        ///   problems. Default is true (execution will not be stopped).
+        /// </summary>
+        /// 
+        public bool AggregateExceptions
+        {
+            get { return aggregateExceptions; }
+            set { aggregateExceptions = value; }
+        }
 
 
         /// <summary>
@@ -129,105 +155,61 @@ namespace Accord.MachineLearning
         }
 
 
-
-
         /// <summary>
         /// Learns a model that can map the given inputs to the given outputs.
         /// </summary>
         /// <param name="x">The model inputs.</param>
         /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
-        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <param name="weights">The weight of importance for each input-output pair (if supported by the learning algorithm).</param>
         /// <returns>
         /// A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
         /// </returns>
         public TModel Learn(TInput[] x, int[] y, double[] weights = null)
         {
-            if (Model == null)
+            Accord.MachineLearning.Tools.CheckArgs(x, y, weights, () =>
             {
-                int numberOfInputs = SupportVectorLearningHelper.GetNumberOfInputs(x);
-                int numberOfClasses = y.DistinctCount();
-                Model = Create(numberOfInputs, numberOfClasses);
+                if (Model == null)
+                {
+                    this.teachers = null;
+                    int numberOfInputs = Tools.GetNumberOfInputs(x);
+                    int numberOfClasses = y.DistinctCount();
+                    Model = Create(numberOfInputs, numberOfClasses);
+                }
+
+                return Model;
+            });
+
+            if (pairs == null)
+            {
+                this.teachers = null;
+                int classes = Model.NumberOfClasses;
+                int total = (classes * (classes - 1)) / 2;
+                this.pairs = new ClassPair[total];
+                for (int i = 0, k = 0; i < classes; i++)
+                    for (int j = 0; j < i; j++, k++)
+                        this.pairs[k] = new ClassPair(i, j);
             }
 
-            int classes = Model.NumberOfOutputs;
-            int total = (classes * (classes - 1)) / 2;
+            if (teachers == null)
+                teachers = new ConcurrentDictionary<ClassPair, ISupervisedLearning<TBinary, TInput, bool>>();
+
             int progress = 0;
-
-            var pairs = new Tuple<int, int>[total];
-            for (int i = 0, k = 0; i < classes; i++)
-                for (int j = 0; j < i; j++, k++)
-                    pairs[k] = Tuple.Create(i, j);
-
 
             // Save exceptions but process all machines
             var exceptions = new ConcurrentBag<Exception>();
 
-#if DEBUG
-            ParallelOptions.MaxDegreeOfParallelism = 1;
-#endif
-
-            // For each class i
-            Parallel.For(0, total, ParallelOptions, (int k) =>
+            if (ParallelOptions.MaxDegreeOfParallelism == 1)
             {
-                if (ParallelOptions.CancellationToken.IsCancellationRequested)
-                    return;
-
-                int i = pairs[k].Item1;
-                int j = pairs[k].Item2;
-
-                // We will start the binary sub-problem
-                var args = new SubproblemEventArgs(i, j);
-                OnSubproblemStarted(args);
-
-                // Retrieve the associated machine
-                TBinary model = Model.GetClassifierForClassPair(classA: i, classB: j);
-
-                // Retrieve the associated classes
-                int[] idx = y.Find(y_i => y_i == i || y_i == j);
-
-                if (idx.Length == 0)
-                {
-                    System.Diagnostics.Trace.TraceWarning("Class pair ({0}, {1}) does not have any examples.", i, j);
-                }
-
-                TInput[] subx = x.Submatrix(idx);
-                bool[] suby = y.Submatrix(idx).Apply(y_i => y_i == i);
-
-                double[] subw = null;
-                if (weights != null)
-                    subw = weights.Submatrix(idx);
-
-                try
-                {
-                    // Configure the machine on the two-class problem.
-                    var subproblem = Learner(new InnerParameters<TBinary, TInput>(
-                        inputs: subx,
-                        outputs: suby,
-                        pair: new ClassPair(i, j),
-                        model: model
-                    ));
-
-                    if (subproblem != null)
-                    {
-                        // TODO: This check only exists to provide support to previous way of 
-                        // using the library and should be removed after a few releases. In the
-                        // current way (without using any Obsolete methods), subproblem should never be null.
-                        subproblem.Token = ParallelOptions.CancellationToken;
-                        Model[i, j] = subproblem.Learn(subx, suby, subw);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    ex.Data["pair"] = pairs[k];
-                    exceptions.Add(ex);
-                }
-
-                // Update and report progress
-                args.Progress = Interlocked.Increment(ref progress);
-                args.Maximum = total;
-
-                OnSubproblemFinished(args);
-            });
+                // For each class k
+                for (int k = 0; k < pairs.Length; k++)
+                    TrainBinaryMachine(x, y, weights, ref progress, pairs[k], exceptions);
+            }
+            else
+            {
+                // For each class k
+                Parallel.For(0, pairs.Length, ParallelOptions, (int k) =>
+                    TrainBinaryMachine(x, y, weights, ref progress, pairs[k], exceptions));
+            }
 
 
             if (exceptions.Count > 0)
@@ -238,6 +220,86 @@ namespace Accord.MachineLearning
             }
 
             return Model;
+        }
+
+        private void TrainBinaryMachine(TInput[] x, int[] y, double[] weights, ref int progress, ClassPair pair, ConcurrentBag<Exception> exceptions)
+        {
+            if (ParallelOptions.CancellationToken.IsCancellationRequested)
+                return;
+
+            int i = pair.Class1;
+            int j = pair.Class2;
+
+            // We will start the binary sub-problem
+            var args = new SubproblemEventArgs(i, j);
+            OnSubproblemStarted(args);
+
+            // Retrieve the associated machine
+            TBinary model = Model.GetClassifierForClassPair(classA: i, classB: j);
+
+            // Retrieve the associated classes
+            int[] idx = y.Find(y_i => y_i == i || y_i == j);
+
+            if (idx.Length == 0)
+            {
+                Trace.TraceWarning("Class pair ({0}, {1}) does not have any examples.", i, j);
+            }
+
+            TInput[] subx = x.Get(idx);
+            bool[] suby = y.Get(idx).Apply(y_i => y_i == i);
+
+            double[] subw = null;
+            if (weights != null)
+                subw = weights.Get(idx);
+
+            if (aggregateExceptions)
+            {
+                try
+                {
+                    // Train the machine on the two-class problem.
+                    TrainBinaryMachine(pair, i, j, model, subx, suby, subw);
+                }
+                catch (Exception ex)
+                {
+                    ex.Data["pair"] = pair;
+                    exceptions.Add(ex);
+                }
+            }
+            else
+            {
+                // Train the machine on the two-class problem.
+                TrainBinaryMachine(pair, i, j, model, subx, suby, subw);
+            }
+
+            // Update and report progress
+            args.Progress = Interlocked.Increment(ref progress);
+            args.Maximum = pairs.Length;
+
+            OnSubproblemFinished(args);
+        }
+
+        private void TrainBinaryMachine(ClassPair pair, int i, int j, TBinary model, TInput[] subx, bool[] suby, double[] subw)
+        {
+            // Configure the machine on the two-class problem. Check if the learner
+            // for this machine has already been created before, and re-use it if it
+            // was the case. This is necessary to support mini-batch/online learning.
+
+            ISupervisedLearning<TBinary, TInput, bool> subproblemTeacher;
+            if (!teachers.TryGetValue(pair, out subproblemTeacher))
+            {
+                var p = new InnerParameters<TBinary, TInput>(inputs: subx, outputs: suby, pair: pair, model: model);
+                subproblemTeacher = Learner(p);
+                teachers[pair] = subproblemTeacher;
+            }
+
+            if (subproblemTeacher != null)
+            {
+                // TODO: This check only exists to provide support to previous way of 
+                // using the library and should be removed after a few releases. In the
+                // current way (without using any Obsolete methods), subproblem should never be null.
+                subproblemTeacher.Token = ParallelOptions.CancellationToken;
+                Model[i, j] = subproblemTeacher.Learn(subx, suby, subw);
+            }
         }
 
         /// <summary>

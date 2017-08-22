@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <AssemblyName>Accord.DataSets</AssemblyName>
+    <RootNamespace>Accord.DataSets</RootNamespace>
+    <TargetFrameworks>netstandard2.0;netstandard1.4</TargetFrameworks>
+  </PropertyGroup>
+
+  <Import Project="$(SolutionDir)Accord.NET (NETStandard).targets" />
+
+  <ItemGroup>
+    <PackageReference Include="SharpZipLib.NETStandard" Version="0.86.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Accord.Core\Accord.Core (NETStandard).csproj" />
+    <ProjectReference Include="..\Accord.IO\Accord.IO (NETStandard).csproj" />
+  </ItemGroup>
+
+</Project>

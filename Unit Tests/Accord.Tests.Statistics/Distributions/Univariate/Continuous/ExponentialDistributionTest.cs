@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -28,26 +28,13 @@ namespace Accord.Tests.Statistics
     using Accord.Statistics.Distributions.Univariate;
     using System.Globalization;
     using System.Threading;
+#if NO_CULTURE
+    using CultureInfo = Accord.Compat.CultureInfo;
+#endif
 
     [TestFixture]
     public class ExponentialDistributionTest
     {
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
 
         [Test]
         public void ConstructorTest()
@@ -161,6 +148,21 @@ namespace Accord.Tests.Statistics
         }
 
         [Test]
+        public void Issue_632()
+        {
+            // https://github.com/accord-net/framework/issues/632
+
+            var n = new ExponentialDistribution(4.2);
+            Assert.AreEqual(0, n.DistributionFunction(-10));
+            Assert.AreEqual(0, n.ProbabilityDensityFunction(-10));
+            Assert.AreEqual(System.Math.Log(0), n.LogProbabilityDensityFunction(-10));
+
+            Assert.AreEqual(0, n.DistributionFunction(0));
+            Assert.AreEqual(4.2, n.ProbabilityDensityFunction(0));
+            Assert.AreEqual(System.Math.Log(4.2), n.LogProbabilityDensityFunction(0));
+        }
+
+        [Test]
         public void MedianTest()
         {
             ExponentialDistribution target = new ExponentialDistribution(2.5);
@@ -199,7 +201,7 @@ namespace Accord.Tests.Statistics
         [Test]
         public void FitTest1()
         {
-            double[] values = 
+            double[] values =
             {
                 0, 1, 2, 4, 2, 3, 5, 7, 4, 3, 2, 1, 4,
             };
@@ -210,8 +212,13 @@ namespace Accord.Tests.Statistics
 
             string actual;
 
-            Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo("fr-FR");
-
+            var cultureInfo = CultureInfo.GetCultureInfo("fr-FR");
+#if NETCORE
+            System.Globalization.CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
+            System.Globalization.CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
+#else
+            Thread.CurrentThread.CurrentCulture = cultureInfo;
+#endif
             actual = exp.ToString("G3", CultureInfo.InvariantCulture);
             Assert.AreEqual("Exp(x; λ = 0.342)", actual);
 

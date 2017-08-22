@@ -16,8 +16,8 @@ namespace Accord.Video.DirectShow.Internals
     /// or shutter speed. To obtain this interface, query the filter that controls the camera.
     /// </summary>
     [ComImport,
-    Guid( "C6E13370-30AC-11d0-A18C-00A0C9118956" ),
-    InterfaceType( ComInterfaceType.InterfaceIsIUnknown )]
+    Guid("C6E13370-30AC-11d0-A18C-00A0C9118956"),
+    InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
     internal interface IAMCameraControl
     {
         /// <summary>

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -24,7 +24,7 @@ namespace Accord.Statistics.Distributions.Univariate
 {
     using System;
     using Accord.Math;
-    using AForge;
+    using Accord.Compat;
 
     /// <summary>
     ///   Generalized Normal distribution (also known as Exponential Power distribution).
@@ -242,14 +242,8 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   See <see cref="GeneralizedNormalDistribution"/>.
         /// </example>
         /// 
-        public override double DistributionFunction(double x)
+        protected internal override double InnerDistributionFunction(double x)
         {
-            if (Double.IsNegativeInfinity(x))
-                return 0;
-
-            if (Double.IsPositiveInfinity(x))
-                return 1;
-
             double z = x - mean;
             double w = Math.Abs(z) / alpha;
 
@@ -285,14 +279,8 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   See <see cref="GeneralizedNormalDistribution"/>.
         /// </example> 
         ///
-        public override double ProbabilityDensityFunction(double x)
+        protected internal override double InnerProbabilityDensityFunction(double x)
         {
-            if (Double.IsNegativeInfinity(x))
-                return 0;
-
-            if (Double.IsPositiveInfinity(x))
-                return 1;
-
             double z = Math.Abs(x - mean) / alpha;
 
             double a = beta / (2 * alpha * Gamma.Function(1 / beta));

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -50,12 +50,37 @@ namespace Accord.MachineLearning
         IMulticlassClassifier<TInput, double>
     {
         /// <summary>
+        ///   Computes a class-label decision for a given <paramref name="input"/>.
+        /// </summary>
+        /// 
+        /// <param name="input">The input vector that should be classified into
+        ///   one of the <see cref="ITransform.NumberOfOutputs"/> possible classes.</param>
+        /// 
+        /// <returns>A class-label that best described <paramref name="input"/> according
+        /// to this classifier.</returns>
+        /// 
+        new int Decide(TInput input);
+
+        /// <summary>
+        ///   Computes class-label decisions for each vector in the given <paramref name="input"/>.
+        /// </summary>
+        /// 
+        /// <param name="input">The input vectors that should be classified into
+        ///   one of the <see cref="ITransform.NumberOfOutputs"/> possible classes.</param>
+        /// 
+        /// <returns>The class-labels that best describe each <paramref name="input"/> 
+        ///   vectors according to this classifier.</returns>
+        /// 
+        new int[] Decide(TInput[] input);
+
+
+        /// <summary>
         ///   Views this instance as a multi-label classifier,
         ///   giving access to more advanced methods, such as the prediction
         ///   of one-hot vectors.
         /// </summary>
         /// 
-        /// <returns>This instance seen as an <see cref="IMultilabelGenerativeClassifier{TInput}"/>.</returns>
+        /// <returns>This instance seen as an <see cref="IMultilabelLikelihoodClassifier{TInput}"/>.</returns>
         /// 
         IMultilabelClassifier<TInput> ToMultilabel();
     }

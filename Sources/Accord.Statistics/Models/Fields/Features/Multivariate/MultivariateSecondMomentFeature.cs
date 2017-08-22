@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -25,6 +25,7 @@ namespace Accord.Statistics.Models.Fields.Features
     using System;
     using Accord.Math;
     using Accord.Statistics.Models.Fields.Functions;
+    using Accord.Compat;
 
     /// <summary>
     ///   State feature for second moment Gaussian emission probabilities.

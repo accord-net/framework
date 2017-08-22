@@ -1,0 +1,302 @@
+﻿// Accord Machine Learning Library
+// The Accord.NET Framework
+// http://accord-framework.net
+//
+// Copyright © César Souza, 2009-2017
+// cesarsouza at gmail.com
+//
+//    This library is free software; you can redistribute it and/or
+//    modify it under the terms of the GNU Lesser General Public
+//    License as published by the Free Software Foundation; either
+//    version 2.1 of the License, or (at your option) any later version.
+//
+//    This library is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+//    Lesser General Public License for more details.
+//
+//    You should have received a copy of the GNU Lesser General Public
+//    License along with this library; if not, write to the Free Software
+//    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+//
+
+namespace Accord.MachineLearning
+{
+    using Accord.Math;
+    using Accord.Math.Random;
+    using System;
+    using System.Collections;
+    using System.Runtime.CompilerServices;
+    using System.Text.RegularExpressions;
+
+    /// <summary>
+    ///   Set of machine learning tools.
+    /// </summary>
+    /// 
+    public static partial class Tools
+    {
+        /// <summary>
+        ///   Splits the given text into individual atomic words, 
+        ///   irrespective of punctuation and other marks.
+        /// </summary>
+        /// 
+        public static string[][] Tokenize(this string[] x)
+        {
+            var r = new string[x.Length][];
+            for (int i = 0; i < x.Length; i++)
+                r[i] = Tokenize(x[i]);
+            return r;
+        }
+
+        /// <summary>
+        ///   Splits the given text into individual atomic words, 
+        ///   irrespective of punctuation and other marks.
+        /// </summary>
+        /// 
+        public static string[] Tokenize(this string x)
+        {
+            string s = Regex.Replace(x, @"[^\w]", " ");
+            string[] words = s.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            for (int i = 0; i < words.Length; i++)
+                words[i] = words[i].ToLowerInvariant();
+            return words;
+        }
+
+        /// <summary>
+        ///   Estimates the number of columns (dimensions) in a set of data.
+        /// </summary>
+        /// 
+        /// <typeparam name="TInput">The type of the t input.</typeparam>
+        /// 
+        /// <param name="x">The input data.</param>
+        /// 
+        /// <returns>The number of columns (data dimensions) in the data.</returns>
+        /// 
+        public static int GetNumberOfInputs<TInput>(TInput[] x)
+        {
+            if (x.Length == 0)
+                throw new ArgumentException("Impossible to determine number of inputs because there are no training samples in this set.");
+
+            var first = x[0] as IList;
+            if (first == null)
+            {
+                if (x[0] is int || x[0] is double)
+                    return 1;
+                return 0;
+            }
+
+            int length = first.Count;
+
+            for (int i = 0; i < x.Length; i++)
+            {
+                IList l = x[i] as IList;
+                if (l == null || l.Count != length)
+                    return 0;
+            }
+
+            return length;
+        }
+
+        internal static void CheckArgs<TModel, TInput>(TInput[] x, double[] weights, Func<TModel> create,
+            bool allowNull = false, bool allowNaN = false)
+            where TModel : ITransform
+        {
+            preCheckInputs(x, weights, allowNull: allowNull, allowNaN: allowNaN);
+
+            var model = create();
+
+            postCheck(model, x);
+        }
+
+        internal static void CheckArgs<TModel, TInput, TOutput>(TInput[] x, TOutput[] y, double[] weights, Func<TModel> create,
+            bool onlyBinary = false, bool allowNull = false, bool allowNaN = false)
+            where TModel : ITransform<TInput, TOutput>
+        {
+            preCheckInputs(x, weights, allowNull: allowNull, allowNaN: allowNaN);
+            preCheckOutputs(x, y, onlyBinary: onlyBinary, allowNaN: allowNaN, allowNull: allowNull);
+
+            var model = create();
+
+            postCheck(model, x);
+        }
+
+        private static void preCheckInputs<TInput>(TInput[] x, double[] weights, bool allowNull, bool allowNaN)
+        {
+            if (x == null)
+                throw new ArgumentNullException("x");
+
+            if (weights != null)
+            {
+                if (x.Length != weights.Length)
+                    throw new DimensionMismatchException("weights", "The weights vector must have the same length as the vector of training samples 'x'.");
+            }
+
+            if (x.Length == 0)
+                throw new ArgumentOutOfRangeException("inputs", "Training algorithm needs at least one training vector.");
+
+            if (!allowNull)
+            {
+                for (int i = 0; i < x.Length; i++)
+                {
+                    if (x[i] == null)
+                        throw new ArgumentException("Input vector at position {0} is null.".Format(i), "x");
+                }
+            }
+
+            if (!allowNaN)
+            {
+                for (int i = 0; i < x.Length; i++)
+                {
+                    var di = x[i] as double[];
+                    if (di != null)
+                    {
+                        for (int j = 0; j < di.Length; j++)
+                        {
+                            if (Double.IsNaN(di[j]))
+                                throw new ArgumentException("The input vector at index " + i + " contains NaN values.");
+
+                            if (Double.IsInfinity(di[j]))
+                                throw new ArgumentException("The input vector at index " + i + " contains infinity values.");
+                        }
+                    }
+                }
+            }
+        }
+
+
+
+        private static void preCheckOutputs<TInput, TOutput>(TInput[] x, TOutput[] y, bool onlyBinary, bool allowNaN, bool allowNull)
+        {
+            if (x.Length != y.Length)
+                throw new DimensionMismatchException("y", "The number of output labels should match the number of training samples.");
+
+            if (!allowNull)
+            {
+                for (int i = 0; i < x.Length; i++)
+                {
+                    if (y[i] == null)
+                        throw new ArgumentException("Input vector at position {0} is null.".Format(i), "x");
+                }
+            }
+
+            if (onlyBinary)
+            {
+                int[] binary = y as int[];
+                if (binary != null)
+                    for (int i = 0; i < binary.Length; i++)
+                    {
+                        if (binary[i] != 1 && binary[i] != -1)
+                        {
+                            throw new ArgumentOutOfRangeException("y",
+                                "The output label at index " + i + " should be either +1 or -1.");
+                        }
+                    }
+                else
+                {
+                    bool[] b = y as bool[];
+                    if (b == null)
+                        throw new ArgumentException("y", "The output labels should had been either boolean or binary integers.");
+                }
+                return;
+            }
+
+            int[] classes = y as int[];
+            if (classes != null)
+            {
+                int[] counts = Vector.Histogram(classes);
+                for (int i = 0; i < counts.Length; i++)
+                {
+                    if (counts[i] < 1)
+                    {
+                        throw new ArgumentException("There are no samples for class label {0}. Please make sure that class " +
+                            "labels are contiguous and there is at least one training sample for each label.".Format(i));
+                    }
+                }
+            }
+            else
+            {
+                double[][] oneHotDouble = y as double[][];
+                int[][] oneHotInt = y as int[][];
+                bool[][] oneHotBool = y as bool[][];
+                double[] sum = null;
+
+                if (oneHotDouble != null || oneHotInt != null || oneHotBool != null)
+                {
+                    if (oneHotDouble != null)
+                    {
+                        if (!allowNaN)
+                        {
+                            for (int i = 0; i < x.Length; i++)
+                            {
+                                var di = y[i] as double[];
+                                if (di != null)
+                                {
+                                    for (int j = 0; j < di.Length; j++)
+                                    {
+                                        if (Double.IsNaN(di[j]))
+                                            throw new ArgumentException("The input vector at index " + i + " contains NaN values.");
+
+                                        if (Double.IsInfinity(di[j]))
+                                            throw new ArgumentException("The input vector at index " + i + " contains infinity values.");
+                                    }
+                                }
+                            }
+                        }
+
+                        sum = new double[oneHotDouble.Columns()];
+                        for (int i = 0; i < y.Length; i++)
+                            for (int j = 0; j < sum.Length; j++)
+                                sum[j] += Math.Abs(oneHotDouble[i][j]);
+                    }
+
+                    if (oneHotInt != null)
+                    {
+                        sum = new double[oneHotInt.Columns()];
+                        for (int i = 0; i < y.Length; i++)
+                            for (int j = 0; j < sum.Length; j++)
+                                sum[j] += Math.Abs(oneHotInt[i][j]);
+                    }
+
+                    if (oneHotBool != null)
+                    {
+                        sum = new double[oneHotBool.Columns()];
+                        for (int i = 0; i < y.Length; i++)
+                            for (int j = 0; j < sum.Length; j++)
+                                sum[j] += oneHotBool[i][j] ? 1 : 0;
+                    }
+
+                    for (int j = 0; j < sum.Length; j++)
+                    {
+                        if (sum[j] == 0)
+                        {
+                            throw new ArgumentException("There are no samples for class label {0}. Please make sure that class " +
+                                "labels are contiguous and there is at least one training sample for each label.".Format(j));
+                        }
+                    }
+                }
+            }
+        }
+
+        private static void postCheck<TModel, TInput>(TModel model, TInput[] x) where TModel : ITransform
+        {
+            if (model.NumberOfInputs > 0)
+            {
+                for (int i = 0; i < x.Length; i++)
+                {
+                    var xi = x[i] as Array;
+                    if (xi != null)
+                    {
+                        if (xi.Length != model.NumberOfInputs)
+                        {
+                            throw new DimensionMismatchException("inputs",
+                                "The size of the input vector at index " + i + " does not match the expected number of inputs."
+                                + " All input vectors must have the same length " + model.NumberOfInputs);
+                        }
+                    }
+                }
+            }
+        }
+
+
+    }
+}

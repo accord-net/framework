@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -32,22 +32,6 @@ namespace Accord.Tests.Statistics
     [TestFixture]
     public class PowerNormalDistributionTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
 
 
         [Test]
@@ -95,6 +79,14 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.42876122902825864, range2.Max);
             Assert.AreEqual(-2.8214873257900464, range3.Min);
             Assert.AreEqual(0.42876122902825864, range3.Max);
+
+            Assert.AreEqual(double.NegativeInfinity, pnormal.Support.Min);
+            Assert.AreEqual(double.PositiveInfinity, pnormal.Support.Max);
+
+            double icdf0 = pnormal.InverseDistributionFunction(0);
+            double icdf1 = pnormal.InverseDistributionFunction(1);
+            Assert.AreEqual(icdf0, pnormal.Support.Min);
+            Assert.AreEqual(icdf1, pnormal.Support.Max);
         }
 
     }

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -160,7 +160,7 @@ namespace Accord.MachineLearning.Geometry
 
             ransac.Compute(points.Length, out inliers);
 
-            Circle circle = fitting(points.Submatrix(inliers));
+            Circle circle = fitting(points.Get(inliers));
 
             return circle;
         }

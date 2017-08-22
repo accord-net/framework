@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -27,28 +27,13 @@ namespace Accord.Statistics.Models.Markov.Learning
     using Accord.Math;
     using Accord.Statistics.Distributions;
     using Accord.Statistics.Distributions.Fitting;
+#pragma warning disable 612, 618
 
     /// <summary>
-    ///   Viterbi learning algorithm.
+    ///   Obsolete. Please use ViterbiLearning&lt;TDistribution, TObservation> instead.
     /// </summary>
     /// 
-    /// <remarks>
-    /// <para>
-    ///   The Viterbi learning algorithm is an alternate learning algorithms
-    ///   for hidden Markov models. It works by obtaining the Viterbi path
-    ///   for the set of training observation sequences and then computing
-    ///   the maximum likelihood estimates for the model parameters. Those
-    ///   operations are repeated iteratively until model convergence.</para>
-    ///   
-    /// <para>
-    ///   The Viterbi learning algorithm is also known as the Segmental K-Means
-    ///   algorithm.</para>
-    /// 
-    /// <see cref="ViterbiLearning"/>
-    /// <see cref="BaumWelchLearning{TDistribution}"/>
-    /// 
-    /// </remarks>
-    /// 
+    [Obsolete("Please use ViterbiLearning<TDistribution, TObservation> instead.")]
     public class ViterbiLearning<TDistribution> : BaseViterbiLearning<double[][]>,
         IUnsupervisedLearning, IConvergenceLearning
         where TDistribution : IDistribution

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -24,8 +24,9 @@ namespace Accord.Statistics.Distributions.Univariate
 {
     using Accord.Math;
     using Accord.Statistics.Distributions.Fitting;
-    using AForge;
     using System;
+    using System.ComponentModel;
+    using Accord.Compat;
 
     /// <summary>
     ///   von-Mises (Circular Normal) distribution.
@@ -106,30 +107,35 @@ namespace Accord.Statistics.Distributions.Univariate
         private double constant;
 
         /// <summary>
+        ///   Constructs a von-Mises distribution with zero mean and unit concentration.
+        /// </summary>
+        /// 
+        public VonMisesDistribution()
+        {
+            initialize(0, 1);
+        }
+
+        /// <summary>
         ///   Constructs a von-Mises distribution with zero mean.
         /// </summary>
         /// 
-        /// <param name="concentration">The concentration value κ (kappa).</param>
+        /// <param name="concentration">The concentration value κ (kappa). Default is 1.</param>
         /// 
-        public VonMisesDistribution(double concentration)
+        public VonMisesDistribution([Positive]double concentration)
         {
-            initialize(mean, concentration);
+            initialize(0, concentration);
         }
 
         /// <summary>
         ///   Constructs a von-Mises distribution.
         /// </summary>
         /// 
-        /// <param name="mean">The mean value μ (mu).</param>
-        /// <param name="concentration">The concentration value κ (kappa).</param>
+        /// <param name="mean">The mean value μ (mu). Default is 0.</param>
+        /// <param name="concentration">The concentration value κ (kappa). Default is 1.</param>
         /// 
-        public VonMisesDistribution(double mean, double concentration)
+        public VonMisesDistribution([Real, DefaultValue(0)] double mean, [Positive, DefaultValue(1)] double concentration)
         {
             initialize(mean, concentration);
-        }
-
-        private VonMisesDistribution()
-        {
         }
 
         private void initialize(double m, double k)
@@ -244,7 +250,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <param name="x">A single point in the distribution range.</param>
         /// 
-        public override double DistributionFunction(double x)
+        protected internal override double InnerDistributionFunction(double x)
         {
             return DistributionFunction(x, mean, kappa);
         }
@@ -266,13 +272,9 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value <c>x</c> will occur.
         /// </remarks>
         /// 
-        public override double ProbabilityDensityFunction(double x)
+        protected internal override double InnerProbabilityDensityFunction(double x)
         {
             double z = x - mean;
-
-            if (z < -Math.PI || z > Math.PI)
-                return 0;
-
             return constant * Math.Exp(kappa * Math.Cos(z));
         }
 
@@ -293,7 +295,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value <c>x</c> will occur.
         /// </remarks>
         /// 
-        public override double LogProbabilityDensityFunction(double x)
+        protected internal override double InnerLogProbabilityDensityFunction(double x)
         {
             return Math.Log(constant) + kappa * Math.Cos(x - mean);
         }

@@ -1,6 +1,7 @@
 bin
 obj
 
+.vs
 *.user
 *.pidb
 *.suo
@@ -27,3 +28,18 @@ obj
 /Sources/Release
 
 /Sources/*.opensdf
+/autom4te.cache/
+/Makefile.in
+/Makefile
+/configure
+/config.status
+/config.log
+*.m4
+/accord.pc
+
+html
+
+/install-sh
+/missing
+
+!Externals/NUnit/*/bin

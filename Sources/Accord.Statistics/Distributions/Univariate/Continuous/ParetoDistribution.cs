@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -25,7 +25,7 @@ namespace Accord.Statistics.Distributions.Univariate
     using System;
     using Accord.Math;
     using Accord.Statistics.Distributions.Fitting;
-    using AForge;
+    using Accord.Compat;
 
     /// <summary>
     ///   Pareto's Distribution.
@@ -208,10 +208,6 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <value>The distribution's mode value.</value>
         /// 
-        /// <remarks>
-        ///   The Pareto distribution's Entropy is defined as <c>x<sub>m</sub></c>.
-        /// </remarks>
-        /// 
         public override double Mode
         {
             get { return xm; }
@@ -249,11 +245,9 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   See <see cref="ParetoDistribution"/>.
         /// </example>
         /// 
-        public override double DistributionFunction(double x)
+        protected internal override double InnerDistributionFunction(double x)
         {
-            if (x >= xm)
-                return 1 - Math.Pow(xm / x, alpha);
-            return 0;
+            return 1 - Math.Pow(xm / x, alpha);
         }
 
         /// <summary>
@@ -277,11 +271,9 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   See <see cref="ParetoDistribution"/>.
         /// </example>
         /// 
-        public override double ProbabilityDensityFunction(double x)
+        protected internal override double InnerProbabilityDensityFunction(double x)
         {
-            if (x >= xm)
-                return (alpha * Math.Pow(xm, alpha)) / Math.Pow(x, alpha + 1);
-            return 0;
+            return (alpha * Math.Pow(xm, alpha)) / Math.Pow(x, alpha + 1);
         }
 
         /// <summary>
@@ -305,11 +297,9 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   See <see cref="ParetoDistribution"/>.
         /// </example>
         /// 
-        public override double LogProbabilityDensityFunction(double x)
+        protected internal override double InnerLogProbabilityDensityFunction(double x)
         {
-            if (x >= xm)
-                return Math.Log(alpha) + alpha * Math.Log(xm) - (alpha + 1) * Math.Log(x);
-            return 0;
+            return Math.Log(alpha) + alpha * Math.Log(xm) - (alpha + 1) * Math.Log(x);
         }
 
 
@@ -391,12 +381,14 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <param name="samples">The number of samples to generate.</param>
         /// <param name="result">The location where to store the samples.</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
         ///
         /// <returns>A random vector of observations drawn from this distribution.</returns>
         /// 
-        public override double[] Generate(int samples, double[] result)
+        public override double[] Generate(int samples, double[] result, Random source)
         {
-            UniformContinuousDistribution.Random(samples, result);
+            UniformContinuousDistribution.Random(samples, result, source);
             for (int i = 0; i < samples; i++)
                 result[i] = xm / Math.Pow(result[i], 1.0 / alpha);
             return result;
@@ -408,9 +400,9 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <returns>A random observations drawn from this distribution.</returns>
         /// 
-        public override double Generate()
+        public override double Generate(Random source)
         {
-            double u = UniformContinuousDistribution.Standard.Generate();
+            double u = UniformContinuousDistribution.Random(source);
             return xm / Math.Pow(u, 1.0 / alpha);
         }
     }

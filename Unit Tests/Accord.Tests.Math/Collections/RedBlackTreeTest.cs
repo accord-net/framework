@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -150,8 +150,6 @@ namespace Accord.Tests.Math
             int arrayIndex = 0;
             foreach (var node in t)
                 Assert.AreEqual(sorted[arrayIndex++], node.Value);
-
-
 
             // Start from min and go navigating up to max
             var min = t.Min();

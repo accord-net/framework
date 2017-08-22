@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -27,6 +27,7 @@ namespace Accord.Math.Random
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
+    using Accord.Compat;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -168,7 +169,7 @@ namespace Accord.Math.Random
                     return hz * wn[iz];
             }
 
-            throw new InvalidOperationException("Execution should not reach here.");
+            // throw new InvalidOperationException("Execution should not reach here.");
         }
 
 

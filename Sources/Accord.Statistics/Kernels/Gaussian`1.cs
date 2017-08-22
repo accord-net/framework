@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -23,44 +23,45 @@
 namespace Accord.Statistics.Kernels
 {
     using System;
-    using AForge;
     using Accord.Math;
     using Accord.Math.Distances;
+    using Accord.Compat;
 
     /// <summary>
     ///   Composite Gaussian Kernel.
     /// </summary>
     /// 
     [Serializable]
-    public sealed class Gaussian<T> : KernelBase, IKernel, 
-        IEstimable, ICloneable where T: IKernel, IDistance, ICloneable
+    public sealed class Gaussian<TDistance> : KernelBase, IKernel, 
+        IEstimable, ICloneable 
+        where TDistance : IDistance, ICloneable
     {
         private double sigma;
         private double gamma;
 
-        private T innerKernel;
+        private TDistance distance;
 
         /// <summary>
-        ///   Constructs a new Gaussian Dynamic Time Warping Kernel
+        ///   Constructs a new Composite Gaussian Kernel
         /// </summary>
         /// 
         /// <param name="innerKernel">The inner kernel function of the composite kernel.</param>
         /// 
-        public Gaussian(T innerKernel)
+        public Gaussian(TDistance innerKernel)
             : this(innerKernel, 1)
         {
         }
 
         /// <summary>
-        ///   Constructs a new Gaussian Dynamic Time Warping Kernel
+        ///   Constructs a new Composite Gaussian Kernel
         /// </summary>
         /// 
         /// <param name="innerKernel">The inner kernel function of the composite kernel.</param>
         /// <param name="sigma">The kernel's sigma parameter.</param>
         /// 
-        public Gaussian(T innerKernel, double sigma)
+        public Gaussian(TDistance innerKernel, double sigma)
         {
-            this.innerKernel = innerKernel;
+            this.distance = innerKernel;
             this.sigma = sigma;
             this.gamma = 1.0 / (2.0 * sigma * sigma);
         }
@@ -123,23 +124,16 @@ namespace Accord.Statistics.Kernels
             if (x == y)
                 return 1.0;
 
-            double distance = innerKernel.Distance(x, y);
+            double distance = this.distance.Distance(x, y);
 
             return Math.Exp(-gamma * distance);
         }
 
 
 
-        /// <summary>
-        ///   Estimates kernel parameters from the data.
-        /// </summary>
-        /// 
-        /// <param name="inputs">The input data.</param>
-        /// 
         void IEstimable<double[]>.Estimate(double[][] inputs)
         {
-            var g = Gaussian.Estimate(innerKernel, inputs);
-            this.Gamma = g.Gamma;
+            this.Gamma = Gaussian.Estimate(distance, inputs).Gamma;
         }
 
         /// <summary>
@@ -152,8 +146,8 @@ namespace Accord.Statistics.Kernels
         /// 
         public object Clone()
         {
-            Gaussian<T> clone = (Gaussian<T>)MemberwiseClone();
-            clone.innerKernel = (T)innerKernel.Clone();
+            Gaussian<TDistance> clone = (Gaussian<TDistance>)MemberwiseClone();
+            clone.distance = (TDistance)distance.Clone();
             return clone;
         }
 

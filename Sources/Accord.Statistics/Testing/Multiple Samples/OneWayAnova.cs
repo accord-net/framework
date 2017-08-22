@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -25,6 +25,7 @@ namespace Accord.Statistics.Testing
     using System;
     using System.Collections.Generic;
     using Accord.Math;
+    using Accord.Compat;
 
     /// <summary>
     ///   One-way Analysis of Variance (ANOVA).
@@ -163,7 +164,7 @@ namespace Accord.Statistics.Testing
             for (int i = 0; i < groups.Length; i++)
             {
                 int[] idx = labels.Find(label => label == i);
-                double[] group = samples.Submatrix(idx);
+                double[] group = samples.Get(idx);
 
                 groups[i] = group;
                 sizes[i] = group.Length;

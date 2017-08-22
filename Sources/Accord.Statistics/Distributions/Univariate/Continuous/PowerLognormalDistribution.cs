@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -24,7 +24,7 @@ namespace Accord.Statistics.Distributions.Univariate
 {
     using System;
     using Accord.Math;
-    using AForge;
+    using Accord.Compat;
 
     /// <summary>
     ///   Power Lognormal distribution.
@@ -121,15 +121,6 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   Not supported.
         /// </summary>
         /// 
-        public override double Median
-        {
-            get { throw new NotSupportedException(); }
-        }
-
-        /// <summary>
-        ///   Not supported.
-        /// </summary>
-        /// 
         public override double Mode
         {
             get { throw new NotSupportedException(); }
@@ -183,7 +174,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <param name="x">A single point in the distribution range.</param>
         /// 
-        public override double DistributionFunction(double x)
+        protected internal override double InnerDistributionFunction(double x)
         {
             double z = Math.Log(x) / sigma;
             return 1.0 - Math.Pow(Normal.Function(-z), power);
@@ -199,10 +190,10 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <returns>
         ///   A sample which could original the given probability
-        ///   value when applied in the <see cref="DistributionFunction"/>.
+        ///   value when applied in the <see cref="UnivariateContinuousDistribution.DistributionFunction(double)"/>.
         /// </returns>
         /// 
-        public override double InverseDistributionFunction(double p)
+        protected internal override double InnerInverseDistributionFunction(double p)
         {
             return Math.Exp(Normal.Inverse(1.0 - Math.Pow(1.0 - p, 1.0 / power)) * sigma);
         }
@@ -219,7 +210,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   in the current distribution.
         /// </returns>
         /// 
-        public override double ProbabilityDensityFunction(double x)
+        protected internal override double InnerProbabilityDensityFunction(double x)
         {
             double a = power / (x * sigma);
             double z = Math.Log(x) / sigma;
@@ -276,7 +267,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <param name="x">A single point in the distribution range.</param>
         /// 
-        public override double ComplementaryDistributionFunction(double x)
+        protected internal override double InnerComplementaryDistributionFunction(double x)
         {
             double z = Math.Log(x) / sigma;
             return Math.Pow(Normal.Function(-z), power);

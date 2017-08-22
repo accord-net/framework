@@ -5,7 +5,7 @@
 // Copyright © Rémy Dispagne, 2013
 // cramer at libertysurf.fr
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -27,6 +27,7 @@ namespace Accord.Math.Kinematics
 {
     using System;
     using System.Collections.ObjectModel;
+    using Accord.Compat;
 
     /// <summary>
     ///   Denavit Hartenberg Model Combinator class to make combination
@@ -127,12 +128,10 @@ namespace Accord.Math.Kinematics
             {
                 Model.Compute();
             }
-
             else
             {
                 Model.Compute(Parent.Model);
             }
-
 
             foreach (DenavitHartenbergNode child in Children)
             {
@@ -145,6 +144,7 @@ namespace Accord.Math.Kinematics
     ///   Collection of Denavit-Hartenberg model nodes.
     /// </summary>
     /// 
+    [Serializable]
     public class DenavitHartenbergNodeCollection : Collection<DenavitHartenbergNode>
     {
         /// <summary>

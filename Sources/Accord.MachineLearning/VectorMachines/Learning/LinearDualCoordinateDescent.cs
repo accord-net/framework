@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -64,6 +64,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     using System.Collections;
     using System.Diagnostics;
     using System.Threading;
+    using Statistics.Models.Regression.Linear;
 
     /// <summary>
     ///   Different categories of loss functions that can be used to learn 
@@ -138,7 +139,21 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// See Algorithm 3 of Hsieh et al., ICML 2008.</para>
     /// </remarks>
     /// 
-    /// <see cref="SequentialMinimalOptimization"/>
+    /// <example>
+    ///   <para>The next example shows how to solve a multi-class problem using a one-vs-one SVM 
+    ///   where the binary machines are learned using the Linear Dual Coordinate Descent algorithm.</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MulticlassSupportVectorLearningTest.cs" region="doc_learn_ldcd" />
+    ///   
+    /// <para>
+    ///   The following example shows how to obtain a <see cref="MultipleLinearRegression"/> 
+    ///   from a linear <see cref="SupportVectorMachine"/>. It contains exactly the same data 
+    ///   used in the <see cref="OrdinaryLeastSquares"/> documentation page for 
+    ///   <see cref="MultipleLinearRegression"/>.</para>
+    ///   
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\LinearDualCoordinateDescentTest.cs" region="doc_linreg"/>
+    /// </example>
+    /// 
+    /// <see cref="SequentialMinimalOptimization{TKernel}"/>
     /// <see cref="LinearNewtonMethod"/>
     /// <see cref="LinearCoordinateDescent"/>
     /// 
@@ -225,7 +240,13 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// See Algorithm 3 of Hsieh et al., ICML 2008.</para>
     /// </remarks>
     /// 
-    /// <see cref="SequentialMinimalOptimization"/>
+    /// <example>
+    ///   <para>The next example shows how to solve a multi-class problem using a one-vs-one SVM 
+    ///   where the binary machines are learned using the Linear Dual Coordinate Descent algorithm.</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MulticlassSupportVectorLearningTest.cs" region="doc_learn_ldcd" />
+    /// </example>
+    /// 
+    /// <see cref="SequentialMinimalOptimization{TKernel}"/>
     /// <see cref="LinearNewtonMethod"/>
     /// <see cref="LinearCoordinateDescent"/>
     /// 
@@ -295,14 +316,23 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// See Algorithm 3 of Hsieh et al., ICML 2008.</para>
     /// </remarks>
     /// 
-    /// <see cref="SequentialMinimalOptimization"/>
+    /// <example>
+    ///   <para>The next example shows how to solve a multi-class problem using a one-vs-one SVM 
+    ///   where the binary machines are learned using the Linear Dual Coordinate Descent algorithm.</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MulticlassSupportVectorLearningTest.cs" region="doc_learn_ldcd" />
+    /// </example>
+    /// 
+    /// <see cref="SequentialMinimalOptimization{TKernel}"/>
     /// <see cref="LinearNewtonMethod"/>
     /// <see cref="LinearCoordinateDescent"/>
     /// 
     public class LinearDualCoordinateDescent<TKernel, TInput> :
         BaseLinearDualCoordinateDescent<SupportVectorMachine<TKernel, TInput>, TKernel, TInput>
         where TKernel : struct, ILinear<TInput>
-        where TInput : ICloneable, IList
+        where TInput : IList
+#if !NETSTANDARD1_4
+        , ICloneable
+#endif
     {
         /// <summary>
         /// Creates an instance of the model to be learned. Inheritors
@@ -322,7 +352,10 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         BaseSupportVectorClassification<TModel, TKernel, TInput>
         where TModel : SupportVectorMachine<TKernel, TInput>
         where TKernel : struct, ILinear<TInput>
-        where TInput : ICloneable, IList
+        where TInput : IList
+#if !NETSTANDARD1_4
+        , ICloneable
+#endif
     {
 
         int max_iter = 1000;
@@ -330,7 +363,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         private double eps = 0.1;
 
         private double[] alpha;
-        private TInput weights;
+        private double[] weights;
         private double bias;
 
         private Loss loss = Loss.L2;
@@ -391,9 +424,11 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         {
             TInput[] x = Inputs;
             int samples = Inputs.Length;
+            TKernel kernel = Kernel;
+            int dimensions = kernel.GetLength(x);
             this.alpha = new double[samples];
-            this.weights = (TInput)x[0].Clone();
-            TInput w = weights;
+            this.weights = new double[dimensions];
+            double[] w = weights;
             double[] c = this.C;
             int[] y = Outputs;
 
@@ -403,7 +438,6 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             Array.Clear(alpha, 0, alpha.Length);
 
             // Zero the weight vector
-            w.Clear();
             bias = 0;
 
             int iter = 0;
@@ -443,8 +477,8 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
             for (int i = 0; i < x.Length; i++)
             {
-                QD[i] = 1 + diag[i] + Kernel.Function(x[i], x[i]);
-                Kernel.Product(y[i] * alpha[i], x[i], result: w);
+                QD[i] = 1 + diag[i] + kernel.Function(x[i], x[i]);
+                kernel.Product(y[i] * alpha[i], x[i], accumulate: w);
                 bias += y[i] * alpha[i];
 
                 index[i] = i;
@@ -472,7 +506,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
                     int i = index[s];
                     int yi = y[i];
 
-                    double G = bias + Kernel.Function(w, x[i]);
+                    double G = bias + kernel.Function(w, x[i]);
 
                     G = G * yi - 1;
 
@@ -532,7 +566,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
                         double d = (alpha[i] - alpha_old) * yi;
 
-                        Kernel.Product(d, x[i], result: w);
+                        kernel.Product(d, x[i], accumulate: w);
                         bias += d;
                     }
                 }
@@ -574,7 +608,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
 
             Model.Weights = new double[] { 1.0 };
-            Model.SupportVectors = new[] { w };
+            Model.SupportVectors = new[] { kernel.CreateVector(w) };
             Model.Threshold = bias;
         }
 

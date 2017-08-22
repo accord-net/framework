@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -26,6 +26,8 @@ namespace Accord.Statistics.Testing
     using Accord.Math;
     using Accord.Statistics.Distributions.Univariate;
     using Accord.Statistics.Distributions;
+    using System.Diagnostics;
+    using Accord.Compat;
 
     /// <summary>
     ///   One-sample Anderson-Darling (AD) test.
@@ -41,7 +43,7 @@ namespace Accord.Statistics.Testing
         ///   which should have been stated <i>before</i> any measurements.
         /// </summary>
         /// 
-        public IUnivariateDistribution TheoreticalDistribution { get; private set; }
+        public IUnivariateDistribution<double> TheoreticalDistribution { get; private set; }
 
         /// <summary>
         ///   Creates a new Anderson-Darling test.
@@ -50,53 +52,64 @@ namespace Accord.Statistics.Testing
         /// <param name="sample">The sample we would like to test as belonging to the <paramref name="hypothesizedDistribution"/>.</param>
         /// <param name="hypothesizedDistribution">A fully specified distribution.</param>
         /// 
-        public AndersonDarlingTest(double[] sample, IUnivariateDistribution hypothesizedDistribution)
+        public AndersonDarlingTest(double[] sample, IUnivariateDistribution<double> hypothesizedDistribution)
         {
-            double N = sample.Length;
-
-            // Create the test statistic distribution with given degrees of freedom
-
+            // Create the test statistic distribution 
             this.TheoreticalDistribution = hypothesizedDistribution;
             if (hypothesizedDistribution is UniformContinuousDistribution)
+            {
                 StatisticDistribution = new AndersonDarlingDistribution(AndersonDarlingDistributionType.Uniform, sample.Length);
+            }
             else if (hypothesizedDistribution is NormalDistribution)
+            {
                 StatisticDistribution = new AndersonDarlingDistribution(AndersonDarlingDistributionType.Normal, sample.Length);
+            }
+            else
+            {
+                Trace.WriteLine(String.Format("Unsupported distribution in AndersonDarling: {0}. P-values will not be computed, but test statistic may be useful.",
+                    hypothesizedDistribution.ToString(), hypothesizedDistribution.GetType().ToString()));
+            }
 
             // Create a copy of the samples to prevent altering the
             // constructor's original arguments in the sorting step 
-            double[] Y = (double[])sample.Clone();
-
-            // Sort sample
-            Array.Sort(Y);
+            double[] sortedSamples = sample.Sorted();
 
             // Create the theoretical and empirical distributions
             this.TheoreticalDistribution = hypothesizedDistribution;
 
-
-            double S = 0;
-            int n = Y.Length;
-
-            // Finally, compute the test statistic.
-            for (int i = 0; i < Y.Length; i++)
-            {
-                double a = 2.0 * (i + 1) - 1;
-                double b = TheoreticalDistribution.DistributionFunction(Y[i]);
-                double c = TheoreticalDistribution.ComplementaryDistributionFunction(Y[n - i - 1]);
-
-                S += a * (Math.Log(b) + Math.Log(c));
-            }
-
-            this.Statistic = -n - S / n;
+            this.Statistic = GetStatistic(sortedSamples, TheoreticalDistribution);
             this.PValue = StatisticToPValue(Statistic);
         }
 
         /// <summary>
-        ///   Converts a given p-value to a test statistic.
+        ///   Gets the Anderson-Darling statistic for the samples and target distribution.
         /// </summary>
         /// 
-        /// <param name="p">The p-value.</param>
+        /// <param name="sortedSamples">The sorted samples.</param>
+        /// <param name="distribution">The target distribution.</param>
         /// 
-        /// <returns>The test statistic which would generate the given p-value.</returns>
+        public static double GetStatistic(double[] sortedSamples, IUnivariateDistribution<double> distribution)
+        {
+            double N = sortedSamples.Length;
+            double S = 0;
+            int n = sortedSamples.Length;
+
+            // Finally, compute the test statistic.
+            for (int i = 0; i < sortedSamples.Length; i++)
+            {
+                double a = 2.0 * (i + 1) - 1;
+                double b = distribution.DistributionFunction(sortedSamples[i]);
+                double c = distribution.ComplementaryDistributionFunction(sortedSamples[n - i - 1]);
+
+                S += a * (Math.Log(b) + Math.Log(c));
+            }
+
+            return -n - S / n;
+        }
+
+        /// <summary>
+        ///   Not supported.
+        /// </summary>
         /// 
         public override double PValueToStatistic(double p)
         {

@@ -1,0 +1,10 @@
+Name: Accord.NET
+Description: The Accord.NET Framework for Machine Learning, Image Processing, Mathematics and Statistics
+Version: @VERSION@
+URL: http://accord-framework.net
+
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+
+Libs: -r:@libdir@/Accord.Vision.dll -r:@libdir@/Accord.Video.Ximea.dll -r:@libdir@/Accord.Video.VFW.dll -r:@libdir@/Accord.Video.Kinect.dll -r:@libdir@/Accord.Video.dll -r:@libdir@/Accord.Video.DirectShow.dll -r:@libdir@/Accord.Neuro.dll -r:@libdir@/Accord.Text.dll-r:@libdir@/Accord.Math.dll -r:@libdir@/Accord.Math.Core.dll -r:@libdir@/Accord.MachineLearning.dll -r:@libdir@/Accord.IO.dll -r:@libdir@/Accord.DataSets.dll -r:@libdir@/Accord.Imaging.dll -r:@libdir@/Accord.Genetic.dll -r:@libdir@/Accord.Fuzzy.dll -r:@libdir@/Accord.dll -r:@libdir@/Accord.Controls.Vision.dll -r:@libdir@/Accord.Controls.Imaging.dll -r:@libdir@/Accord.Controls.Audio.dll -r:@libdir@/Accord.Audition.dll -r:@libdir@/Accord.Audio.dll 

@@ -51,28 +51,23 @@ namespace Accord.Imaging.Filters
         /// 
         /// <exception cref="UnsupportedImageFormatException">Unsupported pixel format of the source image.</exception>
         ///
-        public Bitmap Apply( Bitmap image )
+        public Bitmap Apply(Bitmap image)
         {
             // lock source bitmap data
-            BitmapData srcData = image.LockBits(
-                new Rectangle( 0, 0, image.Width, image.Height ),
-                ImageLockMode.ReadOnly, image.PixelFormat );
+            BitmapData srcData = image.LockBits(ImageLockMode.ReadOnly);
 
             Bitmap dstImage = null;
 
             try
             {
                 // apply the filter
-                dstImage = Apply( srcData );
-                if ( ( image.HorizontalResolution > 0 ) && ( image.VerticalResolution > 0 ) )
-                {
-                    dstImage.SetResolution( image.HorizontalResolution, image.VerticalResolution );
-                }
+                dstImage = Apply(srcData);
+                dstImage.CopyResolutionFrom(image);
             }
             finally
             {
                 // unlock source image
-                image.UnlockBits( srcData );
+                image.UnlockBits(srcData);
             }
 
             return dstImage;
@@ -93,27 +88,25 @@ namespace Accord.Imaging.Filters
         ///
         /// <exception cref="UnsupportedImageFormatException">Unsupported pixel format of the source image.</exception>
         ///
-        public Bitmap Apply( BitmapData imageData )
+        public Bitmap Apply(BitmapData imageData)
         {
             // destination image format
             PixelFormat dstPixelFormat = imageData.PixelFormat;
 
             // check pixel format of the source image
-            CheckSourceFormat( dstPixelFormat );
+            CheckSourceFormat(dstPixelFormat);
 
             // get image dimension
-            int width  = imageData.Width;
+            int width = imageData.Width;
             int height = imageData.Height;
 
             // create new image of required format
-            Bitmap dstImage = ( dstPixelFormat == PixelFormat.Format8bppIndexed ) ?
-                Accord.Imaging.Image.CreateGrayscaleImage( width, height ) :
-                new Bitmap( width, height, dstPixelFormat );
+            Bitmap dstImage = (dstPixelFormat == PixelFormat.Format8bppIndexed) ?
+                Accord.Imaging.Image.CreateGrayscaleImage(width, height) :
+                new Bitmap(width, height, dstPixelFormat);
 
             // lock destination bitmap data
-            BitmapData dstData = dstImage.LockBits(
-                new Rectangle( 0, 0, width, height ),
-                ImageLockMode.ReadWrite, dstPixelFormat );
+            BitmapData dstData = dstImage.LockBits(ImageLockMode.ReadWrite);
 
             // copy image
             Accord.SystemTools.CopyUnmanagedMemory(dstData.Scan0, imageData.Scan0, imageData.Stride * height);
@@ -121,12 +114,12 @@ namespace Accord.Imaging.Filters
             try
             {
                 // process the filter
-                ProcessFilter( new UnmanagedImage( dstData ) );
+                ProcessFilter(new UnmanagedImage(dstData));
             }
             finally
             {
                 // unlock destination images
-                dstImage.UnlockBits( dstData );
+                dstImage.UnlockBits(dstData);
             }
 
             return dstImage;
@@ -146,15 +139,15 @@ namespace Accord.Imaging.Filters
         /// 
         /// <exception cref="UnsupportedImageFormatException">Unsupported pixel format of the source image.</exception>
         ///
-        public UnmanagedImage Apply( UnmanagedImage image )
+        public UnmanagedImage Apply(UnmanagedImage image)
         {
             // check pixel format of the source image
-            CheckSourceFormat( image.PixelFormat );
+            CheckSourceFormat(image.PixelFormat);
 
             // create new destination image
-            UnmanagedImage dstImage = UnmanagedImage.Create( image.Width, image.Height, image.PixelFormat );
+            UnmanagedImage dstImage = UnmanagedImage.Create(image.Width, image.Height, image.PixelFormat);
 
-            Apply( image, dstImage );
+            Apply(image, dstImage);
 
             return dstImage;
         }
@@ -178,45 +171,45 @@ namespace Accord.Imaging.Filters
         /// <exception cref="InvalidImagePropertiesException">Incorrect destination pixel format.</exception>
         /// <exception cref="InvalidImagePropertiesException">Destination image has wrong width and/or height.</exception>
         ///
-        public void Apply( UnmanagedImage sourceImage, UnmanagedImage destinationImage )
+        public void Apply(UnmanagedImage sourceImage, UnmanagedImage destinationImage)
         {
             // check pixel format of the source image
-            CheckSourceFormat( sourceImage.PixelFormat );
+            CheckSourceFormat(sourceImage.PixelFormat);
 
             // ensure destination image has correct format
-            if ( destinationImage.PixelFormat != sourceImage.PixelFormat )
+            if (destinationImage.PixelFormat != sourceImage.PixelFormat)
             {
-                throw new InvalidImagePropertiesException( "Destination pixel format must be the same as pixel format of source image." );
+                throw new InvalidImagePropertiesException("Destination pixel format must be the same as pixel format of source image.");
             }
 
             // ensure destination image has correct size
-            if ( ( destinationImage.Width != sourceImage.Width ) || ( destinationImage.Height != sourceImage.Height ) )
+            if ((destinationImage.Width != sourceImage.Width) || (destinationImage.Height != sourceImage.Height))
             {
-                throw new InvalidImagePropertiesException( "Destination image must have the same width and height as source image." );
+                throw new InvalidImagePropertiesException("Destination image must have the same width and height as source image.");
             }
 
             // usually stride will be the same for 2 images of the size size/format,
             // but since this a public a method and users may provide any evil, we need to check it
             int dstStride = destinationImage.Stride;
             int srcStride = sourceImage.Stride;
-            int lineSize  = Math.Min( srcStride, dstStride );
+            int lineSize = Math.Min(srcStride, dstStride);
 
             unsafe
             {
-                byte* dst = (byte*) destinationImage.ImageData.ToPointer( );
-                byte* src = (byte*) sourceImage.ImageData.ToPointer( );
+                byte* dst = (byte*)destinationImage.ImageData.ToPointer();
+                byte* src = (byte*)sourceImage.ImageData.ToPointer();
 
                 // copy image
-                for ( int y = 0, height = sourceImage.Height; y < height; y++ )
+                for (int y = 0, height = sourceImage.Height; y < height; y++)
                 {
-                    Accord.SystemTools.CopyUnmanagedMemory( dst, src, lineSize );
+                    Accord.SystemTools.CopyUnmanagedMemory(dst, src, lineSize);
                     dst += dstStride;
                     src += srcStride;
                 }
             }
 
             // process the filter
-            ProcessFilter( destinationImage );
+            ProcessFilter(destinationImage);
         }
 
         /// <summary>
@@ -229,25 +222,23 @@ namespace Accord.Imaging.Filters
         /// 
         /// <exception cref="UnsupportedImageFormatException">Unsupported pixel format of the source image.</exception>
         /// 
-        public void ApplyInPlace( Bitmap image )
+        public void ApplyInPlace(Bitmap image)
         {
             // check pixel format of the source image
-            CheckSourceFormat( image.PixelFormat );
+            CheckSourceFormat(image.PixelFormat);
 
             // lock source bitmap data
-            BitmapData data = image.LockBits(
-                new Rectangle( 0, 0, image.Width, image.Height ),
-                ImageLockMode.ReadWrite, image.PixelFormat );
+            BitmapData data = image.LockBits(ImageLockMode.ReadWrite);
 
             try
             {
                 // process the filter
-                ProcessFilter( new UnmanagedImage( data ) );
+                ProcessFilter(new UnmanagedImage(data));
             }
             finally
             {
                 // unlock image
-                image.UnlockBits( data );
+                image.UnlockBits(data);
             }
         }
 
@@ -261,13 +252,13 @@ namespace Accord.Imaging.Filters
         /// 
         /// <exception cref="UnsupportedImageFormatException">Unsupported pixel format of the source image.</exception>
         ///
-        public void ApplyInPlace( BitmapData imageData )
+        public void ApplyInPlace(BitmapData imageData)
         {
             // check pixel format of the source image
-            CheckSourceFormat( imageData.PixelFormat );
+            CheckSourceFormat(imageData.PixelFormat);
 
             // process the filter
-            ProcessFilter( new UnmanagedImage( imageData ) );
+            ProcessFilter(new UnmanagedImage(imageData));
         }
 
         /// <summary>
@@ -280,13 +271,13 @@ namespace Accord.Imaging.Filters
         /// 
         /// <exception cref="UnsupportedImageFormatException">Unsupported pixel format of the source image.</exception>
         ///
-        public void ApplyInPlace( UnmanagedImage image )
+        public void ApplyInPlace(UnmanagedImage image)
         {
             // check pixel format of the source image
-            CheckSourceFormat( image.PixelFormat );
+            CheckSourceFormat(image.PixelFormat);
 
             // process the filter
-            ProcessFilter( image );
+            ProcessFilter(image);
         }
 
         /// <summary>
@@ -295,13 +286,13 @@ namespace Accord.Imaging.Filters
         /// 
         /// <param name="image">Source image data.</param>
         ///
-        protected abstract unsafe void ProcessFilter( UnmanagedImage image );
+        protected abstract unsafe void ProcessFilter(UnmanagedImage image);
 
         // Check pixel format of the source image
-        private void CheckSourceFormat( PixelFormat pixelFormat )
+        private void CheckSourceFormat(PixelFormat pixelFormat)
         {
-            if ( !FormatTranslations.ContainsKey( pixelFormat ) )
-                throw new UnsupportedImageFormatException( "Source pixel format is not supported by the filter." );
+            if (!FormatTranslations.ContainsKey(pixelFormat))
+                throw new UnsupportedImageFormatException("Source pixel format is not supported by the filter.");
         }
     }
 }

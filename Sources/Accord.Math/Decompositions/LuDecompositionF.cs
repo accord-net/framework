@@ -1,11 +1,12 @@
+ï»¿
 // Accord Math Library
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright Â© CÃ©sar Souza, 2009-2017
 // cesarsouza at gmail.com
 //
-// Original work copyright © Lutz Roeder, 2000
+// Original work copyright Â© Lutz Roeder, 2000
 //  Adapted from Mapack for .NET, September 2000
 //  Adapted from Mapack for COM and Jama routines
 //  http://www.aisto.com/roeder/dotnet
@@ -29,6 +30,7 @@ namespace Accord.Math.Decompositions
 {
     using System;
     using Accord.Math;
+    using Accord.Compat;
 
     /// <summary>
     ///   LU decomposition of a rectangular matrix.
@@ -395,7 +397,7 @@ namespace Accord.Math.Decompositions
 
             // Copy right hand side with pivoting
             int count = value.GetLength(1);
-            Single[,] X = value.Submatrix(pivotVector, null);
+            Single[,] X = value.Get(pivotVector, null);
 
 
             // Solve L*Y = B(piv,:)
@@ -437,7 +439,7 @@ namespace Accord.Math.Decompositions
 
 
             // Copy right hand side with pivoting
-            var X = value.Submatrix(null, pivotVector);
+            var X = value.Get(null, pivotVector);
 
             int count = X.GetLength(1);
 
@@ -506,6 +508,28 @@ namespace Accord.Math.Decompositions
             return X;
         }
 
+        /// <summary>
+        ///   Reverses the decomposition, reconstructing the original matrix <c>X</c>.
+        /// </summary>
+        /// 
+        public Single[,] Reverse()
+        {
+            return LowerTriangularFactor.Dot(UpperTriangularFactor)
+                .Get(PivotPermutationVector.ArgSort(), null);
+        }
+
+        /// <summary>
+        ///   Computes <c>(Xt * X)^1</c> (the inverse of the covariance matrix). This
+        ///   matrix can be used to determine standard errors for the coefficients when
+        ///   solving a linear set of equations through any of the <see cref="Solve(Single[,])"/>
+        ///   methods.
+        /// </summary>
+        /// 
+        public Single[,] GetInformationMatrix()
+        {
+            var X = Reverse();
+            return X.TransposeAndDot(X).Inverse();
+        }
 
 
         #region ICloneable Members

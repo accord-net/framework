@@ -56,7 +56,7 @@ namespace Accord.Video.Ximea
         private int deviceID = 0;
 
         // dummy object to lock for synchronization
-        private object sync = new object( );
+        private object sync = new object();
 
         /// <summary>
         /// Get number of XIMEA camera connected to the system.
@@ -67,8 +67,8 @@ namespace Accord.Video.Ximea
             {
                 int count;
 
-                int errorCode = XimeaAPI.xiGetNumberDevices( out count );
-                HandleError( errorCode );
+                int errorCode = XimeaAPI.xiGetNumberDevices(out count);
+                HandleError(errorCode);
 
                 return count;
             }
@@ -81,7 +81,7 @@ namespace Accord.Video.Ximea
         {
             get
             {
-                lock ( sync )
+                lock (sync)
                 {
                     return isAcquisitionStarted;
                 }
@@ -95,9 +95,9 @@ namespace Accord.Video.Ximea
         {
             get
             {
-                lock ( sync )
+                lock (sync)
                 {
-                    return ( deviceHandle != IntPtr.Zero );
+                    return (deviceHandle != IntPtr.Zero);
                 }
             }
         }
@@ -123,13 +123,13 @@ namespace Accord.Video.Ximea
         /// <exception cref="VideoException">An error occurred while communicating with a camera. See error
         /// message for additional information.</exception>
         ///
-        public void Open( int deviceID )
+        public void Open(int deviceID)
         {
-            lock ( sync )
+            lock (sync)
             {
                 IntPtr deviceHandle;
-                int errorCode = XimeaAPI.xiOpenDevice( deviceID, out deviceHandle );
-                HandleError( errorCode );
+                int errorCode = XimeaAPI.xiOpenDevice(deviceID, out deviceHandle);
+                HandleError(errorCode);
                 // save the device handle is everything is fine
                 this.deviceHandle = deviceHandle;
                 this.isAcquisitionStarted = false;
@@ -147,17 +147,17 @@ namespace Accord.Video.Ximea
         /// <exception cref="VideoException">An error occurred while communicating with a camera. See error
         /// message for additional information.</exception>
         ///
-        public void Close( )
+        public void Close()
         {
-            lock ( sync )
+            lock (sync)
             {
-                if ( deviceHandle != IntPtr.Zero )
+                if (deviceHandle != IntPtr.Zero)
                 {
-                    if ( isAcquisitionStarted )
+                    if (isAcquisitionStarted)
                     {
                         try
                         {
-                            StopAcquisition( );
+                            StopAcquisition();
                         }
                         catch
                         {
@@ -166,8 +166,8 @@ namespace Accord.Video.Ximea
 
                     try
                     {
-                        int errorCode = XimeaAPI.xiCloseDevice( deviceHandle );
-                        HandleError( errorCode );
+                        int errorCode = XimeaAPI.xiCloseDevice(deviceHandle);
+                        HandleError(errorCode);
                     }
                     finally
                     {
@@ -188,14 +188,14 @@ namespace Accord.Video.Ximea
         /// message for additional information.</exception>
         /// <exception cref="NotConnectedException">No camera was opened, so can not access its methods.</exception>
         /// 
-        public void StartAcquisition( )
+        public void StartAcquisition()
         {
-            lock ( sync )
+            lock (sync)
             {
-                CheckConnection( );
+                CheckConnection();
 
-                int errorCode = XimeaAPI.xiStartAcquisition( deviceHandle );
-                HandleError( errorCode );
+                int errorCode = XimeaAPI.xiStartAcquisition(deviceHandle);
+                HandleError(errorCode);
 
                 isAcquisitionStarted = true;
             }
@@ -209,16 +209,16 @@ namespace Accord.Video.Ximea
         /// message for additional information.</exception>
         /// <exception cref="NotConnectedException">No camera was opened, so can not access its methods.</exception>
         /// 
-        public void StopAcquisition( )
+        public void StopAcquisition()
         {
-            lock ( sync )
+            lock (sync)
             {
-                CheckConnection( );
+                CheckConnection();
 
                 try
                 {
-                    int errorCode = XimeaAPI.xiStopAcquisition( deviceHandle );
-                    HandleError( errorCode );
+                    int errorCode = XimeaAPI.xiStopAcquisition(deviceHandle);
+                    HandleError(errorCode);
                 }
                 finally
                 {
@@ -243,14 +243,14 @@ namespace Accord.Video.Ximea
         /// message for additional information.</exception>
         /// <exception cref="NotConnectedException">No camera was opened, so can not access its methods.</exception>
         ///
-        public void SetParam( string parameterName, int value )
+        public void SetParam(string parameterName, int value)
         {
-            lock ( sync )
+            lock (sync)
             {
-                CheckConnection( );
+                CheckConnection();
 
-                int errorCode = XimeaAPI.xiSetParam( deviceHandle, parameterName, ref value, 4, ParameterType.Integer );
-                HandleError( errorCode );
+                int errorCode = XimeaAPI.xiSetParam(deviceHandle, parameterName, ref value, 4, ParameterType.Integer);
+                HandleError(errorCode);
             }
         }
 
@@ -270,14 +270,14 @@ namespace Accord.Video.Ximea
         /// message for additional information.</exception>
         /// <exception cref="NotConnectedException">No camera was opened, so can not access its methods.</exception>
         ///
-        public void SetParam( string parameterName, float value )
+        public void SetParam(string parameterName, float value)
         {
-            lock ( sync )
+            lock (sync)
             {
-                CheckConnection( );
+                CheckConnection();
 
-                int errorCode = XimeaAPI.xiSetParam( deviceHandle, parameterName, ref value, 4, ParameterType.Float );
-                HandleError( errorCode );
+                int errorCode = XimeaAPI.xiSetParam(deviceHandle, parameterName, ref value, 4, ParameterType.Float);
+                HandleError(errorCode);
             }
         }
 
@@ -296,18 +296,18 @@ namespace Accord.Video.Ximea
         /// message for additional information.</exception>
         /// <exception cref="NotConnectedException">No camera was opened, so can not access its methods.</exception>
         ///
-        public int GetParamInt( string parameterName )
+        public int GetParamInt(string parameterName)
         {
-            lock ( sync )
+            lock (sync)
             {
-                CheckConnection( );
+                CheckConnection();
 
                 int value;
                 int size;
                 ParameterType type = ParameterType.Integer;
 
-                int errorCode = XimeaAPI.xiGetParam( deviceHandle, parameterName, out value, out size, ref type );
-                HandleError( errorCode );
+                int errorCode = XimeaAPI.xiGetParam(deviceHandle, parameterName, out value, out size, ref type);
+                HandleError(errorCode);
 
                 return value;
             }
@@ -328,18 +328,18 @@ namespace Accord.Video.Ximea
         /// message for additional information.</exception>
         /// <exception cref="NotConnectedException">No camera was opened, so can not access its methods.</exception>
         ///
-        public float GetParamFloat( string parameterName )
+        public float GetParamFloat(string parameterName)
         {
-            lock ( sync )
+            lock (sync)
             {
-                CheckConnection( );
+                CheckConnection();
 
                 float value;
                 int size;
                 ParameterType type = ParameterType.Float;
 
-                int errorCode = XimeaAPI.xiGetParam( deviceHandle, parameterName, out value, out size, ref type );
-                HandleError( errorCode );
+                int errorCode = XimeaAPI.xiGetParam(deviceHandle, parameterName, out value, out size, ref type);
+                HandleError(errorCode);
 
                 return value;
             }
@@ -360,11 +360,11 @@ namespace Accord.Video.Ximea
         /// message for additional information.</exception>
         /// <exception cref="NotConnectedException">No camera was opened, so can not access its methods.</exception>
         ///
-        public string GetParamString( string parameterName )
+        public string GetParamString(string parameterName)
         {
-            lock ( sync )
+            lock (sync)
             {
-                CheckConnection( );
+                CheckConnection();
 
                 byte[] bytes = new byte[260];
                 int size = bytes.Length;
@@ -372,14 +372,14 @@ namespace Accord.Video.Ximea
 
                 unsafe
                 {
-                    fixed ( byte* ptr = bytes )
+                    fixed (byte* ptr = bytes)
                     {
-                        int errorCode = XimeaAPI.xiGetParam( deviceHandle, parameterName, ptr, out size, ref type );
-                        HandleError( errorCode );
+                        int errorCode = XimeaAPI.xiGetParam(deviceHandle, parameterName, ptr, out size, ref type);
+                        HandleError(errorCode);
                     }
                 }
 
-                return Encoding.ASCII.GetString( bytes, 0, size );
+                return Encoding.ASCII.GetString(bytes, 0, size);
             }
         }
 
@@ -392,9 +392,9 @@ namespace Accord.Video.Ximea
         /// <remarks><para>The method calls <see cref="GetImage(int)"/> method specifying 5000 as the timeout
         /// value.</para></remarks>
         ///
-        public Bitmap GetImage( )
+        public Bitmap GetImage()
         {
-            return GetImage( 5000 );
+            return GetImage(5000);
         }
 
         /// <summary>
@@ -408,11 +408,11 @@ namespace Accord.Video.Ximea
         /// <remarks><para>The method calls <see cref="GetImage(int,bool)"/> method specifying <see langword="true"/>
         /// the <b>makeCopy</b> parameter.</para></remarks>
         ///
-        public Bitmap GetImage( int timeout )
+        public Bitmap GetImage(int timeout)
         {
-            return GetImage( timeout, true );
+            return GetImage(timeout, true);
         }
-        
+
         /// <summary>
         /// Get image from the opened XIMEA camera.
         /// </summary>
@@ -433,38 +433,38 @@ namespace Accord.Video.Ximea
         /// <exception cref="NotConnectedException">No camera was opened, so can not access its methods.</exception>
         /// <exception cref="TimeoutException">Time out value reached - no image is available within specified time value.</exception>
         ///
-        public Bitmap GetImage( int timeout, bool makeCopy )
+        public Bitmap GetImage(int timeout, bool makeCopy)
         {
-            lock ( sync )
+            lock (sync)
             {
-                CheckConnection( );
+                CheckConnection();
 
                 int errorCode;
 
-                XimeaImage ximeaImage = new XimeaImage( );
+                XimeaImage ximeaImage = new XimeaImage();
                 unsafe
                 {
-                    ximeaImage.StructSize = sizeof( XimeaImage );
+                    ximeaImage.StructSize = sizeof(XimeaImage);
                 }
 
                 // get image from XIMEA camera
                 try
                 {
-                    errorCode = XimeaAPI.xiGetImage( deviceHandle, timeout, ref ximeaImage );
+                    errorCode = XimeaAPI.xiGetImage(deviceHandle, timeout, ref ximeaImage);
                 }
-                catch ( AccessViolationException )
+                catch (AccessViolationException)
                 {
                     errorCode = 9;
                 }
 
                 // handle error if any
-                HandleError( errorCode );
+                HandleError(errorCode);
 
                 // create managed bitmap for the unmanaged image provided by camera
                 PixelFormat pixelFormat = PixelFormat.Undefined;
                 int stride = 0;
 
-                switch ( ximeaImage.PixelFormat )
+                switch (ximeaImage.PixelFormat)
                 {
                     case ImageFormat.Grayscale8:
                         pixelFormat = PixelFormat.Format8bppIndexed;
@@ -482,59 +482,59 @@ namespace Accord.Video.Ximea
                         break;
 
                     default:
-                        throw new VideoException( "Unsupported pixel format." );
+                        throw new VideoException("Unsupported pixel format.");
                 }
 
                 Bitmap bitmap = null;
 
-                if ( !makeCopy )
+                if (!makeCopy)
                 {
-                    bitmap = new Bitmap( ximeaImage.Width, ximeaImage.Height, stride, pixelFormat, ximeaImage.BitmapData );
+                    bitmap = new Bitmap(ximeaImage.Width, ximeaImage.Height, stride, pixelFormat, ximeaImage.BitmapData);
                 }
                 else
                 {
-                    bitmap = new Bitmap( ximeaImage.Width, ximeaImage.Height, pixelFormat );
+                    bitmap = new Bitmap(ximeaImage.Width, ximeaImage.Height, pixelFormat);
 
                     // lock destination bitmap data
                     BitmapData bitmapData = bitmap.LockBits(
-                        new Rectangle( 0, 0, ximeaImage.Width, ximeaImage.Height ),
-                        ImageLockMode.ReadWrite, pixelFormat );
+                        new Rectangle(0, 0, ximeaImage.Width, ximeaImage.Height),
+                        ImageLockMode.ReadWrite, pixelFormat);
 
                     int dstStride = bitmapData.Stride;
-                    int lineSize  = Math.Min( stride, dstStride );
+                    int lineSize = Math.Min(stride, dstStride);
 
                     unsafe
                     {
-                        byte* dst = (byte*) bitmapData.Scan0.ToPointer( );
-                        byte* src = (byte*) ximeaImage.BitmapData.ToPointer( );
+                        byte* dst = (byte*)bitmapData.Scan0.ToPointer();
+                        byte* src = (byte*)ximeaImage.BitmapData.ToPointer();
 
-                        if ( stride != dstStride )
+                        if (stride != dstStride)
                         {
                             // copy image
-                            for ( int y = 0; y < ximeaImage.Height; y++ )
+                            for (int y = 0; y < ximeaImage.Height; y++)
                             {
-                                Accord.SystemTools.CopyUnmanagedMemory( dst, src, lineSize );
+                                Accord.SystemTools.CopyUnmanagedMemory(dst, src, lineSize);
                                 dst += dstStride;
                                 src += stride;
                             }
                         }
                         else
                         {
-                            Accord.SystemTools.CopyUnmanagedMemory( dst, src, stride * ximeaImage.Height );
+                            Accord.SystemTools.CopyUnmanagedMemory(dst, src, stride * ximeaImage.Height);
                         }
                     }
 
                     // unlock destination images
-                    bitmap.UnlockBits( bitmapData );
+                    bitmap.UnlockBits(bitmapData);
                 }
 
                 // set palette for grayscale image
-                if ( ximeaImage.PixelFormat == ImageFormat.Grayscale8 )
+                if (ximeaImage.PixelFormat == ImageFormat.Grayscale8)
                 {
                     ColorPalette palette = bitmap.Palette;
-                    for ( int i = 0; i < 256; i++ )
+                    for (int i = 0; i < 256; i++)
                     {
-                        palette.Entries[i] = Color.FromArgb( i, i, i );
+                        palette.Entries[i] = Color.FromArgb(i, i, i);
                     }
                     bitmap.Palette = palette;
                 }
@@ -545,18 +545,18 @@ namespace Accord.Video.Ximea
 
 
         // Handle errors from XIMEA API
-        private static void HandleError( int errorCode )
+        private static void HandleError(int errorCode)
         {
-            if ( errorCode != 0 )
+            if (errorCode != 0)
             {
-                if ( errorCode == 10 )
+                if (errorCode == 10)
                 {
-                    throw new TimeoutException( "Time out while waiting for camera response." ); 
+                    throw new TimeoutException("Time out while waiting for camera response.");
                 }
 
                 string errorMessage = string.Empty;
 
-                switch ( errorCode )
+                switch (errorCode)
                 {
                     case 1:
                         errorMessage = "Invalid handle";
@@ -771,16 +771,16 @@ namespace Accord.Video.Ximea
                         break;
                 }
 
-                throw new VideoException( string.Format( "Error code: {0}, Message: {1}", errorCode, errorMessage ) );
+                throw new VideoException(string.Format("Error code: {0}, Message: {1}", errorCode, errorMessage));
             }
         }
 
         // Check if a camera is open or not
-        private void CheckConnection( )
+        private void CheckConnection()
         {
-            if ( deviceHandle == IntPtr.Zero )
+            if (deviceHandle == IntPtr.Zero)
             {
-                throw new NotConnectedException( "No established connection to XIMEA camera." );
+                throw new NotConnectedException("No established connection to XIMEA camera.");
             }
         }
     }

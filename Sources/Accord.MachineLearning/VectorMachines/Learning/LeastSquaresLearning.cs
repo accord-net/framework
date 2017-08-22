@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -25,6 +25,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     using System;
     using Accord.Math;
     using Accord.Statistics.Kernels;
+    using Accord.Compat;
 
     /// <summary>
     ///   Least Squares SVM (LS-SVM) learning algorithm.
@@ -43,12 +44,10 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     ///     </list></para>  
     /// </remarks>
     /// 
-    /// <seealso cref="SequentialMinimalOptimization"/>
-    /// <seealso cref="MulticlassSupportVectorLearning"/>
-    /// <seealso cref="MultilabelSupportVectorLearning"/>
-    /// 
+    /// <seealso cref="SequentialMinimalOptimization{TKernel}"/>
+    /// <seealso cref="MulticlassSupportVectorLearning{TKernel}"/>
+    /// <seealso cref="MultilabelSupportVectorLearning{TKernel}"/>
     /// <seealso cref="SupportVectorMachine"/>
-    /// <seealso cref="KernelSupportVectorMachine"/>
     /// 
     public class LeastSquaresLearning : 
         LeastSquaresLearningBase<SupportVectorMachine<IKernel<double[]>, double[]>, IKernel<double[]>, double[]>
@@ -98,12 +97,10 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     ///     </list></para>  
     /// </remarks>
     /// 
-    /// <seealso cref="SequentialMinimalOptimization"/>
-    /// <seealso cref="MulticlassSupportVectorLearning"/>
-    /// <seealso cref="MultilabelSupportVectorLearning"/>
-    /// 
+    /// <seealso cref="SequentialMinimalOptimization{TKernel}"/>
+    /// <seealso cref="MulticlassSupportVectorLearning{TKernel}"/>
+    /// <seealso cref="MultilabelSupportVectorLearning{TKernel}"/>
     /// <seealso cref="SupportVectorMachine"/>
-    /// <seealso cref="KernelSupportVectorMachine"/>
     /// 
     public class LeastSquaresLearning<TKernel, TInput> :
         LeastSquaresLearningBase<SupportVectorMachine<TKernel, TInput>, TKernel, TInput>
@@ -130,7 +127,9 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         BaseSupportVectorClassification<TModel, TKernel, TInput>
         where TKernel : IKernel<TInput>
         where TModel : SupportVectorMachine<TKernel, TInput>
+#if !NETSTANDARD1_4
         where TInput : ICloneable
+#endif
     {
 
         private double[] diagonal;
@@ -199,17 +198,14 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             for (int i = 0; i < diagonal.Length; i++)
                 diagonal[i] = Kernel.Function(inputs[i], inputs[i]) + 1.0 / C[i];
 
-
             // 1. Solve to find nu and eta
             double[] eta = conjugateGradient(outputs);
             double[] nu = conjugateGradient(ones);
-
 
             // 2. Compute  s = Y' eta
             double s = 0;
             for (int i = 0; i < outputs.Length; i++)
                 s += outputs[i] * eta[i];
-
 
             // 3. Find solution
             double b = 0;

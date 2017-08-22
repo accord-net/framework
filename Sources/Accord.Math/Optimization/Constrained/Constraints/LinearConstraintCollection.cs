@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -147,7 +147,7 @@ namespace Accord.Math.Optimization
         /// 
         /// <param name="a">The constraint matrix.</param>
         /// <param name="b">The constraint values.</param>
-        /// <param name="meq">The number of inequalities 
+        /// <param name="meq">The number of equalities 
         ///   at the start of the matrix <paramref name="a"/>.</param>
         /// 
         public static LinearConstraintCollection FromMatrix(double[,] a, double[] b, int meq)

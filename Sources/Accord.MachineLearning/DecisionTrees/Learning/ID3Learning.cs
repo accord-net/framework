@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -24,10 +24,15 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
 {
     using System;
     using Accord.Math;
-    using System.Threading.Tasks;
     using Accord.Statistics;
     using Accord.Math.Optimization.Losses;
     using Accord.MachineLearning;
+    using System.Linq;
+    using System.Collections.Generic;
+    using Statistics.Filters;
+    using System.Collections;
+    using Accord.Compat;
+    using System.Threading.Tasks;
 
     /// <summary>
     ///   ID3 (Iterative Dichotomizer 3) learning algorithm
@@ -52,158 +57,26 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
     /// 
     /// <example>
     /// <para>
-    ///   In this example, we will be using the famous Play Tennis example by Tom Mitchell (1998).
-    ///   In Mitchell's example, one would like to infer if a person would play tennis or not
-    ///   based solely on four input variables. Those variables are all categorical, meaning that
-    ///   there is no order between the possible values for the variable (i.e. there is no order
-    ///   relationship between Sunny and Rain, one is not bigger nor smaller than the other, but are 
-    ///   just distinct). Moreover, the rows, or instances presented above represent days on which the
-    ///   behavior of the person has been registered and annotated, pretty much building our set of 
-    ///   observation instances for learning:</para>
-    /// 
-    /// <code>
-    ///   DataTable data = new DataTable("Mitchell's Tennis Example");
+    ///   This example shows the simplest way to induce a decision tree with discrete variables.</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\DecisionTrees\ID3LearningTest.cs" region="doc_learn_simplest" />
     ///   
-    ///   data.Columns.Add("Day", "Outlook", "Temperature", "Humidity", "Wind", "PlayTennis");
-    ///   
-    ///   data.Rows.Add(   "D1",   "Sunny",      "Hot",       "High",   "Weak",    "No"  );
-    ///   data.Rows.Add(   "D2",   "Sunny",      "Hot",       "High",  "Strong",   "No"  ); 
-    ///   data.Rows.Add(   "D3",  "Overcast",    "Hot",       "High",   "Weak",    "Yes" );
-    ///   data.Rows.Add(   "D4",   "Rain",       "Mild",      "High",   "Weak",    "Yes" ); 
-    ///   data.Rows.Add(   "D5",   "Rain",       "Cool",     "Normal",  "Weak",    "Yes" ); 
-    ///   data.Rows.Add(   "D6",   "Rain",       "Cool",     "Normal", "Strong",   "No"  ); 
-    ///   data.Rows.Add(   "D7",  "Overcast",    "Cool",     "Normal", "Strong",   "Yes" );
-    ///   data.Rows.Add(   "D8",   "Sunny",      "Mild",      "High",   "Weak",    "No"  );  
-    ///   data.Rows.Add(   "D9",   "Sunny",      "Cool",     "Normal",  "Weak",    "Yes" ); 
-    ///   data.Rows.Add(   "D10", "Rain",        "Mild",     "Normal",  "Weak",    "Yes" ); 
-    ///   data.Rows.Add(   "D11",  "Sunny",      "Mild",     "Normal", "Strong",   "Yes" );
-    ///   data.Rows.Add(   "D12", "Overcast",    "Mild",      "High",  "Strong",   "Yes" ); 
-    ///   data.Rows.Add(   "D13", "Overcast",    "Hot",      "Normal",  "Weak",    "Yes" ); 
-    ///   data.Rows.Add(   "D14",  "Rain",       "Mild",      "High",  "Strong",   "No"  );
-    /// </code>
-    /// 
-    /// <para>
-    ///   In order to try to learn a decision tree, we will first convert this problem to a more simpler
-    ///   representation. Since all variables are categories, it does not matter if they are represented
-    ///   as strings, or numbers, since both are just symbols for the event they represent. Since numbers
-    ///   are more easily representable than text string, we will convert the problem to use a discrete 
-    ///   alphabet through the use of a <see cref="Accord.Statistics.Filters.Codification">codebook</see>.</para>
-    /// 
-    /// <para>
-    ///   A codebook effectively transforms any distinct possible value for a variable into an integer 
-    ///   symbol. For example, “Sunny” could as well be represented by the integer label 0, “Overcast” 
-    ///   by “1”, Rain by “2”, and the same goes by for the other variables. So:</para>
-    /// 
-    /// <code>
-    ///   // Create a new codification codebook to 
-    ///   // convert strings into integer symbols
-    ///   Codification codebook = new Codification(data,
-    ///     "Outlook", "Temperature", "Humidity", "Wind", "PlayTennis");
-    ///   
-    ///   // Translate our training data into integer symbols using our codebook:
-    ///   DataTable symbols = codebook.Apply(data); 
-    ///   int[][] inputs  = symbols.ToArray&lt;int>("Outlook", "Temperature", "Humidity", "Wind"); 
-    ///   int[]   outputs = symbols.ToArray&lt;int>("PlayTennis");
-    /// </code>
-    /// 
-    /// <para>
-    ///   Now that we already have our learning input/ouput pairs, we should specify our
-    ///   decision tree. We will be trying to build a tree to predict the last column, entitled
-    ///   “PlayTennis”. For this, we will be using the “Outlook”, “Temperature”, “Humidity” and
-    ///   “Wind” as predictors (variables which will we will use for our decision). Since those
-    ///   are categorical, we must specify, at the moment of creation of our tree, the
-    ///   characteristics of each of those variables. So:
-    /// </para>
-    /// 
-    /// <code>
-    ///   // Gather information about decision variables
-    ///   DecisionVariable[] attributes =
-    ///   {
-    ///     new DecisionVariable("Outlook",     3), // 3 possible values (Sunny, overcast, rain)
-    ///     new DecisionVariable("Temperature", 3), // 3 possible values (Hot, mild, cool)  
-    ///     new DecisionVariable("Humidity",    2), // 2 possible values (High, normal)    
-    ///     new DecisionVariable("Wind",        2)  // 2 possible values (Weak, strong) 
-    ///   };
-    ///   
-    ///   int classCount = 2; // 2 possible output values for playing tennis: yes or no
-    ///
-    ///   //Create the decision tree using the attributes and classes
-    ///   DecisionTree tree = new DecisionTree(attributes, classCount); 
-    /// </code>
-    /// 
-    /// <para>Now we have created our decision tree. Unfortunately, it is not really very useful,
-    /// since we haven't taught it the problem we are trying to predict. So now we must instantiate
-    /// a learning algorithm to make it useful. For this task, in which we have only categorical 
-    /// variables, the simplest choice is to use the ID3 algorithm by Quinlan. Let’s do it:</para>
-    /// 
-    /// <code>
-    ///   // Create a new instance of the ID3 algorithm
-    ///   ID3Learning id3learning = new ID3Learning(tree);
-    ///
-    ///   // Learn the training instances!
-    ///   id3learning.Run(inputs, outputs); 
-    /// </code>
-    /// 
-    /// <para>The tree can now be queried for new examples through its <see cref="DecisionTree.Compute(double[])"/>
-    /// method. For example, we can use: </para>
-    /// 
-    /// <code>
-    ///   string answer = codebook.Translate("PlayTennis",
-    ///     tree.Compute(codebook.Translate("Sunny", "Hot", "High", "Strong")));
-    /// </code>
-    /// 
-    /// <para>In the above example, answer will be "No".</para>
-    /// 
+    ///<para>
+    ///   This example shows a common textbook example, and how to induce a decision tree using a 
+    ///   <see cref="Codification">codebook</see> to convert string (text) variables into discrete symbols.</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\DecisionTrees\ID3LearningTest.cs" region="doc_learn_mitchell" />
     /// </example>
-    /// 
     ///
+    /// <see cref="DecisionTree"/> 
     /// <see cref="C45Learning"/>
+    /// <see cref="RandomForestLearning"/>
     /// 
     [Serializable]
-    public class ID3Learning : ParallelLearningBase, ISupervisedLearning<DecisionTree, int[], int>
+    public class ID3Learning : DecisionTreeLearningBase, ISupervisedLearning<DecisionTree, int[], int>
     {
 
-        private DecisionTree tree;
-
-        private int maxHeight;
         private IntRange[] inputRanges;
-        private int outputClasses;
 
-        private int join = 1;
-
-        private int[] attributeUsageCount;
-
-
-        /// <summary>
-        ///   Gets or sets the maximum allowed height when
-        ///   learning a tree. If set to zero, no limit will
-        ///   be applied. Default is zero.
-        /// </summary>
-        /// 
-        public int MaxHeight
-        {
-            get { return maxHeight; }
-            set
-            {
-                if (value <= 0)
-                {
-                    throw new ArgumentOutOfRangeException("value",
-                        "The height must be greater than zero.");
-                }
-
-                maxHeight = value;
-            }
-        }
-
-        /// <summary>
-        ///   Gets or sets the decision trees being learned.
-        /// </summary>
-        /// 
-        public DecisionTree Model
-        {
-            get { return tree; }
-            set { tree = value; }
-        }
+        private bool rejection = true;
 
         /// <summary>
         ///   Gets or sets whether all nodes are obligated to provide 
@@ -211,29 +84,10 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
         ///   may contain <c>null</c>. Default is false.
         /// </summary>
         /// 
-        public bool Rejection { get; set; }
-
-
-        /// <summary>
-        ///   Gets or sets how many times one single variable can be
-        ///   integrated into the decision process. In the original
-        ///   ID3 algorithm, a variable can join only one time per
-        ///   decision path (path from the root to a leaf).
-        /// </summary>
-        /// 
-        public int Join
+        public bool Rejection
         {
-            get { return join; }
-            set
-            {
-                if (value <= 0)
-                {
-                    throw new ArgumentOutOfRangeException("value",
-                        "The number of times must be greater than zero.");
-                }
-
-                join = value;
-            }
+            get { return rejection; }
+            set { rejection = value; }
         }
 
         /// <summary>
@@ -242,7 +96,6 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
         /// 
         public ID3Learning()
         {
-            this.Rejection = true;
         }
 
         /// <summary>
@@ -252,9 +105,19 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
         /// <param name="tree">The decision tree to be generated.</param>
         /// 
         public ID3Learning(DecisionTree tree)
-            : this()
         {
             init(tree);
+        }
+
+        /// <summary>
+        ///   Creates a new ID3 learning algorithm.
+        /// </summary>
+        /// 
+        /// <param name="attributes">The attributes to be processed by the induced tree.</param>
+        /// 
+        public ID3Learning(DecisionVariable[] attributes)
+            : base(attributes)
+        {
         }
 
         private void init(DecisionTree tree)
@@ -262,10 +125,10 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             if (tree == null)
                 throw new ArgumentNullException("tree");
 
-            this.tree = tree;
+            this.Model = tree;
             this.inputRanges = new IntRange[tree.NumberOfInputs];
-            this.outputClasses = tree.NumberOfOutputs;
-            this.attributeUsageCount = new int[tree.NumberOfInputs];
+            this.AttributeUsageCount = new int[tree.NumberOfInputs];
+            this.Attributes = tree.Attributes;
 
             for (int i = 0; i < tree.Attributes.Count; i++)
             {
@@ -277,28 +140,29 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
                 inputRanges[i] = tree.Attributes[i].Range.ToIntRange(provideInnerRange: false);
         }
 
+      
+
         /// <summary>
         ///   Learns a model that can map the given inputs to the given outputs.
         /// </summary>
         /// 
         /// <param name="x">The model inputs.</param>
         /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
-        /// <param name="weights">The weight of importance for each input-output pair.</param>
+        /// <param name="weights">The weight of importance for each input-output pair (if supported by the learning algorithm).</param>
         /// 
         /// <returns>A model that has learned how to produce <paramref name="y"/> given <paramref name="x"/>.</returns>
         /// 
         public DecisionTree Learn(int[][] x, int[] y, double[] weights = null)
         {
-            if (tree == null)
-            {
-                var variables = DecisionVariable.FromData(x);
-                int classes = y.DistinctCount();
-                init(new DecisionTree(variables, classes));
-            }
+            if (weights != null)
+                throw new ArgumentException(Accord.Properties.Resources.NotSupportedWeights, "weights");
 
-            Run(x, y);
+            if (Model == null)
+                init(DecisionTreeHelper.Create(x, y, this.Attributes));
 
-            return tree;
+            run(x, y);
+
+            return Model;
         }
 
         /// <summary>
@@ -311,25 +175,35 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
         /// 
         /// <returns>The error of the generated tree.</returns>
         /// 
+        [Obsolete("Please use Learn(x, y) instead.")]
         public double Run(int[][] inputs, int[] outputs)
         {
+            run(inputs, outputs);
+
+            // Return the classification error
+            return new ZeroOneLoss(outputs)
+            {
+                Mean = true
+            }.Loss(Model.Decide(inputs));
+        }
+
+        private void run(int[][] inputs, int[] outputs)
+        {
             // Initial argument check
-            checkArgs(inputs, outputs);
+            DecisionTreeHelper.CheckArgs(Model, inputs, outputs);
 
             // Reset the usage of all attributes
-            for (int i = 0; i < attributeUsageCount.Length; i++)
+            for (int i = 0; i < AttributeUsageCount.Length; i++)
             {
                 // a[i] has never been used
-                attributeUsageCount[i] = 0;
+                AttributeUsageCount[i] = 0;
             }
 
             // 1. Create a root node for the tree
-            this.tree.Root = new DecisionNode(tree);
+            this.Model.Root = new DecisionNode(Model);
 
-            split(tree.Root, inputs, outputs, 0);
-
-            // Return the classification error
-            return ComputeError(inputs, outputs);
+            // Recursively split the tree nodes
+            split(Model.Root, inputs, outputs, 0);
         }
 
 
@@ -344,17 +218,20 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
         /// 
         /// <returns>The percentage error of the prediction.</returns>
         /// 
+        [Obsolete("Please use the ZeroOneLoss class instead.")]
         public double ComputeError(int[][] inputs, int[] outputs)
         {
-            return new ZeroOneLoss(outputs) { Mean = true }.Loss(tree.Decide(inputs));
+            return new ZeroOneLoss(outputs)
+            {
+                Mean = true
+            }.Loss(Model.Decide(inputs));
         }
 
         private void split(DecisionNode root, int[][] input, int[] output, int height)
         {
-
             // 2. If all examples are for the same class, return the single-node
             //    tree with the output label corresponding to this common class.
-            double entropy = Measures.Entropy(output, outputClasses);
+            double entropy = Measures.Entropy(output, Model.NumberOfClasses);
 
             if (entropy == 0)
             {
@@ -368,10 +245,10 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             //    the target attributes in the examples.
             //
 
-            // how many variables have been used less than the limit
-            int candidateCount = attributeUsageCount.Count(x => x < join);
+            // how many variables have been used less than the limit (if there is a limit)
+            int candidateCount = AttributeUsageCount.Count(x => Join == 0 ? true : x < Join);
 
-            if (candidateCount == 0 || (maxHeight > 0 && height == maxHeight))
+            if (candidateCount == 0 || (MaxHeight > 0 && height == MaxHeight))
             {
                 root.Output = Measures.Mode(output);
                 return;
@@ -387,9 +264,9 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
 
             // Retrieve candidate attribute indices
             int[] candidates = new int[candidateCount];
-            for (int i = 0, k = 0; i < attributeUsageCount.Length; i++)
+            for (int i = 0, k = 0; i < AttributeUsageCount.Length; i++)
             {
-                if (attributeUsageCount[i] < join)
+                if (AttributeUsageCount[i] < Join)
                     candidates[k++] = i;
             }
 
@@ -408,14 +285,14 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             var maxGainAttribute = candidates[maxGainIndex];
             var maxGainRange = inputRanges[maxGainAttribute];
 
-            attributeUsageCount[maxGainAttribute]++;
+            AttributeUsageCount[maxGainAttribute]++;
 
             // Now, create next nodes and pass those partitions as their responsibilities.
             DecisionNode[] children = new DecisionNode[maxGainPartition.Length];
 
             for (int i = 0; i < children.Length; i++)
             {
-                children[i] = new DecisionNode(tree)
+                children[i] = new DecisionNode(Model)
                 {
                     Parent = root,
                     Comparison = ComparisonKind.Equal,
@@ -423,7 +300,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
                 };
 
 
-                int[][] inputSubset = input.Submatrix(maxGainPartition[i]);
+                int[][] inputSubset = input.Get(maxGainPartition[i]);
                 int[] outputSubset = maxGainOutputs[i];
 
                 split(children[i], inputSubset, outputSubset, height + 1); // recursion
@@ -440,7 +317,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             }
 
 
-            attributeUsageCount[maxGainAttribute]--;
+            AttributeUsageCount[maxGainAttribute]--;
 
             root.Branches.AttributeIndex = maxGainAttribute;
             root.Branches.AddRange(children);
@@ -470,10 +347,10 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
 
                 // For each of the instances under responsibility
                 // of this node, check which have the same value
-                outputSubset[i] = output.Submatrix(partitions[i]);
+                outputSubset[i] = output.Get(partitions[i]);
 
                 // Check the entropy gain originating from this partitioning
-                double e = Measures.Entropy(outputSubset[i], outputClasses);
+                double e = Measures.Entropy(outputSubset[i], Model.NumberOfClasses);
 
                 info += (outputSubset[i].Length / (double)output.Length) * e;
             }
@@ -490,78 +367,11 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
         private double computeGainRatio(int[][] input, int[] output, int attributeIndex,
             double entropy, out int[][] partitions, out int[][] outputSubset)
         {
-            double infoGain = computeInfoGain(input, output, attributeIndex,
-                entropy, out partitions, out outputSubset);
-
-            double splitInfo = Statistics.Tools.SplitInformation(output.Length, partitions);
+            double infoGain = computeInfoGain(input, output, attributeIndex, entropy, out partitions, out outputSubset);
+            double splitInfo = SplitInformation(output.Length, partitions);
 
             return infoGain == 0 ? 0 : infoGain / splitInfo;
         }
-
-
-
-
-
-
-        private void checkArgs(int[][] inputs, int[] outputs)
-        {
-            if (inputs == null)
-                throw new ArgumentNullException("inputs");
-
-            if (outputs == null)
-                throw new ArgumentNullException("outputs");
-
-            if (inputs.Length != outputs.Length)
-                throw new DimensionMismatchException("outputs",
-                    "The number of input vectors and output labels does not match.");
-
-            if (inputs.Length == 0)
-                throw new ArgumentOutOfRangeException("inputs",
-                    "Training algorithm needs at least one training vector.");
-
-            for (int i = 0; i < inputs.Length; i++)
-            {
-                if (inputs[i] == null)
-                {
-                    throw new ArgumentNullException("inputs",
-                        "The input vector at index " + i + " is null.");
-                }
-
-                if (inputs[i].Length != tree.NumberOfInputs)
-                {
-                    throw new DimensionMismatchException("inputs",
-                        "The size of the input vector at index " + i
-                        + " does not match the expected number of inputs of the tree."
-                        + " All input vectors for this tree must have length " + tree.NumberOfInputs);
-                }
-
-                for (int j = 0; j < inputs[i].Length; j++)
-                {
-                    int min = (int)tree.Attributes[j].Range.Min;
-                    int max = (int)tree.Attributes[j].Range.Max;
-
-                    if (inputs[i][j] < min || inputs[i][j] > max)
-                    {
-                        throw new ArgumentOutOfRangeException("inputs",
-                            "The input vector at position " + i + " contains an invalid entry at column "
-                            + j + ". The value must be between the bounds specified by the decision tree " +
-                            "attribute variables.");
-                    }
-                }
-            }
-
-            for (int i = 0; i < outputs.Length; i++)
-            {
-                if (outputs[i] < 0 || outputs[i] >= tree.NumberOfOutputs)
-                {
-                    throw new ArgumentOutOfRangeException("outputs",
-                        "The output label at index " + i +
-                        " should be equal to or higher than zero," +
-                        "and should be lesser than the number of output classes expected by the tree.");
-                }
-            }
-        }
-
 
     }
 }

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -30,6 +30,10 @@ namespace Accord.Tests.Imaging
     using System.Collections.Generic;
     using System.Drawing;
     using System.Drawing.Imaging;
+    using Accord.Tests.Imaging.Properties;
+#if NO_BITMAP
+    using Resources = Accord.Tests.Imaging.Properties.Resources_Standard;
+#endif
 
     [TestFixture]
     public class KCurvatureTest
@@ -39,7 +43,7 @@ namespace Accord.Tests.Imaging
         [Test]
         public void FindPeaksTest()
         {
-            Bitmap hand = Properties.Resources.rhand;
+            Bitmap hand = Accord.Imaging.Image.Clone(Resources.rhand);
 
             GaussianBlur median = new GaussianBlur(1.1);
             median.ApplyInPlace(hand);
@@ -91,7 +95,7 @@ namespace Accord.Tests.Imaging
         [Test]
         public void FindPeaksTest2()
         {
-            Bitmap hand = Accord.Imaging.Image.Clone(Properties.Resources.rhand0);
+            Bitmap hand = Accord.Imaging.Image.Clone(Resources.rhand0);
 
             //  ImageBox.Show(hand);
 
@@ -135,7 +139,7 @@ namespace Accord.Tests.Imaging
         [Test]
         public void FindPeaksTest3()
         {
-            Bitmap hand = Accord.Imaging.Image.Clone(Properties.Resources.rhand1);
+            Bitmap hand = Accord.Imaging.Image.Clone(Resources.rhand1);
 
             GaussianBlur median = new GaussianBlur(1.1);
             median.ApplyInPlace(hand);
@@ -170,7 +174,7 @@ namespace Accord.Tests.Imaging
         [Test]
         public void FindPeaksTest4()
         {
-            Bitmap hand = Accord.Imaging.Image.Clone(Properties.Resources.rhand2);
+            Bitmap hand = Accord.Imaging.Image.Clone(Resources.rhand2);
 
             GaussianBlur median = new GaussianBlur(1.1);
             median.ApplyInPlace(hand);
@@ -204,7 +208,7 @@ namespace Accord.Tests.Imaging
         [Test]
         public void FindPeaksTest6()
         {
-            Bitmap hand = Accord.Imaging.Image.Clone(Properties.Resources.rhand3);
+            Bitmap hand = Accord.Imaging.Image.Clone(Resources.rhand3);
 
             GaussianBlur median = new GaussianBlur(1.1);
             median.ApplyInPlace(hand);

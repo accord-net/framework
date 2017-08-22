@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -36,24 +36,7 @@ namespace Accord.Tests.MachineLearning
     [TestFixture]
     public class ReducedErrorPruningTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
+#if !NO_DATA_TABLE
         [Test]
         public void RunTest()
         {
@@ -82,7 +65,7 @@ namespace Accord.Tests.MachineLearning
             foreach (var node in tree)
                 nodeCount2++;
 
-            Assert.AreEqual(0.19454022988505748, error);
+            Assert.AreEqual(0.19454022988505748, error, 5e-4);
             Assert.AreEqual(447, nodeCount);
             Assert.AreEqual(4, nodeCount2);
         }
@@ -104,7 +87,11 @@ namespace Accord.Tests.MachineLearning
             table.Columns.Add(outputColumn);
 
             string[] lines = nurseryData.Split(
-                new[] { Environment.NewLine }, StringSplitOptions.None);
+                new[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+
+            Assert.AreEqual(12960, lines.Length);
+            Assert.AreEqual("usual,proper,complete,1,convenient,convenient,nonprob,recommended,recommend", lines[0]);
+            Assert.AreEqual("great_pret,very_crit,foster,more,critical,inconv,problematic,not_recom,not_recom", lines[lines.Length - 1]);
 
             foreach (var line in lines)
                 table.Rows.Add(line.Split(','));
@@ -118,11 +105,12 @@ namespace Accord.Tests.MachineLearning
             var tree = new DecisionTree(attributes, classes: 5);
 
             C45Learning c45 = new C45Learning(tree);
-            double error = c45.Run(inputs.Submatrix(first), outputs.Submatrix(first));
+            double error = c45.Run(inputs.First(first), outputs.First(first));
 
             Assert.AreEqual(0, error);
 
             return tree;
         }
+#endif
     }
 }

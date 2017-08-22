@@ -1,7 +1,7 @@
 ﻿// Accord.NET Sample Applications
 // http://accord-framework.net
 //
-// Copyright © 2009-2014, César Souza
+// Copyright © 2009-2017, César Souza
 // All rights reserved. 3-BSD License:
 //
 //   Redistribution and use in source and binary forms, with or without
@@ -144,13 +144,13 @@ namespace Sequences.HMMs
             {
                 return new BaumWelchLearning(hmmc.Models[i])
                 {
-                    Iterations = iterations,
+                    MaxIterations = iterations,
                     Tolerance = limit
                 };
             });
 
             // Learn the classifier
-            teacher.Run(sequences, labels);
+            teacher.Learn(sequences, labels);
 
 
             // Update the GUI
@@ -183,12 +183,8 @@ namespace Sequences.HMMs
                 string label = row.Cells["colTestTrueClass"].Value as string;
                 expected[i] = hmmc.Models.Find(x => x.Tag as string == label)[0];
 
-
-                // Compute the model output for this sequence and
-                // get its associated likelihood.
-
-                double likelihood;
-                actual[i] = hmmc.Compute(sequence, out likelihood);
+                // Compute the model output for this sequence and its likelihood.
+                double likelihood = hmmc.LogLikelihood(sequence, out actual[i]);
 
                 row.Cells["colTestAssignedClass"].Value = hmmc.Models[actual[i]].Tag as string;
                 row.Cells["colTestLikelihood"].Value = likelihood;
@@ -197,7 +193,7 @@ namespace Sequences.HMMs
 
 
             // Use confusion matrix to compute some performance metrics
-            dgvPerformance.DataSource = new[] { new GeneralConfusionMatrix(hmmc.Classes, actual, expected) };
+            dgvPerformance.DataSource = new[] { new GeneralConfusionMatrix(hmmc.NumberOfClasses, actual, expected) };
         }
 
         /// <summary>
@@ -257,10 +253,10 @@ namespace Sequences.HMMs
         {
             if (dgvModels.CurrentRow != null)
             {
-                HiddenMarkovModel model = dgvModels.CurrentRow.DataBoundItem as HiddenMarkovModel;
-                dgvProbabilities.DataSource = new ArrayDataView(model.Probabilities);
-                dgvEmissions.DataSource = new ArrayDataView(model.Emissions);
-                dgvTransitions.DataSource = new ArrayDataView(model.Transitions);
+                var model = dgvModels.CurrentRow.DataBoundItem as HiddenMarkovModel;
+                dgvProbabilities.DataSource = new ArrayDataView(model.LogInitial);
+                dgvEmissions.DataSource = new ArrayDataView(model.LogEmissions);
+                dgvTransitions.DataSource = new ArrayDataView(model.LogTransitions);
             }
         }
 

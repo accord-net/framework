@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -26,7 +26,9 @@ namespace Accord.Math
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Runtime.CompilerServices;
     using System.Text;
+    using Accord.Compat;
     using System.Threading.Tasks;
 
     public static partial class Vector
@@ -41,6 +43,9 @@ namespace Accord.Math
         /// 
         /// <returns>The inner product of the multiplication of the vectors.</returns>
         /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static double Dot(this Sparse<double> a, Sparse<double> b)
         {
             double sum = 0;
@@ -62,7 +67,7 @@ namespace Accord.Math
                 {
                     i++;
                 }
-                else if (posx > posy)
+                else //if (posx > posy)
                 {
                     j++;
                 }
@@ -80,6 +85,9 @@ namespace Accord.Math
         /// 
         /// <returns>The inner product of the multiplication of the vectors.</returns>
         /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static double Dot(this Sparse<double> a, double[] b)
         {
             double sum = 0;
@@ -101,13 +109,52 @@ namespace Accord.Math
                 {
                     i++;
                 }
-                else if (posx > posy)
+                else // if (posx > posy)
                 {
                     j++;
                 }
             }
 
             return sum;
+        }
+
+        /// <summary>
+        ///   Adds a sparse vector to a dense vector.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[] Add(this Sparse<double> a, double[] b, double[] result)
+        {
+            for (int j = 0; j < b.Length; j++)
+                result[j] = b[j];
+
+            for (int j = 0; j < a.Indices.Length; j++)
+                result[a.Indices[j]] += a.Values[j];
+
+            return result;
+        }
+
+        /// <summary>
+        /// Divides an array of sparse vectors by the associated scalars in a dense vector.
+        /// </summary>
+        /// 
+        public static Sparse<double>[] Divide(this Sparse<double>[] a, double[] b, Sparse<double>[] result)
+        {
+            for (int i = 0; i < a.Length; i++)
+                Elementwise.Divide(a[i].Values, b[i], result[i].Values);
+            return result;
+        }
+
+        /// <summary>
+        /// Divides a sparse vector by a scalar.
+        /// </summary>
+        /// 
+        public static Sparse<double> Divide(this Sparse<double> a, double b, Sparse<double> result)
+        {
+            Elementwise.Divide(a.Values, b, result.Values);
+            return result;
         }
 
     }

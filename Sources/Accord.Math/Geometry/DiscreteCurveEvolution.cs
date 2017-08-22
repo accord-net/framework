@@ -5,7 +5,7 @@
 // Copyright © Diego Catalano, 2014
 // diego.catalano at live.com
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -37,6 +37,7 @@ namespace Accord.Math.Geometry
     using System;
     using System.Collections.Generic;
     using Accord.Math;
+    using Accord.Compat;
     using System.Numerics;
 
     /// <summary>
@@ -87,10 +88,8 @@ namespace Accord.Math.Geometry
             get { return vertices; }
             set
             {
-                if (value <= 0 || value > 3)
-                    throw new ArgumentOutOfRangeException("value", 
-                        "Number of vertices should be between 0 and 3.");
-
+                if (value <= 0)
+                    throw new ArgumentOutOfRangeException("value", "Number of vertices should be higher than zero.");
                 vertices = value;
             }
         }

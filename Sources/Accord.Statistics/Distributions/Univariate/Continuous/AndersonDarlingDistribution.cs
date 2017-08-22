@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -24,7 +24,8 @@ namespace Accord.Statistics.Distributions.Univariate
 {
     using System;
     using Accord.Math;
-    using AForge;
+    using Accord.Math.Differentiation;
+    using Accord.Compat;
 
     /// <summary>
     ///   Distribution types supported by the Anderson-Darling distribution.
@@ -95,8 +96,11 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <param name="type">The type of the compared distribution.</param>
         /// <param name="samples">The number of samples.</param>
         /// 
-        public AndersonDarlingDistribution(AndersonDarlingDistributionType type, double samples)
+        public AndersonDarlingDistribution(AndersonDarlingDistributionType type, [Positive] double samples)
         {
+            if (samples <= 0)
+                throw new ArgumentOutOfRangeException("samples");
+
             this.DistributionType = type;
             this.NumberOfSamples = samples;
         }
@@ -112,7 +116,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override DoubleRange Support
         {
-            get { return new DoubleRange(0, 1); }
+            get { return new DoubleRange(0, Double.PositiveInfinity); }
         }
 
         /// <summary>
@@ -167,18 +171,24 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   See <see cref="KolmogorovSmirnovDistribution"/>.
         /// </example>
         /// 
-        public override double DistributionFunction(double x)
+        protected internal override double InnerDistributionFunction(double x)
         {
+            double result;
             switch (DistributionType)
             {
                 case AndersonDarlingDistributionType.Uniform:
-                    return ad_uniform(x, NumberOfSamples);
+                    result = ad_uniform(x, NumberOfSamples);
+                    break;
 
                 case AndersonDarlingDistributionType.Normal:
-                    return 1.0 - ad_normal(x, NumberOfSamples);
+                    result = 1.0 - ad_normal(x, NumberOfSamples);
+                    break;
+
+                default:
+                    throw new InvalidOperationException("Unexpected distribution type.");
             }
 
-            throw new InvalidOperationException("Unexpected distribution type.");
+            return result;
         }
 
         /// <summary>
@@ -195,7 +205,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   minus the CDF.
         /// </remarks>
         /// 
-        public override double ComplementaryDistributionFunction(double x)
+        protected internal override double InnerComplementaryDistributionFunction(double x)
         {
             switch (DistributionType)
             {
@@ -214,16 +224,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   Not supported.
         /// </summary>
         /// 
-        public override double ProbabilityDensityFunction(double x)
-        {
-            throw new NotSupportedException();
-        }
-
-        /// <summary>
-        ///   Not supported.
-        /// </summary>
-        /// 
-        public override double LogProbabilityDensityFunction(double x)
+        protected internal override double InnerProbabilityDensityFunction(double x)
         {
             throw new NotSupportedException();
         }
@@ -293,6 +294,9 @@ namespace Accord.Statistics.Distributions.Univariate
         private static double adinf(double z)
         {
             // From: http://www.jstatsoft.org/v09/i02/paper, page 3
+
+            if (z == 0)
+                return 0;
 
             if (z < 2)
             {

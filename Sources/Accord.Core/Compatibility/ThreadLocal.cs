@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -21,7 +21,7 @@
 //
 
 #if NET35
-namespace Accord
+namespace Accord.Compat
 {
     using System;
     using System.Collections.Generic;
@@ -36,8 +36,7 @@ namespace Accord
     internal class ThreadLocal<T> : IDisposable
     {
         [ThreadStatic]
-        private static readonly Dictionary<object, T> lookupTable =
-            new Dictionary<object, T>();
+        private static readonly Dictionary<object, T> lookupTable = new Dictionary<object, T>();
 
         private Func<T> init;
 
@@ -77,14 +76,20 @@ namespace Accord
         {
             get
             {
-                T returnValue;
-                if (!lookupTable.TryGetValue(this, out returnValue))
-                    returnValue = lookupTable[this] = init();
-                return returnValue;
+                lock (lookupTable)
+                {
+                    T returnValue;
+                    if (!lookupTable.TryGetValue(this, out returnValue))
+                        returnValue = lookupTable[this] = init();
+                    return returnValue;
+                }
             }
             set
             {
-                lookupTable[this] = value;
+                lock (lookupTable)
+                {
+                    lookupTable[this] = value;
+                }
             }
         }
 
@@ -110,8 +115,14 @@ namespace Accord
         {
             if (disposing)
             {
-                if (lookupTable.ContainsKey(this))
-                    lookupTable.Remove(this);
+                if (lookupTable != null)
+                {
+                    lock (lookupTable)
+                    {
+                        if (lookupTable.ContainsKey(this))
+                            lookupTable.Remove(this);
+                    }
+                }
             }
         }
 

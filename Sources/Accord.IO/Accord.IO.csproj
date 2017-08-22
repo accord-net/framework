@@ -4,61 +4,41 @@
     <ProjectGuid>{63184EBD-6B28-4066-AAEE-5B99431E31F4}</ProjectGuid>
     <RootNamespace>Accord.IO</RootNamespace>
     <AssemblyName>Accord.IO</AssemblyName>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
-    <WarningLevel>4</WarningLevel>
-    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-    <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>Accord.snk</AssemblyOriginatorKeyFile>
-    <OldToolsVersion>3.5</OldToolsVersion>
-    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
-    <MapFileExtensions>true</MapFileExtensions>
-    <CodeAnalysisRuleSet>..\Accord.NET.ruleset</CodeAnalysisRuleSet>
-    <UseApplicationTrust>false</UseApplicationTrust>
-    <BootstrapperEnabled>true</BootstrapperEnabled>
-    <FileAlignment>4096</FileAlignment>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <DebugSymbols>true</DebugSymbols>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
-    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
-    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
   </PropertyGroup>
+  <Import Project="$(SolutionDir)Accord.NET.targets" />
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <OutputPath>bin\Debug\</OutputPath>
     <DebugType>Full</DebugType>
     <Optimize>False</Optimize>
-    <RunCodeAnalysis>False</RunCodeAnalysis>
     <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <OutputPath>$(SolutionDir)..\Debug\</OutputPath>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NET35|AnyCPU' ">
-    <OutputPath>$(SolutionDir)..\Release\net35</OutputPath>
-    <DefineConstants>TRACE;CODE_ANALYSIS;NET35</DefineConstants>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'net35|AnyCPU' ">
+    <DefineConstants>TRACE;NET35</DefineConstants>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
-    <DocumentationFile>$(SolutionDir)..\Release\net35\Accord.IO.XML</DocumentationFile>
-    <CodeAnalysisLogFile>$(SolutionDir)..\Release\net35\Accord.IO.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NET40|AnyCPU' ">
-    <OutputPath>$(SolutionDir)..\Release\net40</OutputPath>
-    <DefineConstants>TRACE;CODE_ANALYSIS;NET40</DefineConstants>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'net40|AnyCPU' ">
+    <DefineConstants>TRACE;NET40</DefineConstants>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <DocumentationFile>$(SolutionDir)..\Release\net40\Accord.IO.XML</DocumentationFile>
-    <CodeAnalysisLogFile>$(SolutionDir)..\Release\net40\Accord.IO.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'NET45|AnyCPU'">
-    <OutputPath>$(SolutionDir)..\Release\net45</OutputPath>
-    <DefineConstants>TRACE;CODE_ANALYSIS;NET45</DefineConstants>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'net45|AnyCPU'">
+    <DefineConstants>TRACE;NET45</DefineConstants>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <DocumentationFile>$(SolutionDir)..\Release\net45\Accord.IO.XML</DocumentationFile>
-    <CodeAnalysisLogFile>$(SolutionDir)..\Release\net45\Accord.IO.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'net46|AnyCPU'">
+    <DefineConstants>TRACE;NET46</DefineConstants>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'net462|AnyCPU' ">
+    <DefineConstants>TRACE;NET462</DefineConstants>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'mono|AnyCPU'">
+    <DefineConstants>TRACE;MONO</DefineConstants>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
   <ItemGroup>
@@ -74,6 +54,7 @@
     <Compile Include="..\Accord.Core\Properties\VersionInfo.cs">
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
+    <Compile Include="Compression\LzwInputStream.cs" />
     <Compile Include="Csv\CsvReader.IDataReader.cs" />
     <Compile Include="Csv\CsvReader.RecordEnumerator.cs" />
     <Compile Include="Csv\CsvWriter.cs" />
@@ -81,6 +62,7 @@
     <Compile Include="Exceptions\MalformedCsvException.cs" />
     <Compile Include="Exceptions\MissingFieldCsvException.cs" />
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="UnipenReader.cs" />
     <Compile Include="IdxReader.cs" />
     <Compile Include="ExcelReader.cs" />
     <Compile Include="Csv\CsvReader.cs" />
@@ -91,6 +73,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ExceptionMessage.resx</DependentUpon>
     </Compile>
+    <Compile Include="SparseFormat.cs" />
+    <Compile Include="SparseWriter.cs" />
     <Compile Include="SparseReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Csv\ValueTrimmingOptions.cs" />

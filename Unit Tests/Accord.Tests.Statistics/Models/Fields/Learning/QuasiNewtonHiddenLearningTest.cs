@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -35,22 +35,6 @@ namespace Accord.Tests.Statistics.Models.Fields
     [TestFixture]
     public class QuasiNewtonHiddenLearningTest
     {
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
 
         public static int[][] inputs = new int[][]
         {
@@ -106,11 +90,9 @@ namespace Accord.Tests.Statistics.Models.Fields
                 expected[i] = outputs[i];
             }
 
-            Assert.AreEqual(-0.0019419916698781847, ll0, 1e-10);
+            Assert.AreEqual(-0.00046872579975998363, ll0, 1e-10);
             Assert.AreEqual(0.0, error, 1e-10);
             Assert.AreEqual(error, -ll1);
-            Assert.IsFalse(Double.IsNaN(ll0));
-            Assert.IsFalse(Double.IsNaN(error));
 
             for (int i = 0; i < inputs.Length; i++)
                 Assert.AreEqual(expected[i], actual[i]);

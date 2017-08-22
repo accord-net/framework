@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -24,8 +24,7 @@ namespace Accord.Statistics.Distributions.Univariate
 {
     using System;
     using Accord.Statistics.Distributions.Fitting;
-    using AForge;
-    using AForge.Math;
+    using Accord.Compat;
     using System.Numerics;
 
     /// <summary>
@@ -174,7 +173,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   Not supported.
         /// </summary>
         /// 
-        public override double DistributionFunction(double x)
+        protected internal override double InnerDistributionFunction(double x)
         {
             throw new NotSupportedException();
         }
@@ -191,7 +190,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   in the current distribution.
         /// </returns>
         /// 
-        public override double ProbabilityDensityFunction(double x)
+        protected internal override double InnerProbabilityDensityFunction(double x)
         {
             double constant = (1.0 / (2 * Math.PI));
             return constant * Math.Sinh(gamma) / (Math.Cosh(gamma) - Math.Cos(x - mu));
@@ -209,7 +208,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   occurring in the current distribution.
         /// </returns>
         /// 
-        public override double LogProbabilityDensityFunction(double x)
+        protected internal override double InnerLogProbabilityDensityFunction(double x)
         {
             return Math.Log(ProbabilityDensityFunction(x));
         }

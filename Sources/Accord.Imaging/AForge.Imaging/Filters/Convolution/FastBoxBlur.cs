@@ -1,36 +1,58 @@
-﻿// AForge Image Processing Library
-// AForge.NET framework
-// http://www.aforgenet.com/framework/
+﻿// Accord Imaging Library
+// The Accord.NET Framework
+// http://accord-framework.net
 //
-// Copyright © AForge.NET, 2005-2011
-// contacts@aforgenet.com
-//
-// Implemented FastBoxBlur filter by HZ, March-2016
-// Reference link: http://www.vcskicks.com/box-blur.php (The filter is simple and fast to BoxBlur).
+// Copyright © Hashem Zawary, 2016
 // hashemzawary@gmail.com
 // https://www.linkedin.com/in/hashem-zavvari-53b01457
 //
+// Copyright © César Souza, 2009-2017
+// cesarsouza at gmail.com
+//
+//    This library is free software; you can redistribute it and/or
+//    modify it under the terms of the GNU Lesser General Public
+//    License as published by the Free Software Foundation; either
+//    version 2.1 of the License, or (at your option) any later version.
+//
+//    This library is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+//    Lesser General Public License for more details.
+//
+//    You should have received a copy of the GNU Lesser General Public
+//    License along with this library; if not, write to the Free Software
+//    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+//
 
-using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Imaging;
-
-namespace AForge.Imaging.Filters
+namespace Accord.Imaging.Filters
 {
+    using System.Collections.Generic;
+    using System.Drawing;
+    using System.Drawing.Imaging;
+
     /// <summary>
-    /// FastBoxBlur filter.
+    ///   Fast Box Blur filter.
     /// </summary>
+    /// 
+    /// <remarks>
+    ///   Reference: http://www.vcskicks.com/box-blur.php
+    /// </remarks>
+    /// 
     public class FastBoxBlur : BaseInPlacePartialFilter
     {
-        // private format translation dictionary
+        private byte _horizontalKernelSize = 3;
+        private byte _verticalKernelSize = 3;
         private readonly Dictionary<PixelFormat, PixelFormat> _formatTranslations = new Dictionary<PixelFormat, PixelFormat>();
 
         /// <summary>
         /// Format translations dictionary.
         /// </summary>
-        public override Dictionary<PixelFormat, PixelFormat> FormatTranslations => _formatTranslations;
+        /// 
+        public override Dictionary<PixelFormat, PixelFormat> FormatTranslations
+        {
+            get { return _formatTranslations; }
+        }
 
-        private byte _horizontalKernelSize = 3;
 
         /// <summary>
         /// Horizontal kernel size between 3 and 99.
@@ -46,11 +68,11 @@ namespace AForge.Imaging.Filters
             }
         }
 
-        private byte _verticalKernelSize = 3;
         /// <summary>
         /// Vertical kernel size between 3 and 99.
         /// Default value is 3.
         /// </summary>
+        /// 
         public byte VerticalKernelSize
         {
             get { return _verticalKernelSize; }
@@ -69,6 +91,8 @@ namespace AForge.Imaging.Filters
             // initialize format translation dictionary
             _formatTranslations[PixelFormat.Format8bppIndexed] = PixelFormat.Format8bppIndexed;
             _formatTranslations[PixelFormat.Format24bppRgb] = PixelFormat.Format24bppRgb;
+            _formatTranslations[PixelFormat.Format32bppRgb] = PixelFormat.Format32bppRgb;
+            _formatTranslations[PixelFormat.Format32bppArgb] = PixelFormat.Format32bppArgb;
             _formatTranslations[PixelFormat.Format16bppGrayScale] = PixelFormat.Format16bppGrayScale;
             _formatTranslations[PixelFormat.Format48bppRgb] = PixelFormat.Format48bppRgb;
         }
@@ -79,7 +103,9 @@ namespace AForge.Imaging.Filters
         /// 
         /// <param name="horizontalKernelSize">Horizontal kernel size.</param>
         /// <param name="verticalKernelSize">Vertical kernel size.</param>
-        public FastBoxBlur(byte horizontalKernelSize, byte verticalKernelSize) : this()
+        /// 
+        public FastBoxBlur(byte horizontalKernelSize, byte verticalKernelSize)
+            : this()
         {
             HorizontalKernelSize = horizontalKernelSize;
             VerticalKernelSize = verticalKernelSize;
@@ -104,72 +130,75 @@ namespace AForge.Imaging.Filters
         static IntRange KernelSizeInRange(byte kernelSize)
         {
             kernelSize |= 1;
-            var middleKernelSize = kernelSize / 2;
+            int middleKernelSize = kernelSize / 2;
 
             return new IntRange(-middleKernelSize, middleKernelSize + 1);
         }
 
         static unsafe void HorizontalBoxBlur(ref UnmanagedImage image, Rectangle rect, IntRange kernelSizeRange)
         {
-            var pixelSize = ((image.PixelFormat == PixelFormat.Format8bppIndexed) ||
-                (image.PixelFormat == PixelFormat.Format16bppGrayScale)) ? 1 : 3;
+            int pixelSize = image.GetPixelFormatSizeInBytes();
 
-            var startY = rect.Top;
-            var stopY = startY + rect.Height;
+            int startY = rect.Top;
+            int stopY = startY + rect.Height;
 
-            var startX = rect.Left * pixelSize;
-            var stopX = startX + rect.Width * pixelSize;
+            int startX = rect.Left * pixelSize;
+            int stopX = startX + rect.Width * pixelSize;
 
-            var basePtr = (byte*)image.ImageData.ToPointer();
+            byte* basePtr = (byte*)image.ImageData.ToPointer();
 
-            if (
-                (image.PixelFormat == PixelFormat.Format8bppIndexed) ||
-                (image.PixelFormat == PixelFormat.Format24bppRgb))
+            if (image.PixelFormat == PixelFormat.Format8bppIndexed
+                || image.PixelFormat == PixelFormat.Format24bppRgb
+                || image.PixelFormat == PixelFormat.Format32bppRgb
+                || image.PixelFormat == PixelFormat.Format32bppArgb)
             {
-                var offset = image.Stride - (stopX - startX);
+                int offset = image.Stride - (stopX - startX);
 
-                // allign pointer to the first pixel to process
-                var ptr = basePtr + (startY * image.Stride + rect.Left * pixelSize);
+                // align pointer to the first pixel to process
+                byte* ptr = basePtr + (startY * image.Stride + rect.Left * pixelSize);
 
-                for (var y = startY; y < stopY; y++)
+                for (int y = startY; y < stopY; y++)
                 {
-                    for (var x = startX; x < stopX; x++, ptr++)
+                    for (int x = startX; x < stopX; x++, ptr++)
                     {
-                        var sum = 0;
+                        int sum = 0;
 
-                        for (var xFilter = kernelSizeRange.Min; xFilter < kernelSizeRange.Max; xFilter++)
+                        for (int xFilter = kernelSizeRange.Min; xFilter < kernelSizeRange.Max; xFilter++)
                         {
-                            var xBound = x / pixelSize + xFilter;
+                            int xBound = x / pixelSize + xFilter;
 
-                            //Only if in bounds
-                            if (xBound < 0 || xBound >= image.Width) continue;
+                            // Only if in bounds
+                            if (xBound < 0 || xBound >= image.Width)
+                                continue;
 
                             sum += ptr[xFilter * pixelSize];
                         }
+
                         *ptr = (byte)(sum / kernelSizeRange.Length);
                     }
+
                     ptr += offset;
                 }
 
             }
-            else
+            else // 16bpp per channel (ushort*)
             {
-                var stride = image.Stride;
+                int stride = image.Stride;
 
-                // allign pointer to the first pixel to process
+                // align pointer to the first pixel to process
                 basePtr += (startY * image.Stride + rect.Left * pixelSize * 2);
 
-                for (var y = startY; y < stopY; y++)
+                for (int y = startY; y < stopY; y++)
                 {
-                    var ptr = (ushort*)(basePtr);
+                    ushort* ptr = (ushort*)(basePtr);
 
                     for (var x = startX; x < stopX; x++, ptr++)
                     {
-                        var sum = 0;
+                        int sum = 0;
 
                         for (var xFilter = kernelSizeRange.Min; xFilter < kernelSizeRange.Max; xFilter++)
                         {
-                            var xBound = x / pixelSize + xFilter;
+                            int xBound = x / pixelSize + xFilter;
 
                             //Only if in bounds
                             if (xBound < 0 || xBound >= image.Width) continue;
@@ -179,78 +208,84 @@ namespace AForge.Imaging.Filters
 
                         *ptr = (ushort)(sum / kernelSizeRange.Length);
                     }
+
                     basePtr += stride;
                 }
             }
-
         }
+
         static unsafe void VerticalBoxBlur(ref UnmanagedImage image, Rectangle rect, IntRange kernelSizeRange)
         {
-            var pixelSize = ((image.PixelFormat == PixelFormat.Format8bppIndexed) ||
-                (image.PixelFormat == PixelFormat.Format16bppGrayScale)) ? 1 : 3;
+            int pixelSize = image.GetPixelFormatSizeInBytes();
 
-            var startY = rect.Top;
-            var stopY = startY + rect.Height;
+            int startY = rect.Top;
+            int stopY = startY + rect.Height;
 
-            var startX = rect.Left * pixelSize;
-            var stopX = startX + rect.Width * pixelSize;
+            int startX = rect.Left * pixelSize;
+            int stopX = startX + rect.Width * pixelSize;
 
-            var basePtr = (byte*)image.ImageData.ToPointer();
+            byte* basePtr = (byte*)image.ImageData.ToPointer();
 
-            if (
-                (image.PixelFormat == PixelFormat.Format8bppIndexed) ||
-                (image.PixelFormat == PixelFormat.Format24bppRgb))
+            if (image.PixelFormat == PixelFormat.Format8bppIndexed ||
+                image.PixelFormat == PixelFormat.Format24bppRgb ||
+                image.PixelFormat == PixelFormat.Format32bppArgb ||
+                image.PixelFormat == PixelFormat.Format32bppRgb)
             {
-                var offset = image.Stride - (stopX - startX);
+                int offset = image.Stride - (stopX - startX);
 
-                // allign pointer to the first pixel to process
+                // align pointer to the first pixel to process
                 var ptr = basePtr + (startY * image.Stride + rect.Left * pixelSize);
 
-                for (var y = startY; y < stopY; y++)
+                for (int y = startY; y < stopY; y++)
                 {
-                    for (var x = startX; x < stopX; x++, ptr++)
+                    for (int x = startX; x < stopX; x++, ptr++)
                     {
-                        var sum = 0;
+                        int sum = 0;
 
-                        for (var yFilter = kernelSizeRange.Min; yFilter < kernelSizeRange.Max; yFilter++)
+                        for (int yFilter = kernelSizeRange.Min; yFilter < kernelSizeRange.Max; yFilter++)
                         {
-                            var yBound = y + yFilter;
+                            int yBound = y + yFilter;
 
                             //Only if in bounds
-                            if (yBound < 0 || yBound >= image.Height) continue;
+                            if (yBound < 0 || yBound >= image.Height)
+                                continue;
 
                             sum += ptr[yFilter * image.Stride];
                         }
+
                         *ptr = (byte)(sum / kernelSizeRange.Length);
                     }
+
                     ptr += offset;
                 }
-
             }
-            else
+            else // 16bpp per channel (ushort*)
             {
-                // allign pointer to the first pixel to process
+                // align pointer to the first pixel to process
                 basePtr += (startY * image.Stride + rect.Left * pixelSize * 2);
 
-                for (var y = startY; y < stopY; y++)
+                for (int y = startY; y < stopY; y++)
                 {
-                    var ptr = (ushort*)(basePtr);
+                    ushort* ptr = (ushort*)(basePtr);
 
-                    for (var x = startX; x < stopX; x++, ptr++)
+                    for (int x = startX; x < stopX; x++, ptr++)
                     {
-                        var sum = 0;
+                        int sum = 0;
 
-                        for (var yFilter = kernelSizeRange.Min; yFilter < kernelSizeRange.Max; yFilter++)
+                        for (int yFilter = kernelSizeRange.Min; yFilter < kernelSizeRange.Max; yFilter++)
                         {
-                            var yBound = y + yFilter;
+                            int yBound = y + yFilter;
 
                             //Only if in bounds
-                            if (yBound < 0 || yBound >= image.Height) continue;
+                            if (yBound < 0 || yBound >= image.Height)
+                                continue;
 
                             sum += ptr[yFilter * image.Stride / 2];
                         }
+
                         *ptr = (ushort)(sum / kernelSizeRange.Length);
                     }
+
                     basePtr += image.Stride;
                 }
             }

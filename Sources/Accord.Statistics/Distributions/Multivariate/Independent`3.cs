@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -25,8 +25,8 @@ namespace Accord.Statistics.Distributions.Multivariate
     using System;
     using Accord.Math;
     using Accord.Statistics.Distributions.Fitting;
-    using System.Text;
     using Accord.Math.Random;
+    using Accord.Compat;
 
     /// <summary>
     ///   Joint distribution assuming independence between vector components.
@@ -130,10 +130,10 @@ namespace Accord.Statistics.Distributions.Multivariate
     /// </example>
     /// 
     [Serializable]
-    [Obsolete]
     public class Independent<TDistribution, TObservation, TOptions> :
         Independent<TDistribution, TObservation>,
-        IFittableDistribution<TObservation[], IndependentOptions<TOptions>>
+        IFittableDistribution<TObservation[], IndependentOptions<TOptions>>,
+        ISampleableDistribution<TObservation[]>
         where TDistribution : IFittableDistribution<TObservation, TOptions>,
                               IUnivariateDistribution<TObservation>,
                               IUnivariateDistribution

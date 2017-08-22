@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -595,7 +595,7 @@ namespace Accord.Tests.Statistics
             // Train the sequence classifier using the algorithm
             double likelihood = teacher.Run(inputs, outputs);
 
-            Assert.AreEqual(-0.84036002169162149, likelihood);
+            Assert.AreEqual(-0.84036002169162149, likelihood, 1e-10);
 
             likelihood = testThresholdModel(inputs, outputs, classifier, likelihood);
         }

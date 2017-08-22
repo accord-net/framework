@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -88,8 +88,9 @@ namespace Accord.Math
         public static T[] GetColumn<T>(this T[,] m, int index, T[] result = null)
         {
             if (result == null)
-                result = new T[m.GetLength(0)];
+                result = new T[m.Rows()];
 
+            index = Matrix.index(index, m.Columns());
             for (int i = 0; i < result.Length; i++)
                 result[i] = m[i, index];
 
@@ -105,6 +106,7 @@ namespace Accord.Math
             if (result == null)
                 result = new T[m.Length];
 
+            index = Matrix.index(index, m.Columns());
             for (int i = 0; i < result.Length; i++)
                 result[i] = m[i][index];
 
@@ -146,6 +148,8 @@ namespace Accord.Math
         /// 
         public static T[] GetRow<T>(this T[][] m, int index, T[] result = null)
         {
+            index = Matrix.index(index, m.Rows());
+
             if (result == null)
             {
                 return (T[])m[index].Clone();
@@ -160,11 +164,13 @@ namespace Accord.Math
         /// <summary>
         ///   Gets a row vector from a matrix.
         /// </summary>
+        ///
         public static T[] GetRow<T>(this T[,] m, int index, T[] result = null)
         {
             if (result == null)
                 result = new T[m.GetLength(1)];
 
+            index = Matrix.index(index, m.Rows());
             for (int i = 0; i < result.Length; i++)
                 result[i] = m[index, i];
 
@@ -233,9 +239,9 @@ namespace Accord.Math
         /// </summary>
         public static T[,] SetColumn<T>(this T[,] m, int index, T[] column)
         {
+            index = Matrix.index(index, m.Columns());
             for (int i = 0; i < column.Length; i++)
                 m[i, index] = column[i];
-
             return m;
         }
 
@@ -244,8 +250,21 @@ namespace Accord.Math
         /// </summary>
         public static T[][] SetColumn<T>(this T[][] m, int index, T[] column)
         {
+            index = Matrix.index(index, m.Columns());
             for (int i = 0; i < column.Length; i++)
                 m[i][index] = column[i];
+
+            return m;
+        }
+
+        /// <summary>
+        ///   Stores a column vector into the given column position of the matrix.
+        /// </summary>
+        public static T[][] SetColumn<T>(this T[][] m, int index, T value)
+        {
+            index = Matrix.index(index, m.Columns());
+            for (int i = 0; i < m.Length; i++)
+                m[i][index] = value;
 
             return m;
         }
@@ -255,9 +274,9 @@ namespace Accord.Math
         /// </summary>
         public static T[,] SetRow<T>(this T[,] m, int index, T[] row)
         {
+            index = Matrix.index(index, m.Rows());
             for (int i = 0; i < row.Length; i++)
                 m[index, i] = row[i];
-
             return m;
         }
 
@@ -266,9 +285,20 @@ namespace Accord.Math
         /// </summary>
         public static T[][] SetRow<T>(this T[][] m, int index, T[] row)
         {
+            index = Matrix.index(index, m.Rows());
             for (int i = 0; i < row.Length; i++)
                 m[index][i] = row[i];
+            return m;
+        }
 
+        /// <summary>
+        ///   Stores a row vector into the given row position of the matrix.
+        /// </summary>
+        public static T[][] SetRow<T>(this T[][] m, int index, T value)
+        {
+            index = Matrix.index(index, m.Rows());
+            for (int i = 0; i < m[index].Length; i++)
+                m[index][i] = value;
             return m;
         }
         #endregion
@@ -356,9 +386,36 @@ namespace Accord.Math
         ///   Returns a new matrix with a given column vector inserted at the end of the original matrix.
         /// </summary>
         /// 
+        public static T[,] InsertColumn<T, TSource>(this T[,] matrix, TSource value)
+        {
+            return InsertColumn(matrix, value, matrix.GetLength(1));
+        }
+
+        /// <summary>
+        ///   Returns a new matrix with a given column vector inserted at the end of the original matrix.
+        /// </summary>
+        /// 
         public static T[][] InsertColumn<T, TSource>(this T[][] matrix, TSource[] column)
         {
             return InsertColumn(matrix, column, matrix[0].Length);
+        }
+
+        /// <summary>
+        ///   Returns a new matrix with a given column vector inserted at the end of the original matrix.
+        /// </summary>
+        /// 
+        public static T[][] InsertColumn<T, TSource>(this T[][] matrix, TSource value)
+        {
+            return InsertColumn(matrix, value, matrix[0].Length);
+        }
+
+        /// <summary>
+        ///   Returns a new matrix with a given column vector inserted at the end of the original matrix.
+        /// </summary>
+        /// 
+        public static T[][] InsertRow<T, TSource>(this T[][] matrix, TSource value)
+        {
+            return InsertRow(matrix, value, matrix.Length);
         }
 
         /// <summary>
@@ -438,6 +495,36 @@ namespace Accord.Math
         ///   Returns a new matrix with a given column vector inserted at a given index.
         /// </summary>
         /// 
+        public static T[,] InsertColumn<T, TSource>(this T[,] matrix, TSource value, int index)
+        {
+            if (matrix == null)
+                throw new ArgumentNullException("matrix");
+
+            int rows = matrix.GetLength(0);
+            int cols = matrix.GetLength(1);
+
+            T[,] X = new T[rows, cols + 1];
+
+            // Copy original matrix
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < index; j++)
+                    X[i, j] = matrix[i, j];
+                for (int j = index; j < cols; j++)
+                    X[i, j + 1] = matrix[i, j];
+            }
+
+            // Copy additional column
+            for (int i = 0; i < rows; i++)
+                X[i, index] = cast<T>(value);
+
+            return X;
+        }
+
+        /// <summary>
+        ///   Returns a new matrix with a given column vector inserted at a given index.
+        /// </summary>
+        /// 
         public static T[][] InsertColumn<T, TSource>(this T[][] matrix, TSource[] column, int index)
         {
             if (matrix == null)
@@ -467,6 +554,72 @@ namespace Accord.Math
             // Copy additional column
             for (int i = 0; i < column.Length; i++)
                 X[i][index] = cast<T>(column[i]);
+
+            return X;
+        }
+
+        /// <summary>
+        ///   Returns a new matrix with a given column vector inserted at a given index.
+        /// </summary>
+        /// 
+        public static T[][] InsertColumn<T, TSource>(this T[][] matrix, TSource value, int index)
+        {
+            if (matrix == null)
+                throw new ArgumentNullException("matrix");
+
+            int rows = matrix.Length;
+            int cols = matrix[0].Length;
+
+            T[][] X = new T[rows][];
+            for (int i = 0; i < X.Length; i++)
+                X[i] = new T[cols + 1];
+
+            // Copy original matrix
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < index; j++)
+                    X[i][j] = matrix[i][j];
+
+                for (int j = index; j < cols; j++)
+                    X[i][j + 1] = matrix[i][j];
+            }
+
+            // Copy additional column
+            for (int i = 0; i < rows; i++)
+                X[i][index] = cast<T>(value);
+
+            return X;
+        }
+
+        /// <summary>
+        ///   Returns a new matrix with a given column vector inserted at a given index.
+        /// </summary>
+        /// 
+        public static T[][] InsertRow<T, TSource>(this T[][] matrix, TSource value, int index)
+        {
+            if (matrix == null)
+                throw new ArgumentNullException("matrix");
+
+            int rows = matrix.Length;
+            int cols = matrix[0].Length;
+
+            var X = new T[rows + 1][];
+            for (int i = 0; i < X.Length; i++)
+                X[i] = new T[cols];
+
+            // Copy original matrix
+            for (int i = 0; i < cols; i++)
+            {
+                for (int j = 0; j < rows; j++)
+                    X[j][i] = matrix[j][i];
+
+                for (int j = index; j < rows; j++)
+                    X[j + 1][i] = matrix[j][i];
+            }
+
+            // Copy additional column
+            for (int i = 0; i < cols; i++)
+                X[index][i] = cast<T>(value);
 
             return X;
         }
@@ -502,6 +655,37 @@ namespace Accord.Math
             // Copy additional column
             for (int i = 0; i < row.Length; i++)
                 X[index, i] = cast<T>(row[i]);
+
+            return X;
+        }
+
+        /// <summary>
+        ///   Returns a new matrix with a given row vector inserted at a given index.
+        /// </summary>
+        /// 
+        public static T[,] InsertRow<T, TSource>(this T[,] matrix, TSource value, int index)
+        {
+            if (matrix == null)
+                throw new ArgumentNullException("matrix");
+
+            int rows = matrix.GetLength(0);
+            int cols = matrix.GetLength(1);
+
+            var X = new T[rows + 1, cols];
+
+            // Copy original matrix
+            for (int i = 0; i < cols; i++)
+            {
+                for (int j = 0; j < rows; j++)
+                    X[j, i] = matrix[j, i];
+
+                for (int j = index; j < rows; j++)
+                    X[j + 1, i] = matrix[j, i];
+            }
+
+            // Copy additional column
+            for (int i = 0; i < cols; i++)
+                X[index, i] = cast<T>(value);
 
             return X;
         }
@@ -619,8 +803,26 @@ namespace Accord.Math
         /// 
         public static int First<T>(this T[] data, Func<T, bool> func)
         {
-            return Find(data, func, true)[0];
+            return Find(data, func, firstOnly: true)[0];
         }
+
+        /// <summary>
+        ///   Gets the indices of the first element matching a certain criteria, or null if the element could not be found.
+        /// </summary>
+        /// 
+        /// <typeparam name="T">The type of the array.</typeparam>
+        /// 
+        /// <param name="data">The array to search inside.</param>
+        /// <param name="func">The search criteria.</param>
+        /// 
+        public static int? FirstOrNull<T>(this T[] data, Func<T, bool> func)
+        {
+            int[] r = Find(data, func, firstOnly: true);
+            if (r.Length == 0)
+                return null;
+            return r[0];
+        }
+
         /// <summary>
         ///   Searches for the specified value and returns the index of the first occurrence within the array.
         /// </summary>
@@ -645,6 +847,9 @@ namespace Accord.Math
         /// <param name="data">The array to search inside.</param>
         /// <param name="func">The search criteria.</param>
         ///
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static int[] Find<T>(this T[] data, Func<T, bool> func)
         {
             List<int> idx = new List<int>();
@@ -732,14 +937,28 @@ namespace Accord.Math
         /// <param name="values">The values to be ordered.</param>
         /// <param name="indices">The new index positions.</param>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static void Swap<T>(this T[] values, int[] indices)
         {
-            T[] newValues = values.Submatrix(indices);
+            T[] newValues = values.Get(indices);
             for (int i = 0; i < values.Length; i++)
                 values[i] = newValues[i];
+        }
+
+        /// <summary>
+        ///   Swaps the contents of two object references.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static void Swap<T>(ref T a, ref T b)
+        {
+            var t = a;
+            a = b;
+            b = t;
         }
 
         /// <summary>
@@ -750,7 +969,7 @@ namespace Accord.Math
         /// <param name="a">The index of the first element to be swapped.</param>
         /// <param name="b">The index of the second element to be swapped.</param>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static void Swap<T>(this T[] array, int a, int b)
@@ -928,7 +1147,7 @@ namespace Accord.Math
         {
             int[] indices = Accord.Math.Vector.Range(keys.Length);
             Array.Sort<TKey, int>(keys, indices, comparer);
-            return values.Submatrix(0, values.GetLength(0) - 1, indices);
+            return values.Get(0, values.Rows(), indices);
         }
 
         /// <summary>
@@ -950,7 +1169,7 @@ namespace Accord.Math
         ///   Returns a copy of an array in reversed order.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[] Reversed<T>(this T[] values)
@@ -965,7 +1184,7 @@ namespace Accord.Math
         ///   Returns a copy of an array in reversed order.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[] First<T>(this T[] values, int count)
@@ -980,7 +1199,7 @@ namespace Accord.Math
         ///   Returns the last <paramref name="count"/> elements of an array.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[] Last<T>(this T[] values, int count)

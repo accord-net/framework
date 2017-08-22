@@ -1,7 +1,7 @@
 ﻿// Accord.NET Sample Applications
 // http://accord-framework.net
 //
-// Copyright © 2009-2014, César Souza
+// Copyright © 2009-2017, César Souza
 // All rights reserved. 3-BSD License:
 //
 //   Redistribution and use in source and binary forms, with or without
@@ -130,8 +130,8 @@ namespace SampleApp
             homography = ransac.Estimate(correlationPoints1, correlationPoints2);
 
             // Plot RANSAC results against correlation results
-            IntPoint[] inliers1 = correlationPoints1.Submatrix(ransac.Inliers);
-            IntPoint[] inliers2 = correlationPoints2.Submatrix(ransac.Inliers);
+            IntPoint[] inliers1 = correlationPoints1.Get(ransac.Inliers);
+            IntPoint[] inliers2 = correlationPoints2.Get(ransac.Inliers);
 
             // Concatenate the two images in a single image (just to show on screen)
             Concatenate concat = new Concatenate(img1);

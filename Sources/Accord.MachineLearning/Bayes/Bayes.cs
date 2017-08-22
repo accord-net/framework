@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -25,16 +25,21 @@ namespace Accord.MachineLearning.Bayes
     using Accord.Math;
     using Accord.Statistics.Distributions;
     using System;
+    using Accord.Compat;
 
     /// <summary>
-    ///   Bayes decision algorithm (not-naive).
+    ///   Bayes decision algorithm (not naive).
     /// </summary>
     /// 
     /// <typeparam name="TDistribution">The type for the distributions used to model each class.</typeparam>
     /// <typeparam name="TInput">The type for the samples modeled by the distributions.</typeparam>
+    ///
+    /// <seealso cref="NaiveBayes"/>
+    /// <seealso cref="NaiveBayes{TDistribution}"/>
+    /// <seealso cref="NaiveBayes{TDistribution, TInput}"/>
     /// 
     [Serializable]
-    public class Bayes<TDistribution, TInput> : MulticlassGenerativeClassifierBase<TInput>
+    public class Bayes<TDistribution, TInput> : MulticlassLikelihoodClassifierBase<TInput>
         where TDistribution : IFittableDistribution<TInput>, 
         IMultivariateDistribution<TInput>
     {
@@ -118,13 +123,14 @@ namespace Accord.MachineLearning.Bayes
 
         private void init(int classes, int inputs)
         {
-            if (classes <= 0)
+            if (classes < 2)
                 throw new ArgumentOutOfRangeException("classes");
 
             if (inputs <= 0)
                 throw new ArgumentOutOfRangeException("inputs");
 
             this.NumberOfOutputs = classes;
+            this.NumberOfClasses = classes;
             this.NumberOfInputs = inputs;
 
             this.distributions = new TDistribution[classes];
@@ -147,19 +153,6 @@ namespace Accord.MachineLearning.Bayes
         {
             double log = distributions[classIndex].LogProbabilityFunction(input);
             return Math.Log(priors[classIndex]) + log;
-        }
-
-        /// <summary>
-        /// Computes a numerical score measuring the association between
-        /// the given <paramref name="input" /> vector and a given
-        /// <paramref name="classIndex" />.
-        /// </summary>
-        /// <param name="input">The input vector.</param>
-        /// <param name="classIndex">The index of the class whose score will be computed.</param>
-        public override double Distance(TInput input, int classIndex)
-        {
-            double log = distributions[classIndex].LogProbabilityFunction(input);
-            return -Math.Log(priors[classIndex]) - log;
         }
 
     }

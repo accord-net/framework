@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -220,7 +220,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   See <see cref="LaplaceDistribution"/>.
         /// </example>
         /// 
-        public override double DistributionFunction(double x)
+        protected internal override double InnerDistributionFunction(double x)
         {
             return 0.5 * (1 + Math.Sign(x - u) * (1 - Math.Exp(-Math.Abs(x - u) / b)));
         }
@@ -246,7 +246,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   See <see cref="LaplaceDistribution"/>.
         /// </example>
         /// 
-        public override double ProbabilityDensityFunction(double x)
+        protected internal override double InnerProbabilityDensityFunction(double x)
         {
             return constant * Math.Exp(-Math.Abs(x - u) / b);
         }
@@ -272,7 +272,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   See <see cref="LaplaceDistribution"/>.
         /// </example>
         /// 
-        public override double LogProbabilityDensityFunction(double x)
+        protected internal override double InnerLogProbabilityDensityFunction(double x)
         {
             return Math.Log(constant) - Math.Abs(x - u) / b;
         }

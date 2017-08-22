@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -26,6 +26,11 @@ namespace Accord.Statistics.Models.Regression
     using System.Linq;
     using Accord.Statistics.Links;
     using Accord.Statistics.Testing;
+    using Accord.MachineLearning;
+    using Accord.Math;
+    using Accord.Statistics.Models.Regression.Linear;
+    using System.Runtime.Serialization;
+    using Accord.Compat;
 
     /// <summary>
     ///   Generalized Linear Model Regression.
@@ -52,70 +57,36 @@ namespace Accord.Statistics.Models.Regression
     /// </remarks>
     /// 
     /// <example>
-    ///   <code>
-    ///    // Suppose we have the following data about some patients.
-    ///    // The first variable is continuous and represent patient
-    ///    // age. The second variable is dichotomic and give whether
-    ///    // they smoke or not (This is completely fictional data).
-    ///    double[][] input =
-    ///    {
-    ///        new double[] { 55, 0 }, // 0 - no cancer
-    ///        new double[] { 28, 0 }, // 0
-    ///        new double[] { 65, 1 }, // 0
-    ///        new double[] { 46, 0 }, // 1 - have cancer
-    ///        new double[] { 86, 1 }, // 1
-    ///        new double[] { 56, 1 }, // 1
-    ///        new double[] { 85, 0 }, // 0
-    ///        new double[] { 33, 0 }, // 0
-    ///        new double[] { 21, 1 }, // 0
-    ///        new double[] { 42, 1 }, // 1
-    ///    };
-    ///
-    ///    // We also know if they have had lung cancer or not, and 
-    ///    // we would like to know whether smoking has any connection
-    ///    // with lung cancer (This is completely fictional data).
-    ///    double[] output =
-    ///    {
-    ///        0, 0, 0, 1, 1, 1, 0, 0, 0, 1
-    ///    };
-    ///
-    ///
-    ///    // To verify this hypothesis, we are going to create a GLM
-    ///    // regression model for those two inputs (age and smoking).
-    ///    var regression = new GeneralizedLinearRegression(new ProbitLinkFunction(), inputs: 2);
-    ///
-    ///    // Next, we are going to estimate this model. For this, we
-    ///    // will use the Iteratively Reweighted Least Squares method.
-    ///    var teacher = new IterativeReweightedLeastSquares(regression);
-    ///
-    ///    // Now, we will iteratively estimate our model. The Run method returns
-    ///    // the maximum relative change in the model parameters and we will use
-    ///    // it as the convergence criteria.
-    ///
-    ///    double delta = 0;
-    ///    do
-    ///    {
-    ///        // Perform an iteration
-    ///        delta = teacher.Run(input, output);
-    ///
-    ///    } while (delta > 0.001);
-    ///
-    ///   </code>
+    ///     <code source="Unit Tests\Accord.Tests.Statistics\Models\Regression\LogisticRegressionTest.cs" region="doc_log_reg_1" />
     /// </example>
     /// 
     [Serializable]
-    public class GeneralizedLinearRegression : ICloneable
+    public class GeneralizedLinearRegression : BinaryLikelihoodClassifierBase<double[]>, ICloneable
     {
-
+        private MultipleLinearRegression linear;
         private ILinkFunction linkFunction;
+
+#pragma warning disable 0649
+        [Obsolete]
         private double[] coefficients;
+#pragma warning restore 0649
+
         private double[] standardErrors;
 
 
-        //---------------------------------------------
+        /// <summary>
+        ///   Creates a new Generalized Linear Regression Model.
+        /// </summary>
+        /// 
+        /// <param name="function">The link function to use.</param>
+        /// 
+        public GeneralizedLinearRegression(ILinkFunction function)
+        {
+            this.linear = new MultipleLinearRegression();
+            this.linkFunction = function;
+            this.NumberOfInputs = 1;
+        }
 
-
-        #region Constructor
         /// <summary>
         ///   Creates a new Generalized Linear Regression Model.
         /// </summary>
@@ -123,11 +94,11 @@ namespace Accord.Statistics.Models.Regression
         /// <param name="function">The link function to use.</param>
         /// <param name="inputs">The number of input variables for the model.</param>
         /// 
+        [Obsolete("Please use the default constructor and set the NumberOfInputs property instead.")]
         public GeneralizedLinearRegression(ILinkFunction function, int inputs)
+            : this(function)
         {
-            this.linkFunction = function;
-            this.coefficients = new double[inputs + 1];
-            this.standardErrors = new double[inputs + 1];
+            this.NumberOfInputs = inputs;
         }
 
         /// <summary>
@@ -138,10 +109,21 @@ namespace Accord.Statistics.Models.Regression
         /// <param name="inputs">The number of input variables for the model.</param>
         /// <param name="intercept">The starting intercept value. Default is 0.</param>
         /// 
+        [Obsolete("Please use the default constructor and set the NumberofInputs and Intercept properties instead.")]
         public GeneralizedLinearRegression(ILinkFunction function, int inputs, double intercept)
-            : this(function, inputs)
+            : this(function)
         {
-            this.coefficients[0] = intercept;
+            this.NumberOfInputs = inputs;
+            this.Intercept = intercept;
+        }
+
+        /// <summary>
+        ///   Creates a new Generalized Linear Regression Model.
+        /// </summary>
+        /// 
+        public GeneralizedLinearRegression()
+            : this(new LogitLinkFunction())
+        {
         }
 
         /// <summary>
@@ -152,28 +134,60 @@ namespace Accord.Statistics.Models.Regression
         /// <param name="coefficients">The coefficient vector.</param>
         /// <param name="standardErrors">The standard error vector.</param>
         /// 
+        [Obsolete("Please use the default constructor and set the Weights and StandardErrors properties instead.")]
         public GeneralizedLinearRegression(ILinkFunction function,
             double[] coefficients, double[] standardErrors)
+            : this()
         {
             this.linkFunction = function;
-            this.coefficients = coefficients;
-            this.standardErrors = standardErrors;
+            this.Weights = coefficients.Get(1, 0);
+            this.StandardErrors = standardErrors;
         }
-        #endregion
 
-
-        //---------------------------------------------
-
-
-        #region Properties
         /// <summary>
-        ///   Gets the coefficient vector, in which the
-        ///   first value is always the intercept value.
+        /// Gets the number of inputs accepted by the model.
         /// </summary>
         /// 
+        public override int NumberOfInputs
+        {
+            get { return Linear.NumberOfInputs; }
+            set
+            {
+                Linear.NumberOfInputs = value;
+                this.standardErrors = Vector.Create(value + 1, this.standardErrors);
+            }
+        }
+
+        /// <summary>
+        ///   Obsolete. For quick compatibility fixes in the short term, use
+        ///   <see cref="GetCoefficient(int)"/> and <see cref="SetCoefficient(int, double)"/>.
+        /// </summary>
+        /// 
+        [Obsolete("Please use Weights and Intercept instead.")]
         public double[] Coefficients
         {
-            get { return coefficients; }
+            get { return Intercept.Concatenate(Weights); }
+        }
+
+        /// <summary>
+        ///   Gets the number of parameters in this model (equals the NumberOfInputs + 1).
+        /// </summary>
+        /// 
+        public int NumberOfParameters
+        {
+            get { return Linear.NumberOfParameters; }
+        }
+
+        /// <summary>
+        ///   Gets or sets the linear weights of the regression model. The
+        ///   intercept term is not stored in this vector, but is instead
+        ///   available through the <see cref="Intercept"/> property.
+        /// </summary>
+        /// 
+        public double[] Weights
+        {
+            get { return Linear.Weights; }
+            set { linear.Weights = value; }
         }
 
         /// <summary>
@@ -184,15 +198,17 @@ namespace Accord.Statistics.Models.Regression
         public double[] StandardErrors
         {
             get { return standardErrors; }
+            set { standardErrors = value; }
         }
 
         /// <summary>
         ///   Gets the number of inputs handled by this model.
         /// </summary>
         /// 
+        [Obsolete("Please use NumberOfInputs instead.")]
         public int Inputs
         {
-            get { return coefficients.Length - 1; }
+            get { return NumberOfInputs; }
         }
 
         /// <summary>
@@ -203,6 +219,17 @@ namespace Accord.Statistics.Models.Regression
         public ILinkFunction Link
         {
             get { return linkFunction; }
+            protected set { linkFunction = value; }
+        }
+
+        /// <summary>
+        ///   Gets the underlying linear regression.
+        /// </summary>
+        /// 
+        public MultipleLinearRegression Linear
+        {
+            get { return linear; }
+            protected set { linear = value; }
         }
 
         /// <summary>
@@ -212,17 +239,40 @@ namespace Accord.Statistics.Models.Regression
         /// 
         public double Intercept
         {
-            get { return coefficients[0]; }
-            set { coefficients[0] = value; }
+            get { return linear.Intercept; }
+            set { linear.Intercept = value; }
         }
 
-        #endregion
+        /// <summary>
+        ///   Gets a coefficient value, where 0 is the intercept term
+        ///   and the other coefficients are indexed starting at 1.
+        /// </summary>
+        /// 
+        public double GetCoefficient(int index)
+        {
+            if (index == 0)
+                return Intercept;
+            return Weights[index - 1];
+        }
+
+        /// <summary>
+        ///   Sets a coefficient value, where 0 is the intercept term
+        ///   and the other coefficients are indexed starting at 1.
+        /// </summary>
+        /// 
+        public void SetCoefficient(int index, double value)
+        {
+            if (index == 0)
+            {
+                Intercept = value;
+            }
+            else
+            {
+                Weights[index - 1] = value;
+            }
+        }
 
 
-        //---------------------------------------------
-
-
-        #region Public Methods
         /// <summary>
         ///   Computes the model output for the given input vector.
         /// </summary>
@@ -231,14 +281,10 @@ namespace Accord.Statistics.Models.Regression
         /// 
         /// <returns>The output value.</returns>
         /// 
+        [Obsolete("Please use the Probability method instead.")]
         public double Compute(double[] input)
         {
-            double sum = coefficients[0];
-
-            for (int i = 1; i < coefficients.Length; i++)
-                sum += input[i - 1] * coefficients[i];
-
-            return linkFunction.Inverse(sum);
+            return Probability(input);
         }
 
         /// <summary>
@@ -249,17 +295,11 @@ namespace Accord.Statistics.Models.Regression
         /// 
         /// <returns>The array of output values.</returns>
         /// 
+        [Obsolete("Please use the Probability method instead.")]
         public double[] Compute(double[][] input)
         {
-            double[] output = new double[input.Length];
-
-            for (int i = 0; i < input.Length; i++)
-                output[i] = Compute(input[i]);
-
-            return output;
+            return Probability(input);
         }
-
-
 
 
         /// <summary>
@@ -281,7 +321,9 @@ namespace Accord.Statistics.Models.Regression
         /// 
         public WaldTest GetWaldTest(int index)
         {
-            return new WaldTest(coefficients[index], 0.0, standardErrors[index]);
+            // TODO: Eventually change this function so index is 0-based instead of 1-based
+            //       (user could select -1 for the intercept term, or no arguments at all)
+            return new WaldTest(GetCoefficient(index), 0.0, standardErrors[index]);
         }
 
 
@@ -302,7 +344,7 @@ namespace Accord.Statistics.Models.Regression
 
             for (int i = 0; i < input.Length; i++)
             {
-                double actualOutput = Compute(input[i]);
+                double actualOutput = Probability(input[i]);
                 double expectedOutput = output[i];
 
                 if (actualOutput != 0)
@@ -337,7 +379,7 @@ namespace Accord.Statistics.Models.Regression
             for (int i = 0; i < input.Length; i++)
             {
                 double w = weights[i];
-                double actualOutput = Compute(input[i]);
+                double actualOutput = Probability(input[i]);
                 double expectedOutput = output[i];
 
                 if (actualOutput != 0)
@@ -465,12 +507,14 @@ namespace Accord.Statistics.Models.Regression
                 y1 += output[i];
             }
 
-            var intercept = Math.Log(y1 / y0);
-            var regression = new GeneralizedLinearRegression(linkFunction, Inputs, intercept);
+            var regression = new GeneralizedLinearRegression(linkFunction)
+            {
+                NumberOfInputs = NumberOfInputs,
+                Intercept = Math.Log(y1 / y0)
+            };
 
             double ratio = GetLogLikelihoodRatio(input, output, regression);
-
-            return new ChiSquareTest(ratio, coefficients.Length - 1);
+            return new ChiSquareTest(ratio, NumberOfInputs);
         }
 
         /// <summary>
@@ -503,15 +547,115 @@ namespace Accord.Statistics.Models.Regression
                 y1 += output[i] * weights[i];
             }
 
-            var intercept = Math.Log(y1 / y0);
-
-            var regression = new GeneralizedLinearRegression(linkFunction, Inputs, intercept);
+            var regression = new GeneralizedLinearRegression(linkFunction)
+            { 
+                NumberOfInputs = NumberOfInputs,
+                Intercept = Math.Log(y1 / y0)
+            };
 
             double ratio = GetLogLikelihoodRatio(input, output, weights, regression);
-
-            return new ChiSquareTest(ratio, coefficients.Length - 1);
+            return new ChiSquareTest(ratio, NumberOfInputs);
         }
 
+        /// <summary>
+        /// Gets the degrees of freedom when fitting the regression.
+        /// </summary>
+        /// 
+        public double GetDegreesOfFreedom(int numberOfSamples)
+        {
+            return Linear.GetDegreesOfFreedom(numberOfSamples);
+        }
+
+        /// <summary>
+        /// Gets the standard error for each coefficient.
+        /// </summary>
+        /// 
+        /// <param name="informationMatrix">The information matrix obtained when training the model (see <see cref="OrdinaryLeastSquares.GetInformationMatrix()"/>).</param>
+        /// 
+        public double[] GetStandardErrors(double[][] informationMatrix)
+        {
+            double[] se = new double[informationMatrix.Length];
+            for (int i = 0; i < se.Length; i++)
+                se[i] = Math.Sqrt(informationMatrix[i][i]);
+            return se;
+        }
+
+        /// <summary>
+        /// Gets the standard error of the fit for a particular input vector.
+        /// </summary>
+        /// 
+        /// <param name="input">The input vector where the standard error of the fit should be computed.</param>
+        /// <param name="informationMatrix">The information matrix obtained when training the model (see <see cref="OrdinaryLeastSquares.GetInformationMatrix()"/>).</param>
+        /// 
+        /// <returns>The standard error of the fit at the given input point.</returns>
+        /// 
+        public double GetStandardError(double[] input, double[][] informationMatrix)
+        {
+            double rim = predictionVariance(input, informationMatrix);
+            return Math.Sqrt(rim);
+        }
+
+        /// <summary>
+        /// Gets the standard error of the prediction for a particular input vector.
+        /// </summary>
+        /// 
+        /// <param name="input">The input vector where the standard error of the prediction should be computed.</param>
+        /// <param name="informationMatrix">The information matrix obtained when training the model (see <see cref="OrdinaryLeastSquares.GetInformationMatrix()"/>).</param>
+        /// 
+        /// <returns>The standard error of the prediction given for the input point.</returns>
+        /// 
+        public double GetPredictionStandardError(double[] input, double[][] informationMatrix)
+        {
+            double rim = predictionVariance(input, informationMatrix);
+            return Math.Sqrt(1 + rim);
+        }
+
+        /// <summary>
+        /// Gets the confidence interval for an input point.
+        /// </summary>
+        /// 
+        /// <param name="input">The input vector.</param>
+        /// <param name="numberOfSamples">The number of training samples used to fit the model.</param>
+        /// <param name="informationMatrix">The information matrix obtained when training the model (see <see cref="OrdinaryLeastSquares.GetInformationMatrix()"/>).</param>
+        /// <param name="percent">The prediction interval confidence (default is 95%).</param>
+        /// 
+        public DoubleRange GetConfidenceInterval(double[] input, int numberOfSamples, double[][] informationMatrix, double percent = 0.95)
+        {
+            double se = GetStandardError(input, informationMatrix);
+            return computeInterval(input, numberOfSamples, percent, se);
+        }
+
+        /// <summary>
+        /// Gets the prediction interval for an input point.
+        /// </summary>
+        /// 
+        /// <param name="input">The input vector.</param>
+        /// <param name="numberOfSamples">The number of training samples used to fit the model.</param>
+        /// <param name="informationMatrix">The information matrix obtained when training the model (see <see cref="OrdinaryLeastSquares.GetInformationMatrix()"/>).</param>
+        /// <param name="percent">The prediction interval confidence (default is 95%).</param>
+        /// 
+        public DoubleRange GetPredictionInterval(double[] input, int numberOfSamples, double[][] informationMatrix, double percent = 0.95)
+        {
+            double se = GetPredictionStandardError(input, informationMatrix);
+            return computeInterval(input, numberOfSamples, percent, se);
+        }
+
+        private static double predictionVariance(double[] input, double[][] im)
+        {
+            if (input.Length < im.Length)
+                input = (1.0).Concatenate(input);
+            return input.Dot(im).Dot(input);
+        }
+
+        private DoubleRange computeInterval(double[] input, int numberOfSamples, double percent, double se)
+        {
+            double y = linear.Transform(input);
+            double df = GetDegreesOfFreedom(numberOfSamples);
+            var t = new TTest(estimatedValue: y, standardError: se, degreesOfFreedom: df);
+            DoubleRange lci = t.GetConfidenceInterval(percent);
+            DoubleRange nci = new DoubleRange(linkFunction.Inverse(lci.Min), linkFunction.Inverse(lci.Max));
+            return nci;
+        }
 
         /// <summary>
         ///   Creates a new GeneralizedLinearRegression that is a copy of the current instance.
@@ -519,13 +663,12 @@ namespace Accord.Statistics.Models.Regression
         /// 
         public object Clone()
         {
-            ILinkFunction function = (ILinkFunction)linkFunction.Clone();
-
-            var regression = new GeneralizedLinearRegression(function, coefficients.Length);
-            regression.coefficients = (double[])this.coefficients.Clone();
-            regression.standardErrors = (double[])this.standardErrors.Clone();
-
-            return regression;
+            return new GeneralizedLinearRegression()
+             {
+                 Link = (ILinkFunction)linkFunction.Clone(),
+                 Linear = (MultipleLinearRegression)this.Linear.Clone(),
+                 StandardErrors = (double[])this.StandardErrors.Clone()
+             };
         }
 
 
@@ -541,9 +684,10 @@ namespace Accord.Statistics.Models.Regression
         /// <returns>A new <see cref="GeneralizedLinearRegression"/> which is a copy of the 
         /// given <see cref="LogisticRegression"/>.</returns>
         /// 
-        public static GeneralizedLinearRegression FromLogisticRegression(
-            LogisticRegression regression, bool makeCopy)
+        [Obsolete("Simply cast the logistic regression to a GeneralizedLinearRegression instead, using Clone() if necessary.")]
+        public static GeneralizedLinearRegression FromLogisticRegression(LogisticRegression regression, bool makeCopy)
         {
+#pragma warning disable 612, 618
             if (makeCopy)
             {
                 double[] coefficients = (double[])regression.Coefficients.Clone();
@@ -556,9 +700,73 @@ namespace Accord.Statistics.Models.Regression
                 return new GeneralizedLinearRegression(new LogitLinkFunction(),
                     regression.Coefficients, regression.StandardErrors);
             }
+#pragma warning restore 612, 618
         }
-        #endregion
 
 
+        /// <summary>
+        /// Computes a numerical score measuring the association between
+        /// the given <paramref name="input" /> vector and each class.
+        /// </summary>
+        /// <param name="input">The input vector.</param>
+        /// <param name="result">An array where the result will be stored,
+        /// avoiding unnecessary memory allocations.</param>
+        /// <returns>System.Double[].</returns>
+        public override double[] Score(double[][] input, double[] result)
+        {
+            linear.Transform(input, result: result);
+            //for (int i = 0; i < input.Length; i++)
+            //    result[i] = linkFunction.Inverse(result[i]);
+            //return result.Subtract(0.5, result: result);
+            return result;
+        }
+
+        /// <summary>
+        /// Predicts a class label vector for the given input vectors, returning the
+        /// log-likelihood that the input vector belongs to its predicted class.
+        /// </summary>
+        /// <param name="input">The input vector.</param>
+        /// <param name="result">An array where the log-likelihoods will be stored,
+        /// avoiding unnecessary memory allocations.</param>
+        /// <returns>System.Double[].</returns>
+        public override double[] LogLikelihood(double[][] input, double[] result)
+        {
+            linear.Transform(input, result: result);
+            for (int i = 0; i < input.Length; i++)
+                result[i] = linkFunction.Inverse(result[i]);
+            return Elementwise.Log(result, result: result);
+        }
+
+        /// <summary>
+        /// Predicts a class label for the given input vector, returning the
+        /// probability that the input vector belongs to its predicted class.
+        /// </summary>
+        /// <param name="input">The input vector.</param>
+        /// <param name="result">An array where the probabilities will be stored,
+        /// avoiding unnecessary memory allocations.</param>
+        /// <returns>System.Double[].</returns>
+        public override double[] Probability(double[][] input, double[] result)
+        {
+            linear.Transform(input, result: result);
+            for (int i = 0; i < input.Length; i++)
+                result[i] = linkFunction.Inverse(result[i]);
+            return result;
+        }
+
+
+        [OnDeserialized]
+        private void SetValuesOnDeserialized(StreamingContext context)
+        {
+            if (linear == null)
+            {
+                linear = new MultipleLinearRegression()
+                {
+#pragma warning disable 612, 618
+                    Weights = coefficients.Get(1, 0),
+                    Intercept = coefficients[0]
+#pragma warning restore 612, 618
+                };
+            }
+        }
     }
 }

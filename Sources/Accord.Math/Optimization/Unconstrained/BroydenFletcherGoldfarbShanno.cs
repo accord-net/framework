@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 // Copyright © Jorge Nocedal, 1990
@@ -56,6 +56,7 @@ namespace Accord.Math.Optimization
 {
     using System;
     using System.ComponentModel;
+    using Accord.Compat;
 
     /// <summary>
     ///   Status codes for the <see cref="BroydenFletcherGoldfarbShanno"/>
@@ -819,8 +820,8 @@ namespace Accord.Math.Optimization
 
         /// <summary>
         ///   Get the exit code returned in the last call to the
-        ///   <see cref="IOptimizationMethod.Maximize()"/> or 
-        ///   <see cref="IOptimizationMethod.Minimize()"/> methods.
+        ///   <see cref="IOptimizationMethod{TInput, TOutput}.Maximize()"/> or 
+        ///   <see cref="IOptimizationMethod{TInput, TOutput}.Minimize()"/> methods.
         /// </summary>
         /// 
         public BroydenFletcherGoldfarbShannoStatus Status { get; set; }
@@ -833,12 +834,20 @@ namespace Accord.Math.Optimization
         ///   Creates a new instance of the L-BFGS optimization algorithm.
         /// </summary>
         /// 
+        public BroydenFletcherGoldfarbShanno()
+            : base()
+        {
+        }
+
+        /// <summary>
+        ///   Creates a new instance of the L-BFGS optimization algorithm.
+        /// </summary>
+        /// 
         /// <param name="numberOfVariables">The number of free parameters in the optimization problem.</param>
         /// 
         public BroydenFletcherGoldfarbShanno(int numberOfVariables)
             : base(numberOfVariables)
         {
-            orthantwise_end = numberOfVariables;
         }
 
         /// <summary>
@@ -868,6 +877,18 @@ namespace Accord.Math.Optimization
 
         #endregion
 
+        /// <summary>
+        /// Called when the <see cref="IOptimizationMethod{TInput, TOutput}.NumberOfVariables" /> property has changed.
+        /// </summary>
+        /// 
+        /// <param name="numberOfVariables">The number of variables.</param>
+        /// 
+        protected override void OnNumberOfVariablesChanged(int numberOfVariables)
+        {
+            base.OnNumberOfVariablesChanged(numberOfVariables);
+
+            this.orthantwise_end = numberOfVariables;
+        }
 
 
 
@@ -918,7 +939,6 @@ namespace Accord.Math.Optimization
             if (!Enum.IsDefined(typeof(BroydenFletcherGoldfarbShannoStatus), Status))
                 throw new InvalidOperationException("Unhandled return code: " + ret);
 
-            
 
             return Status == BroydenFletcherGoldfarbShannoStatus.Success ||
                    Status == BroydenFletcherGoldfarbShannoStatus.AlreadyMinimized;

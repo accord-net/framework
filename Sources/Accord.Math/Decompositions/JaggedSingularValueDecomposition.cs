@@ -1,9 +1,8 @@
-﻿
-// Accord Math Library
+﻿// Accord Math Library
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 // Original work copyright © Lutz Roeder, 2000
@@ -29,7 +28,9 @@
 namespace Accord.Math.Decompositions
 {
     using System;
-	using Accord.Math;
+    using Accord.Math;
+	using System.Diagnostics;
+    using Accord.Compat;
 
     /// <summary>
     ///   Singular Value Decomposition for a rectangular matrix.
@@ -53,7 +54,7 @@ namespace Accord.Math.Decompositions
     ///   of singular values may contain one or more zeros. The identity A = U * S * V'
     ///   may still hold, however. To overcome this problem, pass true to the
     ///   <see cref="JaggedSingularValueDecomposition(Double[][], bool, bool, bool)">autoTranspose</see>
-	///   argument of the class constructor.</para>
+    ///   argument of the class constructor.</para>
     ///
     ///  <para>
     ///   This routine computes the economy decomposition of A.</para> 
@@ -212,7 +213,7 @@ namespace Accord.Math.Decompositions
                 {
                     double det = 0;
                     for (int i = 0; i < s.Length; i++)
-                        det += Math.Log(s[i]);
+                        det += Math.Log((double)s[i]);
                     lndeterminant = (Double)det;
                 }
 
@@ -253,7 +254,7 @@ namespace Accord.Math.Decompositions
                 {
                     double det = 0;
                     for (int i = 0; i < s.Length; i++)
-                        if (s[i] != 0) det += Math.Log(s[i]);
+                        if (s[i] != 0) det += Math.Log((double)s[i]);
                     lnpseudoDeterminant = (Double)det;
                 }
 
@@ -381,8 +382,7 @@ namespace Accord.Math.Decompositions
 
                     // throw new ArgumentException("Matrix should have more rows than columns.");
 
-                    System.Diagnostics.Trace.WriteLine(
-                        "WARNING: Computing SVD on a matrix with more columns than rows.");
+                    Trace.WriteLine("WARNING: Computing SVD on a matrix with more columns than rows.");
 
                     // Proceed anyway
                     a = inPlace ? value : (Double[][])value.MemberwiseClone();
@@ -442,9 +442,9 @@ namespace Accord.Math.Decompositions
                     for (int i = k; i < a.Length; i++)
                         s[k] = Accord.Math.Tools.Hypotenuse(s[k], a[i][k]);
 
-                    if (s[k] != 0.0) 
+                    if (s[k] != 0) 
                     {
-                       if (a[k][k] < 0.0)
+                       if (a[k][k] < 0)
                           s[k] = -s[k];
 
                        for (int i = k; i < a.Length; i++) 
@@ -458,7 +458,7 @@ namespace Accord.Math.Decompositions
 
                 for (int j = k+1; j < n; j++)
                 {
-                    if ((k < nct) & (s[k] != 0.0))
+                    if ((k < nct) & (s[k] != 0))
                     {
                         // Apply the transformation.
                         Double t = 0;
@@ -495,9 +495,9 @@ namespace Accord.Math.Decompositions
                     for (int i = k + 1; i < e.Length; i++)
                        e[k] = Tools.Hypotenuse(e[k], e[i]);
 
-                    if (e[k] != 0.0)
+                    if (e[k] != 0)
                     {
-                       if (e[k+1] < 0.0) 
+                       if (e[k+1] < 0) 
                           e[k] = -e[k];
 
                        for (int i = k + 1; i < e.Length; i++) 
@@ -507,7 +507,7 @@ namespace Accord.Math.Decompositions
                     }
 
                     e[k] = -e[k];
-                    if ((k + 1 < m) & (e[k] != 0.0))
+                    if ((k + 1 < m) & (e[k] != 0))
                     {
                         // Apply the transformation.
                         for (int i = k + 1; i < work.Length; i++)
@@ -559,7 +559,7 @@ namespace Accord.Math.Decompositions
 
                 for (int k = nct-1; k >= 0; k--)
                 {
-                    if (s[k] != 0.0)
+                    if (s[k] != 0)
                     {
                         for (int j = k + 1; j < nu; j++)
                         {
@@ -653,7 +653,6 @@ namespace Accord.Math.Decompositions
                         break;
 
                     var alpha = tiny + eps * (System.Math.Abs(s[k]) + System.Math.Abs(s[k + 1]));
-
                     if (System.Math.Abs(e[k]) <= alpha || Double.IsNaN(e[k]))
                     {
                         e[k] = 0;
@@ -770,15 +769,14 @@ namespace Accord.Math.Decompositions
                            Double ek = e[k] / scale;
                            Double b = ((spm1 + sp)*(spm1 - sp) + epm1*epm1)/2;
                            Double c = (sp*epm1)*(sp*epm1);
-                           double shift = 0;
-                           if ((b != 0.0) || (c != 0.0))
+                           Double shift = 0;
+                           if ((b != 0) || (c != 0))
                            {
-                              shift = Math.Sqrt(b*b + c);
-
-                              if (b < 0.0)
-                                 shift = -shift;
-
-                              shift = c/(b + shift);
+                            if (b < 0)
+                                shift = -(Double)System.Math.Sqrt(b * b + c);
+                            else
+                                shift = (Double)System.Math.Sqrt(b * b + c);
+                              shift = c / (b + shift);
                            }
 
                            Double f = (sk + sp)*(sk - sp) + (Double)shift;
@@ -838,7 +836,7 @@ namespace Accord.Math.Decompositions
                     case 4:
                         {
                             // Make the singular values positive.
-                            if (s[k] <= 0.0)
+                            if (s[k] <= 0)
                             {
                                 s[k] = (s[k] < 0 ? -s[k] : (Double)0);
 
@@ -945,6 +943,70 @@ namespace Accord.Math.Decompositions
             var VL = Matrix.Dot(v, Ls);
 
             //(V x L* x Ut) x Y
+            int vrows = v.Rows();
+            int urows = u.Rows();
+            int ucols = u.Columns();
+            var VLU = Jagged.Create<Double>(vrows, urows);
+            for (int i = 0; i < vrows; i++)
+            {
+                for (int j = 0; j < urows; j++)
+                {
+                    Double sum = 0;
+                    for (int k = 0; k < ucols; k++)
+                        sum += VL[i][k] * u[j][k];
+                    VLU[i][j] = sum;
+                }
+            }
+
+            //(V x L* x Ut x Y)
+            return Matrix.Dot(VLU, Y);
+        }
+
+        /// <summary>
+        ///   Solves a linear equation system of the form AX = B.
+        /// </summary>
+        /// <param name="value">Parameter B from the equation AX = B.</param>
+        /// <returns>The solution X from equation AX = B.</returns>
+        public Double[][] SolveTranspose(Double[][] value)
+        {
+            // Additionally an important property is that if there does not exists a solution
+            // when the matrix A is singular but replacing 1/Li with 0 will provide a solution
+            // that minimizes the residue |AX -Y|. SVD finds the least squares best compromise
+            // solution of the linear equation system. Interestingly SVD can be also used in an
+            // over-determined system where the number of equations exceeds that of the parameters.
+
+            // L is a diagonal matrix with non-negative matrix elements having the same
+            // dimension as A, Wi ? 0. The diagonal elements of L are the singular values of matrix A.
+
+            Double[][] Y = value;
+
+            // Create L*, which is a diagonal matrix with elements
+            //    L*[i] = 1/L[i]  if L[i] < e, else 0, 
+            // where e is the so-called singularity threshold.
+
+            // In other words, if L[i] is zero or close to zero (smaller than e),
+            // one must replace 1/L[i] with 0. The value of e depends on the precision
+            // of the hardware. This method can be used to solve linear equations
+            // systems even if the matrices are singular or close to singular.
+
+            //singularity threshold
+            Double e = this.Threshold;
+
+
+            int scols = s.Length;
+            var Ls = new Double[scols][];
+            for (int i = 0; i < s.Length; i++)
+            {
+                Ls[i] = new Double[scols];
+                if (System.Math.Abs(s[i]) <= e)
+                    Ls[i][i] = 0;
+                else Ls[i][i] = 1 / s[i];
+            }
+
+            //(V x L*) x Ut x Y
+            var VL = Matrix.Dot(v, Ls);
+
+            //(V x L* x Ut) x Y
             int vrows = v.Length;
             int urows = u.Length;
             var VLU = new Double[vrows][];
@@ -961,16 +1023,31 @@ namespace Accord.Math.Decompositions
                 }
             }
 
-            //(V x L* x Ut x Y)
-            return Matrix.Dot(VLU, Y);
+            return Matrix.Dot(Y, VLU);
         }
 
         /// <summary>
-        ///   Solves a linear equation system of the form AX = B.
+        ///   Solves a set of equation systems of type <c>A * X = B</c> where B is a diagonal matrix.
         /// </summary>
-        /// <param name="value">Parameter B from the equation AX = B.</param>
-        /// <returns>The solution X from equation AX = B.</returns>
-        public Double[][] SolveForDiagonal(Double[] value)
+        /// <param name="diagonal">Diagonal fo the right hand side matrix with as many rows as <c>A</c>.</param>
+        /// <returns>Matrix <c>X</c> so that <c>L * U * X = B</c>.</returns>
+        /// 
+        public Double[][] SolveForDiagonal(Double[] diagonal)
+        {
+            if (diagonal == null)
+                throw new ArgumentNullException("diagonal");
+
+            return Solve(Jagged.Diagonal(diagonal));
+        }
+
+        /// <summary>
+        ///   Solves a linear equation system of the form xA = b.
+        /// </summary>
+        /// <param name="value">The b from the equation xA = b.</param>
+        ///
+        /// <returns>The x from equation Ax = b.</returns>
+        ///
+        public Double[] SolveTranspose(Double[] value)
         {
             // Additionally an important property is that if there does not exists a solution
             // when the matrix A is singular but replacing 1/Li with 0 will provide a solution
@@ -1025,10 +1102,8 @@ namespace Accord.Math.Decompositions
                 }
             }
 
-            //(V x L* x Ut x Y)
-            return VLU.DotWithDiagonal(Y);
+            return Y.Dot(VLU);
         }
-
 
         /// <summary>
         ///   Solves a linear equation system of the form Ax = b.
@@ -1136,7 +1211,56 @@ namespace Accord.Math.Decompositions
             return Y;
         }
 
+        /// <summary>
+        ///   Reverses the decomposition, reconstructing the original matrix <c>X</c>.
+        /// </summary>
+        /// 
+        public Double[][] Reverse()
+        {
+            return LeftSingularVectors.Dot(DiagonalMatrix).DotWithTransposed(RightSingularVectors);
+        }
 
+        /// <summary>
+        ///   Computes <c>(Xt * X)^1</c> (the inverse of the covariance matrix). This
+        ///   matrix can be used to determine standard errors for the coefficients when
+        ///   solving a linear set of equations through any of the <see cref="Solve(Double[][])"/>
+        ///   methods.
+        /// </summary>
+        /// 
+        public Double[][] GetInformationMatrix()
+        {
+            Double e = this.Threshold;
+
+            // X = V*S^-1
+            int vrows = v.Length;
+            int vcols = v[0].Length;
+            var X = new Double[vrows][];
+            for (int i = 0; i < vrows; i++)
+            {
+                X[i] = new Double[s.Length];
+                for (int j = 0; j < vcols; j++)
+                {
+                    if (System.Math.Abs(s[j]) > e)
+                        X[i][j] = v[i][j] / s[j];
+                }
+            }
+
+            // Y = X*V'
+            var Y = new Double[vrows][];
+            for (int i = 0; i < vrows; i++)
+            {
+                Y[i] = new Double[vrows];
+                for (int j = 0; j < vrows; j++)
+                {
+                    Double sum = 0;
+                    for (int k = 0; k < vrows; k++)
+                        sum += X[i][k] * v[j][k];
+                    Y[i][j] = sum;
+                }
+            }
+
+            return Y;
+        }
 
         #region ICloneable Members
         private JaggedSingularValueDecomposition()

@@ -1,7 +1,7 @@
 ﻿// Accord.NET Sample Applications
 // http://accord-framework.net
 //
-// Copyright © 2009-2014, César Souza
+// Copyright © 2009-2017, César Souza
 // All rights reserved. 3-BSD License:
 //
 //   Redistribution and use in source and binary forms, with or without
@@ -162,10 +162,10 @@ namespace SampleApp
                 int[] idx = v.Find(e => e > 2); // finding the index of every element in v higher than 2.
 
                 // 5.2 Selecting elements by index
-                double[] u = v.Submatrix(idx); // u is { 5, 7 }
+                double[] u = v.Get(idx); // u is { 5, 7 }
 
                 // 5.3 Converting between different matrix representations
-                double[][] jaggedA = A.ToArray(); // from multidimensional to jagged array
+                double[][] jaggedA = A.ToJagged(); // from multidimensional to jagged array
 
                 // 5.4 Extracting a column or row from the matrix
                 double[] a = A.GetColumn(0); // retrieves the first column
@@ -201,14 +201,14 @@ namespace SampleApp
             {
                 // Singular value decomposition
                 {
-                    SingularValueDecomposition svd = new SingularValueDecomposition(A);
+                    var svd = new SingularValueDecomposition(A);
                     var U = svd.LeftSingularVectors;
                     var S = svd.Diagonal;
                     var V = svd.RightSingularVectors;
                 }
                 // or (please see documentation for details)
                 {
-                    SingularValueDecomposition svd = new SingularValueDecomposition(A.Transpose());
+                    var svd = new SingularValueDecomposition(A.Transpose());
                     var U = svd.RightSingularVectors;
                     var S = svd.Diagonal;
                     var V = svd.LeftSingularVectors;
@@ -216,27 +216,27 @@ namespace SampleApp
 
                 // Eigenvalue decomposition
                 {
-                    EigenvalueDecomposition eig = new EigenvalueDecomposition(A);
+                    var eig = new EigenvalueDecomposition(A);
                     var V = eig.Eigenvectors;
                     var D = eig.DiagonalMatrix;
                 }
 
                 // QR decomposition
                 {
-                    QrDecomposition qr = new QrDecomposition(A);
+                    var qr = new QrDecomposition(A);
                     var Q = qr.OrthogonalFactor;
                     var R = qr.UpperTriangularFactor;
                 }
 
                 // Cholesky decomposition
                 {
-                    CholeskyDecomposition chol = new CholeskyDecomposition(A);
+                    var chol = new CholeskyDecomposition(A);
                     var R = chol.LeftTriangularFactor;
                 }
 
                 // LU decomposition
                 {
-                    LuDecomposition lu = new LuDecomposition(A);
+                    var lu = new LuDecomposition(A);
                     var L = lu.LowerTriangularFactor;
                     var U = lu.UpperTriangularFactor;
                 }

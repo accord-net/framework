@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -20,9 +20,13 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
+#if !NETSTANDARD1_4
 namespace Accord.Statistics.Filters
 {
+    using Accord.MachineLearning;
+    using Accord.Math;
     using System;
+    using System.Collections.Generic;
     using System.Data;
 
     /// <summary>
@@ -59,7 +63,6 @@ namespace Accord.Statistics.Filters
     [Serializable]
     public class Discretization : BaseFilter<Discretization.Options>, IAutoConfigurableFilter
     {
-
         /// <summary>
         ///   Creates a new Discretization filter.
         /// </summary>
@@ -137,6 +140,8 @@ namespace Accord.Statistics.Filters
             }
         }
 
+
+
         /// <summary>
         ///   Options for the discretization filter.
         /// </summary>
@@ -188,4 +193,6 @@ namespace Accord.Statistics.Filters
             }
         }
     }
+
 }
+#endif

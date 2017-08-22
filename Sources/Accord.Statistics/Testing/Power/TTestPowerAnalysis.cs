@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -24,6 +24,7 @@ namespace Accord.Statistics.Testing.Power
 {
     using System;
     using Accord.Statistics.Distributions.Univariate;
+    using Accord.Compat;
 
     /// <summary>
     ///   Power analysis for one-sample T-Tests.

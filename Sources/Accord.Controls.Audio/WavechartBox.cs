@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -23,15 +23,14 @@
 namespace Accord.Controls
 {
     using System;
-    using System.Data;
     using System.Threading;
     using System.Windows.Forms;
     using System.Drawing;
     using Accord.Audio;
     using Accord.Math;
-    using AForge.Math;
     using ZedGraph;
     using Accord.Audio.Filters;
+    using Accord.Compat;
 
     /// <summary>
     ///   Wavechart Box.

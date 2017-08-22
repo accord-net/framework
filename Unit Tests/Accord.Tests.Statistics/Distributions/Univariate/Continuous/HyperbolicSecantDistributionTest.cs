@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -31,22 +31,6 @@ namespace Accord.Tests.Statistics
     {
 
 
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
         [Test]
         public void ConstructorTest1()
         {
@@ -72,12 +56,12 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0, median);
             Assert.AreEqual(1, var);
             Assert.AreEqual(0, mode);
-            Assert.AreEqual(0.92968538268895873, cdf);
-            Assert.AreEqual(0.10955386512899701, pdf);
-            Assert.AreEqual(-2.2113389316917877, lpdf);
-            Assert.AreEqual(1.5580524977385339, hf);
-            Assert.AreEqual(0.070314617311041272, ccdf);
-            Assert.AreEqual(1.4000000017042411, icdf);
+            Assert.AreEqual(0.92968538268895873, cdf, 1e-10);
+            Assert.AreEqual(0.10955386512899701, pdf, 1e-10);
+            Assert.AreEqual(-2.2113389316917877, lpdf, 1e-10);
+            Assert.AreEqual(1.5580524977385339, hf, 1e-10);
+            Assert.AreEqual(0.070314617311041272, ccdf, 1e-10);
+            Assert.AreEqual(1.4000000017042411, icdf, 1e-10);
             Assert.AreEqual("Sech(x)", str);
 
             Assert.IsFalse(double.IsNaN(icdf));
@@ -86,12 +70,18 @@ namespace Accord.Tests.Statistics
             var range2 = sech.GetRange(0.99);
             var range3 = sech.GetRange(0.01);
 
-            Assert.AreEqual(-1.6183450347411152, range1.Min);
-            Assert.AreEqual(1.6183450347411155, range1.Max);
-            Assert.AreEqual(-2.6442035634463368, range2.Min);
-            Assert.AreEqual(2.6442035634463381, range2.Max);
-            Assert.AreEqual(-2.6442035634463372, range3.Min);
-            Assert.AreEqual(2.6442035634463381, range3.Max);
+            Assert.AreEqual(-1.6183450347411152, range1.Min, 1e-10);
+            Assert.AreEqual(1.6183450347411155, range1.Max, 1e-10);
+            Assert.AreEqual(-2.6442035634463368, range2.Min, 1e-10);
+            Assert.AreEqual(2.6442035634463381, range2.Max, 1e-10);
+            Assert.AreEqual(-2.6442035634463372, range3.Min, 1e-10);
+            Assert.AreEqual(2.6442035634463381, range3.Max, 1e-10);
+
+            Assert.AreEqual(double.NegativeInfinity, sech.Support.Min);
+            Assert.AreEqual(double.PositiveInfinity, sech.Support.Max);
+
+            Assert.AreEqual(sech.InverseDistributionFunction(0), sech.Support.Min);
+            Assert.AreEqual(sech.InverseDistributionFunction(1), sech.Support.Max);
         }
 
     }

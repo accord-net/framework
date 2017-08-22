@@ -1,7 +1,7 @@
 // Accord.NET Sample Applications
 // http://accord-framework.net
 //
-// Copyright © 2009-2014, César Souza
+// Copyright © 2009-2017, César Souza
 // All rights reserved. 3-BSD License:
 //
 //   Redistribution and use in source and binary forms, with or without
@@ -55,6 +55,8 @@ namespace Analysis.PLS
 
         string[] inputColumnNames;
         string[] outputColumnNames;
+        double[][] inputs;
+        double[][] outputs;
 
 
 
@@ -95,11 +97,10 @@ namespace Analysis.PLS
             DataTable table = dgvAnalysisSource.DataSource as DataTable;
 
             // Creates a matrix from the source data table
-            double[,] sourceMatrix = table.ToMatrix(out inputColumnNames);
+            double[][] sourceMatrix = table.ToJagged(out inputColumnNames);
 
             // Creates the Simple Descriptive Analysis of the given source
-            sda = new DescriptiveAnalysis(sourceMatrix, inputColumnNames);
-            sda.Compute();
+            sda = new DescriptiveAnalysis(inputColumnNames).Learn(sourceMatrix);
 
             // Populates statistics overview tab with analysis data
             dgvDistributionMeasures.DataSource = sda.Measures;
@@ -119,19 +120,21 @@ namespace Analysis.PLS
             DataTable inputTable = table.DefaultView.ToTable(false, inputColumnNames);
             DataTable outputTable = table.DefaultView.ToTable(false, outputColumnNames);
 
-            double[,] inputs = inputTable.ToMatrix();
-            double[,] outputs = outputTable.ToMatrix();
+            this.inputs = inputTable.ToJagged();
+            this.outputs = outputTable.ToJagged();
 
 
 
             // Creates the Partial Least Squares of the given source
-            pls = new PartialLeastSquaresAnalysis(inputs, outputs,
-                (AnalysisMethod)cbMethod.SelectedValue,
-                (PartialLeastSquaresAlgorithm)cbAlgorithm.SelectedValue);
+            pls = new PartialLeastSquaresAnalysis()
+            {
+                Method = (AnalysisMethod)cbMethod.SelectedValue,
+                Algorithm = (PartialLeastSquaresAlgorithm)cbAlgorithm.SelectedValue
+            };
 
 
             // Computes the Partial Least Squares
-            pls.Compute();
+            MultivariateLinearRegression classifier = pls.Learn(inputs, outputs);
 
 
             // Populates components overview with analysis data
@@ -142,7 +145,7 @@ namespace Analysis.PLS
             dgvAnalysisLoadingsOutput.DataSource = new ArrayDataView(pls.Dependents.FactorMatrix);
 
             this.regression = pls.CreateRegression();
-            dgvRegressionCoefficients.DataSource = new ArrayDataView(regression.Coefficients, outputColumnNames);
+            dgvRegressionCoefficients.DataSource = new ArrayDataView(regression.Weights, outputColumnNames);
             dgvRegressionIntercept.DataSource = new ArrayDataView(regression.Intercepts, outputColumnNames);
 
             dgvProjectionComponents.DataSource = pls.Factors;
@@ -171,11 +174,13 @@ namespace Analysis.PLS
             }
 
             int components = (int)numComponents.Value;
-            double[,] sourceInput = Matrix.ToMatrix(dgvProjectionSourceX.DataSource as DataTable);
-            double[,] sourceOutput = Matrix.ToMatrix(dgvProjectionSourceY.DataSource as DataTable);
+            double[][] sourceInput = Matrix.ToJagged(dgvProjectionSourceX.DataSource as DataTable);
+            double[][] sourceOutput = Matrix.ToJagged(dgvProjectionSourceY.DataSource as DataTable);
 
-            double[,] input = pls.Transform(sourceInput, components);
-            double[,] output = pls.TransformOutput(sourceOutput, components);
+            pls.NumberOfOutputs = components;
+
+            double[][] input = pls.Transform(sourceInput);
+            double[][] output = pls.TransformOutput(sourceOutput);
 
             dgvProjectionX.DataSource = new ArrayDataView(input);
             dgvProjectionY.DataSource = new ArrayDataView(output);
@@ -198,11 +203,11 @@ namespace Analysis.PLS
             DataTable outputTable = table.DefaultView.ToTable(false, outputColumnNames);
 
 
-            double[][] sourceInput = Matrix.ToArray(inputTable as DataTable);
-            double[][] sourceOutput = Matrix.ToArray(outputTable as DataTable);
+            double[][] sourceInput = inputTable.ToJagged();
+            double[][] sourceOutput = outputTable.ToJagged();
 
             
-            double[,] result = Matrix.ToMatrix(regression.Compute(sourceInput));
+            double[,] result = Matrix.ToMatrix(regression.Transform(sourceInput));
 
             double[] rSquared = regression.CoefficientOfDetermination(sourceInput, sourceOutput, cbAdjusted.Checked);
 
@@ -237,8 +242,6 @@ namespace Analysis.PLS
                             clbInput.Items.Add(col.ColumnName);
                             clbOutput.Items.Add(col.ColumnName);
                         }
-
-
                     }
                 }
             }
@@ -270,8 +273,8 @@ namespace Analysis.PLS
             if (dgvDistributionMeasures.CurrentRow != null)
             {
                 DataGridViewRow row = (DataGridViewRow)dgvDistributionMeasures.CurrentRow;
-                dataHistogramView1.DataSource =
-                    ((DescriptiveMeasures)row.DataBoundItem).Samples;
+                DescriptiveMeasures measures = (DescriptiveMeasures)row.DataBoundItem;
+                dataHistogramView1.DataSource = inputs.GetColumn(measures.Index);
             }
         }
 

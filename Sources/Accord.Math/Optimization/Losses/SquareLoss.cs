@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -26,22 +26,56 @@ namespace Accord.Math.Optimization.Losses
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
+    using Accord.Compat;
     using System.Threading.Tasks;
 
     /// <summary>
-    ///   Square loss, also known as L2-loss.
+    ///   Euclidean loss, also known as zero-one-loss. This class
+    ///   provides exactly the same functionality as <see cref="SquareLoss"/>
+    ///   but has a more intuitive name. Both classes are interchangeable.
+    /// </summary>
+    /// 
+    [Serializable]
+    public class EuclideanLoss : SquareLoss
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EuclideanLoss"/> class.
+        /// </summary>
+        /// 
+        /// <param name="expected">The expected outputs (ground truth).</param>
+        /// 
+        public EuclideanLoss(double[][] expected)
+            : base(expected)
+        {
+
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EuclideanLoss"/> class.
+        /// </summary>
+        /// 
+        /// <param name="expected">The expected outputs (ground truth).</param>
+        /// 
+        public EuclideanLoss(double[] expected)
+            : base(expected)
+        {
+        }
+    }
+
+    /// <summary>
+    ///   Square loss, also known as L2-loss or Euclidean loss.
     /// </summary>
     /// 
     [Serializable]
     public class SquareLoss : LossBase<double[][]>
     {
-        private bool mean;
-        private bool root;
+        private bool mean = true;
+        private bool root = false;
 
         /// <summary>
         ///   Gets or sets a value indicating whether the
         ///   root square loss should be computed. If <see cref="Mean"/>
-        ///   is also set, computes the root mean square loss.
+        ///   is also set, computes the root mean square loss. Default is false.
         /// </summary>
         /// 
         /// <value>
@@ -57,7 +91,7 @@ namespace Accord.Math.Optimization.Losses
         /// <summary>
         ///   Gets or sets a value indicating whether the
         ///   mean square loss should be computed. If <see cref="Root"/>
-        ///   is also set, computes the root mean square loss.
+        ///   is also set, computes the root mean square loss. Default is true.
         /// </summary>
         /// 
         /// <value>
@@ -77,8 +111,8 @@ namespace Accord.Math.Optimization.Losses
         /// <param name="expected">The expected outputs (ground truth).</param>
         /// 
         public SquareLoss(double[][] expected)
-            : base(expected)
-        { 
+        {
+            this.Expected = expected;
         }
 
         /// <summary>
@@ -88,8 +122,8 @@ namespace Accord.Math.Optimization.Losses
         /// <param name="expected">The expected outputs (ground truth).</param>
         /// 
         public SquareLoss(double[] expected)
-            : base(Jagged.ColumnVector(expected))
         {
+            this.Expected = Jagged.ColumnVector(expected);
         }
 
         /// <summary>

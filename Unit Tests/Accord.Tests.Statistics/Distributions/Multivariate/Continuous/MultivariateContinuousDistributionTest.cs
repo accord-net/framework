@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -34,23 +34,6 @@ namespace Accord.Tests.Statistics
     [TestFixture]
     public class MultivariateContinuousDistributionTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
 
         internal virtual MultivariateContinuousDistribution CreateMultivariateContinuousDistribution()
         {
@@ -317,7 +300,7 @@ namespace Accord.Tests.Statistics
             target.Fit(observations);
 
             double[] expectedMean = Measures.Mean(observations, dimension: 0);
-            double[,] expectedCov = Measures.Covariance(observations, expectedMean);
+            double[][] expectedCov = Measures.Covariance(observations, expectedMean);
 
             MultivariateContinuousDistribution actual = target as MultivariateContinuousDistribution;
 
@@ -341,7 +324,7 @@ namespace Accord.Tests.Statistics
             target.Fit(observations);
 
             double[] expectedMean = Measures.Mean(observations, dimension: 0);
-            double[,] expectedCov = Measures.Covariance(observations, expectedMean);
+            double[][] expectedCov = Measures.Covariance(observations, expectedMean);
 
             MultivariateContinuousDistribution actual = target as MultivariateContinuousDistribution;
 

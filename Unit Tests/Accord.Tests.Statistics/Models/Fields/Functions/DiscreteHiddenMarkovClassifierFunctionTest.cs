@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -32,22 +32,6 @@ namespace Accord.Tests.Statistics.Models.Fields
     [TestFixture]
     public class DiscreteHiddenMarkovClassifierPotentialFunctionTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
 
         public static HiddenMarkovClassifier CreateModel1()
         {
@@ -82,7 +66,7 @@ namespace Accord.Tests.Statistics.Models.Fields
             int[] states = new int[] { 2, 2 };
 
             // Creates a new Hidden Markov Model Classifier with the given parameters
-            HiddenMarkovClassifier classifier = new HiddenMarkovClassifier(classes, states, symbols);
+            var classifier = new HiddenMarkovClassifier(classes, states, symbols);
 
 
             // Create a new learning algorithm to train the sequence classifier

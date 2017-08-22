@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -22,11 +22,6 @@
 
 namespace Accord.Tests.MachineLearning
 {
-#if NET35
-    extern alias core;
-    using Parallel = core::System.Threading.Tasks.Parallel;
-#endif
-
     using System.IO;
     using System.Threading.Tasks;
     using Accord.MachineLearning.VectorMachines;
@@ -37,6 +32,7 @@ namespace Accord.Tests.MachineLearning
     using NUnit.Framework;
     using System;
     using Accord.Math.Optimization.Losses;
+    using System.Diagnostics;
 
     [TestFixture]
     public class MulticlassSupportVectorMachineTest
@@ -199,6 +195,8 @@ namespace Accord.Tests.MachineLearning
 
             double error = smo.Run();
 
+            Assert.AreEqual(0, error);
+
             // Linear machines in compact form do not require kernel evaluations
             Assert.AreEqual(0, msvm.GetLastKernelEvaluations());
 
@@ -335,7 +333,6 @@ namespace Accord.Tests.MachineLearning
             }
         }
 
-
         [Test]
         public void ComputeTest2()
         {
@@ -367,6 +364,7 @@ namespace Accord.Tests.MachineLearning
 
             // Create the Multi-class Support Vector Machine using the selected Kernel
             var msvm = new MulticlassSupportVectorMachine(inputs, kernel, classes);
+            msvm.SupportVectorCache = 0;
 
             // Create the learning algorithm using the machine and the training data
             var ml = new MulticlassSupportVectorLearning(msvm, input, output);
@@ -426,7 +424,9 @@ namespace Accord.Tests.MachineLearning
                 Assert.AreEqual(msvm.SupportVectorUniqueCount, evals[i]);
         }
 
+#if !NO_BINARY_SERIALIZATION
         [Test]
+        [Category("Serialization")]
         public void SerializeTest1()
         {
             double[][] inputs =
@@ -506,10 +506,14 @@ namespace Accord.Tests.MachineLearning
         }
 
         [Test]
+#if NETCORE
+        [Ignore("Models created in .NET desktop cannot be de-serialized in .NET Core/Standard (yet)")]
+#endif
         public void LoadTest1()
         {
-            MemoryStream stream = new MemoryStream(Properties.Resources.svm1);
-            var svm = MulticlassSupportVectorMachine.Load(stream);
+            string fileName = Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources", "svm1.svm");
+
+            var svm = MulticlassSupportVectorMachine.Load(fileName);
 
             Assert.IsNotNull(svm.Machines);
             Assert.IsFalse(svm.IsProbabilistic);
@@ -517,17 +521,19 @@ namespace Accord.Tests.MachineLearning
         }
 
         [Test]
+#if NETCORE
+        [Ignore("Models created in .NET desktop cannot be de-serialized in .NET Core/Standard (yet)")]
+#endif
         public void LoadTest2()
         {
-            byte[] blob = Properties.Resources.svm2;
-            MemoryStream stream = new MemoryStream(blob);
+            string fileName = Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources", "svm2.svm");
 
-            var ksvm = MulticlassSupportVectorMachine.Load(stream);
+            var ksvm = MulticlassSupportVectorMachine.Load(fileName);
 
             Assert.AreEqual(3, ksvm.Classes);
             Assert.AreEqual(21, ksvm.Inputs);
             Assert.AreEqual(2334, ksvm.SupportVectorCount);
-            Assert.AreEqual(1542, ksvm.SupportVectorSharedCount);
+            Assert.AreEqual(1584, ksvm.SupportVectorSharedCount);
             Assert.AreEqual(1542, ksvm.SupportVectorUniqueCount);
             Assert.AreEqual(false, ksvm.IsProbabilistic);
             Assert.AreEqual(0, ksvm.Machines[0][0].Weights.Sum());
@@ -539,15 +545,16 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(1.2115031055900578E-08d, ksvm.Machines[1][1].Weights.Variance());
             Assert.AreEqual(0.00010847163737093268, ksvm.Machines[1][1].Threshold);
             Assert.AreEqual(806, ksvm.Machines[1][1].SupportVectors.Length);
-
         }
-
-
+#endif
 
         [Test]
+#if DEBUG
+        [Ignore("Disabled on Debug")]
+#endif
         public void kaggle_digits_old_style()
         {
-            string root = Environment.CurrentDirectory;
+            string root = TestContext.CurrentContext.TestDirectory;
             var training = Properties.Resources.trainingsample;
             var validation = Properties.Resources.validationsample;
 
@@ -556,7 +563,9 @@ namespace Accord.Tests.MachineLearning
             var labels = tset.Item2;
 
             var teacher = new MulticlassSupportVectorLearning();
-
+#if MONO
+            teacher.ParallelOptions.MaxDegreeOfParallelism = 1;
+#endif
             var svm = teacher.Learn(observations, labels);
 
             {
@@ -585,9 +594,12 @@ namespace Accord.Tests.MachineLearning
         }
 
         [Test]
+#if DEBUG
+        [Ignore("Disabled on Debug")]
+#endif
         public void kaggle_digits()
         {
-            string root = Environment.CurrentDirectory;
+            string root = TestContext.CurrentContext.TestDirectory;
             var training = Properties.Resources.trainingsample;
             var validation = Properties.Resources.validationsample;
 
@@ -596,6 +608,10 @@ namespace Accord.Tests.MachineLearning
             var labels = tset.Item2;
 
             var teacher = new MulticlassSupportVectorLearning<Linear>();
+
+#if MONO
+            teacher.ParallelOptions.MaxDegreeOfParallelism = 1;
+#endif
 
             var svm = teacher.Learn(observations, labels);
 
@@ -625,9 +641,12 @@ namespace Accord.Tests.MachineLearning
         }
 
         [Test]
+#if DEBUG
+        [Ignore("Disabled on Debug")]
+#endif
         public void kaggle_digits_with_compress()
         {
-            string root = Environment.CurrentDirectory;
+            string root = TestContext.CurrentContext.TestDirectory;
             var training = Properties.Resources.trainingsample;
             var validation = Properties.Resources.validationsample;
 
@@ -636,7 +655,9 @@ namespace Accord.Tests.MachineLearning
             var labels = tset.Item2;
 
             var teacher = new MulticlassSupportVectorLearning<Linear>();
-
+#if MONO
+            teacher.ParallelOptions.MaxDegreeOfParallelism = 1;
+#endif
             var svm = teacher.Learn(observations, labels);
 
             Assert.AreEqual(50, svm.Models[0][0].SupportVectors.Length);
@@ -669,6 +690,7 @@ namespace Accord.Tests.MachineLearning
                 Assert.AreEqual(0.082, val);
             }
         }
+
 
         private static Tuple<double[][], int[]> readData(string filePath)
         {

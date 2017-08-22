@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -27,6 +27,10 @@ namespace Accord.Tests.Vision
     using System.Drawing;
     using Accord.Vision.Detection;
     using Accord.Vision.Detection.Cascades;
+    using Accord.Tests.Vision.Properties;
+#if NO_BITMAP
+    using Resources = Accord.Tests.Vision.Properties.Resources_Standard;
+#endif
 
     [TestFixture]
     public class ObjectDetectorTest
@@ -35,19 +39,48 @@ namespace Accord.Tests.Vision
         [Test]
         public void ProcessFrame()
         {
-            HaarCascade cascade = new FaceHaarCascade();
-            HaarObjectDetector target = new HaarObjectDetector(cascade,
-                50, ObjectDetectorSearchMode.NoOverlap);
+            #region doc_example
+            // In order to use a HaarObjectDetector, first we have to tell it
+            // which type of objects we would like to detect. And in a Haar detector,
+            // different object classifiers are specified in terms of a HaarCascade.
 
-            Bitmap bmp = Properties.Resources.lena_color;
+            // The framework comes with some built-in cascades for common body
+            // parts, such as Face and Nose. However, it is also possible to
+            // load a cascade from cascade XML definitions in OpenCV 2.0 format.
 
-            target.ProcessFrame(bmp);
+            // In this example, we will be creating a cascade for a Face detector:
+            var cascade = new Accord.Vision.Detection.Cascades.FaceHaarCascade();
 
-            Assert.AreEqual(1, target.DetectedObjects.Length);
-            Assert.AreEqual(126, target.DetectedObjects[0].X);
-            Assert.AreEqual(112, target.DetectedObjects[0].Y);
-            Assert.AreEqual(59, target.DetectedObjects[0].Width);
-            Assert.AreEqual(59, target.DetectedObjects[0].Height);
+            // Note: In the case we would like to load it from XML, we could use:
+            // var cascade = HaarCascade.FromXml("filename.xml");
+
+            // Now, create a new Haar object detector with the cascade:
+            var detector = new HaarObjectDetector(cascade, minSize: 50, 
+                searchMode: ObjectDetectorSearchMode.NoOverlap);
+
+            // Note that we have specified that we do not want overlapping objects,
+            // and that the minimum object an object can have is 50 pixels. Now, we
+            // can use the detector to classify a new image. For instance, consider
+            // the famous Lena picture:
+
+            Bitmap bmp = Accord.Imaging.Image.Clone(Resources.lena_color);
+
+            // We have to call ProcessFrame to detect all rectangles containing the 
+            // object we are interested in (which in this case, is the face of Lena):
+            Rectangle[] rectangles = detector.ProcessFrame(bmp);
+
+            // The answer will be a single rectangle of dimensions
+            //
+            //   {X = 126 Y = 112 Width = 59 Height = 59}
+            //
+            // which indeed contains the only face in the picture.
+            #endregion
+
+            Assert.AreEqual(1, detector.DetectedObjects.Length);
+            Assert.AreEqual(126, detector.DetectedObjects[0].X);
+            Assert.AreEqual(112, detector.DetectedObjects[0].Y);
+            Assert.AreEqual(59, detector.DetectedObjects[0].Width);
+            Assert.AreEqual(59, detector.DetectedObjects[0].Height);
         }
 
         [Test]
@@ -57,7 +90,7 @@ namespace Accord.Tests.Vision
             HaarObjectDetector target = new HaarObjectDetector(cascade,
                 30, ObjectDetectorSearchMode.NoOverlap);
 
-            Bitmap bmp = Properties.Resources.lena_gray;
+            Bitmap bmp = Accord.Imaging.Image.Clone(Resources.lena_gray);
 
             target.ProcessFrame(bmp);
 
@@ -87,7 +120,7 @@ namespace Accord.Tests.Vision
             HaarObjectDetector target = new HaarObjectDetector(cascade,
                 15, ObjectDetectorSearchMode.NoOverlap);
 
-            Bitmap bmp = Properties.Resources.three;
+            Bitmap bmp = Accord.Imaging.Image.Clone(Resources.three);
 
             target.ProcessFrame(bmp);
 
@@ -119,19 +152,19 @@ namespace Accord.Tests.Vision
             Assert.AreEqual(1, target.DetectedObjects.Length);
         }
 
-        [Test]
+        [Test, Category("Random")]
         public void MinSizeTest()
         {
             HaarCascade cascade = new FaceHaarCascade();
             HaarObjectDetector target = new HaarObjectDetector(cascade,
                 50, ObjectDetectorSearchMode.Default);
 
-            Bitmap bmp = Properties.Resources.lena_color;
+            Bitmap bmp = Accord.Imaging.Image.Clone(Resources.lena_color);
             Rectangle[] result;
 
             target.MinSize = new Size(10, 60);
             result = target.ProcessFrame(bmp);
-            Assert.AreEqual(3, result.Length);
+            Assert.AreEqual(3, result.Length); // Mono outputs 6 instead of 3
             foreach (var r in result)
             {
                 Assert.IsTrue(r.Width >= target.MinSize.Width);
@@ -165,7 +198,7 @@ namespace Accord.Tests.Vision
             HaarObjectDetector target = new HaarObjectDetector(cascade,
                 50, ObjectDetectorSearchMode.Default);
 
-            Bitmap bmp = Properties.Resources.lena_color;
+            Bitmap bmp = Accord.Imaging.Image.Clone(Resources.lena_color);
             Rectangle[] result;
 
             target.MaxSize = new Size(10, 60);

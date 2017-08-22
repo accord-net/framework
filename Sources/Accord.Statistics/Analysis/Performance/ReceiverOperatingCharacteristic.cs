@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -31,6 +31,7 @@ namespace Accord.Statistics.Analysis
     using Accord.Math;
     using Accord.Statistics.Visualizations;
     using Accord.Statistics.Testing;
+    using Accord.Compat;
 
     /// <summary>
     ///   Methods for computing the area under <see cref="ReceiverOperatingCharacteristic">
@@ -653,10 +654,10 @@ namespace Accord.Statistics.Analysis
         {
             // Get ratings for true positives
             int[] positiveIndices = this.measurement.Find(x => x == dtrue);
-            double[] X = this.prediction.Submatrix(positiveIndices);
+            double[] X = this.prediction.Get(positiveIndices);
 
             int[] negativeIndices = this.measurement.Find(x => x == dfalse);
-            double[] Y = this.prediction.Submatrix(negativeIndices);
+            double[] Y = this.prediction.Get(negativeIndices);
 
             positiveResults = X;
             negativeResults = Y;

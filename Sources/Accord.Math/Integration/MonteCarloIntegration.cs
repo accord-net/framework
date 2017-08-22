@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -208,7 +208,6 @@ namespace Accord.Math.Integration
 
             for (int j = 0; j < Iterations; j++)
             {
-
                 for (int i = 0; i < sample.Length; i++)
                     sample[i] = Random.NextDouble() * Range[i].Length + Range[i].Min;
 

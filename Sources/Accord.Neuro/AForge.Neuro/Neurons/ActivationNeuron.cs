@@ -129,13 +129,12 @@ namespace Accord.Neuro
 
             // compute weighted sum of inputs
             for (int i = 0; i < weights.Length; i++)
-            {
                 sum += weights[i] * input[i];
-            }
             sum += threshold;
 
             // local variable to avoid mutlithreaded conflicts
             double output = function.Function(sum);
+
             // assign output property as well (works correctly for single threaded usage)
             this.output = output;
 

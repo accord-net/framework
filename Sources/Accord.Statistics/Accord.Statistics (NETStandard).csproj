@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <AssemblyName>Accord.Statistics</AssemblyName>
+    <RootNamespace>Accord.Statistics</RootNamespace>
+    <TargetFrameworks>netstandard2.0;netstandard1.4</TargetFrameworks>
+  </PropertyGroup>
+
+  <Import Project="$(SolutionDir)Accord.NET (NETStandard).targets" />
+
+  <ItemGroup>
+    <ProjectReference Include="..\Accord.Core\Accord.Core (NETStandard).csproj" />
+    <ProjectReference Include="..\Accord.Math.Core\Accord.Math.Core (NETStandard).csproj" />
+    <ProjectReference Include="..\Accord.Math\Accord.Math (NETStandard).csproj" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard1.4'">
+    <PackageReference Include="System.Threading.Tasks" Version="4.3.0" />
+  </ItemGroup>
+
+</Project>

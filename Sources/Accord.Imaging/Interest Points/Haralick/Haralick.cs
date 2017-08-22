@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -68,7 +68,8 @@ namespace Accord.Imaging
     ///   Haralick textural feature extractor.
     /// </summary>
     /// 
-    public class Haralick : IFeatureDetector<FeatureDescriptor>
+    public class Haralick : IFeatureDetector<FeatureDescriptor>,
+        IFeatureDetector<IFeatureDescriptor<double[]>>
     {
         int cellSize = 0;  // size of the cell, in number of pixels
         bool normalize = false;
@@ -322,7 +323,7 @@ namespace Accord.Imaging
 
 
 
-            List<double[]> blocks = new List<double[]>();
+            var blocks = new List<double[]>();
 
             switch (mode)
             {
@@ -349,7 +350,7 @@ namespace Accord.Imaging
 
             if (normalize)
             {
-                double[] sum = new double[featureCount];
+                var sum = new double[featureCount];
                 foreach (double[] block in blocks)
                     for (int i = 0; i < sum.Length; i++)
                         sum[i] += block[i];
@@ -407,40 +408,49 @@ namespace Accord.Imaging
             }
 
             // lock source image
-            BitmapData imageData = image.LockBits(
-                new Rectangle(0, 0, image.Width, image.Height),
-                ImageLockMode.ReadOnly, image.PixelFormat);
-
-            List<double[]> blocks;
+            BitmapData imageData = image.LockBits(ImageLockMode.ReadOnly);
 
             try
             {
                 // process the image
-                blocks = ProcessImage(new UnmanagedImage(imageData));
+                return ProcessImage(new UnmanagedImage(imageData));
             }
             finally
             {
                 // unlock image
                 image.UnlockBits(imageData);
             }
-
-            return blocks;
         }
 
 
-        List<FeatureDescriptor> IFeatureDetector<FeatureDescriptor, double[]>.ProcessImage(Bitmap image)
+        IEnumerable<FeatureDescriptor> IFeatureDetector<FeatureDescriptor, double[]>.ProcessImage(Bitmap image)
         {
             return ProcessImage(image).ConvertAll(p => new FeatureDescriptor(p));
         }
 
-        List<FeatureDescriptor> IFeatureDetector<FeatureDescriptor, double[]>.ProcessImage(BitmapData imageData)
+        IEnumerable<FeatureDescriptor> IFeatureDetector<FeatureDescriptor, double[]>.ProcessImage(BitmapData imageData)
         {
             return ProcessImage(imageData).ConvertAll(p => new FeatureDescriptor(p));
         }
 
-        List<FeatureDescriptor> IFeatureDetector<FeatureDescriptor, double[]>.ProcessImage(UnmanagedImage image)
+        IEnumerable<FeatureDescriptor> IFeatureDetector<FeatureDescriptor, double[]>.ProcessImage(UnmanagedImage image)
         {
             return ProcessImage(image).ConvertAll(p => new FeatureDescriptor(p));
+        }
+
+        IEnumerable<IFeatureDescriptor<double[]>> IFeatureDetector<IFeatureDescriptor<double[]>, double[]>.ProcessImage(Bitmap image)
+        {
+            return ProcessImage(image).ConvertAll(p => (IFeatureDescriptor<double[]>)new FeatureDescriptor(p));
+        }
+
+        IEnumerable<IFeatureDescriptor<double[]>> IFeatureDetector<IFeatureDescriptor<double[]>, double[]>.ProcessImage(BitmapData imageData)
+        {
+            return ProcessImage(imageData).ConvertAll(p => (IFeatureDescriptor<double[]>)new FeatureDescriptor(p));
+        }
+
+        IEnumerable<IFeatureDescriptor<double[]>> IFeatureDetector<IFeatureDescriptor<double[]>, double[]>.ProcessImage(UnmanagedImage image)
+        {
+            return ProcessImage(image).ConvertAll(p => (IFeatureDescriptor<double[]>)new FeatureDescriptor(p));
         }
 
 
@@ -498,5 +508,6 @@ namespace Accord.Imaging
 
             // free native resources if there are any.
         }
+
     }
 }

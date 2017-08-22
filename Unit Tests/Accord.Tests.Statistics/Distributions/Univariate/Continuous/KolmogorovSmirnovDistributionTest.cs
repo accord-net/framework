@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -23,29 +23,14 @@
 namespace Accord.Tests.Statistics
 {
 
-    ﻿using Accord.Statistics.Distributions.Univariate;
+    using Accord.Statistics.Distributions.Univariate;
     using NUnit.Framework;
+    using Accord.Math;
     using System;
 
     [TestFixture]
     public class KolmogorovSmirnovDistributionTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
 
         [Test]
         public void ConstructorTest()
@@ -56,7 +41,11 @@ namespace Accord.Tests.Statistics
             double median = ks.Median;   // 0.12393613519421857
             double var = ks.Variance; // 0.019154717445778062
 
-            try { double mode = ks.Mode; Assert.Fail(); }
+            try
+            {
+                double mode = ks.Mode;
+                Assert.Fail();
+            }
             catch { }
 
             double cdf = ks.DistributionFunction(x: 0.27); // 0.99659863602996079
@@ -87,6 +76,12 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.24612731591151149, range2.Max);
             Assert.AreEqual(0.064613698945741649, range3.Min);
             Assert.AreEqual(0.24612731591151149, range3.Max);
+
+            Assert.AreEqual(0.011904761904761904, ks.Support.Min, 1e-10);
+            Assert.AreEqual(1, ks.Support.Max);
+
+            Assert.AreEqual(ks.InverseDistributionFunction(0), ks.Support.Min);
+            Assert.AreEqual(ks.InverseDistributionFunction(1), ks.Support.Max);
         }
 
         [Test]
@@ -102,11 +97,7 @@ namespace Accord.Tests.Statistics
                 double expected = t[2];
                 double actual = KolmogorovSmirnovDistribution.CumulativeFunction(n, x);
 
-                // Compare fixed mantissas for at least 12 digit precision
-                string strExpected = expected.ToString("0.000000000000e+000");
-                string strActual = actual.ToString("0.000000000000e+000");
-
-                Assert.AreEqual(strExpected, strActual);
+                Assert.IsTrue(expected.IsEqual(actual, 1e-11));
             }
         }
 
@@ -134,11 +125,7 @@ namespace Accord.Tests.Statistics
                 double expected = t[3];
                 double actual = KolmogorovSmirnovDistribution.ComplementaryDistributionFunction(n, x);
 
-                // Compare fixed mantissas for at least 11 digit precision
-                string strExpected = expected.ToString("0.00000000000e+000");
-                string strActual = actual.ToString("0.00000000000e+000");
-
-                Assert.AreEqual(strExpected, strActual);
+                Assert.IsTrue(expected.IsEqual(actual, rtol: 1e-3));
             }
         }
 

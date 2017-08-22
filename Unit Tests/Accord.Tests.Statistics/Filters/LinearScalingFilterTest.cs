@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -26,28 +26,11 @@ namespace Accord.Tests.Statistics
     using Accord.Statistics.Filters;
     using AForge;
     using NUnit.Framework;
-    
+
     [TestFixture]
     public class LinearScalingFilterTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
+#if !NO_DATA_TABLE
         [Test]
         public void ApplyTest()
         {
@@ -66,7 +49,6 @@ namespace Accord.Tests.Statistics
             expected.Rows.Add(20, 0.8);
             expected.Rows.Add(80, 0.2);
             expected.Rows.Add(100, 0.0);
-
 
             
             LinearScaling target = new LinearScaling("x","y");
@@ -89,7 +71,7 @@ namespace Accord.Tests.Statistics
                 Assert.AreEqual(ex, ax);
                 Assert.AreEqual(ey, ay);
             }
-            
         }
+#endif
     }
 }

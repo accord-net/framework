@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -24,6 +24,7 @@ namespace Accord.Statistics.Testing
 {
     using System;
     using Accord.Statistics.Analysis;
+    using Accord.Compat;
 
     /// <summary>
     ///   McNemar test of homogeneity for <c>2 x 2</c> contingency tables.
@@ -64,10 +65,10 @@ namespace Accord.Statistics.Testing
         /// 
         public McNemarTest(ConfusionMatrix matrix, bool yatesCorrection = false)
         {
-            int a = matrix.TruePositives;
+            //int a = matrix.TruePositives;
             int b = matrix.FalseNegatives;
             int c = matrix.FalsePositives;
-            int d = matrix.TrueNegatives;
+            //int d = matrix.TrueNegatives;
 
             double u = b - c;
             

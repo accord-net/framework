@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -24,6 +24,7 @@ namespace Accord.Statistics.Models.Markov.Topology
 {
     using System;
     using Accord.Math;
+    using Accord.Compat;
 
     /// <summary>
     ///   Ergodic (fully-connected) Topology for Hidden Markov Models.
@@ -92,6 +93,11 @@ namespace Accord.Statistics.Models.Markov.Topology
         public int States
         {
             get { return states; }
+            set
+            {
+                states = value;
+                pi = Vector.Create(states, pi);
+            }
         }
 
         /// <summary>

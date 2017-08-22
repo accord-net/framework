@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -23,7 +23,7 @@
 namespace Accord.Statistics.Testing
 {
     using System;
-    using AForge;
+    using Accord.Compat;
 
     /// <summary>
     ///   Wald's Test using the Normal distribution.
@@ -67,7 +67,9 @@ namespace Accord.Statistics.Testing
         /// <param name="statistic">The test statistic, as given by (θ-θ')/SE.</param>
         /// 
         public WaldTest(double statistic)
-            : base(statistic, OneSampleHypothesis.ValueIsDifferentFromHypothesis) { }
+            : base(statistic, OneSampleHypothesis.ValueIsDifferentFromHypothesis)
+        {
+        }
 
         /// <summary>
         ///   Constructs a Wald's test.
@@ -78,12 +80,9 @@ namespace Accord.Statistics.Testing
         /// <param name="standardError">The standard error of the estimation (SE).</param>
         /// 
         public WaldTest(double estimatedValue, double hypothesizedValue, double standardError)
-            : base((estimatedValue - hypothesizedValue) / standardError, OneSampleHypothesis.ValueIsDifferentFromHypothesis)
+            : base(sampleMean: estimatedValue, hypothesizedMean: hypothesizedValue, standardError: standardError, alternate: OneSampleHypothesis.ValueIsDifferentFromHypothesis)
         {
-            this.HypothesizedValue = hypothesizedValue;
-            this.EstimatedValue = estimatedValue;
-            this.StandardError = standardError;
         }
-        
+
     }
 }

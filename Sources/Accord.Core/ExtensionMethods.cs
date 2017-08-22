@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -22,12 +22,10 @@
 
 namespace Accord
 {
-    using Accord.IO;
     using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.ComponentModel;
-    using System.Data;
     using System.Globalization;
     using System.Linq;
     using System.IO;
@@ -35,6 +33,9 @@ namespace Accord
     using System.Runtime.InteropServices;
     using System.Runtime.Serialization;
     using System.Runtime.Serialization.Formatters.Binary;
+    using Accord.Compat;
+    using Accord.IO;
+    using System.Data;
 
     /// <summary>
     ///   Static class for utility extension methods.
@@ -42,25 +43,7 @@ namespace Accord
     /// 
     public static class ExtensionMethods
     {
-
-        /// <summary>
-        ///   Copies a collection by calling the ICloneable.Clone method for each element inside it.
-        /// </summary>
-        /// 
-        /// <typeparam name="T"></typeparam>
-        /// <param name="list">The collection to be cloned.</param>
-        /// 
-        /// <returns>A copy of the collection where each element has also been copied.</returns>
-        /// 
-        public static T DeepClone<T>(this T list)
-            where T : IList<ICloneable>, ICloneable
-        {
-            T clone = (T)list.Clone();
-            for (int i = 0; i < clone.Count; i++)
-                clone[i] = (ICloneable)list[i].Clone();
-            return clone;
-        }
-
+#if !NETSTANDARD1_4
         /// <summary>
         ///   Creates and adds multiple <see cref="System.Data.DataColumn"/>
         ///   objects with the given names at once.
@@ -85,6 +68,7 @@ namespace Accord
             for (int i = 0; i < columnNames.Length; i++)
                 collection.Add(columnNames[i]);
         }
+#endif
 
         /// <summary>
         ///   Gets a the value of a <see cref="DescriptionAttribute"/>
@@ -98,7 +82,11 @@ namespace Accord
         /// 
         public static string GetDescription<T>(this T source)
         {
+#if NETSTANDARD1_4
+            FieldInfo fi = source.GetType().GetRuntimeField(source.ToString());
+#else
             FieldInfo fi = source.GetType().GetField(source.ToString());
+#endif
 
             DescriptionAttribute[] attributes =
                 (DescriptionAttribute[])fi.GetCustomAttributes(typeof(DescriptionAttribute), false);
@@ -118,7 +106,9 @@ namespace Accord
         {
             var type = typeof(T);
 
+#pragma warning disable CS0618 // Type or member is obsolete
             int size = Marshal.SizeOf(type);
+#pragma warning restore CS0618 // Type or member is obsolete
             byte[] buffer = new byte[size];
             if (stream.Read(buffer, 0, buffer.Length) == 0)
             {
@@ -127,7 +117,9 @@ namespace Accord
             }
 
             GCHandle handle = GCHandle.Alloc(buffer, GCHandleType.Pinned);
+#pragma warning disable CS0618 // Type or member is obsolete
             structure = (T)Marshal.PtrToStructure(handle.AddrOfPinnedObject(), typeof(T));
+#pragma warning restore CS0618 // Type or member is obsolete
             handle.Free();
 
             return true;
@@ -142,7 +134,9 @@ namespace Accord
             where T : struct
         {
             var type = typeof(T);
+#pragma warning disable CS0618 // Type or member is obsolete
             int size = Marshal.SizeOf(type);
+#pragma warning restore CS0618 // Type or member is obsolete
             byte[] buffer = new byte[size * array.Length];
 
             Buffer.BlockCopy(array, 0, buffer, 0, buffer.Length);
@@ -159,7 +153,9 @@ namespace Accord
             where T : struct
         {
             var type = typeof(T);
+#pragma warning disable CS0618 // Type or member is obsolete
             int size = Marshal.SizeOf(type);
+#pragma warning restore CS0618 // Type or member is obsolete
             byte[] buffer = new byte[size * array[0].Length];
 
             for (int i = 0; i < array.Length; i++)
@@ -179,7 +175,9 @@ namespace Accord
             where T : struct
         {
             var type = typeof(T);
+#pragma warning disable CS0618 // Type or member is obsolete
             int size = Marshal.SizeOf(type);
+#pragma warning restore CS0618 // Type or member is obsolete
             byte[] buffer = new byte[size * array.Length];
 
             Buffer.BlockCopy(array, 0, buffer, 0, buffer.Length);
@@ -196,7 +194,9 @@ namespace Accord
             where T : struct
         {
             var type = typeof(T);
+#pragma warning disable CS0618 // Type or member is obsolete
             int size = Marshal.SizeOf(type);
+#pragma warning restore CS0618 // Type or member is obsolete
             var buffer = new byte[size * columns];
             T[][] matrix = new T[rows][];
             for (int i = 0; i < matrix.Length; i++)
@@ -218,10 +218,23 @@ namespace Accord
         public static T[,] ReadMatrix<T>(this BinaryReader stream, int rows, int columns)
             where T : struct
         {
-            var type = typeof(T);
+            return (T[,])ReadMatrix(stream, typeof(T), rows, columns);
+        }
+
+        /// <summary>
+        ///   Reads a <c>struct</c> from a stream.
+        /// </summary>
+        /// 
+        public static Array ReadMatrix(this BinaryReader stream, Type type, params int[] lengths)
+        {
+#pragma warning disable CS0618 // Type or member is obsolete
             int size = Marshal.SizeOf(type);
-            var buffer = new byte[size * rows * columns];
-            var matrix = new T[rows, columns];
+#pragma warning restore CS0618 // Type or member is obsolete
+            int total = 1;
+            for (int i = 0; i < lengths.Length; i++)
+                total *= lengths[i];
+            var buffer = new byte[size * total];
+            var matrix = Array.CreateInstance(type, lengths);
 
             stream.Read(buffer, 0, buffer.Length);
             Buffer.BlockCopy(buffer, 0, matrix, 0, buffer.Length);
@@ -242,6 +255,12 @@ namespace Accord
         {
             // http://stackoverflow.com/a/17457085/262032
 
+#if NETSTANDARD1_4 || NETSTANDARD2_0
+            var type = reader.GetType().GetTypeInfo();
+            char[] charBuffer = (char[])type.GetDeclaredField("_charBuffer").GetValue(reader);
+            int charPos = (int)type.GetDeclaredField("_charPos").GetValue(reader);
+            int byteLen = (int)type.GetDeclaredField("_byteLen").GetValue(reader);
+#else
             // The current buffer of decoded characters
             char[] charBuffer = (char[])reader.GetType().InvokeMember("charBuffer",
                 BindingFlags.DeclaredOnly | BindingFlags.NonPublic | BindingFlags.Instance
@@ -252,19 +271,20 @@ namespace Accord
                 BindingFlags.DeclaredOnly | BindingFlags.NonPublic | BindingFlags.Instance
                 | BindingFlags.GetField, null, reader, null, CultureInfo.InvariantCulture);
 
-            // The number of bytes that the already-read characters need when encoded.
-            int numReadBytes = reader.CurrentEncoding.GetByteCount(charBuffer, 0, charPos);
-
             // The number of encoded bytes that are in the current buffer
             int byteLen = (int)reader.GetType().InvokeMember("byteLen",
                 BindingFlags.DeclaredOnly | BindingFlags.NonPublic | BindingFlags.Instance
                 | BindingFlags.GetField, null, reader, null, CultureInfo.InvariantCulture);
+#endif
+
+            // The number of bytes that the already-read characters need when encoded.
+            int numReadBytes = reader.CurrentEncoding.GetByteCount(charBuffer, 0, charPos);
 
             return reader.BaseStream.Position - byteLen + numReadBytes;
         }
 
 
-
+#if !NETSTANDARD1_4
         /// <summary>
         ///   Deserializes the specified stream into an object graph, but locates
         ///   types by searching all loaded assemblies and ignoring their versions.
@@ -280,6 +300,7 @@ namespace Accord
         {
             return Serializer.Load<T>(stream);
         }
+#endif
 
         /// <summary>
         ///   Converts an object into another type, irrespective of whether
@@ -295,15 +316,27 @@ namespace Accord
         /// 
         public static T To<T>(this object value)
         {
+            if (value == null)
+                return (T)System.Convert.ChangeType(null, typeof(T));
+
             if (value is IConvertible)
                 return (T)System.Convert.ChangeType(value, typeof(T));
 
             Type type = value.GetType();
+
+#if !NETSTANDARD1_4
             MethodInfo[] methods = type.GetMethods(BindingFlags.Public | BindingFlags.Static);
-            foreach (var m in methods)
+#else
+            MethodInfo[] methods = type.GetTypeInfo().DeclaredMethods.ToArray();
+#endif
+
+            foreach (MethodInfo m in methods)
             {
-                if ((m.Name == "op_Implicit" || m.Name == "op_Explicit") && m.ReturnType == typeof(T))
-                    return (T)m.Invoke(null, new[] { value });
+                if (m.IsPublic && m.IsStatic)
+                {
+                    if ((m.Name == "op_Implicit" || m.Name == "op_Explicit") && m.ReturnType == typeof(T))
+                        return (T)m.Invoke(null, new[] { value });
+                }
             }
 
             return (T)System.Convert.ChangeType(value, typeof(T));
@@ -319,7 +352,16 @@ namespace Accord
         /// 
         public static bool HasDefaultConstructor(this Type t)
         {
+#if NETSTANDARD1_4
+            var info = t.GetTypeInfo();
+            if (info.IsValueType)
+                return true;
+
+            ConstructorInfo ctors = info.DeclaredConstructors.Where(x => x.GetParameters().Length == 0).FirstOrDefault();
+            return ctors != null;
+#else
             return t.IsValueType || t.GetConstructor(Type.EmptyTypes) != null;
+#endif
         }
 
 
@@ -341,6 +383,8 @@ namespace Accord
             return String.Format(str, args);
         }
 
+#if !NETSTANDARD1_4
+
         /// <summary>
         ///   Checks whether two dictionaries have the same contents.
         /// </summary>
@@ -355,7 +399,7 @@ namespace Accord
 
             var aKeys = new HashSet<TKey>(a.Keys);
             var bKeys = new HashSet<TKey>(b.Keys);
-            if (!aKeys.SetEquals(b.Keys))
+            if (!aKeys.SetEquals(bKeys))
                 return false;
 
             if (HasMethod<TValue>("SetEquals"))
@@ -408,6 +452,48 @@ namespace Accord
             {
                 return true;
             }
+        }
+#endif
+
+
+        /// <summary>
+        ///   Determines whether <c>a > b</c>.
+        /// </summary>
+        /// 
+        public static bool IsGreaterThan<T>(this T a, object b)
+            where T : IComparable
+        {
+            return a.CompareTo(b) > 0;
+        }
+
+        /// <summary>
+        ///   Determines whether <c>a >= b</c>.
+        /// </summary>
+        /// 
+        public static bool IsGreaterThanOrEqual<T>(this T a, object b)
+            where T : IComparable
+        {
+            return a.CompareTo(b) >= 0;
+        }
+
+        /// <summary>
+        ///   Determines whether <c>a &lt; b</c>.
+        /// </summary>
+        /// 
+        public static bool IsLessThan<T>(this T a, object b)
+            where T : IComparable
+        {
+            return a.CompareTo(b) < 0;
+        }
+
+        /// <summary>
+        ///   Determines whether <c>a &lt;= b</c>.
+        /// </summary>
+        /// 
+        public static bool IsLessThanOrEqual<T>(this T a, object b)
+            where T : IComparable
+        {
+            return a.CompareTo(b) <= 0;
         }
     }
 }

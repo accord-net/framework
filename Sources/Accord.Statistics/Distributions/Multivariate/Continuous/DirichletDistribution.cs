@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -24,6 +24,7 @@ namespace Accord.Statistics.Distributions.Multivariate
 {
     using System;
     using Accord.Math;
+    using Accord.Compat;
 
     /// <summary>
     ///   Dirichlet distribution.
@@ -223,7 +224,7 @@ namespace Accord.Statistics.Distributions.Multivariate
         ///   probability that a given value <c>x</c> will occur.
         /// </remarks>
         /// 
-        public override double ProbabilityDensityFunction(params double[] x)
+        protected internal override double InnerProbabilityDensityFunction(params double[] x)
         {
             double product = 1;
 
@@ -237,7 +238,7 @@ namespace Accord.Statistics.Distributions.Multivariate
         ///   Not supported.
         /// </summary>
         /// 
-        public override double DistributionFunction(params double[] x)
+        protected internal override double InnerDistributionFunction(params double[] x)
         {
             throw new NotSupportedException();
         }
@@ -257,7 +258,7 @@ namespace Accord.Statistics.Distributions.Multivariate
         ///   occurring in the current distribution.
         /// </returns>
         /// 
-        public override double LogProbabilityDensityFunction(params double[] x)
+        protected internal override double InnerLogProbabilityDensityFunction(params double[] x)
         {
             double sum = 0;
 

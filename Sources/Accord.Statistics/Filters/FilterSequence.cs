@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -27,6 +27,7 @@ namespace Accord.Statistics.Filters
     using System.Data;
     using System.Collections.ObjectModel;
     using System.Collections.Generic;
+    using Accord.Compat;
 
     /// <summary>
     ///   Sequence of table processing filters.
@@ -53,7 +54,7 @@ namespace Accord.Statistics.Filters
         {
         }
 
-
+#if !NETSTANDARD1_4
         /// <summary>
         ///   Applies the sequence of filters to a given table.
         /// </summary>
@@ -72,5 +73,7 @@ namespace Accord.Statistics.Filters
 
             return result;
         }
+#endif
+
     }
 }

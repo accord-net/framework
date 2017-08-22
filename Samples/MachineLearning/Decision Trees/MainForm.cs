@@ -1,7 +1,7 @@
 ﻿// Accord.NET Sample Applications
 // http://accord-framework.net
 //
-// Copyright © 2009-2014, César Souza
+// Copyright © 2009-2017, César Souza
 // All rights reserved. 3-BSD License:
 //
 //   Redistribution and use in source and binary forms, with or without
@@ -96,7 +96,7 @@ namespace SampleApp
             double[,] table = (dgvLearningSource.DataSource as DataTable).ToMatrix(out columnNames);
 
             // Get only the input vector values (first two columns)
-            double[][] inputs = table.GetColumns(0, 1).ToArray();
+            double[][] inputs = table.GetColumns(0, 1).ToJagged();
 
             // Get only the output labels (last column)
             int[] outputs = table.GetColumn(2).ToInt32();
@@ -109,14 +109,11 @@ namespace SampleApp
                 new DecisionVariable("y", DecisionVariableKind.Continuous),
             };
 
-            // Create the discrete Decision tree
-            tree = new DecisionTree(variables, 2);
-
             // Create the C4.5 learning algorithm
-            C45Learning c45 = new C45Learning(tree);
+            var c45 = new C45Learning(variables);
 
             // Learn the decision tree using C4.5
-            double error = c45.Run(inputs, outputs);
+            tree = c45.Learn(inputs, outputs);
 
             // Show the learned tree in the view
             decisionTreeView1.TreeSource = tree;
@@ -131,8 +128,7 @@ namespace SampleApp
                 Vector.Interval(ranges[1], 0.05));
 
             // Classify each point in the Cartesian coordinate system
-            double[] result = map.Apply(tree.Compute).ToDouble();
-            double[,] surface = map.ToMatrix().InsertColumn(result);
+            double[,] surface = map.ToMatrix().InsertColumn(tree.Decide(map));
 
             CreateScatterplot(zedGraphControl2, surface);
 
@@ -154,19 +150,17 @@ namespace SampleApp
 
 
             // Creates a matrix from the entire source data table
-            double[,] table = (dgvLearningSource.DataSource as DataTable).ToMatrix(out columnNames);
+            double[][] table = (dgvLearningSource.DataSource as DataTable).ToJagged(out columnNames);
 
             // Get only the input vector values (first two columns)
-            double[][] inputs = table.GetColumns(0, 1).ToArray();
+            double[][] inputs = table.GetColumns(0, 1);
 
             // Get the expected output labels (last column)
             int[] expected = table.GetColumn(2).ToInt32();
 
 
             // Compute the actual tree outputs
-            int[] actual = new int[inputs.Length];
-            for (int i = 0; i < inputs.Length; i++)
-                actual[i] = tree.Compute(inputs[i]);
+            int[] actual = tree.Decide(inputs);
 
 
             // Use confusion matrix to compute some statistics.

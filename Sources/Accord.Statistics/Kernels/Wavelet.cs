@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -22,7 +22,9 @@
 
 namespace Accord.Statistics.Kernels
 {
+    using Math.Distances;
     using System;
+    using Accord.Compat;
 
     /// <summary>
     ///   Wavelet Kernel.
@@ -49,15 +51,24 @@ namespace Accord.Statistics.Kernels
     ///   </list></para>
     /// </remarks>
     /// 
+    /// <example>
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MulticlassSupportVectorLearningTest.cs" region="doc_learn_wavelet" /> 
+    /// </example>
+    /// 
     [Serializable]
-    public sealed class Wavelet : KernelBase, IKernel, ICloneable
+    public struct Wavelet : IKernel, ICloneable, IKernel<int[]>, IDistance, IDistance<int[]>
     {
         // Default wavelet mother function : h(x) = cos(1.75x)*exp(-x²/2)
-        private Func<double, double> h = (x => Math.Cos(1.75 * x) * Math.Exp(-(x * x) / 2.0));
+        private Func<double, double> h;
 
-        private double dilation = 1.0;
-        private double translation = 0.0;
-        private bool invariant     = true;
+        private double dilation;
+        private double translation;
+        private bool invariant;
+
+        private static double mother(double x)
+        {
+            return Math.Cos(1.75 * x) * Math.Exp(-(x * x) / 2.0);
+        }
 
         /// <summary>
         ///   Gets or sets the Mother wavelet for this kernel.
@@ -108,6 +119,9 @@ namespace Accord.Statistics.Kernels
         public Wavelet(bool invariant)
         {
             this.invariant = invariant;
+            this.dilation = 1.0;
+            this.translation = 0.0;
+            this.h = mother;
         }
 
         /// <summary>
@@ -118,6 +132,8 @@ namespace Accord.Statistics.Kernels
         {
             this.invariant = invariant;
             this.dilation = dilation;
+            this.translation = 0.0;
+            this.h = mother;
         }
 
         /// <summary>
@@ -128,6 +144,7 @@ namespace Accord.Statistics.Kernels
         {
             this.invariant = invariant;
             this.dilation = dilation;
+            this.translation = 0.0;
             this.h = mother;
         }
 
@@ -140,6 +157,7 @@ namespace Accord.Statistics.Kernels
             this.invariant = false;
             this.dilation = dilation;
             this.translation = translation;
+            this.h = mother;
         }
 
         /// <summary>
@@ -163,7 +181,7 @@ namespace Accord.Statistics.Kernels
         /// <param name="y">Vector <c>y</c> in input space.</param>
         /// <returns>Dot product in feature (kernel) space.</returns>
         /// 
-        public override double Function(double[] x, double[] y)
+        public double Function(double[] x, double[] y)
         {
             double prod = 1.0;
 
@@ -185,6 +203,70 @@ namespace Accord.Statistics.Kernels
         }
 
         /// <summary>
+        ///   Wavelet kernel function.
+        /// </summary>
+        /// 
+        /// <param name="x">Vector <c>x</c> in input space.</param>
+        /// <param name="y">Vector <c>y</c> in input space.</param>
+        /// <returns>Dot product in feature (kernel) space.</returns>
+        /// 
+        public double Function(int[] x, int[] y)
+        {
+            double prod = 1.0;
+
+            if (invariant)
+            {
+                for (int i = 0; i < x.Length; i++)
+                {
+                    prod *= (h((x[i] - translation) / dilation)) *
+                            (h((y[i] - translation) / dilation));
+                }
+            }
+            else
+            {
+                for (int i = 0; i < x.Length; i++)
+                    prod *= h((x[i] - y[i]) / dilation);
+            }
+
+            return prod;
+        }
+
+        /// <summary>
+        ///   Computes the squared distance in feature space
+        ///   between two points given in input space.
+        /// </summary>
+        /// 
+        /// <param name="x">Vector <c>x</c> in input space.</param>
+        /// <param name="y">Vector <c>y</c> in input space.</param>
+        /// 
+        /// <returns>
+        ///   Squared distance between <c>x</c> and <c>y</c> in feature (kernel) space.
+        /// </returns>
+        /// 
+        public double Distance(double[] x, double[] y)
+        {
+            return Function(x, x) + Function(y, y) - 2 * Function(x, y);
+        }
+
+        /// <summary>
+        ///   Computes the squared distance in feature space
+        ///   between two points given in input space.
+        /// </summary>
+        /// 
+        /// <param name="x">Vector <c>x</c> in input space.</param>
+        /// <param name="y">Vector <c>y</c> in input space.</param>
+        /// 
+        /// <returns>
+        ///   Squared distance between <c>x</c> and <c>y</c> in feature (kernel) space.
+        /// </returns>
+        /// 
+        public double Distance(int[] x, int[] y)
+        {
+            return Function(x, x) + Function(y, y) - 2 * Function(x, y);
+        }
+
+
+        /// <summary>
         ///   Creates a new object that is a copy of the current instance.
         /// </summary>
         /// 
@@ -196,6 +278,7 @@ namespace Accord.Statistics.Kernels
         {
             return MemberwiseClone();
         }
+
 
     }
 }

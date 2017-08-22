@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -52,6 +52,7 @@ namespace Accord.Tests.IO
             Assert.IsTrue(expected.IsEqual(actual));
         }
 
+#if !NO_DATA_TABLE
         [Test]
         public void CsvReader_Simple_WithHeaders()
         {
@@ -87,7 +88,7 @@ namespace Accord.Tests.IO
                 Assert.AreEqual("3", actual.Rows[0][2]);
             }
         }
-
+#endif
 
         [Test]
         public void CsvReader_Simple_clrf()
@@ -384,7 +385,7 @@ namespace Accord.Tests.IO
             Assert.IsTrue(expected.IsEqual(actual));
         }
 
-        [Test, Ignore]
+        [Test, Ignore("Feature has been removed")]
         public void CsvReader_Comma()
         {
             string text = "\n"

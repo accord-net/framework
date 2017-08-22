@@ -1,7 +1,7 @@
 ﻿// Accord.NET Sample Applications
 // http://accord-framework.net
 //
-// Copyright © 2009-2014, César Souza
+// Copyright © 2009-2017, César Souza
 // All rights reserved. 3-BSD License:
 //
 //   Redistribution and use in source and binary forms, with or without
@@ -33,6 +33,7 @@
 using Accord.MachineLearning.VectorMachines;
 using Accord.MachineLearning.VectorMachines.Learning;
 using Accord.Math;
+using Accord.Math.Optimization.Losses;
 using Accord.Statistics.Kernels;
 using SampleApp.Properties;
 using System;
@@ -71,7 +72,7 @@ namespace SampleApp
          *  Accuracy: 94% (35mb)
          */
 
-        MulticlassSupportVectorMachine ksvm;
+        MulticlassSupportVectorMachine<IKernel> ksvm;
 
 
 
@@ -114,25 +115,18 @@ namespace SampleApp
             int cacheSize = (int)numCache.Value;
             SelectionStrategy strategy = (SelectionStrategy)cbStrategy.SelectedItem;
 
-
-            // Create the Multi-class Support Vector Machine using the selected Kernel
-            ksvm = new MulticlassSupportVectorMachine(1024, kernel, 10);
-
             // Create the learning algorithm using the machine and the training data
-            MulticlassSupportVectorLearning ml = new MulticlassSupportVectorLearning(ksvm, input, output)
+            var ml = new MulticlassSupportVectorLearning<IKernel>()
             {
                 // Configure the learning algorithm
-                Algorithm = (svm, classInputs, classOutputs, i, j) =>
-
-                    // Use Platt's Sequential Minimal Optimization algorithm
-                    new SequentialMinimalOptimization(svm, classInputs, classOutputs)
-                    {
-                        Complexity = complexity,
-                        Tolerance = tolerance,
-                        CacheSize = cacheSize,
-                        Strategy = strategy,
-                        Compact = (kernel is Linear)
-                    }
+                Learner = (param) => new SequentialMinimalOptimization<IKernel>()
+                {
+                    Complexity = complexity,
+                    Tolerance = tolerance,
+                    CacheSize = cacheSize,
+                    Strategy = strategy,
+                    Kernel = kernel
+                }
             };
 
 
@@ -142,9 +136,21 @@ namespace SampleApp
             Stopwatch sw = Stopwatch.StartNew();
 
             // Train the machines. It should take a while.
-            double error = ml.Run();
+            ksvm = ml.Learn(input, output);
+
+            // If we created a linear machine, compress the support vectors 
+            // into one single parameter vector for increased performance:
+            if (ksvm.Kernel is Linear)
+            {
+                ksvm.Compress();
+            }
 
             sw.Stop();
+
+            double error = new ZeroOneLoss(output)
+            {
+                Mean = true
+            }.Loss(ksvm.Decide(input));
 
 
             lbStatus.Text = String.Format(
@@ -207,11 +213,15 @@ namespace SampleApp
 
 
             // Create the calibration algorithm using the training data
-            var ml = new MulticlassSupportVectorLearning(ksvm, input, output)
+            var ml = new MulticlassSupportVectorLearning<IKernel>()
             {
+                Model = ksvm,
+
                 // Configure the calibration algorithm
-                Algorithm = (svm, classInputs, classOutputs, i, j) =>
-                    new ProbabilisticOutputCalibration(svm, classInputs, classOutputs)
+                Learner = (p) => new ProbabilisticOutputCalibration<IKernel>()
+                {
+                    Model = p.Model
+                }
             };
 
 
@@ -221,9 +231,11 @@ namespace SampleApp
             Stopwatch sw = Stopwatch.StartNew();
 
             // Train the machines. It should take a while.
-            double error = ml.Run();
+            ml.Learn(input, output);
 
             sw.Stop();
+
+            double error = new ZeroOneLoss(output).Loss(ksvm.Decide(input));
 
             lbStatus.Text = String.Format(
                 "Calibration complete ({0}ms, {1}er). Click Classify to test the classifiers.",
@@ -317,9 +329,15 @@ namespace SampleApp
 
                 int output;
                 if (sender == btnClassifyElimination)
-                    output = ksvm.Compute(input, MulticlassComputeMethod.Elimination);
+                {
+                    ksvm.Method = MulticlassComputeMethod.Elimination;
+                    output = ksvm.Decide(input);
+                }
                 else
-                    output = ksvm.Compute(input, MulticlassComputeMethod.Voting);
+                {
+                    ksvm.Method = MulticlassComputeMethod.Voting;
+                    output = ksvm.Decide(input);
+                }
 
                 row.Cells["colTestingOutput"].Value = output;
 
@@ -414,17 +432,9 @@ namespace SampleApp
                 double[] input = canvas.GetDigit();
 
                 // Classify the input vector
-                double[] responses;
-                int num = ksvm.Compute(input, MulticlassComputeMethod.Elimination, out responses);
-
-                if (!ksvm.IsProbabilistic)
-                {
-                    // Normalize responses
-                    double max = responses.Max();
-                    double min = responses.Min();
-
-                    responses = responses.Scale(min, max, 0.0, 1.0);
-                }
+                int num;
+                ksvm.Method = MulticlassComputeMethod.Elimination;
+                double[] responses = ksvm.Probabilities(input, out num);
 
                 // Set the actual classification answer 
                 lbCanvasClassification.Text = num.ToString();
@@ -472,8 +482,9 @@ namespace SampleApp
             DataGridViewRow row = dgvMachines.CurrentRow;
             if (row == null) return;
 
-            KernelSupportVectorMachine m = row.Tag as KernelSupportVectorMachine;
-            if (m == null) return;
+            var m = row.Tag as SupportVectorMachine<IKernel>;
+            if (m == null)
+                return;
 
             double max = m.Weights.Max();
             double min = m.Weights.Min();

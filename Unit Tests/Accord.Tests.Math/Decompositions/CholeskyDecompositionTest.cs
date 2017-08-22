@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -30,21 +30,6 @@ namespace Accord.Tests.Math
     [TestFixture]
     public class CholeskyDecompositionTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
 
         [Test]
         public void InverseTestNaN()
@@ -105,17 +90,18 @@ namespace Accord.Tests.Math
             };
 
 
-            CholeskyDecomposition chol = new CholeskyDecomposition(value);
+            var chol = new CholeskyDecomposition(value);
             double[,] L = chol.LeftTriangularFactor;
 
             Assert.IsTrue(Matrix.IsEqual(L, expected, 0.0001));
 
             // Decomposition Identity
-            Assert.IsTrue(Matrix.IsEqual(Matrix.Multiply(L, L.Transpose()), value, 0.001));
+            Assert.IsTrue(Matrix.IsEqual(Matrix.Multiply(L, L.Transpose()), value, 1e-3));
+            Assert.IsTrue(Matrix.IsEqual(chol.Reverse(), value, 1e-3));
 
             Assert.AreEqual(new LuDecomposition(value).Determinant, chol.Determinant, 1e-10);
-            Assert.AreEqual(true, chol.PositiveDefinite);
-            Assert.AreEqual(true, chol.Symmetric);
+            Assert.IsTrue(chol.IsPositiveDefinite);
+            //Assert.AreEqual(true, chol.Symmetric);
         }
 
         [Test]
@@ -136,12 +122,14 @@ namespace Accord.Tests.Math
             double[,] expected = Matrix.ColumnVector(new double[] { 2.5, 4.0, 3.5 });
 
             double[,] actual = chol.Solve(B);
-            Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.0000000000001));
+            Assert.IsTrue(Matrix.IsEqual(expected, actual, 1e-10));
             Assert.AreNotEqual(actual, B);
 
             actual = chol.Solve(B, true);
             Assert.AreEqual(actual, B);
-            Assert.IsTrue(Matrix.IsEqual(expected, B, 0.0000000000001));
+            Assert.IsTrue(Matrix.IsEqual(expected, B, 1e-10));
+
+            Assert.IsTrue(Matrix.IsEqual(chol.Reverse(), value, 1e-6));
         }
 
         [Test]
@@ -154,7 +142,8 @@ namespace Accord.Tests.Math
                {  0, -1,  2 }
             };
 
-            CholeskyDecomposition chol = new CholeskyDecomposition(value);
+            var chol = new CholeskyDecomposition(value);
+            Assert.IsTrue(chol.IsPositiveDefinite);
             double[,] L = chol.LeftTriangularFactor;
 
             double[] B = new double[] { 1, 2, 3 };
@@ -162,11 +151,13 @@ namespace Accord.Tests.Math
             double[] expected = new double[] { 2.5, 4.0, 3.5 };
             double[] actual = chol.Solve(B);
 
-            Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.0000000000001));
+            Assert.IsTrue(Matrix.IsEqual(expected, actual, 1e-10));
 
             actual = chol.Solve(B, true);
             Assert.AreEqual(actual, B);
-            Assert.IsTrue(Matrix.IsEqual(expected, B, 0.0000000000001));
+            Assert.IsTrue(Matrix.IsEqual(expected, B, 1e-10));
+
+            Assert.IsTrue(Matrix.IsEqual(chol.Reverse(), value, 1e-6));
         }
 
         [Test]
@@ -180,7 +171,7 @@ namespace Accord.Tests.Math
                {  6, -2,  0,  0 },
             };
 
-            CholeskyDecomposition chol = new CholeskyDecomposition(value, true);
+            var chol = new CholeskyDecomposition(value, true);
             double[,] L = chol.LeftTriangularFactor;
 
             double[,] B = Matrix.Identity(4);
@@ -194,7 +185,9 @@ namespace Accord.Tests.Math
             };
             double[,] actual = chol.Solve(B);
 
-            Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.0000000000001));
+            Assert.IsTrue(Matrix.IsEqual(expected, actual, 1e-10));
+
+            Assert.IsTrue(Matrix.IsEqual(chol.Reverse(), value, 1e-6));
         }
 
         [Test]
@@ -208,7 +201,7 @@ namespace Accord.Tests.Math
                {  6, -2,  0,  0 },
             };
 
-            CholeskyDecomposition chol = new CholeskyDecomposition(value, true);
+            var chol = new CholeskyDecomposition(value, true);
             double[,] L = chol.LeftTriangularFactor;
 
             double[] B = new double[] { 1, 2, 3, 4 };
@@ -216,7 +209,7 @@ namespace Accord.Tests.Math
             double[] expected = { 5, 13, 16, -8 };
             double[] actual = chol.Solve(B);
 
-            Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.0000000000001));
+            Assert.IsTrue(Matrix.IsEqual(expected, actual, 1e-10));
         }
 
         [Test]
@@ -230,13 +223,53 @@ namespace Accord.Tests.Math
                {  6, -2,  0,  0 },
             };
 
-            CholeskyDecomposition chol = new CholeskyDecomposition(value, true);
+            double[,] expected =
+            {
+                  {  0.40000,  1.20000,  1.40000, -0.50000 },
+                  {  1.20000,  3.60000,  4.20000, -2.00000 },
+                  {  1.40000,  4.20000,  5.40000, -2.50000 },
+                  { -0.50000, -2.00000, -2.50000,  1.00000 },
+            };
+
+            var chol = new CholeskyDecomposition(value, robust: true);
             double[,] L = chol.LeftTriangularFactor;
+            Assert.IsFalse(chol.IsPositiveDefinite);
 
-            double[,] expected = Matrix.Inverse(value);
             double[,] actual = chol.Inverse();
+            Assert.IsTrue(Matrix.IsEqual(expected, actual, 1e-6));
 
-            Assert.IsTrue(Matrix.IsEqual(expected, actual, 1e-10));
+            double[,] inv = Matrix.Inverse(value);
+            Assert.IsTrue(Matrix.IsEqual(expected, inv, 1e-10));
+
+            Assert.IsTrue(Matrix.IsEqual(chol.Reverse(), value, 1e-6));
+        }
+
+        [Test]
+        public void InverseTest1()
+        {
+            double[,] value = // positive-definite
+            {
+                {  2, -1,  0 },
+                { -1,  2, -1 },
+                {  0, -1,  2 }
+            };
+
+            var chol = new CholeskyDecomposition(value, robust: false);
+            Assert.IsTrue(chol.IsPositiveDefinite);
+            var L = chol.LeftTriangularFactor;
+
+            float[][] expected =
+            {
+                new float[] { 0.750f, 0.500f, 0.250f },
+                new float[] { 0.500f, 1.000f, 0.500f },
+                new float[] { 0.250f, 0.500f, 0.750f },
+            };
+
+            double[,] actual = chol.Inverse();
+            Assert.IsTrue(actual.IsEqual(expected, 1e-6));
+
+            double[,] inv = chol.Solve(Matrix.Identity(3));
+            Assert.IsTrue(inv.IsEqual(expected, 1e-6));
         }
 
         [Test]
@@ -265,19 +298,18 @@ namespace Accord.Tests.Math
             };
 
 
-
-            CholeskyDecomposition chol = new CholeskyDecomposition(value, true);
+            var chol = new CholeskyDecomposition(value, true);
             double[,] L = chol.LeftTriangularFactor;
             double[,] D = chol.DiagonalMatrix;
             Assert.IsTrue(Matrix.IsEqual(L, expected, 0.001));
             Assert.IsTrue(Matrix.IsEqual(D, diagonal, 0.001));
+            Assert.IsTrue(chol.IsPositiveDefinite);
 
             // Decomposition Identity
             Assert.IsTrue(Matrix.IsEqual(Matrix.Multiply(Matrix.Multiply(L, D), L.Transpose()), value, 0.001));
+            Assert.IsTrue(Matrix.IsEqual(chol.Reverse(), value, 1e-6));
 
             Assert.AreEqual(new LuDecomposition(value).Determinant, chol.Determinant, 1e-10);
-            Assert.AreEqual(true, chol.PositiveDefinite);
-            Assert.AreEqual(true, chol.Symmetric);
         }
 
         [Test]
@@ -307,19 +339,18 @@ namespace Accord.Tests.Math
                 {      0,         0,         0,    1.0000 },
             };
 
-            CholeskyDecomposition chol = new CholeskyDecomposition(value, true);
+            var chol = new CholeskyDecomposition(value, true);
             double[,] L = chol.LeftTriangularFactor;
             double[,] D = chol.DiagonalMatrix;
             Assert.IsTrue(Matrix.IsEqual(L, expected, 0.001));
             Assert.IsTrue(Matrix.IsEqual(D, diagonal, 0.001));
+            Assert.IsFalse(chol.IsPositiveDefinite);
 
             // Decomposition Identity
-            Assert.IsTrue(Matrix.IsEqual(L.Multiply(D).Multiply(L.Transpose()), value, 0.001));
+            Assert.IsTrue(Matrix.IsEqual(L.Dot(D).Dot(L.Transpose()), value, 0.001));
+            Assert.IsTrue(Matrix.IsEqual(chol.Reverse(), value, 1e-6));
 
             Assert.AreEqual(new LuDecomposition(value).Determinant, chol.Determinant, 1e-10);
-            Assert.AreEqual(false, chol.PositiveDefinite);
-            Assert.AreEqual(true, chol.Symmetric);
-
         }
 
         [Test]
@@ -342,13 +373,13 @@ namespace Accord.Tests.Math
             };
 
 
-            CholeskyDecomposition chol = new CholeskyDecomposition(value, false, true);
+            var chol = new CholeskyDecomposition(value, false, valueType: MatrixType.LowerTriangular);
             double[,] L = chol.LeftTriangularFactor;
 
-            Assert.IsTrue(Matrix.IsEqual(L, expected, 0.0001));
+            Assert.IsTrue(Matrix.IsEqual(L, expected, 1e-4));
             Assert.AreEqual(4, chol.Determinant, 1e-10);
-            Assert.AreEqual(true, chol.PositiveDefinite);
-            Assert.AreEqual(true, chol.Symmetric);
+            Assert.IsTrue(chol.IsPositiveDefinite);
+            Assert.IsTrue(Matrix.IsEqual(chol.Reverse(), value.GetSymmetric(type: MatrixType.LowerTriangular), 1e-4));
 
 
             double[,] expected2 =
@@ -358,26 +389,27 @@ namespace Accord.Tests.Math
                  {  0.0000, -0.6667,  1.0000 }
             };
 
-            chol = new CholeskyDecomposition(value, true, true);
+            chol = new CholeskyDecomposition(value, robust: true, valueType: MatrixType.LowerTriangular);
             L = chol.LeftTriangularFactor;
 
-            Assert.IsTrue(Matrix.IsEqual(L, expected2, 0.0001));
+            Assert.IsTrue(Matrix.IsEqual(L, expected2, 1e-4));
+            Assert.IsTrue(Matrix.IsEqual(chol.Reverse(), value.GetSymmetric(type: MatrixType.LowerTriangular), 1e-6));
+            Assert.IsTrue(chol.IsPositiveDefinite);
+
             Assert.AreEqual(4, chol.Determinant, 1e-10);
-            Assert.AreEqual(true, chol.PositiveDefinite);
-            Assert.AreEqual(true, chol.Symmetric);
         }
 
 
         [Test]
         public void LogDeterminantTest()
         {
-            CholeskyDecomposition chol = new CholeskyDecomposition(bigmatrix);
+            var chol = new CholeskyDecomposition(bigmatrix);
             Assert.AreEqual(0.0, chol.Determinant);
-            Assert.AreEqual(-2224.8931093738875, chol.LogDeterminant);
-            Assert.IsTrue(chol.PositiveDefinite);
-            Assert.IsTrue(chol.Symmetric);
+            Assert.AreEqual(-2224.8931093738875, chol.LogDeterminant, 1e-10);
+            Assert.IsTrue(chol.IsPositiveDefinite);
             Assert.IsTrue(chol.Nonsingular);
 
+            Assert.IsTrue(Matrix.IsEqual(chol.Reverse(), bigmatrix, 1e-6));
         }
 
         [Test]
@@ -391,10 +423,32 @@ namespace Accord.Tests.Math
                {  1, -2,  1,  7 },
             };
 
-            CholeskyDecomposition chol = new CholeskyDecomposition(value);
+            var chol = new CholeskyDecomposition(value);
+            //var L = chol.LeftTriangularFactor;
+            //var det = L.Determinant();
+            Assert.IsTrue(chol.IsPositiveDefinite);
             Assert.AreEqual(2232, chol.Determinant, 1e-12);
             Assert.IsTrue(chol.Nonsingular);
-            Assert.IsTrue(chol.Symmetric);
+        }
+
+        [Test]
+        public void DeterminantTest2()
+        {
+            double[,] value =
+            {
+               {  6, -1,  2,  1 },
+               {  0,  9, -3, -2 },
+               {  0,  0,  8,  1 },
+               {  0,  0,  0,  7 },
+            };
+
+            var chol = new CholeskyDecomposition(value);
+            //var L = chol.LeftTriangularFactor;
+            //var det = L.Determinant();
+            Assert.IsTrue(chol.IsPositiveDefinite);
+            Assert.AreEqual(2232, chol.Determinant, 1e-12);
+            Assert.IsTrue(chol.Nonsingular);
+            //Assert.IsTrue(chol.Symmetric);
         }
 
         [Test]
@@ -408,8 +462,9 @@ namespace Accord.Tests.Math
                {  1, -2,  1,  7 },
             };
 
-            CholeskyDecomposition chol = new CholeskyDecomposition(value);
+            var chol = new CholeskyDecomposition(value);
             Assert.AreEqual(2232, chol.Determinant, 1e-12);
+            Assert.IsTrue(chol.IsPositiveDefinite);
 
             double expected = System.Math.Log(2232);
             double actual = chol.LogDeterminant;

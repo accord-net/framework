@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 // Original work copyright © Lutz Roeder, 2000
@@ -29,6 +29,7 @@ namespace Accord.Math.Decompositions
 {
     using System;
     using Accord.Math;
+    using Accord.Compat;
 
     /// <summary>
     ///     Determines the eigenvalues and eigenvectors of a real square matrix.
@@ -59,6 +60,29 @@ namespace Accord.Math.Decompositions
         private Double[,] H;        // storage of nonsymmetric Hessenberg form.
         private Double[] ort;       // storage for nonsymmetric algorithm.
         private bool symmetric;
+
+        private const Double eps = 2 * Constants.DoubleEpsilon;
+        
+
+        /// <summary>
+        ///   Returns the effective numerical matrix rank.
+        /// </summary>
+        ///
+        /// <value>Number of non-negligible eigen values.</value>
+        ///
+        public int Rank
+        {
+            get
+            {
+                Double tol = n * d[0] * eps;
+
+                int r = 0;
+                for (int i = 0; i < d.Length; i++)
+                    if (d[i] > tol) r++;
+
+                return r;
+            }
+        }
 
         /// <summary>
         ///   Construct an eigenvalue decomposition.</summary>
@@ -145,9 +169,9 @@ namespace Accord.Math.Decompositions
                     return -Math.Abs(d[i]).CompareTo(Math.Abs(d[j]));
                 });
 
-                this.d = this.d.Submatrix(idx);
-                this.e = this.e.Submatrix(idx);
-                this.V = this.V.Submatrix(null, idx);
+                this.d = this.d.Get(idx);
+                this.e = this.e.Get(idx);
+                this.V = this.V.Get(null, idx);
             }
         }
 
@@ -997,6 +1021,14 @@ namespace Accord.Math.Decompositions
         }
         #endregion
 
+        /// <summary>
+        ///   Reverses the decomposition, reconstructing the original matrix <c>X</c>.
+        /// </summary>
+        /// 
+        public Double[,] Reverse()
+        {
+            return V.DotWithDiagonal(d).Divide(V);
+        }
 
 
         #region ICloneable Members

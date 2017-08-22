@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Accord.Imaging.Noncommercial</id>
+    <version>$version$</version>
+    <title>Accord.Imaging (Non-commercial algorithms)</title>
+    <authors>Accord.NET</authors>
+    <owners>Accord.NET</owners>
+    <licenseUrl>http://accord-framework.net/license.txt</licenseUrl>
+    <projectUrl>http://accord-framework.net</projectUrl>
+    <iconUrl>http://accord-framework.net/logo.png</iconUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>
+      Contains image processing algorithms which can only be used for educational applications, and cannot be used in commercial products without express permission of its authors. Currently contains the Fast Guided Filter. This package is part of the Accord.NET Framework.
+    </description>
+    <summary>Extra image processing algorithms that are not available under the GPL or LGPL. Contains the Fast Guided Filter.</summary>
+    <tags>accord.net aforge.net framework image processing computer vision blur Gaussian integral</tags>
+    <dependencies>
+      <dependency id="Accord"                 version="$version$" />
+      <dependency id="Accord.Math"            version="$version$" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="..\..\Release\net35\Noncommercial\Accord.Imaging.Noncommercial.dll" target="lib\net35\Accord.Imaging.Noncommercial.dll" />
+    <file src="..\..\Release\net35\Noncommercial\Accord.Imaging.Noncommercial.xml" target="lib\net35\Accord.Imaging.Noncommercial.xml" />
+
+    <file src="..\..\Release\net40\Noncommercial\Accord.Imaging.Noncommercial.dll" target="lib\net40\Accord.Imaging.Noncommercial.dll" />
+    <file src="..\..\Release\net40\Noncommercial\Accord.Imaging.Noncommercial.xml" target="lib\net40\Accord.Imaging.Noncommercial.xml" />
+
+    <file src="..\..\Release\net45\Noncommercial\Accord.Imaging.Noncommercial.dll" target="lib\net45\Accord.Imaging.Noncommercial.dll" />
+    <file src="..\..\Release\net45\Noncommercial\Accord.Imaging.Noncommercial.xml" target="lib\net45\Accord.Imaging.Noncommercial.xml" />
+
+    <file src="..\..\Release\net46\Noncommercial\Accord.Imaging.Noncommercial.dll" target="lib\net46\Accord.Imaging.Noncommercial.dll" />
+    <file src="..\..\Release\net46\Noncommercial\Accord.Imaging.Noncommercial.xml" target="lib\net46\Accord.Imaging.Noncommercial.xml" />
+
+    <file src="..\..\Release\net462\Noncommercial\Accord.Imaging.Noncommercial.dll" target="lib\net462\Accord.Imaging.Noncommercial.dll" />
+    <file src="..\..\Release\net462\Noncommercial\Accord.Imaging.Noncommercial.xml" target="lib\net462\Accord.Imaging.Noncommercial.xml" />
+
+    <file src="..\..\Release\netstandard2.0\Noncommercial\Accord.Imaging.Noncommercial.dll" target="lib\netstandard2.0\Accord.Imaging.Noncommercial.dll" />
+    <file src="..\..\Release\netstandard2.0\Noncommercial\Accord.Imaging.Noncommercial.xml" target="lib\netstandard2.0\Accord.Imaging.Noncommercial.xml" />
+  </files>
+</package>

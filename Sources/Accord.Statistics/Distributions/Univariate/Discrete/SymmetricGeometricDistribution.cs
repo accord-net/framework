@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -25,7 +25,7 @@ namespace Accord.Statistics.Distributions.Univariate
     using System;
     using Accord.Math;
     using Accord.Statistics.Distributions.Fitting;
-    using AForge;
+    using Accord.Compat;
 
     /// <summary>
     ///    Symmetric Geometric Distribution.
@@ -41,15 +41,13 @@ namespace Accord.Statistics.Distributions.Univariate
     /// <seealso cref="HypergeometricDistribution"/>
     /// 
     [Serializable]
-    public class SymmetricGeometricDistribution : UnivariateDiscreteDistribution,
-        IFittableDistribution<double, IFittingOptions>
+    public class SymmetricGeometricDistribution : UnivariateDiscreteDistribution
     {
 
         // Distribution parameters
         private double p;
 
         // Derived measures
-        private double constant;
         private double lnconstant;
 
 
@@ -61,6 +59,7 @@ namespace Accord.Statistics.Distributions.Univariate
         {
             get { return p; }
         }
+
 
         /// <summary>
         ///   Creates a new symmetric geometric distribution.
@@ -75,8 +74,7 @@ namespace Accord.Statistics.Distributions.Univariate
                     "A probability must be between 0 and 1.");
 
             this.p = probabilityOfSuccess;
-            this.lnconstant = Math.Log(p) - Math.Log(2 * (1 - p));
-            this.constant = p / (2 * (1 - p));
+            this.lnconstant = Math.Log(p) - Math.Log(2.0 * (1.0 - p));
         }
 
 
@@ -133,7 +131,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   Not supported.
         /// </summary>
         /// 
-        public override double DistributionFunction(int k)
+        protected internal override double InnerDistributionFunction(int k)
         {
             throw new NotSupportedException();
         }
@@ -155,9 +153,11 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value <c>x</c> will occur.
         /// </remarks>
         /// 
-        public override double ProbabilityMassFunction(int k)
+        protected internal override double InnerProbabilityMassFunction(int k)
         {
-            return constant * Math.Pow(1 - p, Math.Abs(k));
+            if (k == 0)
+                return p; // need special case otherwise will be double at center
+            return Math.Exp(lnconstant) * Math.Pow(1 - p, Math.Abs(k) - 1);
         }
 
         /// <summary>
@@ -177,11 +177,72 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value <c>k</c> will occur.
         /// </remarks>
         /// 
-        public override double LogProbabilityMassFunction(int k)
+        protected internal override double InnerLogProbabilityMassFunction(int k)
         {
-            return lnconstant + Math.Abs(k) * Math.Log(1 - p);
+            if (k == 0)
+                return Math.Log(p); // need special case otherwise will be double at center
+            return lnconstant + (Math.Abs(k) - 1) * Math.Log(1 - p);
         }
 
+        /// <summary>
+        /// Generates a random observation from the current distribution.
+        /// </summary>
+        /// 
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        ///   
+        /// <returns>
+        /// A random observations drawn from this distribution.
+        /// </returns>
+        /// 
+        public override int Generate(Random source)
+        {
+            double u = source.NextDouble();
+            return Math.Sign(u - 0.5) * (int)GeometricDistribution.Random(p, source);
+        }
+
+        /// <summary>
+        /// Generates a random vector of observations from the current distribution.
+        /// </summary>
+        /// 
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="result">The location where to store the samples.</param>
+        /// 
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        ///   
+        /// <returns>
+        /// A random vector of observations drawn from this distribution.
+        /// </returns>
+        /// 
+        public override double[] Generate(int samples, double[] result, Random source)
+        {
+            GeometricDistribution.Random(p, samples, result, source);
+            for (int i = 0; i < samples; i++)
+                result[i] *= Math.Sign(source.NextDouble() - 0.5);
+            return result;
+        }
+
+        /// <summary>
+        /// Generates a random vector of observations from the current distribution.
+        /// </summary>
+        /// 
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="result">The location where to store the samples.</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        ///   
+        /// <returns>
+        /// A random vector of observations drawn from this distribution.
+        /// </returns>
+        /// 
+        public override int[] Generate(int samples, int[] result, Random source)
+        {
+            GeometricDistribution.Random(p, samples, result, source);
+            for (int i = 0; i < samples; i++)
+                result[i] *= Math.Sign(source.NextDouble() - 0.5);
+            return result;
+        }
 
         /// <summary>
         ///   Creates a new object that is a copy of the current instance.

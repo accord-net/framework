@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -23,6 +23,8 @@
 namespace Accord.Statistics.Distributions.Fitting
 {
     using System;
+    using Accord.Compat;
+    using System.Threading.Tasks;
 
     /// <summary>
     ///   Estimation options for <see cref="Accord.Statistics.Distributions.Univariate.Mixture{T}">univariate</see>
@@ -49,7 +51,30 @@ namespace Accord.Statistics.Distributions.Fitting
         ///   algorithm. Default is zero (iterate until convergence).
         /// </summary>
         /// 
+        public int MaxIterations
+        {
+#pragma warning disable 612, 618
+            get { return Iterations; }
+            set { Iterations = value; }
+#pragma warning restore 612, 618
+        }
+
+        /// <summary>
+        ///   Gets or sets the maximum number of iterations
+        ///   to be performed by the Expectation-Maximization
+        ///   algorithm. Default is zero (iterate until convergence).
+        /// </summary>
+        /// 
+        [Obsolete("Please use MaxIterations instead.")]
         public int Iterations { get; set; }
+
+        /// <summary>
+        /// Gets or sets the parallelization options to be used when fitting.
+        /// </summary>
+        /// 
+        /// <value>The parallel options.</value>
+        /// 
+        public ParallelOptions ParallelOptions { get; set; }
 
         /// <summary>
         ///   Gets or sets the fitting options for the inner
@@ -73,7 +98,8 @@ namespace Accord.Statistics.Distributions.Fitting
         /// 
         public MixtureOptions()
         {
-            Threshold = 1e-3;
+            this.Threshold = 1e-3;
+            this.ParallelOptions = new ParallelOptions();
         }
 
         /// <summary>
@@ -84,6 +110,7 @@ namespace Accord.Statistics.Distributions.Fitting
         ///   Expectation-Maximization algorithm. Default is 1e-3.</param>
         ///   
         public MixtureOptions(double threshold)
+            : this()
         {
             Threshold = threshold;
         }
@@ -98,8 +125,8 @@ namespace Accord.Statistics.Distributions.Fitting
         ///   component distributions of the mixture density.</param>
         ///   
         public MixtureOptions(double threshold, IFittingOptions innerOptions)
+            : this(threshold)
         {
-            Threshold = threshold;
             InnerOptions = innerOptions;
         }
 

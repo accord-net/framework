@@ -1,9 +1,8 @@
-﻿
-// Accord Math Library
+﻿// Accord Math Library
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 // Original work copyright © Lutz Roeder, 2000
@@ -29,6 +28,8 @@
 namespace Accord.Math.Decompositions
 {
     using System;
+    using Accord.Compat;
+    using System.Threading.Tasks;
 
     /// <summary>
     ///   Cholesky Decomposition of a symmetric, positive definite matrix.
@@ -38,9 +39,9 @@ namespace Accord.Math.Decompositions
     ///   <para>
     ///     For a symmetric, positive definite matrix <c>A</c>, the Cholesky decomposition is a
     ///     lower triangular matrix <c>L</c> so that <c>A = L * L'</c>.
-    ///     If the matrix is not symmetric or positive definite, the constructor returns a partial 
+    ///     If the matrix is not positive definite, the constructor returns a partial 
     ///     decomposition and sets two internal variables that can be queried using the
-    ///     <see cref="Symmetric"/> and <see cref="PositiveDefinite"/> properties.</para>
+    ///     <see cref="IsUndefined"/> and <see cref="IsPositiveDefinite"/> properties.</para>
     ///   <para>
     ///     Any square matrix A with non-zero pivots can be written as the product of a
     ///     lower triangular matrix L and an upper triangular matrix U; this is called
@@ -61,142 +62,162 @@ namespace Accord.Math.Decompositions
         private Double[] D;
         private int n;
 
-        private bool symmetric;
         private bool positiveDefinite;
+        private bool destroyed;
         private bool robust;
+        private bool undefined;
 
         // cache for lazy evaluation
+        private Double[,] leftTriangularFactor;
         private Double[,] diagonalMatrix;
         private Double? determinant;
         private double? lndeterminant;
         private bool? nonsingular;
 
-        /// <summary>Constructs a new Cholesky Decomposition.</summary>
-        /// <param name="value">The matrix to be decomposed.</param>
-        public CholeskyDecomposition(Double[,] value)
-            : this(value, false, false)
-        {
-        }
 
-        /// <summary>Constructs a new Cholesky Decomposition.</summary>
+        /// <summary>
+        ///   Constructs a new Cholesky Decomposition.
+        /// </summary>
         /// 
-        /// <param name="value">The matrix to be decomposed.</param>
-        /// <param name="robust">True to perform a square root free LDLt decomposition,
-        /// false otherwise.</param>
+        /// <param name="value">
+        ///   The symmetric matrix, given in upper triangular form, to be decomposed.</param>
+        /// <param name="robust">
+        ///   True to perform a square-root free LDLt decomposition, false otherwise.</param>
+        /// <param name="inPlace">
+        ///   True to perform the decomposition in place, storing the factorization in the
+        ///   lower triangular part of the given matrix.</param>
+        /// <param name="valueType">
+        ///   How to interpret the matrix given to be decomposed. Using this parameter, a lower or
+        ///   upper-triangular matrix can be interpreted as a symmetric matrix by assuming both lower
+        ///   and upper parts contain the same elements. Use this parameter in conjunction with inPlace
+        ///   to save memory by storing the original matrix and its decomposition at the same memory
+        ///   location (lower part will contain the decomposition's L matrix, upper part will contains 
+        ///   the original matrix).</param>
         /// 
-        public CholeskyDecomposition(Double[,] value, bool robust)
-            : this(value, robust, false)
+        public CholeskyDecomposition(Double[,] value, bool robust = false, 
+            bool inPlace = false, MatrixType valueType = MatrixType.UpperTriangular)
         {
-        }
-
-        /// <summary>Constructs a new Cholesky Decomposition.</summary>
-        /// 
-        /// <param name="value">The matrix to be decomposed.</param>
-        /// <param name="robust">True to perform a square-root free LDLt decomposition,
-        /// false otherwise.</param>
-        /// <param name="lowerTriangular">True to assume the <paramref name="value">value
-        /// matrix</paramref> is a lower triangular symmetric matrix, false otherwise.</param>
-        /// 
-        public CholeskyDecomposition(Double[,] value, bool robust, bool lowerTriangular)
-        {
-            if (value == null)
-            {
-                throw new ArgumentNullException("value", "Matrix cannot be null.");
-            }
-
-            if (value.GetLength(0) != value.GetLength(1))
-            {
+            if (value.Rows() != value.Columns())
                 throw new DimensionMismatchException("value", "Matrix is not square.");
-            }
+
+            if (!inPlace)
+                value = value.Copy();
+
+            this.n = value.Rows();
+            this.L = value.ToUpperTriangular(valueType, result: value);
+            this.robust = robust;
 
             if (robust)
             {
-                LDLt(value); // Compute square-root free decomposition
+                LDLt(); // Compute square-root free decomposition
             }
             else
             {
-                LLt(value); // Compute standard Cholesky decomposition
+                LLt(); // Compute standard Cholesky decomposition
             }
-
-            if (lowerTriangular)
-                symmetric = true;
-        }
-
-
-        /// <summary>
-        ///   Returns <see langword="true"/> if the matrix is symmetric.
-        /// </summary>
-        ///
-        public bool Symmetric
-        {
-            get { return this.symmetric; }
         }
 
         /// <summary>
-        ///   Returns <see langword="true"/> if the matrix is positive definite.
+        ///   Gets whether the decomposed matrix was positive definite.
         /// </summary>
         ///
-        public bool PositiveDefinite
+        public bool IsPositiveDefinite
         {
             get { return this.positiveDefinite; }
         }
 
         /// <summary>
-        ///   Returns the left (lower) triangular factor <c>L</c> so that <c>A = L * D * L'</c>.
+        ///   Gets a value indicating whether the LDLt factorization
+        ///   has been computed successfully or if it is undefined.
         /// </summary>
-        ///
-        public Double[,] LeftTriangularFactor
+        /// 
+        /// <value>
+        ///     <c>true</c> if the factorization is not defined; otherwise, <c>false</c>.
+        /// </value>
+        /// 
+        public bool IsUndefined
         {
-            get { return this.L; }
+            get { return this.undefined; }
         }
 
         /// <summary>
-        ///   Returns the block diagonal matrix of diagonal elements in a LDLt decomposition.
-        /// </summary>        
-        ///
-        public Double[,] DiagonalMatrix
+        ///   Gets the left (lower) triangular factor
+        ///   <c>L</c> so that <c>A = L * D * L'</c>.
+        /// </summary>
+        /// 
+        public Double[,] LeftTriangularFactor
         {
-            get 
+            get
             {
-                if (diagonalMatrix == null)
+                if (leftTriangularFactor == null)
                 {
-                    diagonalMatrix = new Double[n, n];
-                    for (int i = 0; i < D.Length; i++)
-                        diagonalMatrix[i,i] = D[i];
+                    if (destroyed)
+                        throw new InvalidOperationException("The decomposition has been destroyed.");
+                        
+                    if (undefined)
+                        throw new InvalidOperationException("The decomposition is undefined (zero in diagonal).");
+
+                    leftTriangularFactor = L.GetLowerTriangle();
                 }
-                return diagonalMatrix; 
+
+                return leftTriangularFactor;
             }
         }
 
         /// <summary>
-        ///   Returns the one-dimensional array of diagonal elements in a LDLt decomposition.
+        ///   Gets the block diagonal matrix of diagonal elements in a LDLt decomposition.
         /// </summary>        
-        ///
+        ///   
+        public Double[,] DiagonalMatrix
+        {
+            get
+            {
+                if (diagonalMatrix == null)
+                {
+                    if (destroyed)
+                        throw new InvalidOperationException("The decomposition has been destroyed.");
+                        
+                    diagonalMatrix = Matrix.Diagonal(D);
+                }
+
+                return diagonalMatrix;
+            }
+        }
+
+        /// <summary>
+        ///   Gets the one-dimensional array of diagonal elements in a LDLt decomposition.
+        /// </summary>        
+        /// 
         public Double[] Diagonal
         {
             get { return D; }
         }
 
         /// <summary>
-        ///   Returns the determinant of the matrix.
+        ///   Gets the determinant of the decomposed matrix.
         /// </summary>
-        ///
+        /// 
         public Double Determinant
         {
             get
             {
                 if (!determinant.HasValue)
                 {
-                    if (!this.symmetric)
-                        throw new NonSymmetricMatrixException("Matrix is not symmetric.");
+                    if (destroyed)
+                        throw new InvalidOperationException("The decomposition has been destroyed.");
+                        
+                    if (undefined)
+                        throw new InvalidOperationException("The decomposition is undefined (zero in diagonal).");
 
-                    Double detL = 1;
+                    Double detL = 1, detD = 1;
                     for (int i = 0; i < n; i++)
                         detL *= L[i, i];
 
-                    Double detD = 1;
-                    for (int i = 0; i < D.Length; i++)
-                        detD *= D[i];
+                    if (D != null)
+                    {
+                        for (int i = 0; i < n; i++)
+                            detD *= D[i];
+                    }
 
                     determinant = detL * detL * detD;
                 }
@@ -206,25 +227,31 @@ namespace Accord.Math.Decompositions
         }
 
         /// <summary>
-        ///   Returns the log-determinant of the matrix.
+        ///   If the matrix is positive-definite, gets the
+        ///   log-determinant of the decomposed matrix.
         /// </summary>
-        ///
+        /// 
         public double LogDeterminant
         {
             get
             {
                 if (!lndeterminant.HasValue)
                 {
-                    if (!this.symmetric)
-                        throw new NonSymmetricMatrixException("Matrix is not symmetric.");
+                    if (destroyed)
+                        throw new InvalidOperationException("The decomposition has been destroyed.");
+                        
+                    if (undefined)
+                        throw new InvalidOperationException("The decomposition is undefined (zero in diagonal).");
 
-                    double detL = 0;
+                    double detL = 0, detD = 0;
                     for (int i = 0; i < n; i++)
                         detL += Math.Log((double)L[i, i]);
 
-                    double detD = 0;
-                    for (int i = 0; i < D.Length; i++)
-                        detD += Math.Log((double)D[i]);
+                    if (D != null)
+                    {
+                        for (int i = 0; i < D.Length; i++)
+                            detD += Math.Log((double)D[i]);
+                    }
 
                     lndeterminant = detL + detL + detD;
                 }
@@ -234,20 +261,24 @@ namespace Accord.Math.Decompositions
         }
 
         /// <summary>
-        ///   Returns if the matrix is non-singular (i.e. invertible).
+        ///   Gets a value indicating whether the decomposed
+        ///   matrix is non-singular (i.e. invertible).
         /// </summary>
-        ///
+        /// 
         public bool Nonsingular
         {
             get
             {
                 if (!nonsingular.HasValue)
                 {
-                    if (!symmetric)
-                        throw new NonSymmetricMatrixException("Matrix is not symmetric.");
-
+                    if (destroyed)
+                        throw new InvalidOperationException("The decomposition has been destroyed.");
+                    
+                    if (undefined)
+                        throw new InvalidOperationException("The decomposition is undefined (zero in diagonal).");
+                    
                     bool nonSingular = true;
-                    for (int i = 0; i < D.Length && nonSingular; i++)
+                    for (int i = 0; i < n && nonSingular; i++)
                         if (L[i, i] == 0 || D[i] == 0) nonSingular = false;
 
                     nonsingular = nonSingular;
@@ -258,119 +289,94 @@ namespace Accord.Math.Decompositions
         }
 
 
-        private unsafe void LLt(Double[,] value)
+        private unsafe void LLt()
         {
-            n = value.GetLength(0);
-            L = new Double[n, n];
-            D = new Double[n];
-
-            for (int i = 0; i < D.Length; i++)
-                D[i] = 1;
-
-            robust = false;
-
-            Double[,] a = value;
+            D = Vector.Ones<Double>(n);
 
             this.positiveDefinite = true;
-            this.symmetric = true;
 
-            fixed (Double* ptrL = L)
+            for (int j = 0; j < n; j++)
             {
-                for (int j = 0; j < n; j++)
+                Double s = 0;
+                for (int k = 0; k < j; k++)
                 {
-                    Double* Lrowj = ptrL + j * n;
-                    Double d = 0;
-                    for (int k = 0; k < j; k++)
-                    {
-                        Double* Lrowk = ptrL + k * n;
+                    Double t = L[k, j];
+                    for (int i = 0; i < k; i++)
+                        t -= L[j, i] * L[k, i];
+                    t = t / L[k, k];
 
-                        Double s = 0;
-                        for (int i = 0; i < k; i++)
-                            s += Lrowk[i] * Lrowj[i];
-
-                        Lrowj[k] = s = (a[j, k] - s) / Lrowk[k];
-                        d += s * s;
-
-                        this.symmetric = this.symmetric & (a[k, j] == a[j, k]);
-                    }
-
-                    d = a[j, j] - d;
-
-                    // Use a tolerance for positive-definiteness
-                    this.positiveDefinite &= (d > (Double)1e-14 * Math.Abs(a[j, j]));
-
-                    Lrowj[j] = (Double)System.Math.Sqrt((double)System.Math.Max(d, 0));
-
-                    for (int k = j + 1; k < n; k++)
-                        Lrowj[k] = 0;
+                    L[j, k] = t;
+                    s += t * t;
                 }
+
+                s = L[j, j] - s;
+
+                // Use a tolerance for positive-definiteness
+                this.positiveDefinite &= (s > (Double)1e-14 * Math.Abs(L[j, j]));
+
+                L[j, j] = (Double)Math.Sqrt((double)s);
             }
         }
 
-        private unsafe void LDLt(Double[,] value)
-        {
-            n = value.GetLength(0);
-            L = new Double[n, n];
-            D = new Double[n];
-            robust = true;
 
-            Double[,] a = value;
+        private unsafe void LDLt()
+        {
+            D = new Double[n];
+
+            this.positiveDefinite = true;
 
             Double[] v = new Double[n];
-            this.positiveDefinite = true;
-            this.symmetric = true;
-
-            Double d = D[0] = v[0] = a[0, 0];
-
-            if (d == 0) 
-                this.positiveDefinite = false;
-
-            for (int j = 1; j < n; j++)
-                L[j, 0] = a[j, 0] / d;
-
-            for (int j = 1; j < n; j++)
+            for (int i = 0; i < n; i++)
             {
-                d = 0;
-                for (int k = 0; k < j; k++)
-                {
-                    v[k] = L[j, k] * D[k];
-                    d += L[j, k] * v[k];
-                }
+                for (int j = 0; j < i; j++)
+                    v[j] = L[i, j] * D[j];
 
-                d = D[j] = v[j] = a[j, j] - d;
+                Double d = 0;
+                for (int k = 0; k < i; k++)
+                    d += L[i, k] * v[k];
+
+                d = D[i] = v[i] = L[i, i] - d;
 
                 // Use a tolerance for positive-definiteness
-                this.positiveDefinite &= (d > (Double)1e-14 * Math.Abs(a[j, j]));
+                this.positiveDefinite &= (v[i] > (Double)1e-14 * Math.Abs(L[i, i]));
 
-                for (int k = j + 1; k < n; k++)
+                // If one of the diagonal elements is zero, the 
+                // decomposition (without pivoting) is undefined.
+                if (v[i] == 0) { undefined = true; return; }
+                
+                Parallel.For(i + 1, n, k =>
                 {
-                    Double s = 0;
-                    for (int i = 0; i < j; i++)
-                        s += L[k, i] * v[i];
+                     Double s = 0;
+                     for (int j = 0; j < i; j++)
+                         s += L[k, j] * v[j];
 
-                    L[k, j] = (a[k, j] - s) / d;
-
-                    this.symmetric = this.symmetric & (a[k, j] == a[j, k]);
-                }
+                     L[k, i] = (L[i, k] - s) / d;
+                });
             }
 
             for (int i = 0; i < n; i++)
-                L[i, i] += 1;
+                L[i, i] = 1;
         }
 
-
-        /// <summary>Solves a set of equation systems of type <c>A * X = B</c>.</summary>
+        /// <summary>
+        ///   Solves a set of equation systems of type <c>A * X = B</c>.
+        /// </summary>
+        /// 
         /// <param name="value">Right hand side matrix with as many rows as <c>A</c> and any number of columns.</param>
         /// <returns>Matrix <c>X</c> so that <c>L * L' * X = B</c>.</returns>
         /// <exception cref="T:System.ArgumentException">Matrix dimensions do not match.</exception>
-        /// <exception cref="T:System.InvalidOperationException">Matrix is not symmetric and positive definite.</exception>
+        /// <exception cref="T:System.NonSymmetricMatrixException">Matrix is not symmetric.</exception>
+        /// <exception cref="T:System.NonPositiveDefiniteMatrixException">Matrix is not positive-definite.</exception>
         /// 
         public Double[,] Solve(Double[,] value)
         {
             return Solve(value, false);
         }
 
-        /// <summary>Solves a set of equation systems of type <c>A * X = B</c>.</summary>
+        /// <summary>
+        ///   Solves a set of equation systems of type <c>A * X = B</c>.
+        /// </summary>
+        /// 
         /// <param name="value">Right hand side matrix with as many rows as <c>A</c> and any number of columns.</param>
         /// <returns>Matrix <c>X</c> so that <c>L * L' * X = B</c>.</returns>
         /// <exception cref="T:System.ArgumentException">Matrix dimensions do not match.</exception>
@@ -383,43 +389,44 @@ namespace Accord.Math.Decompositions
             if (value == null)
                 throw new ArgumentNullException("value");
 
-            if (value.GetLength(0) != n)
+            if (value.Rows() != n)
                 throw new ArgumentException("Argument matrix should have the same number of rows as the decomposed matrix.", "value");
-
-            if (!symmetric)
-                throw new NonSymmetricMatrixException("Decomposed matrix is not symmetric.");
 
             if (!robust && !positiveDefinite)
                 throw new NonPositiveDefiniteMatrixException("Decomposed matrix is not positive definite.");
 
+            if (undefined)
+                throw new InvalidOperationException("The decomposition is undefined (zero in diagonal).");
 
-            int count = value.GetLength(1);
-            Double[,] B = inPlace ? value : (Double[,])value.Clone();
+            if (destroyed)
+                throw new InvalidOperationException("The decomposition has been destroyed.");
 
+            // int count = value.Columns();
+            var B = inPlace ? value : value.MemberwiseClone();
+            int m = B.Columns();
 
             // Solve L*Y = B;
             for (int k = 0; k < n; k++)
             {
-                for (int j = 0; j < count; j++)
+                for (int j = 0; j < m; j++)
                 {
                     for (int i = 0; i < k; i++)
                         B[k, j] -= B[i, j] * L[k, i];
-
                     B[k, j] /= L[k, k];
                 }
             }
 
             if (robust)
             {
-                for (int k = 0; k < n; k++)
-                    for (int j = 0; j < count; j++)
+                for (int k = 0; k < D.Length; k++)
+                    for (int j = 0; j < m; j++)
                         B[k, j] /= D[k];
             }
 
             // Solve L'*X = Y;
             for (int k = n - 1; k >= 0; k--)
             {
-                for (int j = 0; j < count; j++)
+                for (int j = 0; j < m; j++)
                 {
                     for (int i = k + 1; i < n; i++)
                         B[k, j] -= B[i, j] * L[i, k];
@@ -431,9 +438,12 @@ namespace Accord.Math.Decompositions
             return B;
         }
 
-        /// <summary>Solves a set of equation systems of type <c>A * X = B</c>.</summary>
-        /// <param name="value">Right hand side matrix with as many rows as <c>A</c> and any number of columns.</param>
-        /// <returns>Matrix <c>X</c> so that <c>L * L' * X = B</c>.</returns>
+        /// <summary>
+        ///   Solves a set of equation systems of type <c>A * x = b</c>.
+        /// </summary>
+        /// 
+        /// <param name="value">Right hand side column vector with as many rows as <c>A</c>.</param>
+        /// <returns>Vector <c>x</c> so that <c>L * L' * x = b</c>.</returns>
         /// <exception cref="T:System.ArgumentException">Matrix dimensions do not match.</exception>
         /// <exception cref="T:System.NonSymmetricMatrixException">Matrix is not symmetric.</exception>
         /// <exception cref="T:System.NonPositiveDefiniteMatrixException">Matrix is not positive-definite.</exception>
@@ -443,7 +453,10 @@ namespace Accord.Math.Decompositions
             return Solve(value, false);
         }
 
-        /// <summary>Solves a set of equation systems of type <c>A * x = b</c>.</summary>
+        /// <summary>
+        ///   Solves a set of equation systems of type <c>A * x = b</c>.
+        /// </summary>
+        /// 
         /// <param name="value">Right hand side column vector with as many rows as <c>A</c>.</param>
         /// <returns>Vector <c>x</c> so that <c>L * L' * x = b</c>.</returns>
         /// <exception cref="T:System.ArgumentException">Matrix dimensions do not match.</exception>
@@ -459,28 +472,28 @@ namespace Accord.Math.Decompositions
             if (value.Length != n)
                 throw new ArgumentException("Argument vector should have the same length as rows in the decomposed matrix.", "value");
 
-            if (!symmetric)
-                throw new NonSymmetricMatrixException("Decomposed matrix is not symmetric.");
-
             if (!robust && !positiveDefinite)
                 throw new NonPositiveDefiniteMatrixException("Decomposed matrix is not positive definite.");
+            
+            if (undefined)
+                throw new InvalidOperationException("The decomposition is undefined (zero in diagonal).");
 
+            if (destroyed)
+                throw new InvalidOperationException("The decomposition has been destroyed.");
 
-            Double[] B = inPlace ? value : (Double[])value.Clone();
-
+            var B = inPlace ? value : value.Copy();
 
             // Solve L*Y = B;
             for (int k = 0; k < n; k++)
             {
                 for (int i = 0; i < k; i++)
                     B[k] -= B[i] * L[k, i];
-
                 B[k] /= L[k, k];
             }
 
             if (robust)
             {
-                for (int k = 0; k < n; k++)
+                for (int k = 0; k < D.Length; k++)
                     B[k] /= D[k];
             }
 
@@ -491,61 +504,202 @@ namespace Accord.Math.Decompositions
                     B[k] -= B[i] * L[i, k];
                 B[k] /= L[k, k];
             }
-
+            
             return B;
         }
 
         /// <summary>
-        ///   Computes the inverse of the decomposed matrix.
+        ///   Solves a set of equation systems of type <c>A * X = I</c>.
         /// </summary>
         /// 
         public Double[,] Inverse()
         {
-            if (!symmetric)
-                throw new NonSymmetricMatrixException("Matrix is not symmetric.");
+            return Solve(Matrix.Identity<Double>(n));
+        }
 
+        /// <summary>
+        ///   Computes the diagonal of the inverse of the decomposed matrix.
+        /// </summary>
+        /// 
+        public Double[] InverseDiagonal(bool destroy = false)
+        {
+            return InverseDiagonal(new Double[n], destroy);
+        }
+        
+        /// <summary>
+        ///   Computes the diagonal of the inverse of the decomposed matrix.
+        /// </summary>
+        ///
+        /// <param name="destroy">True to conserve memory by reusing the
+        ///    same space used to hold the decomposition, thus destroying
+        ///    it in the process. Pass false otherwise.</param>
+        /// <param name="result">The array to hold the result of the 
+        ///    computation. Should be of same length as the the diagonal
+        ///    of the original matrix.</param>
+        /// 
+        public Double[] InverseDiagonal(Double[] result, bool destroy = false)
+        {
             if (!robust && !positiveDefinite)
                 throw new NonPositiveDefiniteMatrixException("Matrix is not positive definite.");
 
+            if (undefined)
+                throw new InvalidOperationException("The decomposition is undefined (zero in diagonal).");
 
-            Double[,] B = new Double[n, n];
-            for (int i = 0; i < n; i++)
-                B[i, i] = 1;
+            if (destroyed)
+                throw new InvalidOperationException("The decomposition has been destroyed.");
 
-            // Solve L*Y = B;
-            for (int k = 0; k < n; k++)
+            Double[,] S;
+
+            if (destroy)
             {
-                for (int j = 0; j < k; j++)
-                {
-                    for (int i = 0; i < k; i++)
-                        B[k, j] -= B[i, j] * L[k, i];
+                S = L; destroyed = true;
+            }
+            else
+            {
+                S = Matrix.Zeros<Double>(n, n);
+            }
 
-                    B[k, j] /= L[k, k];
+            // References:
+            // http://books.google.com/books?id=myzIPBwyBbcC&pg=PA119
+
+            // Compute the inverse S of the lower triangular matrix L
+            // and store in place of the upper triangular part of S.
+
+            for (int j = n - 1; j >= 0; j--)
+            {
+                S[j, j] = 1 / L[j, j];
+                for (int i = j - 1; i >= 0; i--)
+                {
+                    Double sum = 0;
+                    for (int k = i + 1; k <= j; k++)
+                        sum += L[k, i] * S[k, j];
+                    S[i, j] = -sum / L[i, i];
                 }
             }
 
+            // Compute the 2-norm squared of the rows
+            // of the upper (right) triangular matrix S.
             if (robust)
             {
-                for (int k = 0; k < n; k++)
-                    for (int j = 0; j <= k; j++)
-                        B[k, j] /= D[k];
-            }
-
-            // Solve L'*X = Y;
-            for (int k = n - 1; k >= 0; k--)
-            {
-                for (int j = 0; j < n; j++)
+                for (int i = 0; i < n; i++)
                 {
-                    for (int i = k + 1; i < n; i++)
-                        B[k, j] -= B[i, j] * L[i, k];
-
-                    B[k, j] /= L[k, k];
+                    Double sum = 0;
+                    for (int j = i; j < n; j++)
+                        sum += S[i, j] * S[i, j] / D[j];
+                    result[i] = sum;
+                }
+            }
+            else
+            {
+                for (int i = 0; i < n; i++)
+                {
+                    Double sum = 0;
+                    for (int j = i; j < n; j++)
+                        sum += S[i, j] * S[i, j];
+                    result[i] = sum;
                 }
             }
 
-            return B;
+            return result;
         }
 
+        /// <summary>
+        ///   Computes the trace of the inverse of the decomposed matrix.
+        /// </summary>
+        ///
+        /// <param name="destroy">True to conserve memory by reusing the
+        ///    same space used to hold the decomposition, thus destroying
+        ///    it in the process. Pass false otherwise.</param>
+        /// 
+        public Double InverseTrace(bool destroy = false)
+        {
+            if (!robust && !positiveDefinite)
+                throw new NonPositiveDefiniteMatrixException("Matrix is not positive definite.");
+
+            if (undefined)
+                throw new InvalidOperationException("The decomposition is undefined (zero in diagonal).");
+
+            if (destroyed)
+                throw new InvalidOperationException("The decomposition has been destroyed.");
+                
+            Double[,] S;
+
+            if (destroy)
+            {
+                S = L; destroyed = true;
+            }
+            else
+            {
+                S = Matrix.Zeros<Double>(n, n);
+            }
+
+            // References:
+            // http://books.google.com/books?id=myzIPBwyBbcC&pg=PA119
+
+            // Compute the inverse S of the lower triangular matrix L
+            // and store in place of the upper triangular part of S.
+
+            for (int j = n - 1; j >= 0; j--)
+            {
+                S[j, j] = 1 / L[j, j];
+                for (int i = j - 1; i >= 0; i--)
+                {
+                    Double sum = 0;
+                    for (int k = i + 1; k <= j; k++)
+                        sum += L[k, i] * S[k, j];
+                    S[i, j] = -sum / L[i, i];
+                }
+            }
+
+            // Compute the 2-norm squared of the rows
+            // of the upper (right) triangular matrix S.
+            Double trace = 0;
+            
+            if (robust)
+            {
+                for (int i = 0; i < n; i++)
+                    for (int j = i; j < n; j++)
+                        trace += S[i, j] * S[i, j] / D[j];
+            }
+            else
+            {
+                for (int i = 0; i < n; i++)
+                    for (int j = i; j < n; j++)
+                        trace += S[i, j] * S[i, j];
+            }
+            
+            return trace;
+        }
+
+        /// <summary>
+        ///   Reverses the decomposition, reconstructing the original matrix <c>X</c>.
+        /// </summary>
+        /// 
+        public Double[,] Reverse()
+        {
+            if (destroyed)
+                throw new InvalidOperationException("The decomposition has been destroyed.");
+                
+            if (undefined)
+                throw new InvalidOperationException("The decomposition is undefined (zero in diagonal).");
+
+            if (robust)
+                return LeftTriangularFactor.Dot(DiagonalMatrix).DotWithTransposed(LeftTriangularFactor);
+            return LeftTriangularFactor.DotWithTransposed(LeftTriangularFactor);
+        }
+
+        /// <summary>
+        ///   Computes <c>(Xt * X)^1</c> (the inverse of the covariance matrix). This
+        ///   matrix can be used to determine standard errors for the coefficients when
+        ///   solving a linear set of equations through any of the <see cref="Solve(Double[,])"/>
+        ///   methods.
+        /// </summary>
+        /// 
+        public Double[,] GetInformationMatrix()
+        {
+            var X = Reverse();
+            return X.TransposeAndDot(X).Inverse();
+        }
 
         /// <summary>
         ///   Creates a new Cholesky decomposition directly from
@@ -556,15 +710,11 @@ namespace Accord.Math.Decompositions
         public static CholeskyDecomposition FromLeftTriangularMatrix(Double[,] leftTriangular)
         {
             var chol = new CholeskyDecomposition();
-            chol.n = leftTriangular.GetLength(0);
+            chol.n = leftTriangular.Rows();
             chol.L = leftTriangular;
-            chol.symmetric = true;
             chol.positiveDefinite = true;
             chol.robust = false;
-            chol.D = new Double[chol.n];
-            for (int i = 0; i < chol.D.Length; i++)
-                chol.D[i] = 1;
-
+            chol.D = Vector.Ones<Double>(chol.n);
             return chol;
         }
 
@@ -585,12 +735,13 @@ namespace Accord.Math.Decompositions
         public object Clone()
         {
             var clone = new CholeskyDecomposition();
-            clone.L = (Double[,])L.Clone();
+            clone.L = L.MemberwiseClone();
             clone.D = (Double[])D.Clone();
+            clone.destroyed = destroyed;
             clone.n = n;
+            clone.undefined = undefined;
             clone.robust = robust;
             clone.positiveDefinite = positiveDefinite;
-            clone.symmetric = symmetric;
             return clone;
         }
 

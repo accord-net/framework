@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -53,17 +53,8 @@ namespace Accord.Math.Distances
     /// 
     /// <seealso cref="Levenshtein{T}"/>
     /// 
-    public sealed class Levenshtein : IMetric<string>
+    public struct Levenshtein : IMetric<string>
     {
-
-        /// <summary>
-        ///   Initializes a new instance of the <see cref="Levenshtein"/> class.
-        /// </summary>
-        /// 
-        public Levenshtein()
-        {
-        }
-
         /// <summary>
         ///   Computes the distance <c>d(x,y)</c> between points
         ///   <paramref name="x"/> and <paramref name="y"/>.
@@ -78,7 +69,7 @@ namespace Accord.Math.Distances
         ///   to the distance function implemented by this class.
         /// </returns>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public double Distance(string x, string y)

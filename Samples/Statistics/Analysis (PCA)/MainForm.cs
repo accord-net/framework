@@ -1,7 +1,7 @@
 // Accord.NET Sample Applications
 // http://accord-framework.net
 //
-// Copyright © 2009-2014, César Souza
+// Copyright © 2009-2017, César Souza
 // All rights reserved. 3-BSD License:
 //
 //   Redistribution and use in source and binary forms, with or without
@@ -50,6 +50,7 @@ namespace Analysis.PCA
         private DescriptiveAnalysis sda;
 
         string[] columnNames;
+        double[][] inputs;
 
 
 
@@ -91,12 +92,10 @@ namespace Analysis.PCA
 
 
             // Create a matrix from the source data table
-            double[,] sourceMatrix = (dgvAnalysisSource.DataSource as DataTable).ToMatrix(out columnNames);
+            this.inputs = (dgvAnalysisSource.DataSource as DataTable).ToJagged(out columnNames);
 
             // Create and compute a new Simple Descriptive Analysis
-            sda = new DescriptiveAnalysis(sourceMatrix, columnNames);
-
-            sda.Compute();
+            sda = new DescriptiveAnalysis(columnNames).Learn(inputs);
 
             // Show the descriptive analysis on the screen
             dgvDistributionMeasures.DataSource = sda.Measures;
@@ -109,17 +108,16 @@ namespace Analysis.PCA
             dgvStatisticCorrelation.DataSource = new ArrayDataView(sda.CorrelationMatrix, columnNames);
 
 
-            AnalysisMethod method = (AnalysisMethod)cbMethod.SelectedValue;
+            var method = (PrincipalComponentMethod)cbMethod.SelectedValue;
 
             // Create the Principal Component Analysis of the data 
-            pca = new PrincipalComponentAnalysis(sda.Source, method);
+            pca = new PrincipalComponentAnalysis(method);
 
-
-            pca.Compute();  // Finally, compute the analysis!
+            pca.Learn(inputs);  // Finally, compute the analysis!
 
 
             // Populate components overview with analysis data
-            dgvFeatureVectors.DataSource = new ArrayDataView(pca.ComponentMatrix);
+            dgvFeatureVectors.DataSource = new ArrayDataView(pca.ComponentVectors);
             dgvPrincipalComponents.DataSource = pca.Components;
             dgvProjectionComponents.DataSource = pca.Components;
             distributionView.DataSource = pca.Components;
@@ -147,10 +145,10 @@ namespace Analysis.PCA
 
             string[] colNames;
             int components = (int)numComponents.Value;
-            double[,] projectionSource = (dgvProjectionSource.DataSource as DataTable).ToMatrix(out colNames);
+            double[][] projectionSource = (dgvProjectionSource.DataSource as DataTable).ToJagged(out colNames);
 
-            // Compute the projection
-            double[,] projection = pca.Transform(projectionSource, components);
+            pca.NumberOfOutputs = components; // set the desired number of components
+            double[][] projection = pca.Transform(projectionSource); // project the data
 
             dgvProjectionResult.DataSource = new ArrayDataView(projection, GenerateComponentNames(components));
             dgvReversionSource.DataSource = dgvProjectionResult.DataSource;
@@ -168,14 +166,14 @@ namespace Analysis.PCA
                 return;
             }
 
-            double[,] reversionSource = (double[,])(dgvReversionSource.DataSource as ArrayDataView).ArrayData;
+            double[][] reversionSource = (double[][])(dgvReversionSource.DataSource as ArrayDataView).ArrayData;
 
             // Compute the projection reversion
-            double[,] reversion = pca.Revert(reversionSource);
+            double[][] reversion = pca.Revert(reversionSource);
 
             dgvReversionResult.DataSource = new ArrayDataView(reversion, columnNames);
         }
-        
+
 
 
         /// <summary>
@@ -252,21 +250,17 @@ namespace Analysis.PCA
             if (dgvDistributionMeasures.CurrentRow != null)
             {
                 DataGridViewRow row = (DataGridViewRow)dgvDistributionMeasures.CurrentRow;
-                dataHistogramView1.DataSource =
-                    ((DescriptiveMeasures)row.DataBoundItem).Samples;
+                DescriptiveMeasures measures = (DescriptiveMeasures)row.DataBoundItem;
+                dataHistogramView1.DataSource = inputs.GetColumn(measures.Index);
             }
         }
-
-
 
 
         private string[] GenerateComponentNames(int number)
         {
             string[] names = new string[number];
             for (int i = 0; i < names.Length; i++)
-            {
                 names[i] = "Component " + (i + 1);
-            }
             return names;
         }
 

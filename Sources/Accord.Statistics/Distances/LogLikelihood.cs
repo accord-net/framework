@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -25,6 +25,7 @@ namespace Accord.Math.Distances
     using Accord.Math.Decompositions;
     using Accord.Statistics.Distributions.Multivariate;
     using System;
+    using Accord.Compat;
 
     /// <summary>
     ///   Log-likelihood distance between a sample and a statistical distribution.

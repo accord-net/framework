@@ -12,10 +12,11 @@
     <OutputPath>bin</OutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="Archiver\Build.cmd" />
-    <None Include="Archiver\Samples.cmd" />
-    <None Include="CreateRelease.cmd" />
+    <None Include="Archiver\package-framework.cmd" />
+    <None Include="Archiver\package-samples.cmd" />
+    <None Include="create-release.cmd" />
     <None Include="Installer\Build.cmd" />
+    <None Include="NuGet\Accord.DataSets.nuspec" />
     <None Include="NuGet\Accord.Fuzzy.nuspec" />
     <None Include="NuGet\Accord.Genetic.nuspec" />
     <None Include="NuGet\Accord.Audio.DirectSound.nuspec" />
@@ -28,30 +29,40 @@
     <None Include="NuGet\Accord.Controls.Imaging.nuspec" />
     <None Include="NuGet\Accord.Controls.nuspec" />
     <None Include="NuGet\Accord.Controls.Vision.nuspec" />
+    <None Include="NuGet\Accord.Imaging.Noncommercial.nuspec" />
     <None Include="NuGet\Accord.Imaging.nuspec" />
     <None Include="NuGet\Accord.IO.nuspec" />
     <None Include="NuGet\Accord.MachineLearning.nuspec" />
+    <None Include="NuGet\Accord.Math.Noncommercial.nuspec" />
     <None Include="NuGet\Accord.Math.nuspec" />
     <None Include="NuGet\Accord.Neuro.nuspec" />
     <None Include="NuGet\Accord.nuspec" />
     <None Include="NuGet\Accord.Statistics.nuspec" />
-    <None Include="NuGet\Accord.Video.FFMPEG.nuspec" />
+    <None Include="NuGet\Accord.Text.nuspec" />
+    <None Include="NuGet\Accord.Video.FFMPEG.nuspec">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="NuGet\Accord.Video.FFMPEG.x64.nuspec">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="NuGet\Accord.Video.Kinect.nuspec" />
     <None Include="NuGet\Accord.Video.Ximea.nuspec" />
     <None Include="NuGet\Accord.Video.VFW.nuspec" />
     <None Include="NuGet\Accord.Video.DirectShow.nuspec" />
     <None Include="NuGet\Accord.Video.nuspec" />
     <None Include="NuGet\Accord.Vision.nuspec" />
-    <None Include="NuGet\Build.cmd" />
     <None Include="NuGet\Accord.MachineLearning.GPL.nuspec" />
-    <None Include="NuGet\Push.cmd" />
-    <None Include="NuGet\Update.cmd" />
+    <None Include="NuGet\create-packages.cmd" />
     <None Include="NuGet\NuGet.exe" />
-    <None Include="PublishNuGet.cmd" />
+    <None Include="NuGet\push-packages.cmd" />
+    <None Include="NuGet\update-nuget.cmd" />
+    <None Include="publish-nuget.cmd" />
     <None Include="Scripts\Accord.targets" />
     <None Include="Scripts\Accord.Video.FFMPEG.targets" />
     <None Include="Scripts\Accord.Video.Kinect.targets" />
-    <None Include="version.cmd" />
+    <None Include="Scripts\UpdateVersion.cmd" />
+    <None Include="Scripts\UpdateVersion.ps1" />
+    <None Include="update-version.cmd" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
@@ -59,6 +70,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scripts\UpdateVersion.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

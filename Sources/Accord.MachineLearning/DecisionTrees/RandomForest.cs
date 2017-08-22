@@ -5,7 +5,7 @@
 // Copyright © Alex Risman, 2016
 // https://github.com/mthmn20
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -26,44 +26,84 @@
 namespace Accord.MachineLearning.DecisionTrees
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
-    using System.Data;
     using System.Runtime.Serialization;
-    using System.Runtime.Serialization.Formatters.Binary;
-    using System.IO;
-    using Accord.Statistics.Filters;
     using Accord.Math;
-    using AForge;
-    using Accord.Statistics;
+    using Accord.Compat;
     using System.Threading;
+    using System.Threading.Tasks;
 
 
     /// <summary>
-    ///   Random Forest
+    ///   Random Forest.
     /// </summary>
     /// 
+    /// <remarks>
+    /// <para>
+    ///   Represents a random forest of <see cref="DecisionTree"/>s. For 
+    ///   sample usage and example of learning, please see the documentation
+    ///   page for <see cref="RandomForestLearning"/>.</para>
+    /// </remarks>
+    /// 
+    /// <example>
+    /// <para>
+    ///   This example shows the simplest way to induce a decision tree with continuous variables.</para>
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\DecisionTrees\RandomForestTest.cs" region="doc_iris" />
+    /// <para>
+    ///   The next example shows how to induce a decision tree with continuous variables using a 
+    ///   <see cref="Accord.Statistics.Filters.Codification">codebook</see> to manage how input 
+    ///   variables should be encoded.</para>
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\DecisionTrees\RandomForestTest.cs" region="doc_nursery" />
+    /// </example>
+    /// 
+    /// <seealso cref="DecisionTree"/>
+    /// <seealso cref="RandomForestLearning"/>
+    /// 
     [Serializable]
-    public class RandomForest
+    public class RandomForest : MulticlassClassifierBase, IParallel
     {
         private DecisionTree[] trees;
 
-        private int classes;
+        [NonSerialized]
+        private ParallelOptions parallelOptions;
+
 
         /// <summary>
         ///   Gets the trees in the random forest.
         /// </summary>
         /// 
-        public DecisionTree[] Trees { get { return trees; } }
+        public DecisionTree[] Trees
+        {
+            get { return trees; }
+        }
 
         /// <summary>
         ///   Gets the number of classes that can be recognized
         ///   by this random forest.
         /// </summary>
         /// 
-        public int Classes { get { return classes; } }
+        [Obsolete("Please use NumberOfOutputs instead.")]
+        public int Classes { get { return NumberOfOutputs; } }
+
+        /// <summary>
+        ///   Gets or sets the parallelization options for this algorithm.
+        /// </summary>
+        /// 
+        public ParallelOptions ParallelOptions
+        {
+            get { return parallelOptions; }
+            set { parallelOptions = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets a cancellation token that can be used
+        /// to cancel the algorithm while it is running.
+        /// </summary>
+        /// 
+        public CancellationToken Token
+        {
+            get { return ParallelOptions.CancellationToken; }
+            set { ParallelOptions.CancellationToken = value; }
+        }
 
         /// <summary>
         ///   Creates a new random forest.
@@ -75,7 +115,9 @@ namespace Accord.MachineLearning.DecisionTrees
         public RandomForest(int trees, int classes)
         {
             this.trees = new DecisionTree[trees];
-            this.classes = classes;
+            this.NumberOfOutputs = classes;
+            this.NumberOfClasses = classes;
+            this.ParallelOptions = new ParallelOptions();
         }
 
         /// <summary>
@@ -86,17 +128,47 @@ namespace Accord.MachineLearning.DecisionTrees
         /// 
         /// <returns>The forest decision for the given vector.</returns>
         /// 
+        [Obsolete("Please use Decide() instead.")]
         public int Compute(double[] data)
         {
-            int[] responses = new int[classes];
-            Parallel.For(0, trees.Length, i =>
+            return Decide(data);
+        }
+
+
+        /// <summary>
+        /// Computes a class-label decision for a given <paramref name="input" />.
+        /// </summary>
+        /// <param name="input">The input vector that should be classified into
+        /// one of the <see cref="ITransform.NumberOfOutputs" /> possible classes.</param>
+        /// <returns>A class-label that best described <paramref name="input" /> according
+        /// to this classifier.</returns>
+        public override int Decide(double[] input)
+        {
+            int[] responses = new int[NumberOfOutputs];
+            if (ParallelOptions.MaxDegreeOfParallelism == 1)
             {
-                int j = trees[i].Decide(data);
-                Interlocked.Increment(ref responses[j]);
-            });
+                for (int i = 0; i < trees.Length; i++)
+                    Interlocked.Increment(ref responses[trees[i].Decide(input)]);
+            }
+            else
+            {
+                Parallel.For(0, trees.Length, ParallelOptions, i =>
+                {
+                    Interlocked.Increment(ref responses[trees[i].Decide(input)]);
+                });
+            }
 
             return responses.ArgMax();
         }
 
+        /// <summary>
+        ///   Called when the object is being deserialized.
+        /// </summary>
+        /// 
+        [OnDeserializing]
+        protected void OnDeserializingMethod(StreamingContext context)
+        {
+            this.parallelOptions = new ParallelOptions();
+        }
     }
 }

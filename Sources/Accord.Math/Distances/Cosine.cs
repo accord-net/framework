@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -24,22 +24,17 @@ namespace Accord.Math.Distances
 {
     using System;
     using System.Runtime.CompilerServices;
+    using Accord.Compat;
 
     /// <summary>
-    ///   Cosine distance.
+    ///   Cosine distance. For a proper distance metric, see <see cref="Angular"/>.
     /// </summary>
     /// 
+    /// <seealso cref="Angular"/>
+    /// 
     [Serializable]
-    public sealed class Cosine : IDistance<double[]>, ISimilarity<double[]>
+    public struct Cosine : IDistance<double[]>, ISimilarity<double[]>
     {
-        /// <summary>
-        ///   Initializes a new instance of the <see cref="Cosine"/> class.
-        /// </summary>
-        /// 
-        public Cosine()
-        {
-        }
-
         /// <summary>
         ///   Computes the distance <c>d(x,y)</c> between points
         ///   <paramref name="x"/> and <paramref name="y"/>.
@@ -54,7 +49,7 @@ namespace Accord.Math.Distances
         ///   to the distance function implemented by this class.
         /// </returns>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public double Distance(double[] x, double[] y)
@@ -83,7 +78,7 @@ namespace Accord.Math.Distances
         /// 
         /// <returns>A similarity measure between x and y.</returns>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public double Similarity(double[] x, double[] y)

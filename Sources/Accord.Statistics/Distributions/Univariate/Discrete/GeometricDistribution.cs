@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -25,7 +25,7 @@ namespace Accord.Statistics.Distributions.Univariate
     using System;
     using Accord.Math;
     using Accord.Statistics.Distributions.Fitting;
-    using AForge;
+    using Accord.Compat;
 
     /// <summary>
     ///    (Shifted) Geometric Distribution.
@@ -86,7 +86,8 @@ namespace Accord.Statistics.Distributions.Univariate
     /// 
     [Serializable]
     public class GeometricDistribution : UnivariateDiscreteDistribution,
-        IFittableDistribution<double, IFittingOptions>
+        IFittableDistribution<double, IFittingOptions>,
+        ISampleableDistribution<int>
     {
 
         // Distribution parameters
@@ -111,7 +112,7 @@ namespace Accord.Statistics.Distributions.Univariate
         public GeometricDistribution([Unit] double probabilityOfSuccess)
         {
             if (probabilityOfSuccess < 0 || probabilityOfSuccess > 1)
-                throw new ArgumentOutOfRangeException("probabilityOfSuccess", 
+                throw new ArgumentOutOfRangeException("probabilityOfSuccess",
                     "A probability must be between 0 and 1.");
 
             this.p = probabilityOfSuccess;
@@ -156,6 +157,7 @@ namespace Accord.Statistics.Distributions.Univariate
             get
             {
                 double median = Math.Ceiling(-1.0 / Math.Log(1 - p, 2)) - 1;
+                Accord.Diagnostics.Debug.Assert(median == base.Median);
                 return median;
             }
         }
@@ -193,7 +195,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override IntRange Support
         {
-            get { return new IntRange(1, Int32.MaxValue); }
+            get { return new IntRange(0, Int32.MaxValue); }
         }
 
         /// <summary>
@@ -208,7 +210,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value or any value smaller than it will occur.
         /// </remarks>
         /// 
-        public override double DistributionFunction(int k)
+        protected internal override double InnerDistributionFunction(int k)
         {
             return 1 - Math.Pow(1 - p, k + 1);
         }
@@ -230,11 +232,8 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value <c>x</c> will occur.
         /// </remarks>
         /// 
-        public override double ProbabilityMassFunction(int k)
+        protected internal override double InnerProbabilityMassFunction(int k)
         {
-            if (k < 0) 
-                return 0;
-
             return Math.Pow(1 - p, k) * p;
         }
 
@@ -255,11 +254,8 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value <c>k</c> will occur.
         /// </remarks>
         /// 
-        public override double LogProbabilityMassFunction(int k)
+        protected internal override double InnerLogProbabilityMassFunction(int k)
         {
-            if (k < 0)
-                return Double.NegativeInfinity; // TODO: Test
-
             return k * Math.Log(1.0 - p) + Math.Log(p);
         }
 
@@ -273,13 +269,15 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <returns>
         ///   A sample which could original the given probability
-        ///   value when applied in the <see cref="DistributionFunction(int)"/>.
+        ///   value when applied in the <see cref="UnivariateDiscreteDistribution.DistributionFunction(int)"/>.
         /// </returns>
         /// 
-        public override int InverseDistributionFunction(double p)
+        protected override int InnerInverseDistributionFunction(double p)
         {
-            double ratio = Special.Log1m(p) / Special.Log1m(this.p);
-            return (int)Math.Floor(ratio);
+            double num = Special.Log1m(p);
+            double den = Special.Log1m(this.p);
+            double ratio = num / den;
+            return (int)Math.Ceiling(ratio) - 1;
         }
 
         /// <summary>
@@ -313,6 +311,152 @@ namespace Accord.Statistics.Distributions.Univariate
                 mean = Measures.WeightedMean(observations, weights);
 
             p = 1.0 / (1.0 - mean);
+        }
+
+        /// <summary>
+        /// Generates a random observation from the current distribution.
+        /// </summary>
+        /// 
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        /// 
+        /// <returns>
+        /// A random observations drawn from this distribution.
+        /// </returns>
+        /// 
+        public override int Generate(Random source)
+        {
+             return (int)Random(p, source);
+        }
+
+        /// <summary>
+        /// Generates a random vector of observations from the current distribution.
+        /// </summary>
+        /// 
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="result">The location where to store the samples.</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        /// 
+        /// <returns>
+        /// A random vector of observations drawn from this distribution.
+        /// </returns>
+        /// 
+        public override double[] Generate(int samples, double[] result, Random source)
+        {
+            return Random(p, samples, result, source);
+        }
+
+        /// <summary>
+        /// Generates a random vector of observations from the current distribution.
+        /// </summary>
+        /// 
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="result">The location where to store the samples.</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        ///   
+        /// <returns>
+        /// A random vector of observations drawn from this distribution.
+        /// </returns>
+        public override int[] Generate(int samples, int[] result, Random source)
+        {
+            return Random(p, samples, result, source);
+        }
+
+        /// <summary>
+        /// Generates a random observation from the current distribution.
+        /// </summary>
+        /// <param name="p">The probability of success.</param>
+        /// <returns>
+        /// A random observations drawn from this distribution.
+        /// </returns>
+        public static double Random(double p)
+        {
+            return Random(p, Accord.Math.Random.Generator.Random);
+        }
+
+        /// <summary>
+        /// Generates a random vector of observations from the current distribution.
+        /// </summary>
+        /// <param name="p">The probability of success.</param>
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="result">The location where to store the samples.</param>
+        /// <returns>
+        /// A random vector of observations drawn from this distribution.
+        /// </returns>
+        public static double[] Random(double p, int samples, double[] result)
+        {
+            return Random(p, samples, result, Accord.Math.Random.Generator.Random);
+        }
+
+        /// <summary>
+        /// Generates a random vector of observations from the current distribution.
+        /// </summary>
+        /// <param name="p">The probability of success.</param>
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="result">The location where to store the samples.</param>
+        /// <returns>
+        /// A random vector of observations drawn from this distribution.
+        /// </returns>
+
+        public static int[] Random(double p, int samples, int[] result)
+        {
+            return Random(p, samples, result, Accord.Math.Random.Generator.Random);
+        }
+
+        /// <summary>
+        /// Generates a random observation from the current distribution.
+        /// </summary>
+        /// <param name="p">The probability of success.</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        /// <returns>
+        /// A random observations drawn from this distribution.
+        /// </returns>
+        public static double Random(double p, Random source)
+        {
+            return Math.Floor(Special.Log1m(source.NextDouble()) / Special.Log1m(p));
+        }
+
+        /// <summary>
+        /// Generates a random vector of observations from the current distribution.
+        /// </summary>
+        /// <param name="p">The probability of success.</param>
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="result">The location where to store the samples.</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        ///   
+        /// <returns>
+        /// A random vector of observations drawn from this distribution.
+        /// </returns>
+        /// 
+        public static double[] Random(double p, int samples, double[] result, Random source)
+        {
+            for (int i = 0; i < samples; i++)
+                result[i] = Math.Floor(Special.Log1m(source.NextDouble()) / Special.Log1m(p));
+            return result;
+        }
+
+        /// <summary>
+        /// Generates a random vector of observations from the current distribution.
+        /// </summary>
+        /// <param name="p">The probability of success.</param>
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="result">The location where to store the samples.</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        ///   
+        /// <returns>
+        /// A random vector of observations drawn from this distribution.
+        /// </returns>
+        /// 
+        public static int[] Random(double p, int samples, int[] result, Random source)
+        {
+            for (int i = 0; i < samples; i++)
+                result[i] = (int)Math.Floor(Special.Log1m(source.NextDouble()) / Special.Log1m(p));
+            return result;
         }
 
         /// <summary>

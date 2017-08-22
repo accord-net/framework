@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -24,12 +24,14 @@ namespace Accord.Statistics.Kernels.Sparse
 {
     using System;
     using Accord.Math.Distances;
+    using Accord.Compat;
 
     /// <summary>
     ///   Sparse Laplacian Kernel.
     /// </summary>
     /// 
     [Serializable]
+    [Obsolete("Please use the Laplacian kernel with Sparse<double> instead.")]
     public sealed class SparseLaplacian : KernelBase, IKernel, IDistance
     {
         private double sigma;

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -27,27 +27,11 @@ namespace Accord.Tests.Statistics
     using Accord.Statistics.Kernels;
     using Accord.Math;
     using System;
+    using IO;
 
     [TestFixture]
     public class KernelDiscriminantAnalysisTest
     {
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
         [Test]
         public void ClassifyTest()
         {
@@ -91,25 +75,121 @@ namespace Accord.Tests.Statistics
             // Now we can project the data into KDA space:
             double[][] projection = kda.Transform(inputs);
 
+            double[][] classifierProjection = kda.Classifier.First.Transform(inputs);
+            Assert.IsTrue(projection.IsEqual(classifierProjection));
+
             // Or perform classification using:
             int[] results = kda.Classify(inputs);
 
+            string str = projection.ToCSharp();
+
+            double[][] expected = new double[][] {
+                new double[] { 80.7607049998409, -5.30485371541545E-06, 6.61304584781419E-06, 4.52807990036774E-06, -3.44409628150189E-06, 3.69094504515388E-06, -1.33641000168438E-05, -0.000132874977040842, -0.000261921590627878, 1.22137997452386 },
+                new double[] { 67.6629612351861, 6.80622743409742E-06, -8.48466262226566E-06, -5.80961187779394E-06, 4.4188405141643E-06, -4.73555212510135E-06, 1.71463925084936E-05, 0.000170481102685471, 0.000336050342774286, -1.5670535522193 },
+                new double[] { 59.8679301679674, 4.10375477777336E-06, -5.11575246520124E-06, -3.50285421113483E-06, 2.66430090034575E-06, -2.85525936627451E-06, 1.03382660725515E-05, 0.00010279007663172, 0.000202618589039361, -0.944841112367518 },
+                new double[] { 101.494441852779, 1.02093411395998E-05, -1.27269939227403E-05, -8.71441780958548E-06, 6.62826077091339E-06, -7.10332818965043E-06, 2.57195887591877E-05, 0.000255721654028207, 0.000504075514164981, -2.35058032832894 },
+                new double[] { 104.145798201497, 2.80256425000402E-06, -3.49368461627364E-06, -2.39219308895144E-06, 1.81952256639306E-06, -1.94993321933623E-06, 7.06027928387698E-06, 7.01981011275166E-05, 0.000138373670580449, -0.645257345031474 },
+                new double[] { 242.123077020588, 9.00824221261587E-06, -1.12297005614437E-05, -7.689192102589E-06, 5.84846541151762E-06, -6.26764250277745E-06, 2.26937548148953E-05, 0.000225636753569347, 0.000444772512580016, -2.07404146617259 },
+                new double[] { 171.808759436683, 9.60879168943052E-06, -1.19783472456447E-05, -8.2018049702981E-06, 6.23836308744075E-06, -6.68548535731617E-06, 2.42066717959233E-05, 0.000240679203812988, 0.000474424013376051, -2.21231089725078 },
+                new double[] { 203.147921684494, -4.5041210583463E-06, 5.61485022387842E-06, 3.8445962076139E-06, -2.92423269243614E-06, 3.13382127359318E-06, -1.13468773577097E-05, -0.000112818376692303, -0.000222386256126583, 1.03702073308629 },
+                new double[] { 200.496565335776, 2.90265583302585E-06, -3.61845908969372E-06, -2.47762852723099E-06, 1.88450551963371E-06, -2.01957368695105E-06, 7.31243213181187E-06, 7.27051762225983E-05, 0.000143315587422421, -0.668302250211177 },
+                new double[] { 244.774433369306, 1.60146531058558E-06, -1.99639123366069E-06, -1.36696743169296E-06, 1.0397271781315E-06, -1.11424755644407E-06, 4.03444536090092E-06, 4.01132006970784E-05, 7.90706689741683E-05, -0.368718482875124 } 
+            };
+
+            Assert.IsTrue(expected.IsEqual(projection, 1e-6));
 
             // Test the classify method
             for (int i = 0; i < 5; i++)
             {
-                int expected = 0;
                 int actual = results[i];
-                Assert.AreEqual(expected, actual);
+                Assert.AreEqual(0, actual);
             }
 
             for (int i = 5; i < 10; i++)
             {
-                int expected = 1;
                 int actual = results[i];
-                Assert.AreEqual(expected, actual);
+                Assert.AreEqual(1, actual);
+            }
+        }
+
+        [Test]
+        public void learn_test()
+        {
+            #region doc_learn
+            // Create some sample input data instances. This is the same
+            // data used in the Gutierrez-Osuna's example available on:
+            // http://research.cs.tamu.edu/prism/lectures/pr/pr_l10.pdf
+
+            double[][] inputs = 
+            {
+                // Class 0
+                new double[] {  4,  1 }, 
+                new double[] {  2,  4 },
+                new double[] {  2,  3 },
+                new double[] {  3,  6 },
+                new double[] {  4,  4 },
+
+                // Class 1
+                new double[] {  9, 10 },
+                new double[] {  6,  8 },
+                new double[] {  9,  5 },
+                new double[] {  8,  7 },
+                new double[] { 10,  8 }
+            };
+
+            int[] output = 
+            {
+                0, 0, 0, 0, 0, // The first five are from class 0
+                1, 1, 1, 1, 1  // The last five are from class 1
+            };
+
+            
+            // We'll create a KDA using a Linear kernel
+            var kda = new KernelDiscriminantAnalysis()
+            {
+                Kernel = new Linear() // We can choose any kernel function
+            };
+
+            // Compute the analysis and create a classifier
+            var classifier = kda.Learn(inputs, output); 
+
+            // Now we can project the data into KDA space:
+            double[][] projection = kda.Transform(inputs);
+
+            // Or perform classification using:
+            int[] results = kda.Classify(inputs);
+            #endregion
+
+            double[][] classifierProjection = kda.Classifier.First.Transform(inputs);
+            Assert.IsTrue(projection.IsEqual(classifierProjection));
+            
+            double[][] expected = new double[][] {
+                new double[] { 80.7607049998409, -5.30485371541545E-06, 6.61304584781419E-06, 4.52807990036774E-06, -3.44409628150189E-06, 3.69094504515388E-06, -1.33641000168438E-05, -0.000132874977040842, -0.000261921590627878, 1.22137997452386 },
+                new double[] { 67.6629612351861, 6.80622743409742E-06, -8.48466262226566E-06, -5.80961187779394E-06, 4.4188405141643E-06, -4.73555212510135E-06, 1.71463925084936E-05, 0.000170481102685471, 0.000336050342774286, -1.5670535522193 },
+                new double[] { 59.8679301679674, 4.10375477777336E-06, -5.11575246520124E-06, -3.50285421113483E-06, 2.66430090034575E-06, -2.85525936627451E-06, 1.03382660725515E-05, 0.00010279007663172, 0.000202618589039361, -0.944841112367518 },
+                new double[] { 101.494441852779, 1.02093411395998E-05, -1.27269939227403E-05, -8.71441780958548E-06, 6.62826077091339E-06, -7.10332818965043E-06, 2.57195887591877E-05, 0.000255721654028207, 0.000504075514164981, -2.35058032832894 },
+                new double[] { 104.145798201497, 2.80256425000402E-06, -3.49368461627364E-06, -2.39219308895144E-06, 1.81952256639306E-06, -1.94993321933623E-06, 7.06027928387698E-06, 7.01981011275166E-05, 0.000138373670580449, -0.645257345031474 },
+                new double[] { 242.123077020588, 9.00824221261587E-06, -1.12297005614437E-05, -7.689192102589E-06, 5.84846541151762E-06, -6.26764250277745E-06, 2.26937548148953E-05, 0.000225636753569347, 0.000444772512580016, -2.07404146617259 },
+                new double[] { 171.808759436683, 9.60879168943052E-06, -1.19783472456447E-05, -8.2018049702981E-06, 6.23836308744075E-06, -6.68548535731617E-06, 2.42066717959233E-05, 0.000240679203812988, 0.000474424013376051, -2.21231089725078 },
+                new double[] { 203.147921684494, -4.5041210583463E-06, 5.61485022387842E-06, 3.8445962076139E-06, -2.92423269243614E-06, 3.13382127359318E-06, -1.13468773577097E-05, -0.000112818376692303, -0.000222386256126583, 1.03702073308629 },
+                new double[] { 200.496565335776, 2.90265583302585E-06, -3.61845908969372E-06, -2.47762852723099E-06, 1.88450551963371E-06, -2.01957368695105E-06, 7.31243213181187E-06, 7.27051762225983E-05, 0.000143315587422421, -0.668302250211177 },
+                new double[] { 244.774433369306, 1.60146531058558E-06, -1.99639123366069E-06, -1.36696743169296E-06, 1.0397271781315E-06, -1.11424755644407E-06, 4.03444536090092E-06, 4.01132006970784E-05, 7.90706689741683E-05, -0.368718482875124 } 
+            };
+
+            Assert.IsTrue(expected.Get(null, 0, 2).IsEqual(projection, 1e-6));
+
+            // Test the classify method
+            for (int i = 0; i < 5; i++)
+            {
+                int actual = results[i];
+                Assert.AreEqual(0, actual);
             }
 
+            for (int i = 5; i < 10; i++)
+            {
+                int actual = results[i];
+                Assert.AreEqual(1, actual);
+            }
         }
 
 
@@ -143,7 +223,7 @@ namespace Accord.Tests.Statistics
             };
 
             // Create a new Linear Discriminant Analysis object
-            KernelDiscriminantAnalysis lda = new KernelDiscriminantAnalysis(inputs, output, new Linear());
+            var lda = new KernelDiscriminantAnalysis(inputs, output, new Linear());
 
             // Compute the analysis
             lda.Compute();
@@ -162,7 +242,6 @@ namespace Accord.Tests.Statistics
                 int actual = lda.Classify(inputs.GetRow(i)); 
                 Assert.AreEqual(expected, actual);
             }
-            
         }
 
         [Test]
@@ -179,7 +258,7 @@ namespace Accord.Tests.Statistics
 
             IKernel kernel = new Gaussian(0.1);
 
-            KernelDiscriminantAnalysis target = new KernelDiscriminantAnalysis(inputs, output, kernel);
+            var target = new KernelDiscriminantAnalysis(inputs, output, kernel);
 
             Assert.AreEqual(3, target.Classes.Count);
             Assert.AreEqual(0, target.Classes[0].Index);
@@ -193,7 +272,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(kernel, target.Kernel);
             Assert.AreEqual(1e-4, target.Regularization);
             Assert.AreEqual(inputs, target.Source);
-            Assert.AreEqual(0.001, target.Threshold);
+            //Assert.AreEqual(0.001, target.Threshold);
 
             Assert.IsNull(target.CumulativeProportions);
             Assert.IsNull(target.DiscriminantMatrix);
@@ -220,7 +299,7 @@ namespace Accord.Tests.Statistics
             int[] output = { 0, 1 };
 
             IKernel kernel = new Gaussian(0.1);
-            KernelDiscriminantAnalysis target = new KernelDiscriminantAnalysis(inputs, output, kernel);
+            var target = new KernelDiscriminantAnalysis(inputs, output, kernel);
             target.Threshold = 0;
 
             target.Compute();
@@ -242,10 +321,11 @@ namespace Accord.Tests.Statistics
             // Schölkopf KPCA toy example
             double[,] inputs = scholkopf();
 
-            int[] output = Matrix.Expand(new int[,] { { 1 }, { 2 }, { 3 } }, new int[] { 30, 30, 30 }).GetColumn(0);
+            int[] output = Matrix.Expand(new int[,] { { 1 }, { 2 }, { 3 } }, 
+                    new int[] { 30, 30, 30 }).GetColumn(0);
 
             IKernel kernel = new Gaussian(0.2);
-            KernelDiscriminantAnalysis target = new KernelDiscriminantAnalysis(inputs, output, kernel);
+            var target = new KernelDiscriminantAnalysis(inputs, output, kernel);
 
             target.Compute();
 
@@ -269,7 +349,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(Matrix.IsEqual(result, projection));
         }
 
-        private static double[,] scholkopf()
+        public static double[,] scholkopf()
         {
             double[,] inputs =
             {
@@ -333,7 +413,7 @@ namespace Accord.Tests.Statistics
             int[] output = Matrix.Expand(new int[,] { { 1 }, { 2 }, { 3 } }, new int[] { 30, 30, 30 }).GetColumn(0);
 
             IKernel kernel = new Gaussian(0.2);
-            KernelDiscriminantAnalysis target = new KernelDiscriminantAnalysis(inputs, output, kernel);
+            var target = new KernelDiscriminantAnalysis(inputs, output, kernel);
 
             target.Compute();
 
@@ -355,8 +435,105 @@ namespace Accord.Tests.Statistics
             double[][] result = target.Result.ToJagged();
             double[][] projection = target.Transform(inputs);
             Assert.IsTrue(Matrix.IsEqual(result, projection));
+
+            int[] actual2 = target.Classify(inputs);
+            Assert.IsTrue(Matrix.IsEqual(actual2, output));
+
+            int[] actual3 = new int[inputs.Length];
+            double[][] scores = new double[inputs.Length][];
+            for (int i = 0; i < inputs.Length; i++)
+                actual3[i] = target.Classify(inputs[i], out scores[i]);
+            Assert.IsTrue(Matrix.IsEqual(actual3, output));
+
+            scores = scores.Get(0, 5, null);
+
+            double[][] expected = new double[][] {
+                new double[] { -6.23928931356786E-06, -5.86731829543872, -4.76988430445096 },
+                new double[] { -9.44593697210785E-05, -5.92312597750504, -4.82189359956088 },
+                new double[] { -0.000286839977573986, -5.95629842504978, -4.85283341267476 },
+                new double[] { -4.38986003009456E-05, -5.84990179343448, -4.75189423787298 },
+                new double[] { -0.000523817959022851, -5.77534144986199, -4.683120454667 } 
+            };
+
+            //Assert.IsTrue(Matrix.IsEqual(scores, expected, 1e-6));
         }
 
+        [Test]
+        public void scholkopf_new_method()
+        {
+            // Schölkopf KPCA toy example
+            double[][] inputs = scholkopf().ToJagged();
+
+            int[] output = Matrix.Expand(new int[,] { { 0 }, { 1 }, { 2 } }, new int[] { 30, 30, 30 }).GetColumn(0);
+
+            IKernel kernel = new Gaussian(0.2);
+            var target = new KernelDiscriminantAnalysis(kernel);
+
+            var cls = target.Learn(inputs, output);
+
+
+            double[][] actual = target.Transform(inputs, 2);
+
+            double[][] expected1 =
+            {
+                new double[] { 1.2785801485080475, 0.20539157505913622},
+                new double[] { 1.2906613255489541, 0.20704272225753775},
+                new double[] { 1.2978134597266808, 0.20802649628632208},
+            };
+
+            double[][] actual1 = actual.Submatrix(0, 2, 0, 1);
+
+            Assert.IsTrue(Matrix.IsEqual(actual1, expected1, 0.0000001));
+            Assert.IsNull(target.Result);
+
+            int[] actual2 = target.Classify(inputs);
+            Assert.IsTrue(Matrix.IsEqual(actual2, output));
+
+            int[] actual4 = cls.Decide(inputs);
+            Assert.IsTrue(Matrix.IsEqual(actual4, output));
+
+            int[] actual3 = new int[inputs.Length];
+            double[][] scores = new double[inputs.Length][];
+            for (int i = 0; i < inputs.Length; i++)
+                actual3[i] = target.Classify(inputs[i], out scores[i]);
+            Assert.IsTrue(Matrix.IsEqual(actual3, output));
+
+            scores = scores.Get(0, 5, null);
+
+            double[][] expected = new double[][] {
+                new double[] { -6.23928931356786E-06, -5.86731829543872, -4.76988430445096 },
+                new double[] { -9.44593697210785E-05, -5.92312597750504, -4.82189359956088 },
+                new double[] { -0.000286839977573986, -5.95629842504978, -4.85283341267476 },
+                new double[] { -4.38986003009456E-05, -5.84990179343448, -4.75189423787298 },
+                new double[] { -0.000523817959022851, -5.77534144986199, -4.683120454667 } 
+            };
+
+            Assert.IsTrue(Matrix.IsEqual(scores, expected, 1e-6));
+        }
+
+        [Test]
+        public void large_transform_few_components()
+        {
+            int n = 100;
+            double[][] data = Jagged.Random(n, n);
+            int[] labels = Vector.Random(n, 0, 10);
+
+            var kda = new KernelDiscriminantAnalysis();
+            var target = kda.Learn(data, labels);
+
+            var expected = kda.Transform(data, 2);
+            Assert.AreEqual(n, expected.Rows());
+            Assert.AreEqual(2, expected.Columns());
+
+            kda.NumberOfOutputs = 2;
+            target = kda.Learn(data, labels);
+
+            var actual = target.First.Transform(data);
+            Assert.AreEqual(n, actual.Rows());
+            Assert.AreEqual(2, actual.Columns());
+
+            Assert.IsTrue(actual.IsEqual(expected));
+        }
 
         [Test]
         public void ThresholdTest()
@@ -371,8 +548,7 @@ namespace Accord.Tests.Statistics
             int[] output = { 0, 1, 1 };
 
             IKernel kernel = new Gaussian(0.1);
-
-            KernelDiscriminantAnalysis target = new KernelDiscriminantAnalysis(inputs, output, kernel);
+            var target = new KernelDiscriminantAnalysis(inputs, output, kernel);
 
             bool thrown = false;
             try { target.Threshold = -1; }
@@ -397,11 +573,65 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(1, target.Classes[1].Indices[0]);
             Assert.AreEqual(2, target.Classes[1].Indices[1]);
             Assert.AreEqual(0, target.CumulativeProportions.Length);
-            Assert.AreEqual(3, target.DiscriminantMatrix.GetLength(0)); // dimension
+            Assert.AreEqual(0, target.DiscriminantMatrix.GetLength(0)); // dimension
             Assert.AreEqual(0, target.DiscriminantMatrix.GetLength(1)); // components kept
             Assert.AreEqual(0, target.DiscriminantProportions.Length);
             Assert.AreEqual(0, target.Discriminants.Count);
         }
 
+#if !NO_BINARY_SERIALIZATION
+        [Test]
+        [Category("Serialization")]
+        public void SerializeTest()
+        {
+            double[][] actual, expected = new double[][] {
+                new double[] { -109.160894622401, -127.729010764102 },
+                new double[] { -109.194678442625, -114.24653758324 },
+                new double[] { -109.238116380388, -112.905892408598 },
+                new double[] { -109.209886124532, -132.26101651421 },
+                new double[] { -109.174352521775, -143.574080034334 },
+                new double[] { -109.204229997471, -972.320404618979 },
+                new double[] { 291.003271433059, 81.2380025750026 },
+                new double[] { 290.982068268582, -259.413571936544 },
+                new double[] { 290.973346814048, -161.838508509099 },
+                new double[] { 290.998656827956, -728.677216732875 }
+            };
+
+            int[] output = { 0, 0, 0, 0, 0, 0, 1, 1, 1, 1 };
+
+            var target = new KernelDiscriminantAnalysis()
+            {
+                Kernel = new Polynomial(4)
+            };
+
+            double[][] inputs = LinearDiscriminantAnalysisTest.inputs.ToJagged();
+            int[] outputs = LinearDiscriminantAnalysisTest.output;
+            target.Learn(inputs, output);
+
+            actual = target.Transform(inputs);
+            var str = actual.ToCSharp();
+            Assert.IsTrue(Matrix.IsEqual(actual, expected, 0.01));
+
+            var copy = Serializer.DeepClone(target);
+
+            actual = copy.Transform(inputs);
+            Assert.IsTrue(Matrix.IsEqual(actual, expected, 0.01));
+
+            Assert.IsTrue(target.Kernel.Equals(copy.Kernel));
+            Assert.IsTrue(target.ScatterBetweenClass.IsEqual(copy.ScatterBetweenClass));
+            Assert.IsTrue(target.ScatterMatrix.IsEqual(copy.ScatterMatrix));
+            Assert.IsTrue(target.ScatterWithinClass.IsEqual(copy.ScatterWithinClass));
+            Assert.IsTrue(target.StandardDeviations.IsEqual(copy.StandardDeviations));
+            Assert.IsTrue(target.Classifications.IsEqual(copy.Classifications));
+            Assert.IsTrue(target.Classifier.NumberOfInputs.IsEqual(copy.Classifier.NumberOfInputs));
+            Assert.IsTrue(target.Classifier.NumberOfOutputs.IsEqual(copy.Classifier.NumberOfOutputs));
+            Assert.IsTrue(target.Classifier.First.Weights.IsEqual(copy.Classifier.First.Weights));
+            Assert.IsTrue(target.Classifier.Second.Function.Equals(copy.Classifier.Second.Function));
+            Assert.IsTrue(target.Classifier.Second.Means.IsEqual(copy.Classifier.Second.Means));
+            Assert.IsTrue(target.NumberOfClasses.IsEqual(copy.NumberOfClasses));
+            Assert.IsTrue(target.NumberOfInputs.Equals(copy.NumberOfInputs));
+            Assert.IsTrue(target.NumberOfOutputs.Equals(copy.NumberOfOutputs));
+        }
+#endif
     }
 }

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -86,6 +86,7 @@ namespace Accord.Audio.Generators
             this.Frequency = frequency;
             this.Amplitude = amplitude;
             this.Format = SampleFormat.Format32BitIeeeFloat;
+            this.SamplingRate = samplingRate;
             this.Channels = 1;
 
             this.theta = 2.0 * Math.PI * frequency / samplingRate;

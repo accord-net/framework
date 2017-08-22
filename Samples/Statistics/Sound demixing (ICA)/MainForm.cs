@@ -1,7 +1,7 @@
 ﻿// Accord.NET Sample Applications
 // http://accord-framework.net
 //
-// Copyright © 2009-2014, César Souza
+// Copyright © 2009-2017, César Souza
 // All rights reserved. 3-BSD License:
 //
 //   Redistribution and use in source and binary forms, with or without
@@ -135,19 +135,21 @@ namespace SampleApp
         private void btnRunAnalysis_Click(object sender, EventArgs e)
         {
             // Retrieve the input data as a double[,] matrix
-            double[,] data = input.ToMatrix(true).ToDouble();
+            double[][] data = input.Transpose().ToDouble();
 
 
             // Create a new Independent Component Analysis
-            ica = new IndependentComponentAnalysis(data,
-                AnalysisMethod.Standardize) { Overwrite = true };
+            ica = new IndependentComponentAnalysis(AnalysisMethod.Standardize)
+            {
+                Overwrite = true 
+            };
 
             // Compute the analysis
-            ica.Compute();
+            var demixer = ica.Learn(data);
 
 
             // Separate the input signals
-            demix = ica.Separate(input);
+            demix = demixer.Transform(data).Transpose().ToSingle();
 
 
             btnSource1.Enabled = true;

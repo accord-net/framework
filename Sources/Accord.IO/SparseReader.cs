@@ -2,29 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
-// cesarsouza at gmail.com
-//
-//    This library is free software; you can redistribute it and/or
-//    modify it under the terms of the GNU Lesser General Public
-//    License as published by the Free Software Foundation; either
-//    version 2.1 of the License, or (at your option) any later version.
-//
-//    This library is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-//    Lesser General Public License for more details.
-//
-//    You should have received a copy of the GNU Lesser General Public
-//    License along with this library; if not, write to the Free Software
-//    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-//
-
-// Accord Statistics Library
-// The Accord.NET Framework
-// http://accord-framework.net
-//
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -50,6 +28,7 @@ namespace Accord.IO
     using System.Globalization;
     using System.IO;
     using System.Text;
+    using Accord.Compat;
 
     /// <summary>
     ///   Reader for data files containing samples in libsvm's sparse format.
@@ -151,12 +130,22 @@ namespace Accord.IO
         public List<string> SampleDescriptions { get { return descriptions; } }
 
         /// <summary>
+        ///   Obsolete. Please use <see cref="NumberOfInputs"/> instead.
+        /// </summary>
+        /// 
+        [Obsolete("Please use NumberOfInputs instead.")]
+        public int Dimensions
+        {
+            get { return NumberOfInputs; }
+        }
+
+        /// <summary>
         ///   Gets the number of features present in this dataset. Please 
         ///   note that, when using the sparse representation, it is not
         ///   strictly necessary to know this value.
         /// </summary>
         /// 
-        public int Dimensions
+        public int NumberOfInputs
         {
             get
             {
@@ -168,6 +157,24 @@ namespace Accord.IO
         }
 
 
+        private void createReader(string path)
+        {
+#if NETSTANDARD1_4
+            this.reader = new StreamReader(new FileStream(path, FileMode.Open));
+#else
+            this.reader = new StreamReader(path);
+#endif
+        }
+
+        private void createReader(string path, System.Text.Encoding encoding)
+        {
+#if NETSTANDARD1_4
+            this.reader = new StreamReader(new FileStream(path, FileMode.Open), encoding);
+#else
+            this.reader = new StreamReader(path);
+#endif
+        }
+
         /// <summary>
         ///   Initializes a new instance of the <see cref="SparseReader"/> class.
         /// </summary>
@@ -177,7 +184,7 @@ namespace Accord.IO
         /// 
         public SparseReader(string path, int sampleSize)
         {
-            this.reader = new StreamReader(path);
+            createReader(path);
             this.sampleSize = sampleSize;
         }
 
@@ -189,7 +196,7 @@ namespace Accord.IO
         /// 
         public SparseReader(string path)
         {
-            this.reader = new StreamReader(path);
+            createReader(path);
             this.sampleSize = -1;
         }
 
@@ -204,6 +211,34 @@ namespace Accord.IO
         {
             this.reader = new StreamReader(stream);
             this.sampleSize = sampleSize;
+        }
+
+        
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="SparseReader"/> class.
+        /// </summary>
+        /// 
+        /// <param name="path">The complete file path to be read.</param>
+        /// <param name="encoding">The character encoding to use.</param>
+        /// <param name="sampleSize">The size of the feature vectors stored in the file.</param>
+        /// 
+        public SparseReader(String path, System.Text.Encoding encoding, int sampleSize)
+        {
+            createReader(path, encoding);
+            this.sampleSize = sampleSize;
+        }
+
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="SparseReader"/> class.
+        /// </summary>
+        /// 
+        /// <param name="path">The complete file path to be read.</param>
+        /// <param name="encoding">The character encoding to use.</param>
+        /// 
+        public SparseReader(String path, System.Text.Encoding encoding)
+        {
+            createReader(path, encoding);
+            this.sampleSize = -1;
         }
 
         /// <summary>
@@ -226,7 +261,7 @@ namespace Accord.IO
         /// <param name="encoding">The character encoding to use.</param>
         /// <param name="sampleSize">The size of the feature vectors stored in the file.</param>
         /// 
-        public SparseReader(Stream stream, Encoding encoding, int sampleSize)
+        public SparseReader(Stream stream, System.Text.Encoding encoding, int sampleSize)
         {
             this.reader = new StreamReader(stream, encoding);
             this.sampleSize = sampleSize;
@@ -239,24 +274,10 @@ namespace Accord.IO
         /// <param name="stream">The file stream to be read.</param>
         /// <param name="encoding">The character encoding to use.</param>
         /// 
-        public SparseReader(Stream stream, Encoding encoding)
+        public SparseReader(Stream stream, System.Text.Encoding encoding)
         {
             this.reader = new StreamReader(stream, encoding);
             this.sampleSize = -1;
-        }
-
-        /// <summary>
-        ///   Initializes a new instance of the <see cref="SparseReader"/> class.
-        /// </summary>
-        /// 
-        /// <param name="path">The complete file path to be read.</param>
-        /// <param name="encoding">The character encoding to use.</param>
-        /// <param name="sampleSize">The size of the feature vectors stored in the file.</param>
-        /// 
-        public SparseReader(String path, Encoding encoding, int sampleSize)
-        {
-            this.reader = new StreamReader(path, encoding);
-            this.sampleSize = sampleSize;
         }
 
         /// <summary>
@@ -270,19 +291,6 @@ namespace Accord.IO
         {
             this.reader = reader;
             this.sampleSize = sampleSize;
-        }
-
-        /// <summary>
-        ///   Initializes a new instance of the <see cref="SparseReader"/> class.
-        /// </summary>
-        /// 
-        /// <param name="path">The complete file path to be read.</param>
-        /// <param name="encoding">The character encoding to use.</param>
-        /// 
-        public SparseReader(String path, Encoding encoding)
-        {
-            this.reader = new StreamReader(path, encoding);
-            this.sampleSize = -1;
         }
 
         /// <summary>
@@ -325,7 +333,7 @@ namespace Accord.IO
             string[] fields = data[0].Trim().Split(' ');
             if (data.Length > 1)
                 description = data[1].Trim();
-             
+
             SampleDescriptions.Add(description);
 
             var output = fields[0];
@@ -346,10 +354,58 @@ namespace Accord.IO
         ///   
         public Tuple<Sparse<double>, double> ReadSparse()
         {
-            var values = ReadLine();
-            var output = Double.Parse(values.Item2, CultureInfo.InvariantCulture);
-            var sample = Sparse.Parse(values.Item1, Intercept);
+            Sparse<double> sample;
+            double output;
+            Read(out sample, out output);
             return Tuple.Create(sample, output);
+        }
+
+        /// <summary>
+        ///   Reads a sample from the file and returns it as a
+        ///   <see cref="Sparse{T}"/> sparse vector, together with
+        ///   its associated output value.
+        /// </summary>
+        /// 
+        /// <returns>A tuple containing the sparse vector as the first item
+        ///   and its associated output value as the second item.</returns>
+        ///   
+        public void Read(out Sparse<double> sample, out double output)
+        {
+            var values = ReadLine();
+            output = Double.Parse(values.Item2, System.Globalization.CultureInfo.InvariantCulture);
+            sample = Sparse.Parse(values.Item1, Intercept);
+        }
+
+        /// <summary>
+        ///   Reads a sample from the file and returns it as a
+        ///   <see cref="Sparse{T}"/> sparse vector, together with
+        ///   its associated output value.
+        /// </summary>
+        /// 
+        /// <returns>A tuple containing the sparse vector as the first item
+        ///   and its associated output value as the second item.</returns>
+        ///   
+        public void Read(out Sparse<double> sample, out int output)
+        {
+            var values = ReadLine();
+            output = Int32.Parse(values.Item2, System.Globalization.CultureInfo.InvariantCulture);
+            sample = Sparse.Parse(values.Item1, Intercept);
+        }
+
+        /// <summary>
+        ///   Reads a sample from the file and returns it as a
+        ///   <see cref="Sparse{T}"/> sparse vector, together with
+        ///   its associated output value.
+        /// </summary>
+        /// 
+        /// <returns>A tuple containing the sparse vector as the first item
+        ///   and its associated output value as the second item.</returns>
+        ///   
+        public void Read(out Sparse<double> sample, out bool output)
+        {
+            var values = ReadLine();
+            output = double.Parse(values.Item2) > 0;
+            sample = Sparse.Parse(values.Item1, Intercept);
         }
 
         /// <summary>
@@ -365,19 +421,103 @@ namespace Accord.IO
         /// 
         public Tuple<Sparse<double>[], double[]> ReadSparse(int count)
         {
-            var samples = new List<Sparse<double>>();
-            var outputs = new List<double>();
+            Sparse<double>[] samples;
+            double[] outputs;
+            Read(count, out samples, out outputs);
+            return Tuple.Create(samples, outputs);
+        }
+
+        /// <summary>
+        ///   Reads <paramref name="count"/> samples from the file and returns
+        ///   them as a <see cref="Sparse{T}"/> sparse vector, together with
+        ///   their associated output values.
+        /// </summary>
+        /// 
+        /// <param name="count">The number of samples to read.</param>
+        /// <param name="samples">The samples that have been read from the file.</param>
+        /// <param name="outputs">The output labels associated with each sample in <paramref name="samples"/>.</param>
+        /// 
+        /// 
+        public void Read(int count, out Sparse<double>[] samples, out double[] outputs)
+        {
+            var sampleList = new List<Sparse<double>>();
+            var outputList = new List<double>();
 
             while (!reader.EndOfStream)
             {
-                var sample = ReadSparse();
-                samples.Add(sample.Item1);
-                outputs.Add(sample.Item2);
-                if (count > 0 && samples.Count >= count)
+                Sparse<double> s;
+                double o;
+                Read(out s, out o);
+                sampleList.Add(s);
+                outputList.Add(o);
+                if (count > 0 && sampleList.Count >= count)
                     break;
             }
 
-            return Tuple.Create(samples.ToArray(), outputs.ToArray());
+            samples = sampleList.ToArray();
+            outputs = outputList.ToArray();
+        }
+
+
+        /// <summary>
+        ///   Reads <paramref name="count"/> samples from the file and returns
+        ///   them as a <see cref="Sparse{T}"/> sparse vector, together with
+        ///   their associated output values.
+        /// </summary>
+        /// 
+        /// <param name="count">The number of samples to read.</param>
+        /// <param name="samples">The samples that have been read from the file.</param>
+        /// <param name="outputs">The output labels associated with each sample in <paramref name="samples"/>.</param>
+        /// 
+        /// 
+        public void Read(int count, out Sparse<double>[] samples, out int[] outputs)
+        {
+            var sampleList = new List<Sparse<double>>();
+            var outputList = new List<int>();
+
+            while (!reader.EndOfStream)
+            {
+                Sparse<double> s;
+                int o;
+                Read(out s, out o);
+                sampleList.Add(s);
+                outputList.Add(o);
+                if (count > 0 && sampleList.Count >= count)
+                    break;
+            }
+
+            samples = sampleList.ToArray();
+            outputs = outputList.ToArray();
+        }
+
+        /// <summary>
+        ///   Reads <paramref name="count"/> samples from the file and returns
+        ///   them as a <see cref="Sparse{T}"/> sparse vector, together with
+        ///   their associated output values.
+        /// </summary>
+        /// 
+        /// <param name="count">The number of samples to read.</param>
+        /// <param name="samples">The samples that have been read from the file.</param>
+        /// <param name="outputs">The output labels associated with each sample in <paramref name="samples"/>.</param>
+        /// 
+        public void Read(int count, out Sparse<double>[] samples, out bool[] outputs)
+        {
+            var sampleList = new List<Sparse<double>>();
+            var outputList = new List<bool>();
+
+            while (!reader.EndOfStream)
+            {
+                Sparse<double> s;
+                bool o;
+                Read(out s, out o);
+                sampleList.Add(s);
+                outputList.Add(o);
+                if (count > 0 && sampleList.Count >= count)
+                    break;
+            }
+
+            samples = sampleList.ToArray();
+            outputs = outputList.ToArray();
         }
 
         /// <summary>
@@ -394,6 +534,48 @@ namespace Accord.IO
             return ReadSparse(-1);
         }
 
+        /// <summary>
+        ///   Reads all samples from the file and returns them as a
+        ///   <see cref="Sparse{T}"/> sparse vector, together with
+        ///   their associated output values.
+        /// </summary>
+        /// 
+        /// <param name="samples">The samples that have been read from the file.</param>
+        /// <param name="outputs">The output labels associated with each sample in <paramref name="samples"/>.</param>
+        /// 
+        public void ReadToEnd(out Sparse<double>[] samples, out double[] outputs)
+        {
+            Read(-1, out samples, out outputs);
+        }
+
+        /// <summary>
+        ///   Reads all samples from the file and returns them as a
+        ///   <see cref="Sparse{T}"/> sparse vector, together with
+        ///   their associated output values.
+        /// </summary>
+        /// 
+        /// <param name="samples">The samples that have been read from the file.</param>
+        /// <param name="outputs">The output labels associated with each sample in <paramref name="samples"/>.</param>
+        /// 
+        public void ReadToEnd(out Sparse<double>[] samples, out bool[] outputs)
+        {
+            Read(-1, out samples, out outputs);
+        }
+
+        /// <summary>
+        ///   Reads all samples from the file and returns them as a
+        ///   <see cref="Sparse{T}"/> sparse vector, together with
+        ///   their associated output values.
+        /// </summary>
+        /// 
+        /// <param name="samples">The samples that have been read from the file.</param>
+        /// <param name="outputs">The output labels associated with each sample in <paramref name="samples"/>.</param>
+        /// 
+        public void ReadToEnd(out Sparse<double>[] samples, out int[] outputs)
+        {
+            Read(-1, out samples, out outputs);
+        }
+
 
         /// <summary>
         ///   Reads a sample from the file and returns it as a
@@ -406,7 +588,7 @@ namespace Accord.IO
         public Tuple<double[], double> ReadDense()
         {
             var sparse = ReadSparse();
-            return Tuple.Create(sparse.Item1.ToDense(Dimensions), sparse.Item2);
+            return Tuple.Create(sparse.Item1.ToDense(NumberOfInputs), sparse.Item2);
         }
 
         /// <summary>
@@ -425,7 +607,7 @@ namespace Accord.IO
             var sparse = ReadSparse(count);
             var dense = new double[sparse.Item1.Length][];
             for (int i = 0; i < dense.Length; i++)
-                dense[i] = sparse.Item1[i].ToDense(Dimensions);
+                dense[i] = sparse.Item1[i].ToDense(NumberOfInputs);
             return Tuple.Create(dense, sparse.Item2);
         }
 
@@ -466,7 +648,7 @@ namespace Accord.IO
                 int lastSpace = line.LastIndexOf(' ', lastColon);
 
                 string str = line.Substring(lastSpace, lastColon - lastSpace);
-                int index = int.Parse(str, CultureInfo.InvariantCulture) - 1;
+                int index = int.Parse(str, System.Globalization.CultureInfo.InvariantCulture) - 1;
 
                 if (index >= max)
                     max = index + 1;
@@ -479,7 +661,7 @@ namespace Accord.IO
         }
 
 
-        #region IDisposable members
+#region IDisposable members
         /// <summary>
         ///   Performs application-defined tasks associated with
         ///   freeing, releasing, or resetting unmanaged resources.
@@ -520,7 +702,7 @@ namespace Accord.IO
         {
             Dispose(false);
         }
-        #endregion
+#endregion
 
     }
 }

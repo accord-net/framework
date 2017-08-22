@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -28,6 +28,9 @@ namespace Accord.Tests.Imaging
     using NUnit.Framework;
     using System.Collections.Generic;
     using System.Drawing;
+#if NO_BITMAP
+    using Resources = Accord.Tests.Imaging.Properties.Resources_Standard;
+#endif
 
     [TestFixture]
     public class FastRetinaKeypointDetectorTest
@@ -86,7 +89,7 @@ namespace Accord.Tests.Imaging
         [Test]
         public void ProcessImageTest()
         {
-            Bitmap lena = Accord.Imaging.Image.Clone(Properties.Resources.lena512);
+            Bitmap lena = Accord.Imaging.Image.Clone(Resources.lena512);
 
             FastRetinaKeypointDetector target = new FastRetinaKeypointDetector();
 
@@ -152,7 +155,7 @@ namespace Accord.Tests.Imaging
         [Test]
         public void ProcessImageTest2()
         {
-            Bitmap lena = Accord.Imaging.Image.Clone(Properties.Resources.lena512);
+            Bitmap lena = Accord.Imaging.Image.Clone(Resources.lena512);
 
             FastRetinaKeypointDetector target = new FastRetinaKeypointDetector();
             target.ComputeDescriptors = FastRetinaKeypointDescriptorType.Extended;

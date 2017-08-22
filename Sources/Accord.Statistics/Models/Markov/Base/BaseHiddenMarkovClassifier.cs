@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -26,6 +26,7 @@ namespace Accord.Statistics.Models.Markov
     using System;
     using System.Collections.Generic;
     using System.Runtime.Serialization;
+    using Accord.Compat;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -33,6 +34,7 @@ namespace Accord.Statistics.Models.Markov
     ///   This class cannot be instantiated.
     /// </summary>
     /// 
+    [Obsolete("This class will be removed.")]
     [Serializable]
     public abstract class BaseHiddenMarkovClassifier<TModel> : IEnumerable<TModel>
         where TModel : IHiddenMarkovModel

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -26,6 +26,8 @@ namespace Accord.MachineLearning.DecisionTrees
     using System;
     using System.Runtime.Serialization;
     using System.Collections.Generic;
+    using System.Diagnostics;
+    using Accord.Compat;
 
     /// <summary>
     ///   Decision Tree (DT) Node.
@@ -153,6 +155,8 @@ namespace Accord.MachineLearning.DecisionTrees
         /// 
         public bool Compute(double x)
         {
+            Debug.Assert(!Double.IsNaN(x));
+
             switch (Comparison)
             {
                 case ComparisonKind.Equal:
@@ -257,7 +261,7 @@ namespace Accord.MachineLearning.DecisionTrees
 
             String value;
             if (codebook != null && Value.HasValue && codebook.Columns.Contains(name))
-                value = codebook.Translate(name, (int)Value.Value);
+                value = codebook.Revert(name, (int)Value.Value);
 
             else value = Value.ToString();
 

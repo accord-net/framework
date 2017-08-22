@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -22,24 +22,27 @@
 
 namespace Accord.MachineLearning.Bayes
 {
+#if !MONO
+
     using Accord.Math;
-    using Accord.Math.Optimization.Losses;
-    using Accord.Statistics;
-    using Accord.Statistics.Distributions;
     using Accord.Statistics.Distributions.Fitting;
-    using Accord.Statistics.Distributions.Multivariate;
     using Accord.Statistics.Distributions.Univariate;
     using System;
-    using System.IO;
-    using System.Reflection;
-    using System.Runtime.Serialization;
-    using System.Threading.Tasks;
-
-
+    using Accord.Compat;
+    using System.Threading;
 
     /// <summary>
-    ///   Naïve Bayes learning algorithm.
+    ///   Naïve Bayes learning algorithm for discrete distribution models.
     /// </summary>
+    /// 
+    /// <example>
+    /// <para>
+    ///   For basic examples on how to learn a Naive Bayes algorithm, please see
+    ///   <see cref="NaiveBayes"/> page. The following examples show how to set
+    ///   more specialized learning settings for discrete models.</para>
+    ///   
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\Bayes\NaiveBayesTest.cs" region="doc_laplace" />
+    /// </example>
     /// 
     /// <seealso cref="NaiveBayes"/>
     /// 
@@ -53,146 +56,193 @@ namespace Accord.MachineLearning.Bayes
     {
 
         /// <summary>
-        /// Learns a model that can map the given inputs to the given outputs.
+        /// Creates an instance of the model to be learned.
         /// </summary>
-        /// 
-        /// <param name="x">The model inputs.</param>
-        /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
-        /// <param name="weight">The weight of importance for each input-output pair.</param>
-        /// 
-        /// <returns>
-        ///   A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
-        /// </returns>
-        /// 
-        public override NaiveBayes Learn(int[][] x, int[] y, double[] weight = null)
+        protected override NaiveBayes Create(int[][] x, int y)
         {
-            CheckArgs(x, y);
-
-            if (Model == null)
-            {
-                int[] inputs = x.DistinctCount();
-                int outputs = y.DistinctCount();
-                Model = new NaiveBayes(outputs, inputs);
-            }
-
-            // For each class
-            Parallel.For(0, Model.NumberOfOutputs, ParallelOptions, i =>
-            {
-                // Estimate conditional distributions
-                // Get variables values in class i
-                int[] idx = y.Find(y_i => y_i == i);
-                int[][] values = x.Submatrix(idx);
-
-                int n = idx.Length;
-
-                if (Empirical)
-                    Model.Priors[i] = n / (double)x.Length;
-
-                double regularization = Options.InnerOption.Regularization;
-                if (Options.InnerOptions != null)
-                    regularization = Options.InnerOptions[i].Regularization;
-
-                // For each variable (col)
-                Parallel.For(0, Model.NumberOfInputs, ParallelOptions, j =>
-                {
-                    // Count value occurrences and store
-                    // frequencies to form probabilities
-                    int numberOfSymbols = Model.NumberOfSymbols[j];
-                    double[] frequencies = new double[numberOfSymbols];
-                    double[] probabilities = Model.Distributions[i, j];
-
-                    // For each input row (instance)
-                    // belonging to the current class
-                    for (int k = 0; k < values.Length; k++)
-                        frequencies[values[k][j]]++;
-
-                    // Transform into probabilities
-                    for (int k = 0; k < frequencies.Length; k++)
-                    {
-                        // Use a M-estimator using the previously
-                        // available probabilities as priors.
-                        double prior = probabilities[k];
-                        double num = frequencies[k] + regularization;
-                        double den = values.Length + regularization;
-
-                        probabilities[k] = (num / den) * prior;
-                    }
-                });
-            });
-
-            return Model;
+            int[] inputs = x.DistinctCount();
+            return new NaiveBayes(classes: y, symbols: inputs);
         }
 
-        /// <summary>
-        /// Learns a model that can map the given inputs to the given outputs.
-        /// </summary>
-        /// 
-        /// <param name="x">The model inputs.</param>
-        /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
-        /// <param name="weight">The weight of importance for each input-output pair.</param>
-        /// 
-        /// <returns>
-        ///   A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
-        /// </returns>
-        /// 
-        public override NaiveBayes Learn(int[][] x, double[][] y, double[] weight = null)
-        {
-            CheckArgs(x, y);
+        ///// <summary>
+        ///// Learns a model that can map the given inputs to the given outputs.
+        ///// </summary>
+        ///// 
+        ///// <param name="x">The model inputs.</param>
+        ///// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
+        ///// <param name="weight">The weight of importance for each input-output pair.</param>
+        ///// 
+        ///// <returns>
+        /////   A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
+        ///// </returns>
+        ///// 
+        //public override NaiveBayes Learn(int[][] x, int[] y, double[] weight = null)
+        //{
+        //    CheckArgs(x, y);
 
-            if (Model == null)
-            {
-                int[] inputs = x.DistinctCount();
-                int outputs = y[0].Length;
-                Model = new NaiveBayes(outputs, inputs);
-            }
+        //    if (Model == null)
+        //        Model = Create(x, y.DistinctCount());
 
-            if (Options.InnerOptions != null)
-                for (int i = 0; i < Options.InnerOptions.Length; i++)
-                    Options.InnerOptions[i] = Options.InnerOption;
+        //    if (ParallelOptions.MaxDegreeOfParallelism == 1)
+        //    {
+        //        for (int i = 0; i < Model.NumberOfOutputs; i++)
+        //            InnerLearn(x, y, i);
+        //    }
+        //    else
+        //    {
+        //        // For each class
+        //        Parallel.For(0, Model.NumberOfOutputs, ParallelOptions, i =>
+        //            InnerLearn(x, y, i));
+        //    }
 
-            // For each class
-            Parallel.For(0, Model.NumberOfOutputs, ParallelOptions, i =>
-            {
-                // Estimate conditional distributions
-                // Get variables values in class i
-                double sumOfWeights = 0;
-                for (int j = 0; j < y.Length; j++)
-                    sumOfWeights += y[j][i];
+        //    return Model;
+        //}
 
-                if (Empirical)
-                    Model.Priors[i] = sumOfWeights / x.Length;
+        //private void InnerLearn(int[][] x, int[] y, int classIndex)
+        //{
+        //    // Estimate conditional distributions
+        //    // Get variables values in class i
+        //    int[] samplesIndicesInCurrentClass = y.Find(y_i => y_i == classIndex);
+        //    int[][] samplesInCurrentClass = x.Get(samplesIndicesInCurrentClass);
 
-                double regularization = Options.InnerOptions[i].Regularization;
+        //    if (Empirical)
+        //        Model.Priors[classIndex] = samplesIndicesInCurrentClass.Length / (double)x.Length;
 
-                // For each variable (col)
-                Parallel.For(0, Model.NumberOfInputs, ParallelOptions, j =>
-                {
-                    // Count value occurrences and store
-                    // frequencies to form probabilities
-                    int numberOfSymbols = Model.NumberOfSymbols[j];
-                    double[] frequencies = new double[numberOfSymbols];
-                    double[] probabilities = Model.Distributions[i, j];
+        //    double regularization = Options.InnerOption.Regularization;
+        //    if (Options.InnerOptions != null)
+        //        regularization = Options.InnerOptions[classIndex].Regularization;
 
-                    // For each input row (instance)
-                    // belonging to the current class
-                    for (int k = 0; k < x.Length; k++)
-                        frequencies[x[k][j]] += y[i][j];
+        //    // TODO: Remove Laplace rule. It does the same as regularization
+        //    bool laplace = Options.InnerOption.UseLaplaceRule;
+        //    if (Options.InnerOptions != null)
+        //        laplace = Options.InnerOptions[classIndex].UseLaplaceRule;
 
-                    // Transform into probabilities
-                    for (int k = 0; k < frequencies.Length; k++)
-                    {
-                        // Use a M-estimator using the previously
-                        // available probabilities as priors.
-                        double prior = probabilities[k];
-                        double num = frequencies[k] + regularization;
-                        double den = sumOfWeights + regularization;
+        //    if (laplace)
+        //        regularization += 1;
 
-                        probabilities[k] = (num / den) * prior;
-                    }
-                });
-            });
+        //    bool priors = Options.InnerOption.UsePreviousValuesAsPriors;
+        //    if (Options.InnerOptions != null)
+        //        priors = Options.InnerOptions[classIndex].UsePreviousValuesAsPriors;
 
-            return Model;
-        }
+        //    if (ParallelOptions.MaxDegreeOfParallelism == 1)
+        //    {
+        //        // For each variable (col)
+        //        for (int inputIndex = 0; inputIndex < Model.NumberOfInputs; inputIndex++)
+        //            InnerEstimate(classIndex, inputIndex, samplesInCurrentClass, regularization, priors);
+        //    }
+        //    else
+        //    {
+        //        // For each variable (col)
+        //        Parallel.For(0, Model.NumberOfInputs, ParallelOptions, j =>
+        //            InnerEstimate(classIndex, j, samplesInCurrentClass, regularization, priors));
+        //    }
+        //}
+
+        //private void InnerEstimate(int classIndex, int inputIndex, int[][] values, double regularization, bool priors)
+        //{
+        //    // Count value occurrences and store symbol frequencies 
+        //    int s = Model.NumberOfSymbols[inputIndex];
+        //    if (s > 1)
+        //    {
+        //        var frequencies = new double[s];
+        //        for (int k = 0; k < values.Length; k++)
+        //        {
+        //            int v = values[k][inputIndex];
+        //            frequencies[v]++;
+        //        }
+
+        //        // Transform into probabilities
+        //        probabilities(regularization, priors, frequencies, Model.Distributions[classIndex, inputIndex]);
+        //    }
+        //}
+
+
+
+        ///// <summary>
+        ///// Learns a model that can map the given inputs to the given outputs.
+        ///// </summary>
+        ///// 
+        ///// <param name="x">The model inputs.</param>
+        ///// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
+        ///// <param name="weight">The weight of importance for each input-output pair.</param>
+        ///// 
+        ///// <returns>
+        /////   A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
+        ///// </returns>
+        ///// 
+        //public override NaiveBayes Learn(int[][] x, double[][] y, double[] weight = null)
+        //{
+        //    CheckArgs(x, y);
+
+        //    if (Model == null)
+        //        Model = Create(x, y[0].Length);
+
+        //    if (Options.InnerOptions != null)
+        //        for (int i = 0; i < Options.InnerOptions.Length; i++)
+        //            Options.InnerOptions[i] = Options.InnerOption;
+
+        //    // For each class
+        //    Parallel.For(0, Model.NumberOfOutputs, ParallelOptions, i =>
+        //    {
+        //        // Estimate conditional distributions
+        //        // Get variables values in class i
+        //        double sumOfWeights = 0;
+        //        for (int j = 0; j < y.Length; j++)
+        //            sumOfWeights += y[j][i];
+
+        //        if (Empirical)
+        //            Model.Priors[i] = sumOfWeights / x.Length;
+
+        //        double regularization = Options.InnerOptions[i].Regularization;
+        //        bool priors = Options.InnerOptions[i].UsePreviousValuesAsPriors;
+
+        //        // TODO: Remove Laplace rule. It does the same as regularization
+        //        if (Options.InnerOptions[i].UseLaplaceRule)
+        //            regularization += 1;
+
+        //        // For each variable (col)
+        //        Parallel.For(0, Model.NumberOfInputs, ParallelOptions, j =>
+        //        {
+        //            // Count value occurrences and store symbol frequencies 
+        //            var frequencies = new double[Model.NumberOfSymbols[j]];
+        //            for (int k = 0; k < x.Length; k++)
+        //                frequencies[x[k][j]] += y[i][j];
+
+        //            // Transform into probabilities
+        //            probabilities(regularization, priors, frequencies, Model.Distributions[i, j]);
+        //        });
+        //    });
+
+        //    return Model;
+        //}
+
+        //private static void probabilities(double regularization, bool priors, double[] frequencies, double[] probabilities)
+        //{
+        //    double sum = 0;
+        //    if (priors)
+        //    {
+        //        for (int k = 0; k < frequencies.Length; k++)
+        //            sum += probabilities[k] *= frequencies[k] + regularization;
+        //    }
+        //    else
+        //    {
+        //        for (int k = 0; k < frequencies.Length; k++)
+        //            sum += probabilities[k] = frequencies[k] + regularization;
+        //    }
+
+        //    probabilities.Divide(sum, result: probabilities);
+        //}
     }
+
+#else
+    /// <summary>
+    ///   This class is currently not supported in Mono due to
+    ///   a bug in the Mono compiler.
+    /// </summary>
+    /// 
+    [System.Obsolete("This class is not supported in Mono due to a bug in the Mono compiler.")]
+    public class NaiveBayesLearning
+    {
+    }
+#endif
 }

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -24,7 +24,7 @@ namespace Accord.Statistics.Distributions.Univariate
 {
     using System;
     using Accord.Math;
-    using AForge;
+    using Accord.Compat;
 
     /// <summary>
     ///   Logistic distribution.
@@ -242,7 +242,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <param name="x">A single point in the distribution range.</param>
         /// 
-        public override double DistributionFunction(double x)
+        protected internal override double InnerDistributionFunction(double x)
         {
             double z = (x - mu) / s;
 
@@ -261,7 +261,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   in the current distribution.
         /// </returns>
         /// 
-        public override double ProbabilityDensityFunction(double x)
+        protected internal override double InnerProbabilityDensityFunction(double x)
         {
             double z = (x - mu) / s;
 
@@ -284,7 +284,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   occurring in the current distribution.
         /// </returns>
         /// 
-        public override double LogProbabilityDensityFunction(double x)
+        protected internal override double InnerLogProbabilityDensityFunction(double x)
         {
             double z = (x - mu) / s;
 
@@ -303,16 +303,16 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <returns>
         ///   A sample which could original the given probability
-        ///   value when applied in the <see cref="DistributionFunction"/>.
+        ///   value when applied in the <see cref="UnivariateContinuousDistribution.DistributionFunction(double)"/>.
         /// </returns>
         /// 
-        public override double InverseDistributionFunction(double p)
+        protected internal override double InnerInverseDistributionFunction(double p)
         {
             return mu + s * Math.Log(p / (1 - p));
         }
 
         /// <summary>
-        ///   Gets the first derivative of the <see cref="InverseDistributionFunction">
+        ///   Gets the first derivative of the <see cref="UnivariateContinuousDistribution.InverseDistributionFunction(double)">
         ///   inverse distribution function</see> (icdf) for this distribution evaluated
         ///   at probability <c>p</c>. 
         /// </summary>

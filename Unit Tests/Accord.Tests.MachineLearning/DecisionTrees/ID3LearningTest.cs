@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -27,14 +27,16 @@ namespace Accord.Tests.MachineLearning
     using Accord.Math;
     using Accord.Statistics.Filters;
     using AForge;
+    using Math.Optimization.Losses;
     using NUnit.Framework;
     using System;
+    using System.Collections.Generic;
     using System.Data;
 
     [TestFixture]
     public class ID3LearningTest
     {
-
+#if !NO_DATA_TABLE
         public static void CreateMitchellExample(out DecisionTree tree, out int[][] inputs, out int[] outputs)
         {
             DataTable data = new DataTable("Mitchell's Tennis Example");
@@ -113,6 +115,7 @@ namespace Accord.Tests.MachineLearning
                 Assert.AreEqual("No", answer);
             }
         }
+#endif
 
         public static void CreateXORExample(out DecisionTree tree, out int[][] inputs, out int[] outputs)
         {
@@ -134,10 +137,10 @@ namespace Accord.Tests.MachineLearning
 
             DecisionVariable[] attributes =
             {
-               new DecisionVariable("a1", 2), 
-               new DecisionVariable("a2", 2), 
-               new DecisionVariable("a3", 2), 
-               new DecisionVariable("a4", 2)  
+               new DecisionVariable("a1", 2),
+               new DecisionVariable("a2", 2),
+               new DecisionVariable("a3", 2),
+               new DecisionVariable("a4", 2)
             };
 
             int classCount = 2;
@@ -170,7 +173,7 @@ namespace Accord.Tests.MachineLearning
                 0
             };
 
-            DecisionVariable[] attributes = 
+            DecisionVariable[] attributes =
             {
                 new DecisionVariable("x", DecisionVariableKind.Discrete),
                 new DecisionVariable("y", DecisionVariableKind.Discrete),
@@ -218,6 +221,133 @@ namespace Accord.Tests.MachineLearning
         }
 
         [Test]
+        public void learn_test()
+        {
+            int[][] inputs =
+            {
+                new int[] { 0, 0 },
+                new int[] { 0, 1 },
+                new int[] { 1, 0 },
+                new int[] { 1, 1 },
+            };
+
+            int[] outputs = // xor
+            {
+                0,
+                1,
+                1,
+                0
+            };
+
+            DecisionVariable[] attributes =
+            {
+                new DecisionVariable("x", DecisionVariableKind.Discrete),
+                new DecisionVariable("y", DecisionVariableKind.Discrete),
+            };
+
+
+            ID3Learning teacher = new ID3Learning(attributes);
+
+            var tree = teacher.Learn(inputs, outputs);
+
+            double error = teacher.ComputeError(inputs, outputs);
+
+            Assert.AreEqual(0, error);
+
+            Assert.AreEqual(0, tree.Root.Branches.AttributeIndex); // x
+            Assert.AreEqual(2, tree.Root.Branches.Count);
+            Assert.IsNull(tree.Root.Value);
+            Assert.IsNull(tree.Root.Value);
+
+            Assert.AreEqual(0.0, tree.Root.Branches[0].Value); // x = [0]
+            Assert.AreEqual(1.0, tree.Root.Branches[1].Value); // x = [1]
+
+            Assert.AreEqual(tree.Root, tree.Root.Branches[0].Parent);
+            Assert.AreEqual(tree.Root, tree.Root.Branches[1].Parent);
+
+            Assert.AreEqual(2, tree.Root.Branches[0].Branches.Count);
+            Assert.AreEqual(2, tree.Root.Branches[1].Branches.Count);
+
+            Assert.IsTrue(tree.Root.Branches[0].Branches[0].IsLeaf);
+            Assert.IsTrue(tree.Root.Branches[0].Branches[1].IsLeaf);
+
+            Assert.IsTrue(tree.Root.Branches[1].Branches[0].IsLeaf);
+            Assert.IsTrue(tree.Root.Branches[1].Branches[1].IsLeaf);
+
+            Assert.AreEqual(0.0, tree.Root.Branches[0].Branches[0].Value); // y = [0]
+            Assert.AreEqual(1.0, tree.Root.Branches[0].Branches[1].Value); // y = [1]
+
+            Assert.AreEqual(0.0, tree.Root.Branches[1].Branches[0].Value); // y = [0]
+            Assert.AreEqual(1.0, tree.Root.Branches[1].Branches[1].Value); // y = [1]
+
+            Assert.AreEqual(0, tree.Root.Branches[0].Branches[0].Output); // 0 ^ 0 = 0
+            Assert.AreEqual(1, tree.Root.Branches[0].Branches[1].Output); // 0 ^ 1 = 1
+            Assert.AreEqual(1, tree.Root.Branches[1].Branches[0].Output); // 1 ^ 0 = 1
+            Assert.AreEqual(0, tree.Root.Branches[1].Branches[1].Output); // 1 ^ 1 = 0
+        }
+
+        [Test]
+        public void learn_test_automatic()
+        {
+            int[][] inputs =
+            {
+                new int[] { 0, 0 },
+                new int[] { 0, 1 },
+                new int[] { 1, 0 },
+                new int[] { 1, 1 },
+            };
+
+            int[] outputs = // xor
+            {
+                0,
+                1,
+                1,
+                0
+            };
+
+            ID3Learning teacher = new ID3Learning();
+
+            var tree = teacher.Learn(inputs, outputs);
+
+            double error = teacher.ComputeError(inputs, outputs);
+
+            Assert.AreEqual(0, error);
+
+            Assert.AreEqual(0, tree.Root.Branches.AttributeIndex); // x
+            Assert.AreEqual(2, tree.Root.Branches.Count);
+            Assert.IsNull(tree.Root.Value);
+            Assert.IsNull(tree.Root.Value);
+
+            Assert.AreEqual(0.0, tree.Root.Branches[0].Value); // x = [0]
+            Assert.AreEqual(1.0, tree.Root.Branches[1].Value); // x = [1]
+
+            Assert.AreEqual(tree.Root, tree.Root.Branches[0].Parent);
+            Assert.AreEqual(tree.Root, tree.Root.Branches[1].Parent);
+
+            Assert.AreEqual(2, tree.Root.Branches[0].Branches.Count);
+            Assert.AreEqual(2, tree.Root.Branches[1].Branches.Count);
+
+            Assert.IsTrue(tree.Root.Branches[0].Branches[0].IsLeaf);
+            Assert.IsTrue(tree.Root.Branches[0].Branches[1].IsLeaf);
+
+            Assert.IsTrue(tree.Root.Branches[1].Branches[0].IsLeaf);
+            Assert.IsTrue(tree.Root.Branches[1].Branches[1].IsLeaf);
+
+            Assert.AreEqual(0.0, tree.Root.Branches[0].Branches[0].Value); // y = [0]
+            Assert.AreEqual(1.0, tree.Root.Branches[0].Branches[1].Value); // y = [1]
+
+            Assert.AreEqual(0.0, tree.Root.Branches[1].Branches[0].Value); // y = [0]
+            Assert.AreEqual(1.0, tree.Root.Branches[1].Branches[1].Value); // y = [1]
+
+            Assert.AreEqual(0, tree.Root.Branches[0].Branches[0].Output); // 0 ^ 0 = 0
+            Assert.AreEqual(1, tree.Root.Branches[0].Branches[1].Output); // 0 ^ 1 = 1
+            Assert.AreEqual(1, tree.Root.Branches[1].Branches[0].Output); // 1 ^ 0 = 1
+            Assert.AreEqual(0, tree.Root.Branches[1].Branches[1].Output); // 1 ^ 1 = 0
+        }
+
+
+#if !NO_DATA_TABLE
+        [Test]
         public void RunTest2()
         {
             DecisionTree tree;
@@ -260,6 +390,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(1, tree.Root.Branches[2].Branches[1].Value); // Wind = Strong
             Assert.IsTrue(tree.Root.Branches[2].Branches[1].IsLeaf);
         }
+#endif
 
         [Test]
         public void RunTest3()
@@ -296,7 +427,7 @@ namespace Accord.Tests.MachineLearning
             Assert.IsTrue(tree.Root.Branches[0].Branches[0].Branches[1].IsLeaf);
         }
 
-
+#if !NO_DATA_TABLE
         [Test]
         public void ConstantDiscreteVariableTest()
         {
@@ -433,6 +564,7 @@ namespace Accord.Tests.MachineLearning
                 Assert.AreEqual(outputs[i], y);
             }
         }
+#endif
 
         [Test]
         public void ArgumentCheck1()
@@ -445,7 +577,7 @@ namespace Accord.Tests.MachineLearning
                 new [] { 1, 5, 6 },
             };
 
-            int[] outputs = 
+            int[] outputs =
             {
                 1, 1, 0, 0
             };
@@ -496,6 +628,33 @@ namespace Accord.Tests.MachineLearning
                 Assert.IsTrue(tree.Root.Branches[i].IsLeaf);
         }
 
+        [Test]
+        public void ConsistencyTest1_automatic()
+        {
+            int n = 10000;
+            int[,] random = Matrix.Random(n, 10, 0.0, 11.0).ToInt32();
+
+            int[][] samples = random.ToJagged();
+            int[] outputs = new int[n];
+
+            for (int i = 0; i < samples.Length; i++)
+            {
+                if (samples[i][0] > 8)
+                    outputs[i] = 1;
+            }
+
+            ID3Learning teacher = new ID3Learning();
+
+            var tree = teacher.Learn(samples, outputs);
+
+            double error = teacher.ComputeError(samples, outputs);
+
+            Assert.AreEqual(0, error);
+
+            Assert.AreEqual(11, tree.Root.Branches.Count);
+            for (int i = 0; i < tree.Root.Branches.Count; i++)
+                Assert.IsTrue(tree.Root.Branches[i].IsLeaf);
+        }
 
 
         [Test]
@@ -507,9 +666,9 @@ namespace Accord.Tests.MachineLearning
             int[] target = Matrix.Random(500, 1, 0.0, 2.0).ToInt32().GetColumn(0);
             DecisionVariable[] features =
             {
-                new DecisionVariable("Outlook",      10), 
-                new DecisionVariable("Temperature",  10), 
-                new DecisionVariable("Humidity",     10), 
+                new DecisionVariable("Outlook",      10),
+                new DecisionVariable("Temperature",  10),
+                new DecisionVariable("Humidity",     10),
             };
 
 
@@ -536,9 +695,9 @@ namespace Accord.Tests.MachineLearning
             int[] target = Matrix.Random(500, 1, 0.0, 2.0).ToInt32().GetColumn(0);
             DecisionVariable[] features =
             {
-                new DecisionVariable("Outlook",      10), 
-                new DecisionVariable("Temperature",  10), 
-                new DecisionVariable("Humidity",     10), 
+                new DecisionVariable("Outlook",      10),
+                new DecisionVariable("Temperature",  10),
+                new DecisionVariable("Humidity",     10),
             };
 
 
@@ -571,9 +730,9 @@ namespace Accord.Tests.MachineLearning
             int[] target = Matrix.Random(500, 1, 0, 2).GetColumn(0);
             DecisionVariable[] features =
             {
-                new DecisionVariable("Outlook",      10), 
-                new DecisionVariable("Temperature",  10), 
-                new DecisionVariable("Humidity",     10), 
+                new DecisionVariable("Outlook",      10),
+                new DecisionVariable("Temperature",  10),
+                new DecisionVariable("Humidity",     10),
             };
 
 
@@ -598,5 +757,148 @@ namespace Accord.Tests.MachineLearning
             Assert.IsTrue(error < 0.15);
         }
 
+        [Test]
+        public void learn_doc()
+        {
+            #region doc_learn_simplest
+            // In this example, we will learn a decision tree directly from integer
+            // matrices that define the inputs and outputs of our learning problem.
+
+            int[][] inputs =
+            {
+                new int[] { 0, 0 },
+                new int[] { 0, 1 },
+                new int[] { 1, 0 },
+                new int[] { 1, 1 },
+            };
+
+            int[] outputs = // xor between inputs[0] and inputs[1]
+            {
+                0, 1, 1, 0
+            };
+
+            // Create an ID3 learning algorithm
+            ID3Learning teacher = new ID3Learning();
+
+            // Learn a decision tree for the XOR problem
+            var tree = teacher.Learn(inputs, outputs);
+
+            // Compute the error in the learning
+            double error = new ZeroOneLoss(outputs).Loss(tree.Decide(inputs));
+
+            // The tree can now be queried for new examples:
+            int[] predicted = tree.Decide(inputs); // should be { 0, 1, 1, 0 }
+            #endregion
+
+            Assert.AreEqual(0, error);
+            Assert.AreEqual(0, predicted[0]);
+            Assert.AreEqual(1, predicted[1]);
+            Assert.AreEqual(1, predicted[2]);
+            Assert.AreEqual(0, predicted[3]);
+        }
+
+#if !NO_DATA_TABLE
+        [Test]
+        public void learn_doc2()
+        {
+            #region doc_learn_mitchell
+            // In this example, we will be using the famous Play Tennis example by Tom Mitchell (1998).
+            // In Mitchell's example, one would like to infer if a person would play tennis or not
+            // based solely on four input variables. Those variables are all categorical, meaning that
+            // there is no order between the possible values for the variable (i.e. there is no order
+            // relationship between Sunny and Rain, one is not bigger nor smaller than the other, but are 
+            // just distinct). Moreover, the rows, or instances presented above represent days on which the
+            // behavior of the person has been registered and annotated, pretty much building our set of 
+            // observation instances for learning:
+
+            // Note: this example uses DataTables to represent the input data , but this is not required.
+            DataTable data = new DataTable("Mitchell's Tennis Example");
+
+            data.Columns.Add("Day", "Outlook", "Temperature", "Humidity", "Wind", "PlayTennis");
+            data.Rows.Add("D1", "Sunny", "Hot", "High", "Weak", "No");
+            data.Rows.Add("D2", "Sunny", "Hot", "High", "Strong", "No");
+            data.Rows.Add("D3", "Overcast", "Hot", "High", "Weak", "Yes");
+            data.Rows.Add("D4", "Rain", "Mild", "High", "Weak", "Yes");
+            data.Rows.Add("D5", "Rain", "Cool", "Normal", "Weak", "Yes");
+            data.Rows.Add("D6", "Rain", "Cool", "Normal", "Strong", "No");
+            data.Rows.Add("D7", "Overcast", "Cool", "Normal", "Strong", "Yes");
+            data.Rows.Add("D8", "Sunny", "Mild", "High", "Weak", "No");
+            data.Rows.Add("D9", "Sunny", "Cool", "Normal", "Weak", "Yes");
+            data.Rows.Add("D10", "Rain", "Mild", "Normal", "Weak", "Yes");
+            data.Rows.Add("D11", "Sunny", "Mild", "Normal", "Strong", "Yes");
+            data.Rows.Add("D12", "Overcast", "Mild", "High", "Strong", "Yes");
+            data.Rows.Add("D13", "Overcast", "Hot", "Normal", "Weak", "Yes");
+            data.Rows.Add("D14", "Rain", "Mild", "High", "Strong", "No");
+
+            // In order to try to learn a decision tree, we will first convert this problem to a more simpler
+            // representation. Since all variables are categories, it does not matter if they are represented
+            // as strings, or numbers, since both are just symbols for the event they represent. Since numbers
+            // are more easily representable than text string, we will convert the problem to use a discrete 
+            // alphabet through the use of a <see cref="Accord.Statistics.Filters.Codification">codebook</see>.</para>
+
+            // A codebook effectively transforms any distinct possible value for a variable into an integer 
+            // symbol. For example, “Sunny” could as well be represented by the integer label 0, “Overcast” 
+            // by “1”, Rain by “2”, and the same goes by for the other variables. So:</para>
+
+            // Create a new codification codebook to 
+            // convert strings into integer symbols
+            var codebook = new Codification(data);
+
+            // Translate our training data into integer symbols using our codebook:
+            DataTable symbols = codebook.Apply(data);
+            int[][] inputs = symbols.ToArray<int>("Outlook", "Temperature", "Humidity", "Wind");
+            int[] outputs = symbols.ToArray<int>("PlayTennis");
+
+            // For this task, in which we have only categorical variables, the simplest choice 
+            // to induce a decision tree is to use the ID3 algorithm by Quinlan. Let’s do it:
+
+            // Create a teacher ID3 algorithm
+            var id3learning = new ID3Learning()
+            {
+                // Now that we already have our learning input/ouput pairs, we should specify our
+                // decision tree. We will be trying to build a tree to predict the last column, entitled
+                // “PlayTennis”. For this, we will be using the “Outlook”, “Temperature”, “Humidity” and
+                // “Wind” as predictors (variables which will we will use for our decision). Since those
+                // are categorical, we must specify, at the moment of creation of our tree, the
+                // characteristics of each of those variables. So:
+
+                new DecisionVariable("Outlook",     3), // 3 possible values (Sunny, overcast, rain)
+                new DecisionVariable("Temperature", 3), // 3 possible values (Hot, mild, cool)  
+                new DecisionVariable("Humidity",    2), // 2 possible values (High, normal)    
+                new DecisionVariable("Wind",        2)  // 2 possible values (Weak, strong) 
+
+                // Note: It is also possible to create a DecisionVariable[] from a codebook:
+                // DecisionVariable[] attributes = DecisionVariable.FromCodebook(codebook);
+            };
+
+            // Learn the training instances!
+            DecisionTree tree = id3learning.Learn(inputs, outputs);
+
+            // Compute the training error when predicting training instances
+            double error = new ZeroOneLoss(outputs).Loss(tree.Decide(inputs));
+
+            // The tree can now be queried for new examples through 
+            // its decide method. For example, we can create a query
+
+            int[] query = codebook.Transform(new[,]
+            {
+                { "Outlook",     "Sunny"  },
+                { "Temperature", "Hot"    },
+                { "Humidity",    "High"   },
+                { "Wind",        "Strong" }
+            });
+
+            // And then predict the label using
+            int predicted = tree.Decide(query);  // result will be 0
+
+            // We can translate it back to strings using
+            string answer = codebook.Revert("PlayTennis", predicted); // Answer will be: "No"
+            #endregion
+
+            Assert.AreEqual(0, predicted);
+            Assert.AreEqual("No", answer);
+            Assert.AreEqual(0, error);
+        }
+#endif
     }
 }

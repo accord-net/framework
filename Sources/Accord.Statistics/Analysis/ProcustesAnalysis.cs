@@ -5,7 +5,7 @@
 // Copyright © Rémy Dispagne, 2015
 // cramer at libertysurf.fr
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -91,7 +91,7 @@ namespace Accord.Statistics.Analysis
     {
 
         /// <summary>
-        /// Creates a Procrustes Aanalysis object using the given sample data
+        /// Creates a Procrustes Analysis object using the given sample data
         /// </summary>
         /// <param name="samples">Data containing multiple dataset to run the analysis on</param>
         public ProcrustesAnalysis(params double[][,] samples)
@@ -190,7 +190,7 @@ namespace Accord.Statistics.Analysis
         double GetDatasetScale(double[,] samples)
         {
             double sqr = 0.0;
-            double[] norm = samples.SquareEuclidean();
+            double[] norm = samples.SquareEuclidean(dimension: 0);
             for (int i = 0; i < norm.Length; i++)
                 sqr += norm[i];
             sqr = sqr / (double)samples.Length;
@@ -227,7 +227,7 @@ namespace Accord.Statistics.Analysis
 
             SingularValueDecomposition svd = new SingularValueDecomposition(p_reference.Dataset.TransposeAndDot(p.Dataset));
 
-            double[,] Q = svd.RightSingularVectors.TransposeAndDot(svd.LeftSingularVectors);
+            double[,] Q = svd.RightSingularVectors.DotWithTransposed(svd.LeftSingularVectors);
 
             p.RotationMatrix = Q;
 

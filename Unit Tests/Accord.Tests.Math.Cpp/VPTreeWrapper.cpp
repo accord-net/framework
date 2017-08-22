@@ -2,7 +2,6 @@
 
 #include "VPTreeWrapper.h"
 
-using namespace std;
 using namespace System;
 using namespace System::Collections::Generic;
 using namespace System::Reflection;
@@ -19,7 +18,7 @@ VPTreeWrapper::VPTreeWrapper()
 
 void VPTreeWrapper::create(array<DataPointWrapper^>^ items)
 {
-	data = new vector<DataPoint>();
+	data = new std::vector<DataPoint>();
 	for (int i = 0; i < items->Length; i++)
 		data->push_back(*items[i]->p);
 	tree->create(*data);
@@ -29,8 +28,8 @@ void VPTreeWrapper::search(DataPointWrapper^ target, int k,
 	List<DataPointWrapper^>^ results,
 	List<double>^ distances)
 {
-	vector<DataPoint>* _results = new vector<DataPoint>();
-	vector<double>* _distances = new vector<double>();
+	std::vector<DataPoint>* _results = new std::vector<DataPoint>();
+	std::vector<double>* _distances = new std::vector<double>();
 	tree->search(*target->p, k, _results, _distances);
 
 	for (auto r : *_results)

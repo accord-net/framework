@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -22,13 +22,14 @@
 
 namespace Accord.MachineLearning.Bayes
 {
+#if !MONO
     using System;
     using System.Linq;
-    using System.Collections.Generic;
     using Accord.MachineLearning;
     using Accord.Math;
     using Accord.Statistics.Distributions;
     using Accord.Statistics.Distributions.Fitting;
+    using Accord.Compat;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -41,7 +42,7 @@ namespace Accord.MachineLearning.Bayes
     /// <typeparam name="TInput">The type for the samples modeled by the distribution.</typeparam>
     /// <typeparam name="TOptions">The fitting options for the independent distribution.</typeparam>
     /// 
-    public class NaiveBayesLearningBase<TModel, TDistribution, TInput, TOptions> :
+    public abstract class NaiveBayesLearningBase<TModel, TDistribution, TInput, TOptions> :
         ISupervisedLearning<TModel, TInput[], double[]>,
         ISupervisedLearning<TModel, TInput[], int>,
         IParallel
@@ -51,6 +52,7 @@ namespace Accord.MachineLearning.Bayes
         where TOptions : IndependentOptions, new()
         where TModel : NaiveBayes<TDistribution, TInput>
     {
+        internal bool optimized = false;
 
         /// <summary>
         /// Gets or sets the parallelization options for this algorithm.
@@ -74,9 +76,10 @@ namespace Accord.MachineLearning.Bayes
         }
 
         /// <summary>
-        ///   The corresponding output labels for the input data.
+        /// Gets or sets whether the class priors should be estimated
+        /// from the data.
         /// </summary>
-        ///
+        /// 
         public bool Empirical { get; set; }
 
         /// <summary>
@@ -86,6 +89,14 @@ namespace Accord.MachineLearning.Bayes
         ///
         public TOptions Options { get; set; }
 
+        /// <summary>
+        ///   Gets or sets the distribution creation function. This function can
+        ///   be used to specify how the initial distributions of the model should
+        ///   be created. By default, this function attempts to call the empty
+        ///   constructor of the distribution using <c>Activator.CreateInstance()</c>.
+        /// </summary>
+        /// 
+        public Func<int, int, TDistribution> Distribution { get; set; }
 
         /// <summary>
         ///   Constructs a new Naïve Bayes learning algorithm.
@@ -97,6 +108,17 @@ namespace Accord.MachineLearning.Bayes
             this.ParallelOptions = new ParallelOptions();
             this.Options = new TOptions();
             this.Options.Transposed = true;
+            this.Distribution = (classIndex, variableIndex) =>
+            {
+                try
+                {
+                    return Activator.CreateInstance<TDistribution>();
+                }
+                catch
+                {
+                    throw new InvalidOperationException("Please set the Distribution property to specify how the initial distributions should be created.");
+                }
+            };
         }
 
         /// <summary>
@@ -105,12 +127,7 @@ namespace Accord.MachineLearning.Bayes
         ///   can be created from the training data.
         /// </summary>
         /// 
-        protected virtual TModel Create(TInput[][] x, int[] y)
-        {
-            return (TModel)new NaiveBayes<TDistribution, TInput>(
-            inputs: x[0].Length, classes: y.DistinctCount(),
-            initial: Activator.CreateInstance<TDistribution>());
-        }
+        protected abstract TModel Create(TInput[][] x, int y);
 
         /// <summary>
         /// Learns a model that can map the given inputs to the given outputs.
@@ -126,26 +143,56 @@ namespace Accord.MachineLearning.Bayes
         ///
         public virtual TModel Learn(TInput[][] x, int[] y, double[] weight = null)
         {
-            CheckArgs(x, y);
-
-            if (Model == null)
-                Model = Create(x, y);
-
-            // For each class
-            Parallel.For(0, Model.NumberOfOutputs, ParallelOptions, i =>
+            Accord.MachineLearning.Tools.CheckArgs(x, y, weight, () =>
             {
-                // Estimate conditional distributions
-                // Get variables values in class i
-                int[] idx = y.Find(y_i => y_i == i);
-                TInput[][] values = x.Submatrix(idx, transpose: true);
-
-                if (Empirical)
-                    Model.Priors[i] = idx.Length / (double)x.Length;
-
-                Fit(i, values: values, weights: weight);
+                if (Model == null)
+                    Model = Create(x, y.DistinctCount());
+                return Model;
             });
 
+            if (ParallelOptions.MaxDegreeOfParallelism == 1)
+            {
+                for (int i = 0; i < Model.NumberOfOutputs; i++)
+                    InnerLearn(x, y, weight, i);
+            }
+            else
+            {
+                // For each class
+                Parallel.For(0, Model.NumberOfOutputs, ParallelOptions, i =>
+                    InnerLearn(x, y, weight, i));
+            }
+
             return Model;
+        }
+
+        private void InnerLearn(TInput[][] x, int[] y, double[] weight, int classIndex)
+        {
+            // Estimate conditional distributions
+            // Get variables values in class i
+            int[] sampleIndicesInClass = y.Find(y_i => y_i == classIndex);
+            TInput[][] samplesInClass = x.Get(sampleIndicesInClass, transpose: true);
+
+            if (Empirical)
+                Model.Priors[classIndex] = sampleIndicesInClass.Length / (double)x.Length;
+
+            Fit(classIndex, values: samplesInClass, weights: weight, transposed: true);
+        }
+
+        /// <summary>
+        /// Learns a model that can map the given inputs to the given outputs.
+        /// </summary>
+        ///
+        /// <param name="x">The model inputs.</param>
+        /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
+        /// <param name="weight">The weight of importance for each input-output pair.</param>
+        /// 
+        /// <returns>
+        ///   A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
+        /// </returns>
+        ///
+        public virtual TModel Learn(TInput[][] x, int[][] y, double[] weight = null)
+        {
+            return Learn(x, y.ToDouble(), weight);
         }
 
         /// <summary>
@@ -162,56 +209,72 @@ namespace Accord.MachineLearning.Bayes
         ///
         public virtual TModel Learn(TInput[][] x, double[][] y, double[] weight = null)
         {
-            CheckArgs(x, y);
+            Accord.MachineLearning.Tools.CheckArgs(x, y, weight, () =>
+            {
+                if (Model == null)
+                    Model = Create(x, y.Columns());
+                return Model;
+            });
 
             // For efficiency
             x = x.Transpose();
 
-            // For each class
-            Parallel.For(0, Model.NumberOfOutputs, ParallelOptions, i =>
+            if (ParallelOptions.MaxDegreeOfParallelism == 1)
             {
-                // Estimate conditional distributions
-                // Get variables values in class i
-                double[] target = y.GetColumn(i);
-
-                if (weight != null)
-                    target.Multiply(weight, result: target);
-
-                if (Empirical)
-                    Model.Priors[i] = target.Sum() / x.Length;
-
-                Fit(i, values: x, weights: target);
-            });
+                // For each class
+                for (int i = 0; i < Model.NumberOfOutputs; i++)
+                {
+                    InnerLearn(x, y, weight, i);
+                }
+            }
+            else
+            {
+                // For each class
+                Parallel.For(0, Model.NumberOfOutputs, ParallelOptions, i =>
+                    InnerLearn(x, y, weight, i));
+            }
 
             return Model;
+        }
+
+        private void InnerLearn(TInput[][] x, double[][] y, double[] weight, int classIndex)
+        {
+            // Estimate conditional distributions
+            // Get variables values in class i
+            double[] target = y.GetColumn(classIndex);
+
+            if (weight != null)
+                target.Multiply(weight, result: target);
+
+            if (Empirical)
+                Model.Priors[classIndex] = target.Sum() / x.Length;
+
+            Fit(classIndex, values: x, weights: target, transposed: true);
         }
 
         /// <summary>
         ///    Fits one of the distributions in the naive bayes model.
         /// </summary>
         /// 
-        protected virtual void Fit(int i, TInput[][] values, double[] weights)
+        protected virtual void Fit(int i, TInput[][] values, double[] weights, bool transposed)
         {
-            Model.Distributions[i].Fit(values, weights, Options);
+            Options.Transposed = transposed;
+
+            var fit = Model.Distributions[i] as IFittableDistribution<TInput[], TOptions>;
+            if (fit != null)
+            {
+                // Use a more efficient call if available
+                fit.Fit(values, weights, Options);
+                this.optimized = true;
+            }
+            else
+            {
+                // Use a generic call (which might need type casting)
+                Model.Distributions[i].Fit(values, weights, Options);
+                this.optimized = false;
+            }
         }
 
-        /// <summary>
-        ///   Performs argument checks.
-        /// </summary>
-        /// 
-        protected static void CheckArgs(Array x, Array y)
-        {
-            if (x == null)
-                throw new ArgumentNullException("x");
-
-            if (y == null)
-                throw new ArgumentNullException("y");
-
-            if (x.Length == 0)
-                throw new ArgumentException("The array has zero length.", "x");
-
-            if (y.Length != x.Length)
-                throw new DimensionMismatchException("y");
-        }
     }
+#endif
 }

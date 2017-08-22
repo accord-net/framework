@@ -483,8 +483,6 @@ namespace SampleApp
             // 
             this.errorChart.Location = new System.Drawing.Point(16, 270);
             this.errorChart.Name = "errorChart";
-            this.errorChart.RangeX = ((Accord.Range)(resources.GetObject("errorChart.RangeX")));
-            this.errorChart.RangeY = ((Accord.Range)(resources.GetObject("errorChart.RangeY")));
             this.errorChart.Size = new System.Drawing.Size(320, 161);
             this.errorChart.TabIndex = 1;
             this.errorChart.Text = "chart1";
@@ -506,6 +504,7 @@ namespace SampleApp
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "DeltaRuleForm";
             this.Text = "Classifier using Delta Rule Learning";

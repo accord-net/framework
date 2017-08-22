@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -25,10 +25,10 @@ namespace Accord.Statistics.Distributions.Univariate
     using Accord.Math;
     using Accord.Statistics.Distributions.Fitting;
     using Accord.Statistics.Distributions.Multivariate;
-    using AForge;
     using System;
     using System.Linq;
     using System.Text;
+    using Accord.Compat;
 
     /// <summary>
     ///   Mixture of univariate probability distributions.
@@ -259,7 +259,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value <c>x</c> will occur.
         /// </remarks>
         /// 
-        public override double ProbabilityDensityFunction(double x)
+        protected internal override double InnerProbabilityDensityFunction(double x)
         {
             double r = 0.0;
             for (int i = 0; i < components.Length; i++)
@@ -308,7 +308,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value <c>x</c> will occur.
         /// </remarks>
         /// 
-        public override double LogProbabilityDensityFunction(double x)
+        protected internal override double InnerLogProbabilityDensityFunction(double x)
         {
             double r = Double.NegativeInfinity;
             for (int i = 0; i < components.Length; i++)
@@ -352,7 +352,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value or any value smaller than it will occur.
         /// </remarks>
         /// 
-        public override double DistributionFunction(double x)
+        protected internal override double InnerDistributionFunction(double x)
         {
             double r = 0.0;
             for (int i = 0; i < components.Length; i++)
@@ -439,11 +439,17 @@ namespace Accord.Statistics.Distributions.Univariate
                 if (options != null)
                 {
                     em.InnerOptions = options.InnerOptions;
-                    em.Convergence.Iterations = options.Iterations;
+                    em.Convergence.MaxIterations = options.MaxIterations;
                     em.Convergence.Tolerance = options.Threshold;
+                    em.ParallelOptions = options.ParallelOptions;
                 }
 
                 em.Compute(observations);
+
+#pragma warning disable 612, 618
+                if (options != null)
+                    options.Iterations = em.Convergence.CurrentIteration;
+#pragma warning restore 612, 618
             }
             else
             {
@@ -452,11 +458,17 @@ namespace Accord.Statistics.Distributions.Univariate
                 if (options != null)
                 {
                     em.InnerOptions = options.InnerOptions;
-                    em.Convergence.Iterations = options.Iterations;
+                    em.Convergence.MaxIterations = options.MaxIterations;
                     em.Convergence.Tolerance = options.Threshold;
+                    em.ParallelOptions = options.ParallelOptions;
                 }
 
                 em.Compute(observations, weights);
+
+#pragma warning disable 612, 618
+                if (options != null)
+                    options.Iterations = em.Convergence.CurrentIteration;
+#pragma warning restore 612, 618
             }
 
             for (int i = 0; i < components.Length; i++)
@@ -661,10 +673,12 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <param name="samples">The number of samples to generate.</param>
         /// <param name="result">The location where to store the samples.</param>
-        /// 
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
+        ///
         /// <returns>A random vector of observations drawn from this distribution.</returns>
         /// 
-        public override double[] Generate(int samples, double[] result)
+        public override double[] Generate(int samples, double[] result, Random source)
         {
             if (sampleable == null)
             {
@@ -676,7 +690,7 @@ namespace Accord.Statistics.Distributions.Univariate
             for (int i = 0; i < samples; i++)
             {
                 // Choose one coefficient at random
-                int j = GeneralDiscreteDistribution.Random(coefficients);
+                int j = GeneralDiscreteDistribution.Random(coefficients, source);
 
                 // Sample from the chosen coefficient
                 result[i] = sampleable[j].Generate();
@@ -691,7 +705,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <returns>A random observations drawn from this distribution.</returns>
         /// 
-        public override double Generate()
+        public override double Generate(Random source)
         {
             if (sampleable == null)
             {
@@ -701,7 +715,7 @@ namespace Accord.Statistics.Distributions.Univariate
             }
 
             // Choose one coefficient at random
-            int j = GeneralDiscreteDistribution.Random(coefficients);
+            int j = GeneralDiscreteDistribution.Random(coefficients, source);
 
             // Sample from the chosen coefficient
             return sampleable[j].Generate();

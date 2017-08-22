@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -31,23 +31,6 @@ namespace Accord.Tests.Statistics
     [TestFixture]
     public class WrappedCauchyDistributionTest
     {
-
-
-        private TestContext testContextInstance;
-
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
 
 
         [Test]
@@ -81,6 +64,12 @@ namespace Accord.Tests.Statistics
             catch (NotSupportedException) { thrown = true; }
 
             Assert.IsTrue(thrown);
+
+            Assert.AreEqual(-Math.PI, dist.Support.Min, 1e-10);
+            Assert.AreEqual(+Math.PI, dist.Support.Max, 1e-10);
+
+            Assert.AreEqual(dist.InverseDistributionFunction(0), dist.Support.Min);
+            Assert.AreEqual(dist.InverseDistributionFunction(1), dist.Support.Max);
         }
 
     }

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -27,6 +27,7 @@ namespace Accord.Math.Random
     using System.Linq;
     using System.Runtime.CompilerServices;
     using System.Text;
+    using Accord.Compat;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -156,7 +157,7 @@ namespace Accord.Math.Random
         ///   A random vector of observations drawn from this distribution.
         /// </returns>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public double Generate()
@@ -177,7 +178,7 @@ namespace Accord.Math.Random
         ///   Generates a new non-negative integer random number.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public uint Next()

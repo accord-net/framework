@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -30,24 +30,7 @@ namespace Accord.Tests.Statistics
     [TestFixture]
     public class NormalizationFilterTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
+#if !NO_DATA_TABLE
         [Test]
         public void ApplyTest()
         {
@@ -175,6 +158,6 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(25.555555555555557, mean);
             Assert.AreEqual(23.297591673342072, sdev);
         }
-
+#endif
     }
 }

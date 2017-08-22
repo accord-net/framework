@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -89,7 +89,7 @@ namespace Accord.Tests.Math
             //   g(x,y)  =  { del f / del x, del f / del y }
             // 
 
-            Func<double[], double[]> g = (x) => new double[] 
+            Func<double[], double[]> g = (x) => new double[]
             {
                 // df/dx = {-2 e^(-    (x-1)^2) (x-1)}
                 2 * Math.Exp(-Math.Pow(x[0] - 1, 2)) * (x[0] - 1),
@@ -145,7 +145,7 @@ namespace Accord.Tests.Math
             // min f(x, y) = -exp(-(x-1)^2) - exp(-0.5*(y-2)^2)
             f = (x) => -Math.Exp(-Math.Pow(x[0] - 1, 2)) - Math.Exp(-0.5 * Math.Pow(x[1] - 2, 2));
 
-            g = (x) => new[] 
+            g = (x) => new[]
             {
                 2 * Math.Exp(-Math.Pow(x[0] - 1, 2)) * (x[0] - 1),
                 Math.Exp(-0.5 * Math.Pow(x[1] - 2, 2)) * (x[1] - 2)
@@ -153,16 +153,14 @@ namespace Accord.Tests.Math
         }
 
         [Test]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void NoFunctionTest()
         {
             BroydenFletcherGoldfarbShanno target = new BroydenFletcherGoldfarbShanno(2);
 
-            target.Minimize();
+            Assert.Throws<InvalidOperationException>(() => target.Minimize(), "");
         }
 
         [Test]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void NoGradientTest()
         {
             BroydenFletcherGoldfarbShanno target = new BroydenFletcherGoldfarbShanno(2)
@@ -170,11 +168,12 @@ namespace Accord.Tests.Math
                 Function = (x) => 0.0
             };
 
-            target.Minimize();
+            Assert.IsTrue(target.Minimize());
+
+            // The optimizer should use finite differences as the gradient
         }
 
         [Test]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void WrongGradientSizeTest()
         {
             BroydenFletcherGoldfarbShanno target = new BroydenFletcherGoldfarbShanno(2)
@@ -183,11 +182,10 @@ namespace Accord.Tests.Math
                 Gradient = (x) => new double[1]
             };
 
-            target.Minimize();
+            Assert.Throws<InvalidOperationException>(() => target.Minimize(), "");
         }
 
         [Test]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void MutableGradientSizeTest()
         {
             BroydenFletcherGoldfarbShanno target = new BroydenFletcherGoldfarbShanno(2)
@@ -196,7 +194,7 @@ namespace Accord.Tests.Math
                 Gradient = (x) => x
             };
 
-            target.Minimize();
+            Assert.Throws<InvalidOperationException>(() => target.Minimize(), "");
         }
 
         [Test]
@@ -261,7 +259,7 @@ namespace Accord.Tests.Math
             f = (x) =>
                            -Math.Exp(-Math.Pow(x[0] - 1, 2)) - Math.Exp(-0.5 * Math.Pow(x[1] - 2, 2));
 
-            g = (x) => new double[] 
+            g = (x) => new double[]
             {
                 // df/dx = {-2 e^(-    (x-1)^2) (x-1)}
                 2 * Math.Exp(-Math.Pow(x[0] - 1, 2)) * (x[0] - 1),
@@ -271,7 +269,7 @@ namespace Accord.Tests.Math
             };
         }
 
-        
+
 
     }
 }

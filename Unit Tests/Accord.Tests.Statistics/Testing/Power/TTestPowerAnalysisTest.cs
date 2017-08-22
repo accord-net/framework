@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -447,7 +447,7 @@ namespace Accord.Tests.Statistics
             analysis.Power = 0.95;
             analysis.ComputeSize();
 
-            Assert.AreEqual(0.12207248549844732, analysis.Size);
+            Assert.AreEqual(0.12207248549844732, analysis.Size, 1e-10);
             Assert.AreEqual(2, analysis.Samples1);
             Assert.AreEqual(2, analysis.Samples2);
         }

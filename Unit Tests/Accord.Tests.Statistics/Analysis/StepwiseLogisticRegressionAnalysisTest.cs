@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -30,23 +30,6 @@ namespace Accord.Tests.Statistics
     [TestFixture]
     public class StepwiseLogisticRegressionAnalysisTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
 
         [Test]
         public void ComputeTest()
@@ -146,20 +129,20 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(35.498643454320685, full.Coefficients[2].OddsRatio, 1e-6);
             Assert.IsFalse(full.Coefficients.Apply(p => p.OddsRatio).HasNaN());
 
-            Assert.AreEqual(1.8621025559858235, full.Coefficients[0].StandardError, 1e-8);
-            Assert.AreEqual(0.030965622111482096, full.Coefficients[1].StandardError, 1e-8);
-            Assert.AreEqual(1.3272612173685281, full.Coefficients[2].StandardError, 1e-8);
+            Assert.AreEqual(1.8621025559858235, full.Coefficients[0].StandardError, 1e-6);
+            Assert.AreEqual(0.030965622111482096, full.Coefficients[1].StandardError, 1e-6);
+            Assert.AreEqual(1.3272612173685281, full.Coefficients[2].StandardError, 1e-6);
             Assert.IsFalse(full.Coefficients.Apply(p => p.StandardError).HasNaN());
 
             Assert.AreEqual(2, best.Coefficients.Count);
             Assert.AreEqual("Intercept", best.Coefficients[0].Name);
             Assert.AreEqual("Smoking", best.Coefficients[1].Name);
 
-            Assert.AreEqual(0.14285724083908749, best.Coefficients[0].OddsRatio, 1e-8);
-            Assert.AreEqual(34.999975694637072, best.Coefficients[1].OddsRatio, 1e-6);
+            Assert.AreEqual(0.14285724083908749, best.Coefficients[0].OddsRatio, 1e-6);
+            Assert.AreEqual(34.999975694637072, best.Coefficients[1].OddsRatio, 1e-4);
 
-            Assert.AreEqual(1.0685028815195794, best.Coefficients[0].StandardError, 1e-6);
-            Assert.AreEqual(1.3197099261438616, best.Coefficients[1].StandardError, 1e-6);
+            Assert.AreEqual(1.0685028815195794, best.Coefficients[0].StandardError, 1e-3);
+            Assert.AreEqual(1.3197099261438616, best.Coefficients[1].StandardError, 1e-3);
             Assert.IsFalse(best.Coefficients.Apply(p => p.StandardError).HasNaN());
 
             Assert.AreEqual(2, regression.Nested.Count);

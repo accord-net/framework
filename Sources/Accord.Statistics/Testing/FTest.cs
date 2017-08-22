@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -24,6 +24,8 @@ namespace Accord.Statistics.Testing
 {
     using System;
     using Accord.Statistics.Distributions.Univariate;
+    using System.Diagnostics;
+    using Accord.Compat;
 
     /// <summary>
     ///   Snedecor's F-Test.
@@ -184,6 +186,13 @@ namespace Accord.Statistics.Testing
         /// 
         public override double StatisticToPValue(double x)
         {
+            if (Double.IsNaN(this.Statistic))
+            {
+                Trace.TraceWarning("The test statistic is NaN, probably because its standard error is zero. This test is not applicable in this case as the samples do " +
+                    "not come from a normal distribution. One way to overcome this problem may be to increase the number of samples in your experiment.");
+                return Double.NaN;
+            }
+
             double p;
             switch (Tail)
             {

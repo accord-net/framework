@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -171,16 +171,14 @@ namespace Accord.Tests.Math
         }
 
         [Test]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void NoFunctionTest()
         {
             var target = new BoundedBroydenFletcherGoldfarbShanno(2);
 
-            target.Minimize();
+            Assert.Throws<InvalidOperationException>(() => target.Minimize(), "");
         }
 
         [Test]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void NoGradientTest()
         {
             var target = new BoundedBroydenFletcherGoldfarbShanno(2)
@@ -188,11 +186,12 @@ namespace Accord.Tests.Math
                 Function = (x) => 0.0
             };
 
-            target.Minimize();
+            Assert.IsTrue(target.Minimize());
+
+            // The optimizer should use finite differences as the gradient
         }
 
         [Test]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void WrongGradientSizeTest()
         {
             var target = new BoundedBroydenFletcherGoldfarbShanno(2)
@@ -201,11 +200,10 @@ namespace Accord.Tests.Math
                 Gradient = (x) => new double[1]
             };
 
-            target.Minimize();
+            Assert.Throws<InvalidOperationException>(() => target.Minimize(), "");
         }
 
         [Test]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void MutableGradientSizeTest()
         {
             var target = new BoundedBroydenFletcherGoldfarbShanno(2)
@@ -214,7 +212,7 @@ namespace Accord.Tests.Math
                 Gradient = (x) => x
             };
 
-            target.Minimize();
+            Assert.Throws<InvalidOperationException>(() => target.Minimize(), "");
         }
 
         [Test]

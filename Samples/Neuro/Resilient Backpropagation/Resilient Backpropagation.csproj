@@ -26,7 +26,7 @@
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <OldToolsVersion>3.5</OldToolsVersion>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
@@ -42,7 +42,9 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <TargetFrameworkProfile />
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -70,27 +72,29 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Accord, Version=2.12.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Release\net40\Accord.dll</HintPath>
+    <Reference Include="Accord, Version=3.5.4.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Accord.3.5.4-alpha\lib\net46\Accord.dll</HintPath>
     </Reference>
-    <Reference Include="Accord.Controls">
-      <HintPath>..\..\..\Release\net40\Accord.Controls.dll</HintPath>
+    <Reference Include="Accord.Controls, Version=3.5.4.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Accord.Controls.3.5.4-alpha\lib\net46\Accord.Controls.dll</HintPath>
     </Reference>
-    <Reference Include="Accord.IO">
-      <HintPath>..\..\..\Release\net40\Accord.IO.dll</HintPath>
+    <Reference Include="Accord.IO, Version=3.5.4.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Accord.IO.3.5.4-alpha\lib\net46\Accord.IO.dll</HintPath>
     </Reference>
-    <Reference Include="Accord.Math, Version=2.12.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Release\net40\Accord.Math.dll</HintPath>
+    <Reference Include="Accord.MachineLearning, Version=3.5.4.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Accord.MachineLearning.3.5.4-alpha\lib\net46\Accord.MachineLearning.dll</HintPath>
     </Reference>
-    <Reference Include="Accord.Neuro, Version=2.12.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Release\net40\Accord.Neuro.dll</HintPath>
+    <Reference Include="Accord.Math, Version=3.5.4.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Accord.Math.3.5.4-alpha\lib\net46\Accord.Math.dll</HintPath>
     </Reference>
-    <Reference Include="Accord.Statistics, Version=2.12.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Release\net40\Accord.Statistics.dll</HintPath>
+    <Reference Include="Accord.Math.Core, Version=3.5.4.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Accord.Math.3.5.4-alpha\lib\net46\Accord.Math.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Accord.Neuro, Version=3.5.4.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Accord.Neuro.3.5.4-alpha\lib\net46\Accord.Neuro.dll</HintPath>
+    </Reference>
+    <Reference Include="Accord.Statistics, Version=3.5.4.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Accord.Statistics.3.5.4-alpha\lib\net46\Accord.Statistics.dll</HintPath>
     </Reference>
     <Reference Include="System">
       <Name>System</Name>
@@ -110,6 +114,10 @@
     </Reference>
     <Reference Include="System.XML">
       <Name>System.XML</Name>
+    </Reference>
+    <Reference Include="ZedGraph, Version=5.1.7.430, Culture=neutral, PublicKeyToken=02a83cbd123fcd60, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\ZedGraph.5.1.7\lib\net35-Client\ZedGraph.dll</HintPath>
+      <Private>True</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -181,6 +189,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="app.config" />
+    <None Include="packages.config" />
     <None Include="Sample data %28approximation%29\sample1.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -205,6 +214,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="framework.ico" />
+    <Content Include="License-LGPL.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
@@ -213,4 +223,11 @@
     <PostBuildEvent>
     </PostBuildEvent>
   </PropertyGroup>
+  <Import Project="..\..\packages\Accord.3.5.4-alpha\build\Accord.targets" Condition="Exists('..\..\packages\Accord.3.5.4-alpha\build\Accord.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\packages\Accord.3.5.4-alpha\build\Accord.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Accord.3.5.4-alpha\build\Accord.targets'))" />
+  </Target>
 </Project>

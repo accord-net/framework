@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Accord.Video.FFMPEG.x64</id>
+    <version>$version$</version>
+    <title>Accord.Video.FFMPEG (GPL) x64</title>
+    <authors>Accord.NET</authors>
+    <owners>Accord.NET</owners>
+    <licenseUrl>http://accord-framework.net/gpl.txt</licenseUrl>
+    <projectUrl>http://accord-framework.net</projectUrl>
+    <iconUrl>http://accord-framework.net/logo.png</iconUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>
+      Contains classes and methods to handle video sources using FFMPEG. For this reason, this package is available under the GPL license only. This package originated from the AForge.NET Framework and is part of the Accord.NET Framework.
+    </description>
+    <summary>Read and write videos using FFMPEG, including WebM, H.264 and Xvid/DivX files.</summary>
+    <tags>accord.net aforge.net framework ffmpeg video capture decode codec</tags>
+    <dependencies>
+      <dependency id="Accord"                 version="$version$" />
+      <dependency id="Accord.Video"           version="$version$" />
+    </dependencies>
+  </metadata>
+  <files>
+    <!--<file src="..\..\Release\net35\GPL\Accord.Video.FFMPEG.x64.dll" target="lib\net35\Accord.Video.FFMPEG.x64.dll" />-->
+    <!--<file src="..\..\Release\net35\GPL\Accord.Video.FFMPEG.x64.xml" target="lib\net35\Accord.Video.FFMPEG.x64.xml" />-->
+    
+    <file src="..\..\Release\net40\GPL\Accord.Video.FFMPEG.x64.dll" target="lib\net40\Accord.Video.FFMPEG.x64.dll" />
+    <file src="..\..\Release\net40\GPL\Accord.Video.FFMPEG.x64.xml" target="lib\net40\Accord.Video.FFMPEG.x64.xml" />
+    
+    <file src="..\..\Release\net45\GPL\Accord.Video.FFMPEG.x64.dll" target="lib\net45\Accord.Video.FFMPEG.x64.dll" />
+    <file src="..\..\Release\net45\GPL\Accord.Video.FFMPEG.x64.xml" target="lib\net45\Accord.Video.FFMPEG.x64.xml" />
+
+    <file src="..\..\Release\net46\GPL\Accord.Video.FFMPEG.x64.dll" target="lib\net46\Accord.Video.FFMPEG.x64.dll" />
+    <file src="..\..\Release\net46\GPL\Accord.Video.FFMPEG.x64.xml" target="lib\net46\Accord.Video.FFMPEG.x64.xml" />
+
+    <file src="..\..\Release\net462\GPL\Accord.Video.FFMPEG.x64.dll" target="lib\net462\Accord.Video.FFMPEG.x64.dll" />
+    <file src="..\..\Release\net462\GPL\Accord.Video.FFMPEG.x64.xml" target="lib\net462\Accord.Video.FFMPEG.x64.xml" />
+
+    <!-- <file src="..\..\Release\netstandard2.0\GPL\Accord.Video.FFMPEG.x64.dll" target="lib\netstandard2.0\Accord.Video.FFMPEG.x64.dll" /> -->
+    <!-- <file src="..\..\Release\netstandard2.0\GPL\Accord.Video.FFMPEG.x64.xml" target="lib\netstandard2.0\Accord.Video.FFMPEG.x64.xml" /> -->
+
+
+    <file src="..\..\Externals\ffmpeg\ffmpeg-3.2.2-win64-shared\bin\avcodec-57.dll"       target="build\avcodec-57.dll" />
+    <file src="..\..\Externals\ffmpeg\ffmpeg-3.2.2-win64-shared\bin\avdevice-57.dll"      target="build\avdevice-57.dll" />
+    <file src="..\..\Externals\ffmpeg\ffmpeg-3.2.2-win64-shared\bin\avfilter-6.dll"       target="build\avfilter-6.dll" />
+    <file src="..\..\Externals\ffmpeg\ffmpeg-3.2.2-win64-shared\bin\avformat-57.dll"      target="build\avformat-57.dll" />
+    <file src="..\..\Externals\ffmpeg\ffmpeg-3.2.2-win64-shared\bin\avutil-55.dll"        target="build\avutil-55.dll" />
+    <file src="..\..\Externals\ffmpeg\ffmpeg-3.2.2-win64-shared\bin\postproc-54.dll"      target="build\postproc-54.dll" />
+    <file src="..\..\Externals\ffmpeg\ffmpeg-3.2.2-win64-shared\bin\swresample-2.dll"     target="build\swresample-2.dll" />
+    <file src="..\..\Externals\ffmpeg\ffmpeg-3.2.2-win64-shared\bin\swscale-4.dll"        target="build\swscale-4.dll" />
+    <file src="..\..\Externals\ffmpeg\ffmpeg-3.2.2-win64-shared\README.txt"               target="build\FFMPEG-README.txt" />
+
+    <file src="..\..\Setup\Scripts\Accord.Video.FFMPEG.targets" target="build\Accord.Video.FFMPEG.x64.targets" />
+
+  </files>
+</package>

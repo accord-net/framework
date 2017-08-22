@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -23,6 +23,7 @@
 namespace Accord.MachineLearning.VectorMachines
 {
     using Accord.MachineLearning;
+    using Accord.MachineLearning.VectorMachines.Learning;
     using Accord.Math;
     using Accord.Statistics;
     using Accord.Statistics.Kernels;
@@ -30,7 +31,37 @@ namespace Accord.MachineLearning.VectorMachines
     using System.Collections.Generic;
     using System.Runtime.Serialization;
     using System.Threading;
+    using Accord.Compat;
     using System.Threading.Tasks;
+
+    /// <summary>
+    ///   Probability computation strategies for <see cref="MultilabelSupportVectorMachine"/>
+    /// </summary>
+    /// 
+    public enum MultilabelProbabilityMethod
+    {
+        /// <summary>
+        ///   Probabilities should be computed per-class, meaning the probabilities among all the classe should not need to sum
+        ///   up to one. This is the default when dealing with multi-label (as opposed to mult-class) classification problems.
+        /// </summary>
+        PerClass,
+
+        /// <summary>
+        ///   Probabilities should be normalized to sum up to one. This will be done using the <see cref="Special.Softmax(double[])"/>
+        ///   function considering the output probabilities of all classes.
+        /// </summary>
+        SumsToOne,
+
+        /// <summary>
+        ///   Probabilities should be normalized to sum up to one. However, in a one-vs-rest setting, one of the machines will 
+        ///   have been trained to specifically distinguish between the winning class and the rest of the classes. As such the
+        ///   output of this class will be used to determine the true probability of the winning class, and the complement of
+        ///   this probabilitiy will be divided among the restant of the losing classses. The probabilities of the losing classes
+        ///   will be determined using a softmax.
+        /// </summary>
+        /// 
+        SumsToOneWithEmphasisOnWinner,
+    }
 
     /// <summary>
     ///   One-against-all Multi-label Kernel Support Vector Machine Classifier.
@@ -58,66 +89,40 @@ namespace Accord.MachineLearning.VectorMachines
     ///       <a href="http://nlp.stanford.edu/IR-book/html/htmledition/multiclass-svms-1.html">
     ///        http://nlp.stanford.edu/IR-book/html/htmledition/multiclass-svms-1.html </a></description></item>
     ///     </list></para>
-    ///
     /// </remarks>
     ///
     /// <example>
-    ///   <code>
-    ///   // Sample data
-    ///   //   The following is simple auto association function
-    ///   //   where each input correspond to its own class. This
-    ///   //   problem should be easily solved by a Linear kernel.
-    ///
-    ///   // Sample input data
-    ///   double[][] inputs =
-    ///   {
-    ///       new double[] { 0 },
-    ///       new double[] { 3 },
-    ///       new double[] { 1 },
-    ///       new double[] { 2 },
-    ///   };
-    ///
-    ///   // Outputs for each of the inputs
-    ///   int[][] outputs =
-    ///   {
-    ///       new[] { -1,  1, -1 },
-    ///       new[] { -1, -1,  1 },
-    ///       new[] {  1,  1, -1 },
-    ///       new[] { -1, -1, -1 },
-    ///   };
-    ///
-    ///
-    ///   // Create a new Linear kernel
-    ///   IKernel kernel = new Linear();
-    ///
-    ///   // Create a new Multi-class Support Vector Machine with one input,
-    ///   //  using the linear kernel and for four disjoint classes.
-    ///   var machine = new MultilabelSupportVectorMachine(1, kernel, 3);
-    ///
-    ///   // Create the Multi-label learning algorithm for the machine
-    ///   var teacher = new MultilabelSupportVectorLearning(machine, inputs, outputs);
-    ///
-    ///   // Configure the learning algorithm to use SMO to train the
-    ///   //  underlying SVMs in each of the binary class subproblems.
-    ///   teacher.Algorithm = (svm, classInputs, classOutputs, i, j) =>
-    ///       new SequentialMinimalOptimization(svm, classInputs, classOutputs);
-    ///
-    ///   // Run the learning algorithm
-    ///   double error = teacher.Run();
-    ///   </code>
+    /// <para>
+    ///   The following example shows how to learn a linear, multi-label (one-vs-rest) support 
+    ///   vector machine using the <see cref="LinearDualCoordinateDescent"/> algorithm. </para>
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MultilabelSupportVectorLearningTest.cs" region="doc_learn_ldcd" />
+    /// 
+    /// <para>
+    ///   The following example shows how to learn a non-linear, multi-label (one-vs-rest) 
+    ///   support vector machine using the <see cref="Gaussian"/> kernel and the 
+    ///   <see cref="SequentialMinimalOptimization{TKernel}"/> algorithm. </para>
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MultilabelSupportVectorLearningTest.cs" region="doc_learn_gaussian" />
+    ///   
+    /// <para>
+    ///   Support vector machines can have their weights calibrated in order to produce probability 
+    ///   estimates (instead of simple class separation distances). The following example shows how 
+    ///   to use <see cref="ProbabilisticOutputCalibration"/> within <see cref="MulticlassSupportVectorLearning{TKernel}"/> 
+    ///   to generate a probabilistic SVM:</para>
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MultilabelSupportVectorLearningTest.cs" region="doc_learn_calibration" />
     /// </example>
-    ///
-    /// <seealso cref="Learning.MultilabelSupportVectorLearning"/>
-    ///
-    /// <seealso cref="SupportVectorMachine"/>
-    /// <seealso cref="KernelSupportVectorMachine"/>
-    /// <seealso cref="Learning.SequentialMinimalOptimization"/>
+    /// 
+    /// <seealso cref="SupportVectorMachine{TKernel}"/>
+    /// <seealso cref="MulticlassSupportVectorMachine{TKernel}"/>
+    /// <seealso cref="MultilabelSupportVectorLearning{TKernel}"/>
+    /// <seealso cref="SequentialMinimalOptimization{TKernel}"/>
     ///
     [Serializable]
     public class MultilabelSupportVectorMachine<TKernel, TInput> :
         MultilabelSupportVectorMachine<SupportVectorMachine<TKernel, TInput>, TKernel, TInput>
         where TKernel : IKernel<TInput>
+#if !NETSTANDARD1_4
         where TInput : ICloneable
+#endif
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="MultilabelSupportVectorMachine{TModel, TKernel, TInput}"/> class.
@@ -161,56 +166,28 @@ namespace Accord.MachineLearning.VectorMachines
     /// </remarks>
     ///
     /// <example>
-    ///   <code>
-    ///   // Sample data
-    ///   //   The following is simple auto association function
-    ///   //   where each input correspond to its own class. This
-    ///   //   problem should be easily solved by a Linear kernel.
-    ///
-    ///   // Sample input data
-    ///   double[][] inputs =
-    ///   {
-    ///       new double[] { 0 },
-    ///       new double[] { 3 },
-    ///       new double[] { 1 },
-    ///       new double[] { 2 },
-    ///   };
-    ///
-    ///   // Outputs for each of the inputs
-    ///   int[][] outputs =
-    ///   {
-    ///       new[] { -1,  1, -1 },
-    ///       new[] { -1, -1,  1 },
-    ///       new[] {  1,  1, -1 },
-    ///       new[] { -1, -1, -1 },
-    ///   };
-    ///
-    ///
-    ///   // Create a new Linear kernel
-    ///   IKernel kernel = new Linear();
-    ///
-    ///   // Create a new Multi-class Support Vector Machine with one input,
-    ///   //  using the linear kernel and for four disjoint classes.
-    ///   var machine = new MultilabelSupportVectorMachine(1, kernel, 3);
-    ///
-    ///   // Create the Multi-label learning algorithm for the machine
-    ///   var teacher = new MultilabelSupportVectorLearning(machine, inputs, outputs);
-    ///
-    ///   // Configure the learning algorithm to use SMO to train the
-    ///   //  underlying SVMs in each of the binary class subproblems.
-    ///   teacher.Algorithm = (svm, classInputs, classOutputs, i, j) =>
-    ///       new SequentialMinimalOptimization(svm, classInputs, classOutputs);
-    ///
-    ///   // Run the learning algorithm
-    ///   double error = teacher.Run();
-    ///   </code>
+    /// <para>
+    ///   The following example shows how to learn a linear, multi-label (one-vs-rest) support 
+    ///   vector machine using the <see cref="LinearDualCoordinateDescent"/> algorithm. </para>
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MultilabelSupportVectorLearningTest.cs" region="doc_learn_ldcd" />
+    /// 
+    /// <para>
+    ///   The following example shows how to learn a non-linear, multi-label (one-vs-rest) 
+    ///   support vector machine using the <see cref="Gaussian"/> kernel and the 
+    ///   <see cref="SequentialMinimalOptimization{TKernel}"/> algorithm. </para>
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MultilabelSupportVectorLearningTest.cs" region="doc_learn_gaussian" />
+    ///   
+    /// <para>
+    ///   Support vector machines can have their weights calibrated in order to produce probability 
+    ///   estimates (instead of simple class separation distances). The following example shows how 
+    ///   to use <see cref="ProbabilisticOutputCalibration"/> within <see cref="MulticlassSupportVectorLearning{TKernel}"/> 
+    ///   to generate a probabilistic SVM:</para>
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MultilabelSupportVectorLearningTest.cs" region="doc_learn_calibration" />
     /// </example>
-    ///
-    /// <seealso cref="Learning.MultilabelSupportVectorLearning"/>
-    ///
-    /// <seealso cref="SupportVectorMachine"/>
-    /// <seealso cref="KernelSupportVectorMachine"/>
-    /// <seealso cref="Learning.SequentialMinimalOptimization"/>
+    /// 
+    /// <seealso cref="MulticlassSupportVectorMachine{TKernel}"/>
+    /// <seealso cref="MultilabelSupportVectorLearning{TKernel}"/>
+    /// <seealso cref="SequentialMinimalOptimization{TKernel}"/>
     ///
     [Serializable]
     public class MultilabelSupportVectorMachine<TModel, TKernel, TInput> :
@@ -218,8 +195,12 @@ namespace Accord.MachineLearning.VectorMachines
         IDisposable
         where TKernel : IKernel<TInput>
         where TModel : SupportVectorMachine<TKernel, TInput>
+#if !NETSTANDARD1_4
         where TInput : ICloneable
+#endif
     {
+
+        private MultilabelProbabilityMethod method = MultilabelProbabilityMethod.PerClass;
 
         // Multi-label statistics
         private int? totalVectorsCount;
@@ -246,11 +227,6 @@ namespace Accord.MachineLearning.VectorMachines
             this.sharedVectors = new Lazy<int[][]>(computeSharedVectors, true);
         }
 
-
-
-
-
-        #region Properties
 
 
         /// <summary>
@@ -315,8 +291,16 @@ namespace Accord.MachineLearning.VectorMachines
             }
         }
 
-
-        #endregion
+        /// <summary>
+        ///   Gets or sets the <see cref="MultilabelProbabilityMethod"/> that should be used when computing probabilities
+        ///   using the <see cref="MultilabelLikelihoodClassifierBase{TInput}.Probabilities(TInput)"/> and related methods.
+        /// </summary>
+        /// 
+        public MultilabelProbabilityMethod Method
+        {
+            get { return method; }
+            set { method = value; }
+        }
 
         /// <summary>
         ///   Gets or sets the parallelization options used
@@ -352,16 +336,15 @@ namespace Accord.MachineLearning.VectorMachines
             // Get the machine for this problem
             var machine = Models[index];
 
-            // Get the vectors shared among all machines
-            int[] vectors = cache.Vectors[index];
-            double[] values = cache.Products;
-
             if (machine.SupportVectors.Length == 1)
             {
                 // For linear machines, computation is simpler
                 return machine.Threshold + machine.Weights[0] * machine.Kernel.Function(machine.SupportVectors[0], input);
             }
 
+            // Get the vectors shared among all machines
+            int[] vectors = cache.Vectors[index];
+            double[] values = cache.Products;
             double sum = machine.Threshold;
 
             // For each support vector in the machine
@@ -401,7 +384,7 @@ namespace Accord.MachineLearning.VectorMachines
             }
 
 #if DEBUG
-            double expected = machine.Distance(input);
+            double expected = machine.Score(input);
             Accord.Diagnostics.Debug.Assert(sum.IsEqual(expected, rtol: 1e-3));
 #endif
 
@@ -457,10 +440,20 @@ namespace Accord.MachineLearning.VectorMachines
         public override bool[] Decide(TInput input, bool[] result)
         {
             Cache cache = createOrResetCache();
-            Parallel.For(0, Models.Length, ParallelOptions, i =>
+
+            if (ParallelOptions.MaxDegreeOfParallelism == 1)
             {
-                result[i] = Classes.Decide(distance(i, input, cache));
-            });
+                for (int i = 0; i < Models.Length; i++)
+                    result[i] = Classes.Decide(distance(i, input, cache));
+            }
+            else
+            {
+                Parallel.For(0, Models.Length, ParallelOptions, i =>
+                {
+                    result[i] = Classes.Decide(distance(i, input, cache));
+                });
+            }
+
             return result;
         }
 
@@ -476,25 +469,130 @@ namespace Accord.MachineLearning.VectorMachines
         /// <param name="result">An array where the scores will be stored,
         /// avoiding unnecessary memory allocations.</param>
         /// <returns></returns>
-        public override double[] Distances(TInput input, ref bool[] decision, double[] result)
+        public override double[] Scores(TInput input, ref bool[] decision, double[] result)
         {
             if (decision == null)
                 decision = new bool[NumberOfOutputs];
 
             Cache cache = createOrResetCache();
 
-            var d = decision;
-            Parallel.For(0, Models.Length, ParallelOptions, i =>
+            bool[] d = decision;
+
+            if (ParallelOptions.MaxDegreeOfParallelism == 1)
             {
-                result[i] = distance(i, input, cache);
-                d[i] = Classes.Decide(result[i]);
-            });
+                for (int i = 0; i < Models.Length; i++)
+                {
+                    result[i] = distance(i, input, cache);
+                    d[i] = Classes.Decide(result[i]);
+                }
+            }
+            else
+            {
+                Parallel.For(0, Models.Length, ParallelOptions, i =>
+                {
+                    result[i] = distance(i, input, cache);
+                    d[i] = Classes.Decide(result[i]);
+                });
+            }
 
             decision = d;
             return result;
         }
 
+        /// <summary>
+        /// Predicts a class label vector for the given input vector, returning the
+        /// log-likelihoods of the input vector belonging to each possible class.
+        /// </summary>
+        /// <param name="input">The input vector.</param>
+        /// <param name="decision">The class label predicted by the classifier.</param>
+        /// <param name="result">An array where the log-likelihoods will be stored,
+        /// avoiding unnecessary memory allocations.</param>
+        public override double[] LogLikelihoods(TInput input, ref bool[] decision, double[] result)
+        {
+            this.Scores(input, ref decision, result);
+            for (int i = 0; i < result.Length; i++)
+            {
+#if DEBUG
+                double expectedScore = this.Models[i].Score(input);
+                Accord.Diagnostics.Debug.Assert(result[i].IsEqual(expectedScore, rtol: 1e-3));
+#endif
+                result[i] = -Special.Log1pexp(-result[i]);
+#if DEBUG
+                double expectedLogLikelihood = this.Models[i].LogLikelihood(input);
+                Accord.Diagnostics.Debug.Assert(result[i].IsEqual(expectedLogLikelihood, rtol: 1e-3));
+#endif
 
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Predicts a class label vector for the given input vector, returning the
+        /// log-likelihoods of the input vector belonging to each possible class.
+        /// </summary>
+        /// <param name="input">The input vector.</param>
+        /// <param name="decision">The class label predicted by the classifier.</param>
+        /// <param name="result">An array where the log-likelihoods will be stored,
+        /// avoiding unnecessary memory allocations.</param>
+        public override double[] Probabilities(TInput input, ref bool[] decision, double[] result)
+        {
+            this.LogLikelihoods(input, ref decision, result);
+
+            if (method == MultilabelProbabilityMethod.PerClass)
+            {
+                Elementwise.Exp(result, result: result);
+            }
+            else if (method == MultilabelProbabilityMethod.SumsToOne)
+            {
+                Special.Softmax(input: result, result: result);
+            }
+            else if (method == MultilabelProbabilityMethod.SumsToOneWithEmphasisOnWinner)
+            {
+                Elementwise.Exp(result, result: result);
+
+                int winner = result.ArgMax();
+                double rest = 1.0 - result[winner];
+
+                // Normalize losing classes
+                double sum = 0;
+                for (int i = 0; i < result.Length; i++)
+                    if (i != winner)
+                        sum += result[i];
+
+                for (int i = 0; i < result.Length; i++)
+                    if (i != winner)
+                        result[i] = (result[i] / sum) * rest;
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Computes a numerical score measuring the association between
+        /// the given <paramref name="input" /> vector and a given
+        /// <paramref name="classIndex" />.
+        /// </summary>
+        /// <param name="input">The input vector.</param>
+        /// <param name="classIndex">The index of the class whose score will be computed.</param>
+        /// <returns>System.Double.</returns>
+        public override double Score(TInput input, int classIndex)
+        {
+            return Models[classIndex].Score(input);
+        }
+
+        /// <summary>
+        /// Computes a class-label decision for a given <paramref name="input" />.
+        /// </summary>
+        /// <param name="input">The input vector that should be classified into
+        /// one of the <see cref="P:Accord.MachineLearning.ITransform.NumberOfOutputs" /> possible classes.</param>
+        /// <param name="result">An array where the scores will be stored,
+        /// avoiding unnecessary memory allocations.</param>
+        /// <returns>A class-label that best described <paramref name="input" /> according
+        /// to this classifier.</returns>
+        public override int[] Decide(TInput[] input, int[] result)
+        {
+            return Scores(input).ArgMax(dimension: 1, result: result);
+        }
 
         [OnDeserialized]
         private void onDeserialized(StreamingContext context)
@@ -502,10 +600,6 @@ namespace Accord.MachineLearning.VectorMachines
             initialize();
             parallelOptions = new ParallelOptions();
         }
-
-
-
-
 
 
 
@@ -658,8 +752,7 @@ namespace Accord.MachineLearning.VectorMachines
 
         /// <summary>
         ///   Gets the total kernel evaluations performed in the last call
-        ///   to <see cref="IClassifier{TInput, TClasses}.Decide(TInput)"/>
-        ///   and similar functions in the current thread.
+        ///   to Decide(TInput) and similar functions in the current thread.
         /// </summary>
         ///
         /// <returns>The number of total kernel evaluations.</returns>
@@ -671,8 +764,7 @@ namespace Accord.MachineLearning.VectorMachines
 
         /// <summary>
         ///   Gets the number of cache hits during in the last call
-        ///   to <see cref="IClassifier{TInput, TClasses}.Decide(TInput)"/>
-        ///   and similar functions in the current thread.
+        ///   to Decide(TInput) and similar functions in the current thread.
         /// </summary>
         ///
         /// <returns>The number of cache hits in the last decision.</returns>
@@ -707,6 +799,5 @@ namespace Accord.MachineLearning.VectorMachines
             initialize();
         }
 
-        
     }
 }

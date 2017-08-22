@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -22,16 +22,16 @@
 
 namespace Accord.MachineLearning
 {
+    using Accord.MachineLearning.Performance;
+    using System;
 
     /// <summary>
-    ///   Class for representing results acquired through a
-    ///   <see cref="SplitSetValidation{T}">split-set</see>
-    ///   validation analysis.
+    ///   Obsolete. Please refer to <see cref="SplitSetValidation{TModel, TInput}"/> instead.
     /// </summary>
     /// 
-    /// <typeparam name="TModel">The type of the model being analyzed.</typeparam>
-    /// 
-    public class SplitSetResult<TModel> where TModel : class
+    [Obsolete("Please use SplitResult{TModel} instead.")]
+    public class SplitSetResult<TModel> 
+        where TModel : class
     {
         /// <summary>
         ///   Gets the <see cref="CrossValidation{T}"/>   

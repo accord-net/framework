@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -54,14 +54,15 @@ namespace Accord.Imaging
     /// </para>
     /// </remarks>
     /// 
-    public class LocalBinaryPattern : IFeatureDetector<FeatureDescriptor>
+    public class LocalBinaryPattern : IFeatureDetector<FeatureDescriptor>,
+        IFeatureDetector<IFeatureDescriptor<double[]>>
     {
         const int numberOfBins = 256;
 
-        int cellSize = 6;  // size of the cell, in number of pixels
+        readonly int cellSize = 6;  // size of the cell, in number of pixels
         int blockSize = 3; // size of the block, in number of cells
         bool normalize = true;
-        
+
         double epsilon = 1e-10;
 
 
@@ -173,7 +174,15 @@ namespace Accord.Imaging
             int offset = stride - width;
 
             // 1. Calculate 8-pixel neighborhood binary patterns 
-            patterns = new int[height, width];
+            if (patterns == null || height > patterns.GetLength(0) || width > patterns.GetLength(1))
+            {
+                patterns = new int[height, width];
+            }
+            else
+            {
+                System.Diagnostics.Debug.Write(String.Format("Reusing storage for patterns. " +
+                    "Need ({0}, {1}), have ({1}, {2})", height, width, patterns.Rows(), patterns.Columns()));
+            }
 
             unsafe
             {
@@ -229,7 +238,19 @@ namespace Accord.Imaging
             {
                 cellCountX = (int)Math.Floor(width / (double)cellSize);
                 cellCountY = (int)Math.Floor(height / (double)cellSize);
-                histograms = new int[cellCountX, cellCountY][];
+
+                if (histograms == null || cellCountX > histograms.Rows() || cellCountY > histograms.Columns())
+                {
+                    this.histograms = new int[cellCountX, cellCountY][];
+                    for (int i = 0; i < cellCountX; i++)
+                        for (int j = 0; j < cellCountY; j++)
+                            this.histograms[i, j] = new int[numberOfBins];
+                }
+                else
+                {
+                    System.Diagnostics.Debug.Write(String.Format("Reusing storage for histograms. " +
+                        "Need ({0}, {1}), have ({1}, {2})", cellCountX, cellCountY, histograms.Rows(), histograms.Columns()));
+                }
 
                 // For each cell
                 for (int i = 0; i < cellCountX; i++)
@@ -237,7 +258,7 @@ namespace Accord.Imaging
                     for (int j = 0; j < cellCountY; j++)
                     {
                         // Compute the histogram
-                        int[] histogram = new int[numberOfBins];
+                        int[] histogram = this.histograms[i, j];
 
                         int startCellX = i * cellSize;
                         int startCellY = j * cellSize;
@@ -246,21 +267,29 @@ namespace Accord.Imaging
                         for (int x = 0; x < cellSize; x++)
                             for (int y = 0; y < cellSize; y++)
                                 histogram[patterns[startCellY + y, startCellX + x]]++;
-
-                        histograms[i, j] = histogram;
                     }
                 }
             }
             else
             {
-                cellCountX = cellCountY = 1;
-                int[] histogram = new int[numberOfBins];
+                cellCountX = 1;
+                cellCountY = 1;
+
+                if (histograms == null)
+                {
+                    this.histograms = new int[,][] { { new int[numberOfBins] } };
+                }
+                else
+                {
+                    System.Diagnostics.Debug.Write(String.Format("Reusing storage for histograms. " +
+                        "Need ({0}, {1}), have ({1}, {2})", cellCountX, cellCountY, histograms.Rows(), histograms.Columns()));
+                }
+
+                int[] histogram = this.histograms[0, 0];
 
                 for (int i = 0; i < height; i++)
                     for (int j = 0; j < width; j++)
                         histogram[patterns[i, j]]++;
-
-                histograms = new int[,][] { { histogram } };
             }
 
             // 3. Group the cells into larger, normalized blocks
@@ -272,18 +301,19 @@ namespace Accord.Imaging
                 blocksCountX = (int)Math.Floor(cellCountX / (double)blockSize);
                 blocksCountY = (int)Math.Floor(cellCountY / (double)blockSize);
             }
-            else 
+            else
             {
                 blockSize = blocksCountX = blocksCountY = 1;
             }
 
-            List<double[]> blocks = new List<double[]>();
+
+            var blocks = new List<double[]>();
 
             for (int i = 0; i < blocksCountX; i++)
             {
                 for (int j = 0; j < blocksCountY; j++)
                 {
-                    double[] v = new double[blockSize * blockSize * numberOfBins];
+                    double[] block = new double[blockSize * blockSize * numberOfBins];
 
                     int startBlockX = i * blockSize;
                     int startBlockY = j * blockSize;
@@ -294,17 +324,16 @@ namespace Accord.Imaging
                     {
                         for (int y = 0; y < blockSize; y++)
                         {
-                            int[] histogram =
-                                histograms[startBlockX + x, startBlockY + y];
+                            int[] histogram = histograms[startBlockX + x, startBlockY + y];
 
                             // Copy all histograms to the block vector
                             for (int k = 0; k < histogram.Length; k++)
-                                v[c++] = histogram[k];
+                                block[c++] = histogram[k];
                         }
                     }
 
-                    double[] block = (normalize) ?
-                        v.Divide(v.Euclidean() + epsilon) : v;
+                    if (normalize)
+                        block.Divide(block.Euclidean() + epsilon, result: block);
 
                     blocks.Add(block);
                 }
@@ -358,41 +387,51 @@ namespace Accord.Imaging
             }
 
             // lock source image
-            BitmapData imageData = image.LockBits(
-                new Rectangle(0, 0, image.Width, image.Height),
-                ImageLockMode.ReadOnly, image.PixelFormat);
-
-            List<double[]> blocks;
+            BitmapData imageData = image.LockBits(ImageLockMode.ReadOnly);
 
             try
             {
                 // process the image
-                blocks = ProcessImage(new UnmanagedImage(imageData));
+                return ProcessImage(new UnmanagedImage(imageData));
             }
             finally
             {
                 // unlock image
                 image.UnlockBits(imageData);
             }
-
-            return blocks;
         }
 
 
-        List<FeatureDescriptor> IFeatureDetector<FeatureDescriptor, double[]>.ProcessImage(Bitmap image)
+        IEnumerable<FeatureDescriptor> IFeatureDetector<FeatureDescriptor, double[]>.ProcessImage(Bitmap image)
         {
             return ProcessImage(image).ConvertAll(p => new FeatureDescriptor(p));
         }
 
-        List<FeatureDescriptor> IFeatureDetector<FeatureDescriptor, double[]>.ProcessImage(BitmapData imageData)
+        IEnumerable<FeatureDescriptor> IFeatureDetector<FeatureDescriptor, double[]>.ProcessImage(BitmapData imageData)
         {
             return ProcessImage(imageData).ConvertAll(p => new FeatureDescriptor(p));
         }
 
-        List<FeatureDescriptor> IFeatureDetector<FeatureDescriptor, double[]>.ProcessImage(UnmanagedImage image)
+        IEnumerable<FeatureDescriptor> IFeatureDetector<FeatureDescriptor, double[]>.ProcessImage(UnmanagedImage image)
         {
             return ProcessImage(image).ConvertAll(p => new FeatureDescriptor(p));
         }
+
+        IEnumerable<IFeatureDescriptor<double[]>> IFeatureDetector<IFeatureDescriptor<double[]>, double[]>.ProcessImage(Bitmap image)
+        {
+            return ProcessImage(image).ConvertAll(p => (IFeatureDescriptor<double[]>)new FeatureDescriptor(p));
+        }
+
+        IEnumerable<IFeatureDescriptor<double[]>> IFeatureDetector<IFeatureDescriptor<double[]>, double[]>.ProcessImage(BitmapData imageData)
+        {
+            return ProcessImage(imageData).ConvertAll(p => (IFeatureDescriptor<double[]>)new FeatureDescriptor(p));
+        }
+
+        IEnumerable<IFeatureDescriptor<double[]>> IFeatureDetector<IFeatureDescriptor<double[]>, double[]>.ProcessImage(UnmanagedImage image)
+        {
+            return ProcessImage(image).ConvertAll(p => (IFeatureDescriptor<double[]>)new FeatureDescriptor(p));
+        }
+
 
         /// <summary>
         ///   Creates a new object that is a copy of the current instance.
@@ -406,8 +445,6 @@ namespace Accord.Imaging
         {
             var clone = new LocalBinaryPattern(blockSize, cellSize, normalize);
             clone.epsilon = epsilon;
-            clone.histograms = (int[,][])histograms.Clone();
-            clone.patterns = (int[,])patterns.Clone();
             return clone;
         }
 

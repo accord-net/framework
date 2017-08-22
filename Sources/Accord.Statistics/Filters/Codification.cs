@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -23,11 +23,11 @@
 namespace Accord.Statistics.Filters
 {
     using System;
-    using System.Collections.Generic;
     using System.Data;
     using System.ComponentModel;
     using Accord.Math;
-    using Accord.Collections;
+    using MachineLearning;
+    using Accord.Compat;
 
     /// <summary>
     ///   Codification type.
@@ -42,8 +42,8 @@ namespace Accord.Statistics.Filters
         ///   can assume.
         /// </summary>
         /// 
-        Ordinal, 
-        
+        Ordinal,
+
         /// <summary>
         ///   This variable should be codified as a 1-of-n vector by creating
         ///   one column for each symbol this variable can assume, and marking
@@ -51,8 +51,8 @@ namespace Accord.Statistics.Filters
         ///   as zero.
         /// </summary>
         /// 
-        Categorical, 
-        
+        Categorical,
+
         /// <summary>
         ///   This variable should be codified as a 1-of-(n-1) vector by creating
         ///   one column for each symbol this variable can assume, except the
@@ -61,7 +61,19 @@ namespace Accord.Statistics.Filters
         ///   a zero in every column).
         /// </summary>
         /// 
-        CategoricalWithBaseline
+        CategoricalWithBaseline,
+
+        /// <summary>
+        ///   This variable is continuous and should be not be codified.
+        /// </summary>
+        /// 
+        Continuous,
+
+        /// <summary>
+        ///   This variable is discrete and should be not be codified.
+        /// </summary>
+        /// 
+        Discrete
     }
 
     /// <summary>
@@ -107,54 +119,9 @@ namespace Accord.Statistics.Filters
     /// <para>
     ///   The following more elaborated examples show how to
     ///   use the <see cref="Codification"/> filter without
-    ///   necessarily handling <see cref="System.Data.DataTable">
-    ///   DataTable</see>s.</para>
+    ///   necessarily handling <c>System.Data.DataTable</c>s.</para>
     ///   
-    /// <code>
-    ///   // Suppose we have a data table relating the age of
-    ///   // a person and its categorical classification, as 
-    ///   // in "child", "adult" or "elder".
-    ///   
-    ///   // The Codification filter is able to extract those
-    ///   // string labels and transform them into discrete
-    ///   // symbols, assigning integer labels to each of them
-    ///   // such as "child" = 0, "adult" = 1, and "elder" = 3.
-    ///   
-    ///   // Create the aforementioned sample table
-    ///   DataTable table = new DataTable("Sample data");
-    ///   table.Columns.Add("Age", typeof(int));
-    ///   table.Columns.Add("Label", typeof(string));
-    ///   
-    ///   //            age   label
-    ///   table.Rows.Add(10, "child");
-    ///   table.Rows.Add(07, "child");
-    ///   table.Rows.Add(04, "child");
-    ///   table.Rows.Add(21, "adult");
-    ///   table.Rows.Add(27, "adult");
-    ///   table.Rows.Add(12, "child");
-    ///   table.Rows.Add(79, "elder");
-    ///   table.Rows.Add(40, "adult");
-    ///   table.Rows.Add(30, "adult");
-    ///   
-    ///   
-    ///   // Now, let's say we need to translate those text labels
-    ///   // into integer symbols. Let's use a Codification filter:
-    ///   
-    ///   Codification codebook = new Codification(table);
-    ///   
-    ///   
-    ///   // After that, we can use the codebook to "translate"
-    ///   // the text labels into discrete symbols, such as:
-    ///   
-    ///   int a = codebook.Translate("Label", "child"); // returns 0
-    ///   int b = codebook.Translate("Label", "adult"); // returns 1
-    ///   int c = codebook.Translate("Label", "elder"); // returns 2
-    ///   
-    ///   // We can also do the reverse:
-    ///   string labela = codebook.Translate("Label", 0); // returns "child"
-    ///   string labelb = codebook.Translate("Label", 1); // returns "adult"
-    ///   string labelc = codebook.Translate("Label", 2); // returns "elder"
-    /// </code>
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\Statistics\CodificationFilterSvmTest.cs" region="doc_learn_1" />
     /// 
     /// <para>
     ///   After we have created the codebook, we can use it to feed data with
@@ -163,30 +130,7 @@ namespace Accord.Statistics.Filters
     ///   code section shows how to convert an entire data table into a numerical
     ///   matrix. </para>
     /// 
-    /// <code>
-    ///   // We can process an entire data table at once:
-    ///   DataTable result = codebook.Apply(table);
-    ///   
-    ///   // The resulting table can be transformed to jagged array:
-    ///   double[][] matrix = Matrix.ToArray(result);
-    ///   
-    ///   // and the resulting matrix will be given by
-    ///   // new double[][] 
-    ///   // {
-    ///   //     new double[] { 10, 0 },
-    ///   //     new double[] {  7, 0 },
-    ///   //     new double[] {  4, 0 },
-    ///   //     new double[] { 21, 1 },
-    ///   //     new double[] { 27, 1 },
-    ///   //     new double[] { 12, 0 },
-    ///   //     new double[] { 79, 2 },
-    ///   //     new double[] { 40, 1 },
-    ///   //     new double[] { 30, 1 } 
-    ///   // };
-    ///   
-    ///   // PS: the string representation for the matrix above can be obtained by calling
-    ///   string str = matrix.ToString(CSharpJaggedMatrixFormatProvider.InvariantCulture);
-    /// </code>
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\Statistics\CodificationFilterSvmTest.cs" region="doc_learn_2" />
     /// 
     /// <para>
     ///   Finally, by expressing our data in terms of a simple numerical
@@ -195,46 +139,31 @@ namespace Accord.Statistics.Filters
     ///   linear</see> multi-class Support Vector Machine to classify ages into any
     ///   of the previously considered text labels ("child", "adult" or "elder").</para>
     /// 
-    /// <code>
-    ///   // Now we will be able to feed this matrix to any machine learning
-    ///   // algorithm without having to worry about text labels in our data:
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\Statistics\CodificationFilterSvmTest.cs" region="doc_learn_3" />
+    /// 
+    /// <para>
+    ///   Every Learn() method in the framework expects the class labels to be contiguous and zero-indexed,
+    ///   meaning that if there is a classification problem with n classes, all class labels must be numbers
+    ///   ranging from 0 to n-1. However, not every dataset might be in this format and sometimes we will
+    ///   have to pre-process the data to be in this format. The example below shows how to use the 
+    ///   Codification class to perform such pre-processing.</para>
     ///   
-    ///   // Use the first column as input and the second column a output:
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MulticlassSupportVectorLearningTest.cs" region="doc_learn_codification" />
     ///   
-    ///   double[][] inputs = matrix.GetColumns(0);      // Age column
-    ///   int[] outputs = matrix.GetColumn(1).ToInt32(); // Label column
-    ///   
-    ///   
-    ///   // Create a multi-class SVM for one input (Age) and three classes (Label)
-    ///   var machine = new MulticlassSupportVectorMachine(inputs: 1, classes: 3);
-    ///   
-    ///   // Create a Multi-class learning algorithm for the machine
-    ///   var teacher = new MulticlassSupportVectorLearning(machine, inputs, outputs);
-    ///   
-    ///   // Configure the learning algorithm to use SMO to train the
-    ///   //  underlying SVMs in each of the binary class subproblems.
-    ///   teacher.Algorithm = (svm, classInputs, classOutputs, i, j) =>
-    ///       new SequentialMinimalOptimization(svm, classInputs, classOutputs);
-    ///   
-    ///   // Run the learning algorithm
-    ///   double error = teacher.Run(); // error will be zero
-    ///   
-    ///   
-    ///   // After we have learned the machine, we can use it to classify
-    ///   // new data points, and use the codebook to translate the machine
-    ///   // outputs to the original text labels:
-    ///   
-    ///   string result1 = codebook.Translate("Label", machine.Compute(10)); // child
-    ///   string result2 = codebook.Translate("Label", machine.Compute(40)); // adult
-    ///   string result3 = codebook.Translate("Label", machine.Compute(70)); // elder
-    /// </code>
+    /// <para>
+    ///   The codification filter can also work with missing values. The example below shows how a codification codebook
+    ///   can be created from a dataset that includes missing values and how to use this codebook to replace missing values
+    ///   by some other representation (in the case below, replacing <c>null</c> by <c>NaN</c> double numbers.</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\DecisionTrees\C45LearningTest.cs" region="doc_missing" />
     /// </example>
     /// 
-    /// <seealso cref="Normalization"/>
+    /// <seealso cref="Codification{T}"/>
+    /// <seealso cref="Discretization{TInput, TOutput}"/>
     /// 
     [Serializable]
-    public class Codification : BaseFilter<Codification.Options>, IAutoConfigurableFilter
+    public class Codification : Codification<string>, IAutoConfigurableFilter, ITransform<string[], double[]>
     {
+        // TODO: Mark redundant methods as obsolete
 
         /// <summary>
         ///   Creates a new Codification Filter.
@@ -244,13 +173,14 @@ namespace Accord.Statistics.Filters
         {
         }
 
+#if !NETSTANDARD1_4
         /// <summary>
         ///   Creates a new Codification Filter.
         /// </summary>
         /// 
         public Codification(DataTable data)
+            : base(data)
         {
-            this.Detect(data);
         }
 
         /// <summary>
@@ -258,17 +188,18 @@ namespace Accord.Statistics.Filters
         /// </summary>
         /// 
         public Codification(DataTable data, params string[] columns)
+            : base(data, columns)
         {
-            this.Detect(data, columns);
         }
+#endif
 
         /// <summary>
         ///   Creates a new Codification Filter.
         /// </summary>
         /// 
         public Codification(string columnName, params string[] values)
+            : base(columnName, values)
         {
-            parseColumn(columnName, values);
         }
 
         /// <summary>
@@ -276,8 +207,8 @@ namespace Accord.Statistics.Filters
         /// </summary>
         /// 
         public Codification(string[] columnNames, string[][] values)
+            : base(columnNames, values)
         {
-            Detect(columnNames, values);
         }
 
         /// <summary>
@@ -285,10 +216,33 @@ namespace Accord.Statistics.Filters
         /// </summary>
         /// 
         public Codification(string columnName, string[][] values)
+            : base(columnName, values)
         {
-            Detect(columnName, values);
         }
 
+        /// <summary>
+        ///   Transforms a matrix of key-value pairs (where the first column
+        ///   denotes a key, and the second column a value) into their integer
+        ///   vector representation.
+        /// </summary>
+        /// <param name="values">A 2D matrix with two columns, where the first column contains
+        ///   the keys (i.e. "Date") and the second column the values (i.e. "14/05/1988").</param>
+        ///   
+        /// <returns>A vector of integers where each element contains the translation
+        ///   of each respective row in the given <paramref name="values"/> matrix.</returns>
+        /// 
+        public int[] Transform(string[,] values)
+        {
+            int rows = values.Rows();
+            int cols = values.Columns();
+            if (cols != 2)
+                throw new DimensionMismatchException("values", "The matrix should contain two columns. The first column should contain the key, and the second should contain the value.");
+
+            int[] result = new int[rows];
+            for (int i = 0; i < rows; i++)
+                result[i] = Columns[values[i, 0]].Transform(values[i, 1]);
+            return result;
+        }
 
         /// <summary>
         ///   Translates a value of a given variable
@@ -301,9 +255,10 @@ namespace Accord.Statistics.Filters
         /// <returns>An integer which uniquely identifies the given value
         /// for the given variable.</returns>
         /// 
+        [Obsolete("Please use Transform(columnName, value) instead.")]
         public int Translate(string columnName, string value)
         {
-            return Columns[columnName].Mapping[value];
+            return Transform(columnName, value);
         }
 
         /// <summary>
@@ -318,25 +273,13 @@ namespace Accord.Statistics.Filters
         /// uniquely identifies the given value for each of
         /// the variables.</returns>
         /// 
+        [Obsolete("Please use Transform(data) instead.")]
         public int[] Translate(params string[] data)
         {
-            int[] result = new int[data.Length];
-
-            if (data.Length > this.Columns.Count)
-            {
-                throw new ArgumentException("The array contains more values"
-                + " than the number of known columns.", "data");
-            }
-
-            for (int i = 0; i < data.Length; i++)
-            {
-                Options options = this.Columns[i];
-                result[i] = options.Mapping[data[i]];
-            }
-
-            return result;
+            return Transform(data);
         }
 
+#if !NETSTANDARD1_4
         /// <summary>
         ///   Translates an array of values into their
         ///   integer representation, assuming values
@@ -351,21 +294,12 @@ namespace Accord.Statistics.Filters
         /// uniquely identifies the given value for each of
         /// the variables.</returns>
         /// 
+        [Obsolete("Please use Transform(row, columnNames) instead.")]
         public int[] Translate(DataRow row, params string[] columnNames)
         {
-            int[] result = new int[columnNames.Length];
-
-            for (int i = 0; i < columnNames.Length; i++)
-            {
-                string name = columnNames[i];
-                string value = row[name] as string;
-
-                Options options = this.Columns[name];
-                result[i] = options.Mapping[value];
-            }
-
-            return result;
+            return Transform(row, columnNames);
         }
+#endif
 
         /// <summary>
         ///   Translates a value of the given variables
@@ -379,23 +313,10 @@ namespace Accord.Statistics.Filters
         /// uniquely identifies the given value for the given 
         /// variables.</returns>
         /// 
+        [Obsolete("Please use Transform(columnNames, values) instead.")]
         public int[] Translate(string[] columnNames, string[] values)
         {
-            if (columnNames.Length != values.Length)
-            {
-                throw new ArgumentException("The number of column names"
-                + " and the number of values must match.", "values");
-            }
-
-            int[] result = new int[values.Length];
-
-            for (int i = 0; i < columnNames.Length; i++)
-            {
-                Options options = this.Columns[columnNames[i]];
-                result[i] = options.Mapping[values[i]];
-            }
-
-            return result;
+            return Transform(columnNames, values);
         }
 
         /// <summary>
@@ -410,15 +331,10 @@ namespace Accord.Statistics.Filters
         /// uniquely identifies the given value for the given 
         /// variables.</returns>
         /// 
+        [Obsolete("Please use Transform(columnName, value) instead.")]
         public int[] Translate(string columnName, string[] values)
         {
-            int[] result = new int[values.Length];
-
-            Options options = this.Columns[columnName];
-            for (int i = 0; i < result.Length; i++)
-                result[i] = options.Mapping[values[i]];
-
-            return result;
+            return Transform(columnName, values);
         }
 
         /// <summary>
@@ -433,20 +349,10 @@ namespace Accord.Statistics.Filters
         /// uniquely identifies the given value for the given 
         /// variables.</returns>
         /// 
+        [Obsolete("Please use Transform(columnName, values) instead.")]
         public int[][] Translate(string columnName, string[][] values)
         {
-            int[][] result = new int[values.Length][];
-
-            Options options = this.Columns[columnName];
-
-            for (int i = 0; i < result.Length; i++)
-            {
-                result[i] = new int[values[i].Length];
-                for (int j = 0; j < result[i].Length; j++)
-                    result[i][j] = options.Mapping[values[i][j]];
-            }
-
-            return result;
+            return Transform(columnName, values);
         }
 
         /// <summary>
@@ -460,16 +366,10 @@ namespace Accord.Statistics.Filters
         /// 
         /// <returns>The original meaning of the given codeword.</returns>
         /// 
+        [Obsolete("Please use Revert(columnName, codeword) instead.")]
         public string Translate(string columnName, int codeword)
         {
-            Options options = this.Columns[columnName];
-            foreach (var pair in options.Mapping)
-            {
-                if (pair.Value == codeword)
-                    return pair.Key;
-            }
-
-            return null;
+            return Revert(columnName, codeword);
         }
 
         /// <summary>
@@ -483,13 +383,10 @@ namespace Accord.Statistics.Filters
         /// 
         /// <returns>The original meaning of the given codeword.</returns>
         /// 
+        [Obsolete("Please use Revert(columnName, codewords) instead.")]
         public string[] Translate(string columnName, int[] codewords)
         {
-            string[] result = new string[codewords.Length];
-            for (int i = 0; i < result.Length; i++)
-                result[i] = Translate(columnName, codewords[i]);
-
-            return result;
+            return Revert(columnName, codewords);
         }
 
         /// <summary>
@@ -503,171 +400,21 @@ namespace Accord.Statistics.Filters
         /// 
         /// <returns>The original meaning of the given codewords.</returns>
         /// 
+        [Obsolete("Please use Revert(columnNames, codewords) instead.")]
         public string[] Translate(string[] columnNames, int[] codewords)
         {
-            string[] result = new string[codewords.Length];
-
-            for (int i = 0; i < columnNames.Length; i++)
-            {
-                Options options = this.Columns[columnNames[i]];
-                foreach (var pair in options.Mapping)
-                {
-                    if (pair.Value == codewords[i])
-                    {
-                        result[i] = pair.Key;
-                        break;
-                    }
-                }
-            }
-
-            return result;
+            return Revert(columnNames, codewords);
         }
 
-        /// <summary>
-        ///   Processes the current filter.
-        /// </summary>
-        /// 
-        protected override DataTable ProcessFilter(DataTable data)
-        {
-            // Copy only the schema (Clone)
-            DataTable result = data.Clone();
-
-            // For each column having a mapping
-            foreach (Options options in Columns)
-            {
-                if (!result.Columns.Contains(options.ColumnName))
-                    continue;
-
-                // If we are just converting strings to integer codes
-                if (options.VariableType == CodificationVariable.Ordinal)
-                {
-                    // Change its type from string to integer
-                    result.Columns[options.ColumnName].MaxLength = -1;
-                    result.Columns[options.ColumnName].DataType = typeof(int);
-                }
-
-                // If we want to avoid implying an order relationship between them
-                else if (options.VariableType == CodificationVariable.Categorical)
-                {
-                    // Create extra columns for each possible value
-                    for (int i = 0; i < options.Symbols; i++)
-                    {
-                        // Except for the first, that should be the baseline value
-                        string symbolName = options.Mapping.Reverse[i];
-                        string factorName = getFactorName(options, symbolName);
-
-                        result.Columns.Add(new DataColumn(factorName, typeof(int))
-                        {
-                            DefaultValue = 0
-                        });
-                    }
-
-                    // Remove the column from the schema
-                    result.Columns.Remove(options.ColumnName);
-                }
-
-                 // If we want to avoid implying an order relationship between them
-                else if (options.VariableType == CodificationVariable.CategoricalWithBaseline)
-                {
-                    // Create extra columns for each possible value
-                    for (int i = 1; i < options.Symbols; i++)
-                    {
-                        // Except for the first, that should be the baseline value
-                        string symbolName = options.Mapping.Reverse[i];
-                        string factorName = getFactorName(options, symbolName);
-
-                        result.Columns.Add(new DataColumn(factorName, typeof(int))
-                        {
-                            DefaultValue = 0
-                        });
-                    }
-
-                    // Remove the column from the schema
-                    result.Columns.Remove(options.ColumnName);
-                }
-            }
-
-
-            // Now for each row on the original table
-            foreach (DataRow inputRow in data.Rows)
-            {
-                // We'll import to the result table
-                DataRow resultRow = result.NewRow();
-
-                // For each column in original table
-                foreach (DataColumn column in data.Columns)
-                {
-                    string name = column.ColumnName;
-
-                    // If the column has a mapping
-                    if (Columns.Contains(name))
-                    {
-                        var options = Columns[name];
-                        var map = options.Mapping;
-
-                        // Retrieve string value
-                        string label = inputRow[name] as string;
-
-                        if (options.VariableType == CodificationVariable.Ordinal)
-                        {
-                            // Get its corresponding integer
-                            int value = 0;
-                            try { value = map[label]; }
-                            catch { 
-                                value = map.Values.Count + 1;
-                                map[label] = value;}
-
-                            // Set the row to the integer
-                            resultRow[name] = value;
-                        }
-                        else if (options.VariableType == CodificationVariable.CategoricalWithBaseline)
-                        {
-                            if (options.Mapping[label] > 0)
-                            {
-                                // Find the corresponding column
-                                var factorName = getFactorName(options, label);
-                                try
-                                { resultRow[factorName] = 1; }
-                                catch{}
-                            }
-                        }
-                        else if (options.VariableType == CodificationVariable.Categorical)
-                        {
-                            // Find the corresponding column
-                            var factorName = getFactorName(options, label);
-                            try
-                            { resultRow[factorName] = 1; }
-                            catch { }
-                        }
-                    }
-                    else
-                    {
-                        // The column does not have a mapping
-                        //  so we'll just copy the value over
-                        resultRow[name] = inputRow[name];
-                    }
-                }
-
-                // Finally, add the row into the result table
-                result.Rows.Add(resultRow);
-            }
-
-            return result;
-        }
-
-        private static string getFactorName(Options options, string name)
-        {
-            return options.ColumnName + ": " + name;
-        }
-
+#if !NETSTANDARD1_4
         /// <summary>
         ///   Auto detects the filter options by analyzing a given <see cref="System.Data.DataTable"/>.
         /// </summary> 
         ///  
         public void Detect(DataTable data, string[] columns)
         {
-            foreach (string column in columns)
-                parseColumn(data, data.Columns[column]);
+            for (int i = 0; i < columns.Length; i++)
+                Columns.Add(new Options(columns[i]).Learn(data));
         }
 
         /// <summary>
@@ -676,8 +423,20 @@ namespace Accord.Statistics.Filters
         ///  
         public void Detect(DataTable data)
         {
-            foreach (DataColumn column in data.Columns)
-                parseColumn(data, column);
+            Learn(data);
+        }
+#endif
+
+        /// <summary>
+        ///   Auto detects the filter options by analyzing a set of string labels.
+        /// </summary>
+        /// 
+        /// <param name="columnName">The variable name.</param>
+        /// <param name="values">A set of values that this variable can assume.</param>
+        /// 
+        public void Detect(string columnName, string[] values)
+        {
+            Columns.Add(new Options(columnName).Learn(values));
         }
 
         /// <summary>
@@ -689,7 +448,7 @@ namespace Accord.Statistics.Filters
         /// 
         public void Detect(string columnName, string[][] values)
         {
-            parseColumn(columnName, values.Reshape(0));
+            Detect(columnName, values.Reshape(0));
         }
 
         /// <summary>
@@ -704,142 +463,8 @@ namespace Accord.Statistics.Filters
         public void Detect(string[] columnNames, string[][] values)
         {
             for (int i = 0; i < columnNames.Length; i++)
-                parseColumn(columnNames[i], values[i]);
+                Columns.Add(new Options(columnNames[i]).Learn(values.GetColumn(i)));
         }
 
-
-
-
-        private void parseColumn(string name, string[] values)
-        {
-            string[] distinct = values.Distinct();
-
-            var map = new Dictionary<string, int>();
-            for (int j = 0; j < distinct.Length; j++)
-                map.Add(distinct[j], j);
-
-            Columns.Add(new Options(name, map));
-        }
-
-        private void parseColumn(DataTable data, DataColumn column)
-        {
-            // If the column has string type
-            if (column.DataType == typeof(String))
-            {
-                // We'll create a mapping
-                string name = column.ColumnName;
-                var map = new Dictionary<string, int>();
-
-                // Do a select distinct to get distinct values
-                DataTable d = data.DefaultView.ToTable(true, name);
-
-                // For each distinct value, create a corresponding integer
-                for (int i = 0; i < d.Rows.Count; i++)
-                {
-                    // And register the String->Integer mapping
-                    map.Add(d.Rows[i][0] as string, i);
-                }
-
-                Columns.Add(new Options(name, map));
-            }
-        }
-
-        /// <summary>
-        ///   Options for processing a column.
-        /// </summary>
-        /// 
-        [Serializable]
-        public class Options : ColumnOptionsBase
-        {
-            /// <summary>
-            ///   Gets or sets the label mapping for translating
-            ///   integer labels to the original string labels.
-            /// </summary>
-            /// 
-            public TwoWayDictionary<string, int> Mapping { get; private set; }
-
-            /// <summary>
-            ///   Gets the number of symbols used to code this variable.
-            /// </summary>
-            /// 
-            public int Symbols { get { return Mapping.Count; } }
-
-            /// <summary>
-            ///   Gets the codification type that should be used for this variable.
-            /// </summary>
-            /// 
-            public CodificationVariable VariableType { get; set; }
-
-            /// <summary>
-            ///   Gets the values associated with each symbol, in the order of the symbols.
-            /// </summary>
-            /// 
-            public string[] Values
-            {
-                get
-                {
-                    string[] values = new string[Mapping.Count];
-                    for (int i = 0; i < values.Length; i++)
-                        values[i] = Mapping.Reverse[i];
-                    return values;
-                }
-            }
-
-            /// <summary>
-            ///   Forces the given key to have a specific symbol value.
-            /// </summary>
-            /// 
-            /// <param name="key">The key.</param>
-            /// <param name="value">The value that should be associated with this key.</param>
-            /// 
-            public void Remap(string key, int value)
-            {
-                int oldValue = Mapping[key];
-                string oldKey = Mapping.Reverse[value];
-
-                Mapping[key] = value;
-                Mapping[oldKey] = oldValue;
-            }
-
-            /// <summary>
-            ///   Constructs a new Options object for the given column.
-            /// </summary>
-            /// 
-            /// <param name="name">
-            ///   The name of the column to create this options for.
-            /// </param>
-            /// 
-            public Options(String name)
-                : base(name)
-            {
-                this.Mapping = new TwoWayDictionary<string, int>();
-            }
-
-            /// <summary>
-            ///   Constructs a new Options object for the given column.
-            /// </summary>
-            /// 
-            /// <param name="name">
-            ///   The name of the column to create this options for.
-            /// </param>
-            /// 
-            /// <param name="map">The initial mapping for this column.</param>
-            /// 
-            public Options(String name, Dictionary<string, int> map)
-                : base(name)
-            {
-                this.Mapping = new TwoWayDictionary<string, int>(map);
-            }
-
-            /// <summary>
-            ///   Constructs a new Options object.
-            /// </summary>
-            /// 
-            public Options()
-                : this("New column")
-            {
-
-            }
-        }
     }
 }

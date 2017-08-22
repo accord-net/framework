@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 // This file was contributed to the project by Diego Catalano, based
@@ -53,7 +53,7 @@ namespace Accord.Imaging.Filters
     ///   var whitePatch = new WhitePatch();
     /// 
     ///   // Apply the filter
-    ///   Bitmap result = grayWorld.Apply(image);
+    ///   Bitmap result = whitePatch.Apply(image);
     ///   
     ///   // Show on the screen
     ///   ImageBox.Show(result);

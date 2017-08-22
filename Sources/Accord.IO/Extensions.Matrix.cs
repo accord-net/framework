@@ -33,14 +33,14 @@ namespace Accord.IO
                 case TableFormat.Csv:
                     {
                         var writer = new CsvWriter(new StreamWriter(stream));
-                        writer.Delimiter = ";";
+                        writer.Delimiter = ';';
                         writer.Write(matrix);
                     }
                     break;
                 case TableFormat.Tsv:
                     {
                         var writer = new CsvWriter(new StreamWriter(stream));
-                        writer.Delimiter = "\t";
+                        writer.Delimiter = '\t';
                         writer.Write(matrix);
                     }
                     break;

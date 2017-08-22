@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -23,31 +23,39 @@
 namespace Accord.MachineLearning
 {
     using System;
-    using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using Accord.Math;
     using Accord.Statistics;
-    using Accord.Statistics.Distributions.Univariate;
     using Accord.Math.Distances;
+    using Accord.Compat;
+    using System.Threading.Tasks;
+    using System.Collections.Concurrent;
 
     /// <summary>
     ///   k-Modes algorithm.
     /// </summary>
     /// 
     /// <remarks>
-    ///   The k-Modes algorithm is a variant of the k-Means which instead of 
-    ///   locating means attempts to locate the modes of a set of points. As
-    ///   the algorithm does not require explicit numeric manipulation of the
-    ///   input points (such as addition and division to compute the means),
-    ///   the algorithm can be used with arbitrary (generic) data structures.
+    ///   The k-Modes algorithm is a variant of the k-Means which instead of locating means attempts to locate 
+    ///   the modes of a set of points. As the algorithm does not require explicit numeric manipulation of the
+    ///   input points (such as addition and division to compute the means), the algorithm can be used with 
+    ///   arbitrary (generic) data structures.
     /// </remarks>
     /// 
     /// <seealso cref="KModes"/>
     /// <seealso cref="KMeans"/>
     /// <seealso cref="MeanShift"/>
     /// 
+    /// <example>
+    ///   How to perform clustering with K-Modes.
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\Clustering\KModesTest.cs" region="doc_learn" />
+    /// </example>
+    /// 
     [Serializable]
-    public class KModes<T> : IClusteringAlgorithm<T[]>
+    public class KModes<T> : ParallelLearningBase,
+        IUnsupervisedLearning<KModesClusterCollection<T>, T[], int>,
+#pragma warning disable 0618
+        IClusteringAlgorithm<T[]>
+#pragma warning restore 0618
     {
 
         private KModesClusterCollection<T> clusters;
@@ -73,7 +81,7 @@ namespace Accord.MachineLearning
         /// 
         public int Dimension
         {
-            get { return clusters.Dimension; }
+            get { return clusters.NumberOfInputs; }
         }
 
         /// <summary>
@@ -179,25 +187,40 @@ namespace Accord.MachineLearning
         /// 
         /// <param name="points">The data where to compute the algorithm.</param>
         /// 
+        [Obsolete("Please use Learn(x) instead.")]
         public int[] Compute(T[][] points)
         {
+            return Learn(points).Decide(points);
+        }
+
+        /// <summary>
+        /// Learns a model that can map the given inputs to the desired outputs.
+        /// </summary>
+        /// <param name="x">The model inputs.</param>
+        /// <param name="weights">The weight of importance for each input sample.</param>
+        /// <returns>A model that has learned how to produce suitable outputs
+        /// given the input data <paramref name="x" />.</returns>
+        /// <exception cref="ArgumentNullException">points</exception>
+        /// <exception cref="ArgumentException">Not enough points. There should be more points than the number K of clusters.</exception>
+        public KModesClusterCollection<T> Learn(T[][] x, double[] weights = null)
+        {
             // Initial argument checking
-            if (points == null)
+            if (x == null)
                 throw new ArgumentNullException("points");
 
-            if (points.Length < K)
+            if (x.Length < K)
                 throw new ArgumentException("Not enough points. There should be more points than the number K of clusters.");
 
             int k = this.K;
-            int rows = points.Length;
-            int cols = points[0].Length;
+            int rows = x.Length;
+            int cols = x[0].Length;
 
             // Perform a random initialization of the clusters
             // if the algorithm has not been initialized before.
             //
             if (this.Clusters.Centroids[0] == null)
             {
-                Clusters.Randomize(points);
+                Clusters.Randomize(x);
             }
 
             // Initial variables
@@ -208,60 +231,52 @@ namespace Accord.MachineLearning
             for (int i = 0; i < newCentroids.Length; i++)
                 newCentroids[i] = new T[cols];
 
-            var clusters = new List<T[]>[k];
-            for (int i = 0; i < k; i++)
-                clusters[i] = new List<T[]>();
+            var clusters = new ConcurrentBag<T[]>[k];
 
-            Iterations = 0;
+            this.Iterations = 0;
 
             do // Main loop
             {
                 // Reset the centroids and the
                 //  cluster member counters'
                 for (int i = 0; i < k; i++)
-                    clusters[i].Clear();
-
+                    clusters[i] = new ConcurrentBag<T[]>();
 
                 // First we will accumulate the data points
                 // into their nearest clusters, storing this
                 // information into the newClusters variable.
 
                 // For each point in the data set,
-                for (int i = 0; i < points.Length; i++)
+                Parallel.For(0, x.Length, ParallelOptions, i =>
                 {
                     // Get the point
-                    T[] point = points[i];
+                    T[] point = x[i];
 
                     // Compute the nearest cluster centroid
-                    int c = labels[i] = Clusters.Nearest(points[i]);
+                    int c = labels[i] = Clusters.Decide(x[i]);
 
                     // Accumulate in the corresponding centroid
                     clusters[c].Add(point);
-                }
+                });
 
                 // Next we will compute each cluster's new centroid
                 //  value by computing the mode in each cluster.
 
-                for (int i = 0; i < k; i++)
+                Parallel.For(0, k, ParallelOptions, i =>
                 {
                     if (clusters[i].Count == 0)
                     {
                         newCentroids[i] = centroids[i];
-                        continue;
                     }
-
-                    T[][] p = clusters[i].ToArray();
-
-                    // For each dimension
-                    for (int d = 0; d < Dimension; d++)
+                    else
                     {
-                        T[] values = p.GetColumn(d);
+                        T[][] p = Matrix.Transpose<ConcurrentBag<T[]>, T>(clusters[i]);
 
-                        T mode = values.Mode(alreadySorted: false, inPlace: true);
-
-                        newCentroids[i][d] = mode;
+                        // For each dimension
+                        for (int d = 0; d < this.Dimension; d++)
+                            newCentroids[i][d] = p[d].Mode(alreadySorted: false, inPlace: true);
                     }
-                }
+                });
 
 
                 // The algorithm stops when there is no further change in the
@@ -280,15 +295,19 @@ namespace Accord.MachineLearning
             for (int i = 0; i < k; i++)
             {
                 // Compute the proportion of samples in the cluster
-                proportions[i] = clusters[i].Count / (double)points.Length;
+                proportions[i] = clusters[i].Count / (double)x.Length;
             }
 
             if (ComputeError)
                 // Compute the average error
-                Error = Clusters.Distortion(points, labels);
+                Error = Clusters.Distortion(x, labels);
+
+            Accord.Diagnostics.Debug.Assert(Clusters.NumberOfClasses == K);
+            Accord.Diagnostics.Debug.Assert(Clusters.NumberOfOutputs == K);
+            Accord.Diagnostics.Debug.Assert(Clusters.NumberOfInputs == x[0].Length);
 
             // Return the classification result
-            return labels;
+            return Clusters;
         }
 
         /// <summary>
@@ -309,6 +328,9 @@ namespace Accord.MachineLearning
             if (MaxIterations > 0 && Iterations > MaxIterations)
                 return true;
 
+            if (Token.IsCancellationRequested)
+                return true;
+
             for (int i = 0; i < centroids.Length; i++)
             {
                 T[] centroid = centroids[i];
@@ -321,11 +343,17 @@ namespace Accord.MachineLearning
             return true;
         }
 
-
+#pragma warning disable 0618
         IClusterCollection<T[]> IClusteringAlgorithm<T[]>.Clusters
         {
-            get { return clusters; }
+            get { return (IClusterCollection<T[]>)clusters; }
         }
+
+        IClusterCollection<T[]> IUnsupervisedLearning<IClusterCollection<T[]>, T[], int>.Learn(T[][] x, double[] weights)
+        {
+            return (IClusterCollection<T[]>)Learn(x);
+        }
+#pragma warning restore 0618
 
     }
 

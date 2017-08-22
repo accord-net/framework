@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -25,14 +25,15 @@ namespace Accord.MachineLearning.Bayes
     using Accord.Math;
     using Accord.Math.Optimization.Losses;
     using Accord.Statistics.Distributions;
-    using Accord.Statistics.Distributions.Multivariate;
     using Accord.Statistics.Distributions.Univariate;
     using System;
     using System.IO;
     using System.Reflection;
     using System.Runtime.Serialization;
+    using Accord.Compat;
     using System.Threading.Tasks;
 
+#if !MONO
     /// <summary>
     ///   Naïve Bayes Classifier.
     /// </summary>
@@ -53,7 +54,7 @@ namespace Accord.MachineLearning.Bayes
     ///   special <see cref="NaiveBayes.Normal(int, int)">named constructor to create classifiers assuming normal 
     ///   distributions for each variable</see>. For arbitrary distribution classifiers, please see
     ///   <see cref="NaiveBayes{TDistribution}"/>. </para>
-    /// 
+    ///  
     /// <para>
     ///   References:
     ///   <list type="bullet">
@@ -107,24 +108,29 @@ namespace Accord.MachineLearning.Bayes
     /// <code source="Unit Tests\Accord.Tests.MachineLearning\Bayes\NaiveBayesTest.cs" region="doc_learn" />
     ///   
     /// <para>Now that we have created and estimated our classifier, we 
-    /// can query the classifier for new input samples through the <see
-    /// cref="IClassifier{TInput, TClasses}.Decide(TInput)">Decide</see> method.</para>
+    /// can query the classifier for new input samples through the 
+    /// Decide method.</para>
     /// 
     /// <code source="Unit Tests\Accord.Tests.MachineLearning\Bayes\NaiveBayesTest.cs" region="doc_test" />
     /// 
-    /// <para> 
-    ///   </para>
+    /// <para>
+    ///   Please note that, while the example uses a DataTable to exemplify how data stored into tables
+    ///   can be loaded in the framework, it is not necessary at all to use DataTables in your own, final
+    ///   code. For example, please consider the same example shown above, but without DataTables: </para>
     ///   
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\Bayes\NaiveBayesTest.cs" region="doc_mitchell_no_datatable" />
+    /// 
     /// <para>
     ///   In this second example, we will be creating a simple multi-class
     ///   classification problem using integer vectors and learning a discrete
     ///   Naive Bayes on those vectors.</para>
     /// 
     /// <code source="Unit Tests\Accord.Tests.MachineLearning\Bayes\NaiveBayesTest.cs" region="doc_multiclass" />
-    /// 
     /// </example>
     /// 
-    /// <seealso cref="NaiveBayes{T}"/>
+    /// <seealso cref="NaiveBayesLearning"/>
+    /// <seealso cref="NaiveBayes{TDistribution}"/>
+    /// <seealso cref="NaiveBayes{TDistribution, TInput}"/>
     /// 
     [Serializable]
     [SerializationBinder(typeof(NaiveBayes.NaiveBayesBinder))]
@@ -142,9 +148,9 @@ namespace Accord.MachineLearning.Bayes
         /// <param name="symbols">The number of symbols for each input variable.</param>
         /// 
         public NaiveBayes(int classes, params int[] symbols)
-            : base(classes, symbols.Length, (int j) => new GeneralDiscreteDistribution(symbols[j]))
+            : base(classes, symbols.Length, (int j) => new GeneralDiscreteDistribution(logarithm: false, symbols: Math.Max(symbols[j], 2)))
         {
-            if (classes <= 0)
+            if (classes < 2)
                 throw new ArgumentOutOfRangeException("classes");
 
             if (symbols == null)
@@ -386,13 +392,14 @@ namespace Accord.MachineLearning.Bayes
             return imax;
         }
 
+#if !NETSTANDARD1_4
         /// <summary>
         ///   Saves the Naïve Bayes model to a stream.
         /// </summary>
         /// 
         /// <param name="stream">The stream to which the Naïve Bayes model is to be serialized.</param>
         /// 
-        [Obsolete("Please use Accord.IO.Serializer.Save() instead (or use it as an extension method).")]
+        [Obsolete("Please use Accord.IO.Serializer.Save(stream) instead (or use it as an extension method).")]
 
         public virtual void Save(Stream stream)
         {
@@ -405,7 +412,7 @@ namespace Accord.MachineLearning.Bayes
         /// 
         /// <param name="path">The path to the file to which the Naïve Bayes model is to be serialized.</param>
         /// 
-        [Obsolete("Please use Accord.IO.Serializer.Save() instead (or use it as an extension method).")]
+        [Obsolete("Please use Accord.IO.Serializer.Save(path) instead (or use it as an extension method).")]
 
         public void Save(string path)
         {
@@ -420,7 +427,7 @@ namespace Accord.MachineLearning.Bayes
         /// 
         /// <returns>The deserialized machine.</returns>
         /// 
-        [Obsolete("Please use Accord.IO.Serializer.Load() instead (or use it as an extension method).")]
+        [Obsolete("Please use Accord.IO.Serializer.Load<NaiveBayes>(stream) instead.")]
 
         public static NaiveBayes Load(Stream stream)
         {
@@ -435,7 +442,7 @@ namespace Accord.MachineLearning.Bayes
         /// 
         /// <returns>The deserialized machine.</returns>
         /// 
-        [Obsolete("Please use Accord.IO.Serializer.Load() instead (or use it as an extension method).")]
+        [Obsolete("Please use Accord.IO.Serializer.Load<NaiveBayes>(path) instead.")]
 
         public static NaiveBayes Load(string path)
         {
@@ -450,7 +457,7 @@ namespace Accord.MachineLearning.Bayes
         /// 
         /// <returns>The deserialized machine.</returns>
         /// 
-        [Obsolete("Please use Accord.IO.Serializer.Load() instead (or use it as an extension method).")]
+        [Obsolete("Please use Accord.IO.Serializer.Load<NaiveBayes<TDistribution>>(stream) instead.")]
 
         public static NaiveBayes<TDistribution> Load<TDistribution>(Stream stream)
             where TDistribution : IFittableDistribution<double>, IUnivariateDistribution<double>,
@@ -467,7 +474,7 @@ namespace Accord.MachineLearning.Bayes
         /// 
         /// <returns>The deserialized machine.</returns>
         /// 
-        [Obsolete("Please use Accord.IO.Serializer.Save() instead (or use it as an extension method).")]
+        [Obsolete("Please use Accord.IO.Serializer.Load<NaiveBayes<TDistribution>>(path) instead.")]
 
         public static NaiveBayes<TDistribution> Load<TDistribution>(string path)
             where TDistribution : IFittableDistribution<double>, IUnivariateDistribution<double>,
@@ -475,7 +482,8 @@ namespace Accord.MachineLearning.Bayes
         {
             return Accord.IO.Serializer.Load<NaiveBayes<TDistribution>>(path);
         }
-        #endregion
+#endif
+#endregion
 
 
         #region Serialization backwards compatibility
@@ -517,7 +525,7 @@ namespace Accord.MachineLearning.Bayes
                 {
                     for (int j = 0; j < nb.Distributions[i].Components.Length; j++)
                     {
-                        nb.Distributions[i].Components[j].Frequencies = obj.probabilities[i, j];
+                        obj.probabilities[i, j].CopyTo(nb.Distributions[i].Components[j].Frequencies, 0);
                     }
                 }
 
@@ -533,4 +541,24 @@ namespace Accord.MachineLearning.Bayes
 
     }
 
+#else
+        /// <summary>
+        ///   This class is currently not supported in Mono due to
+        ///   a bug in the Mono compiler.
+        /// </summary>
+        /// 
+        [Obsolete("This class is not supported in Mono.")]
+    public class NaiveBayes
+    {
+        /// <summary>
+        ///   Not supported in Mono.
+        /// </summary>
+        /// 
+        [Obsolete("This method is not supported in Mono.")]
+        public int Normal(int a, int b)
+        {
+            return a + b;
+        }
+    }
+#endif
 }

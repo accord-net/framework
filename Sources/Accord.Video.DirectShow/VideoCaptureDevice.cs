@@ -61,6 +61,9 @@ namespace Accord.Video.DirectShow
         // recieved byte count
         private long bytesReceived;
 
+        // pixel format
+        private PixelFormat pixelFormat = PixelFormat.Format24bppRgb;
+
         // video and snapshot resolutions to set
         private VideoCapabilities videoResolution = null;
         private VideoCapabilities snapshotResolution = null;
@@ -548,6 +551,19 @@ namespace Accord.Video.DirectShow
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="VideoCaptureDevice"/> class.
+        /// </summary>
+        /// 
+        /// <param name="deviceMoniker">Moniker string of video capture device.</param>
+        /// <param name="pixelFormat">Pixel format of video.</param>
+        /// 
+        public VideoCaptureDevice(string deviceMoniker, PixelFormat pixelFormat)
+        {
+            this.deviceMoniker = deviceMoniker;
+            this.pixelFormat = pixelFormat;
+        }
+
+        /// <summary>
         /// Start video source.
         /// </summary>
         /// 
@@ -983,11 +999,11 @@ namespace Accord.Video.DirectShow
         private void WorkerThread(bool runGraph)
         {
             ReasonToFinishPlaying reasonToStop = ReasonToFinishPlaying.StoppedByUser;
-            bool isSapshotSupported = false;
+            bool isSnapshotSupported = false;
 
             // grabber
-            Grabber videoGrabber = new Grabber(this, false);
-            Grabber snapshotGrabber = new Grabber(this, true);
+            Grabber videoGrabber = new Grabber(this, false, this.pixelFormat);
+            Grabber snapshotGrabber = new Grabber(this, true, this.pixelFormat);
 
             // objects
             object captureGraphObject = null;
@@ -1073,7 +1089,7 @@ namespace Accord.Video.DirectShow
                 // set media type
                 AMMediaType mediaType = new AMMediaType();
                 mediaType.MajorType = MediaType.Video;
-                mediaType.SubType = MediaSubType.RGB24;
+                mediaType.SubType = MediaSubType.ConvertFrom(pixelFormat);
 
                 videoSampleGrabber.SetMediaType(mediaType);
                 snapshotSampleGrabber.SetMediaType(mediaType);
@@ -1089,7 +1105,7 @@ namespace Accord.Video.DirectShow
 
                 if (videoControl != null)
                 {
-                    // find Still Image output pin of the vedio device
+                    // find Still Image output pin of the video device
                     captureGraph.FindPin(sourceObject, PinDirection.Output,
                         PinCategory.StillImage, MediaType.Video, false, 0, out pinStillImage);
                     // check if it support trigger mode
@@ -1097,7 +1113,7 @@ namespace Accord.Video.DirectShow
                     {
                         VideoControlFlags caps;
                         videoControl.GetCaps(pinStillImage, out caps);
-                        isSapshotSupported = ((caps & VideoControlFlags.ExternalTriggerEnable) != 0);
+                        isSnapshotSupported = ((caps & VideoControlFlags.ExternalTriggerEnable) != 0);
                     }
                 }
 
@@ -1114,7 +1130,7 @@ namespace Accord.Video.DirectShow
                 // configure pins
                 GetPinCapabilitiesAndConfigureSizeAndRate(captureGraph, sourceBase,
                     PinCategory.Capture, videoResolution, ref videoCapabilities);
-                if (isSapshotSupported)
+                if (isSnapshotSupported)
                 {
                     GetPinCapabilitiesAndConfigureSizeAndRate(captureGraph, sourceBase,
                         PinCategory.StillImage, snapshotResolution, ref snapshotCapabilities);
@@ -1155,7 +1171,7 @@ namespace Accord.Video.DirectShow
                         mediaType.Dispose();
                     }
 
-                    if ((isSapshotSupported) && (provideSnapshots))
+                    if ((isSnapshotSupported) && (provideSnapshots))
                     {
                         // render snapshot pin
                         captureGraph.RenderStream(PinCategory.StillImage, MediaType.Video, sourceBase, null, snapshotGrabberBase);
@@ -1182,7 +1198,7 @@ namespace Accord.Video.DirectShow
                     // run
                     mediaControl.Run();
 
-                    if ((isSapshotSupported) && (provideSnapshots))
+                    if ((isSnapshotSupported) && (provideSnapshots))
                     {
                         startTime = DateTime.Now;
                         videoControl.SetMode(pinStillImage, VideoControlFlags.ExternalTriggerEnable);
@@ -1219,7 +1235,7 @@ namespace Accord.Video.DirectShow
                         {
                             needToSimulateTrigger = false;
 
-                            if ((isSapshotSupported) && (provideSnapshots))
+                            if ((isSnapshotSupported) && (provideSnapshots))
                             {
                                 videoControl.SetMode(pinStillImage, VideoControlFlags.Trigger);
                             }
@@ -1618,6 +1634,7 @@ namespace Accord.Video.DirectShow
             private VideoCaptureDevice parent;
             private bool snapshotMode;
             private int width, height;
+            private PixelFormat pixelFormat;
 
             // Width property
             public int Width
@@ -1633,10 +1650,11 @@ namespace Accord.Video.DirectShow
             }
 
             // Constructor
-            public Grabber(VideoCaptureDevice parent, bool snapshotMode)
+            public Grabber(VideoCaptureDevice parent, bool snapshotMode, PixelFormat pixelFormat = PixelFormat.Format24bppRgb)
             {
                 this.parent = parent;
                 this.snapshotMode = snapshotMode;
+                this.pixelFormat = pixelFormat;
             }
 
             // Callback to receive samples
@@ -1651,13 +1669,13 @@ namespace Accord.Video.DirectShow
                 if (parent.NewFrame != null)
                 {
                     // create new image
-                    System.Drawing.Bitmap image = new Bitmap(width, height, PixelFormat.Format24bppRgb);
+                    System.Drawing.Bitmap image = new Bitmap(width, height, this.pixelFormat);
 
                     // lock bitmap data
                     BitmapData imageData = image.LockBits(
                         new Rectangle(0, 0, width, height),
                         ImageLockMode.ReadWrite,
-                        PixelFormat.Format24bppRgb);
+                        this.pixelFormat);
 
                     // copy image data
                     int srcStride = imageData.Stride;

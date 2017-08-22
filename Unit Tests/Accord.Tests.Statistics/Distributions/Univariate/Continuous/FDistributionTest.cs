@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -30,22 +30,6 @@ namespace Accord.Tests.Statistics
     public class FDistributionTest
     {
 
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
         [Test]
         public void ConstructorTest()
         {
@@ -67,6 +51,12 @@ namespace Accord.Tests.Statistics
             double chf = F.CumulativeHazardFunction(x: 0.27); // 0.050728620222091653
 
             string str = F.ToString(CultureInfo.InvariantCulture); // F(x; df1 = 8, df2 = 5)
+
+            Assert.AreEqual(0, F.Support.Min);
+            Assert.AreEqual(double.PositiveInfinity, F.Support.Max);
+
+            Assert.AreEqual(F.InverseDistributionFunction(0), F.Support.Min);
+            Assert.AreEqual(F.InverseDistributionFunction(1), F.Support.Max);
 
             Assert.AreEqual(1.6666666666666667, mean);
             Assert.AreEqual(1.0545096252132447, median);

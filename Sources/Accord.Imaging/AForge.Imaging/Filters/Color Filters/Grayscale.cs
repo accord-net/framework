@@ -217,6 +217,8 @@ namespace Accord.Imaging.Filters
                     // for each pixel
                     for (int x = 0; x < width; x++, src += pixelSize, dst++)
                     {
+                        destinationData.CheckBounds(dst);
+
                         *dst = (byte)((rc * src[RGB.R] + gc * src[RGB.G] + bc * src[RGB.B]) >> 16);
                     }
                     src += srcOffset;

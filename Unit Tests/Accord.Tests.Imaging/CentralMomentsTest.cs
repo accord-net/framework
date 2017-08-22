@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -26,6 +26,9 @@ namespace Accord.Tests.Imaging
     using Accord.Imaging.Moments;
     using Accord.Tests.Imaging.Properties;
     using NUnit.Framework;
+#if NO_BITMAP
+    using Resources = Accord.Tests.Imaging.Properties.Resources_Standard;
+#endif
 
     [TestFixture]
     public class CentralMomentsTest
@@ -38,7 +41,7 @@ namespace Accord.Tests.Imaging
 
             CentralMoments target = new CentralMoments(image, order: 3);
 
-            Assert.AreEqual(86424.0 / target.Mu00, 1);
+            Assert.AreEqual(86424.0 / target.Mu00, 1, 1e-4);
             Assert.AreEqual(0, target.Mu01);
             Assert.AreEqual(0, target.Mu10);
             Assert.AreEqual(5.868206472635379E8 / target.Mu02, 1, 1e-2);
@@ -46,18 +49,18 @@ namespace Accord.Tests.Imaging
             Assert.AreEqual(6348920.945848465 / target.Mu11, 1, 1e-2);
             Assert.AreEqual(9.084235762166061E8 / target.Mu20, 1, 1e-3);
 
-            Assert.AreEqual(-2.155191E9 / target.Mu12, 1, 1e-5);
+            Assert.AreEqual(-2.155191E9 / target.Mu12, 1, 1e-4);
             Assert.AreEqual(7.125893E8 / target.Mu21, 1, 1e-3);
 
-            Assert.AreEqual(-1.26244547E10 / target.Mu30, 1, 1e-8);
-            Assert.AreEqual(1.71818829E9 / target.Mu03, 1, 1e-8);
+            Assert.AreEqual(-1.26244547E10 / target.Mu30, 1, 1e-4);
+            Assert.AreEqual(1.71818829E9 / target.Mu03, 1, 1e-4);
 
             SizeF size = target.GetSize();
             float angle = target.GetOrientation();
 
             Assert.AreEqual(410.207916f, size.Height);
             Assert.AreEqual(329.534637f, size.Width);
-            Assert.AreEqual(0.0196384024f, angle);
+            Assert.AreEqual(0.0196384024f, angle, 1e-4);
         }
 
         [Test]

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -134,6 +134,34 @@ namespace Accord.Tests.Math
         }
         #endregion
 
+
+        [Test]
+        public void GetLengthTest()
+        {
+            var a = Jagged.Zeros(1, 1);
+            var b = Matrix.Zeros(1, 1);
+            int[] actual = a.GetLength();
+            int[] expected = b.GetLength();
+            Assert.AreEqual(actual.Length, 2);
+            Assert.AreEqual(actual[0], 1);
+            Assert.AreEqual(actual[1], 1);
+            Assert.AreEqual(expected.Length, 2);
+            Assert.AreEqual(expected[0], 1);
+            Assert.AreEqual(expected[1], 1);
+            Assert.IsTrue(actual.IsEqual(expected));
+        }
+
+        [Test]
+        public void GetLengthTest2()
+        {
+            var a = new int[0];
+            var b = new double[0];
+            int[] actual = a.GetLength();
+            int[] expected = b.GetLength();
+            Assert.AreEqual(actual.Length, 0);
+            Assert.AreEqual(expected.Length, 0);
+            Assert.IsTrue(actual.IsEqual(expected));
+        }
 
         [Test]
         public void RelativelyEqualsTest()

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -28,32 +28,19 @@ namespace Accord.Tests.Imaging
     using Accord.Imaging.Filters;
     using Accord.Math;
     using NUnit.Framework;
+    using Accord.Tests.Imaging.Properties;
+#if NO_BITMAP
+    using Resources = Accord.Tests.Imaging.Properties.Resources_Standard;
+#endif
 
     [TestFixture]
     public class WhitePatchTest
     {
 
-        private TestContext testContextInstance;
-
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
         [Test]
         public void ApplyTest1()
         {
-            Bitmap image = Accord.Imaging.Image.Clone(Properties.Resources.lena_color);
+            Bitmap image = Accord.Imaging.Image.Clone(Resources.lena_color);
 
             // Create the White Patch filter
             var whitePatch = new WhitePatch();

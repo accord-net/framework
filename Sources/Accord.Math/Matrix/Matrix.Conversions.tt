@@ -6,7 +6,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -51,6 +51,8 @@ namespace Accord.Math
         new string[] { "sbyte", "SByte", "signed 7-bit byte" },
         new string[] { "decimal", "Decimal", "decimal fixed-point" },
         new string[] { "bool", "Boolean", "boolean" },
+		new string[] { "object", "Object", "object" },
+		new string[] { "string", "String", "string" },
     };
 
     foreach (string[] a in types)
@@ -67,6 +69,9 @@ namespace Accord.Math
             string b_name = b[1];
             string b_desc = b[2];
 
+			bool a_blittable = a_type != "object" && a_type != "string";
+			bool b_blittable = b_type != "object" && b_type != "string";
+
             string begin = String.Format("({0})", b_name);
             string end = "";
 
@@ -77,8 +82,42 @@ namespace Accord.Math
             }
             else if (b_type == "bool")
             {
+				if (a_type == "object")
+				{
+					begin = "Object.Equals(";
+					end = ", 0)";
+				}
+				else
+				{
+					begin = "";
+					end = " != 0";
+				}
+            }
+
+			if (a_type == "string")
+            {
+				if (b_type == "object")
+				{
+					begin = String.Format("({0})System.Convert.ChangeType(", b_name);
+					end = String.Format(", typeof({0}))", b_name);
+				}
+				else
+				{
+					begin = String.Format("{0}.Parse(", b_name);
+					end = ");";
+				}
+            }
+
+			if (b_type == "string")
+            {
                 begin = "";
-                end = " != 0";
+                end = ".ToString();";
+            }
+
+			if (a_type == "object")
+            {
+                begin = String.Format("({0})System.Convert.ChangeType(", b_name);
+                end = String.Format(", typeof({0}))", b_name);
             }
 
 #>
@@ -86,7 +125,7 @@ namespace Accord.Math
         ///   Converts a <#=a_desc#> to a <#=b_desc#>.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static <#=b_type#>[] To<#=b_name#>(this <#=a_type#>[] value)
@@ -98,7 +137,7 @@ namespace Accord.Math
         ///   Converts a <#=a_desc#> to a <#=b_desc#>.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static <#=b_type#>[,] To<#=b_name#>(this <#=a_type#>[,] value)
@@ -110,7 +149,7 @@ namespace Accord.Math
         ///   Converts a <#=a_desc#> to a <#=b_desc#>.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static <#=b_type#>[][] To<#=b_name#>(this <#=a_type#>[][] value)
@@ -118,6 +157,17 @@ namespace Accord.Math
             return To<#=b_name#>(value, Jagged.CreateAs<<#=a_type#>, <#=b_type#>>(value));
         }
 
+        /// <summary>
+        ///   Converts a <#=a_desc#> to a <#=b_desc#>.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static <#=b_type#>[][][] To<#=b_name#>(this <#=a_type#>[][][] value)
+        {
+            return To<#=b_name#>(value, Jagged.CreateAs<<#=a_type#>, <#=b_type#>>(value));
+        }
 
 
 
@@ -126,7 +176,7 @@ namespace Accord.Math
         ///   Converts a <#=a_desc#> array to a <#=b_desc#> array.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static <#=b_type#>[] To<#=b_name#>(this <#=a_type#>[] value, <#=b_type#>[] result)
@@ -140,20 +190,35 @@ namespace Accord.Math
         ///   Converts a multidimensional <#=a_desc#> array to a multidimensional <#=b_desc#> array.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static <#=b_type#>[,] To<#=b_name#>(this <#=a_type#>[,] value, <#=b_type#>[,] result)
         {
-            unsafe
-            {
-                fixed (<#=a_type#>* src = value)
-                fixed (<#=b_type#>* dst = result)
-                {
-                    for (int i = 0; i < value.Length; i++)
-                        dst[i] = <#=begin#>src[i]<#=end#>;
-                }
-            }
+		<#
+			if (a_blittable && b_blittable)
+			{
+		#>
+			unsafe
+			{
+				fixed (<#=a_type#>* src = value)
+				fixed (<#=b_type#>* dst = result)
+				{
+					for (int i = 0; i < value.Length; i++)
+						dst[i] = <#=begin#>src[i]<#=end#>;
+				}
+			}
+		<#
+			}
+			else
+			{
+		#>
+			for (int i = 0; i < value.Rows(); i++)
+				for (int j = 0; j < value.Columns(); j++)
+					result[i, j] = <#=begin#>value[i, j]<#=end#>;
+		<#
+			}
+		#>
 
             return result;
         }
@@ -162,7 +227,7 @@ namespace Accord.Math
         ///   Converts a multidimensional <#=a_desc#> array to a jagged <#=b_desc#> array.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static <#=b_type#>[][] To<#=b_name#>(this <#=a_type#>[,] value, <#=b_type#>[][] result)
@@ -178,7 +243,7 @@ namespace Accord.Math
         ///   Converts a jagged <#=a_desc#> array to a jagged <#=b_desc#> array.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static <#=b_type#>[][] To<#=b_name#>(this <#=a_type#>[][] value, <#=b_type#>[][] result)
@@ -190,10 +255,26 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Converts a jagged <#=a_desc#> array to a jagged <#=b_desc#> array.
+        /// </summary>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static <#=b_type#>[][][] To<#=b_name#>(this <#=a_type#>[][][] value, <#=b_type#>[][][] result)
+        {
+            for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < value[i].Length; j++)
+                    for (int k = 0; k < value[i][j].Length; k++)
+                        result[i][j][k] = <#=begin#>value[i][j][k]<#=end#>;
+            return result;            
+        }
+
+        /// <summary>
         ///   Converts a jagged <#=a_desc#> array to a multidimensional <#=b_desc#> array.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static <#=b_type#>[,] To<#=b_name#>(this <#=a_type#>[][] value, <#=b_type#>[,] result)

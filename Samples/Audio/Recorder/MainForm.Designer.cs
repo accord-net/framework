@@ -62,6 +62,7 @@ namespace SampleApp
             // 
             // menuStrip1
             // 
+            this.menuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.optionsToolStripMenuItem,
@@ -69,7 +70,8 @@ namespace SampleApp
             this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(323, 24);
+            this.menuStrip1.Padding = new System.Windows.Forms.Padding(9, 3, 0, 3);
+            this.menuStrip1.Size = new System.Drawing.Size(484, 35);
             this.menuStrip1.TabIndex = 2;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -80,32 +82,32 @@ namespace SampleApp
             this.toolStripSeparator1,
             this.closeToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(50, 29);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(140, 30);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(100, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(137, 6);
             // 
             // closeToolStripMenuItem
             // 
             this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
-            this.closeToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
+            this.closeToolStripMenuItem.Size = new System.Drawing.Size(140, 30);
             this.closeToolStripMenuItem.Text = "Close";
             this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
             // 
             // optionsToolStripMenuItem
             // 
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(54, 29);
             this.optionsToolStripMenuItem.Text = "Edit";
             // 
             // effectsToolStripMenuItem
@@ -114,20 +116,20 @@ namespace SampleApp
             this.btnIncreaseVolume,
             this.btnDecreaseVolume});
             this.effectsToolStripMenuItem.Name = "effectsToolStripMenuItem";
-            this.effectsToolStripMenuItem.Size = new System.Drawing.Size(54, 20);
+            this.effectsToolStripMenuItem.Size = new System.Drawing.Size(76, 29);
             this.effectsToolStripMenuItem.Text = "Effects";
             // 
             // btnIncreaseVolume
             // 
             this.btnIncreaseVolume.Name = "btnIncreaseVolume";
-            this.btnIncreaseVolume.Size = new System.Drawing.Size(209, 22);
+            this.btnIncreaseVolume.Size = new System.Drawing.Size(300, 30);
             this.btnIncreaseVolume.Text = "Increase volume (by 25%)";
             this.btnIncreaseVolume.Click += new System.EventHandler(this.btnIncreaseVolume_Click);
             // 
             // btnDecreaseVolume
             // 
             this.btnDecreaseVolume.Name = "btnDecreaseVolume";
-            this.btnDecreaseVolume.Size = new System.Drawing.Size(209, 22);
+            this.btnDecreaseVolume.Size = new System.Drawing.Size(300, 30);
             this.btnDecreaseVolume.Text = "Decrease volume";
             this.btnDecreaseVolume.Click += new System.EventHandler(this.btnDecreaseVolume_Click);
             // 
@@ -136,13 +138,13 @@ namespace SampleApp
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.aboutToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(61, 29);
             this.helpToolStripMenuItem.Text = "Help";
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(147, 30);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
@@ -155,9 +157,10 @@ namespace SampleApp
             // 
             this.btnStop.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnStop.Font = new System.Drawing.Font("Webdings", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
-            this.btnStop.Location = new System.Drawing.Point(134, 107);
+            this.btnStop.Location = new System.Drawing.Point(201, 160);
+            this.btnStop.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnStop.Name = "btnStop";
-            this.btnStop.Size = new System.Drawing.Size(55, 30);
+            this.btnStop.Size = new System.Drawing.Size(82, 45);
             this.btnStop.TabIndex = 4;
             this.btnStop.Text = "<";
             this.btnStop.UseVisualStyleBackColor = true;
@@ -167,9 +170,10 @@ namespace SampleApp
             // 
             this.btnRecord.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnRecord.Font = new System.Drawing.Font("Webdings", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
-            this.btnRecord.Location = new System.Drawing.Point(256, 107);
+            this.btnRecord.Location = new System.Drawing.Point(384, 160);
+            this.btnRecord.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnRecord.Name = "btnRecord";
-            this.btnRecord.Size = new System.Drawing.Size(55, 30);
+            this.btnRecord.Size = new System.Drawing.Size(82, 45);
             this.btnRecord.TabIndex = 4;
             this.btnRecord.Text = "=";
             this.btnRecord.UseVisualStyleBackColor = true;
@@ -179,21 +183,23 @@ namespace SampleApp
             // 
             this.chart.BackColor = System.Drawing.Color.Black;
             this.chart.ForeColor = System.Drawing.Color.DarkGreen;
-            this.chart.Location = new System.Drawing.Point(90, 27);
+            this.chart.Location = new System.Drawing.Point(135, 40);
+            this.chart.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.chart.Name = "chart";
-            this.chart.RangeX = ((DoubleRange)(resources.GetObject("chart.RangeX")));
-            this.chart.RangeY = ((DoubleRange)(resources.GetObject("chart.RangeY")));
+            this.chart.RangeX = ((Accord.DoubleRange)(resources.GetObject("chart.RangeX")));
+            this.chart.RangeY = ((Accord.DoubleRange)(resources.GetObject("chart.RangeY")));
             this.chart.SimpleMode = false;
-            this.chart.Size = new System.Drawing.Size(143, 41);
+            this.chart.Size = new System.Drawing.Size(214, 62);
             this.chart.TabIndex = 6;
             this.chart.Text = "chart1";
             // 
             // lbPosition
             // 
             this.lbPosition.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lbPosition.Location = new System.Drawing.Point(12, 27);
+            this.lbPosition.Location = new System.Drawing.Point(18, 40);
+            this.lbPosition.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbPosition.Name = "lbPosition";
-            this.lbPosition.Size = new System.Drawing.Size(72, 41);
+            this.lbPosition.Size = new System.Drawing.Size(108, 62);
             this.lbPosition.TabIndex = 7;
             this.lbPosition.Text = "Position: 00.00 sec.";
             this.lbPosition.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -201,9 +207,10 @@ namespace SampleApp
             // lbLength
             // 
             this.lbLength.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lbLength.Location = new System.Drawing.Point(239, 27);
+            this.lbLength.Location = new System.Drawing.Point(358, 40);
+            this.lbLength.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbLength.Name = "lbLength";
-            this.lbLength.Size = new System.Drawing.Size(72, 41);
+            this.lbLength.Size = new System.Drawing.Size(108, 62);
             this.lbLength.TabIndex = 7;
             this.lbLength.Text = "Length: 00.00 sec.";
             this.lbLength.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -212,9 +219,10 @@ namespace SampleApp
             // 
             this.btnBwd.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnBwd.Font = new System.Drawing.Font("Webdings", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
-            this.btnBwd.Location = new System.Drawing.Point(12, 107);
+            this.btnBwd.Location = new System.Drawing.Point(18, 160);
+            this.btnBwd.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnBwd.Name = "btnBwd";
-            this.btnBwd.Size = new System.Drawing.Size(55, 30);
+            this.btnBwd.Size = new System.Drawing.Size(82, 45);
             this.btnBwd.TabIndex = 4;
             this.btnBwd.Text = "7";
             this.btnBwd.UseVisualStyleBackColor = true;
@@ -223,9 +231,10 @@ namespace SampleApp
             // 
             this.btnPlay.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnPlay.Font = new System.Drawing.Font("Webdings", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
-            this.btnPlay.Location = new System.Drawing.Point(195, 107);
+            this.btnPlay.Location = new System.Drawing.Point(292, 160);
+            this.btnPlay.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnPlay.Name = "btnPlay";
-            this.btnPlay.Size = new System.Drawing.Size(55, 30);
+            this.btnPlay.Size = new System.Drawing.Size(82, 45);
             this.btnPlay.TabIndex = 4;
             this.btnPlay.Text = "4";
             this.btnPlay.UseVisualStyleBackColor = true;
@@ -235,18 +244,20 @@ namespace SampleApp
             // 
             this.btnFwd.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnFwd.Font = new System.Drawing.Font("Webdings", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
-            this.btnFwd.Location = new System.Drawing.Point(73, 107);
+            this.btnFwd.Location = new System.Drawing.Point(110, 160);
+            this.btnFwd.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnFwd.Name = "btnFwd";
-            this.btnFwd.Size = new System.Drawing.Size(55, 30);
+            this.btnFwd.Size = new System.Drawing.Size(82, 45);
             this.btnFwd.TabIndex = 4;
             this.btnFwd.Text = "8";
             this.btnFwd.UseVisualStyleBackColor = true;
             // 
             // trackBar1
             // 
-            this.trackBar1.Location = new System.Drawing.Point(12, 74);
+            this.trackBar1.Location = new System.Drawing.Point(18, 111);
+            this.trackBar1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.trackBar1.Name = "trackBar1";
-            this.trackBar1.Size = new System.Drawing.Size(299, 45);
+            this.trackBar1.Size = new System.Drawing.Size(448, 69);
             this.trackBar1.TabIndex = 8;
             this.trackBar1.TickStyle = System.Windows.Forms.TickStyle.None;
             // 
@@ -265,9 +276,9 @@ namespace SampleApp
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(144F, 144F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(323, 149);
+            this.ClientSize = new System.Drawing.Size(484, 224);
             this.Controls.Add(this.lbLength);
             this.Controls.Add(this.lbPosition);
             this.Controls.Add(this.chart);
@@ -281,6 +292,7 @@ namespace SampleApp
             this.DoubleBuffered = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "MainForm";
             this.Text = "Wave Recorder";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainFormFormClosed);

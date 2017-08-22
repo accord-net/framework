@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -24,69 +24,43 @@ namespace Accord.Statistics.Models.Regression.Fitting
 {
     using System;
     using Accord.Math.Optimization;
+    using Accord.MachineLearning;
+    using Accord.Math;
+    using Accord.Compat;
+    using System.Threading;
 
     /// <summary>
     ///   Non-linear Least Squares for <see cref="NonlinearRegression"/> optimization.
     /// </summary>
     /// 
     /// <example>
-    /// <code>
-    /// // Suppose we would like to map the continuous values in the
-    /// // second column to the integer values in the first column.
-    /// double[,] data =
-    /// {
-    ///     { -40,    -21142.1111111111 },
-    ///     { -30,    -21330.1111111111 },
-    ///     { -20,    -12036.1111111111 },
-    ///     { -10,      7255.3888888889 },
-    ///     {   0,     32474.8888888889 },
-    ///     {  10,     32474.8888888889 },
-    ///     {  20,      9060.8888888889 },
-    ///     {  30,    -11628.1111111111 },
-    ///     {  40,    -15129.6111111111 },
-    /// };
+    /// <para>
+    ///   The first example shows how to fit a non-linear least squares problem with <see cref="LevenbergMarquardt"/>.</para>
+    /// <code source="Unit Tests\Accord.Tests.Statistics\Models\Regression\NonlinearLeastSquaresTest.cs" region="doc_learn_lm" lang="cs"/>
+    /// <code source="Unit Tests\Accord.Tests.Statistics.VB\Models\Regression\NonlinearLeastSquaresTest.vb" region="doc_learn_lm" lang="vb"/>
     /// 
-    /// // Extract inputs and outputs
-    /// double[][] inputs = data.GetColumn(0).ToArray();
-    /// double[] outputs = data.GetColumn(1);
-    /// 
-    /// // Create a Nonlinear regression using 
-    /// var regression = new NonlinearRegression(3,
-    /// 
-    ///     // Let's assume a quadratic model function: ax² + bx + c
-    ///     function: (w, x) => w[0] * x[0] * x[0] + w[1] * x[0] + w[2], 
-    /// 
-    ///     // Derivative in respect to the weights:
-    ///     gradient: (w, x, r) =>
-    ///     {
-    ///         r[0] = 2 * w[0]; // w.r.t a: 2a  
-    ///         r[1] = w[1];     // w.r.t b: b
-    ///         r[2] = w[2];     // w.r.t c: 0
-    ///     }
-    /// );
-    /// 
-    /// // Create a non-linear least squares teacher
-    /// var nls = new NonlinearLeastSquares(regression);
-    /// 
-    /// // Initialize to some random values
-    /// regression.Coefficients[0] = 4.2;
-    /// regression.Coefficients[1] = 0.3;
-    /// regression.Coefficients[2] = 1;
-    /// 
-    /// // Run the function estimation algorithm
-    /// double error;
-    /// for (int i = 0; i &lt; 100; i++)
-    ///     error = nls.Run(inputs, outputs);
-    /// 
-    /// // Use the function to compute the input values
-    /// double[] predict = inputs.Apply(regression.Compute);
-    /// </code>
+    /// <para>
+    ///   The second example shows how to fit a non-linear least squares problem with <see cref="GaussNewton"/>.</para>
+    /// <code source="Unit Tests\Accord.Tests.Statistics\Models\Regression\NonlinearLeastSquaresTest.cs" region="doc_learn_gn" lang="cs"/>
+    /// <code source="Unit Tests\Accord.Tests.Statistics.VB\Models\Regression\NonlinearLeastSquaresTest.vb" region="doc_learn_gn" lang="vb"/>
     /// </example>
-    public class NonlinearLeastSquares : IRegressionFitting
+    /// 
+#pragma warning disable 612, 618
+    public class NonlinearLeastSquares :
+        ISupervisedLearning<NonlinearRegression, double[], double>,
+        IRegressionFitting
+#pragma warning restore 612, 618
     {
+        [NonSerialized]
+        CancellationToken token = new CancellationToken();
+
         private ILeastSquaresMethod solver;
         private NonlinearRegression regression;
         private bool computeStandardErrors = true;
+        private int numberOfParameters;
+
+        RegressionFunction function;
+        RegressionGradientFunction gradient;
 
 
         /// <summary>
@@ -111,6 +85,64 @@ namespace Accord.Statistics.Models.Regression.Fitting
         public ILeastSquaresMethod Algorithm
         {
             get { return solver; }
+            set { solver = value; }
+        }
+
+        /// <summary>
+        ///   Gets the number of variables (free parameters) in the non-linear model specified in <see cref="Function"/>.
+        /// </summary>
+        /// 
+        /// <value>
+        ///   The number of parameters of <see cref="Function"/>.
+        /// </value>
+        /// 
+        public int NumberOfParameters
+        {
+            get { return numberOfParameters; }
+            set { numberOfParameters = value; }
+        }
+
+        /// <summary>
+        ///   Gets or sets the model function, mapping inputs to 
+        ///   outputs given a suitable parameter vector.
+        /// </summary>
+        /// 
+        public RegressionFunction Function
+        {
+            get { return function; }
+            set { function = value; }
+        }
+
+        /// <summary>
+        ///   Gets or sets a function that computes the gradient of the
+        ///   <see cref="Function"/> in respect to the current parameters.
+        /// </summary>
+        /// 
+        public RegressionGradientFunction Gradient
+        {
+            get { return gradient; }
+            set { gradient = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the vector of initial values to be used at the beginning
+        /// of the optimization. Setting a suitable set of initial values can be
+        /// important to achieve good convergence or avoid poor local minimas.
+        /// </summary>
+        /// 
+        public double[] StartValues
+        {
+            get; set;
+        }
+
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NonlinearLeastSquares" /> class.
+        /// </summary>
+        /// 
+        public NonlinearLeastSquares()
+        {
+
         }
 
         /// <summary>
@@ -144,11 +176,13 @@ namespace Accord.Statistics.Models.Regression.Fitting
             if (regression.Gradient == null)
                 throw new ArgumentException("The regression must have a gradient function defined.", "regression");
 
+            this.regression = regression;
+            this.NumberOfParameters = regression.Coefficients.Length;
+
             this.solver = algorithm;
             this.solver.Solution = regression.Coefficients;
             this.solver.Function = new LeastSquaresFunction(regression.Function);
             this.solver.Gradient = new LeastSquaresGradientFunction(regression.Gradient);
-            this.regression = regression;
         }
 
 
@@ -164,9 +198,76 @@ namespace Accord.Statistics.Models.Regression.Fitting
         ///   The sum of squared errors after the learning.
         /// </returns>
         /// 
+        [Obsolete("Please use the Learn() method instead.")]
         public double Run(double[][] inputs, double[] outputs)
         {
-            double error = solver.Minimize(inputs, outputs);
+            var c = this.solver as IConvergenceLearning;
+
+            if (c != null)
+            {
+                c.MaxIterations = 1;
+                c.Tolerance = 0;
+            } 
+
+            Learn(inputs, outputs);
+            return solver.Value;
+        }
+
+
+        /// <summary>
+        /// Gets or sets a cancellation token that can be used to
+        /// stop the learning algorithm while it is running.
+        /// </summary>
+        public CancellationToken Token
+        {
+            get { return token; }
+            set { token = value; }
+        }
+
+        /// <summary>
+        /// Learns a model that can map the given inputs to the given outputs.
+        /// </summary>
+        /// <param name="x">The model inputs.</param>
+        /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
+        /// <param name="weights">The weight of importance for each input-output pair (if supported by the learning algorithm).</param>
+        /// <returns>
+        /// A model that has learned how to produce <paramref name="y" /> given <paramref name="x" />.
+        /// </returns>
+        public NonlinearRegression Learn(double[][] x, double[] y, double[] weights = null)
+        {
+            if (weights != null)
+                throw new ArgumentException(Accord.Properties.Resources.NotSupportedWeights, "weights");
+
+            if (NumberOfParameters == 0)
+            {
+                if (regression == null)
+                {
+                    if (StartValues == null)
+                        throw new InvalidOperationException("Please set the number of parameters, starting values, or the initial regression model.");
+                    NumberOfParameters = StartValues.Length;
+                }
+            }
+
+            if (regression == null)
+            {
+                this.regression = new NonlinearRegression(numberOfParameters, function, gradient);
+                if (StartValues != null)
+                    this.regression.Coefficients.SetTo(StartValues);
+            }
+
+            if (this.solver == null)
+                this.solver = new LevenbergMarquardt(numberOfParameters);
+
+            this.solver.NumberOfVariables = numberOfParameters;
+            this.solver.Solution = regression.Coefficients;
+            this.solver.Function = new LeastSquaresFunction(regression.Function);
+            this.solver.Gradient = new LeastSquaresGradientFunction(regression.Gradient);
+            this.solver.Token = Token;
+
+            double error = solver.Minimize(x, y);
+
+            if (Double.IsNaN(error) || Double.IsInfinity(error))
+                throw new Exception();
 
             if (computeStandardErrors)
             {
@@ -175,13 +276,8 @@ namespace Accord.Statistics.Models.Regression.Fitting
                     regression.StandardErrors[i] = solver.StandardErrors[i];
             }
 
-#if DEBUG
-            if (Double.IsNaN(error) || Double.IsInfinity(error))
-                throw new Exception();
-#endif
 
-            return error;
+            return regression;
         }
-
     }
 }

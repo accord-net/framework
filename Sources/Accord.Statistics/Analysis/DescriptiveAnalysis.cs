@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -23,11 +23,12 @@
 namespace Accord.Statistics.Analysis
 {
     using Accord.Collections;
+    using Accord.MachineLearning;
     using Accord.Math;
     using Accord.Statistics.Distributions.Univariate;
-    using AForge;
     using System;
     using System.ComponentModel;
+    using Accord.Compat;
 
     /// <summary>
     ///   Descriptive statistics analysis.
@@ -55,28 +56,7 @@ namespace Accord.Statistics.Analysis
     /// </remarks>
     ///
     /// <example>
-    ///   <code>
-    ///   // Suppose we would like to compute descriptive
-    ///   // statistics from the following data samples:
-    ///   double[,] data =
-    ///   {
-    ///       { 1, 52, 5 },
-    ///       { 2, 12, 5 },
-    ///       { 1, 65, 5 },
-    ///       { 1, 25, 5 },
-    ///       { 2, 62, 5 },
-    ///   };
-    ///
-    ///   // Create the analysis
-    ///   DescriptiveAnalysis analysis = new DescriptiveAnalysis(data);
-    ///
-    ///   // Compute
-    ///   analysis.Compute();
-    ///
-    ///   // Retrieve interest measures
-    ///   double[] means = analysis.Means; // { 1.4, 43.2, 5.0 }
-    ///   double[] modes = analysis.Modes; // { 1.0, 52.0, 5.0 }
-    ///   </code>
+    /// <code source="Unit Tests\Accord.Tests.Statistics\Analysis\DescriptiveAnalysisTest.cs" region="doc_learn" />
     /// </example>
     /// 
     /// <seealso cref="Statistics.Tools"/>
@@ -84,9 +64,9 @@ namespace Accord.Statistics.Analysis
     ///
     [Serializable]
 #pragma warning disable 612, 618
-    public class DescriptiveAnalysis : IMultivariateAnalysis
+    public class DescriptiveAnalysis : IMultivariateAnalysis,
+        IDescriptiveLearning<DescriptiveAnalysis, double[]>
 #pragma warning restore 612, 618
-
     {
 
         private int samples;
@@ -102,6 +82,7 @@ namespace Accord.Statistics.Analysis
 
         private string[] columnNames;
 
+        private QuantileMethod quantileMethod = QuantileMethod.Default;
         private DoubleRange[] ranges;
         private DoubleRange[] quartiles;
         private DoubleRange[] innerFences;
@@ -125,6 +106,29 @@ namespace Accord.Statistics.Analysis
 
         private DescriptiveMeasureCollection measuresCollection;
 
+        private bool lazy = true;
+
+        /// <summary>
+        ///   Constructs the Descriptive Analysis.
+        /// </summary>
+        /// 
+        public DescriptiveAnalysis()
+        {
+        }
+
+        /// <summary>
+        ///   Constructs the Descriptive Analysis.
+        /// </summary>
+        /// 
+        /// <param name="columnNames">Names for the analyzed variables.</param>
+        /// 
+        public DescriptiveAnalysis(string[] columnNames)
+        {
+            if (columnNames == null)
+                throw new ArgumentNullException("columnNames");
+
+            init(null, null, columnNames);
+        }
 
         /// <summary>
         ///   Constructs the Descriptive Analysis.
@@ -132,6 +136,7 @@ namespace Accord.Statistics.Analysis
         /// 
         /// <param name="data">The source data to perform analysis.</param>
         /// 
+        [Obsolete("Please call the Learn() method passing the data to be analyzed.")]
         public DescriptiveAnalysis(double[] data)
         {
             if (data == null)
@@ -150,6 +155,7 @@ namespace Accord.Statistics.Analysis
         /// 
         /// <param name="data">The source data to perform analysis.</param>
         /// 
+        [Obsolete("Please call the Learn() method passing the data to be analyzed.")]
         public DescriptiveAnalysis(double[,] data)
         {
             if (data == null)
@@ -165,6 +171,7 @@ namespace Accord.Statistics.Analysis
         /// <param name="data">The source data to perform analysis.</param>
         /// <param name="columnNames">Names for the analyzed variables.</param>
         /// 
+        [Obsolete("Please pass only columnNames and call the Learn() method passing the data to be analyzed.")]
         public DescriptiveAnalysis(double[,] data, string[] columnNames)
         {
             if (data == null)
@@ -182,6 +189,7 @@ namespace Accord.Statistics.Analysis
         /// 
         /// <param name="data">The source data to perform analysis.</param>
         /// 
+        [Obsolete("Please call the Learn() method passing the data to be analyzed.")]
         public DescriptiveAnalysis(double[][] data)
         {
             // Initial argument checking
@@ -198,6 +206,7 @@ namespace Accord.Statistics.Analysis
         /// <param name="data">The source data to perform analysis.</param>
         /// <param name="columnNames">Names for the analyzed variables.</param>
         /// 
+        [Obsolete("Please pass only columnNames and call the Learn() method passing the data to be analyzed.")]
         public DescriptiveAnalysis(double[][] data, string[] columnNames)
         {
             // Initial argument checking
@@ -221,13 +230,15 @@ namespace Accord.Statistics.Analysis
                 this.samples = matrix.GetLength(0);
                 this.variables = matrix.GetLength(1);
             }
-            else
+            else if (array != null)
             {
                 this.samples = array.Length;
                 this.variables = array[0].Length;
             }
-
-
+            else
+            {
+                return;
+            }
 
             // Create object-oriented structure to access data
             DescriptiveMeasures[] measures = new DescriptiveMeasures[variables];
@@ -241,6 +252,7 @@ namespace Accord.Statistics.Analysis
         ///   Computes the analysis using given source data and parameters.
         /// </summary>
         /// 
+        [Obsolete("Please use Learn() instead.")]
         public void Compute()
         {
             // Clear analysis
@@ -296,11 +308,73 @@ namespace Accord.Statistics.Analysis
             this.outerFences = null;
         }
 
+        /// <summary>
+        /// Learns a model that can map the given inputs to the desired outputs.
+        /// </summary>
+        /// <param name="x">The model inputs.</param>
+        /// <returns>
+        /// A model that has learned how to produce suitable outputs
+        /// given the input data <paramref name="x" />.
+        /// </returns>
+        public DescriptiveAnalysis Learn(double[][] x)
+        {
+            reset();
+
+            init(null, x, columnNames);
+
+            if (!lazy)
+            {
+                this.sums = Sums;
+                this.means = Means;
+                this.standardDeviations = StandardDeviations;
+                this.ranges = Ranges;
+                this.kurtosis = Kurtosis;
+                this.skewness = Skewness;
+                this.medians = Medians;
+                this.modes = Modes;
+                this.variances = Variances;
+                this.standardErrors = StandardErrors;
+                this.distinct = Distinct;
+                this.quartiles = Quartiles;
+                this.innerFences = InnerFences;
+                this.outerFences = OuterFences;
+
+                // Mean centered and standardized data
+                this.dScores = DeviationScores;
+                this.zScores = StandardScores;
+
+                // Covariance and correlation
+                this.covarianceMatrix = CovarianceMatrix;
+                this.correlationMatrix = CorrelationMatrix;
+
+                this.confidence = Confidence;
+                this.deviance = Deviance;
+
+                this.sourceArray = null;
+                this.sourceMatrix = null;
+            }
+
+            return this;
+        }
+
+        /// <summary>
+        ///   Gets or sets whether the properties of this class should
+        ///   be computed only when necessary. If set to true, a copy
+        ///   of the input data will be maintained inside an instance
+        ///   of this class, using more memory.
+        /// </summary>
+        /// 
+        public bool Lazy
+        {
+            get { return lazy; }
+            set { lazy = value; }
+        }
 
         /// <summary>
         ///   Gets the source matrix from which the analysis was run.
         /// </summary>
         /// 
+        [Obsolete("This property will be removed.")]
         public double[,] Source
         {
             get
@@ -315,6 +389,7 @@ namespace Accord.Statistics.Analysis
         ///   Gets the source matrix from which the analysis was run.
         /// </summary>
         /// 
+        [Obsolete("This property will be removed.")]
         public double[][] Array
         {
             get
@@ -323,6 +398,18 @@ namespace Accord.Statistics.Analysis
                     sourceArray = sourceMatrix.ToJagged();
                 return sourceArray;
             }
+        }
+
+        /// <summary>
+        ///   Gets or sets the method to be used when computing quantiles (median and quartiles).
+        /// </summary>
+        /// 
+        /// <value>The quantile method.</value>
+        /// 
+        public QuantileMethod QuantileMethod
+        {
+            get { return quantileMethod; }
+            set { quantileMethod = value; }
         }
 
         /// <summary>
@@ -342,6 +429,10 @@ namespace Accord.Statistics.Analysis
 
                 return this.columnNames;
             }
+            set
+            {
+                this.columnNames = value;
+            }
         }
 
         /// <summary>
@@ -353,7 +444,12 @@ namespace Accord.Statistics.Analysis
             get
             {
                 if (this.dScores == null)
-                    this.dScores = Source.Center(Means, inPlace: false);
+                {
+                    if (sourceMatrix != null)
+                        this.dScores = sourceMatrix.Center(Means, inPlace: false);
+                    else this.dScores = sourceArray.Center(Means, inPlace: false).ToMatrix();
+                }
+
                 return this.dScores;
             }
         }
@@ -384,7 +480,7 @@ namespace Accord.Statistics.Analysis
                 {
                     if (sourceMatrix != null)
                         covarianceMatrix = sourceMatrix.Covariance(Means);
-                    else covarianceMatrix = sourceArray.Covariance(Means);
+                    else covarianceMatrix = sourceArray.Covariance(Means).ToMatrix();
                 }
 
                 return covarianceMatrix;
@@ -403,7 +499,7 @@ namespace Accord.Statistics.Analysis
                 {
                     if (sourceMatrix != null)
                         correlationMatrix = sourceMatrix.Correlation(Means, StandardDeviations);
-                    else correlationMatrix = sourceArray.Correlation(Means, StandardDeviations);
+                    else correlationMatrix = sourceArray.Correlation(Means, StandardDeviations).ToMatrix();
                 }
 
                 return correlationMatrix;
@@ -536,8 +632,8 @@ namespace Accord.Statistics.Analysis
                 if (medians == null)
                 {
                     if (sourceMatrix != null)
-                        medians = sourceMatrix.Median();
-                    else medians = sourceArray.Median();
+                        medians = sourceMatrix.Median(type: quantileMethod);
+                    else medians = sourceArray.Median(type: quantileMethod);
                 }
 
                 return medians;
@@ -612,8 +708,8 @@ namespace Accord.Statistics.Analysis
                 if (quartiles == null)
                 {
                     if (sourceMatrix != null)
-                        this.medians = sourceMatrix.Quartiles(out this.quartiles);
-                    else this.medians = sourceArray.Quartiles(out this.quartiles);
+                        this.medians = sourceMatrix.Quartiles(out this.quartiles, type: quantileMethod);
+                    else this.medians = sourceArray.Quartiles(out this.quartiles, type: quantileMethod);
                 }
 
                 return quartiles;
@@ -1016,6 +1112,7 @@ namespace Accord.Statistics.Analysis
         ///   Gets the variable's observations.
         /// </summary>
         /// 
+        [Obsolete("This property will be removed.")]
         public double[] Samples
         {
             get { return analysis.Source.GetColumn(index); }

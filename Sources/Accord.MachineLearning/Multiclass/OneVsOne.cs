@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -24,7 +24,7 @@
 namespace Accord.MachineLearning.VectorMachines
 {
     /// <summary>
-    ///   Decision strategies for <see cref="MulticlassSupportVectorMachine">
+    ///   Decision strategies for <see cref="MulticlassSupportVectorMachine{TKernel}">
     ///   Multi-class Support Vector Machines</see>.
     /// </summary>
     /// 
@@ -48,15 +48,14 @@ namespace Accord.MachineLearning
 {
     using Accord.MachineLearning.VectorMachines;
     using Accord.Math;
-    using Accord.MachineLearning;
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
+    using System.Runtime.Serialization;
+    using Accord.Compat;
     using System.Threading;
     using System.Threading.Tasks;
-    using System.Runtime.Serialization;
-
+    using System.Runtime.CompilerServices;
 
     /// <summary>
     ///   One-Vs-One construction for solving multi-class
@@ -66,9 +65,11 @@ namespace Accord.MachineLearning
     /// <typeparam name="TBinary">The type for the binary classifier to be used.</typeparam>
     /// <typeparam name="TInput">The type for the classifier inputs. Default is double[].</typeparam>
     /// 
+    /// <seealso cref="MulticlassSupportVectorMachine{TKernel}"/>
+    /// 
     [Serializable]
     public class OneVsOne<TBinary, TInput> :
-        MulticlassGenerativeClassifierBase<TInput>,
+        MulticlassLikelihoodClassifierBase<TInput>,
         IEnumerable<KeyValuePair<ClassPair, TBinary>>, IParallel
         where TBinary : class, IClassifier<TInput, bool>, ICloneable
     {
@@ -129,7 +130,7 @@ namespace Accord.MachineLearning
         /// <summary>
         ///   Gets or sets whether to track the decision path associated
         ///   with each decision. The track will be available through the
-        ///   <see cref="GetLastDecisionPath()"/> method.
+        ///   <see cref="GetLastDecisionPath()"/> method. Default is true.
         /// </summary>
         ///
         public bool Track { get; set; }
@@ -232,6 +233,7 @@ namespace Accord.MachineLearning
                 throw new ArgumentException("Number of classes must be higher than 1.", "classes");
 
             this.NumberOfOutputs = classes;
+            this.NumberOfClasses = classes;
             int total = (classes * (classes - 1)) / 2;
 
             models = new TBinary[classes - 1][];
@@ -294,16 +296,64 @@ namespace Accord.MachineLearning
         }
 
         /// <summary>
+        /// Computes a class-label decision for a given <paramref name="input" />.
+        /// </summary>
+        /// <param name="input">The input vector that should be classified into
+        /// one of the <see cref="P:Accord.MachineLearning.ITransform.NumberOfOutputs" /> possible classes.</param>
+        /// <param name="result">The location where to store the class-labels.</param>
+        /// <returns>A class-label that best described <paramref name="input" /> according
+        /// to this classifier.</returns>
+        public override int[] Decide(TInput[] input, int[] result)
+        {
+            if (method == MulticlassComputeMethod.Voting)
+            {
+                for (int i = 0; i < input.Length; i++)
+                    result[i] = DecideByVoting(input[i]);
+            }
+            else
+            {
+                if (Track)
+                {
+                    if (options.MaxDegreeOfParallelism == 1)
+                    {
+                        for (int i = 0; i < input.Length - 1; i++)
+                        {
+                            result[i] = DecideByElimination(input[i]);
+                        }
+                    }
+                    else
+                    {
+                        Parallel.For(0, input.Length - 1, options, i =>
+                        {
+                            result[i] = DecideByElimination(input[i]);
+                        });
+                    }
+                    result[result.Length - 1] = DecideByElimination(input[input.Length - 1], this.lastDecisionPath.Value);
+                }
+                else
+                {
+                    Parallel.For(0, input.Length, options, i =>
+                    {
+                        result[i] = DecideByElimination(input[i]);
+                    });
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
         /// Computes a numerical score measuring the association between
         /// the given <paramref name="input" /> vector and each class.
         /// </summary>
         /// <param name="input">The input vector.</param>
         /// <param name="result">An array where the result will be stored,
         /// avoiding unnecessary memory allocations.</param>
-        public override double[] Distances(TInput input, double[] result)
+        public override double[] Scores(TInput input, double[] result)
         {
             if (method == MulticlassComputeMethod.Voting)
                 return DistanceByVoting(input, result);
+
             if (Track)
                 return DistanceByElimination(input, result, lastDecisionPath.Value);
             return DistanceByElimination(input, result);
@@ -319,7 +369,7 @@ namespace Accord.MachineLearning
         /// <returns></returns>
         public override double[] LogLikelihoods(TInput input, double[] result)
         {
-            return Distances(input, result);
+            return Scores(input, result);
         }
 
         /// <summary>
@@ -330,17 +380,22 @@ namespace Accord.MachineLearning
         /// <param name="classIndex">The index of the class whose score will be computed.</param>
         public override double LogLikelihood(TInput input, int classIndex)
         {
-            return Distances(input)[classIndex];
+            return Scores(input)[classIndex];
         }
 
 
 
-
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         private int DecideByVoting(TInput input)
         {
             return DistanceByVoting(input, new double[NumberOfOutputs]).ArgMax();
         }
 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         private int DecideByElimination(TInput input)
         {
             int i = NumberOfOutputs - 1;
@@ -354,9 +409,12 @@ namespace Accord.MachineLearning
                     i--; // j won, so we advance i
             }
 
-            return i + 1;
+            return i;
         }
 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         private int DecideByElimination(TInput input, Decision[] path)
         {
             int i = NumberOfOutputs - 1;
@@ -381,7 +439,9 @@ namespace Accord.MachineLearning
             return i;
         }
 
-
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         private double[] DistanceByElimination(TInput input, double[] result)
         {
             int i = NumberOfOutputs - 1;
@@ -391,10 +451,10 @@ namespace Accord.MachineLearning
 
             while (i != j)
             {
-                var model = Models[i - 1][j] as IBinaryDistanceClassifier<TInput>;
+                var model = Models[i - 1][j] as IBinaryScoreClassifier<TInput>;
 
                 bool decision;
-                double distance = model.Distance(input, out decision);
+                sum = model.Score(input, out decision);
 
                 if (decision)
                 {
@@ -418,6 +478,9 @@ namespace Accord.MachineLearning
             return result;
         }
 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         private double[] DistanceByElimination(TInput input, double[] result, Decision[] path)
         {
             int i = NumberOfOutputs - 1;
@@ -428,10 +491,10 @@ namespace Accord.MachineLearning
 
             while (i != j)
             {
-                var model = Models[i - 1][j] as IBinaryDistanceClassifier<TInput>;
+                var model = Models[i - 1][j] as IBinaryScoreClassifier<TInput>;
 
                 bool decision;
-                sum = model.Distance(input, out decision);
+                sum = model.Score(input, out decision);
 
                 if (decision)
                 {
@@ -457,6 +520,9 @@ namespace Accord.MachineLearning
             return result;
         }
 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         private double[] DistanceByVoting(TInput input, double[] result)
         {
             Parallel.For(0, indices.Length, options, k =>
@@ -504,6 +570,8 @@ namespace Accord.MachineLearning
     /// </summary>
     /// 
     /// <typeparam name="TBinary">The type for the binary classifier to be used.</typeparam>
+    /// 
+    /// <seealso cref="MulticlassSupportVectorMachine{TKernel}"/>
     /// 
     [Serializable]
     public class OneVsOne<TBinary> : OneVsOne<TBinary, double[]>

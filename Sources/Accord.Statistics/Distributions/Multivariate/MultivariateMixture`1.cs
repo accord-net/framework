@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -29,6 +29,7 @@ namespace Accord.Statistics.Distributions.Multivariate
     using Accord.Statistics.Distributions.Univariate;
     using System;
     using System.Text;
+    using Accord.Compat;
 
     /// <summary>
     ///   Represents one component distribution in a 
@@ -38,7 +39,7 @@ namespace Accord.Statistics.Distributions.Multivariate
     /// <typeparam name="T">The distribution type.</typeparam>
     /// 
     [Serializable]
-    public struct MixtureComponent<T> : IMixtureComponent<T> 
+    public struct MixtureComponent<T> : IMixtureComponent<T>
         where T : class, IDistribution
     {
         private IMixture<T> mixture;
@@ -314,7 +315,7 @@ namespace Accord.Statistics.Distributions.Multivariate
         ///   probability that a given value <c>x</c> will occur.
         /// </remarks>
         /// 
-        public override double ProbabilityDensityFunction(params double[] x)
+        protected internal override double InnerProbabilityDensityFunction(params double[] x)
         {
             double r = 0.0;
             for (int i = 0; i < components.Length; i++)
@@ -342,7 +343,7 @@ namespace Accord.Statistics.Distributions.Multivariate
         ///   The logarithm of the probability of <c>x</c> 
         ///   occurring in the current distribution.</returns>
         ///   
-        public override double LogProbabilityDensityFunction(params double[] x)
+        protected internal override double InnerLogProbabilityDensityFunction(params double[] x)
         {
             double r = Double.NegativeInfinity;
             for (int i = 0; i < components.Length; i++)
@@ -362,7 +363,7 @@ namespace Accord.Statistics.Distributions.Multivariate
         ///   probability that a given value or any value smaller than it will occur.
         /// </remarks>
         /// 
-        public override double DistributionFunction(params double[] x)
+        protected internal override double InnerDistributionFunction(params double[] x)
         {
             double r = 0.0;
             for (int i = 0; i < components.Length; i++)
@@ -443,11 +444,17 @@ namespace Accord.Statistics.Distributions.Multivariate
                 if (options != null)
                 {
                     em.InnerOptions = options.InnerOptions;
-                    em.Convergence.Iterations = options.Iterations;
+                    em.Convergence.MaxIterations = options.MaxIterations;
                     em.Convergence.Tolerance = options.Threshold;
+                    em.ParallelOptions = options.ParallelOptions;
                 }
 
                 em.Compute(observations);
+
+#pragma warning disable 612, 618
+                if (options != null)
+                    options.Iterations = em.Convergence.CurrentIteration;
+#pragma warning restore 612, 618
             }
             else
             {
@@ -456,11 +463,17 @@ namespace Accord.Statistics.Distributions.Multivariate
                 if (options != null)
                 {
                     em.InnerOptions = options.InnerOptions;
-                    em.Convergence.Iterations = options.Iterations;
+                    em.Convergence.MaxIterations = options.MaxIterations;
                     em.Convergence.Tolerance = options.Threshold;
+                    em.ParallelOptions = options.ParallelOptions;
                 }
 
                 em.Compute(observations, weights);
+
+#pragma warning disable 612, 618
+                if (options != null)
+                    options.Iterations = em.Convergence.CurrentIteration;
+#pragma warning restore 612, 618
             }
 
             for (int i = 0; i < components.Length; i++)
@@ -559,10 +572,10 @@ namespace Accord.Statistics.Distributions.Multivariate
                     double[][] means = new double[components.Length][];
                     for (int k = 0; k < components.Length; k++)
                         means[k] = components[k].Mean;
-                    double[,] VarE = Measures.Scatter(means, (double)components.Length);
+                    double[,] VarE = Measures.Scatter(means, (double)components.Length).ToMatrix();
 
                     // Var[X] = E[Var [X|Y]] + Var[E[X|Y]]
-                    covariance = EVar.Add(VarE);
+                    covariance = EVar.Add(VarE, result: EVar);
                 }
 
                 return covariance;
@@ -646,10 +659,12 @@ namespace Accord.Statistics.Distributions.Multivariate
         /// 
         /// <param name="samples">The number of samples to generate.</param>
         /// <param name="result">The location where to store the samples.</param>
+        /// <param name="source">The random number generator to use as a source of randomness. 
+        ///   Default is to use <see cref="Accord.Math.Random.Generator.Random"/>.</param>
         ///
         /// <returns>A random vector of observations drawn from this distribution.</returns>
         /// 
-        public override double[][] Generate(int samples, double[][] result)
+        public override double[][] Generate(int samples, double[][] result, Random source)
         {
             if (sampleable == null)
             {
@@ -661,8 +676,8 @@ namespace Accord.Statistics.Distributions.Multivariate
             for (int i = 0; i < samples; i++)
             {
                 // Choose one coefficient at random
-                int j = GeneralDiscreteDistribution.Random(coefficients);
-                
+                int j = GeneralDiscreteDistribution.Random(coefficients, source);
+
                 // Sample from the chosen coefficient
                 result[i] = sampleable[j].Generate();
             }
@@ -693,8 +708,7 @@ namespace Accord.Statistics.Distributions.Multivariate
 
                 if (fmt != null)
                     sb.AppendFormat(fmt.ToString(format, formatProvider));
-                else
-                    sb.AppendFormat(fmt.ToString());
+                else sb.AppendFormat(components[i].ToString());
 
                 if (i < coefficients.Length - 1)
                     sb.Append(" + ");

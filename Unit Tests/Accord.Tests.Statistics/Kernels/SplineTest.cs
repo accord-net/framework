@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -20,40 +20,16 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-using Accord.Statistics.Kernels;
-using NUnit.Framework;
 namespace Accord.Tests.Statistics
 {
-    
-    
-    /// <summary>
-    ///This is a test class for SplineTest and is intended
-    ///to contain all SplineTest Unit Tests
-    ///</summary>
+    using Accord.Math;
+    using Accord.Statistics.Kernels;
+    using NUnit.Framework;
+
     [TestFixture]
     public class SplineTest
     {
 
-
-        private TestContext testContextInstance;
-
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        ///</summary>
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-       
         [Test]
         public void KernelTest()
         {
@@ -69,12 +45,11 @@ namespace Accord.Tests.Statistics
 
 
             double[] x2 = { 5, 11, 2 };
-            double[] y2 = { 4, 5,  1 };
+            double[] y2 = { 4, 5, 1 };
             expected = 3.331507407407407e+04;
 
             actual = target.Function(x2, y2);
-            Assert.AreEqual(System.Math.Round(expected, 5),
-                            System.Math.Round(actual, 5));
+            Assert.AreEqual(expected, actual, 1e-3);
         }
 
     }

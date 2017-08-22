@@ -1,15 +1,481 @@
-Accord.NET Framework 3.1.0 release notes
+Accord.NET Framework 3.7.0 release notes
 -----------------------------------------
-10.06.2016.
+20.08.2017.
 
- Accord.NET 3.1 "auto-generated" release
+Version updates and fixes:
+  - GH-53: K-Medoids algorithm;
+  - GH-335: Nelder-mead solver not converged;
+  - GH-444: Reenable F# Unit Tests;
+  - GH-587: UnmanagedImage does not supported in ExtractBiggestBlob filter;
+  - GH-594: FFMPEG net35 not working;
+  - GH-621: How to calculate the cache size in respect of the available RAM;
+  - GH-662: 64-bit FFMPEG binaries not in output after installing with NuGet;
+  - GH-669: Confusion Matrix;
+  - GH-673: Stream closes after serialization with GZip compression;
+  - GH-676: DoubleArrayChromosome CreateNew ignores Balancer properties;
+  - GH-684: BalancedKMeans gets stuck;
+  - GH-688: Cobyla constraint definitions only work with constant values;
+  - GH-690: Add an Example for Cross-Validation with DecisionTrees;
+  - GH-692: Add an Example for StochasticGradientDescent Class;
+  - GH-693: One-class SVM decision rule;
+  - GH-694: Add support for Weighted Least Squares;
+  - GH-696: IndexOutOfRangeException exception in Matrix.First method;
+  - GH-697: Add an Example for HiddenMarkovModel(TDistribution, TObservation);
+  - GH-699: MJPEGStream throws NotImplementedException in .NET Core 2.0;
+  - GH-700: MJPEGStream throws InvalidOperationException in .NET Core 2.0;
+  - GH-706: DecisionTree.ToCode() returns code that does not compile;
+  - GH-707: DecisionTree.ToCode() returns code that compiles;
+  - GH-711: Nonlinear Regression in VB.NET;
+  - GH-712: Update MJPEGStream.cs ;
+  - GH-715: GeneralizedParetoDistribution shape param;
+  - GH-717: Possible issue with DynamicTimeWarping kernel class;
+  - GH-723: Procrustes analysis is giving weird/wrong results;
+  - GH-729: Error in ExhaustiveBlockMatching;
+  - GH-731: Dilatation;
+  - GH-736: Measures.Quartiles() for double Vectors of size 2 is wrong;
+  - GH-737: Add examples for C45Learning Class with missing data and thresholds;
+  - GH-745: Cannot change degree of a default Polynomial kernel;
+  - GH-746: Add an Example for CrossValidation Class;
+  - GH-747: How to understand the Probabilities;
+  - GH-749: 64 bit release for .NET 4.0;
+  - GH-752: Speed up matrix-vector operations;
+  - GH-758: NullReferenceException on NaiveBayes Learn;
+  - GH-765: NaiveBayes 'System.IndexOutOfRangeException' occurred in Accord.Statistics.dll when calling from sample application;
+  - GH-767: DebugVisualizers;
+  - GH-777: Bug in LinearConstraintCollection documentation;
+  - GH-778: Setter for bounds in BoundedBroydenFletcherGoldfarbShanno.
+ 
+* General
+  - Adding support for targetting NET Standard 1.4;
+  - Adding Newtonsoft.Json (Json.NET) in externals.
+
+* DataSets
+  - Adding Wisconsin's Breast Cancer (original, prognostic and diagnostic) datasets;
+  - Adding Oxford's Parkinsons dataset;
+  - Updating download links for the RCV1v2 dataset.
+ 
+* Imaging
+  - Fixing multiple typos regarding the spelling of "Dilation" (this is a breaking change).
+  
+* IO
+ - Adding a ReadLine method to CsvReader to read individual lines from the CSV file.
+
+* MachineLearning
+  - Adding K-Medoids (PAM) and Voronoi Iteration clustering algorithms;
+  - Fixing epsilon in Sequential Minimal Optimization for Regression;
+  - Adding a MiniBatch static class that can be used to create mini-batch definitions from training data;
+  - Update LevenbergMarquardtLearning.cs to allow for different activation functions;
+  - Update BackPropagationLearning.cs to allow for different activation functions;
+  - Adding support for missing values in C4.5;
+  - Updating GeneralConfusionMatrix to represent columns as ground-truth instead of predictions;
+  - Improving memory usage for Second Order (LibSVM) Sequential Minimal Optimization;
+  - Adding more overloads to the method that helps determine how many lines can 
+    be included in the SVM kernel cache given a total amount of memory;
+  - Fixing ToMulticlass() methods included in multi-label and binary classifiers;
+  - Fixing the Probabilities and LogLikelihoods methods for multi-label and multi-class SVMs;
+  - Adding an option for OneVsOneLearning/Multiclass SVMs stop at the first exception 
+    found during training instead of waiting until the all machines have been trained;
+  - Adding Precision, Recall, RowErrors and ColumnErrors to GeneralConfusionMatrix.
+  
+* Math
+  - Adding support for .Learn() methods in NonlinearLeastSquares;
+  - Updates GH-762: DotAndDot performance for small problem sizes;
+  - Removing the deprecated extension methods for Accord.Math.Matrix.Multiply
+    (such that calls should now be redirected to Elementwise.Multiply);
+  - Fix BinarySearch so that it works with decreasing functions;
+  - Search interval in BinarySearch was meant to be [a;b) (i.e. with inclusive a and exclusive b);
+  - Fixing the behavior of Matrix.Get() method when negative indices are passed;
+  - Fixing Matrix's ToTable method to use the most high level type possible when creating columns.
+
+* Statistics
+  - Adding multiple methods for computing quartiles/quantiles;
+  - Adding a more advanced version of the discretization filter;
+  - Adding an example for fraud detection using HMMs with MaximumLikelihoodLearning class.
+  
+* Neuro
+  - Adding support for networks with multiple activation functions in Levenberg-Marquardt.
+
+
+
+
+Accord.NET Framework 3.6.0 release notes
+-----------------------------------------
+09.07.2017.
+
+Version updates and fixes:
+  - GH-168: Text naive bayes classification gives wrong results;
+  - GH-207: ResizeBilinear filter can support more pixel formats;
+  - GH-259: K-means clustering exception;
+  - GH-318: Adding support for .NET Standard 2.0;
+  - GH-389: Wilcoxon Signed Rank Test / Mann-Whitney-Wilcoxon Test - differences to R;
+  - GH-407: Upgrade to NUnit 3;
+  - GH-470: Multiclass SVM and DTW System.AggregateException;
+  - GH-499: Add an example for K-means with mixed categorical and continuous data;
+  - GH-540: Add an example for BaumWelchLearning(TDistribution, TObservation, TOptions) Class;
+  - GH-549: Multithreaded BagOfVisualWords: "memory corrupt" problem;
+  - GH-571: Accord.Controls is referencing wrong version of ZedGraph on NuGet;
+  - GH-602: Robust multivariate regression causes IndexOutOfRangeException;
+  - GH-605: Renaming AudioCodec.M4A to AudioCodec.MP4ALS;
+  - GH-604: ColorSlider component resource path's fix;
+  - GH-606: LowerBoundNewtonRaphson: how to check if converged;
+  - GH-607: from perezale/aleperez-development;
+  - GH-611: Framerate issues when transcoding video;
+  - GH-614: Index out of bounds error in SingularValueDecomposition.Solve;
+  - GH-619: AugmentedLagrangian hangs on linear problem;
+  - GH-621: How to calculate the cache size in respect of the available ram;
+  - GH-624: Add an Example for Chart Class;
+  - GH-627: Exposing more distribution fields as public properties;
+  - GH-628: Inject other Random.Generators (like Mersenne Twister);
+  - GH-630: GeneralizedBetaDistribution.ProbabilityDensityFunction does not have an area of 1;
+  - GH-631: Adding test case for  GoldfarbIdnaniStatus is Success even when Solution violates constraints;
+  - GH-632: ExponentialDistribution.DistributionFunction return values outside [0,1];
+  - GH-647: Adding weighted versions of the Euclidean and Square Euclidean distances;
+  - GH-649: Add an example for NonNegativeLeastSquares Class;
+  - GH-654: Adding the Distance Transform and Watershed algorithms;
+  - GH-663: Adding examples for the CsvWriter Class.
+
+* General
+  - Adding support for targetting .NET 4.6.2 and NET Standard 2.0;
+  - Improving documentation and expanding number of examples.
+
+* Core
+  - Moving IParallel and ISupportsCancellation interfaces to Accord.Core.
+  
+* IO
+  - Adding a parser for the UNIPEN file format used by the pendigits dataset;
+  - Whitespace as a candidate delimiter in CSV parser;
+  - Adding more overloads to SparseReader's Read method.
+
+* DataSets
+  - Renaming the previous Iris dataset to SparseIris since it was a LibSVM dataset;
+  - Adding the original Iris, Wine, Pendigits, Chunking and Test Images datasets.
+
+* MachineLearning
+  - Updating Learn() methods now throw exceptions when weights are 
+    passed to learning algorithms which does not yet support them;
+  - Updating CrossValidation, Bootstrap, Split Set Validation and 
+    Grid-Search to use the new Learn() API;
+  - Adding support for creating decision trees using collection 
+    initializers for the attribute/decision variables;
+  - Mitigating the impact of a numerical precision issue when normalizing 
+    distances to probabilities in the K-Means++ initialization;
+  - Fixing issue with K-Means in which the input observations would be 
+    changed by the randomization algorithm when using uniform seeding;
+  - Correcting the design of the framelet for cluster algorithms so clusterings that are 
+    not based on distance proximity to centroids are not forced to implement those methods;
+  - Changing the default caching mechanism for Support Vector Machines 
+    to keep rows of the kernel matrix instead of individual elements;
+  - Adding methods to calculate the cache size given a number of bytes;
+  - Adding cache support for Fan Chen Lin's QP (SMO's SecondOrder strategy);
+  - Updating IClassifier interface to offer a NumberOfClasses property besides NumberOfOutputs;
+  - Updating the base classes for IClassifier such that the Score, Probability 
+    and LogLikelihood functions only have to be defined once;
+  - Correcting the Score, Probability and LogLikelihood functions of GeneralizedLinearRegression;
+  - Updating ITransform and IClassifier's NumberOfInputs, NumberOfOutputs and 
+    NumberOfClasses properties to be read-and-write rather than read-only.
+
+* Imaging
+  - Adding the Zhang-Suen Thinning Algorithm by Hashem Zawary (thanks!);
+  - Adding a FromUrl method to the Image class to download images directly from the web;
+  - Adding support for jagged matrices in the ImageToMatrix and MatrixToImage converters;
+  - Adding convenience methods PixelSize and Offset to UnmanagedImage;
+  - Adding a constructor method in UnmanagedImage to construct from byte arrays.
+  
+* Vision
+  - Fixing reproducibility of Bag-Of-Visual-Words when using parallel processing.
+
+* Statistics
+  - Marking Sparse kernel classes as deprecated;
+  - Adding Dirac's Delta as a (non-metric) Distance function;
+  - Updating the SquareEuclidean distance to support also Sparse<T> arrays;
+  - Adding a dummy random number generator that generates always the same constant;
+  - Fixing the implementation of the new API for Cox's Proportional Hazards;
+  - Updating HMM, CRF, and HCRF learning algorithms to support creating HMMs, HMM-based classifiers, 
+    CRFs and HCRFs directly from the data samples instead of requiring them to be defined by hand;
+  - Adding a new MatrixContinuousDistribution base class for Wishart and Inverse-Wishart distributions;
+  - Adding a RBF version of the Dynamic Time Warping kernel
+    that can be used with any distance metric/cost function;
+  - Updating Hidden Markov Model learning classes to use RelativeConvergence;
+  - Improving discrete hidden Markov models performance;
+  - Adding a base class for HCRF learning algorithms based on 
+    the available IGradientOptimizationMethod optimizers;
+  - Adding extension methods to simplify how distributions can be estimated 
+    from the data (without requiring the distribution to be created first);
+  - Fixing gradient computation in CRF learning;
+  - Updating base classes for probability distributions to perform input 
+    validation before calling distribution-specific implementations;
+  - Adding automatic testing of all univariate probability distributions;
+  - Mass fixing issues detected by automatic testing in multiple distributions.
+  
+* Math
+  - Fixing an issue with Bounded L-BFGS in which the optimization algorithm 
+    would not respect the maximum number of iterations determined by the user;
+  - Adding HasConverged, MaxIterations and CurrentIteration properties 
+    as required members in IConvergenceLearning interface;
+  - Adding parsing methods for Vector class;
+  - Fixing Sparse SquareEuclidean distance;
+  - Removing duplicated extension method To<T>() from Matrix.Conversions.cs
+  - Marking Conjugate Gradient and BFGS as supporting execution cancellation;
+
+* Controls
+  - Updating ImageBox to support the fluent syntax and .Hold() methods.
+
+
+
+
+Accord.NET Framework 3.5.0 release notes
+-----------------------------------------
+21.05.2017.
+
+Version updates and fixes:
+  - GH-55: Adding support for computing TF-IDF vector representations;
+  - GH-213: Linear SVM with SGD Training Support;
+  - GH-297: Looking for "multinomial Logistic Regression (cross-entropy loss)" in accord like sklearn;
+  - GH-330: Liblinear (Linear SVMs) does not train, exits with "index out of range";
+  - GH-352: Take so much time create a SequentialMinimalOptimizationRegression in Accord.NET;
+  - GH-355: SVM non-sequential 0 to n class outputs causes index out of bounds;
+  - GH-365: Updating LBP to work with BoW;
+  - GH-373: FrameRate as double in Accord.Video.FFMPEG;
+  - GH-379: Updating NuGet specification files so assemblies are placed under net452 and net461;
+  - GH-386: KNearestNeighbors Constructor (Int32, Int32, Double[][], Int32[], IMetric(Double[]));
+  - GH-389: Wilcoxon Signed Rank Test | Mann-Whitney-Wilcoxon Test - differences to R;
+  - GH-390: MachineLearning.KMeans: Balanced clustering;
+  - GH-396: Using Parallel.For with LinearCoordinateDescent;
+  - GH-397: Add an Example for OneclassSupportVectorLearning(TModel, TKernel, TInput) Class;
+  - GH-398: PrincipalComponentAnalysis serialization error in v3.4.0;
+  - GH-391: Add an Example for DecisionTree Class;
+  - GH-392: Add an Example for GrayLevelCooccurrenceMatrix Constructor;
+  - GH-393: Add an Example for GrayLevelCooccurrenceMatrix Constructor (Int32, CooccurrenceDegree, Boolean, Boolean);
+  - GH-396: Using Parallel.For with LinearCoordinateDescent;
+  - GH-399: Add an Example for HaarObjectDetector Class;
+  - GH-401: KNearestNeighbors parallel;
+  - GH-402: Add an Example for BagOfWords Class;
+  - GH-405: Add an Example for RandomForest Class;
+  - GH-409: Add an Example for Serializer.Load(T) Method (String);
+  - GH-419: Add an Example for Combinatorics.Subsets(T) Method (ISet(T), Int32, Boolean);
+  - GH-431: AugmentedLagrangian fails on standard convex quadratic problem;
+  - GH-434: Possible issue with PolynomialLeastSquares() Class;
+  - GH-438: Error on LocalBinaryPattern Clone();
+  - GH-446: Add an Example for PolynomialRegression Class;
+  - GH-448: Could not load type 'SharpDX.Bool' from assembly 'SharpDX, Version=3.1.1.0;
+  - GH-451: BalancedKMeans does not find a solution for this case;
+  - GH-538: CSVReader Ignores specified delimiter;
+  - GH-556: Display license on repository top;
+  
+* General
+  - Fixing target framework versions: projects that were targetting 4.5.2 and 
+    4.6.1 have been updated to target 4.5 and 4.6, respectively;
+  - Adding a Accord.DataSets namespace to contain classes that can download and
+    pre-process well-known machine learning datasets directly from the web;
+  - Adding a Accord.Text namespace to contain classes related to text processing;
+  - Creating a separate Accord.Video.FFMPEG NuGet package to target x64 (Win64);
+  - Upgrading C++ projects to VS2017 and removing dependencies on VS2013 and VS2015;
+
+* Core
+  - Updating the framework random generator to allow fixing the seed of independent threads:
+    new random generators created from existing threads will be initialized with the global
+    random seed, except if their thread-specific random seed has been manually overwritten;
+  - Adding support for using GZip compression when serializing through Accord.Serializer;
+  - Adding initial support for rational numbers;
+
+* IO
+  - Adding support for reading and writing NumPy's .npy and .npz formats;
+  - Adding a SparseWriter to save Sparse<T> in LibSVM sparse file format;
+  
+* Video
+  - Updating FFMPEG library to version 3.2.2;
+  - Updating Accord.Video.FFMPEG to support both x86 and x64 platforms;
+  - Updating FrameRate properties of VideoFileWriter and VideoFileReader 
+    to be represented in Rationals instead of Int32;
+  
+* DataSets
+  - Adding downloaders for the RCV1v2, MNIST and News20 datasets;
+  
+* Text  
+  - Adding C# versions of Snowball's stemmers;
+  
+* Math
+  - Fixing ToString() method of Sparse<T> vectors such that they are compatible with LibSVM;
+  - Adding Angular distance metric (proper distance metric based on the Cosine similarity);
+  - Updating distance metrics to be structs rather than classes, allowing for optimizations
+    when used in conjunction with generic classes and methods;
+  - Adding generic versions of the IOptimizationMethod interfaces, and adding a specific 
+    IFunctionOptimizationMethod interface to specify function optimization methods that do 
+    not necessarily require a gradient function;
+  
+* Statistics
+  - Fixing serialization of PCA, KPCA, LDA, KDA and other classes containing a CancellationToken;
+  - Adding support for learning multinomial logistic regression with any optimization algorithm;
+  - Correcting/improving Wilcoxon distribution: Adding a separate method for the ComplementaryDistributionFunction
+    for more precision; adding the approximation distribution using an actual NormalDistribution, and new parameters 
+    at its constructor to control whether exact or approximate distribution should be used; adding parameters to 
+    determine whether to apply different types of continuity corrections; adding an option to determine whether to 
+    correct for ties when computing the rankings;
+  - Correcting/improving Mann-Whitney U's distribution: Adding most corrections as mentioned above, plus checks to ensure
+    we are computing the distribution for the case when the first sample is smaller than the second; adding a correction 
+    to the variance of the approximation distribution for the case of ties; adding parallelization support when computing 
+    the table of exact values;
+  - Correcting/improving Wilcoxon and Mann-Whitney tests: adding a correction for ties in the variance of the Normal 
+    approximation; adding checks to make sure we don't generate p-values higher than 1; adding more comparison tests 
+    against results generated by R;
+  - Wavelet kernel is now a struct and has support for Int32 inputs;
+
+* MachineLearning
+  - Improving the performance for LinearDualCoordinateDescent and OneVsRest SVMs;
+  - Adding a ToMulticlass method to Multilabel classifiers based on scores;
+  - Updating K-Nearest Neighbor to use the new classification/learning interfaces;
+  - Adding parallelism to the non-data-structure-based version of K-Nearest Neighbors;
+  
+* Accord.Imaging
+  - Adding support for LocalBinaryPattern and Haralick in Bag-of-Visual-Words.
+
+
+
+
+Accord.NET Framework 3.4.0 release notes
+-----------------------------------------
+14.01.2017.
+
+Version updates and fixes:
+  - GH-19: Implement Grubbs' test;
+  - GH-129: Possible error in Special.BSpline function;
+  - GH-153: Visual Studio 2015;
+  - GH-172: Add Random Forest Implementation;
+  - GH-177: AugmentedLagrangian with NonlinearConstraints - Gradient NullReferenceException issue;
+  - GH-183: Severity Check in NumberOfVertices Set Property on DiscreteCurveEvolution Class;
+  - GH-229: Can't build cloned repository;
+  - GH-250: Prediction interval - Accord.Statistics.Models.Regression.LogisticRegression;
+  - GH-264: Integer division instead of double in GetSpectralResolution;
+  - GH-264: Incorrect use of loop variables in sample converter;
+  - GH-264: Checking same arguments multiple times in blob counter;
+  - GH-264: Checking length of same vector in a loop;
+  - GH-264: Integer division instead of double in Math.Tools;
+  - GH-264: Dependency classes of Denavit Harternberg IK solver should be marked as Serializable;
+  - GH-264: Error when checking whether component mixtures implement IFormattable;
+  - GH-264: Multivariate Empirical Distribution outdated/unecessary argument checks;
+  - GH-264: Correcting the support for weighted samples in Inverse Gaussian Distribution;
+  - GH-275: Examples for the GoldfarbIdnani solver are not up to date and do not compile;
+  - GH-291: Accord.Imaging nuget dependencies;
+  - GH-295: Accord.Video.FFMPEG.VideoFileWriter ignores bitrate;
+  - GH-296: Update documentation for hidden Markov models;
+  - GH-299: Update to .NET 4.6 and VS2015;
+  - GH-302: Regression (SVMs) : NullReferenceException on clicking 'Create Machine';
+  - GH-309: Compile error with release 3.2.2;
+  - GH-310: Examples for L1-regularized (Logistic) regression;
+  - GH-313: Inaccuracy in Accord.Math Pseudoinverse;
+  - GH-314: V3.3.0 Cannot set input and output names in LogisticRegressionAnalysis;
+  - GH-320: Shared Covariance Matrix for Gaussian Mixture Models;
+  - GH-325: ClusterCollection doesn't implement IEnumerable properly (runtime error);
+  - GH-327: NegativeBinomialDistribution Cum Dist func not returning expected value;
+  - GH-301: Bug in Accord.Statistics.Analysis.DistributionAnalysis
+  - GH-304: Bug in GammaDistribution.ProbabilityDensityFunction
+  - GH-330: Liblinear (Linear SVMs) does not train, exits with "index out of range";
+  - GH-331: RandomForest is not serializable;
+  - GH-332: Partial Least Squares issue with NIPALS method and the new API;
+  - GH-337: ExpectationMaximization max Iterations can't be changed;
+  - GH-340: PoissonDistribution InverseDistributionFunction not returning expected value;
+  - GH-365: Can HOG to work with BoW'2 with SVM or OSVM.
+
+* General
+  - Fixing make install on Linux/Mono.
+   
+* Imaging
+  - Updating BagOfVisualWords to implement the updated IBagOfWords interface;
+  - Adding methods to facilitate the creation of BoVW with arbitrary extractors;
+  - Adding examples in the documentation on how to learn SVMs on the extracted Bo(V)Ws;
+  - Updating IFeatureDetector interfaces to use covariance and contravariance to avoid element-by-element type conversions.
+
+* Math
+  - Adding support for computing the full QR decomposition (besides only the economy one);
+  - Adding methods to compute the null-space of a given matrix.
+
+* MachineLearning
+  - Updating the IBagOfWords interface and implementing classes to implement the IUnsupervisedLearning and ITransform interfaces;
+  - Updating ZeroOneLoss to handle class labels in the -1/+1 format;
+  - Updating the kernel cache to pre-compute the entire kernel matrix by default.
+
+* Statistics
+  - Adding random generators for the von-Mises Fisher distribution;
+  - Updating documentation examples for Hidden Markov Models, Hidden Markov Classifiers and their respective algorithms;
+  - Adding a new GammaOptions class to pass fitting options to Gamma distributions;
+  - Updating DistributionAnalysis to use the new machine learning interfaces/API;
+  - Updating code and documentation for Dynamic Time warping kernel;
+  - Updating Gamma distribution so probabilities are computed in the log-domain by default;
+  - Marking Moving and Running statistics as ISerializable;
+  - Adding methods to compute the marginals in multivariate discrete distributions;
+  - Adding RunningRangeStatistics and MovingRangeStatistics.
+
+
+
+
+Accord.NET Framework 3.3.0 release notes
+-----------------------------------------
+17.09.2016.
+
+Version updates and fixes:
+  - GC-62:  Add support for computing prediction intervals in linear and generalized linear models
+  - GH-113: System.AggregateException thrown in C45Learning.Run;
+  - GH-115: Add documentation about how to work with sparse data;
+  - GH-130: Multi class support vector machine doesn't work with SparseGaussian kernel;
+  - GH-139: Examples using explicit kernel matrices;
+  - GH-178: DecisionTreeWriter uses local CultureInfo when writing values;
+  - GH-249: Potential bug in RandomForest or C45Learning;
+  - GH-201: Adding Generalized Pareto Distribution;
+  - GH-245: Incorrect method usage in Distance.GetDistance;
+  - GH-255: Adding examples on how to use Laplace rule in Naive Bayes learning;
+  - GH-253: BlobCounter needs a IDisposable implementation;
+  - GH-252: Bug in Kurtosis Contrast Function;
+  - GH-270: Adding example to show to use continuous variables in C4.5;
+  - GH-271: OneclassSupportVectorLearning does not use shrinking heuristics property;
+  - GH-281: Possible bug in GammaDistribution generation function when k < 1;
+  - GH-282: Issue in LogisticRegression.Transform() returns true for all inputs;
+  - GH-280: Merge pull request #280 from fch-aa/Fix-SMO-CacheSize;
+  - GH-278: Merge pull request #278 from kulov/development;
+  - GH-272: Merge pull request #272 from kdbanman/GH-271;
+  - GH-269: Merge pull request #269 from mikhail-barg/minor-fix;
+  - GH-273: VideoFileWriter not working;
+  - GH-274: Merge pull request #274 from hzawary:development;
+  - GH-285: Deserialize of Codification error in 3.2.0;
+  - GH-286: Ransac - possible bug in calculation of 'N' if pInlier = 0;
+  - GH-288: NaiveBayes issue when probability is 0;
+  - GH-289: Incorrect use of GetLength(0) for jagged arrays in Matrix class.
+
+* General
+  - This will be last release that includes an executable installer. If you
+    are still using the installer, please move to NuGet or use the framework
+    compressed archive files.
+
+* Imaging
+  - Creating a new Accord.Imaging.Noncommercial assembly to hold non-commercial imaging methods;
+  - Adding Fast Guided Filter to Accord.Imaging.Noncommercial.
+
+* MachineLearning
+  - Fixing Binary Split's learn method to accept null weights;
+  - Updating Binary Split example to reflect the new API;
+  - Adding constructors to allow tree inducing algorithms to create a tree from scratch;
+  
+* Statistics  
+  - Fixing multiple issues with statistical analyses classes when they are used using the
+    new classification/regression APIs;
+  - Statistical measures (Measures.cs) have been moved to the Accord.Math assembly,
+    but have been kept under the Accord.Statistics namespace;
+  - Correcting L2-regularization in Logistic Regression.
+
+
+
+
+Accord.NET Framework 3.2.0 release notes
+-----------------------------------------
+20.08.2016.
+
+ Accord.NET 3.2 "auto-generated" release
 
 Version updates and fixes:
   - GH-76/GC-24: Add easier creating and handling of factors for categorical variables
   - GH-123: Bug in the Euclidean on Accord.Math.Distance
   - GH-124: Fixing the Envelop filter as missing loop variables were not being incremented
   - GH-135: When the from and to ranges are equal, scaled values should remain unchanged
-  - GH-159: Gamma Distributioon Fit stalls for some arrays
+  - GH-159: Gamma Distribution Fit stalls for some arrays
   - GH-162: ntdll on OS X
   - GH-167: Posterior method has wrong signature in continuous hidden Markov Models
   - GH-171: Quadratic Programming (Goldfarb-Idnani) NoPossibleSolution on possible problems
@@ -28,15 +494,15 @@ Version updates and fixes:
 * General
   - In this release, the Matrix library from Accord.Math has been almost completely
     redesigned to make heavy use of automatic code generation. This results in more
-	code reuse, more consistent interfaces and the availability of many methods which
-	before were available only for Double to almost all native numerical types in the
-	.NET Framework;
+    code reuse, more consistent interfaces and the availability of many methods which
+    before were available only for Double to almost all native numerical types in the
+    .NET Framework;
   - The framework now contains core classes and interfaces for defining classification
     and regression models and their respective learning algorithms, offering a more 
-	standard interface when using different parts of the framework;
+    standard interface when using different parts of the framework;
   - The framework now offers a Accord.Serializer class that should be responsible for
     serializing and deserializing any object from the framework, and will take care of
-	versioning in case of breaking changes between releases;
+    versioning in case of breaking changes between releases;
   - All AForge.NET namespaces have been finally moved to inside Accord.NET, although
     some functionality is still duplicate.
   
@@ -45,112 +511,138 @@ Version updates and fixes:
   - To<> universal converter can now convert jagged arrays;
   - Adding a common framework to unify all classification models, and all learning algorithms;
   - Integrating the AForge.NET Range classes in the framework, adding ByteRange;
-  - Adding a common serialization mechanism to the framework to manage backwards compatibility.
+  - Adding a common serialization mechanism to the framework to manage backwards compatibility;
+  - All classes from Accord.MachineLearning.Structures have been moved into Accord.Collections;
+  - Updating RedBlackTrees to implement the new base classes for tree structures;
+  - Updating KD-Trees to implement the base classes for tree structures (introduces breaking changes).
 
- * Sample applications
-   - Fixing wrong arguments in sample applications.
+* Sample applications
+  - Fixing wrong arguments in sample applications.
 
- * Math
-   - Revamped matrix library making heavy use of code generation with T4 templates;
-   - Matrix dot products, and elementwise operations are now auto-generated;
-   - Renaming InnerProduct to Dot, and marking previous products as obsolete;
-   - Vector Range, Scale and Interval are now auto-generated;
-   - Standardizing the way Vectors, Matrices and Jagged matrices are created and handled
-     in the framework;
-   - Adding OneHot and KHot methods overloads for creating vectors using boolean masks;
-   - Adding ArgMin and ArgMax methods to Vector, Jagged and Multidimensional matrices;
-   - Re-implementing Matrix.Sum and Matrix.Product using T4 templates;
-   - Breaking change: Sum() now computes the Sum over the entire matrix (before it needed
-     to be done with Sum().Sum(). In order to compute the sum vector over rows, use matrix.Sum(0)
-	 and for columns, matrix.Sum(1);
-   - Chessboard distance has been removed as it is the same as Chebyshev;
-   - Moving AForge.NET's old Random classes into the framework, and marking them as deprecated;
-   - Adding a log1pexp method for computing (1.0 + Math.Exp(-sum)) without loss of precision;
-   - Adding new random generators based on Marsaglia's Ziggurat method;
-   - Introducing a new, generic IRandomNumberGenerator interface so existing statistical
-     distributions can be used as Random Number Generators;
-   - Updating Matrix.IsEqual method to use the auto-generated overloads if possible;
-   - Replacing the previous framework-wide generator with a better API;
-   - Improving the framework-wide random number generator so generators created in short
-     timespans do not get initialized with the same seed: Now, updating a seed will not
-	 affect existent random generators in other threads. It will affect only newly created
-	 generators and the one in the current thread;
-   - Fixing the DiagonalMatrix property in SingularValueDecomposition and 
-     JaggedSingularValueDecomposition so the returned diagonal matrices has the necessary 
-	 dimensions to reconstruct the original matrix using the decomposition main formulation;
-   - Fixing a bug in Combinatorics.Sequences method where the current vector would be returned
-     instead of a copy when inPlace = false;
-   - Distance functions can now be auto-generated from classes from the framework;
-   - Adding Dice, Jaccard, Kulczynski, Matching, Rogers-Tanimoto, Russel-Rao, Sokal Michener,
-     Sokal Sneath, Yule, Bhattacharyya and LogLikelihood distances as proper classes;
-   - Updating IsEqual to support absoluete and relative tolarance thresholds;
-   - Adding a Histogram method for creating a histogram from an array of integer values;
-   - Updating the Interval, Range and Scale method overloads to be automatically generated;
-   - Adding loss functions to be used in the unified framework.
+* Math
+  - Revamped matrix library making heavy use of code generation with T4 templates;
+  - Matrix dot products, and elementwise operations are now auto-generated;
+  - Renaming InnerProduct to Dot, and marking previous products as obsolete;
+  - Vector Range, Scale and Interval are now auto-generated;
+  - Standardizing the way Vectors, Matrices and Jagged matrices are created and handled
+    in the framework;
+  - Adding OneHot and KHot methods overloads for creating vectors using boolean masks;
+  - Adding ArgMin and ArgMax methods to Vector, Jagged and Multidimensional matrices;
+  - Re-implementing Matrix.Sum and Matrix.Product using T4 templates;
+  - Breaking change: Sum() now computes the Sum over the entire matrix (before it needed
+    to be done with Sum().Sum(). In order to compute the sum vector over rows, use matrix.Sum(0)
+    and for columns, matrix.Sum(1);
+  - Chessboard distance has been removed as it is the same as Chebyshev;
+  - Moving AForge.NET's old Random classes into the framework, and marking them as deprecated;
+  - Adding a log1pexp method for computing (1.0 + Math.Exp(-sum)) without loss of precision;
+  - Adding new random generators based on Marsaglia's Ziggurat method;
+  - Introducing a new, generic IRandomNumberGenerator interface so existing statistical
+    distributions can be used as Random Number Generators;
+  - Updating Matrix.IsEqual method to use the auto-generated overloads if possible;
+  - Replacing the previous framework-wide generator with a better API;
+  - Improving the framework-wide random number generator so generators created in short
+    timespans do not get initialized with the same seed: Now, updating a seed will not
+    affect existent random generators in other threads. It will affect only newly created
+    generators and the one in the current thread;
+  - Fixing the DiagonalMatrix property in SingularValueDecomposition and 
+    JaggedSingularValueDecomposition so the returned diagonal matrices has the necessary 
+    dimensions to reconstruct the original matrix using the decomposition main formulation;
+  - Fixing a bug in Combinatorics.Sequences method where the current vector would be returned
+    instead of a copy when inPlace = false;
+  - Distance functions can now be auto-generated from classes from the framework;
+  - Adding Dice, Jaccard, Kulczynski, Matching, Rogers-Tanimoto, Russel-Rao, Sokal Michener,
+    Sokal Sneath, Yule, Bhattacharyya and LogLikelihood distances as proper classes;
+  - Updating IsEqual to support absoluete and relative tolarance thresholds;
+  - Adding a Histogram method for creating a histogram from an array of integer values;
+  - Updating the Interval, Range and Scale method overloads to be automatically generated;
+  - Adding loss functions to be used in the unified framework;
+  - Moving the Elementwise class to a separate Accord.Math.Core project in order to avoid
+    excessive build times due the number of auto-generated methods in this class;
+  - Adding overloads to Eigenvalue decomposition to automatically sorter eigenvectors and 
+    eigenvalues in descending order of absolute eigenvalue;
+  - Adding a dedicated Sort static class with ordering-related methods such as Partition,
+    Introsort and NthElement.
+  - Expanding decompositions with two additional methods: GetInformationMatrix and Reverse
+    GetInformationMatrix can be used to retrieve the standard errors for each coefficient 
+	when solving a linear system; Reverse reconstructs the original matrix using the definition
+	of the decomposition;
+  - Deprecating Submatrix in favor of Get (methods with non-inclusive last indices);
+  - Adding ArgSort function for retrieving the indices that can be used to sort a vector;
+  - Adding LogSumExp to the set of special functions.
 
 * MachineLearning
-   - Adding a base foundation to encompass all classification and regression models in the
-     framework as well as their learning algorithms: common interfaces and base classes for
-	 classifiers, distance-based classifiers and generative classifiers; common interfaces
-	 and base classes for supervised and unsupervised learning algorithms;
-   - Updating Support Vector Machines, Decision Trees, Naive Bayes to use the new classes;
-   - Unifying Linear and Kernel SupportVectorMachines, updating their classes to accept the
-     Kernel function as a generic parameter: when the kernel function is a ValueType, this
-	 forces generic classes to be compiled specifically for each kernel type, allowing for
-	 the inlining of the kernel function calls;
-   - Updating the way compact SVMs are represented: instead of having only a weight vector 
-     and no support vectors, compact machines have a single support vector and a single weight
-	 of value one, eliminating what before was a special case;
-   - Adding classes for OneVsOne and OneVsRest classifiers, separating the functionality that
-     was previously inside MulticlassSupportVectorMachine and MultilabelSupportVectorMachine;
-   - Fixing multiple issues with ErrorBasedPruning (YaronK);
-   - Updating GridSearch to implement ToString methods for easier debugging;
-   - Updating Linear machines and learning algorithms to accept sparse kernels;
-   - Deprecating the previous sparse vector implementations and moving the current implementation
-     to the existing Linear class, since they represent the same operation;
-   - Adding a true implementation for LibSVM-style Sparse vectors;
-   - Updating SparseReader to read sparse vectors using the new Sparse representation;
-   - Refactoring the clustering namespace to increase code reuse between the different algorithms;
-   - Updating K-Means, GMM and BagOfWords to expose a ParallelOptions object that can
-     be used to configure and stop the parallelization of those algorithms;
-   - Updating K-Means to support sample weights;
-   - Correcting multiple random initializations of Gaussian mixture model.
+  - Adding a base foundation to encompass all classification and regression models in the
+    framework as well as their learning algorithms: common interfaces and base classes for
+    classifiers, distance-based classifiers and generative classifiers; common interfaces
+    and base classes for supervised and unsupervised learning algorithms;
+  - Updating Support Vector Machines, Decision Trees, Naive Bayes, Regressions and Analyses
+    to use the new classes;
+  - Unifying Linear and Kernel SupportVectorMachines, updating their classes to accept the
+    Kernel function as a generic parameter: when the kernel function is a ValueType, this
+    forces generic classes to be compiled specifically for each kernel type, allowing for
+    the inlining of the kernel function calls;
+  - Updating the way compact SVMs are represented: instead of having only a weight vector 
+    and no support vectors, compact machines have a single support vector and a single weight
+    of value one, eliminating what before was a special case;
+  - Adding classes for OneVsOne and OneVsRest classifiers, separating the functionality that
+    was previously inside MulticlassSupportVectorMachine and MultilabelSupportVectorMachine;
+  - Fixing multiple issues with ErrorBasedPruning (YaronK);
+  - Updating GridSearch to implement ToString methods for easier debugging;
+  - Updating Linear machines and learning algorithms to accept sparse kernels;
+  - Deprecating the previous sparse vector implementations and moving the current implementation
+    to the existing Linear class, since they represent the same operation;
+  - Adding a true implementation for LibSVM-style Sparse vectors;
+  - Updating SparseReader to read sparse vectors using the new Sparse representation;
+  - Refactoring the clustering namespace to increase code reuse between the different algorithms;
+  - Updating K-Means, GMM and BagOfWords to expose a ParallelOptions object that can
+    be used to configure and stop the parallelization of those algorithms;
+  - Updating K-Means to support sample weights;
+  - Correcting multiple random initializations of Gaussian mixture model;
+  - Adding a PriorityQueue class based on the MIT-licensed code by Daniel "BlueRaja" Pflughoeft.
+  - Adding Vantage-Point and Space-Partitioning trees and Barnes Hutt t-SNE based on the original
+    code from Laurens van der Maaten BH t-SNE implementation;
+  - Adding a basic implementation for the Apriori algorithm.
 
 * Imaging
-   - Updating static methods in AForge.NET's Image class to become extension methods;
-   - Implementing ICloneable in all corner and feature detectors.
+  - Updating static methods in AForge.NET's Image class to become extension methods;
+  - Implementing ICloneable in all corner and feature detectors.
 
 * Neuro
-   - Updating ResilientBackpropagation with the improvements from iRProp+.
+  - Updating ResilientBackpropagation with the improvements from iRProp+.
 
 * Statistics
-   - Adding Non negative Least Squares regression;
-   - Adding Procrustes Analysis;
-   - Merging AForge.NET and Accord.NET Histogram classes;
-   - Updating IFittingOptions to implement ICloneable;
-   - Adding constructors to Independent distributions accepting a lambda function
-     to initialize inner components instead of relying on cloning;
-   - Adding a Classes class to provide methods that operate with categorical/label data,
-     such as converting boolean, double or integer values to [0;1] or [-1; +1] indicators;
-   - Adding Decide methods to unambiguously transform a distance/score value into a boolean;
-   - Updating statistic distributions to implement the IRandomNumberGenerator interface, meaning 
-     any distribution can now be used as random number generator;
-   - Adding the Metropolis-Hasting sampler to generate samples from multivariate distributions 
-     that do not have specialized samplers;
-   - Adding named constructors for building regressions directly from coefficient vectors;
-   - Updating kernels to rely in Accord.Math.IDistance instead of the previous IDistance from 
-     the Statistics namespace;
-   - Adding Pearson's Universal Kernel, Thin Spline Plate and Hellinger kernels
-     contributed by Diego Catalano;
-   - Moving standard statistical measures (i.e. mean, standard deviation, variance, ...) to a
-     separate Measures class.
+  - Adding Non negative Least Squares regression;
+  - Adding Procrustes Analysis;
+  - Deprecating IAnalysis in favor of the new framelet for classification, 
+    regression and transformation methods;
+  - Merging AForge.NET and Accord.NET Histogram classes;
+  - Updating IFittingOptions to implement ICloneable;
+  - Adding constructors to Independent distributions accepting a lambda function
+    to initialize inner components instead of relying on cloning;
+  - Adding a Classes class to provide methods that operate with categorical/label data,
+    such as converting boolean, double or integer values to [0;1] or [-1; +1] indicators;
+  - Adding Decide methods to unambiguously transform a distance/score value into a boolean;
+  - Updating statistic distributions to implement the IRandomNumberGenerator interface, meaning 
+    any distribution can now be used as random number generator;
+  - Adding the Metropolis-Hasting sampler to generate samples from multivariate distributions 
+    that do not have specialized samplers;
+  - Adding named constructors for building regressions directly from coefficient vectors;
+  - Updating kernels to rely in Accord.Math.IDistance instead of the previous IDistance from 
+    the Statistics namespace;
+  - Adding Pearson's Universal Kernel, Thin Spline Plate and Hellinger kernels
+    contributed by Diego Catalano;
+  - Moving standard statistical measures (i.e. mean, standard deviation, variance, ...) to a
+    separate Measures class;
+  - Updating Mean methods to operate in the same way as Sum: if a dimension is not specified,
+    the Mean will be computed across all dimensions of the matrix;
+  - Updating Hidden Markov Models to use the new Tagger interfaces and base classes.
 
 * Genetics
-   - Updating the Genetics project to use the new sample generators based on statistical 
-     distributions;
-	
+  - Updating the Genetics project to use the new sample generators based on statistical 
+    distributions;
+    
 
-	
+    
 
 Accord.NET Framework 3.0.0 release notes
 -----------------------------------------

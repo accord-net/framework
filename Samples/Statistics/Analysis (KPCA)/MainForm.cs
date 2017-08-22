@@ -1,7 +1,7 @@
 ﻿// Accord.NET Sample Applications
 // http://accord-framework.net
 //
-// Copyright © 2009-2014, César Souza
+// Copyright © 2009-2017, César Souza
 // All rights reserved. 3-BSD License:
 //
 //   Redistribution and use in source and binary forms, with or without
@@ -38,6 +38,7 @@ using System.Windows.Forms;
 using Accord.Controls;
 using Accord.IO;
 using Accord.Math;
+using Accord.Statistics;
 using Accord.Statistics.Analysis;
 using Accord.Statistics.Kernels;
 using Components;
@@ -64,6 +65,8 @@ namespace Analysis.KPCA
         private DescriptiveAnalysis sda;
 
         string[] columnNames;
+        double[][] inputs;
+        int[] outputs;
 
 
         public MainForm()
@@ -111,7 +114,7 @@ namespace Analysis.KPCA
                         this.dgvAnalysisSource.DataSource = tableSource;
                         this.dgvProjectionSource.DataSource = tableSource.Copy();
 
-                        double[,] graph = tableSource.ToMatrix(out columnNames);
+                        double[][] graph = tableSource.ToJagged(out columnNames);
                         inputScatterplot.DataSource = graph;
                         CreateScatterplot(graphMapInput, graph);
 
@@ -137,16 +140,15 @@ namespace Analysis.KPCA
             }
 
             // Create a matrix from the source data table
-            double[,] sourceMatrix = (dgvAnalysisSource.DataSource as DataTable).ToMatrix(out columnNames);
-
-            int rows = sourceMatrix.GetLength(0);
-            int cols = sourceMatrix.GetLength(1);
-
+            double[][] sourceMatrix = (dgvAnalysisSource.DataSource as DataTable).ToJagged(out columnNames);
 
             // Create and compute a new Simple Descriptive Analysis
-            sda = new DescriptiveAnalysis(sourceMatrix, columnNames);
+            sda = new DescriptiveAnalysis()
+            {
+                ColumnNames = columnNames
+            };
 
-            sda.Compute();
+            sda.Learn(sourceMatrix);
 
             // Show the descriptive analysis on the screen
             dgvDistributionMeasures.DataSource = sda.Measures;
@@ -157,40 +159,46 @@ namespace Analysis.KPCA
 
 
             // Get the input values (the two first columns)
-            double[,] inputs = sourceMatrix.GetColumns(0, 1);
+            this.inputs = sourceMatrix.GetColumns(0, 1);
 
             // Get only the associated labels (last column)
-            int[] outputs = sourceMatrix.GetColumn(2).ToInt32();
+            this.outputs = sourceMatrix.GetColumn(2).ToMulticlass();
 
 
-            AnalysisMethod method = (AnalysisMethod)cbMethod.SelectedValue;
+            var method = (PrincipalComponentMethod)cbMethod.SelectedValue;
 
             // Creates the Kernel Principal Component Analysis of the given source
-            kpca = new KernelPrincipalComponentAnalysis(inputs, kernel, method);
+            kpca = new KernelPrincipalComponentAnalysis()
+            {
+                Kernel = kernel,
+                Method = method
+            };
 
             // Whether to center in space
             kpca.Center = cbCenter.Checked;
 
 
-            kpca.Compute(); // Finally, compute the analysis!
+            var classifier = kpca.Learn(inputs); // Finally, compute the analysis!
 
 
-            
-            double[,] result;
+            double[][] result = kpca.Transform(inputs);
+            double[][] reduced;
 
             if (kpca.Components.Count >= 2)
             {
                 // Perform the transformation of the data using two components 
-                result = kpca.Transform(inputs, 2);
+                kpca.NumberOfOutputs = 2;
+                reduced = kpca.Transform(inputs);
             }
             else
             {
-                result = kpca.Transform(inputs, 1);
-                result = result.InsertColumn(Vector.Zeros(result.GetLength(0)));
+                kpca.NumberOfOutputs = 1;
+                reduced = kpca.Transform(inputs);
+                reduced = reduced.InsertColumn(Vector.Zeros(reduced.GetLength(0)));
             }
 
             // Create a new plot with the original Z column
-            double[,] points = result.InsertColumn(sourceMatrix.GetColumn(2));
+            double[][] points = reduced.InsertColumn(sourceMatrix.GetColumn(2));
 
             // Create output scatter plot
             outputScatterplot.DataSource = points;
@@ -198,16 +206,16 @@ namespace Analysis.KPCA
 
             // Create output table
             dgvProjectionResult.DataSource = new ArrayDataView(points, columnNames);
-            dgvReversionSource.DataSource = new ArrayDataView(kpca.Result);
+            dgvReversionSource.DataSource = new ArrayDataView(result);
 
 
             // Populates components overview with analysis data
-            dgvFeatureVectors.DataSource = new ArrayDataView(kpca.ComponentMatrix);
+            dgvFeatureVectors.DataSource = new ArrayDataView(kpca.ComponentVectors);
             dgvPrincipalComponents.DataSource = kpca.Components;
             cumulativeView.DataSource = kpca.Components;
             distributionView.DataSource = kpca.Components;
 
-            numNeighbor.Maximum = kpca.Result.GetLength(0);
+            numNeighbor.Maximum = result.Rows();
             numNeighbor.Value = System.Math.Min(10, numNeighbor.Maximum);
 
             lbStatus.Text = "Good! Feel free to browse the other tabs to see what has been found.";
@@ -223,22 +231,17 @@ namespace Analysis.KPCA
             dgvProjectionSource.EndEdit();
 
             // Creates a matrix from the source data table
-            double[,] sourceMatrix = (dgvProjectionSource.DataSource as DataTable).ToMatrix(out columnNames);
+            double[][] sourceMatrix = (dgvProjectionSource.DataSource as DataTable).ToJagged(out columnNames);
 
             // Gets only the X and Y
-            double[,] data = sourceMatrix.Submatrix(0, sourceMatrix.GetLength(0) - 1, 0, 1);
+            double[][] data = sourceMatrix.Get(null, 0, 2);
 
             // Perform the transformation of the data using two components
-            double[,] result = kpca.Transform(data, 2);
+            kpca.NumberOfOutputs = 2;
+            double[][] result = kpca.Transform(data);
 
             // Create a new plot with the original Z column
-            double[,] graph = new double[sourceMatrix.GetLength(0), 3];
-            for (int i = 0; i < graph.GetLength(0); i++)
-            {
-                graph[i, 0] = result[i, 0];
-                graph[i, 1] = result[i, 1];
-                graph[i, 2] = sourceMatrix[i, 2];
-            }
+            double[][] graph = result.InsertColumn(sourceMatrix.GetColumn(2));
 
             // Create output scatter plot
             outputScatterplot.DataSource = graph;
@@ -250,23 +253,15 @@ namespace Analysis.KPCA
 
         private void btnReversion_Click(object sender, EventArgs e)
         {
-            double[,] reversionSource = (double[,])(dgvReversionSource.DataSource as ArrayDataView).ArrayData;
-            double[,] m = kpca.Revert(reversionSource, (int)numNeighbor.Value);
+            double[][] reversionSource = (double[][])(dgvReversionSource.DataSource as ArrayDataView).ArrayData;
+            double[][] m = kpca.Revert(reversionSource, (int)numNeighbor.Value); 
             dgvReversionResult.DataSource = new ArrayDataView(m);
 
             // Creates a matrix from the source data table
-            double[,] sourceMatrix = (dgvProjectionSource.DataSource as DataTable).ToMatrix();
-
+            double[][] sourceMatrix = (dgvProjectionSource.DataSource as DataTable).ToJagged();
 
             // Create a new plot with the original Z column
-            double[,] graph = new double[sourceMatrix.GetLength(0), 3];
-            for (int i = 0; i < graph.GetLength(0); i++)
-            {
-                graph[i, 0] = m[i, 0];
-                graph[i, 1] = m[i, 1];
-                graph[i, 2] = sourceMatrix[i, 2];
-            }
-
+            double[][] graph = sourceMatrix.InsertColumn(sourceMatrix.GetColumn(2));
             reversionScatterplot.DataSource = graph;
         }
 
@@ -291,14 +286,14 @@ namespace Analysis.KPCA
             if (dgvDistributionMeasures.CurrentRow != null)
             {
                 DataGridViewRow row = (DataGridViewRow)dgvDistributionMeasures.CurrentRow;
-                dataHistogramView1.DataSource =
-                    ((DescriptiveMeasures)row.DataBoundItem).Samples;
+                DescriptiveMeasures measures = (DescriptiveMeasures)row.DataBoundItem;
+                dataHistogramView1.DataSource = inputs.InsertColumn(outputs).GetColumn(measures.Index);
             }
         }
 
 
 
-        public void CreateScatterplot(ZedGraphControl zgc, double[,] graph)
+        public void CreateScatterplot(ZedGraphControl zgc, double[][] graph)
         {
             GraphPane myPane = zgc.GraphPane;
             myPane.CurveList.Clear();
@@ -315,7 +310,7 @@ namespace Analysis.KPCA
 
             for (int i = 0; i < graph.GetLength(0); i++)
             {
-                double x = graph[i, 0], y = graph[i, 1], z = graph[i, 2];
+                double x = graph[i][0], y = graph[i][1], z = graph[i][2];
 
                 if (z == 1.0) list1.Add(x, y);
                 if (z == 2.0) list2.Add(x, y);
@@ -359,15 +354,10 @@ namespace Analysis.KPCA
             double y;
             graphMapInput.GraphPane.ReverseTransform(new PointF(e.X, e.Y), out x, out y);
 
-            double[,] data = new double[1, 2];
-            data[0, 0] = x;
-            data[0, 1] = y;
-
-
-            double[,] result = kpca.Transform(data);
+            double[] result = kpca.Transform(new double[] { x, y });
 
             graphMapFeature.GraphPane.CurveList["M"].Clear();
-            graphMapFeature.GraphPane.CurveList["M"].AddPoint(result[0, 0], result[0, 1]);
+            graphMapFeature.GraphPane.CurveList["M"].AddPoint(result[0], result[1]);
             graphMapFeature.Invalidate();
         }
 
@@ -384,12 +374,12 @@ namespace Analysis.KPCA
         private void button2_Click(object sender, EventArgs e)
         {
             // Create a matrix from the source data table
-            double[,] sourceMatrix = (dgvAnalysisSource.DataSource as DataTable).ToMatrix(out columnNames);
+            double[][] sourceMatrix = (dgvAnalysisSource.DataSource as DataTable).ToJagged(out columnNames);
 
             // Get the input values (the two first columns)
-            double[,] inputs = sourceMatrix.GetColumns(0, 1);
+            double[][] inputs = sourceMatrix.GetColumns(0, 1);
 
-            numSigma.Value = (decimal)Gaussian.Estimate(inputs.ToArray()).Sigma;
+            numSigma.Value = (decimal)Gaussian.Estimate(inputs).Sigma;
         }
 
     }

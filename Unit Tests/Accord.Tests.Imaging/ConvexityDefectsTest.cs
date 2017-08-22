@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -20,24 +20,28 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-using System.Collections.Generic;
-using System.Drawing;
-using Accord.Imaging;
-using Accord.Math.Geometry;
-using AForge;
-using NUnit.Framework;
-
 namespace Accord.Tests.Imaging
 {
+    using System.Collections.Generic;
+    using System.Drawing;
+    using Accord.Imaging;
+    using Accord.Math.Geometry;
+    using AForge;
+    using NUnit.Framework;
+    using Accord.Tests.Imaging.Properties;
+#if NO_BITMAP
+    using Resources = Accord.Tests.Imaging.Properties.Resources_Standard;
+#endif
 
     [TestFixture]
     public class ConvexityDefectsTest
     {
 
         [Test]
+        [Category("MonoNotSupported")]
         public void FindDefectsTest()
         {
-            Bitmap bmp = Accord.Imaging.Image.Clone(Properties.Resources.hand);
+            Bitmap bmp = Accord.Imaging.Image.Clone(Resources.hand);
 
             Bitmap gray = Accord.Imaging.Filters.Grayscale.CommonAlgorithms.BT709.Apply(bmp);
 

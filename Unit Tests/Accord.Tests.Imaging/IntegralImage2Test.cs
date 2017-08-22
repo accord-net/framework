@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -53,7 +53,7 @@ namespace Accord.Tests.Imaging
         [Test]
         public void GetSumTest()
         {
-            byte[,] img = 
+            byte[,] img =
             {
                 { 01, 02, 03, 04, 05, 06, 07, 08, 09,  10 },
                 { 11, 12, 13, 14, 15, 16, 17, 18, 19,  20 },
@@ -68,7 +68,7 @@ namespace Accord.Tests.Imaging
             };
 
             // Create integral image
-            Bitmap bmp = Accord.Imaging.Tools.ToBitmap(img);
+            Bitmap bmp; new MatrixToImage().Convert(img, out bmp);
             IntegralImage2 ii = IntegralImage2.FromBitmap(bmp, 0, true);
 
 
@@ -89,7 +89,7 @@ namespace Accord.Tests.Imaging
 
             int x = 6, y = 2, h = 4, w = 6;
 
-            byte[,] img = 
+            byte[,] img =
             { //  0 1 2 3 4 5 6 7 8 9 A B C D E 
           /*0*/ { 9,9,9,9,9,9,9,9,9,9,9,9,9,9,9 },
           /*1*/ { 9,9,9,9,9,9,9,9,9,9,9,9,9,9,9 },
@@ -144,7 +144,7 @@ namespace Accord.Tests.Imaging
         [Test]
         public void GetSumTest2()
         {
-            byte[,] img = 
+            byte[,] img =
             {
                 { 5, 2, 3, 4, 1 },
                 { 1, 5, 4, 2, 3 },
@@ -176,7 +176,7 @@ namespace Accord.Tests.Imaging
         [Test]
         public void GetSumTest4()
         {
-            byte[,] img = 
+            byte[,] img =
             {
                 { 1, 1, 1, 1, 1, 1 },
                 { 1, 1, 1, 1, 1, 1 },
@@ -192,7 +192,7 @@ namespace Accord.Tests.Imaging
             // http://software.intel.com/sites/products/documentation/hpc/ipp/ippi/ippi_ch11/functn_TiltedIntegral.html
             long[,] expected = tiltedIntegral3(img);
 
-            long[,] iit = 
+            long[,] iit =
             {
                 {  0,  0,  0,  0,  0,  0,  0 },
                 {  0,  0,  0,  0,  0,  0,  0 },
@@ -203,7 +203,7 @@ namespace Accord.Tests.Imaging
                 { 15, 19, 22, 24, 24, 22, 19 },
             };
 
-            long[,] iit2 = 
+            long[,] iit2 =
             {
                 {  1,  3,  6, 10, 15,  19,  0 },
                 {  1,  4,  8, 13, 18,  22,  0 },
@@ -213,7 +213,7 @@ namespace Accord.Tests.Imaging
                 {  0,  1,  3,  6, 10,  15,  0 },
             };
 
-            long[,] iit3 = 
+            long[,] iit3 =
             {
                 {  0, 0,  0,  1,  3,  6,  10,  15  },
                 {  0, 0,  1,  3,  6, 10,  15,  21  },
@@ -236,7 +236,7 @@ namespace Accord.Tests.Imaging
         [Test]
         public void ImageFormatsTest()
         {
-            byte[,] img = 
+            byte[,] img =
             {
                 { 5, 2, 3, 4, 1 },
                 { 1, 5, 4, 2, 3 },

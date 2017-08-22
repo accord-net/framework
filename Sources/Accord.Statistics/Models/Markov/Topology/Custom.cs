@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -24,6 +24,8 @@ namespace Accord.Statistics.Models.Markov.Topology
 {
     using System;
     using Accord.Math;
+    using System.Data;
+    using Accord.Compat;
 
     /// <summary>
     ///   Custom Topology for Hidden Markov Model.
@@ -71,8 +73,32 @@ namespace Accord.Statistics.Models.Markov.Topology
         /// <param name="initial">The initial probabilities for the model.</param>
         /// <param name="transitions">The transition probabilities for the model.</param>
         /// 
-        public Custom(double[,] transitions, double[] initial)
+        public Custom(double[][] transitions, double[] initial)
             : this(transitions, initial, false) { }
+
+        /// <summary>
+        ///   Creates a new custom topology with user-defined
+        ///   transition matrix and initial state probabilities.
+        /// </summary>
+        /// 
+        /// <param name="initial">The initial probabilities for the model.</param>
+        /// <param name="transitions">The transition probabilities for the model.</param>
+        /// <param name="logarithm">Set to true if the passed transitions are given 
+        ///   in log-probabilities. Default is false (given values are probabilities).</param>
+        /// 
+        public Custom(double[][] transitions, double[] initial, bool logarithm)
+            : this(transitions.ToMatrix(), initial, logarithm) { }
+
+        /// <summary>
+        ///   Creates a new custom topology with user-defined
+        ///   transition matrix and initial state probabilities.
+        /// </summary>
+        /// 
+        /// <param name="initial">The initial probabilities for the model.</param>
+        /// <param name="transitions">The transition probabilities for the model.</param>
+        /// 
+        public Custom(double[,] transitions, double[] initial)
+        : this(transitions, initial, false) { }
 
         /// <summary>
         ///   Creates a new custom topology with user-defined
@@ -159,6 +185,7 @@ namespace Accord.Statistics.Models.Markov.Topology
         public int States
         {
             get { return states; }
+            set { throw new ReadOnlyException("Property is read-only."); }
         }
 
         /// <summary>

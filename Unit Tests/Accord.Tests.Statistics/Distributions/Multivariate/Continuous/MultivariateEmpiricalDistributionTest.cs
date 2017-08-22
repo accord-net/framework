@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -92,30 +92,43 @@ namespace Accord.Tests.Statistics
         [Test]
         public void FitTest()
         {
-            double[][] observations = 
+            double[] original = { 5, 5, 1, 4, 1, 2, 2, 3, 3, 3, 4, 3, 3, 3, 4, 3, 2, 3 };
+            var distribution = new MultivariateEmpiricalDistribution(original.ToJagged());
+
+            int[] weights = { 2, 1, 1, 1, 2, 3, 1, 3, 1, 1, 1, 1 };
+            double[] sources = { 5, 1, 4, 1, 2, 3, 4, 3, 4, 3, 2, 3 };
+            double[][] samples = sources.ToJagged();
+            var target = new MultivariateEmpiricalDistribution(Jagged.Zeros(1, 1));
+
+            target.Fit(samples, weights);
+
+            Assert.AreEqual(distribution.Mean[0], target.Mean[0]);
+            Assert.AreEqual(distribution.Median[0], target.Median[0]);
+            Assert.AreEqual(distribution.Mode[0], target.Mode[0]);
+            Assert.AreEqual(distribution.Smoothing[0, 0], target.Smoothing[0, 0]);
+            Assert.AreEqual(distribution.Variance[0], target.Variance[0]);
+            Assert.IsTrue(target.Weights.IsEqual(weights.Divide(weights.Sum())));
+            Assert.AreEqual(target.Samples, samples);
+
+            for (double x = 0; x < 6; x += 0.1)
             {
-                new double[] { 0.1000, -0.2000 },
-                new double[] { 0.4000,  0.6000 },
-                new double[] { 2.0000,  0.2000 },
-                new double[] { 2.0000,  0.3000 }
-            };
+                double actual, expected;
+                expected = distribution.ComplementaryDistributionFunction(x);
+                actual = target.ComplementaryDistributionFunction(x);
+                Assert.AreEqual(expected, actual);
 
-            var target = new MultivariateEmpiricalDistribution(observations);
+                expected = distribution.DistributionFunction(x);
+                actual = target.DistributionFunction(x);
+                Assert.AreEqual(expected, actual);
 
-            double[] weigths = { 0.25, 0.25, 0.25, 0.25 };
+                expected = distribution.LogProbabilityDensityFunction(x);
+                actual = target.LogProbabilityDensityFunction(x);
+                Assert.AreEqual(expected, actual, 1e-15);
 
-            bool thrown = false;
-
-            try
-            {
-                target.Fit(observations, weigths);
+                expected = distribution.ProbabilityDensityFunction(x);
+                actual = target.ProbabilityDensityFunction(x);
+                Assert.AreEqual(expected, actual, 1e-15);
             }
-            catch (ArgumentException)
-            {
-                thrown = true;
-            }
-
-            Assert.IsTrue(thrown);
         }
 
         [Test]
@@ -130,7 +143,7 @@ namespace Accord.Tests.Statistics
             };
 
             double[] mean = Measures.Mean(observations, dimension: 0);
-            double[,] cov = Measures.Covariance(observations, dimension: 0);
+            double[][] cov = Measures.Covariance(observations, dimension: 0);
 
             var target = new MultivariateEmpiricalDistribution(observations);
 
@@ -164,14 +177,14 @@ namespace Accord.Tests.Statistics
             double[][] samples = target.Generate(10000000);
 
             double[] sampleMean = samples.Mean(dimension: 0);
-            double[,] sampleCov = samples.Covariance();
+            double[][] sampleCov = samples.Covariance();
 
             Assert.AreEqual(2, sampleMean[0], 1e-2);
             Assert.AreEqual(6, sampleMean[1], 1e-2);
-            Assert.AreEqual(2, sampleCov[0, 0], 1e-2);
-            Assert.AreEqual(1, sampleCov[0, 1], 1e-2);
-            Assert.AreEqual(1, sampleCov[1, 0], 1e-2);
-            Assert.AreEqual(5, sampleCov[1, 1], 2e-2);
+            Assert.AreEqual(2, sampleCov[0][0], 1e-2);
+            Assert.AreEqual(1, sampleCov[0][1], 1e-2);
+            Assert.AreEqual(1, sampleCov[1][0], 1e-2);
+            Assert.AreEqual(5, sampleCov[1][1], 2e-2);
         }
 
 

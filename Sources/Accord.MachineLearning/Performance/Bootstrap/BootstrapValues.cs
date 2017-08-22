@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -22,13 +22,14 @@
 
 namespace Accord.MachineLearning
 {
+    using Accord.MachineLearning.Performance;
     using System;
 
     /// <summary>
-    ///   Information class to store the training and validation errors of a model. 
+    ///   Obsolete. Please refer to <see cref="Bootstrap{TModel, TInput, TOutput}"/> instead.
     /// </summary>
     /// 
-    [Serializable]
+    [Obsolete("Please refer to Bootstrap<TModel, TInput, TOutput> instead.")]
     public class BootstrapValues
     {
 

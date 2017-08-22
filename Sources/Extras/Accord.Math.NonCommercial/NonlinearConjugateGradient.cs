@@ -24,7 +24,6 @@
 namespace Accord.Math.Optimization
 {
     using System;
-    using System.Diagnostics;
 
     /// <summary>
     ///   Non-linear Conjugate Gradient (WARNING: This code <b>can not be used for 
@@ -109,7 +108,7 @@ namespace Accord.Math.Optimization
         IGradientOptimizationMethod
     {
 
-        // constant from Wolfe Powell conditions 
+        // constants from Wolfe Powell conditions 
         private double RHO = 0.01;
         private double SIG = 0.5;
         private double INT = 0.1;
@@ -240,6 +239,9 @@ namespace Accord.Math.Optimization
 
             while (iteration < Math.Abs(length))
             {
+                if (Token.IsCancellationRequested)
+                    break;
+
                 if (length > 0)
                     iteration++; // count epoch(iter)
 

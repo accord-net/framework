@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -38,23 +38,6 @@ namespace Accord.Tests.Statistics
     [TestFixture]
     public class GenericHiddenMarkovModelTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
 
         [Test]
         public void ConstructorTest()
@@ -230,7 +213,7 @@ namespace Accord.Tests.Statistics
 
             for (int i = 0; i < dhmm.States; i++)
                 for (int j = 0; j < dhmm.Symbols; j++)
-                    Assert.AreEqual(dhmm.Emissions[i, j], Math.Log(chmm.Emissions[i][j]), 1e-10);
+                    Assert.AreEqual(dhmm.Emissions[i, j], chmm.Emissions[i][j], 1e-10);
         }
 
         [Test]
@@ -516,6 +499,11 @@ namespace Accord.Tests.Statistics
             };
 
             var hmm = HiddenMarkovModel.CreateGeneric(3, 6);
+
+            Assert.AreEqual(3, hmm.States);
+            Assert.AreEqual(3, hmm.Emissions.Length);
+            for (int i = 0; i < 3; i++)
+                Assert.AreEqual(6, hmm.Emissions[i].Length);
 
             var teacher = new BaumWelchLearning<GeneralDiscreteDistribution>(hmm) { Iterations = 100, Tolerance = 0 };
             double ll = teacher.Run(sequences);
@@ -1152,7 +1140,6 @@ namespace Accord.Tests.Statistics
         [Test]
         public void LearnTest11()
         {
-
             // Suppose we have a set of six sequences and we would like to
             // fit a hidden Markov model with mixtures of Normal distributions
             // as the emission densities. 
@@ -1227,7 +1214,6 @@ namespace Accord.Tests.Statistics
         [Test]
         public void LearnTest12()
         {
-
             // Suppose we have a set of six sequences and we would like to
             // fit a hidden Markov model with mixtures of Normal distributions
             // as the emission densities. 
@@ -1402,30 +1388,6 @@ namespace Accord.Tests.Statistics
 
             checkDegenerate(observations, 3);
         }
-
-        [Test]
-        [Category("Intensive")]
-        [Ignore]
-        public void BigSampleLearnTest13()
-        {
-            Accord.Math.Random.Generator.Seed = 0;
-
-            var list = new double[1000000][][];
-
-            for (int i = 0; i < 1000000; i++)
-            {
-                list[i] = new double[][]
-                {
-                    new double[] { 2, 1 },
-                    new double[] { 5, 2 },
-                    new double[] { 10, 3 },
-                };
-            }
-            
-            checkDegenerate(list, 3);
-        }
-
-
 
         private static void checkDegenerate(double[][][] observations, int states)
         {
@@ -1729,12 +1691,11 @@ namespace Accord.Tests.Statistics
 
             double prediction = hmm.Predict(input, out mixture);
 
+            Assert.AreEqual(5, prediction);
 
             // At this point, prediction probabilities
             // should be equilibrated around 3, 4 and 5
             Assert.AreEqual(4, mixture.Mean, 0.1);
-            Assert.IsFalse(double.IsNaN(mixture.Mean));
-
 
             double[] input2 = { 1 };
 

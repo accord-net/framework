@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -32,23 +32,6 @@ namespace Accord.Tests.Statistics
     [TestFixture]
     public class GeometricDistributionTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
 
         [Test]
         public void ConstructorTest()
@@ -200,25 +183,29 @@ namespace Accord.Tests.Statistics
         [Test]
         public void MedianTest()
         {
-            {
-                var target = new GeometricDistribution(0.2);
-                Assert.AreEqual(target.Median, target.InverseDistributionFunction(0.5));
-            }
+            var target = new GeometricDistribution(0.2);
 
-            {
-                var target = new GeometricDistribution(0.6);
-                Assert.AreEqual(target.Median, target.InverseDistributionFunction(0.5));
-            }
+            Assert.AreEqual(0, target.Support.Min);
+            Assert.AreEqual(int.MaxValue, target.Support.Max);
 
-            {
-                var target = new GeometricDistribution(0.000001);
-                Assert.AreEqual(target.Median, target.InverseDistributionFunction(0.5));
-            }
+            // qgeom((0:9)/10, prob = .2)
+            Assert.AreEqual(0, target.InverseDistributionFunction(0.0));
+            Assert.AreEqual(0, target.InverseDistributionFunction(0.1));
+            Assert.AreEqual(0, target.InverseDistributionFunction(0.2));
+            Assert.AreEqual(1, target.InverseDistributionFunction(0.3));
+            Assert.AreEqual(2, target.InverseDistributionFunction(0.4));
+            Assert.AreEqual(3, target.InverseDistributionFunction(0.5));
+            Assert.AreEqual(4, target.InverseDistributionFunction(0.6));
+            Assert.AreEqual(5, target.InverseDistributionFunction(0.7));
+            Assert.AreEqual(7, target.InverseDistributionFunction(0.8));
+            Assert.AreEqual(10, target.InverseDistributionFunction(0.9));
+            Assert.AreEqual(int.MaxValue, target.InverseDistributionFunction(1.0));
+        }
 
-            {
-                var target = new GeometricDistribution(0.99999);
-                Assert.AreEqual(target.Median, target.InverseDistributionFunction(0.5));
-            }
+        [Test]
+        public void icdf()
+        {
+
         }
     }
 }

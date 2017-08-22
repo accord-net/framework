@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -26,6 +26,7 @@ namespace Accord.MachineLearning
     using System.Collections.Generic;
     using Accord.Math;
     using Accord.Math.Distances;
+    using Accord.Compat;
 
     /// <summary>
     ///   Binary split clustering algorithm.
@@ -34,39 +35,30 @@ namespace Accord.MachineLearning
     /// <example>
     ///   How to perform clustering with Binary Split.
     ///   
-    ///   <code>
-    ///   // Declare some observations
-    ///   double[][] observations = 
-    ///   {
-    ///       new double[] { -5, -2, -1 },
-    ///       new double[] { -5, -5, -6 },
-    ///       new double[] {  2,  1,  1 },
-    ///       new double[] {  1,  1,  2 },
-    ///       new double[] {  1,  2,  2 },
-    ///       new double[] {  3,  1,  2 },
-    ///       new double[] { 11,  5,  4 },
-    ///       new double[] { 15,  5,  6 },
-    ///       new double[] { 10,  5,  6 },
-    ///   };
-    ///  
-    ///   // Create a new binary split with 3 clusters 
-    ///   BinarySplit binarySplit = new BinarySplit(3);
-    ///  
-    ///   // Compute the algorithm, retrieving an integer array
-    ///   //  containing the labels for each of the observations
-    ///   int[] labels = binarySplit.Compute(observations);
-    ///   
-    ///   // In order to classify new, unobserved instances, you can
-    ///   // use the binarySplit.Clusters.Nearest method, as shown below:
-    ///   int c = binarySplit.Clusters.Nearest(new double[] { 4, 1, 9) });
-    ///   </code>
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\Clustering\BinarySplitTest.cs" region="doc_sample1" />
     /// </example>
     /// 
     /// <seealso cref="KMeans"/>
+    /// <seealso cref="GaussianMixtureModel"/>
     /// 
     [Serializable]
     public class BinarySplit : KMeans
     {
+        private bool computeProportions;
+
+        /// <summary>
+        ///   Gets or sets whether <see cref="KMeansClusterCollection.Proportions">cluster proportions</see> 
+        ///   should be calculated after the learning algorithm has finished computing the clusters. Default
+        ///   is false.
+        /// </summary>
+        /// 
+        /// <value><c>true</c> if  to compute proportions after learning; otherwise, <c>false</c>.</value>
+        /// 
+        public bool ComputeProportions
+        {
+            get { return computeProportions; }
+            set { computeProportions = value; }
+        }
 
         /// <summary>
         ///   Initializes a new instance of the Binary Split algorithm
@@ -90,37 +82,37 @@ namespace Accord.MachineLearning
         public BinarySplit(int k)
             : base(k) { }
 
+
         /// <summary>
-        ///   Divides the input data into K clusters.
+        /// Learns a model that can map the given inputs to the desired outputs.
         /// </summary>
-        /// 
-        /// <param name="data">The data where to compute the algorithm.</param>
-        /// <param name="weights">The weight associated with each data point.</param>
-        /// 
-        public override int[] Compute(double[][] data, double[] weights)
+        /// <param name="x">The model inputs.</param>
+        /// <param name="weights">The weight of importance for each input sample.</param>
+        /// <returns>A model that has learned how to produce suitable outputs
+        /// given the input data <paramref name="x" />.</returns>
+        public override KMeansClusterCollection Learn(double[][] x, double[] weights = null)
         {
             // Initial argument checking
-            if (data == null)
-                throw new ArgumentNullException("data");
+            if (x == null)
+                throw new ArgumentNullException("x");
 
-            if (data.Length < K)
+            if (x.Length < K)
                 throw new ArgumentException("Not enough points. There should be more points than the number K of clusters.");
 
             if (weights == null)
-                throw new ArgumentNullException("weights");
+                weights = Vector.Ones(x.Length);
 
-            if (data.Length != weights.Length)
+            if (x.Length != weights.Length)
                 throw new ArgumentException("Data weights vector must be the same length as data samples.");
 
             double weightSum = weights.Sum();
             if (weightSum <= 0)
                 throw new ArgumentException("Not enough points. There should be more points than the number K of clusters.");
 
-            int cols = data[0].Length;
-            for (int i = 0; i < data.Length; i++)
-                if (data[0].Length != cols)
+            int cols = x.Columns();
+            for (int i = 0; i < x.Length; i++)
+                if (x[i].Length != cols)
                     throw new DimensionMismatchException("data", "The points matrix should be rectangular. The vector at position {} has a different length than previous ones.");
-            
 
             int k = Clusters.Count;
 
@@ -134,12 +126,12 @@ namespace Accord.MachineLearning
                 MaxIterations = MaxIterations,
             };
 
-            double[][] centroids = Clusters.Centroids;
-            double[][][] clusters = new double[k][][];
-            double[] distortions = new double[k];
+            var centroids = Clusters.Centroids;
+            var clusters = new double[k][][];
+            var distortions = new double[k];
 
             // 1. Start with all data points in one cluster
-            clusters[0] = data;
+            clusters[0] = x;
 
             // 2. Repeat steps 3 to 6 (k-1) times to obtain K centroids
             for (int current = 1; current < k; current++)
@@ -164,18 +156,36 @@ namespace Accord.MachineLearning
                 // 6. Increment cluster count (current = current + 1)
             }
 
+            Clusters.NumberOfInputs = cols;
 
-            return Clusters.Nearest(data);
+            Accord.Diagnostics.Debug.Assert(Clusters.NumberOfClasses == K);
+            Accord.Diagnostics.Debug.Assert(Clusters.NumberOfOutputs == K);
+            Accord.Diagnostics.Debug.Assert(Clusters.NumberOfInputs == x[0].Length);
+
+            if (ComputeProportions)
+            {
+                int[] y = Clusters.Decide(x);
+                int[] counts = y.Histogram();
+                counts.Divide(y.Length, result: Clusters.Proportions);
+
+                ComputeInformation(x, y);
+            }
+            else
+            {
+                ComputeInformation(x);
+            }
+
+            return Clusters;
         }
 
         private static Tuple<double[][], double[][]> split(double[][] cluster, KMeans kmeans)
         {
             kmeans.Randomize(cluster);
 
-            int[] idx = kmeans.Compute(cluster);
+            int[] idx = kmeans.Learn(cluster).Decide(cluster);
 
-            List<double[]> a = new List<double[]>();
-            List<double[]> b = new List<double[]>();
+            var a = new List<double[]>();
+            var b = new List<double[]>();
 
             for (int i = 0; i < idx.Length; i++)
             {

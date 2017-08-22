@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -31,6 +31,8 @@ namespace Accord.MachineLearning.VectorMachines
     using Accord.Math;
     using Accord.MachineLearning;
     using Accord.Statistics;
+    using Statistics.Models.Regression.Linear;
+    using Accord.Compat;
 
     /// <summary>
     ///  Sparse Kernel Support Vector Machine (kSVM)
@@ -65,53 +67,28 @@ namespace Accord.MachineLearning.VectorMachines
     /// </remarks>
     /// 
     /// <example>
-    ///   <code>
-    ///   // Example XOR problem
-    ///   double[][] inputs =
-    ///   {
-    ///       new double[] { 0, 0 }, // 0 xor 0: 1 (label +1)
-    ///       new double[] { 0, 1 }, // 0 xor 1: 0 (label -1)
-    ///       new double[] { 1, 0 }, // 1 xor 0: 0 (label -1)
-    ///       new double[] { 1, 1 }  // 1 xor 1: 1 (label +1)
-    ///   };
+    ///   <para>
+    ///   The first example shows how to learn an SVM using a 
+    ///   standard kernel that operates on vectors of doubles.</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\SequentialMinimalOptimizationTest.cs" region="doc_xor_normal" />
     ///   
-    ///   // Dichotomy SVM outputs should be given as [-1;+1]
-    ///   int[] labels =
-    ///   {
-    ///       // 1,  0,  0, 1
-    ///          1, -1, -1, 1
-    ///   };
-    ///   
-    ///   // Create a Kernel Support Vector Machine for the given inputs
-    ///   KernelSupportVectorMachine machine = new KernelSupportVectorMachine(new Gaussian(0.1), inputs[0].Length);
-    ///   
-    ///   // Instantiate a new learning algorithm for SVMs
-    ///   SequentialMinimalOptimization smo = new SequentialMinimalOptimization(machine, inputs, labels);
-    ///   
-    ///   // Set up the learning algorithm
-    ///   smo.Complexity = 1.0;
-    ///   
-    ///   // Run the learning algorithm
-    ///   double error = smo.Run();
-    ///   
-    ///   // Compute the decision output for one of the input vectors
-    ///   int decision = System.Math.Sign(machine.Compute(inputs[0]));
-    ///   </code>
+    ///   <para>
+    ///   The second example shows how to learn an SVM using a 
+    ///   Sparse kernel that operates on sparse vectors.</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\SequentialMinimalOptimizationTest.cs" region="doc_xor_sparse" />
     /// </example>
     /// 
     /// <seealso cref="Accord.Statistics.Kernels"/>
-    /// <seealso cref="KernelSupportVectorMachine"/>
-    /// <seealso cref="MulticlassSupportVectorMachine"/>
-    /// <seealso cref="MultilabelSupportVectorMachine"/>
+    /// <seealso cref="MulticlassSupportVectorMachine{TKernel}"/>
+    /// <seealso cref="MultilabelSupportVectorMachine{TKernel}"/>
     /// 
-    /// <seealso cref="Accord.MachineLearning.VectorMachines.Learning.SequentialMinimalOptimization"/>
+    /// <seealso cref="Accord.MachineLearning.VectorMachines.Learning.SequentialMinimalOptimization{TKernel}"/>
     /// 
     [Serializable]
     public class SupportVectorMachine<TKernel, TInput> :
-        BinaryGenerativeClassifierBase<TInput>,
+        BinaryLikelihoodClassifierBase<TInput>,
         ISupportVectorMachine<TInput>, ICloneable
         where TKernel : IKernel<TInput>
-        where TInput : ICloneable
     {
 
         private TKernel kernel;
@@ -129,11 +106,10 @@ namespace Accord.MachineLearning.VectorMachines
             set { kernel = value; }
         }
 
-        //[Obsolete("Probabilistic outputs can always be retrieved using the Probability methods.")]
         /// <summary>
-        ///   Gets or sets whether this machine has been calibrated to
-        ///   produce probabilistic outputs (through the <see cref="BinaryGenerativeClassifierBase{TInput}.Probability(TInput)"/>
-        ///   and <see cref="BinaryGenerativeClassifierBase{TInput}.Probability(TInput)"/> methods).
+        ///   Gets whether this machine has been calibrated to
+        ///   produce probabilistic outputs (through the Probability(TInput)
+        ///   method).
         /// </summary>
         /// 
         public bool IsProbabilistic { get; set; }
@@ -179,10 +155,10 @@ namespace Accord.MachineLearning.VectorMachines
         public SupportVectorMachine(int inputs, TKernel kernel)
         {
             this.NumberOfInputs = inputs;
-            this.NumberOfOutputs = 2;
+            this.NumberOfOutputs = 1;
+            this.NumberOfClasses = 2;
             this.Kernel = kernel;
         }
-
 
         /// <summary>
         /// Computes a class-label decision for a given <paramref name="input" />.
@@ -203,45 +179,47 @@ namespace Accord.MachineLearning.VectorMachines
 
         /// <summary>
         /// Computes a numerical score measuring the association between
-        /// the given <paramref name="input" /> vector and its most strongly
-        /// associated class (as predicted by the classifier).
+        /// the given <paramref name="input" /> vector and each class.
         /// </summary>
         /// <param name="input">The input vector.</param>
-        public override double Distance(TInput input)
+        /// <param name="result">An array where the result will be stored,
+        /// avoiding unnecessary memory allocations.</param>
+        /// <returns>System.Double[].</returns>
+        public override double[] Score(TInput[] input, double[] result)
         {
-            double sum = threshold;
-            for (int j = 0; j < supportVectors.Length; j++)
-                sum += weights[j] * kernel.Function(supportVectors[j], input);
-            return sum;
+            for (int i = 0; i < input.Length; i++)
+            {
+                double sum = threshold;
+                for (int j = 0; j < supportVectors.Length; j++)
+                    sum += weights[j] * kernel.Function(supportVectors[j], input[i]);
+                result[i] = sum;
+            }
+
+            return result;
         }
 
         /// <summary>
-        /// Predicts a class label vector for the given input vector, returning the
+        /// Predicts a class label vector for the given input vectors, returning the
         /// log-likelihood that the input vector belongs to its predicted class.
         /// </summary>
         /// <param name="input">The input vector.</param>
-        public override double LogLikelihood(TInput input)
+        /// <param name="result">An array where the log-likelihoods will be stored,
+        /// avoiding unnecessary memory allocations.</param>
+        /// <returns>System.Double[].</returns>
+        public override double[] LogLikelihood(TInput[] input, double[] result)
         {
-            double sum = threshold;
-            for (int j = 0; j < supportVectors.Length; j++)
-                sum += weights[j] * kernel.Function(supportVectors[j], input);
-            return -Special.Log1pexp(-sum);
+            for (int i = 0; i < input.Length; i++)
+            {
+                double sum = threshold;
+                for (int j = 0; j < supportVectors.Length; j++)
+                    sum += weights[j] * kernel.Function(supportVectors[j], input[i]);
+                result[i] = -Special.Log1pexp(-sum);
+            }
+
+            return result;
         }
 
-        /// <summary>
-        /// Predicts a class label vector for the given input vector, returning the
-        /// log-likelihood that the input vector belongs to its predicted class.
-        /// </summary>
-        /// <param name="input">The input vector.</param>
-        /// <param name="decision">The class label predicted by the classifier.</param>
-        public override double LogLikelihood(TInput input, out bool decision)
-        {
-            double sum = threshold;
-            for (int j = 0; j < supportVectors.Length; j++)
-                sum += weights[j] * kernel.Function(supportVectors[j], input);
-            decision = Classes.Decide(sum);
-            return -Special.Log1pexp(-sum);
-        }
+
 
         /// <summary>
         ///   If this machine has a linear kernel, compresses all
@@ -253,7 +231,7 @@ namespace Accord.MachineLearning.VectorMachines
             var linear = Kernel as ILinear<TInput>;
 
             if (linear == null)
-                throw new InvalidOperationException();
+                throw new InvalidOperationException("Only linear machines can be compressed.");
 
             double bias;
             var weights = linear.Compress(Weights, SupportVectors, out bias);
@@ -292,7 +270,7 @@ namespace Accord.MachineLearning.VectorMachines
             if (IsProbabilistic)
                 output = Probability(inputs, out decision);
             else
-                output = Distance(inputs, out decision);
+                output = Score(inputs, out decision);
             return Classes.ToMinusOnePlusOne(decision);
         }
 
@@ -318,60 +296,7 @@ namespace Accord.MachineLearning.VectorMachines
         {
             if (IsProbabilistic)
                 return Probability(inputs);
-            return Distance(inputs);
-        }
-
-        /// <summary>
-        ///   Creates a new <see cref="SupportVectorMachine"/> that is
-        ///   completely equivalent to a <see cref="LogisticRegression"/>.
-        /// </summary>
-        /// 
-        /// <param name="regression">The <see cref="LogisticRegression"/> to be converted.</param>
-        /// 
-        /// <returns>
-        ///   A <see cref="SupportVectorMachine"/> whose linear weights are
-        ///   equivalent to the given <see cref="LogisticRegression"/>'s
-        ///   <see cref="GeneralizedLinearRegression.Coefficients"> linear 
-        ///   coefficients</see>, properly configured with a <see cref="LogLinkFunction"/>. 
-        /// </returns>
-        /// 
-        public static SupportVectorMachine FromLogisticRegression(LogisticRegression regression)
-        {
-            return FromWeights(regression.Coefficients, interceptIndex: 0);
-        }
-
-        /// <summary>
-        ///   Creates a new linear <see cref="SupportVectorMachine"/> 
-        ///   with the given set of linear <paramref name="weights"/>.
-        /// </summary>
-        /// 
-        /// <param name="weights">The machine's linear coefficients.</param>
-        /// <param name="interceptIndex">The index of the intercept term in the given weights vector.</param>
-        /// 
-        /// <returns>
-        ///   A <see cref="SupportVectorMachine"/> whose linear coefficients
-        ///   are defined by the given <paramref name="weights"/> vector.
-        /// </returns>
-        /// 
-        public static SupportVectorMachine FromWeights(double[] weights, int interceptIndex = -1)
-        {
-            double[] newWeights = weights;
-            double bias = 0;
-
-            if (interceptIndex >= 0)
-            {
-                newWeights = new double[weights.Length - 1];
-                for (int i = 0, j = 0; i < weights.Length; i++)
-                    if (i != interceptIndex)
-                        newWeights[j++] = weights[i];
-                bias = weights[interceptIndex];
-            }
-
-            return new SupportVectorMachine(newWeights.Length)
-            {
-                Weights = newWeights,
-                Threshold = bias
-            };
+            return Score(inputs);
         }
 
         /// <summary>
@@ -386,15 +311,23 @@ namespace Accord.MachineLearning.VectorMachines
         /// 
         public virtual double[] ToWeights()
         {
-            var w = new double[weights.Length + 1];
+            var genericLinear = Kernel as ILinear<TInput>;
+            var doubleLinear = Kernel as ILinear<double[]>;
+            if (genericLinear == null || doubleLinear == null)
+                throw new InvalidOperationException("Only double-precision linear machines can be converted to linear weights.");
+            
+            double[][] sv = genericLinear.ToDouble(SupportVectors);
+            double bias;
+            double[] weights = doubleLinear.Compress(Weights, sv, out bias);
+
+            int parameters = Math.Max(weights.Length, NumberOfInputs);
+
+            var w = new double[parameters + 1];
             for (int i = 0; i < weights.Length; i++)
                 w[i + 1] = weights[i];
-            w[0] = threshold;
-
+            w[0] = Threshold + bias;
             return w;
         }
-
-
 
         /// <summary>
         ///   Gets the number of inputs accepted by this machine.
@@ -442,5 +375,46 @@ namespace Accord.MachineLearning.VectorMachines
             clone.Threshold = Threshold;
             return clone;
         }
+
+
+
+
+
+        /// <summary>
+        /// Performs an explicit conversion from <see cref="SupportVectorMachine"/> to <see cref="MultipleLinearRegression"/>.
+        /// </summary>
+        /// 
+        /// <param name="svm">The <see cref="SupportVectorMachine">linear Support Vector Machine</see> to be converted.</param>
+        /// 
+        /// <returns>The result of the conversion.</returns>
+        /// 
+        public static explicit operator MultipleLinearRegression(SupportVectorMachine<TKernel, TInput> svm)
+        {
+            double[] w = svm.ToWeights();
+            return new MultipleLinearRegression()
+            {
+                Weights = w.Get(1, 0),
+                Intercept = svm.Threshold
+            };
+        }
+
+        /// <summary>
+        /// Performs an explicit conversion from <see cref="SupportVectorMachine"/> to <see cref="LogisticRegression"/>.
+        /// </summary>
+        /// 
+        /// <param name="svm">The <see cref="SupportVectorMachine">linear Support Vector Machine</see> to be converted.</param>
+        /// 
+        /// <returns>The result of the conversion.</returns>
+        /// 
+        public static explicit operator LogisticRegression(SupportVectorMachine<TKernel, TInput> svm)
+        {
+            double[] w = svm.ToWeights();
+            return new LogisticRegression()
+            {
+                Weights = w.Get(1, 0),
+                Intercept = svm.Threshold
+            };
+        }
+
     }
 }

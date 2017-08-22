@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -46,6 +46,7 @@ namespace Accord.Tests.Statistics
         // Tests performed against the Circular Statistics Toolbox (Directional Statistics)
         // http://fr.mathworks.com/matlabcentral/fileexchange/10676-circular-statistics-toolbox--directional-statistics-
 
+#if !NO_DATA_TABLE
         [Test]
         public void WeightedKappaTest()
         {
@@ -71,6 +72,7 @@ namespace Accord.Tests.Statistics
             actualKappa = Circular.WeightedConcentration(angles, weights, actualMean);
             Assert.AreEqual(expectedKappa, actualKappa, 1e-6);
         }
+#endif
 
         [Test]
         public void KappaTest1()
@@ -262,6 +264,25 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(9.5, quartiles.Max);
             Assert.AreEqual(-1, d1, 1e-15);
             Assert.AreEqual(+1, d2, 1e-15);
+        }
+
+        [Test]
+        public void constant_test()
+        {
+            double[] hours =
+            {
+                0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1
+            };
+
+            double mean = Circular.Mean(hours, 0.1);
+            double stdDev = Circular.StandardDeviation(hours, 0);
+            double var = Circular.Variance(hours, 0);
+            double med = Circular.Median(hours, 0.1);
+
+            Assert.AreEqual(0, mean, 1e-15);
+            Assert.AreEqual(Double.NaN, stdDev, 1e-14);
+            Assert.AreEqual(Double.NaN, var, 1e-14);
+            Assert.AreEqual(0, med);
         }
 
     }

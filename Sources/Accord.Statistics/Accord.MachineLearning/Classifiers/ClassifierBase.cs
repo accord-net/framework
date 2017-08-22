@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -26,8 +26,9 @@ namespace Accord.MachineLearning
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
-    using System.Threading.Tasks;
     using Accord.Math;
+    using Accord.Compat;
+    using System.Threading.Tasks;
 
     /// <summary>
     ///   Base class for multi-class and multi-label classifiers.
@@ -41,6 +42,12 @@ namespace Accord.MachineLearning
         TransformBase<TInput, TClasses>, 
         IClassifier<TInput, TClasses>
     {
+        /// <summary>
+        /// Gets the number of classes expected and recognized by the classifier.
+        /// </summary>
+        /// <value>The number of classes.</value>
+        public virtual int NumberOfClasses { get; set; }
+
         /// <summary>
         ///   Computes a class-label decision for a given <paramref name="input"/>.
         /// </summary>
@@ -83,7 +90,7 @@ namespace Accord.MachineLearning
         ///   to this classifier.
         /// </returns>
         /// 
-        public TClasses[] Decide(TInput[] input, TClasses[] result)
+        public virtual TClasses[] Decide(TInput[] input, TClasses[] result)
         {
             for (int i = 0; i < input.Length; i++)
                 result[i] = Decide(input[i]);
@@ -120,33 +127,34 @@ namespace Accord.MachineLearning
 
         internal T[] create<T>(TInput input)
         {
-            return new T[NumberOfOutputs];
+            return new T[NumberOfClasses];
         }
 
         internal T[][] create<T>(TInput[] input)
         {
-            return Jagged.Create<T>(input.Length, NumberOfOutputs);
+            return Jagged.Create<T>(input.Length, NumberOfClasses);
         }
 
-        internal T[] create<T>(TInput input, T[] decision)
+        internal T[] createOrReuse<T>(TInput input, T[] decision)
         {
             if (decision == null)
-                decision = new T[NumberOfOutputs];
+                decision = new T[NumberOfClasses];
             return decision;
         }
 
-        internal T[][] create<T>(TInput[] input, T[][] decision)
+        internal T[][] createOrReuse<T>(TInput[] input, T[][] decision)
         {
             if (decision == null)
-                decision = Jagged.Create<T>(input.Length, NumberOfOutputs);
+                decision = Jagged.Create<T>(input.Length, NumberOfClasses);
             return decision;
         }
 
-        internal T[] create<T>(TInput[] input, T[] decision)
+        internal T[] createOrReuse<T>(TInput[] input, T[] decision)
         {
             if (decision == null)
-                decision = new T[NumberOfOutputs];
+                decision = new T[input.Length];
             return decision;
         }
+
     }
 }

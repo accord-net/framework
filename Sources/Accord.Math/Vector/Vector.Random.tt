@@ -6,7 +6,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -60,7 +60,7 @@ namespace Accord.Math
         public static T[] Sample<T>(T[] values, int size)
         {
             int[] idx = Vector.Sample(size);
-            return values.Submatrix(idx);
+            return values.Get(idx);
         }
 
 <# 
@@ -138,7 +138,7 @@ namespace Accord.Math
             }
 
             <#=i#>[] idx = Sample(populationSize);
-            return idx.Submatrix(sampleSize);
+            return idx.First(sampleSize);
         }
 
         /// <summary>
@@ -173,7 +173,7 @@ namespace Accord.Math
             int sampleSize = (int)System.Math.Floor(percentage * (double)populationSize);
 
             <#=i#>[] idx = Sample(populationSize);
-            return idx.Submatrix(sampleSize);
+            return idx.First(sampleSize);
         }
 <#
     }

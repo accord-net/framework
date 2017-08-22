@@ -54,7 +54,7 @@ namespace Accord.Video.Ximea
     public class XimeaVideoSource : IVideoSource
     {
         // XIMEA camera to capture images from
-        private XimeaCamera camera = new XimeaCamera( );
+        private XimeaCamera camera = new XimeaCamera();
 
         // camera ID
         private int deviceID;
@@ -69,7 +69,7 @@ namespace Accord.Video.Ximea
         private ManualResetEvent stopEvent = null;
 
         // dummy object to lock for synchronization
-        private object sync = new object( );
+        private object sync = new object();
 
         /// <summary>
         /// New frame event.
@@ -123,19 +123,19 @@ namespace Accord.Video.Ximea
             {
                 Thread tempThread = null;
 
-                lock ( sync )
+                lock (sync)
                 {
                     tempThread = thread;
                 }
 
-                if ( tempThread != null )
+                if (tempThread != null)
                 {
                     // check thread status
-                    if ( tempThread.Join( 0 ) == false )
+                    if (tempThread.Join(0) == false)
                         return true;
 
                     // the thread is not running, so free resources
-                    Free( );
+                    Free();
                 }
 
                 return false;
@@ -203,7 +203,7 @@ namespace Accord.Video.Ximea
         /// 
         /// <param name="deviceID">XIMEA camera ID (index) to connect to.</param>
         /// 
-        public XimeaVideoSource( int deviceID )
+        public XimeaVideoSource(int deviceID)
         {
             this.deviceID = deviceID;
         }
@@ -219,34 +219,34 @@ namespace Accord.Video.Ximea
         /// <exception cref="VideoException">An error occurred while communicating with a camera. See error
         /// message for additional information.</exception>
         /// 
-        public void Start( )
+        public void Start()
         {
-            if ( IsRunning )
+            if (IsRunning)
                 return;
 
-            lock ( sync )
+            lock (sync)
             {
-                if ( thread == null )
+                if (thread == null)
                 {
                     // check source
-                    if ( deviceID >= XimeaCamera.CamerasCount )
+                    if (deviceID >= XimeaCamera.CamerasCount)
                     {
-                        throw new ArgumentException( "There is no XIMEA camera with specified ID connected to the system." );
+                        throw new ArgumentException("There is no XIMEA camera with specified ID connected to the system.");
                     }
 
                     // prepare the camera
-                    camera.Open( deviceID );
+                    camera.Open(deviceID);
 
                     framesReceived = 0;
                     bytesReceived = 0;
 
                     // create events
-                    stopEvent = new ManualResetEvent( false );
+                    stopEvent = new ManualResetEvent(false);
 
                     // create and start new thread
-                    thread = new Thread( new ThreadStart( WorkerThread ) );
+                    thread = new Thread(new ThreadStart(WorkerThread));
                     thread.Name = Source;
-                    thread.Start( );
+                    thread.Start();
                 }
             }
         }
@@ -257,15 +257,15 @@ namespace Accord.Video.Ximea
         /// 
         /// <remarks><para></para></remarks>
         /// 
-        public void SignalToStop( )
+        public void SignalToStop()
         {
-            lock ( sync )
+            lock (sync)
             {
                 // stop thread
-                if ( thread != null )
+                if (thread != null)
                 {
                     // signal to stop
-                    stopEvent.Set( );
+                    stopEvent.Set();
                 }
             }
         }
@@ -276,21 +276,21 @@ namespace Accord.Video.Ximea
         /// 
         /// <remarks><para></para></remarks>
         /// 
-        public void WaitForStop( )
+        public void WaitForStop()
         {
             Thread tempThread = null;
 
-            lock ( sync )
+            lock (sync)
             {
                 tempThread = thread;
             }
 
-            if ( tempThread != null )
+            if (tempThread != null)
             {
                 // wait for thread stop
-                tempThread.Join( );
+                tempThread.Join();
 
-                Free( );
+                Free();
             }
         }
 
@@ -302,23 +302,23 @@ namespace Accord.Video.Ximea
         /// and does not consume any resources.</para>
         /// </remarks>
         /// 
-        public void Stop( )
+        public void Stop()
         {
             Thread tempThread = null;
 
-            lock ( sync )
+            lock (sync)
             {
                 tempThread = thread;
             }
 
-            if ( tempThread != null )
+            if (tempThread != null)
             {
-                if ( tempThread.Join( 0 ) == false )
+                if (tempThread.Join(0) == false)
                 {
-                    tempThread.Abort( );
-                    tempThread.Join( );
+                    tempThread.Abort();
+                    tempThread.Join();
                 }
-                Free( );
+                Free();
             }
         }
 
@@ -331,9 +331,9 @@ namespace Accord.Video.Ximea
         /// 
         /// <remarks><para><note>The call is redirected to <see cref="XimeaCamera.SetParam(string, int)"/>.</note></para></remarks>
         ///
-        public void SetParam( string parameterName, int value )
+        public void SetParam(string parameterName, int value)
         {
-            camera.SetParam( parameterName, value );
+            camera.SetParam(parameterName, value);
         }
 
         /// <summary>
@@ -345,9 +345,9 @@ namespace Accord.Video.Ximea
         /// 
         /// <remarks><para><note>The call is redirected to <see cref="XimeaCamera.GetParamFloat"/>.</note></para></remarks>
         ///
-        public void SetParam( string parameterName, float value )
+        public void SetParam(string parameterName, float value)
         {
-            camera.SetParam( parameterName, value );
+            camera.SetParam(parameterName, value);
         }
 
         /// <summary>
@@ -360,9 +360,9 @@ namespace Accord.Video.Ximea
         /// 
         /// <remarks><para><note>The call is redirected to <see cref="XimeaCamera.GetParamFloat"/>.</note></para></remarks>
         ///
-        public int GetParamInt( string parameterName )
+        public int GetParamInt(string parameterName)
         {
-            return camera.GetParamInt( parameterName );
+            return camera.GetParamInt(parameterName);
         }
 
         /// <summary>
@@ -375,9 +375,9 @@ namespace Accord.Video.Ximea
         /// 
         /// <remarks><para><note>The call is redirected to <see cref="XimeaCamera.GetParamFloat"/>.</note></para></remarks>
         ///
-        public float GetParamFloat( string parameterName )
+        public float GetParamFloat(string parameterName)
         {
-            return camera.GetParamFloat( parameterName );
+            return camera.GetParamFloat(parameterName);
         }
 
         /// <summary>
@@ -390,93 +390,93 @@ namespace Accord.Video.Ximea
         /// 
         /// <remarks><para><note>The call is redirected to <see cref="XimeaCamera.GetParamString"/>.</note></para></remarks>
         ///
-        public string GetParamString( string parameterName )
+        public string GetParamString(string parameterName)
         {
-            return camera.GetParamString( parameterName );
+            return camera.GetParamString(parameterName);
         }
 
         // Free resources
-        private void Free( )
+        private void Free()
         {
-            lock ( sync )
+            lock (sync)
             {
                 thread = null;
 
                 // release events
-                if ( stopEvent != null )
+                if (stopEvent != null)
                 {
-                    stopEvent.Close( );
+                    stopEvent.Close();
                     stopEvent = null;
                 }
 
-                camera.Close( );
+                camera.Close();
             }
         }
 
         // Worker thread
-        private void WorkerThread( )
+        private void WorkerThread()
         {
             ReasonToFinishPlaying reasonToStop = ReasonToFinishPlaying.StoppedByUser;
 
             try
             {
-                camera.StartAcquisition( );
+                camera.StartAcquisition();
 
                 // while there is no request for stop
-                while ( !stopEvent.WaitOne( 0, false ) )
+                while (!stopEvent.WaitOne(0, false))
                 {
                     // start time
                     DateTime start = DateTime.Now;
 
                     // get next frame
-                    Bitmap bitmap = camera.GetImage( 15000, false );
+                    Bitmap bitmap = camera.GetImage(15000, false);
 
                     framesReceived++;
-                    bytesReceived += bitmap.Width * bitmap.Height * ( Bitmap.GetPixelFormatSize( bitmap.PixelFormat ) >> 3 );
+                    bytesReceived += bitmap.Width * bitmap.Height * (Bitmap.GetPixelFormatSize(bitmap.PixelFormat) >> 3);
 
-                    if ( NewFrame != null )
-                        NewFrame( this, new NewFrameEventArgs( bitmap ) );
+                    if (NewFrame != null)
+                        NewFrame(this, new NewFrameEventArgs(bitmap));
 
                     // free image
-                    bitmap.Dispose( );
+                    bitmap.Dispose();
 
                     // wait for a while ?
-                    if ( frameInterval > 0 )
+                    if (frameInterval > 0)
                     {
                         // get frame duration
-                        TimeSpan span = DateTime.Now.Subtract( start );
+                        TimeSpan span = DateTime.Now.Subtract(start);
 
                         // miliseconds to sleep
-                        int msec = frameInterval - (int) span.TotalMilliseconds;
+                        int msec = frameInterval - (int)span.TotalMilliseconds;
 
-                        if ( ( msec > 0 ) && ( stopEvent.WaitOne( msec, false ) ) )
+                        if ((msec > 0) && (stopEvent.WaitOne(msec, false)))
                             break;
                     }
                 }
             }
-            catch ( Exception exception )
+            catch (Exception exception)
             {
                 reasonToStop = ReasonToFinishPlaying.VideoSourceError;
                 // provide information to clients
-                if ( VideoSourceError != null )
+                if (VideoSourceError != null)
                 {
-                    VideoSourceError( this, new VideoSourceErrorEventArgs( exception.Message ) );
+                    VideoSourceError(this, new VideoSourceErrorEventArgs(exception.Message));
                 }
             }
             finally
             {
                 try
                 {
-                    camera.StopAcquisition( );
+                    camera.StopAcquisition();
                 }
                 catch
                 {
                 }
             }
 
-            if ( PlayingFinished != null )
+            if (PlayingFinished != null)
             {
-                PlayingFinished( this, reasonToStop );
+                PlayingFinished(this, reasonToStop);
             }
         }
     }

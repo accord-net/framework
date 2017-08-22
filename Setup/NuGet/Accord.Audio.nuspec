@@ -14,7 +14,7 @@
     <description>
       Process, transforms, filters and handle audio signals for machine learning and statistical applications. This package is part of the Accord.NET Framework.
     </description>
-    <summary>Accord.NET Audio Library from the Accord.NET Framework</summary>
+    <summary>Audio filters (i.e. envelope, high/low-pass, FFT), temporal windows (i.e. Blackman, raised cosine), signal generators, beat detection and general audio analysis for machine learning applications.</summary>
     <tags>accord.net aforge.net framework computer audition audio processing fft spectral classification extraction beat detection</tags>
     <dependencies>
       <dependency id="Accord"      version="$version$" />
@@ -22,19 +22,39 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="..\..\Release\net35\Accord.Audio.dll" target="lib\net35\Accord.Audio.dll" />
-    <file src="..\..\Release\net35\Accord.Audio.xml" target="lib\net35\Accord.Audio.xml" />
+    <file src="..\..\Release\net35\Accord.Audio.dll"    target="lib\net35\Accord.Audio.dll" />
+    <file src="..\..\Release\net35\Accord.Audio.xml"    target="lib\net35\Accord.Audio.xml" />
     <file src="..\..\Release\net35\Accord.Audition.dll" target="lib\net35\Accord.Audition.dll" />
     <file src="..\..\Release\net35\Accord.Audition.xml" target="lib\net35\Accord.Audition.xml" />
 
-    <file src="..\..\Release\net40\Accord.Audio.dll" target="lib\net40\Accord.Audio.dll" />
-    <file src="..\..\Release\net40\Accord.Audio.xml" target="lib\net40\Accord.Audio.xml" />
+    <file src="..\..\Release\net40\Accord.Audio.dll"    target="lib\net40\Accord.Audio.dll" />
+    <file src="..\..\Release\net40\Accord.Audio.xml"    target="lib\net40\Accord.Audio.xml" />
     <file src="..\..\Release\net40\Accord.Audition.dll" target="lib\net40\Accord.Audition.dll" />
     <file src="..\..\Release\net40\Accord.Audition.xml" target="lib\net40\Accord.Audition.xml" />
 
-    <file src="..\..\Release\net45\Accord.Audio.dll" target="lib\net45\Accord.Audio.dll" />
-    <file src="..\..\Release\net45\Accord.Audio.xml" target="lib\net45\Accord.Audio.xml" />
+    <file src="..\..\Release\net45\Accord.Audio.dll"    target="lib\net45\Accord.Audio.dll" />
+    <file src="..\..\Release\net45\Accord.Audio.xml"    target="lib\net45\Accord.Audio.xml" />
     <file src="..\..\Release\net45\Accord.Audition.dll" target="lib\net45\Accord.Audition.dll" />
     <file src="..\..\Release\net45\Accord.Audition.xml" target="lib\net45\Accord.Audition.xml" />
+
+    <file src="..\..\Release\net46\Accord.Audio.dll"    target="lib\net46\Accord.Audio.dll" />
+    <file src="..\..\Release\net46\Accord.Audio.xml"    target="lib\net46\Accord.Audio.xml" />
+    <file src="..\..\Release\net46\Accord.Audition.dll" target="lib\net46\Accord.Audition.dll" />
+    <file src="..\..\Release\net46\Accord.Audition.xml" target="lib\net46\Accord.Audition.xml" />
+
+    <file src="..\..\Release\net462\Accord.Audio.dll"    target="lib\net462\Accord.Audio.dll" />
+    <file src="..\..\Release\net462\Accord.Audio.xml"    target="lib\net462\Accord.Audio.xml" />
+    <file src="..\..\Release\net462\Accord.Audition.dll" target="lib\net462\Accord.Audition.dll" />
+    <file src="..\..\Release\net462\Accord.Audition.xml" target="lib\net462\Accord.Audition.xml" />
+
+    <file src="..\..\Release\netstandard2.0\Accord.Audio.dll"    target="lib\netstandard2.0\Accord.Audio.dll" />
+    <file src="..\..\Release\netstandard2.0\Accord.Audio.xml"    target="lib\netstandard2.0\Accord.Audio.xml" />
+    <file src="..\..\Release\netstandard2.0\Accord.Audition.dll" target="lib\netstandard2.0\Accord.Audition.dll" />
+    <file src="..\..\Release\netstandard2.0\Accord.Audition.xml" target="lib\netstandard2.0\Accord.Audition.xml" />
+
+    <file src="..\..\Release\netstandard1.4\Accord.Audio.dll"    target="lib\netstandard1.4\Accord.Audio.dll" />
+    <file src="..\..\Release\netstandard1.4\Accord.Audio.xml"    target="lib\netstandard1.4\Accord.Audio.xml" />
+    <file src="..\..\Release\netstandard1.4\Accord.Audition.dll" target="lib\netstandard1.4\Accord.Audition.dll" />
+    <file src="..\..\Release\netstandard1.4\Accord.Audition.xml" target="lib\netstandard1.4\Accord.Audition.xml" />
   </files>
 </package>

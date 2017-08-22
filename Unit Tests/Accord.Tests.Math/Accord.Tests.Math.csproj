@@ -4,64 +4,47 @@
     <ProjectGuid>{F454DBD6-2AB9-461D-9624-2249B921B6E6}</ProjectGuid>
     <RootNamespace>Accord.Tests.Math</RootNamespace>
     <AssemblyName>Accord.Tests.Math</AssemblyName>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <FileAlignment>512</FileAlignment>
-    <OldToolsVersion>3.5</OldToolsVersion>
-    <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <UseApplicationTrust>false</UseApplicationTrust>
-    <BootstrapperEnabled>true</BootstrapperEnabled>
-    <TargetFrameworkProfile />
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>Accord.snk</AssemblyOriginatorKeyFile>
-    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
+  <Import Project="$(SolutionDir)..\Unit Tests\Accord.Tests.targets" />
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>$(SolutionDir)..\Unit Tests\bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <NoWarn>0612, 0618</NoWarn>
-    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NET35|AnyCPU' ">
-    <OutputPath>$(SolutionDir)..\Unit Tests\bin\Release\net35\</OutputPath>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'net35|AnyCPU' ">
     <DefineConstants>TRACE;NET35</DefineConstants>
-    <NoWarn>0612, 0618</NoWarn>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NET40|AnyCPU' ">
-    <OutputPath>$(SolutionDir)..\Unit Tests\bin\Release\net40\</OutputPath>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'net40|AnyCPU' ">
     <DefineConstants>TRACE;NET40</DefineConstants>
-    <NoWarn>0612, 0618</NoWarn>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NET45|AnyCPU' ">
-    <OutputPath>$(SolutionDir)..\Unit Tests\bin\Release\net45\</OutputPath>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'net45|AnyCPU' ">
     <DefineConstants>TRACE;NET45</DefineConstants>
-    <NoWarn>0612, 0618</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'net46|AnyCPU' ">
+    <DefineConstants>TRACE;NET46</DefineConstants>
+    <CodeAnalysisRuleSet>..\..\Sources\Accord.NET.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'net462|AnyCPU' ">
+    <DefineConstants>TRACE;NET462</DefineConstants>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'mono|AnyCPU' ">
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <DefineConstants>TRACE;MONO</DefineConstants>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="nunit.framework">
-      <HintPath>..\..\Externals\NUnit\nunit.framework.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Externals\NUnit\NUnit.Framework-3.6.1\bin\net-4.5\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
-    <Reference Include="System.Numerics" Condition="'$(Configuration)' != 'NET35'" />
+    <Reference Include="System.Numerics" Condition="'$(Configuration)' != 'net35'" />
     <Reference Include="System.XML" />
   </ItemGroup>
   <!--
@@ -76,6 +59,7 @@
   </ItemGroup>
  -->
   <ItemGroup>
+    <Compile Include="Accord.Statistics\QuantilesTest.cs" />
     <Compile Include="AForge\Geometry\ClosePointsMergingOptimizerTest.cs" />
     <Compile Include="AForge\Geometry\FlatAnglesOptimizerTest.cs" />
     <Compile Include="AForge\Geometry\GeometryToolsTest.cs" />
@@ -92,6 +76,7 @@
     <Compile Include="AForge\Vector3Test.cs" />
     <Compile Include="Collections\RedBlackTreeDictionaryTest.cs" />
     <Compile Include="Collections\RedBlackTreeTest.cs" />
+    <Compile Include="Decompositions\JaggedCholeskyDecompositionTest.cs" />
     <Compile Include="Decompositions\JaggedEigenvalueDecompositionTest.cs" />
     <Compile Include="Decompositions\JaggedQrDecompositionTest.cs" />
     <Compile Include="Functions\OwensTTest.cs" />
@@ -106,10 +91,15 @@
     <Compile Include="CombinatoricsTest.cs" />
     <Compile Include="Decompositions\JaggedSingularValueDecompositionTest.cs" />
     <Compile Include="IO\MatReaderTest.cs" />
+    <Compile Include="Losses\LossesTest.cs" />
+    <Compile Include="Matrix\Matrix.Set.cs" />
     <Compile Include="Matrix\Matrix.Selection.cs" />
     <Compile Include="Matrix\Matrix.Construction.cs" />
     <Compile Include="Matrix\Matrix.Common.cs" />
+    <Compile Include="Matrix\Matrix.Algebra.cs" />
     <Compile Include="Matrix\VectorTest.cs" />
+    <Compile Include="Optimization\Munkres.cs" />
+    <Compile Include="Optimization\MunkresTest.cs" />
     <Compile Include="Optimization\BinarySearchTest.cs" />
     <Compile Include="Optimization\CobylaTest.cs" />
     <Compile Include="Optimization\BoundedBroydenFletcherGoldfarbShannoTest.cs" />
@@ -131,7 +121,7 @@
     <Compile Include="Point3Test.cs" />
     <Compile Include="Functions\BetaTest.cs" />
     <Compile Include="Functions\GammaTest.cs" />
-    <Compile Include="Optimization\AugmentedLagrangianSolverTest.cs" />
+    <Compile Include="Optimization\AugmentedLagrangianTest.cs" />
     <Compile Include="Optimization\GoldfarbIdnaniTest.cs" />
     <Compile Include="Matrix\Matrix.Complex.cs" />
     <Compile Include="Matrix\Matrix.Submatrix.cs" />
@@ -146,6 +136,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Random\GeneratorTest.cs" />
     <Compile Include="ReducedRowEchelonFormTest.cs" />
     <Compile Include="Wavelets\CDF97Test.cs" />
     <Compile Include="Wavelets\HaarTest.cs" />
@@ -174,6 +165,10 @@
     <ProjectReference Include="..\..\Sources\Accord.IO\Accord.IO.csproj">
       <Project>{63184ebd-6b28-4066-aaee-5b99431e31f4}</Project>
       <Name>Accord.IO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Sources\Accord.Math.Core\Accord.Math.Core.csproj">
+      <Project>{ed3a336f-6da2-4f34-87fe-1ccffa029f8c}</Project>
+      <Name>Accord.Math.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Sources\Accord.Math\Accord.Math.csproj">
       <Project>{F718E9A8-DB62-4785-8C49-4333A60D256A}</Project>
@@ -211,32 +206,96 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Accord.snk" />
-    <None Include="Resources\constraintMatrix11_15_2.csv" />
-    <None Include="Resources\constraintMatrix11_15.csv" />
-    <None Include="Resources\constraintMatrix11_15_3.csv" />
-    <None Include="Resources\constraints11_14_2.csv" />
-    <None Include="Resources\constraints11_14.csv" />
-    <None Include="Resources\constraints11_14_3.csv" />
-    <None Include="Resources\dmatFull.csv" />
-    <None Include="Resources\mat\a64.mat" />
-    <None Include="Resources\mat\bigsparse.mat" />
-    <None Include="Resources\mat\cell.mat" />
-    <None Include="Resources\mat\int32.mat" />
-    <None Include="Resources\mat\int64.mat" />
-    <None Include="Resources\mat\int8.mat" />
-    <None Include="Resources\mat\java.mat" />
-    <None Include="Resources\mat\logical.mat" />
-    <None Include="Resources\mat\matnativedouble.mat" />
-    <None Include="Resources\mat\matnativedouble2.mat" />
-    <None Include="Resources\mat\nan.mat" />
-    <None Include="Resources\mat\object.mat" />
-    <None Include="Resources\mat\simplestruct.mat" />
-    <None Include="Resources\mat\single.mat" />
-    <None Include="Resources\mat\sparse.mat" />
-    <None Include="Resources\mat\uint32.mat" />
-    <None Include="Resources\mat\uint64.mat" />
-    <None Include="Resources\mat\uint8.mat" />
-    <None Include="Resources\pseudoInverse1.csv" />
+    <None Include="Resources\constraintMatrix11_15_2.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\constraintMatrix11_15.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\constraintMatrix11_15_3.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\constraints11_14_2.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\constraints11_14.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\constraints11_14_3.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\dmatFull.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\mat\a64.mat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\mat\bigsparse.mat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\mat\cell.mat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\mat\int32.mat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\mat\int64.mat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\mat\int8.mat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\mat\java.mat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\mat\logical.mat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\mat\matnativedouble.mat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\mat\matnativedouble2.mat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\mat\nan.mat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\mat\object.mat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\mat\simplestruct.mat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\mat\single.mat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\mat\sparse.mat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\mat\uint32.mat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\mat\uint64.mat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\mat\uint8.mat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\pseudoInverse1.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\unfeasible_qp_1\unf_1_constraintMat.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\unfeasible_qp_1\unf_1_constraintValues.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\unfeasible_qp_1\unf_1_linTerms.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\unfeasible_qp_1\unf_1_quadTerms.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -244,6 +303,17 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\labels16.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\data16.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

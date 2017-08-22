@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -152,13 +152,13 @@ namespace Accord.Tests.Math
             float[][] L = target.LowerTriangularFactor;
             float[][] U = target.UpperTriangularFactor;
 
-            float[][] expectedL = 
+            float[][] expectedL =
             {
                new float[] {  1.000f, 0.000f },
                new float[] { -0.500f, 1.000f },
             };
 
-            float[][] expectedU = 
+            float[][] expectedU =
             {
                 new float[] { 2.000f, 3.000f, 0.000f },
                 new float[] { 0.000f, 3.500f, 1.000f  },
@@ -218,7 +218,7 @@ namespace Accord.Tests.Math
         [Test]
         public void SolveTransposeTest()
         {
-            float[][] a = 
+            float[][] a =
             {
                 new float[] { 2, 1, 4 },
                 new float[] { 6, 2, 2 },
@@ -332,5 +332,29 @@ namespace Accord.Tests.Math
             Assert.AreEqual(expected, actual, 1e-5);
         }
 
+        [Test]
+        public void solve_for_diagonal()
+        {
+            float[][] value =
+            {
+                new float[] { 2.1f, 3.1f },
+                new float[] { 1.6f, 4.2f },
+            };
+
+            float[] rhs = { 6.1f, 4.3f };
+
+            float[][] expected = 
+            {
+                new float[] {  6.63730669f, -3.45336843f  },
+                new float[] { -2.528498f,    2.3393786f   }
+            };
+
+            var target = new JaggedLuDecompositionF(value);
+
+            float[][] actual = target.SolveForDiagonal(rhs);
+
+            Assert.IsTrue(Matrix.IsEqual(expected, actual, 1e-6));
+            Assert.IsTrue(Matrix.IsEqual(value, target.Reverse(), 1e-6));
+        }
     }
 }

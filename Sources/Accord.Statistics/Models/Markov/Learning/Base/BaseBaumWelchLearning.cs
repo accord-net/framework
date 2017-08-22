@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -19,6 +19,7 @@
 //    License along with this library; if not, write to the Free Software
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
+#pragma warning disable 612, 618
 
 namespace Accord.Statistics.Models.Markov.Learning
 {
@@ -50,6 +51,7 @@ namespace Accord.Statistics.Models.Markov.Learning
     /// <seealso cref="BaumWelchLearning"/>
     /// <seealso cref="BaumWelchLearning{T}"/>
     /// 
+    [Obsolete("This class will be removed")]
     public abstract class BaseBaumWelchLearning : IConvergenceLearning
     {
 
@@ -86,6 +88,17 @@ namespace Accord.Statistics.Models.Markov.Learning
         }
 
         /// <summary>
+        ///   Please use MaxIterations instead.
+        /// </summary>
+        /// 
+        [Obsolete("Please use MaxIterations instead.")]
+        public int Iterations
+        {
+            get { return MaxIterations; }
+            set { MaxIterations = value; }
+        }
+
+        /// <summary>
         ///   Gets or sets the maximum number of iterations
         ///   performed by the learning algorithm.
         /// </summary>
@@ -96,10 +109,28 @@ namespace Accord.Statistics.Models.Markov.Learning
         ///   likelihood respecting the desired limit.
         /// </remarks>
         /// 
-        public int Iterations
+        public int MaxIterations
         {
-            get { return convergence.Iterations; }
-            set { convergence.Iterations = value; }
+            get { return convergence.MaxIterations; }
+            set { convergence.MaxIterations = value; }
+        }
+
+        /// <summary>
+        ///   Gets or sets the number of performed iterations.
+        /// </summary>
+        /// 
+        public int CurrentIteration
+        {
+            get { return convergence.CurrentIteration; }
+        }
+
+        /// <summary>
+        /// Gets or sets whether the algorithm has converged.
+        /// </summary>
+        /// <value><c>true</c> if this instance has converged; otherwise, <c>false</c>.</value>
+        public bool HasConverged
+        {
+            get { return convergence.HasConverged; }
         }
 
         /// <summary>
@@ -225,8 +256,8 @@ namespace Accord.Statistics.Models.Markov.Learning
 
             // Grab model information
             int states = model.States;
-            var logA = model.Transitions;
-            var logP = model.Probabilities;
+            var logA = model.LogTransitions;
+            var logP = model.LogInitial;
 
 
             // Initialize the algorithm
@@ -316,7 +347,7 @@ namespace Accord.Statistics.Models.Markov.Learning
                     // 3. Continue with parameter re-estimation
                     newLogLikelihood = Double.NegativeInfinity;
 
-                    // 3.1 Re-estimation of initial state probabilities 
+                    // 3.1 Re-estimation of initial state probabilities
                     for (int i = 0; i < logP.Length; i++)
                     {
                         double lnsum = Double.NegativeInfinity;
@@ -344,9 +375,9 @@ namespace Accord.Statistics.Models.Markov.Learning
                                 }
                             }
 
-                            logA[i, j] = (lnnum == lnden) ? 0 : lnnum - lnden;
+                            logA[i][j] = (lnnum == lnden) ? 0 : lnnum - lnden;
 
-                            Accord.Diagnostics.Debug.Assert(!Double.IsNaN(logA[i, j]));
+                            Accord.Diagnostics.Debug.Assert(!Double.IsNaN(logA[i][j]));
                         }
                     }
 

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -30,7 +30,7 @@ namespace Accord.Tests.Statistics
     public class DataGridBoxText
     {
 
-        [Test, Ignore]
+        [Test, Ignore("Requires interaction with Windows Forms")]
         public void DataGridBox_ShowTest1()
         {
             double[,] data = Matrix.Identity(5);

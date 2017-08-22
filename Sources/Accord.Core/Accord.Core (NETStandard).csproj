@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <AssemblyName>Accord</AssemblyName>
+    <RootNamespace>Accord</RootNamespace>
+    <TargetFrameworks>netstandard2.0;netstandard1.4</TargetFrameworks>
+  </PropertyGroup>
+
+  <Import Project="$(SolutionDir)Accord.NET (NETStandard).targets" />
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+    <PackageReference Include="System.ComponentModel.Annotations" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard1.4'">
+    <PackageReference Include="System.ComponentModel.Annotations" Version="4.3.0" />
+  </ItemGroup>
+
+</Project>

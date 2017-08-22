@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -22,11 +22,8 @@
 
 namespace Accord.Math
 {
-    using Accord.Math.Comparers;
-    using AForge;
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
+    using Accord.Compat;
 
     public static partial class Matrix
     {
@@ -579,7 +576,7 @@ namespace Accord.Math
 
 
         /// <summary>
-        ///   Deprecated
+        ///   Deprecated. Please use GetRange() instead.
         /// </summary>
         /// 
         [Obsolete("Please use GetRange instead.")]
@@ -589,7 +586,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Deprecated
+        ///   Deprecated. Please use GetRange() instead.
         /// </summary>
         /// 
         [Obsolete("Please use GetRange instead.")]
@@ -599,7 +596,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Deprecated
+        ///   Deprecated. Please use GetRange() instead.
         /// </summary>
         /// 
         [Obsolete("Please use GetRange instead.")]
@@ -609,7 +606,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Deprecated
+        ///   Deprecated. Please use GetRange() instead.
         /// </summary>
         /// 
         [Obsolete("Please use GetRange instead.")]
@@ -619,7 +616,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Deprecated.
+        ///   Deprecated. Please use GetRange() instead.
         /// </summary>
         /// 
         [Obsolete("Please use GetRange instead.")]

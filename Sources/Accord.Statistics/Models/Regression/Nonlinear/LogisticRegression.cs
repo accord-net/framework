@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -25,6 +25,11 @@ namespace Accord.Statistics.Models.Regression
     using System;
     using Accord.Statistics.Links;
     using AForge;
+    using Accord.Math;
+    using Accord.MachineLearning;
+    using Analysis;
+    using Fitting;
+    using Accord.Compat;
 
     /// <summary>
     ///   Binary Logistic Regression.
@@ -65,72 +70,26 @@ namespace Accord.Statistics.Models.Regression
     /// </remarks>
     /// 
     /// <example>
-    ///   <code>
-    ///    // Suppose we have the following data about some patients.
-    ///    // The first variable is continuous and represent patient
-    ///    // age. The second variable is dichotomic and give whether
-    ///    // they smoke or not (This is completely fictional data).
-    ///    double[][] input =
-    ///    {
-    ///        new double[] { 55, 0 }, // 0 - no cancer
-    ///        new double[] { 28, 0 }, // 0
-    ///        new double[] { 65, 1 }, // 0
-    ///        new double[] { 46, 0 }, // 1 - have cancer
-    ///        new double[] { 86, 1 }, // 1
-    ///        new double[] { 56, 1 }, // 1
-    ///        new double[] { 85, 0 }, // 0
-    ///        new double[] { 33, 0 }, // 0
-    ///        new double[] { 21, 1 }, // 0
-    ///        new double[] { 42, 1 }, // 1
-    ///    };
-    ///
-    ///    // We also know if they have had lung cancer or not, and 
-    ///    // we would like to know whether smoking has any connection
-    ///    // with lung cancer (This is completely fictional data).
-    ///    double[] output =
-    ///    {
-    ///        0, 0, 0, 1, 1, 1, 0, 0, 0, 1
-    ///    };
-    ///
-    ///
-    ///    // To verify this hypothesis, we are going to create a logistic
-    ///    // regression model for those two inputs (age and smoking).
-    ///    LogisticRegression regression = new LogisticRegression(inputs: 2);
-    ///
-    ///    // Next, we are going to estimate this model. For this, we
-    ///    // will use the Iteratively Reweighted Least Squares method.
-    ///    var teacher = new IterativeReweightedLeastSquares(regression);
-    ///
-    ///    // Now, we will iteratively estimate our model. The Run method returns
-    ///    // the maximum relative change in the model parameters and we will use
-    ///    // it as the convergence criteria.
-    ///
-    ///    double delta = 0;
-    ///    do
-    ///    {
-    ///        // Perform an iteration
-    ///        delta = teacher.Run(input, output);
-    ///
-    ///    } while (delta > 0.001);
-    ///
-    ///    // At this point, we can compute the odds ratio of our variables.
-    ///    // In the model, the variable at 0 is always the intercept term, 
-    ///    // with the other following in the sequence. Index 1 is the age
-    ///    // and index 2 is whether the patient smokes or not.
-    ///
-    ///    // For the age variable, we have that individuals with
-    ///    //   higher age have 1.021 greater odds of getting lung
-    ///    //   cancer controlling for cigarette smoking.
-    ///    double ageOdds = regression.GetOddsRatio(1); // 1.0208597028836701
-    ///
-    ///    // For the smoking/non smoking category variable, however, we
-    ///    //   have that individuals who smoke have 5.858 greater odds
-    ///    //   of developing lung cancer compared to those who do not 
-    ///    //   smoke, controlling for age (remember, this is completely
-    ///    //   fictional and for demonstration purposes only).
-    ///    double smokeOdds = regression.GetOddsRatio(2); // 5.8584748789881331
-    ///   </code>
+    /// <para>
+    ///   The following example shows how to learn a logistic regression using the
+    ///   standard <see cref="IterativeReweightedLeastSquares"/> algorithm.</para>
+    ///   
+    /// <code source="Unit Tests\Accord.Tests.Statistics\Models\Regression\LogisticRegressionTest.cs" region="doc_log_reg_1" />
+    /// 
+    /// <para>
+    ///   Please note that it is also possible to train logistic regression models
+    ///   using large-margin algorithms. With those algorithms, it is possible to
+    ///   train using different regularization options, such as L1 (with ProbabilisticCoordinateDescent)
+    ///   or L2 (with ProbabilisticDualCoordinateDescent). The following example 
+    ///   shows how to obtain L1-regularized regression from a probabilistic linear 
+    ///   Support Vector Machine:</para>
+    ///   
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\Probabilistic\ProbabilisticCoordinateDescentTest.cs" region="doc_logreg"/>
     /// </example>
+    /// 
+    /// <see cref="MultinomialLogisticRegression"/>
+    /// <see cref="LogisticRegressionAnalysis"/>
+    /// <see cref="StepwiseLogisticRegressionAnalysis"/>
     /// 
     [Serializable]
     public class LogisticRegression : GeneralizedLinearRegression
@@ -140,8 +99,18 @@ namespace Accord.Statistics.Models.Regression
         ///   Creates a new Logistic Regression Model.
         /// </summary>
         /// 
+        public LogisticRegression()
+            : base(new LogitLinkFunction())
+        {
+        }
+
+        /// <summary>
+        ///   Creates a new Logistic Regression Model.
+        /// </summary>
+        /// 
         /// <param name="inputs">The number of input variables for the model.</param>
         /// 
+        [Obsolete("Please use the default constructor and set NumberOfInputs instead.")]
         public LogisticRegression(int inputs)
             : base(new LogitLinkFunction(), inputs) { }
 
@@ -152,6 +121,7 @@ namespace Accord.Statistics.Models.Regression
         /// <param name="inputs">The number of input variables for the model.</param>
         /// <param name="intercept">The starting intercept value. Default is 0.</param>
         /// 
+        [Obsolete("Please use the default constructor and set NumberOfInputs instead.")]
         public LogisticRegression(int inputs, double intercept)
             : base(new LogitLinkFunction(), inputs, intercept) { }
 
@@ -167,15 +137,13 @@ namespace Accord.Statistics.Models.Regression
         /// 
         public DoubleRange GetConfidenceInterval(int index)
         {
-            double coeff = Coefficients[index];
+            double coeff = GetCoefficient(index);
             double error = StandardErrors[index];
 
             double upper = coeff + 1.9599 * error;
             double lower = coeff - 1.9599 * error;
 
-            DoubleRange ci = new DoubleRange(Math.Exp(lower), Math.Exp(upper));
-
-            return ci;
+            return new DoubleRange(Math.Exp(lower), Math.Exp(upper));
         }
 
         /// <summary>
@@ -198,7 +166,7 @@ namespace Accord.Statistics.Models.Regression
         /// 
         public double GetOddsRatio(int index)
         {
-            return Math.Exp(Coefficients[index]);
+            return Math.Exp(GetCoefficient(index));
         }
 
         /// <summary>
@@ -217,11 +185,36 @@ namespace Accord.Statistics.Models.Regression
         /// 
         public static LogisticRegression FromWeights(double[] weights)
         {
-            var lr = new LogisticRegression(weights.Length - 1);
-            for (int i = 0; i < weights.Length; i++)
-                lr.Coefficients[i] = weights[i];
-
-            return lr;
+            return new LogisticRegression()
+            {
+                Weights = weights.Get(1, 0),
+                Intercept = weights[0]
+            };
         }
+
+        /// <summary>
+        ///   Constructs a new <see cref="LogisticRegression"/> from
+        ///   an array of weights (linear coefficients). The first
+        ///   weight is interpreted as the intercept value.
+        /// </summary>
+        /// 
+        /// <param name="weights">An array of linear coefficients.</param>
+        /// <param name="intercept">The intercept term.</param>
+        /// 
+        /// <returns>
+        ///   A <see cref="LogisticRegression"/> whose 
+        ///   <see cref="GeneralizedLinearRegression.Coefficients"/> are
+        ///   the same as in the given <paramref name="weights"/> array.
+        /// </returns>
+        /// 
+        public static LogisticRegression FromWeights(double[] weights, double intercept)
+        {
+            return new LogisticRegression()
+            {
+                Weights = weights.Copy(),
+                Intercept = intercept
+            };
+        }
+
     }
 }

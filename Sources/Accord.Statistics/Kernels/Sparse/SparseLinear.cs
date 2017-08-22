@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -23,6 +23,7 @@
 namespace Accord.Statistics.Kernels.Sparse
 {
     using System;
+    using Accord.Compat;
 
     /// <summary>
     ///   Sparse Linear Kernel.
@@ -76,7 +77,7 @@ namespace Accord.Statistics.Kernels.Sparse
     /// 
     [Serializable]
     [Obsolete("Please use the Linear kernel with Sparse<double> instead.")]
-    public sealed class SparseLinear : KernelBase, IKernel, ITransform
+    public sealed class SparseLinear : KernelBase, IKernel
     {
         private double constant;
 

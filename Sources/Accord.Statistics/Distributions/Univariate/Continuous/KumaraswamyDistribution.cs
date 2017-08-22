@@ -26,7 +26,7 @@ namespace Accord.Statistics.Distributions.Univariate
 
     using System;
     using Accord.Math;
-    using AForge;
+    using Accord.Compat;
 
     /// <summary>
     ///   Kumaraswamy distribution.
@@ -241,14 +241,8 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value or any value smaller than it will occur.
         /// </remarks>
         /// 
-        public override double DistributionFunction(double x)
+        protected internal override double InnerDistributionFunction(double x)
         {
-            if (x > 1) 
-                return 1;
-
-            if (x < 0) 
-                return 0;
-
             double xa = Math.Pow(x, a);
             return 1 - Math.Pow(1 - xa, b);
         }
@@ -270,14 +264,8 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value <c>x</c> will occur.
         /// </remarks>
         /// 
-        public override double ProbabilityDensityFunction(double x)
+        protected internal override double InnerProbabilityDensityFunction(double x)
         {
-            if (x > 1) 
-                return 0;
-
-            if (x < 0) 
-                return 0;
-
             return a * b * Math.Pow(x, a - 1) * Math.Pow(1 - Math.Pow(x, a), b - 1);
         }
 

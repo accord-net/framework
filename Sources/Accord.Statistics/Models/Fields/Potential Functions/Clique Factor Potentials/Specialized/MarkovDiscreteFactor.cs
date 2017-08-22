@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -26,6 +26,7 @@ namespace Accord.Statistics.Models.Fields.Functions.Specialized
     using System.Collections.Generic;
     using Accord.Statistics.Models.Fields.Features;
     using System.Runtime.Serialization;
+    using Accord.Compat;
 
     /// <summary>
     ///   Discrete-density Markov Factor Potential (Clique Potential) function.

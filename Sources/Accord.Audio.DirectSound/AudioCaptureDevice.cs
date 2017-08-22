@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -27,6 +27,7 @@ namespace Accord.DirectSound
     using SharpDX.Multimedia;
     using System;
     using System.Threading;
+    using Accord.Compat;
 
     /// <summary>
     ///   Audio source for local audio capture device (i.e. a microphone).
@@ -475,9 +476,11 @@ namespace Accord.DirectSound
                 if (captureDevice != null)
                     captureDevice.Dispose();
 
+#if !NETSTANDARD1_4
                 for (int i = 0; i < notifications.Length; i++)
                     if (notifications[i].WaitHandle != null)
                         notifications[i].WaitHandle.Close();
+#endif
             }
         }
 
@@ -529,7 +532,7 @@ namespace Accord.DirectSound
         }
 
 
-        #region IDisposable members
+#region IDisposable members
         /// <summary>
         ///   Releases unmanaged resources and performs other cleanup operations before the
         ///   <see cref="AudioCaptureDevice"/> is reclaimed by garbage collection.
@@ -571,7 +574,7 @@ namespace Accord.DirectSound
                 }
             }
         }
-        #endregion
+#endregion
 
     }
 }

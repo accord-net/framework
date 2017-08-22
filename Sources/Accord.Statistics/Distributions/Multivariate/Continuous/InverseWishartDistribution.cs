@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -25,6 +25,8 @@ namespace Accord.Statistics.Distributions.Multivariate
     using System;
     using Accord.Math;
     using Accord.Math.Decompositions;
+    using Accord.Statistics.Distributions.Fitting;
+    using Accord.Compat;
 
     /// <summary>
     ///   Inverse Wishart Distribution.
@@ -97,7 +99,7 @@ namespace Accord.Statistics.Distributions.Multivariate
     /// <seealso cref="WishartDistribution"/>
     /// 
     [Serializable]
-    public class InverseWishartDistribution : MultivariateContinuousDistribution
+    public class InverseWishartDistribution : MatrixContinuousDistribution
     {
         int size;
         double v; // degrees of freedom
@@ -118,7 +120,7 @@ namespace Accord.Statistics.Distributions.Multivariate
         /// <param name="inverseScale">The inverse scale matrix Ψ (psi).</param>
         /// 
         public InverseWishartDistribution(double degreesOfFreedom, double[,] inverseScale)
-            : base(inverseScale.Length)
+            : base(inverseScale.Rows(), inverseScale.Columns())
         {
 
             if (inverseScale.GetLength(0) != inverseScale.GetLength(1))
@@ -134,10 +136,10 @@ namespace Accord.Statistics.Distributions.Multivariate
 
             var chol = new CholeskyDecomposition(inverseScale);
 
-            if (!chol.PositiveDefinite)
+            if (!chol.IsPositiveDefinite)
                 throw new NonPositiveDefiniteMatrixException("scale");
-            if (!chol.Symmetric)
-                throw new NonSymmetricMatrixException("scale");
+            //if (!chol.Symmetric)
+            //    throw new NonSymmetricMatrixException("scale");
 
             double a = Math.Pow(chol.Determinant, v / 2.0);
             double b = Math.Pow(2, (v * size) / 2.0);
@@ -154,7 +156,7 @@ namespace Accord.Statistics.Distributions.Multivariate
         /// 
         /// <value>A vector containing the mean values for the distribution.</value>
         /// 
-        public double[,] MeanMatrix
+        public override double[,] Mean
         {
             get
             {
@@ -162,17 +164,6 @@ namespace Accord.Statistics.Distributions.Multivariate
                     mean = inverseScaleMatrix.Divide(v - size - 1);
                 return mean;
             }
-        }
-
-        /// <summary>
-        ///   Gets the mean for this distribution as a flat matrix.
-        /// </summary>
-        /// 
-        /// <value>A vector containing the mean values for the distribution.</value>
-        /// 
-        public override double[] Mean
-        {
-            get { return MeanMatrix.Reshape(0); }
         }
 
         /// <summary>
@@ -238,7 +229,7 @@ namespace Accord.Statistics.Distributions.Multivariate
         ///   Not supported.
         /// </summary>
         /// 
-        public override double DistributionFunction(params double[] x)
+        protected internal override double InnerDistributionFunction(double[,] x)
         {
             throw new NotSupportedException();
         }
@@ -264,34 +255,7 @@ namespace Accord.Statistics.Distributions.Multivariate
         ///   probability that a given value <c>x</c> will occur.
         /// </remarks>
         /// 
-        public override double ProbabilityDensityFunction(params double[] x)
-        {
-            double[,] X = x.Reshape(size, size);
-            return ProbabilityDensityFunction(X);
-        }
-
-        /// <summary>
-        ///   Gets the probability density function (pdf) for
-        ///   this distribution evaluated at point <c>x</c>.
-        /// </summary>
-        /// 
-        /// <param name="x">A single point in the distribution range.
-        ///   For a matrix distribution, such as the Wishart's, this
-        ///   should be a positive-definite matrix or a matrix written
-        ///   in flat vector form.
-        /// </param>
-        ///   
-        /// <returns>
-        ///   The probability of <c>x</c> occurring
-        ///   in the current distribution.
-        /// </returns>
-        /// 
-        /// <remarks>
-        ///   The Probability Density Function (PDF) describes the
-        ///   probability that a given value <c>x</c> will occur.
-        /// </remarks>
-        /// 
-        public double ProbabilityDensityFunction(double[,] x)
+        protected internal override double InnerProbabilityDensityFunction(double[,] x)
         {
             var chol = new CholeskyDecomposition(x);
 
@@ -326,34 +290,7 @@ namespace Accord.Statistics.Distributions.Multivariate
         ///   probability that a given value <c>x</c> will occur.
         /// </remarks>
         /// 
-        public override double LogProbabilityDensityFunction(params double[] x)
-        {
-            double[,] X = x.Reshape(size, size);
-            return LogProbabilityDensityFunction(X);
-        }
-
-        /// <summary>
-        ///   Gets the probability density function (pdf) for
-        ///   this distribution evaluated at point <c>x</c>.
-        /// </summary>
-        /// 
-        /// <param name="x">A single point in the distribution range.
-        ///   For a matrix distribution, such as the Wishart's, this
-        ///   should be a positive-definite matrix or a matrix written
-        ///   in flat vector form.
-        /// </param>
-        ///   
-        /// <returns>
-        ///   The probability of <c>x</c> occurring
-        ///   in the current distribution.
-        /// </returns>
-        /// 
-        /// <remarks>
-        ///   The Probability Density Function (PDF) describes the
-        ///   probability that a given value <c>x</c> will occur.
-        /// </remarks>
-        /// 
-        public double LogProbabilityDensityFunction(double[,] x)
+        protected internal override double InnerLogProbabilityDensityFunction(double[,] x)
         {
             var chol = new CholeskyDecomposition(x);
 
@@ -369,7 +306,7 @@ namespace Accord.Statistics.Distributions.Multivariate
         ///   Not supported.
         /// </summary>
         /// 
-        public override void Fit(double[][] observations, double[] weights, Fitting.IFittingOptions options)
+        public override void Fit(double[][,] observations, double[] weights, IFittingOptions options)
         {
             throw new NotSupportedException();
         }

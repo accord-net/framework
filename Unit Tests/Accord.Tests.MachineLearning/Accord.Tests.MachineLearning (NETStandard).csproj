@@ -1,0 +1,150 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <AssemblyName>Accord.Tests.MachineLearning</AssemblyName>
+    <RootNamespace>Accord.Tests.MachineLearning</RootNamespace>
+    <TargetFrameworks>netcoreapp2.0;netcoreapp1.1</TargetFrameworks>
+  </PropertyGroup>
+
+  <Import Project="$(SolutionDir)../Unit Tests/Accord.Tests (NETStandard).targets" />
+
+  <ItemGroup>
+    <Compile Include="..\..\Samples\MachineLearning\Liblinear (SVMs)\Parameters.cs" />
+    <Compile Include="..\..\Samples\MachineLearning\Liblinear (SVMs)\Problem.cs" />
+    <Compile Include="..\..\Samples\MachineLearning\Liblinear (SVMs)\Train.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Sources\Accord.Core\Accord.Core (NETStandard).csproj" />
+    <ProjectReference Include="..\..\Sources\Accord.DataSets\Accord.DataSets (NETStandard).csproj" />
+    <ProjectReference Include="..\..\Sources\Accord.IO\Accord.IO (NETStandard).csproj" />
+    <ProjectReference Include="..\..\Sources\Accord.MachineLearning\Accord.MachineLearning (NETStandard).csproj" />
+    <ProjectReference Include="..\..\Sources\Accord.Math.Core\Accord.Math.Core (NETStandard).csproj" />
+    <ProjectReference Include="..\..\Sources\Accord.Math\Accord.Math (NETStandard).csproj" />
+    <ProjectReference Include="..\Accord.Tests.Statistics\Accord.Tests.Statistics (NETStandard).csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="..\..\Samples\MachineLearning\Liblinear %28SVMs%29\Parameters.cs" Link="VectorMachines\Liblinear\Parameters.cs" />
+    <Compile Update="..\..\Samples\MachineLearning\Liblinear %28SVMs%29\Problem.cs" Link="VectorMachines\Liblinear\Problem.cs" />
+    <Compile Update="..\..\Samples\MachineLearning\Liblinear %28SVMs%29\Train.cs" Link="VectorMachines\Liblinear\Train.cs" />
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Resources\CircleWithWeights.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\gh608\data16.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\gh608\labels16.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\iris.data.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\iris.scale.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\kmeans.bin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\liblinear\a9a.test">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\liblinear\a9a.train">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\liblinear\L1R_LR_a9a.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\liblinear\L1R_LR_DUAL_a9a.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\liblinear\L2R_LR_a9a.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\ml-svm.bin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\mnist\pca_mnist.bin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\mnist\pca_mnist_v3_1.bin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\mnist\t10k-images-idx3-ubyte.gz">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\mnist\t10k-labels-idx1-ubyte.gz">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\mnist\train-images-idx3-ubyte.gz">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\mnist\train-labels-idx1-ubyte.gz">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\nb.bin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\nb2.bin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\nursery.data">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\rforest\features.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\rforest\times.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\Shapes.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\svm1.svm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\svm2.svm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\trainingsample.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\tree.bin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\validationsample.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <!--<ItemGroup>
+    <Compile Update="Properties\Resources.Standard.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.Standard.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.Standard.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Standard.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>-->
+
+</Project>

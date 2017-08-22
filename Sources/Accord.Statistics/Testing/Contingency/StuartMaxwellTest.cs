@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -25,6 +25,7 @@ namespace Accord.Statistics.Testing
     using System;
     using Accord.Math;
     using Accord.Statistics.Analysis;
+    using Accord.Compat;
 
     /// <summary>
     ///   Stuart-Maxwell test of homogeneity for <c>K x K</c> contingency tables.

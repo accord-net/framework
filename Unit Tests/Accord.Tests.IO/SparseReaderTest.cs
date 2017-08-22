@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -29,6 +29,9 @@ namespace Accord.Tests.IO
     using Accord.Math;
     using Accord.Tests.IO.Properties;
     using NUnit.Framework;
+#if NO_DEFAULT_ENCODING
+    using Encoding = Accord.Compat.Encoding;
+#endif
 
     [TestFixture]
     public class SparseReaderTest
@@ -50,7 +53,7 @@ namespace Accord.Tests.IO
 
             // Create a new Sparse Sample Reader to read any given file,
             //  passing the correct dense sample size in the constructor
-            SparseReader reader = new SparseReader(file, Encoding.Default, sampleSize);
+            SparseReader reader = new SparseReader(stream: file, encoding: Encoding.Default, sampleSize: sampleSize);
 
             // Declare some variables to receive each current sample
             int label = 0;
@@ -124,7 +127,7 @@ namespace Accord.Tests.IO
 
             // Create a new Sparse Sample Reader to read any given file,
             //  passing the correct dense sample size in the constructor
-            SparseReader reader = new SparseReader(file, Encoding.Default, sampleSize);
+            SparseReader reader = new SparseReader(stream: file, encoding: Encoding.Default, sampleSize: sampleSize);
 
             // Declare a vector to obtain the label
             //  of each of the samples in the file
@@ -154,7 +157,7 @@ namespace Accord.Tests.IO
             MemoryStream file = new MemoryStream(
                 Encoding.Default.GetBytes(Resources.iris_scale));
 
-            SparseReader reader = new SparseReader(file, Encoding.Default);
+            SparseReader reader = new SparseReader(stream: file, encoding: Encoding.Default);
 
             Assert.AreEqual(4, reader.Dimensions);
 
@@ -181,7 +184,7 @@ namespace Accord.Tests.IO
             MemoryStream file = new MemoryStream(
                 Encoding.Default.GetBytes(Resources.a9a_train));
 
-            SparseReader reader = new SparseReader(file, Encoding.Default);
+            SparseReader reader = new SparseReader(stream: file, encoding: Encoding.Default);
 
             Assert.AreEqual(123, reader.Dimensions);
 
@@ -205,7 +208,7 @@ namespace Accord.Tests.IO
             MemoryStream file = new MemoryStream(
                 Encoding.Default.GetBytes(Resources.a9a_train));
 
-            SparseReader reader = new SparseReader(file, Encoding.Default);
+            SparseReader reader = new SparseReader(stream: file, encoding: Encoding.Default);
 
             var r = reader.ReadDenseToEnd();
             double[][] samples = r.Item1;

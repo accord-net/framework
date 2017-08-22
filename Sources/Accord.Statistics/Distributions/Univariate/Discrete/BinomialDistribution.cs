@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -25,7 +25,7 @@ namespace Accord.Statistics.Distributions.Univariate
     using System;
     using Accord.Math;
     using Accord.Statistics.Distributions.Fitting;
-    using AForge;
+    using Accord.Compat;
 
     /// <summary>
     ///   Binomial probability distribution.
@@ -239,7 +239,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value or any value smaller than it will occur.
         /// </remarks>
         /// 
-        public override double DistributionFunction(int k)
+        protected internal override double InnerDistributionFunction(int k)
         {
             if (k < 0)
                 return 0;
@@ -264,13 +264,13 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   or below, with that probability.
         /// </remarks>
         /// 
-        public override int InverseDistributionFunction(double p)
+        protected override int InnerInverseDistributionFunction(double p)
         {
             int result = numberOfTrials;
 
             for (int i = 0; i < numberOfTrials; i++)
             {
-                if (DistributionFunction(i) > p)
+                if (DistributionFunction(i) >= p)
                 {
                     result = i;
                     break;
@@ -278,7 +278,7 @@ namespace Accord.Statistics.Distributions.Univariate
             }
 
 #if DEBUG
-            double expected = base.InverseDistributionFunction(p);
+            double expected = base.InnerInverseDistributionFunction(p);
             if (result != expected)
                 throw new Exception();
 #endif
@@ -302,11 +302,8 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value <c>x</c> will occur.
         /// </remarks>
         /// 
-        public override double ProbabilityMassFunction(int k)
+        protected internal override double InnerProbabilityMassFunction(int k)
         {
-            if (k < 0 || k > numberOfTrials)
-                return 0;
-
             double a = Special.LogBinomial(numberOfTrials, k);
             double b = k == 0 ? 0 : k * Math.Log(probability);
             double c = (numberOfTrials - k);
@@ -333,11 +330,8 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value <c>k</c> will occur.
         /// </remarks>
         /// 
-        public override double LogProbabilityMassFunction(int k)
+        protected internal override double InnerLogProbabilityMassFunction(int k)
         {
-            if (k < 0 || k > numberOfTrials)
-                return Double.NegativeInfinity;
-
             double a = Special.LogBinomial(numberOfTrials, k);
             double b = k == 0 ? 0 : k * Math.Log(probability);
             double c = (numberOfTrials - k);

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -22,7 +22,10 @@
 
 namespace Accord.Math.Optimization
 {
+    using Differentiation;
     using System;
+    using Accord.Compat;
+    using System.Threading;
 
     /// <summary>
     ///   Base class for gradient-based optimization methods.
@@ -41,6 +44,14 @@ namespace Accord.Math.Optimization
         /// 
         public Func<double[], double[]> Gradient { get; set; }
 
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="BaseGradientOptimizationMethod"/> class.
+        /// </summary>
+        /// 
+        protected BaseGradientOptimizationMethod()
+            : base()
+        {
+        }
 
         /// <summary>
         ///   Initializes a new instance of the <see cref="BaseGradientOptimizationMethod"/> class.
@@ -73,17 +84,17 @@ namespace Accord.Math.Optimization
 
         /// <summary>
         ///   Finds the maximum value of a function. The solution vector
-        ///   will be made available at the <see cref="IOptimizationMethod.Solution"/> property.
+        ///   will be made available at the <see cref="IOptimizationMethod{TInput, TOutput}.Solution"/> property.
         /// </summary>
         /// 
-        /// <returns>Returns <c>true</c> if the method converged to a <see cref="IOptimizationMethod.Solution"/>.
-        ///   In this case, the found value will also be available at the <see cref="IOptimizationMethod.Value"/>
+        /// <returns>Returns <c>true</c> if the method converged to a <see cref="IOptimizationMethod{TInput, TOutput}.Solution"/>.
+        ///   In this case, the found value will also be available at the <see cref="IOptimizationMethod{TInput, TOutput}.Value"/>
         ///   property.</returns>
         ///  
         public override bool Maximize()
         {
             if (Gradient == null)
-                throw new InvalidOperationException("gradient");
+                this.Gradient = FiniteDifferences.Gradient(Function, NumberOfVariables);
 
             NonlinearObjectiveFunction.CheckGradient(Gradient, Solution);
 
@@ -100,24 +111,22 @@ namespace Accord.Math.Optimization
 
         /// <summary>
         ///   Finds the minimum value of a function. The solution vector
-        ///   will be made available at the <see cref="IOptimizationMethod.Solution"/> property.
+        ///   will be made available at the <see cref="IOptimizationMethod{TInput, TOutput}.Solution"/> property.
         /// </summary>
         /// 
-        /// <returns>Returns <c>true</c> if the method converged to a <see cref="IOptimizationMethod.Solution"/>.
-        ///   In this case, the found value will also be available at the <see cref="IOptimizationMethod.Value"/>
+        /// <returns>Returns <c>true</c> if the method converged to a <see cref="IOptimizationMethod{TInput, TOutput}.Solution"/>.
+        ///   In this case, the found value will also be available at the <see cref="IOptimizationMethod{TInput, TOutput}.Value"/>
         ///   property.</returns>
         ///  
         public override bool Minimize()
         {
             if (Gradient == null)
-                throw new InvalidOperationException("gradient");
+                this.Gradient = FiniteDifferences.Gradient(Function, NumberOfVariables);
 
             NonlinearObjectiveFunction.CheckGradient(Gradient, Solution);
 
             return base.Minimize();
         }
-
-
 
     }
 }

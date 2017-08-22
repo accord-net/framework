@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -24,22 +24,15 @@ namespace Accord.Math.Distances
 {
     using System;
     using System.Runtime.CompilerServices;
+    using Accord.Compat;
 
     /// <summary>
     ///   ArgMax distance (L0) distance.
     /// </summary>
     /// 
     [Serializable]
-    public sealed class ArgMax : IDistance<double[]>
+    public struct ArgMax : IDistance<double[]>
     {
-        /// <summary>
-        ///   Initializes a new instance of the <see cref="ArgMax"/> class.
-        /// </summary>
-        /// 
-        public ArgMax()
-        {
-        }
-
         /// <summary>
         ///   Computes the distance <c>d(x,y)</c> between points
         ///   <paramref name="x"/> and <paramref name="y"/>.
@@ -54,7 +47,7 @@ namespace Accord.Math.Distances
         ///   to the distance function implemented by this class.
         /// </returns>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public double Distance(double[] x, double[] y)

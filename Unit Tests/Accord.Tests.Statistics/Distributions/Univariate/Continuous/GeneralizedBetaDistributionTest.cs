@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -81,6 +81,7 @@ namespace Accord.Tests.Statistics
         [Test]
         public void BetaMeanTest()
         {
+            #region doc_create2
             double alpha = 0.42;
             double beta = 1.57;
 
@@ -100,6 +101,7 @@ namespace Accord.Tests.Statistics
             double icdf = betaDistribution.InverseDistributionFunction(p: cdf); // 0.26999999068687469
 
             string str = betaDistribution.ToString(System.Globalization.CultureInfo.InvariantCulture); // "B(x; α = 0.42, β = 1.57)
+            #endregion
 
             Assert.AreEqual(0.21105527638190955, mean);
             Assert.AreEqual(0.11577706212908731, median);
@@ -126,11 +128,58 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.89625688707910811, range2.Max);
             Assert.AreEqual(0.0000099485893745082432, range3.Min);
             Assert.AreEqual(0.89625688707910811, range3.Max);
+
+
+            Assert.AreEqual(0, betaDistribution.Support.Min);
+            Assert.AreEqual(1, betaDistribution.Support.Max);
+
+            Assert.AreEqual(betaDistribution.InverseDistributionFunction(0), betaDistribution.Support.Min);
+            Assert.AreEqual(betaDistribution.InverseDistributionFunction(1), betaDistribution.Support.Max);
         }
+
+        [Test]
+        public void small_alpha_beta()
+        {
+            double alpha = 1e-150;
+            double beta = 1e-150;
+
+            var betaDistribution = new GeneralizedBetaDistribution(alpha, beta);
+
+            double mean = betaDistribution.Mean;
+            Assert.Throws<ArithmeticException>(() => { double median = betaDistribution.Median; });
+            double var = betaDistribution.Variance;
+            double mode = betaDistribution.Mode;
+
+            double cdf = betaDistribution.DistributionFunction(x: 0.27); 
+            double pdf = betaDistribution.ProbabilityDensityFunction(x: 0.27); 
+            double lpdf = betaDistribution.LogProbabilityDensityFunction(x: 0.27); 
+            double ccdf = betaDistribution.ComplementaryDistributionFunction(x: 0.27); 
+            double icdf = betaDistribution.InverseDistributionFunction(p: cdf); 
+
+            Assert.AreEqual(0.5, mean);
+            Assert.AreEqual(0.5, mode);
+            Assert.AreEqual(0.25, var);
+            Assert.AreEqual(0.5, cdf, 1e-5);
+            Assert.AreEqual(2.5367833587011923E-150, pdf);
+            Assert.AreEqual(-344.45686706484332, lpdf);
+            Assert.AreEqual(0.49999999999999989, ccdf);
+            Assert.AreEqual(0, icdf, 1e-10);
+
+            Assert.Throws<ArithmeticException>(() => betaDistribution.GetRange(0.95));
+
+            Assert.AreEqual(1, betaDistribution.Support.Length);
+            Assert.AreEqual(0, betaDistribution.Support.Min);
+            Assert.AreEqual(1, betaDistribution.Support.Max);
+
+            Assert.AreEqual(betaDistribution.InverseDistributionFunction(0), betaDistribution.Support.Min);
+            Assert.AreEqual(betaDistribution.InverseDistributionFunction(1), betaDistribution.Support.Max);
+        }
+
 
         [Test]
         public void NoncentralBetaMeanTest()
         {
+            #region doc_create
             // Create a 4-parameter Beta distribution with the following parameters (α, β, a, b):
             var beta = new GeneralizedBetaDistribution(alpha: 1.42, beta: 1.57, min: 1, max: 4.2);
 
@@ -151,6 +200,7 @@ namespace Accord.Tests.Statistics
             double icdf = beta.InverseDistributionFunction(p: cdf);        // 2.27
 
             string str = beta.ToString(System.Globalization.CultureInfo.InvariantCulture); // "B(x; α = 1.42, β = 1.57, min = 1, max = 4.2)"
+            #endregion
 
             Assert.AreEqual(2.5197324414715716, mean);
             Assert.AreEqual(2.4997705845160225, median);
@@ -159,9 +209,9 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.19999664152943961, var);
             Assert.AreEqual(0.5247323897609667, chf);
             Assert.AreEqual(0.40828630817664596, cdf);
-            Assert.AreEqual(1.2766172921464953, pdf);
-            Assert.AreEqual(0.2442138392176838, lpdf);
-            Assert.AreEqual(2.1574915534109484, hf);
+            Assert.AreEqual(0.39894290379577979, pdf);
+            Assert.AreEqual(-0.91893697058799706, lpdf);
+            Assert.AreEqual(0.67421611044092133, hf);
             Assert.AreEqual(0.59171369182335409, ccdf);
             Assert.AreEqual(2.27, icdf, 1e-10);
             Assert.AreEqual("B(x; α = 1.42, β = 1.57, min = 1, max = 4.2)", str);
@@ -183,6 +233,7 @@ namespace Accord.Tests.Statistics
         [Test]
         public void BetaPERTTest()
         {
+            #region doc_pert
             // Create a Beta from a minimum, maximum and most likely value
             var b = GeneralizedBetaDistribution.Pert(min: 1, max: 3, mode: 2);
 
@@ -190,6 +241,7 @@ namespace Accord.Tests.Statistics
             double median = b.Median; // 2
             double mode = b.Mode;     // 2
             double var = b.Variance;  // 0.071428571428571425
+            #endregion
 
             double min = b.Min;
             double max = b.Max;
@@ -239,6 +291,7 @@ namespace Accord.Tests.Statistics
         [Test]
         public void BetaVosePERTTest()
         {
+            #region doc_pert2
             // Create a Beta from a minimum, maximum and most likely value
             var b = GeneralizedBetaDistribution.Vose(min: 1, max: 3, mode: 1.42);
 
@@ -246,6 +299,7 @@ namespace Accord.Tests.Statistics
             double median = b.Median; // 1.5727889200146494
             double mode = b.Mode;     // 1.4471823077804513
             double var = b.Variance;  // 0.055555555555555546
+            #endregion
 
             double min = b.Min;
             double max = b.Max;
@@ -442,6 +496,14 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.60843093922651903, target.Beta, 1e-10);
         }
 
+
+        [Test]
+        public void RangeTest()
+        {
+            Assert.DoesNotThrow(() => new GeneralizedBetaDistribution(1e+300, 1e+300));
+            //Assert.Throws<ArgumentOutOfRangeException>(() => new GeneralizedBetaDistribution(1e+308, 1e+308));
+        }
+
         [Test]
         public void BetaGenerateTest1()
         {
@@ -526,27 +588,27 @@ namespace Accord.Tests.Statistics
         private static double[] samples =
         {
             0.0576536, 0.0259565, 0.00823091, 0.0734909, 0.73978, 0.461741, 0.0379376, 0.388558,
-            0.229866, 0.11422, 0.175104, 0.392522, 0.477605, 0.14909, 0.0669694, 0.345076, 0.123438, 
+            0.229866, 0.11422, 0.175104, 0.392522, 0.477605, 0.14909, 0.0669694, 0.345076, 0.123438,
             0.390018, 0.35776, 0.221581, 0.306762, 0.00845882, 0.215674, 0.00725579, 0.0269225,
             0.257018, 0.698815, 0.123448, 0.128692, 0.112612, 0.0181288, 0.237952, 0.33275, 0.0382219,
             0.219962, 0.0805055, 0.194096, 0.0689114, 0.15014, 0.0785429, 0.204803, 0.132801, 0.0780098,
             0.285554, 0.00239364, 0.300125, 0.0100048, 0.101187, 0.457942, 0.329837, 0.182756, 0.222086,
-            0.24584, 0.190944, 0.108643, 0.293735, 0.0837905, 0.408274, 0.599756, 0.16522, 0.402054, 
-            0.383576, 0.599936, 0.0363877, 0.709853, 0.0564157, 0.0381653, 0.00269904, 0.0677391, 
+            0.24584, 0.190944, 0.108643, 0.293735, 0.0837905, 0.408274, 0.599756, 0.16522, 0.402054,
+            0.383576, 0.599936, 0.0363877, 0.709853, 0.0564157, 0.0381653, 0.00269904, 0.0677391,
             0.403635, 0.214474, 0.214504, 0.247671, 0.0727752, 0.488096, 0.0107926, 0.479685, 0.21034,
             0.122196, 0.69273, 0.277719, 0.388118, 0.0662547, 0.626829, 0.221732, 0.176252, 0.209033,
-            0.0218196, 0.326473, 0.156983, 0.0465249, 0.21851, 0.344093, 0.0325541, 0.104152, 0.350898, 
+            0.0218196, 0.326473, 0.156983, 0.0465249, 0.21851, 0.344093, 0.0325541, 0.104152, 0.350898,
             0.657449, 0.175062, 0.0426272, 0.0186954, 0.111174, 0.0526368, 0.0122465, 0.352131, 0.113912,
             0.520488, 0.291171, 0.116819, 0.185977, 0.0157473, 0.0164909, 0.151552, 0.24276, 0.175418,
             0.307812, 0.420045, 0.318959, 0.590715, 0.420124, 0.0429698, 0.270997, 0.203933, 0.111277,
             0.0303802, 0.242686, 0.622897, 0.386008, 0.110773, 0.00839994, 0.0229025, 0.00373459,
-            0.086345, 0.177629, 0.285038, 0.10536, 0.209442, 0.252373, 0.312422, 0.290403, 0.558124, 
+            0.086345, 0.177629, 0.285038, 0.10536, 0.209442, 0.252373, 0.312422, 0.290403, 0.558124,
             0.0408083, 0.204488, 0.0199158, 0.328801, 0.0253332, 0.137478, 0.0268162, 0.223154,
             0.328269, 0.22767, 0.213346, 0.345765, 0.343224, 0.496009, 0.269042, 0.345304, 0.152658,
             0.316284, 0.038899, 0.399112, 0.18071, 0.058962, 0.132478, 0.513784, 0.127359, 0.331945,
             0.0885819, 0.258951, 0.0195058, 0.0934522, 0.176096, 0.41691, 0.43996, 0.184367, 0.229717,
             0.198429, 0.237468, 0.145022, 0.194586, 0.0599747, 0.0848648, 0.254936, 0.0703234, 0.169601,
-            0.0293011, 0.46589, 0.870883, 0.229739, 0.0685973, 0.079173, 0.209093, 0.254463, 0.193677, 
+            0.0293011, 0.46589, 0.870883, 0.229739, 0.0685973, 0.079173, 0.209093, 0.254463, 0.193677,
             0.243653, 0.259542, 0.166267, 0.106444, 0.250221, 0.0251355, 0.718235, 0.0675517, 0.0803322,
             0.194324, 0.481255, 0.00658332, 0.246207, 0.0219087, 0.158527, 0.018173, 0.281022, 0.508714,
             0.0287672, 0.677162, 0.242504, 0.495153, 0.216918, 0.245249, 0.455043, 0.204309, 0.0475366,

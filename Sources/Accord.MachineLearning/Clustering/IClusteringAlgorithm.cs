@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -22,6 +22,7 @@
 
 namespace Accord.MachineLearning
 {
+    using System;
     using System.Collections;
     using System.Collections.Generic;
 
@@ -36,7 +37,9 @@ namespace Accord.MachineLearning
     /// <seealso cref="BinarySplit"/>
     /// <seealso cref="GaussianMixtureModel"/>
     /// 
+    [Obsolete("This class will be removed")]
     public interface IClusteringAlgorithm<TData>
+        : IUnsupervisedLearning<IClusterCollection<TData>, TData, int>
     {
         /// <summary>
         ///   Divides the input data into a number of clusters. 
@@ -48,6 +51,7 @@ namespace Accord.MachineLearning
         ///   The labellings for the input data.
         /// </returns>
         /// 
+        [Obsolete("Please use Learn(inputs) instead.")]
         int[] Compute(TData[] points);
 
         /// <summary>
@@ -69,6 +73,7 @@ namespace Accord.MachineLearning
     /// <seealso cref="BinarySplit"/>
     /// <seealso cref="GaussianMixtureModel"/>
     /// 
+    [Obsolete("This class will be removed")]
     public interface IClusteringAlgorithm<TData, TWeights>
         : IClusteringAlgorithm<TData>
     {
@@ -83,7 +88,9 @@ namespace Accord.MachineLearning
         ///   The labellings for the input data.
         /// </returns>
         /// 
+        [Obsolete("Please use Learn(inputs) instead.")]
         int[] Compute(TData[] points, TWeights[] weights);
+
     }
 
     /// <summary>
@@ -92,24 +99,14 @@ namespace Accord.MachineLearning
     /// 
     /// <typeparam name="TData">The type of the data being clustered, such as <see cref="T:double[]"/>.</typeparam>
     /// 
-    public interface IClusterCollection<in TData> : IEnumerable
+    [Obsolete("Please use IClusterCollectionEx")]
+    public interface IClusterCollection<TData> : IEnumerable, IMulticlassClassifier<TData, int>
     {
         /// <summary>
         ///   Gets the number of clusters in the collection.
         /// </summary>
         /// 
         int Count { get; }
-
-        /// <summary>
-        ///   Returns the closest cluster to an input point.
-        /// </summary>
-        /// 
-        /// <param name="point">The input vector.</param>
-        /// <returns>
-        ///   The index of the nearest cluster
-        ///   to the given data point. </returns>
-        ///   
-        int Nearest(TData point);
     }
 
     /// <summary>
@@ -119,6 +116,7 @@ namespace Accord.MachineLearning
     /// <typeparam name="TData">The type of the data being clustered, such as <see cref="T:double[]"/>.</typeparam>
     /// <typeparam name="TCluster">The type of the clusters considered by a clustering algorithm.</typeparam>
     /// 
+    [Obsolete("Please use IClusterCollectionEx")]
     public interface IClusterCollection<TData,
 #if !NET35
  out

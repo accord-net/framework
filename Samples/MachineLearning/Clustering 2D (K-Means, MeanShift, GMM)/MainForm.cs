@@ -1,7 +1,7 @@
 ﻿// Accord.NET Sample Applications
 // http://accord-framework.net
 //
-// Copyright © 2009-2014, César Souza
+// Copyright © 2009-2017, César Souza
 // All rights reserved. 3-BSD License:
 //
 //   Redistribution and use in source and binary forms, with or without
@@ -37,7 +37,10 @@ using Accord.MachineLearning;
 using Accord.MachineLearning.VectorMachines;
 using Accord.MachineLearning.VectorMachines.Learning;
 using Accord.Math;
+using Accord.Math.Distances;
+using Accord.Statistics;
 using Accord.Statistics.Analysis;
+using Accord.Statistics.Distributions.Fitting;
 using Accord.Statistics.Kernels;
 using AForge;
 using System;
@@ -48,6 +51,10 @@ using System.IO;
 using System.Windows.Forms;
 using ZedGraph;
 
+using TClustering = Accord.MachineLearning.IMulticlassClassifier<double[], int>;
+using TLearning = Accord.MachineLearning.IUnsupervisedLearning<
+    Accord.MachineLearning.IMulticlassClassifier<double[], int>, double[], int>;
+
 namespace SampleApp
 {
     /// <summary>
@@ -57,7 +64,8 @@ namespace SampleApp
     public partial class MainForm : Form
     {
 
-        IClusteringAlgorithm<double[]> clustering;
+        TLearning learning;
+        TClustering clustering;
 
         string[] columnNames; // stores the column names for the loaded data
 
@@ -97,29 +105,23 @@ namespace SampleApp
             double[,] table = (dgvLearningSource.DataSource as DataTable).ToMatrix(out columnNames);
 
             // Get only the input vector values (first two columns)
-            double[][] inputs = table.GetColumns(0, 1).ToArray();
-
-            // Get only the output labels (last column)
-            int[] outputs = table.GetColumn(2).ToInt32();
-
-
-            // Create the specified Kernel
-            clustering = createClustering();
+            double[][] inputs = table.GetColumns(0, 1).ToJagged();
 
 
             try
             {
-                // Run
-                clustering.Compute(inputs);
+                // Create and run the specified algorithm
+                this.learning = createClustering(inputs);
+
+                this.clustering = this.learning.Learn(inputs);
 
                 lbStatus.Text = "Training complete!";
             }
             catch (ConvergenceException)
             {
-                lbStatus.Text = "Convergence could not be attained. "+
+                lbStatus.Text = "Convergence could not be attained. " +
                     "The learned clustering might still be usable.";
             }
-
 
             createSurface(table);
         }
@@ -135,10 +137,10 @@ namespace SampleApp
                 Vector.Interval(ranges[1], 0.05));
 
             // Classify each point in the Cartesian coordinate system
-            double[] result = map.Apply(clustering.Clusters.Nearest).ToDouble();
+            double[] result = clustering.Decide(map).ToDouble();
             double[,] surface = map.ToMatrix().InsertColumn(result);
 
-            CreateScatterplot(zedGraphControl2, surface);
+            scatterplotView3.DataSource = surface;
         }
 
 
@@ -154,57 +156,79 @@ namespace SampleApp
                 return;
             }
 
-
             // Creates a matrix from the source data table
             double[,] table = (dgvTestingSource.DataSource as DataTable).ToMatrix();
 
-
             // Extract the first and second columns (X and Y)
-            double[][] inputs = table.GetColumns(0, 1).ToArray();
+            double[][] inputs = table.GetColumns(0, 1).ToJagged();
 
             // Extract the expected output labels
-            int[] expected = table.GetColumn(2).ToInt32();
+            int[] expected = table.GetColumn(2).ToZeroOne();
+            int[] output;
 
-
-            int[] output = new int[expected.Length];
-
-            // Compute the actual machine outputs
-            for (int i = 0; i < expected.Length; i++)
-                output[i] = clustering.Clusters.Nearest(inputs[i]);
-
-
+            // Compute cluster decisions for each point
+            if (this.learning is BalancedKMeans)
+            {
+                output = (learning as BalancedKMeans).Labels;
+            }
+            else
+            {
+                output = clustering.Decide(inputs);
+            }
 
             // Use confusion matrix to compute some performance metrics
-            ConfusionMatrix confusionMatrix = new ConfusionMatrix(output, expected, 1, -1);
-            dgvPerformance.DataSource = new [] { confusionMatrix };
-
+            var confusionMatrix = new ConfusionMatrix(output, expected, 1, 0);
+            dgvPerformance.DataSource = new[] { confusionMatrix };
 
             // Create performance scatter plot
-            CreateResultScatterplot(zedGraphControl1, inputs, expected.ToDouble(), output.ToDouble());
+            scatterplotView2.DataSource = inputs.InsertColumn(output);
         }
 
 
 
-       
+
         /// <summary>
         ///   Creates the clustering algorithm.
         /// </summary>
         /// 
-        private IClusteringAlgorithm<double[]> createClustering()
+        private TLearning createClustering(double[][] data)
         {
             if (rbKMeans.Checked)
+            {
+                if (cbBalanced.Checked)
+                {
+                    return new BalancedKMeans((int)numKMeans.Value)
+                    {
+                        MaxIterations = 1000,
+                    };
+                }
+
                 return new KMeans((int)numKMeans.Value);
+            }
+
 
             if (rbMeanShift.Checked)
             {
                 var kernel = new Accord.Statistics.Distributions.DensityKernels.GaussianKernel(2);
-                return new MeanShift(2, kernel, (double)numRadius.Value);
+                return new MeanShift()
+                {
+                    Kernel = kernel,
+                    Bandwidth = (double)numRadius.Value
+                };
             }
 
             if (rbGMM.Checked)
-                return new GaussianMixtureModel((int)numGaussians.Value);
+            {
+                return new GaussianMixtureModel((int)numGaussians.Value)
+                {
+                    Options = new NormalOptions()
+                    {
+                        Regularization = 1e-10
+                    }
+                };
+            }
 
-            throw new Exception();
+            throw new InvalidOperationException("Invalid options");
         }
 
 
@@ -217,8 +241,8 @@ namespace SampleApp
                 string extension = Path.GetExtension(filename);
                 if (extension == ".xls" || extension == ".xlsx")
                 {
-                    ExcelReader db = new ExcelReader(filename, true, false);
-                    TableSelectDialog t = new TableSelectDialog(db.GetWorksheetList());
+                    var db = new ExcelReader(filename, true, false);
+                    var t = new TableSelectDialog(db.GetWorksheetList());
 
                     if (t.ShowDialog(this) == DialogResult.OK)
                     {
@@ -236,8 +260,7 @@ namespace SampleApp
                             this.dgvLearningSource.DataSource = tableSource;
                             this.dgvTestingSource.DataSource = tableSource.Copy();
 
-
-                            CreateScatterplot(graphInput, sourceMatrix);
+                            scatterplotView1.DataSource = sourceMatrix;
                         }
                     }
                 }
@@ -246,122 +269,6 @@ namespace SampleApp
             lbStatus.Text = "Switch to the Machine Creation tab to create a learning machine!";
         }
 
-
-
-
-
-        #region Scatter plot and Graph creation
-        public void CreateScatterplot(ZedGraphControl zgc, double[,] graph)
-        {
-            GraphPane myPane = zgc.GraphPane;
-            myPane.CurveList.Clear();
-
-            // Set the titles
-            myPane.Title.IsVisible = false;
-            myPane.XAxis.Title.Text = columnNames[0];
-            myPane.YAxis.Title.Text = columnNames[1];
-
-
-            // Classification problem
-            var lists = new Dictionary<double, PointPairList>();
-            var unique = graph.GetColumn(2).Distinct();
-            foreach (var u in unique)
-                lists[u] = new PointPairList();
-
-            for (int i = 0; i < graph.GetLength(0); i++)
-                lists[graph[i, 2]].Add(graph[i, 0], graph[i, 1]);
-
-            var seq = new ColorSequenceCollection();
-
-            // Add the curve
-            for (int i = 0; i < unique.Length; i++)
-            {
-                var color = seq.GetColor(i);
-                LineItem myCurve = myPane.AddCurve("G" + i, 
-                    lists[unique[i]],  color, 
-                    SymbolType.Diamond);
-                myCurve.Line.IsVisible = false;
-                myCurve.Symbol.Border.IsVisible = false;
-                myCurve.Symbol.Fill = new Fill(color);
-            }
-
-            // Fill the background of the chart rect and pane
-            //myPane.Chart.Fill = new Fill(Color.White, Color.LightGoldenrodYellow, 45.0f);
-            //myPane.Fill = new Fill(Color.White, Color.SlateGray, 45.0f);
-            myPane.Fill = new Fill(Color.WhiteSmoke);
-
-            zgc.AxisChange();
-            zgc.Invalidate();
-        }
-
-
-        public void CreateResultScatterplot(ZedGraphControl zgc, double[][] inputs, double[] expected, double[] output)
-        {
-            GraphPane myPane = zgc.GraphPane;
-            myPane.CurveList.Clear();
-
-            // Set the titles
-            myPane.Title.IsVisible = false;
-            myPane.XAxis.Title.Text = columnNames[0];
-            myPane.YAxis.Title.Text = columnNames[1];
-
-
-
-            // Classification problem
-            PointPairList list1 = new PointPairList(); // Z = -1, OK
-            PointPairList list2 = new PointPairList(); // Z = +1, OK
-            PointPairList list3 = new PointPairList(); // Z = -1, Error
-            PointPairList list4 = new PointPairList(); // Z = +1, Error
-            for (int i = 0; i < output.Length; i++)
-            {
-                if (output[i] == -1)
-                {
-                    if (expected[i] == -1)
-                        list1.Add(inputs[i][0], inputs[i][1]);
-                    if (expected[i] == 1)
-                        list3.Add(inputs[i][0], inputs[i][1]);
-                }
-                else
-                {
-                    if (expected[i] == -1)
-                        list4.Add(inputs[i][0], inputs[i][1]);
-                    if (expected[i] == 1)
-                        list2.Add(inputs[i][0], inputs[i][1]);
-                }
-            }
-
-            // Add the curve
-            LineItem
-            myCurve = myPane.AddCurve("G1 Hits", list1, Color.Blue, SymbolType.Diamond);
-            myCurve.Line.IsVisible = false;
-            myCurve.Symbol.Border.IsVisible = false;
-            myCurve.Symbol.Fill = new Fill(Color.Blue);
-
-            myCurve = myPane.AddCurve("G2 Hits", list2, Color.Green, SymbolType.Diamond);
-            myCurve.Line.IsVisible = false;
-            myCurve.Symbol.Border.IsVisible = false;
-            myCurve.Symbol.Fill = new Fill(Color.Green);
-
-            myCurve = myPane.AddCurve("G1 Miss", list3, Color.Blue, SymbolType.Plus);
-            myCurve.Line.IsVisible = false;
-            myCurve.Symbol.Border.IsVisible = true;
-            myCurve.Symbol.Fill = new Fill(Color.Blue);
-
-            myCurve = myPane.AddCurve("G2 Miss", list4, Color.Green, SymbolType.Plus);
-            myCurve.Line.IsVisible = false;
-            myCurve.Symbol.Border.IsVisible = true;
-            myCurve.Symbol.Fill = new Fill(Color.Green);
-
-
-            // Fill the background of the chart rect and pane
-            //myPane.Chart.Fill = new Fill(Color.White, Color.LightGoldenrodYellow, 45.0f);
-            //myPane.Fill = new Fill(Color.White, Color.SlateGray, 45.0f);
-            myPane.Fill = new Fill(Color.WhiteSmoke);
-
-            zgc.AxisChange();
-            zgc.Invalidate();
-        }
-        #endregion
 
 
         private void toolStripMenuItem5_Click(object sender, EventArgs e)
@@ -375,6 +282,11 @@ namespace SampleApp
         }
 
         private void numPolyConstant_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void groupBox3_Enter(object sender, EventArgs e)
         {
 
         }

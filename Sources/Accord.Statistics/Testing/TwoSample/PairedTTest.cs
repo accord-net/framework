@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -24,7 +24,7 @@ namespace Accord.Statistics.Testing
 {
     using System;
     using Accord.Statistics.Distributions.Univariate;
-    using AForge;
+    using Accord.Compat;
 
     /// <summary>
     ///   T-Test for two paired samples.

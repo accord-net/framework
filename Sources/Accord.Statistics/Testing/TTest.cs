@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -25,7 +25,8 @@ namespace Accord.Statistics.Testing
     using System;
     using Accord.Statistics.Distributions.Univariate;
     using Accord.Statistics.Testing.Power;
-    using AForge;
+    using System.Diagnostics;
+    using Accord.Compat;
 
     /// <summary>
     ///   One-sample Student's T test.
@@ -182,6 +183,8 @@ namespace Accord.Statistics.Testing
         public TTest(double statistic, double degreesOfFreedom,
             OneSampleHypothesis hypothesis = OneSampleHypothesis.ValueIsDifferentFromHypothesis)
         {
+            this.StandardError = 1;
+
             Compute(statistic, degreesOfFreedom, hypothesis);
         }
 
@@ -345,6 +348,13 @@ namespace Accord.Statistics.Testing
         /// 
         public override double StatisticToPValue(double x)
         {
+            if (StandardError == 0)
+            {
+                Trace.TraceWarning("Standard error is zero. This test is not applicable in this case as the samples do " +
+                    "not come from a normal distribution. One way to overcome this problem may be to increase the number of samples in your experiment.");
+                return Double.NaN;
+            }
+
             return StatisticToPValue(x, StatisticDistribution, Tail);
         }
 

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -24,6 +24,7 @@ namespace Accord.Tests.Statistics.Models.Fields
 {
     using Accord.Math;
     using Accord.Math.Differentiation;
+    using Accord.Math.Optimization.Losses;
     using Accord.Statistics.Distributions.Fitting;
     using Accord.Statistics.Distributions.Multivariate;
     using Accord.Statistics.Distributions.Univariate;
@@ -90,7 +91,7 @@ namespace Accord.Tests.Statistics.Models.Fields
             // Train the sequence classifier using the algorithm
             double logLikelihood = teacher.Run(sequences, labels);
 
-            Assert.AreEqual(-13.271981026832929d, logLikelihood);
+            Assert.AreEqual(-13.271981026832929d, logLikelihood, 1e-10);
 
             return classifier;
         }
@@ -153,6 +154,65 @@ namespace Accord.Tests.Statistics.Models.Fields
 
             return classifier;
         }
+
+        public static HiddenMarkovClassifier<Independent, double[]> CreateModel2_learn(out double[][][] sequences, out int[] labels)
+        {
+            sequences = new double[][][]
+            {
+                new double[][] 
+                { 
+                    // This is the first  sequence with label = 0
+                    new double[] { 0, 1.1 },
+                    new double[] { 1, 2.5 },
+                    new double[] { 1, 3.4 },
+                    new double[] { 1, 4.7 },
+                    new double[] { 2, 5.8 },
+                }, 
+
+                new double[][]
+                {
+                        // This is the second sequence with label = 1
+                    new double[] { 2,  3.2 },
+                    new double[] { 2,  2.6 },
+                    new double[] { 1,  1.2 },
+                    new double[] { 1,  0.8 },
+                    new double[] { 0,  1.1 },
+                }
+            };
+
+            labels = new[] { 0, 1 };
+
+            // Create a Continuous density Hidden Markov Model Sequence Classifier
+            // to detect a multivariate sequence and the same sequence backwards.
+            var comp1 = new GeneralDiscreteDistribution(3);
+            var comp2 = new NormalDistribution(1);
+            var density = new Independent(comp1, comp2);
+
+            // Creates a sequence classifier containing 2 hidden Markov Models with 2 states
+            // and an underlying multivariate mixture of Normal distributions as density.
+            var classifier = new HiddenMarkovClassifier<Independent, double[]>(
+                2, new Ergodic(2), density);
+
+            // Configure the learning algorithms to train the sequence classifier
+            var teacher = new HiddenMarkovClassifierLearning<Independent, double[]>(classifier)
+            {
+
+                // Train each model until the log-likelihood changes less than 0.0001
+                Learner = modelIndex => new BaumWelchLearning<Independent, double[]>(classifier.Models[modelIndex])
+                {
+                    Tolerance = 0.0001,
+                    Iterations = 0,
+                }
+            };
+
+            // Train the sequence classifier using the algorithm
+            //double logLikelihood = teacher.Run(sequences, labels);
+            var model = teacher.Learn(sequences, labels);
+            Assert.AreSame(model, classifier);
+
+            return classifier;
+        }
+
 
         public static HiddenMarkovClassifier<Independent> CreateModel3(out double[][][] sequences2, out int[] labels2)
         {
@@ -254,7 +314,7 @@ namespace Accord.Tests.Statistics.Models.Fields
             // Train the sequence classifier using the algorithm
             double logLikelihood = teacher.Run(sequences2, labels2);
 
-            Assert.AreEqual(-3.0493028798326081d, logLikelihood);
+            Assert.AreEqual(-3.0493028798326081d, logLikelihood, 1e-10);
 
             return classifier;
         }
@@ -443,6 +503,59 @@ namespace Accord.Tests.Statistics.Models.Fields
                 Assert.IsFalse(double.IsNaN(actual));
             }
         }
+
+        [Test]
+        public void learn_test()
+        {
+            double[][][] sequences;
+            int[] labels;
+            HiddenMarkovClassifier<Independent, double[]> model = 
+                CreateModel2_learn(out sequences, out labels);
+
+            var target = new MarkovMultivariateFunction(model);
+            var hcrf = new HiddenConditionalRandomField<double[]>(target);
+
+
+            double actual;
+            double expected;
+
+            double[][] x = { new double[] { 0, 1.7 }, new double[] { 2, 2.1 } };
+
+            for (int c = 0; c < model.Classes; c++)
+            {
+                for (int i = 0; i < model[c].States; i++)
+                {
+                    // Check initial state transitions
+                    expected = model.Priors[c] * Math.Exp(model[c].LogInitial[i]) * model[c].Emissions[i].ProbabilityDensityFunction(x[0]);
+                    actual = Math.Exp(target.Factors[c].Compute(-1, i, x, 0, c));
+                    Assert.AreEqual(expected, actual, 1e-6);
+                    Assert.IsFalse(double.IsNaN(actual));
+                }
+
+                for (int t = 1; t < x.Length; t++)
+                {
+                    // Check normal state transitions
+                    for (int i = 0; i < model[c].States; i++)
+                    {
+                        for (int j = 0; j < model[c].States; j++)
+                        {
+                            double xb = Math.Exp(model[c].LogTransitions[i][j]);
+                            double xc = model[c].Emissions[j].ProbabilityDensityFunction(x[t]);
+                            expected = xb * xc;
+                            actual = Math.Exp(target.Factors[c].Compute(i, j, x, t, c));
+                            Assert.AreEqual(expected, actual, 1e-6);
+                            Assert.IsFalse(double.IsNaN(actual));
+                        }
+                    }
+                }
+
+                actual = model.LogLikelihood(x, c);
+                expected = hcrf.LogLikelihood(x, c);
+                Assert.AreEqual(expected, actual, 1e-8);
+                Assert.IsFalse(double.IsNaN(actual));
+            }
+        }
+
 
         [Test]
         public void ComputeTest3()

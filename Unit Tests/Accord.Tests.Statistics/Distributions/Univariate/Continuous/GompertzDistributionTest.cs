@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -29,22 +29,6 @@ namespace Accord.Tests.Statistics
     [TestFixture]
     public class GompertzDistributionTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
 
         [Test]
         public void ConstructorTest()
@@ -90,6 +74,12 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.67295877422837591, range2.Max, 1e-6);
             Assert.AreEqual(0.0021727987201762976, range3.Min, 1e-6);
             Assert.AreEqual(0.67295877422837591, range3.Max, 1e-6);
+
+            Assert.AreEqual(0, gompertz.Support.Min);
+            Assert.AreEqual(double.PositiveInfinity, gompertz.Support.Max);
+
+            Assert.AreEqual(gompertz.InverseDistributionFunction(0), gompertz.Support.Min);
+            Assert.AreEqual(gompertz.InverseDistributionFunction(1), gompertz.Support.Max);
         }
 
         [Test]

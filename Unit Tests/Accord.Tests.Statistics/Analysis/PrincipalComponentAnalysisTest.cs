@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -27,13 +27,16 @@ namespace Accord.Tests.Statistics
     using NUnit.Framework;
     using Accord.Math;
     using System;
+    using Accord.Statistics.Models.Regression.Linear;
+    using System.IO;
+    using IO;
 
     [TestFixture]
     public class PrincipalComponentAnalysisTest
     {
 
         // Lindsay's tutorial data
-        private static double[,] data = 
+        private static double[,] data =
         {
             { 2.5,  2.4 },
             { 0.5,  0.7 },
@@ -57,7 +60,7 @@ namespace Accord.Tests.Statistics
             // Step 1. Get some data
             // ---------------------
 
-            double[,] data = 
+            double[,] data =
             {
                 { 2.5,  2.4 },
                 { 0.5,  0.7 },
@@ -167,6 +170,7 @@ namespace Accord.Tests.Statistics
         [Test]
         public void learn_success()
         {
+            #region doc_learn_2
             // Reproducing Lindsay Smith's "Tutorial on Principal Component Analysis"
             // using the framework's default method. The tutorial can be found online
             // at http://www.sccg.sk/~haladova/principal_components.pdf
@@ -174,18 +178,18 @@ namespace Accord.Tests.Statistics
             // Step 1. Get some data
             // ---------------------
 
-            double[,] data = 
+            double[][] data =
             {
-                { 2.5,  2.4 },
-                { 0.5,  0.7 },
-                { 2.2,  2.9 },
-                { 1.9,  2.2 },
-                { 3.1,  3.0 },
-                { 2.3,  2.7 },
-                { 2.0,  1.6 },
-                { 1.0,  1.1 },
-                { 1.5,  1.6 },
-                { 1.1,  0.9 }
+                new[] { 2.5,  2.4 },
+                new[] { 0.5,  0.7 },
+                new[] { 2.2,  2.9 },
+                new[] { 1.9,  2.2 },
+                new[] { 3.1,  3.0 },
+                new[] { 2.3,  2.7 },
+                new[] { 2.0,  1.6 },
+                new[] { 1.0,  1.1 },
+                new[] { 1.5,  1.6 },
+                new[] { 1.1,  0.9 }
             };
 
 
@@ -197,7 +201,8 @@ namespace Accord.Tests.Statistics
             //   (thus performing the correlation method) by specifying "Standardize"
             //   instead of "Center" as the AnalysisMethod.
 
-            var method = PrincipalComponentMethod.Center; // PrincipalComponentMethod.Standardize
+            var method = PrincipalComponentMethod.Center;
+            // var method = PrincipalComponentMethod.Standardize
 
 
             // Step 3. Compute the covariance matrix
@@ -260,7 +265,7 @@ namespace Accord.Tests.Statistics
             // Step 5. Deriving the new data set
             // ---------------------------------
 
-            double[,] actual = pca.Transform(data);
+            double[][] actual = pca.Transform(data);
 
             // transformedData shown in pg. 18
             double[,] expected = new double[,]
@@ -280,8 +285,11 @@ namespace Accord.Tests.Statistics
             // Everything is correct (up to 8 decimal places)
             Assert.IsTrue(expected.IsEqual(actual, atol: 1e-8));
 
+            // Let's say we would like to project down to one 
+            // principal component. It suffices to set:
             pca.NumberOfOutputs = 1;
 
+            // And then do the transform
             actual = pca.Transform(data);
 
             // transformedData shown in pg. 18
@@ -301,7 +309,7 @@ namespace Accord.Tests.Statistics
 
             // Everything is correct (up to 8 decimal places)
             Assert.IsTrue(expected.IsEqual(actual, atol: 1e-8));
-
+            #endregion
 
             // Create the analysis using the selected method
             pca = new PrincipalComponentAnalysis(method, numberOfOutputs: 1);
@@ -333,24 +341,50 @@ namespace Accord.Tests.Statistics
         [Test]
         public void learn_whiten_success()
         {
-            double[,] data = 
+            #region doc_learn_1
+            // Below is the same data used on the excellent paper "Tutorial
+            //   On Principal Component Analysis", by Lindsay Smith (2002).
+            double[][] data =
             {
-                { 2.5,  2.4 },
-                { 0.5,  0.7 },
-                { 2.2,  2.9 },
-                { 1.9,  2.2 },
-                { 3.1,  3.0 },
-                { 2.3,  2.7 },
-                { 2.0,  1.6 },
-                { 1.0,  1.1 },
-                { 1.5,  1.6 },
-                { 1.1,  0.9 }
+                new double[] { 2.5,  2.4 },
+                new double[] { 0.5,  0.7 },
+                new double[] { 2.2,  2.9 },
+                new double[] { 1.9,  2.2 },
+                new double[] { 3.1,  3.0 },
+                new double[] { 2.3,  2.7 },
+                new double[] { 2.0,  1.6 },
+                new double[] { 1.0,  1.1 },
+                new double[] { 1.5,  1.6 },
+                new double[] { 1.1,  0.9 }
             };
 
-            var method = PrincipalComponentMethod.Center; // PrincipalComponentMethod.Standardize
-            var pca = new PrincipalComponentAnalysis(method, whiten: true);
+            // Let's create an analysis with centering (covariance method)
+            // but no standardization (correlation method) and whitening:
+            var pca = new PrincipalComponentAnalysis()
+            {
+                Method = PrincipalComponentMethod.Center,
+                Whiten = true
+            };
 
-            pca.Learn(data);
+            // Now we can learn the linear projection from the data
+            MultivariateLinearRegression transform = pca.Learn(data);
+
+            // Finally, we can project all the data
+            double[][] output1 = pca.Transform(data);
+
+            // Or just its first components by setting 
+            // NumberOfOutputs to the desired components:
+            pca.NumberOfOutputs = 1;
+
+            // And then calling transform again:
+            double[][] output2 = pca.Transform(data);
+
+            // We can also limit to 80% of explained variance:
+            pca.ExplainedVariance = 0.8;
+
+            // And then call transform again:
+            double[][] output3 = pca.Transform(data);
+            #endregion
 
             double[] eigenvalues = { 1.28402771, 0.0490833989 };
             double[] proportion = eigenvalues.Divide(eigenvalues.Sum());
@@ -365,9 +399,10 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(proportion.IsEqual(pca.ComponentProportions, rtol: 1e-9));
             Assert.IsTrue(eigenvalues.IsEqual(pca.Eigenvalues, rtol: 1e-5));
 
-            double[,] actual = pca.Transform(data);
+            pca.ExplainedVariance = 1.0;
+            double[][] actual = pca.Transform(data);
 
-            double[][] expected = 
+            double[][] expected =
             {
                 new double[] {  0.243560157209023,  -0.263472650637184  },
                 new double[] { -0.522902576315494,   0.214938218565977  },
@@ -378,15 +413,85 @@ namespace Accord.Tests.Statistics
                 new double[] { -0.0291545644762578, -0.526334573603598  },
                 new double[] { -0.336693495487974,   0.0698378585807067 },
                 new double[] { -0.128858004446015,   0.0267280693333571 },
-                new double[] { -0.360005627922904,  -0.244755811482527  } 
+                new double[] { -0.360005627922904,  -0.244755811482527  }
             };
 
             // var str = actual.ToString(CSharpJaggedMatrixFormatProvider.InvariantCulture);
 
             // Everything is correct (up to 8 decimal places)
             Assert.IsTrue(expected.IsEqual(actual, atol: 1e-8));
+            Assert.IsTrue(expected.IsEqual(output1, atol: 1e-8));
+            Assert.IsTrue(expected.Get(null, 0, 1).IsEqual(output2, atol: 1e-8));
+            Assert.IsTrue(expected.Get(null, 0, 1).IsEqual(output3, atol: 1e-8));
+
+            actual = transform.Transform(data);
+            Assert.IsTrue(expected.IsEqual(actual, atol: 1e-8));
         }
 
+
+
+        [Test]
+        public void learn_standardize()
+        {
+            double[][] data =
+            {
+                new double[] { 2.5,  2.4 },
+                new double[] { 0.5,  0.7 },
+                new double[] { 2.2,  2.9 },
+                new double[] { 1.9,  2.2 },
+                new double[] { 3.1,  3.0 },
+                new double[] { 2.3,  2.7 },
+                new double[] { 2.0,  1.6 },
+                new double[] { 1.0,  1.1 },
+                new double[] { 1.5,  1.6 },
+                new double[] { 1.1,  0.9 }
+            };
+
+            var pca = new PrincipalComponentAnalysis()
+            {
+                Method = PrincipalComponentMethod.Standardize,
+                Whiten = false
+            };
+
+            MultivariateLinearRegression transform = pca.Learn(data);
+
+            double[][] output1 = pca.Transform(data);
+
+            double[] eigenvalues = { 1.925929272692245, 0.074070727307754519 };
+            double[] proportion = eigenvalues.Divide(eigenvalues.Sum());
+            double[,] eigenvectors =
+            {
+                { 0.70710678118654791, -0.70710678118654791 },
+                { 0.70710678118654791,  0.70710678118654791 }
+            };
+
+            Assert.IsTrue(eigenvectors.IsEqual(pca.ComponentMatrix, rtol: 1e-9));
+            Assert.IsTrue(proportion.IsEqual(pca.ComponentProportions, rtol: 1e-9));
+            Assert.IsTrue(eigenvalues.IsEqual(pca.Eigenvalues, rtol: 1e-5));
+
+            pca.ExplainedVariance = 1.0;
+            double[][] actual = pca.Transform(data);
+      //      var str = actual.ToCSharp();
+            double[][] expected =
+           {
+                new double[] { 1.03068028963519, -0.212053139513466 },
+                new double[] { -2.19045015647317, 0.168942295968493 },
+                new double[] { 1.17818776184333, 0.47577321493322 },
+                new double[] { 0.323294642065681, 0.161198977394117 },
+                new double[] { 2.07219946786664, -0.251171725759119 },
+                new double[] { 1.10117414355213, 0.218653302562498 },
+                new double[] { -0.0878525068874546, -0.430054465638535 },
+                new double[] { -1.40605089061245, 0.0528100914316325 },
+                new double[] { -0.538118242086245, 0.0202112695602547 },
+                new double[] { -1.48306450890365, -0.204309820939091 }
+            };
+
+            Assert.IsTrue(expected.IsEqual(actual, atol: 1e-8));
+            Assert.IsTrue(expected.IsEqual(output1, atol: 1e-8));
+
+            actual = transform.Transform(data);
+            Assert.IsTrue(expected.IsEqual(actual, atol: 1e-8));
+        }
 
 
         [Test]
@@ -399,7 +504,7 @@ namespace Accord.Tests.Statistics
             // Step 1. Get some data
             // ---------------------
 
-            double[,] data = 
+            double[,] data =
             {
                 { 2.5,  2.4 },
                 { 0.5,  0.7 },
@@ -560,25 +665,28 @@ namespace Accord.Tests.Statistics
         public void transform_more_columns_than_samples_new_interface()
         {
             // Lindsay's tutorial data
-            double[,] datat = data.Transpose();
+            var datat = data.Transpose().ToJagged();
 
             var target = new PrincipalComponentAnalysis();
 
             // Compute
-            target.Learn(datat);
+            var regression = target.Learn(datat);
 
             // Transform
-            double[,] actual = target.Transform(datat);
+            double[][] actual = target.Transform(datat);
 
             // Assert the scores equals the transformation of the input
             Assert.IsNull(target.Result);
 
-            double[,] expected = 
+            double[,] expected =
             {
                 {  0.50497524691810358, -0.00000000000000044408920985006262 },
                 { -0.504975246918104,   -0.00000000000000035735303605122226 }
             };
 
+            Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.01));
+
+            actual = target.Transform(datat);
             Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.01));
         }
 
@@ -677,9 +785,9 @@ namespace Accord.Tests.Statistics
         {
             double[] mean = Measures.Mean(data, dimension: 0);
             double[] stdDev = Measures.StandardDeviation(data);
-            double[,] cov = Measures.Correlation(data);
+            double[][] cov = Measures.Correlation(data.ToJagged());
 
-            var actual = PrincipalComponentAnalysis.FromCorrelationMatrix(mean, stdDev, cov);
+            var actual = PrincipalComponentAnalysis.FromCorrelationMatrix(mean, stdDev, cov.ToMatrix());
             var expected = new PrincipalComponentAnalysis(PrincipalComponentMethod.CorrelationMatrix)
             {
                 Means = mean,
@@ -688,12 +796,11 @@ namespace Accord.Tests.Statistics
 
             // Compute
             actual.Compute();
-            expected.Learn(cov);
+            var transform = expected.Learn(cov);
 
             // Transform
             double[,] actualTransform = actual.Transform(data);
             double[,] expectedTransform = expected.Transform(data);
-
 
             // Verify both are equal with 0.01 tolerance value
             Assert.IsTrue(Matrix.IsEqual(actualTransform, expectedTransform, 0.01));
@@ -703,25 +810,44 @@ namespace Accord.Tests.Statistics
             double[,] reverse = actual.Revert(image);
 
             // Verify both are equal with 0.01 tolerance value
-            Assert.IsTrue(Matrix.IsEqual(reverse, data, 0.01));
+            Assert.IsTrue(Matrix.IsEqual(reverse, data, 1e-6));
+
+            // Transform
+            double[][] image2 = transform.Transform(data.ToJagged());
+            double[][] reverse2 = transform.Inverse().Transform(image2);
+            Assert.IsTrue(Matrix.IsEqual(reverse, reverse2, 1e-6));
+            Assert.IsTrue(Matrix.IsEqual(reverse2, data, 1e-6));
+
+            // Transform
+            double[][] reverse3 = actual.Revert(image2);
+            Assert.IsTrue(Matrix.IsEqual(reverse, reverse3, 1e-6));
+            Assert.IsTrue(Matrix.IsEqual(reverse3, data, 1e-6));
+
+            var a = transform.Transform(data.ToJagged()).ToMatrix();
+            Assert.IsTrue(Matrix.IsEqual(a, expectedTransform, 0.01));
         }
 
         [Test]
         public void covariance_new_interface()
         {
             double[] mean = Measures.Mean(data, dimension: 0);
-            double[,] cov = Measures.Covariance(data);
+            double[][] cov = Measures.Covariance(data.ToJagged());
 
-            var target = new PrincipalComponentAnalysis(PrincipalComponentMethod.CovarianceMatrix)
+            #region doc_learn_3
+            // Create the Principal Component Analysis 
+            // specifying the CovarianceMatrix method:
+            var pca = new PrincipalComponentAnalysis()
             {
-                Means = mean
+                Method = PrincipalComponentMethod.CovarianceMatrix,
+                Means = mean // pass the original data mean vectors
             };
 
-            // Compute
-            target.Learn(cov);
+            // Learn the PCA projection using passing the cov matrix
+            MultivariateLinearRegression transform = pca.Learn(cov);
 
-            // Transform
-            double[,] actual = target.Transform(data);
+            // Now, we can transform data as usual
+            double[,] actual = pca.Transform(data);
+            #endregion
 
             double[,] expected = new double[,]
             {
@@ -741,13 +867,16 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(Matrix.IsEqual(actual, expected, 0.01));
 
             // Transform
-            double[,] image = target.Transform(data);
+            double[,] image = pca.Transform(data);
 
             // Reverse
-            double[,] reverse = target.Revert(image);
+            double[,] reverse = pca.Revert(image);
 
             // Verify both are equal with 0.01 tolerance value
-            Assert.IsTrue(Matrix.IsEqual(reverse, data, 0.01));
+            Assert.IsTrue(Matrix.IsEqual(reverse, data, 1e-5));
+
+            actual = transform.Transform(data.ToJagged()).ToMatrix();
+            Assert.IsTrue(Matrix.IsEqual(actual, expected, 1e-5));
         }
 
         [Test]
@@ -769,9 +898,34 @@ namespace Accord.Tests.Statistics
         }
 
         [Test]
+        public void Revert_new_method()
+        {
+            var target = new PrincipalComponentAnalysis();
+
+            // Compute
+            var transform = target.Learn(data.ToJagged());
+
+            // Transform
+            double[][] image = target.Transform(data.ToJagged());
+
+            // Reverse
+            double[][] actual = target.Revert(image);
+
+            // Verify both are equal with 0.01 tolerance value
+            Assert.IsTrue(Matrix.IsEqual(actual, data, 0.01));
+
+            // Reverse
+            double[][] actual2 = transform.Inverse().Transform(image);
+
+            // Verify both are equal with 0.01 tolerance value
+            Assert.IsTrue(Matrix.IsEqual(actual2, data, 0.01));
+            Assert.IsTrue(Matrix.IsEqual(actual2, actual, 1e-5));
+        }
+
+        [Test]
         public void ExceptionTest()
         {
-            double[,] data = 
+            double[,] data =
             {
                 { 1, 2 },
                 { 5, 2 },
@@ -791,9 +945,18 @@ namespace Accord.Tests.Statistics
                 thrown = true;
             }
 
-            // Assert that an appropriate exception has been
-            //   thrown in the case of a constant variable.
-            Assert.IsTrue(thrown);
+            // Default behavior changed: now an exception is not thrown anymore.
+            // Instead, a small constant is added when computing standard deviations.
+            Assert.IsFalse(thrown);
+
+            var str1 = pca.SingularValues.ToCSharp();
+            var str2 = pca.ComponentVectors.ToCSharp();
+
+            Assert.IsTrue(pca.SingularValues.IsEqual(new double[] { 1.73205080756888, 0 }, 1e-7));
+            Assert.IsTrue(pca.ComponentVectors.IsEqual(new double[][] {
+                new double[] { 1, 0 },
+                new double[] { 0, -1 }
+            }, 1e-7));
         }
 
         [Test]
@@ -860,5 +1023,51 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(Matrix.IsEqual(actual, expected, 0.01));
 
         }
+
+#if !NO_BINARY_SERIALIZATION
+        [Test]
+        [Category("Serialization")]
+        public void SerializeTest()
+        {
+            double[][] actual, expected = new double[][]
+            {
+                new double[] {  0.827970186, -0.175115307 },
+                new double[] { -1.77758033,   0.142857227 },
+                new double[] {  0.992197494,  0.384374989 },
+                new double[] {  0.274210416,  0.130417207 },
+                new double[] {  1.67580142,  -0.209498461 },
+                new double[] {  0.912949103,  0.175282444 },
+                new double[] { -0.099109437, -0.349824698 },
+                new double[] { -1.14457216,   0.046417258 },
+                new double[] { -0.438046137,  0.017764629 },
+                new double[] { -1.22382056,  -0.162675287 },
+            };
+
+
+
+            var target = new PrincipalComponentAnalysis();
+
+            target.Learn(data.ToJagged());
+
+            actual = target.Transform(data.ToJagged());
+            Assert.IsTrue(Matrix.IsEqual(actual, expected, 0.01));
+
+            var copy = Serializer.DeepClone(target);
+
+            actual = copy.Transform(data.ToJagged());
+            Assert.IsTrue(Matrix.IsEqual(actual, expected, 0.01));
+
+            Assert.IsTrue(target.ComponentProportions.IsEqual(copy.ComponentProportions));
+            Assert.IsTrue(target.ComponentVectors.IsEqual(copy.ComponentVectors));
+            Assert.IsTrue(target.CumulativeProportions.IsEqual(copy.CumulativeProportions));
+            Assert.IsTrue(target.Eigenvalues.IsEqual(copy.Eigenvalues));
+            Assert.IsTrue(target.MaximumNumberOfOutputs.IsEqual(copy.MaximumNumberOfOutputs));
+            Assert.IsTrue(target.Method.Equals(copy.Method));
+            Assert.IsTrue(target.NumberOfInputs.IsEqual(copy.NumberOfInputs));
+            Assert.IsTrue(target.NumberOfOutputs.IsEqual(copy.NumberOfOutputs));
+            Assert.IsTrue(target.Overwrite.Equals(copy.Overwrite));
+            Assert.IsTrue(target.Whiten.Equals(copy.Whiten));
+        }
+#endif
     }
 }

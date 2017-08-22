@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -51,11 +50,10 @@
             this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.dgvLearningSource = new System.Windows.Forms.DataGridView();
             this.groupBox15 = new System.Windows.Forms.GroupBox();
-            this.graphInput = new ZedGraph.ZedGraphControl();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.zedGraphControl2 = new ZedGraph.ZedGraphControl();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.cbBalanced = new System.Windows.Forms.CheckBox();
             this.btnSampleRunAnalysis = new System.Windows.Forms.Button();
             this.rbKMeans = new System.Windows.Forms.RadioButton();
             this.label7 = new System.Windows.Forms.Label();
@@ -72,7 +70,6 @@
             this.dgvTestingSource = new System.Windows.Forms.DataGridView();
             this.btnTestingRun = new System.Windows.Forms.Button();
             this.groupBox11 = new System.Windows.Forms.GroupBox();
-            this.zedGraphControl1 = new ZedGraph.ZedGraphControl();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.dgvPerformance = new System.Windows.Forms.DataGridView();
             this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -85,6 +82,9 @@
             this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.lbStatus = new System.Windows.Forms.ToolStripStatusLabel();
+            this.scatterplotView1 = new Accord.Controls.ScatterplotView();
+            this.scatterplotView2 = new Accord.Controls.ScatterplotView();
+            this.scatterplotView3 = new Accord.Controls.ScatterplotView();
             this.menuStrip1.SuspendLayout();
             this.tabControl.SuspendLayout();
             this.tabSamples.SuspendLayout();
@@ -258,7 +258,7 @@
             // 
             // groupBox15
             // 
-            this.groupBox15.Controls.Add(this.graphInput);
+            this.groupBox15.Controls.Add(this.scatterplotView1);
             this.groupBox15.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox15.Location = new System.Drawing.Point(0, 0);
             this.groupBox15.Margin = new System.Windows.Forms.Padding(4);
@@ -268,22 +268,6 @@
             this.groupBox15.TabIndex = 7;
             this.groupBox15.TabStop = false;
             this.groupBox15.Text = "Scatter Plot";
-            // 
-            // graphInput
-            // 
-            this.graphInput.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.graphInput.Location = new System.Drawing.Point(4, 23);
-            this.graphInput.Margin = new System.Windows.Forms.Padding(6, 8, 6, 8);
-            this.graphInput.Name = "graphInput";
-            this.graphInput.ScrollGrace = 0D;
-            this.graphInput.ScrollMaxX = 0D;
-            this.graphInput.ScrollMaxY = 0D;
-            this.graphInput.ScrollMaxY2 = 0D;
-            this.graphInput.ScrollMinX = 0D;
-            this.graphInput.ScrollMinY = 0D;
-            this.graphInput.ScrollMinY2 = 0D;
-            this.graphInput.Size = new System.Drawing.Size(879, 693);
-            this.graphInput.TabIndex = 4;
             // 
             // tabPage2
             // 
@@ -300,7 +284,7 @@
             // 
             // groupBox4
             // 
-            this.groupBox4.Controls.Add(this.zedGraphControl2);
+            this.groupBox4.Controls.Add(this.scatterplotView3);
             this.groupBox4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox4.Location = new System.Drawing.Point(402, 4);
             this.groupBox4.Margin = new System.Windows.Forms.Padding(4);
@@ -311,24 +295,9 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Visualization";
             // 
-            // zedGraphControl2
-            // 
-            this.zedGraphControl2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.zedGraphControl2.Location = new System.Drawing.Point(4, 23);
-            this.zedGraphControl2.Margin = new System.Windows.Forms.Padding(6, 8, 6, 8);
-            this.zedGraphControl2.Name = "zedGraphControl2";
-            this.zedGraphControl2.ScrollGrace = 0D;
-            this.zedGraphControl2.ScrollMaxX = 0D;
-            this.zedGraphControl2.ScrollMaxY = 0D;
-            this.zedGraphControl2.ScrollMaxY2 = 0D;
-            this.zedGraphControl2.ScrollMinX = 0D;
-            this.zedGraphControl2.ScrollMinY = 0D;
-            this.zedGraphControl2.ScrollMinY2 = 0D;
-            this.zedGraphControl2.Size = new System.Drawing.Size(836, 693);
-            this.zedGraphControl2.TabIndex = 3;
-            // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.cbBalanced);
             this.groupBox3.Controls.Add(this.btnSampleRunAnalysis);
             this.groupBox3.Controls.Add(this.rbKMeans);
             this.groupBox3.Controls.Add(this.label7);
@@ -348,6 +317,17 @@
             this.groupBox3.TabIndex = 8;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Settings";
+            this.groupBox3.Enter += new System.EventHandler(this.groupBox3_Enter);
+            // 
+            // cbBalanced
+            // 
+            this.cbBalanced.AutoSize = true;
+            this.cbBalanced.Location = new System.Drawing.Point(66, 101);
+            this.cbBalanced.Name = "cbBalanced";
+            this.cbBalanced.Size = new System.Drawing.Size(102, 24);
+            this.cbBalanced.TabIndex = 8;
+            this.cbBalanced.Text = "Balanced";
+            this.cbBalanced.UseVisualStyleBackColor = true;
             // 
             // btnSampleRunAnalysis
             // 
@@ -379,7 +359,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(68, 237);
+            this.label7.Location = new System.Drawing.Point(68, 276);
             this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(85, 20);
@@ -400,7 +380,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Enabled = false;
-            this.label4.Location = new System.Drawing.Point(58, 152);
+            this.label4.Location = new System.Drawing.Point(58, 191);
             this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(59, 20);
@@ -418,7 +398,7 @@
             0,
             0,
             65536});
-            this.numRadius.Location = new System.Drawing.Point(161, 149);
+            this.numRadius.Location = new System.Drawing.Point(161, 188);
             this.numRadius.Margin = new System.Windows.Forms.Padding(4);
             this.numRadius.Name = "numRadius";
             this.numRadius.Size = new System.Drawing.Size(141, 26);
@@ -433,7 +413,7 @@
             // rbGMM
             // 
             this.rbGMM.AutoSize = true;
-            this.rbGMM.Location = new System.Drawing.Point(28, 204);
+            this.rbGMM.Location = new System.Drawing.Point(28, 243);
             this.rbGMM.Margin = new System.Windows.Forms.Padding(4);
             this.rbGMM.Name = "rbGMM";
             this.rbGMM.Size = new System.Drawing.Size(157, 24);
@@ -446,7 +426,7 @@
             // 
             this.rbMeanShift.AutoSize = true;
             this.rbMeanShift.Enabled = false;
-            this.rbMeanShift.Location = new System.Drawing.Point(28, 114);
+            this.rbMeanShift.Location = new System.Drawing.Point(28, 153);
             this.rbMeanShift.Margin = new System.Windows.Forms.Padding(4);
             this.rbMeanShift.Name = "rbMeanShift";
             this.rbMeanShift.Size = new System.Drawing.Size(112, 24);
@@ -459,7 +439,7 @@
             // 
             this.numGaussians.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.numGaussians.Location = new System.Drawing.Point(161, 235);
+            this.numGaussians.Location = new System.Drawing.Point(161, 274);
             this.numGaussians.Margin = new System.Windows.Forms.Padding(4);
             this.numGaussians.Maximum = new decimal(new int[] {
             1000,
@@ -593,7 +573,7 @@
             // 
             // groupBox11
             // 
-            this.groupBox11.Controls.Add(this.zedGraphControl1);
+            this.groupBox11.Controls.Add(this.scatterplotView2);
             this.groupBox11.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox11.Location = new System.Drawing.Point(0, 0);
             this.groupBox11.Margin = new System.Windows.Forms.Padding(4);
@@ -603,22 +583,6 @@
             this.groupBox11.TabIndex = 4;
             this.groupBox11.TabStop = false;
             this.groupBox11.Text = "Visualization";
-            // 
-            // zedGraphControl1
-            // 
-            this.zedGraphControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.zedGraphControl1.Location = new System.Drawing.Point(4, 23);
-            this.zedGraphControl1.Margin = new System.Windows.Forms.Padding(6, 8, 6, 8);
-            this.zedGraphControl1.Name = "zedGraphControl1";
-            this.zedGraphControl1.ScrollGrace = 0D;
-            this.zedGraphControl1.ScrollMaxX = 0D;
-            this.zedGraphControl1.ScrollMaxY = 0D;
-            this.zedGraphControl1.ScrollMaxY2 = 0D;
-            this.zedGraphControl1.ScrollMinX = 0D;
-            this.zedGraphControl1.ScrollMinY = 0D;
-            this.zedGraphControl1.ScrollMinY2 = 0D;
-            this.zedGraphControl1.Size = new System.Drawing.Size(833, 583);
-            this.zedGraphControl1.TabIndex = 3;
             // 
             // groupBox6
             // 
@@ -752,6 +716,42 @@
             this.lbStatus.Size = new System.Drawing.Size(248, 25);
             this.lbStatus.Text = "Click on File > Open to begin!";
             // 
+            // scatterplotView1
+            // 
+            this.scatterplotView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.scatterplotView1.LinesVisible = false;
+            this.scatterplotView1.Location = new System.Drawing.Point(4, 23);
+            this.scatterplotView1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.scatterplotView1.Name = "scatterplotView1";
+            this.scatterplotView1.ScaleTight = false;
+            this.scatterplotView1.Size = new System.Drawing.Size(879, 693);
+            this.scatterplotView1.SymbolSize = 7F;
+            this.scatterplotView1.TabIndex = 0;
+            // 
+            // scatterplotView2
+            // 
+            this.scatterplotView2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.scatterplotView2.LinesVisible = false;
+            this.scatterplotView2.Location = new System.Drawing.Point(4, 23);
+            this.scatterplotView2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.scatterplotView2.Name = "scatterplotView2";
+            this.scatterplotView2.ScaleTight = false;
+            this.scatterplotView2.Size = new System.Drawing.Size(833, 583);
+            this.scatterplotView2.SymbolSize = 7F;
+            this.scatterplotView2.TabIndex = 0;
+            // 
+            // scatterplotView3
+            // 
+            this.scatterplotView3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.scatterplotView3.LinesVisible = false;
+            this.scatterplotView3.Location = new System.Drawing.Point(4, 23);
+            this.scatterplotView3.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.scatterplotView3.Name = "scatterplotView3";
+            this.scatterplotView3.ScaleTight = false;
+            this.scatterplotView3.Size = new System.Drawing.Size(836, 693);
+            this.scatterplotView3.SymbolSize = 7F;
+            this.scatterplotView3.TabIndex = 0;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(144F, 144F);
@@ -821,7 +821,6 @@
         private System.Windows.Forms.GroupBox groupBox7;
         private System.Windows.Forms.DataGridView dgvLearningSource;
         private System.Windows.Forms.GroupBox groupBox15;
-        private ZedGraph.ZedGraphControl graphInput;
         private System.Windows.Forms.Button btnSampleRunAnalysis;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.RadioButton rbKMeans;
@@ -833,10 +832,8 @@
         private System.Windows.Forms.GroupBox groupBox6;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.GroupBox groupBox11;
-        private ZedGraph.ZedGraphControl zedGraphControl1;
         private System.Windows.Forms.DataGridView dgvPerformance;
         private System.Windows.Forms.GroupBox groupBox4;
-        private ZedGraph.ZedGraphControl zedGraphControl2;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.RadioButton rbGMM;
         private System.Windows.Forms.NumericUpDown numGaussians;
@@ -850,6 +847,10 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column8;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column10;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column9;
+        private System.Windows.Forms.CheckBox cbBalanced;
+        private Accord.Controls.ScatterplotView scatterplotView1;
+        private Accord.Controls.ScatterplotView scatterplotView2;
+        private Accord.Controls.ScatterplotView scatterplotView3;
     }
 }
 

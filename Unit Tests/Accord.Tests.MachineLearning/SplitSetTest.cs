@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -31,28 +31,94 @@ namespace Accord.Tests.MachineLearning
     using Accord.Statistics.Kernels;
     using Accord.MachineLearning.VectorMachines.Learning;
     using Accord.Statistics.Analysis;
-
+    using Accord.Math.Optimization.Losses;
+    using Accord.MachineLearning.Performance;
 
     [TestFixture]
     public class SplitSetTest
     {
 
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
+        [Test]
+        public void learn_test()
         {
-            get
+            #region doc_learn
+            // Ensure results are reproducible
+            Accord.Math.Random.Generator.Seed = 0;
+
+            // This is a sample code on how to use Train-Val validation (split-set)
+            // to assess the performance of Support Vector Machines.
+
+            // Consider the example binary data. We will be trying to learn a XOR 
+            // problem and see how well does SVMs perform on this data.
+
+            double[][] data =
             {
-                return testContextInstance;
-            }
-            set
+                new double[] { -1, -1 }, new double[] {  1, -1 },
+                new double[] { -1,  1 }, new double[] {  1,  1 },
+                new double[] { -1, -1 }, new double[] {  1, -1 },
+                new double[] { -1,  1 }, new double[] {  1,  1 },
+                new double[] { -1, -1 }, new double[] {  1, -1 },
+                new double[] { -1,  1 }, new double[] {  1,  1 },
+                new double[] { -1, -1 }, new double[] {  1, -1 },
+                new double[] { -1,  1 }, new double[] {  1,  1 },
+            };
+
+            int[] xor = // result of xor for the sample input data
             {
-                testContextInstance = value;
-            }
+                -1,       1,
+                 1,      -1,
+                -1,       1,
+                 1,      -1,
+                -1,       1,
+                 1,      -1,
+                -1,       1,
+                 1,      -1,
+            };
+
+
+            // Create a new Cross-validation algorithm passing the data set size and the number of folds
+            var splitset = new SplitSetValidation<SupportVectorMachine<Linear, double[]>, double[]>()
+            {
+                Learner = (s) => new SequentialMinimalOptimization<Linear, double[]>()
+                {
+                    Complexity = 1000
+                },
+
+                Loss = (expected, actual, p) => new ZeroOneLoss(expected).Loss(actual),
+
+                Stratify = false,
+            };
+
+            splitset.ParallelOptions.MaxDegreeOfParallelism = 1;
+
+            // Compute the cross-validation
+            var result = splitset.Learn(data, xor);
+
+            // Finally, access the measured performance.
+            double trainingErrors = result.Training.Value;
+            double validationErrors = result.Validation.Value;
+            #endregion
+
+            Assert.AreEqual(0.2, splitset.ValidationSetProportion, 1e-10);
+
+            Assert.AreEqual(0.2, splitset.ValidationSetProportion, 1e-6);
+            Assert.AreEqual(0.8, splitset.TrainingSetProportion, 1e-6);
+
+            Assert.AreEqual(0.5, result.Training.Value, 1e-10);
+            Assert.AreEqual(0.5, result.Validation.Value, 1e-10);
+
+            Assert.AreEqual(0, result.Training.Variance, 1e-10);
+            Assert.AreEqual(0, result.Validation.Variance, 1e-10);
+
+            Assert.AreEqual(0, result.Training.StandardDeviation, 1e-10);
+            Assert.AreEqual(0, result.Validation.StandardDeviation, 1e-10);
+
+            Assert.AreEqual(0.75, result.Training.Proportion);
+            Assert.AreEqual(0.25, result.Validation.Proportion);
+
+            Assert.AreEqual(16, result.NumberOfSamples);
+            Assert.AreEqual(8, result.AverageNumberOfSamples);
         }
-
-
 
         [Test]
         public void SplitSetConstructorTest1()

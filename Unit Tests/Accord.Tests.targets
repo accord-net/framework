@@ -1,0 +1,33 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">  
+    <PropertyGroup>  
+		<OutputType>Library</OutputType>
+		<TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+		<AppDesignerFolder>Properties</AppDesignerFolder>
+		<FileAlignment>512</FileAlignment>
+		<OldToolsVersion>3.5</OldToolsVersion>
+		<MapFileExtensions>true</MapFileExtensions>
+		<ApplicationRevision>0</ApplicationRevision>
+		<ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+		<UseApplicationTrust>false</UseApplicationTrust>
+		<BootstrapperEnabled>true</BootstrapperEnabled>
+		<TargetFrameworkProfile />
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<Optimize>true</Optimize>
+		<DebugType>pdbonly</DebugType>
+		<PlatformTarget>AnyCPU</PlatformTarget>
+		<ErrorReport>prompt</ErrorReport>
+		<WarningLevel>4</WarningLevel>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<SignAssembly>true</SignAssembly>
+		<AssemblyOriginatorKeyFile>Accord.snk</AssemblyOriginatorKeyFile>
+		<NoWarn>0612, 0618</NoWarn>
+		
+		<OutputPath>bin\$(Configuration)\$(Platform)</OutputPath>
+	</PropertyGroup>  
+
+  <Target Name="SpicNSpan"  AfterTargets="Clean">
+    <RemoveDir Directories="$(BaseIntermediateOutputPath)" />
+    <RemoveDir Directories="$(BaseOutputPath)" />
+  </Target>
+  
+</Project>  

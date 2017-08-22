@@ -5,7 +5,7 @@
 // Copyright © Steven G. Johnson, 2008
 // stevenj@alum.mit.edu
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //
@@ -42,6 +42,42 @@ namespace Accord.Math.Optimization
     using System.Collections.Generic;
 
     /// <summary>
+    ///   Status codes for the <see cref="AugmentedLagrangian"/> 
+    ///   optimization algorithm.
+    /// </summary>
+    /// 
+    public enum AugmentedLagrangianStatus
+    {
+        /// <summary>
+        ///   The algorithm has found a feasible solution.
+        /// </summary>
+        /// 
+        Converged = 1,
+
+        /// <summary>
+        ///   The optimization could not make progress towards finding a feasible
+        ///   solution. Try increasing the <see cref="NonlinearConstraint.Tolerance"/>
+        ///   of the constraints.
+        /// </summary>
+        /// 
+        NoProgress = -1,
+
+        /// <summary>
+        ///   The optimization has reached the <see cref="AugmentedLagrangian.MaxEvaluations">
+        ///   maximum number of function evaluations</see>.
+        /// </summary>
+        /// 
+        MaxEvaluations = -2,
+
+        /// <summary>
+        ///   The optimization has been cancelled by the user (such as for
+        ///   example by using <see cref="BaseOptimizationMethod.Token"/>).
+        /// </summary>
+        /// 
+        Cancelled = -3
+    }
+
+    /// <summary>
     ///   Augmented Lagrangian method for constrained non-linear optimization.
     /// </summary>
     /// 
@@ -62,72 +98,19 @@ namespace Accord.Math.Optimization
     /// <para>
     ///   In this framework, it is possible to state a non-linear programming problem
     ///   using either symbolic processing or vector-valued functions. The following 
-    ///   example demonstrates the former.</para>
+    ///   example demonstrates the symbolic processing case:</para>
     ///   
-    /// <code>
-    /// // Suppose we would like to minimize the following function:
-    /// //
-    /// //    f(x,y) = min 100(y-x²)²+(1-x)²
-    /// //
-    /// // Subject to the constraints
-    /// //
-    /// //    x >= 0  (x must be positive)
-    /// //    y >= 0  (y must be positive)
-    /// //
-    ///
-    /// // In this example we will be using some symbolic processing. 
-    /// // The following variables could be initialized to any value.
-    ///
-    /// double x = 0, y = 0;
-    ///
-    ///
-    /// // First, we create our objective function
-    /// var f = new NonlinearObjectiveFunction(
-    ///
-    ///     // This is the objective function:  f(x,y) = min 100(y-x²)²+(1-x)²
-    ///     function: () => 100 * Math.Pow(y - x * x, 2) + Math.Pow(1 - x, 2),
-    ///
-    ///     // The gradient vector:
-    ///     gradient: () => new[] 
-    ///     {
-    ///         2 * (200 * Math.Pow(x, 3) - 200 * x * y + x - 1), // df/dx = 2(200x³-200xy+x-1)
-    ///         200 * (y - x*x)                                   // df/dy = 200(y-x²)
-    ///     }
-    ///
-    /// );
-    ///
-    ///
-    /// // Now we can start stating the constraints
-    /// var constraints = new List&lt;NonlinearConstraint>();
-    ///
-    /// // Add the non-negativity constraint for x
-    /// constraints.Add(new NonlinearConstraint(f,
-    ///
-    ///     // 1st constraint: x should be greater than or equal to 0
-    ///     function: () => x, shouldBe: ConstraintType.GreaterThanOrEqualTo, value: 0,
-    ///
-    ///     gradient: () => new[] { 1.0, 0.0 }
-    /// ));
-    ///
-    /// // Add the non-negativity constraint for y
-    /// constraints.Add(new NonlinearConstraint(f,
-    ///
-    ///     // 2nd constraint: y should be greater than or equal to 0
-    ///     function: () => y, shouldBe: ConstraintType.GreaterThanOrEqualTo, value: 0,
-    ///
-    ///     gradient: () => new[] { 0.0, 1.0 }
-    /// ));
-    ///
-    ///
-    /// // Finally, we create the non-linear programming solver
-    /// var solver = new AugmentedLagrangianSolver(2, constraints);
-    ///
-    /// // And attempt to solve the problem
-    /// double minValue = solver.Minimize(f);
-    /// </code>
+    /// <code source="Unit Tests\Accord.Tests.Math\Optimization\AugmentedLagrangianTest.cs" region="doc_lambda"/>
+    /// 
+    /// <para>
+    ///   And this is the same example as before, but using standard vectors instead.</para>
+    ///   
+    /// <code source="Unit Tests\Accord.Tests.Math\Optimization\AugmentedLagrangianTest.cs" region="doc_vector"/>
     /// </example>
     /// 
-    public class AugmentedLagrangian : BaseGradientOptimizationMethod, IGradientOptimizationMethod
+    /// <seealso cref="GoldfarbIdnani"/>
+    /// 
+    public class AugmentedLagrangian : BaseGradientOptimizationMethod, IGradientOptimizationMethod, IOptimizationMethod<AugmentedLagrangianStatus>
     {
 
         IGradientOptimizationMethod dualSolver;
@@ -145,6 +128,7 @@ namespace Accord.Math.Optimization
         private double[] mu;     // "lesser than"  inequality multipliers
         private double[] nu;     // "greater than" inequality multipliers
 
+        private double[] g;
 
         // Stopping criteria
         private double ftol_abs = 0;
@@ -155,11 +139,18 @@ namespace Accord.Math.Optimization
         private int maxEvaluations;
         private int iterations;
 
+        /// <summary>
+        ///   Get the exit code returned in the last call to the
+        ///   <see cref="IOptimizationMethod{TInput, TOutput}.Maximize()"/> or 
+        ///   <see cref="IOptimizationMethod{TInput, TOutput}.Minimize()"/> methods.
+        /// </summary>
+        /// 
+        public AugmentedLagrangianStatus Status { get; private set; }
 
         /// <summary>
         ///   Gets the number of iterations performed in the
-        ///   last call to the <see cref="IOptimizationMethod.Minimize()"/> or
-        ///   <see cref="IOptimizationMethod.Maximize"/> methods.
+        ///   last call to the <see cref="IOptimizationMethod{TInput, TOutput}.Minimize()"/> or
+        ///   <see cref="IOptimizationMethod{TInput, TOutput}.Maximize"/> methods.
         /// </summary>
         /// 
         /// <value>
@@ -173,8 +164,8 @@ namespace Accord.Math.Optimization
 
         /// <summary>
         ///   Gets the number of function evaluations performed
-        ///   in the last call to the <see cref="IOptimizationMethod.Minimize()"/> or
-        ///   <see cref="IOptimizationMethod.Maximize"/> methods.
+        ///   in the last call to the <see cref="IOptimizationMethod{TInput, TOutput}.Minimize()"/> or
+        ///   <see cref="IOptimizationMethod{TInput, TOutput}.Maximize"/> methods.
         /// </summary>
         /// 
         /// <value>
@@ -197,7 +188,8 @@ namespace Accord.Math.Optimization
             get { return maxEvaluations; }
             set
             {
-                if (value < 0) throw new ArgumentOutOfRangeException("value");
+                if (value < 0)
+                    throw new ArgumentOutOfRangeException("value");
                 maxEvaluations = value;
             }
         }
@@ -296,13 +288,15 @@ namespace Accord.Math.Optimization
                 innerSolver = new BroydenFletcherGoldfarbShanno(NumberOfVariables)
                 {
                     LineSearch = Optimization.LineSearch.BacktrackingArmijo,
-                    Corrections = 10
+                    Corrections = 10,
+                    Epsilon = 1e-10,
+                    MaxIterations = 100000
                 };
             }
 
-            List<NonlinearConstraint> equality = new List<NonlinearConstraint>();
-            List<NonlinearConstraint> lesserThan = new List<NonlinearConstraint>();
-            List<NonlinearConstraint> greaterThan = new List<NonlinearConstraint>();
+            var equality = new List<NonlinearConstraint>();
+            var lesserThan = new List<NonlinearConstraint>();
+            var greaterThan = new List<NonlinearConstraint>();
 
             foreach (var c in constraints)
             {
@@ -330,6 +324,8 @@ namespace Accord.Math.Optimization
             this.mu = new double[lesserThanConstraints.Length];
             this.nu = new double[greaterThanConstraints.Length];
 
+            this.g = new double[NumberOfVariables];
+
             this.dualSolver = innerSolver;
             dualSolver.Function = objectiveFunction;
             dualSolver.Gradient = objectiveGradient;
@@ -345,47 +341,39 @@ namespace Accord.Math.Optimization
             //   Phi(x) = f(x) + rho/2 sum(c_i(x)²) - sum(lambda_i * c_i(x))
             //
 
-            double sumOfSquares = 0;
-            double weightedSum = 0;
-            double rho2 = rho / 2;
+            double phi = Function(x);
+            double rho2 = rho / 2.0;
 
             // For each equality constraint
             for (int i = 0; i < equalityConstraints.Length; i++)
             {
-                double c = equalityConstraints[i].Function(x) - equalityConstraints[i].Value;
+                double actual = equalityConstraints[i].Function(x);
+                double c = actual - equalityConstraints[i].Value;
 
-                sumOfSquares += rho2 * c * c;
-                weightedSum += lambda[i] * c;
+                phi += rho2 * c * c; // - lambda[i] * c;
             }
 
             // For each "lesser than" inequality constraint
             for (int i = 0; i < lesserThanConstraints.Length; i++)
             {
-                double c = lesserThanConstraints[i].Function(x) - lesserThanConstraints[i].Value;
+                double actual = lesserThanConstraints[i].Function(x);
+                double c = actual - lesserThanConstraints[i].Value;
 
                 if (c > 0)
-                {
-                    sumOfSquares += rho2 * c * c;
-                    weightedSum += mu[i] * c;
-                }
+                    phi += rho2 * c * c; // - mu[i] * c;
             }
 
             // For each "greater than" inequality constraint
             for (int i = 0; i < greaterThanConstraints.Length; i++)
             {
-                double c = -greaterThanConstraints[i].Function(x) + greaterThanConstraints[i].Value;
+                double actual = greaterThanConstraints[i].Function(x);
+                double c = greaterThanConstraints[i].Value - actual;
 
                 if (c > 0)
-                {
-                    sumOfSquares += rho2 * c * c;
-                    weightedSum += nu[i] * c;
-                }
+                    phi += rho2 * c * c; // - nu[i] * c;
             }
 
-
-            double phi = Function(x);
-
-            return phi + sumOfSquares - weightedSum;
+            return phi;
         }
 
         // Augmented Lagrangian gradient 
@@ -397,63 +385,49 @@ namespace Accord.Math.Optimization
             //
 
             double[] orig = Gradient(x);
-            double[] g = new double[NumberOfVariables];
-
             for (int i = 0; i < g.Length; i++)
                 g[i] = orig[i];
-
-            double[] sum = new double[x.Length];
-            double[] weightedSum = new double[x.Length];
 
             // For each equality constraint
             for (int i = 0; i < equalityConstraints.Length; i++)
             {
-                double c = equalityConstraints[i].Function(x) - equalityConstraints[i].Value;
+                double actual = equalityConstraints[i].Function(x);
+                double c = actual - equalityConstraints[i].Value;
                 double[] cg = equalityConstraints[i].Gradient(x);
 
                 for (int j = 0; j < cg.Length; j++)
-                {
-                    sum[j] += rho * c * cg[j];
-                    weightedSum[j] += lambda[i] * cg[j];
-                }
+                    g[j] += rho * c * cg[j]; // - lambda[i] * cg[j];
             }
 
             // For each "lesser than" inequality constraint
             for (int i = 0; i < lesserThanConstraints.Length; i++)
             {
-                double c = lesserThanConstraints[i].Function(x) - lesserThanConstraints[i].Value;
+                double actual = lesserThanConstraints[i].Function(x);
+                double c = actual - lesserThanConstraints[i].Value;
                 double[] cg = lesserThanConstraints[i].Gradient(x);
 
                 if (c > 0)
                 {
                     // Constraint is being violated
                     for (int j = 0; j < cg.Length; j++)
-                    {
-                        sum[j] += rho * c * cg[j];
-                        weightedSum[j] += mu[i] * cg[j];
-                    }
+                        g[j] += rho * c * cg[j]; //- mu[i] * cg[j];
                 }
             }
 
             // For each "greater-than" inequality constraint
             for (int i = 0; i < greaterThanConstraints.Length; i++)
             {
-                double c = -greaterThanConstraints[i].Function(x) + greaterThanConstraints[i].Value;
+                double actual = greaterThanConstraints[i].Function(x);
+                double c = greaterThanConstraints[i].Value - actual;
                 double[] cg = greaterThanConstraints[i].Gradient(x);
 
                 if (c > 0)
                 {
                     // Constraint is being violated
                     for (int j = 0; j < cg.Length; j++)
-                    {
-                        sum[j] += rho * c * -cg[j];
-                        weightedSum[j] += nu[i] * -cg[j];
-                    }
+                        g[j] += rho * c * -cg[j]; //- nu[i] * -cg[j];
                 }
             }
-
-            for (int i = 0; i < g.Length; i++)
-                g[i] += sum[i] - weightedSum[i];
 
             return g;
         }
@@ -465,6 +439,13 @@ namespace Accord.Math.Optimization
         /// 
         protected override bool Optimize()
         {
+            Status = optimize();
+
+            return Status == AugmentedLagrangianStatus.Converged;
+        }
+
+        private AugmentedLagrangianStatus optimize()
+        {
             double ICM = Double.PositiveInfinity;
 
             double minPenalty = Double.PositiveInfinity;
@@ -475,8 +456,9 @@ namespace Accord.Math.Optimization
 
             bool minFeasible = false;
             int noProgressCounter = 0;
-            int maxCount = 20;
+            int maxCount = 100;
             iterations = 0;
+            functionEvaluations = 0;
 
             // magic parameters from Birgin & Martinez
             const double tau = 0.5, gam = 10;
@@ -486,7 +468,7 @@ namespace Accord.Math.Optimization
             const double nu_max = 1e20;
 
 
-            double[] currentSolution = (double[])Solution.Clone();
+            double[] currentSolution = Solution.Copy();
 
             Array.Clear(lambda, 0, lambda.Length);
             Array.Clear(mu, 0, mu.Length);
@@ -509,31 +491,42 @@ namespace Accord.Math.Optimization
                 // For each equality constraint
                 for (int i = 0; i < equalityConstraints.Length; i++)
                 {
-                    double c = equalityConstraints[i].Function(currentSolution) - equalityConstraints[i].Value;
+                    double actual = equalityConstraints[i].Function(currentSolution);
+                    double c = actual - equalityConstraints[i].Value;
 
                     penalty += Math.Abs(c);
-                    feasible = feasible && Math.Abs(c) <= equalityConstraints[i].Tolerance;
                     con2 += c * c;
+
+                    feasible = feasible && Math.Abs(c) <= equalityConstraints[i].Tolerance;
                 }
 
                 // For each "lesser than" inequality constraint
                 for (int i = 0; i < lesserThanConstraints.Length; i++)
                 {
-                    double c = lesserThanConstraints[i].Function(currentSolution) - lesserThanConstraints[i].Value;
+                    double actual = lesserThanConstraints[i].Function(currentSolution);
+                    double c = actual - lesserThanConstraints[i].Value;
 
-                    penalty += c > 0 ? c : 0;
+                    if (c > 0)
+                    {
+                        penalty += c;
+                        con2 += c * c;
+                    }
+
                     feasible = feasible && c <= lesserThanConstraints[i].Tolerance;
-                    if (c > 0) con2 += c * c;
                 }
 
                 // For each "greater than" inequality constraint
                 for (int i = 0; i < greaterThanConstraints.Length; i++)
                 {
-                    double c = -greaterThanConstraints[i].Function(currentSolution) + greaterThanConstraints[i].Value;
+                    double actual = greaterThanConstraints[i].Function(currentSolution);
+                    double c = greaterThanConstraints[i].Value - actual;
+                    if (c > 0)
+                    {
+                        penalty += c;
+                        con2 += c * c;
+                    }
 
-                    penalty += c > 0 ? c : 0;
                     feasible = feasible && c <= greaterThanConstraints[i].Tolerance;
-                    if (c > 0) con2 += c * c;
                 }
 
                 minValue = currentValue;
@@ -544,11 +537,13 @@ namespace Accord.Math.Optimization
                 double num = 2.0 * Math.Abs(minValue);
 
                 if (num < 1e-300)
+                {
                     rho = rhoMin;
-
+                }
                 else if (con2 < 1e-300)
+                {
                     rho = rhoMax;
-
+                }
                 else
                 {
                     rho = num / con2;
@@ -564,6 +559,9 @@ namespace Accord.Math.Optimization
 
             while (true)
             {
+                if (Token.IsCancellationRequested)
+                    return AugmentedLagrangianStatus.Cancelled;
+
                 double prevICM = ICM;
 
                 // Minimize the dual problem using current solution
@@ -590,7 +588,8 @@ namespace Accord.Math.Optimization
                 // Update lambdas
                 for (int i = 0; i < equalityConstraints.Length; i++)
                 {
-                    double c = equalityConstraints[i].Function(currentSolution) - equalityConstraints[i].Value;
+                    double actual = equalityConstraints[i].Function(currentSolution);
+                    double c = actual - equalityConstraints[i].Value;
 
                     double newLambda = lambda[i] + rho * c;
                     penalty += Math.Abs(c);
@@ -602,7 +601,8 @@ namespace Accord.Math.Optimization
                 // Update mus
                 for (int i = 0; i < lesserThanConstraints.Length; i++)
                 {
-                    double c = lesserThanConstraints[i].Function(currentSolution) - lesserThanConstraints[i].Value;
+                    double actual = lesserThanConstraints[i].Function(currentSolution);
+                    double c = actual - lesserThanConstraints[i].Value;
 
                     double newMu = mu[i] + rho * c;
                     penalty += c > 0 ? c : 0;
@@ -614,7 +614,8 @@ namespace Accord.Math.Optimization
                 // Update nus
                 for (int i = 0; i < greaterThanConstraints.Length; i++)
                 {
-                    double c = -greaterThanConstraints[i].Function(currentSolution) + greaterThanConstraints[i].Value;
+                    double actual = greaterThanConstraints[i].Function(currentSolution);
+                    double c = greaterThanConstraints[i].Value - actual;
 
                     double newNu = nu[i] + rho * c;
                     penalty += c > 0 ? c : 0;
@@ -631,26 +632,19 @@ namespace Accord.Math.Optimization
 
 
                 // Check if we should stop
-                if (
-                      (feasible &&
-                         (!minFeasible || penalty < minPenalty || currentValue < minValue)
-                      ) || (!minFeasible && penalty < minPenalty)
-                    )
+                bool a = !minFeasible || penalty < minPenalty || currentValue < minValue;
+                bool b = !minFeasible && penalty < minPenalty;
+                if ((feasible && a) || b)
                 {
+                    AugmentedLagrangianStatus? r = null;
+
                     if (feasible)
                     {
                         if (relstop(minValue, currentValue, ftol_rel, ftol_abs))
-                            return true;
+                            r = AugmentedLagrangianStatus.Converged;
 
-                        bool xtolreach = true;
-                        for (int i = 0; i < currentSolution.Length; i++)
-                        {
-                            if (!relstop(Solution[i], currentSolution[i], xtol_rel, 0))
-                                xtolreach = false;
-                        }
-
-                        if (xtolreach)
-                            return true;
+                        if (xtolreach(currentSolution, xtol_rel, 0))
+                            r = AugmentedLagrangianStatus.Converged;
                     }
 
                     minValue = currentValue;
@@ -661,17 +655,20 @@ namespace Accord.Math.Optimization
                     for (int i = 0; i < Solution.Length; i++)
                         Solution[i] = currentSolution[i];
 
+                    if (r.HasValue)
+                        return r.Value;
+
                     noProgressCounter = 0;
                 }
                 else
                 {
                     if (ICM == 0)
-                        return true;
+                        return AugmentedLagrangianStatus.Converged;
 
                     noProgressCounter++;
 
                     if (noProgressCounter > maxCount)
-                        return true;
+                        return AugmentedLagrangianStatus.NoProgress;
                 }
 
 
@@ -679,8 +676,18 @@ namespace Accord.Math.Optimization
                 iterations++;
 
                 if (maxEvaluations > 0 && functionEvaluations >= maxEvaluations)
-                    return true;
+                    return AugmentedLagrangianStatus.MaxEvaluations;
             }
+        }
+
+
+
+        private bool xtolreach(double[] currentSolution, double reltol, double abstol)
+        {
+            for (int i = 0; i < currentSolution.Length; i++)
+                if (!relstop(Solution[i], currentSolution[i], reltol, abstol))
+                    return false;
+            return true;
         }
 
         static bool relstop(double vold, double vnew, double reltol, double abstol)

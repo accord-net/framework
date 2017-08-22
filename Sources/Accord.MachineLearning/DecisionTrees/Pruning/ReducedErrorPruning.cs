@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -113,7 +113,7 @@ namespace Accord.MachineLearning.DecisionTrees.Pruning
 
             if (maxGain >= 0 && maxNode != null)
             {
-                int[] o = outputs.Submatrix(info[maxNode].subset.ToArray());
+                int[] o = outputs.Get(info[maxNode].subset.ToArray());
 
                 // prune the maximum gain node
                 int common = Measures.Mode(o);

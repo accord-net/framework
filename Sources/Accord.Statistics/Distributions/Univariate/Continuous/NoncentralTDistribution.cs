@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -24,8 +24,8 @@ namespace Accord.Statistics.Distributions.Univariate
 {
     using Accord.Math;
     using Accord.Math.Optimization;
-    using AForge;
     using System;
+    using Accord.Compat;
 
     /// <summary>
     ///   Noncentral t-distribution.
@@ -251,7 +251,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   See <see cref="NoncentralTDistribution"/>.
         /// </example>
         /// 
-        public override double DistributionFunction(double x)
+        protected internal override double InnerDistributionFunction(double x)
         {
             return distributionFunctionLowerTail(x, DegreesOfFreedom, Noncentrality);
         }
@@ -277,7 +277,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   See <see cref="NoncentralTDistribution"/>.
         /// </example>
         /// 
-        public override double ProbabilityDensityFunction(double x)
+        protected internal override double InnerProbabilityDensityFunction(double x)
         {
             double u = Noncentrality; // μ
             double v = DegreesOfFreedom;
@@ -380,6 +380,8 @@ namespace Accord.Statistics.Distributions.Univariate
             // Initialize twin series.
             double en = 1.0;
             double x = t * t / (t * t + df);
+            if (Double.IsNaN(x))
+                x = 1;
             double value = 0;
 
             if (x <= 0.0)
@@ -421,7 +423,7 @@ namespace Accord.Statistics.Distributions.Univariate
                 value = value + p * xodd + q * xeven;
                 double errbd = 2.0 * s * (xodd - godd);
 
-                if (errbd <= errmax)
+                if (errbd <= errmax || Double.IsNaN(errbd))
                     break;
 
                 if (itrmax < en)

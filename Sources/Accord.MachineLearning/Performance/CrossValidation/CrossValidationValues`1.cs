@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -22,15 +22,23 @@
 
 namespace Accord.MachineLearning
 {
+    using Accord.MachineLearning.Performance;
     using System;
+    using Accord.Compat;
 
     /// <summary>
-    ///   Training and validation errors of a model. 
+    ///   Obsolete. Please refer to <see cref="CrossValidation{TModel, TInput}"/> instead.
     /// </summary>
     /// 
-    /// <typeparam name="TModel">The type of the model.</typeparam>
+    /// <example>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\CrossValidationTest.cs" region="doc_learn" />
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\CrossValidationTest.cs" region="doc_learn_hmm" />
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\DecisionTrees\DecisionTreeTest.cs" region="doc_cross_validation" />
+    /// </example>
     /// 
     [Serializable]
+    // TODO: Mark as obsolete
+    // [Obsolete("Please refer to CrossValidation<TModel, TInput> instead.")]
     public class CrossValidationValues<TModel> 
         where TModel : class
     {

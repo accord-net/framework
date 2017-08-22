@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 // Copyright © Rednaxela, 2009
@@ -54,7 +54,7 @@ namespace Accord.Collections
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using AForge;
+    using Accord.Compat;
 
     /// <summary>
     ///   Collection of k-dimensional tree nodes.
@@ -339,7 +339,7 @@ namespace Accord.Collections
         /// 
         public IEnumerator<NodeDistance<TNode>> GetEnumerator()
         {
-            for (int i = 0; i < positions.Length; i++)
+            for (int i = 0; i < count; i++)
                 yield return new NodeDistance<TNode>(positions[i], distances[i]);
 
             yield break;

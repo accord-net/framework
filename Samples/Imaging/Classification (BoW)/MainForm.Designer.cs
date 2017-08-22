@@ -40,19 +40,13 @@
             this.colImage = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colFeatures = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.panel1 = new System.Windows.Forms.Panel();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.rbFreak = new System.Windows.Forms.RadioButton();
-            this.rbSurf = new System.Windows.Forms.RadioButton();
-            this.label10 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.numWords = new System.Windows.Forms.NumericUpDown();
-            this.btnBagOfWords = new System.Windows.Forms.Button();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.cbStrategy = new System.Windows.Forms.ComboBox();
             this.btnEstimateC = new System.Windows.Forms.Button();
             this.btnEstimate = new System.Windows.Forms.Button();
             this.numTolerance = new System.Windows.Forms.NumericUpDown();
             this.numComplexity = new System.Windows.Forms.NumericUpDown();
+            this.numConstant = new System.Windows.Forms.NumericUpDown();
             this.numCache = new System.Windows.Forms.NumericUpDown();
             this.numDegree = new System.Windows.Forms.NumericUpDown();
             this.numSigma = new System.Windows.Forms.NumericUpDown();
@@ -64,10 +58,18 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.btnClassifyElimination = new System.Windows.Forms.Button();
             this.btnSampleRunAnalysis = new System.Windows.Forms.Button();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.rbFreak = new System.Windows.Forms.RadioButton();
+            this.rbSurf = new System.Windows.Forms.RadioButton();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.numWords = new System.Windows.Forms.NumericUpDown();
+            this.btnBagOfWords = new System.Windows.Forms.Button();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.lbSize = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
@@ -84,24 +86,23 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.lbStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.progressBar = new System.Windows.Forms.ToolStripProgressBar();
-            this.numConstant = new System.Windows.Forms.NumericUpDown();
-            this.label5 = new System.Windows.Forms.Label();
+            this.rbHOG = new System.Windows.Forms.RadioButton();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.panel1.SuspendLayout();
-            this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numWords)).BeginInit();
             this.groupBox6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numTolerance)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numComplexity)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numConstant)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numCache)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numDegree)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numSigma)).BeginInit();
+            this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numWords)).BeginInit();
             this.tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMachines)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numConstant)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -110,7 +111,7 @@
             this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 35);
-            this.tabControl1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabControl1.Margin = new System.Windows.Forms.Padding(4);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(1214, 876);
@@ -121,9 +122,9 @@
             this.tabPage1.Controls.Add(this.listView1);
             this.tabPage1.Controls.Add(this.panel1);
             this.tabPage1.Location = new System.Drawing.Point(4, 29);
-            this.tabPage1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPage1.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(4);
             this.tabPage1.Size = new System.Drawing.Size(1206, 843);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Input data";
@@ -163,100 +164,6 @@
             this.panel1.Size = new System.Drawing.Size(350, 835);
             this.panel1.TabIndex = 1;
             // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.rbFreak);
-            this.groupBox1.Controls.Add(this.rbSurf);
-            this.groupBox1.Controls.Add(this.label10);
-            this.groupBox1.Controls.Add(this.label7);
-            this.groupBox1.Controls.Add(this.numWords);
-            this.groupBox1.Controls.Add(this.btnBagOfWords);
-            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox1.Location = new System.Drawing.Point(6, 0);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(344, 150);
-            this.groupBox1.TabIndex = 10;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Feature Extraction";
-            // 
-            // rbFreak
-            // 
-            this.rbFreak.AutoSize = true;
-            this.rbFreak.Location = new System.Drawing.Point(231, 70);
-            this.rbFreak.Name = "rbFreak";
-            this.rbFreak.Size = new System.Drawing.Size(88, 24);
-            this.rbFreak.TabIndex = 9;
-            this.rbFreak.Text = "FREAK";
-            this.rbFreak.UseVisualStyleBackColor = true;
-            // 
-            // rbSurf
-            // 
-            this.rbSurf.AutoSize = true;
-            this.rbSurf.Checked = true;
-            this.rbSurf.Location = new System.Drawing.Point(146, 70);
-            this.rbSurf.Name = "rbSurf";
-            this.rbSurf.Size = new System.Drawing.Size(79, 24);
-            this.rbSurf.TabIndex = 9;
-            this.rbSurf.TabStop = true;
-            this.rbSurf.Text = "SURF";
-            this.rbSurf.UseVisualStyleBackColor = true;
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(15, 74);
-            this.label10.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(75, 20);
-            this.label10.TabIndex = 3;
-            this.label10.Text = "Detector:";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(15, 36);
-            this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(129, 20);
-            this.label7.TabIndex = 3;
-            this.label7.Text = "Number of words";
-            // 
-            // numWords
-            // 
-            this.numWords.Location = new System.Drawing.Point(188, 33);
-            this.numWords.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.numWords.Maximum = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-            this.numWords.Minimum = new decimal(new int[] {
-            2,
-            0,
-            0,
-            0});
-            this.numWords.Name = "numWords";
-            this.numWords.Size = new System.Drawing.Size(136, 26);
-            this.numWords.TabIndex = 7;
-            this.numWords.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.numWords.Value = new decimal(new int[] {
-            36,
-            0,
-            0,
-            0});
-            // 
-            // btnBagOfWords
-            // 
-            this.btnBagOfWords.Location = new System.Drawing.Point(10, 101);
-            this.btnBagOfWords.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.btnBagOfWords.Name = "btnBagOfWords";
-            this.btnBagOfWords.Size = new System.Drawing.Size(325, 40);
-            this.btnBagOfWords.TabIndex = 1;
-            this.btnBagOfWords.Text = "Compute bag-of-words";
-            this.btnBagOfWords.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.btnBagOfWords.UseVisualStyleBackColor = true;
-            this.btnBagOfWords.Click += new System.EventHandler(this.btnBagOfWords_Click);
-            // 
             // groupBox6
             // 
             this.groupBox6.Controls.Add(this.cbStrategy);
@@ -294,7 +201,7 @@
             this.cbStrategy.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbStrategy.FormattingEnabled = true;
             this.cbStrategy.Location = new System.Drawing.Point(111, 401);
-            this.cbStrategy.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cbStrategy.Margin = new System.Windows.Forms.Padding(4);
             this.cbStrategy.Name = "cbStrategy";
             this.cbStrategy.Size = new System.Drawing.Size(224, 28);
             this.cbStrategy.TabIndex = 9;
@@ -303,7 +210,7 @@
             // 
             this.btnEstimateC.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnEstimateC.Location = new System.Drawing.Point(111, 279);
-            this.btnEstimateC.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnEstimateC.Margin = new System.Windows.Forms.Padding(4);
             this.btnEstimateC.Name = "btnEstimateC";
             this.btnEstimateC.Size = new System.Drawing.Size(75, 32);
             this.btnEstimateC.TabIndex = 8;
@@ -315,7 +222,7 @@
             // 
             this.btnEstimate.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnEstimate.Location = new System.Drawing.Point(99, 82);
-            this.btnEstimate.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnEstimate.Margin = new System.Windows.Forms.Padding(4);
             this.btnEstimate.Name = "btnEstimate";
             this.btnEstimate.Size = new System.Drawing.Size(90, 32);
             this.btnEstimate.TabIndex = 8;
@@ -327,7 +234,7 @@
             // 
             this.numTolerance.DecimalPlaces = 5;
             this.numTolerance.Location = new System.Drawing.Point(195, 321);
-            this.numTolerance.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.numTolerance.Margin = new System.Windows.Forms.Padding(4);
             this.numTolerance.Maximum = new decimal(new int[] {
             10,
             0,
@@ -347,7 +254,7 @@
             // 
             this.numComplexity.DecimalPlaces = 5;
             this.numComplexity.Location = new System.Drawing.Point(195, 281);
-            this.numComplexity.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.numComplexity.Margin = new System.Windows.Forms.Padding(4);
             this.numComplexity.Name = "numComplexity";
             this.numComplexity.Size = new System.Drawing.Size(140, 26);
             this.numComplexity.TabIndex = 7;
@@ -358,10 +265,25 @@
             0,
             65536});
             // 
+            // numConstant
+            // 
+            this.numConstant.DecimalPlaces = 4;
+            this.numConstant.Location = new System.Drawing.Point(242, 157);
+            this.numConstant.Margin = new System.Windows.Forms.Padding(4);
+            this.numConstant.Name = "numConstant";
+            this.numConstant.Size = new System.Drawing.Size(93, 26);
+            this.numConstant.TabIndex = 7;
+            this.numConstant.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.numConstant.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
             // numCache
             // 
             this.numCache.Location = new System.Drawing.Point(195, 361);
-            this.numCache.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.numCache.Margin = new System.Windows.Forms.Padding(4);
             this.numCache.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -385,7 +307,7 @@
             // numDegree
             // 
             this.numDegree.Location = new System.Drawing.Point(93, 157);
-            this.numDegree.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.numDegree.Margin = new System.Windows.Forms.Padding(4);
             this.numDegree.Name = "numDegree";
             this.numDegree.Size = new System.Drawing.Size(57, 26);
             this.numDegree.TabIndex = 7;
@@ -400,7 +322,7 @@
             // 
             this.numSigma.DecimalPlaces = 4;
             this.numSigma.Location = new System.Drawing.Point(199, 82);
-            this.numSigma.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.numSigma.Margin = new System.Windows.Forms.Padding(4);
             this.numSigma.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -420,7 +342,7 @@
             // 
             this.rbHistogram.AutoSize = true;
             this.rbHistogram.Location = new System.Drawing.Point(14, 234);
-            this.rbHistogram.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.rbHistogram.Margin = new System.Windows.Forms.Padding(4);
             this.rbHistogram.Name = "rbHistogram";
             this.rbHistogram.Size = new System.Drawing.Size(244, 24);
             this.rbHistogram.TabIndex = 6;
@@ -432,7 +354,7 @@
             this.rbChiSquare.AutoSize = true;
             this.rbChiSquare.Checked = true;
             this.rbChiSquare.Location = new System.Drawing.Point(15, 195);
-            this.rbChiSquare.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.rbChiSquare.Margin = new System.Windows.Forms.Padding(4);
             this.rbChiSquare.Name = "rbChiSquare";
             this.rbChiSquare.Size = new System.Drawing.Size(163, 24);
             this.rbChiSquare.TabIndex = 6;
@@ -444,7 +366,7 @@
             // 
             this.rbPolynomial.AutoSize = true;
             this.rbPolynomial.Location = new System.Drawing.Point(19, 123);
-            this.rbPolynomial.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.rbPolynomial.Margin = new System.Windows.Forms.Padding(4);
             this.rbPolynomial.Name = "rbPolynomial";
             this.rbPolynomial.Size = new System.Drawing.Size(158, 24);
             this.rbPolynomial.TabIndex = 6;
@@ -455,7 +377,7 @@
             // 
             this.rbGaussian.AutoSize = true;
             this.rbGaussian.Location = new System.Drawing.Point(19, 44);
-            this.rbGaussian.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.rbGaussian.Margin = new System.Windows.Forms.Padding(4);
             this.rbGaussian.Name = "rbGaussian";
             this.rbGaussian.Size = new System.Drawing.Size(151, 24);
             this.rbGaussian.TabIndex = 6;
@@ -502,6 +424,16 @@
             this.label3.TabIndex = 3;
             this.label3.Text = "Complexity:";
             // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(158, 159);
+            this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(78, 20);
+            this.label5.TabIndex = 3;
+            this.label5.Text = "Constant:";
+            // 
             // label4
             // 
             this.label4.AutoSize = true;
@@ -524,11 +456,11 @@
             // 
             // btnClassifyElimination
             // 
-            this.btnClassifyElimination.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.btnClassifyElimination.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnClassifyElimination.Enabled = false;
             this.btnClassifyElimination.Location = new System.Drawing.Point(176, 438);
-            this.btnClassifyElimination.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnClassifyElimination.Margin = new System.Windows.Forms.Padding(4);
             this.btnClassifyElimination.Name = "btnClassifyElimination";
             this.btnClassifyElimination.Size = new System.Drawing.Size(159, 74);
             this.btnClassifyElimination.TabIndex = 1;
@@ -541,7 +473,7 @@
             // 
             this.btnSampleRunAnalysis.Enabled = false;
             this.btnSampleRunAnalysis.Location = new System.Drawing.Point(4, 438);
-            this.btnSampleRunAnalysis.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnSampleRunAnalysis.Margin = new System.Windows.Forms.Padding(4);
             this.btnSampleRunAnalysis.Name = "btnSampleRunAnalysis";
             this.btnSampleRunAnalysis.Size = new System.Drawing.Size(166, 74);
             this.btnSampleRunAnalysis.TabIndex = 1;
@@ -550,16 +482,111 @@
             this.btnSampleRunAnalysis.UseVisualStyleBackColor = true;
             this.btnSampleRunAnalysis.Click += new System.EventHandler(this.btnCreateVectorMachines_Click);
             // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.rbHOG);
+            this.groupBox1.Controls.Add(this.rbFreak);
+            this.groupBox1.Controls.Add(this.rbSurf);
+            this.groupBox1.Controls.Add(this.label10);
+            this.groupBox1.Controls.Add(this.label7);
+            this.groupBox1.Controls.Add(this.numWords);
+            this.groupBox1.Controls.Add(this.btnBagOfWords);
+            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox1.Location = new System.Drawing.Point(6, 0);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(344, 150);
+            this.groupBox1.TabIndex = 10;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Feature Extraction";
+            // 
+            // rbFreak
+            // 
+            this.rbFreak.AutoSize = true;
+            this.rbFreak.Location = new System.Drawing.Point(178, 70);
+            this.rbFreak.Name = "rbFreak";
+            this.rbFreak.Size = new System.Drawing.Size(88, 24);
+            this.rbFreak.TabIndex = 9;
+            this.rbFreak.Text = "FREAK";
+            this.rbFreak.UseVisualStyleBackColor = true;
+            // 
+            // rbSurf
+            // 
+            this.rbSurf.AutoSize = true;
+            this.rbSurf.Checked = true;
+            this.rbSurf.Location = new System.Drawing.Point(97, 70);
+            this.rbSurf.Name = "rbSurf";
+            this.rbSurf.Size = new System.Drawing.Size(79, 24);
+            this.rbSurf.TabIndex = 9;
+            this.rbSurf.TabStop = true;
+            this.rbSurf.Text = "SURF";
+            this.rbSurf.UseVisualStyleBackColor = true;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(15, 74);
+            this.label10.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(75, 20);
+            this.label10.TabIndex = 3;
+            this.label10.Text = "Detector:";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(15, 36);
+            this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(129, 20);
+            this.label7.TabIndex = 3;
+            this.label7.Text = "Number of words";
+            // 
+            // numWords
+            // 
+            this.numWords.Location = new System.Drawing.Point(188, 33);
+            this.numWords.Margin = new System.Windows.Forms.Padding(4);
+            this.numWords.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.numWords.Minimum = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.numWords.Name = "numWords";
+            this.numWords.Size = new System.Drawing.Size(136, 26);
+            this.numWords.TabIndex = 7;
+            this.numWords.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.numWords.Value = new decimal(new int[] {
+            36,
+            0,
+            0,
+            0});
+            // 
+            // btnBagOfWords
+            // 
+            this.btnBagOfWords.Location = new System.Drawing.Point(10, 101);
+            this.btnBagOfWords.Margin = new System.Windows.Forms.Padding(4);
+            this.btnBagOfWords.Name = "btnBagOfWords";
+            this.btnBagOfWords.Size = new System.Drawing.Size(325, 40);
+            this.btnBagOfWords.TabIndex = 1;
+            this.btnBagOfWords.Text = "Compute bag-of-words";
+            this.btnBagOfWords.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnBagOfWords.UseVisualStyleBackColor = true;
+            this.btnBagOfWords.Click += new System.EventHandler(this.btnBagOfWords_Click);
+            // 
             // tabPage3
             // 
             this.tabPage3.Controls.Add(this.lbSize);
             this.tabPage3.Controls.Add(this.label9);
             this.tabPage3.Controls.Add(this.dgvMachines);
             this.tabPage3.Location = new System.Drawing.Point(4, 29);
-            this.tabPage3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPage3.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.tabPage3.Size = new System.Drawing.Size(1206, 1228);
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(4);
+            this.tabPage3.Size = new System.Drawing.Size(1206, 843);
             this.tabPage3.TabIndex = 12;
             this.tabPage3.Text = "Machines";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -590,8 +617,8 @@
             // 
             this.dgvMachines.AllowUserToAddRows = false;
             this.dgvMachines.AllowUserToDeleteRows = false;
-            this.dgvMachines.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.dgvMachines.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvMachines.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvMachines.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
@@ -620,7 +647,7 @@
             dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dgvMachines.DefaultCellStyle = dataGridViewCellStyle5;
             this.dgvMachines.Location = new System.Drawing.Point(12, 9);
-            this.dgvMachines.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dgvMachines.Margin = new System.Windows.Forms.Padding(4);
             this.dgvMachines.Name = "dgvMachines";
             this.dgvMachines.ReadOnly = true;
             this.dgvMachines.RowHeadersVisible = false;
@@ -684,7 +711,7 @@
             // toolStripMenuItem5
             // 
             this.toolStripMenuItem5.Name = "toolStripMenuItem5";
-            this.toolStripMenuItem5.Size = new System.Drawing.Size(111, 30);
+            this.toolStripMenuItem5.Size = new System.Drawing.Size(124, 30);
             this.toolStripMenuItem5.Text = "E&xit";
             this.toolStripMenuItem5.Click += new System.EventHandler(this.toolStripMenuItem5_Click);
             // 
@@ -699,7 +726,7 @@
             // toolStripMenuItem7
             // 
             this.toolStripMenuItem7.Name = "toolStripMenuItem7";
-            this.toolStripMenuItem7.Size = new System.Drawing.Size(146, 30);
+            this.toolStripMenuItem7.Size = new System.Drawing.Size(159, 30);
             this.toolStripMenuItem7.Text = "&About...";
             this.toolStripMenuItem7.Click += new System.EventHandler(this.toolStripMenuItem7_Click);
             // 
@@ -731,30 +758,15 @@
             this.progressBar.Size = new System.Drawing.Size(150, 24);
             this.progressBar.Visible = false;
             // 
-            // numConstant
+            // rbHOG
             // 
-            this.numConstant.DecimalPlaces = 4;
-            this.numConstant.Location = new System.Drawing.Point(242, 157);
-            this.numConstant.Margin = new System.Windows.Forms.Padding(4);
-            this.numConstant.Name = "numConstant";
-            this.numConstant.Size = new System.Drawing.Size(93, 26);
-            this.numConstant.TabIndex = 7;
-            this.numConstant.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.numConstant.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(158, 159);
-            this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(78, 20);
-            this.label5.TabIndex = 3;
-            this.label5.Text = "Constant:";
+            this.rbHOG.AutoSize = true;
+            this.rbHOG.Location = new System.Drawing.Point(269, 70);
+            this.rbHOG.Name = "rbHOG";
+            this.rbHOG.Size = new System.Drawing.Size(71, 24);
+            this.rbHOG.TabIndex = 9;
+            this.rbHOG.Text = "HOG";
+            this.rbHOG.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
@@ -765,23 +777,24 @@
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.statusStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.MinimumSize = new System.Drawing.Size(22, 800);
             this.Name = "MainForm";
             this.Text = "Image classification with Bags of Visual Words";
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numWords)).EndInit();
             this.groupBox6.ResumeLayout(false);
             this.groupBox6.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numTolerance)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numComplexity)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numConstant)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numCache)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numDegree)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numSigma)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numWords)).EndInit();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMachines)).EndInit();
@@ -789,7 +802,6 @@
             this.menuStrip1.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numConstant)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -849,8 +861,7 @@
         private System.Windows.Forms.Button btnSampleRunAnalysis;
         private System.Windows.Forms.NumericUpDown numConstant;
         private System.Windows.Forms.Label label5;
-
-
+        private System.Windows.Forms.RadioButton rbHOG;
     }
 }
 

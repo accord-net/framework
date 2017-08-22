@@ -264,16 +264,13 @@ namespace Accord.Imaging
             CheckSourceFormat(image.PixelFormat);
 
             // lock bitmap data
-            BitmapData imageData = image.LockBits(
-                new Rectangle(0, 0, image.Width, image.Height),
-                ImageLockMode.ReadOnly, image.PixelFormat);
+            BitmapData imageData = image.LockBits(ImageLockMode.ReadOnly);
 
             try
             {
                 // gather statistics
                 unsafe
                 {
-
                     ProcessImage(new UnmanagedImage(imageData), null, 0);
                 }
             }
@@ -306,12 +303,8 @@ namespace Accord.Imaging
             CheckMaskProperties(mask.PixelFormat, new Size(mask.Width, mask.Height), new Size(image.Width, image.Height));
 
             // lock bitmap and mask data
-            BitmapData imageData = image.LockBits(
-                new Rectangle(0, 0, image.Width, image.Height),
-                ImageLockMode.ReadOnly, image.PixelFormat);
-            BitmapData maskData = mask.LockBits(
-                new Rectangle(0, 0, mask.Width, mask.Height),
-                ImageLockMode.ReadOnly, mask.PixelFormat);
+            BitmapData imageData = image.LockBits(ImageLockMode.ReadOnly);
+            BitmapData maskData = mask.LockBits(ImageLockMode.ReadOnly);
 
             try
             {
@@ -351,9 +344,7 @@ namespace Accord.Imaging
                 new Size(mask.GetLength(1), mask.GetLength(0)), new Size(image.Width, image.Height));
 
             // lock bitmap data
-            BitmapData imageData = image.LockBits(
-                new Rectangle(0, 0, image.Width, image.Height),
-                ImageLockMode.ReadOnly, image.PixelFormat);
+            BitmapData imageData = image.LockBits(ImageLockMode.ReadOnly);
 
             try
             {

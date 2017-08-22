@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -31,23 +31,6 @@ namespace Accord.Tests.Statistics
     [TestFixture]
     public class TwoSampleWilcoxonSignedRankTestTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
 
         [Test]
         public void WilcoxonSignedRankTestConstructorTest()
@@ -82,9 +65,9 @@ namespace Accord.Tests.Statistics
             // respective statistical tables (or distributions) are followed.
 
             Assert.AreEqual(86, target.Statistic); // W = 67
-            Assert.AreEqual(14, target.Samples);
-            Assert.IsTrue(target.Significant);
-            Assert.IsTrue(target.PValue > 0.01 && target.PValue < 0.05);
+            Assert.AreEqual(16, target.NumberOfSamples);
+            Assert.IsFalse(target.Significant);
+            Assert.AreEqual(0.83061849233151319, target.PValue, 1e-8);
         }
 
         [Test]
@@ -108,7 +91,8 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(signs.IsEqual(target.Signs));
 
             Assert.AreEqual(44, target.Statistic);
-            Assert.IsTrue(target.Significant);
+            Assert.IsFalse(target.Significant);
+            Assert.AreEqual(0.998046875, target.PValue); // checked
         }
 
         [Test]
@@ -125,7 +109,7 @@ namespace Accord.Tests.Statistics
 
 
             double[] diffs = { +1.5, +2.1, +0.3, 0.2, +2.6, 0.1, +1.8, 0.6, +1.5, +2.0, +2.3, +12.4 };
-            int[] signs =    { +1, +1, +1, -1, +1, -1, +1, -1, +1, +1, +1, +1 };
+            int[] signs = { +1, +1, +1, -1, +1, -1, +1, -1, +1, +1, +1, +1 };
 
             Assert.IsTrue(diffs.IsEqual(target.Delta, 1e-6));
             Assert.IsTrue(signs.IsEqual(target.Signs));
@@ -133,6 +117,77 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(71, target.Statistic);
             Assert.AreEqual(0.01, target.PValue, 1e-2);
             Assert.IsTrue(target.Significant);
+        }
+
+
+        [Test]
+        public void RCompatibilityTest()
+        {
+            double[] sample1 = { 2.0, 3.6, 2.6, 2.6, 7.3, 3.4, 14.9, 6.6, 2.3, 2.0, 6.8, 08.5 };
+            double[] sample2 = { 3.5, 5.7, 2.9, 2.4, 9.9, 3.3, 16.7, 6.0, 3.8, 4.0, 9.1, 20.9 };
+
+            /*
+                 a <- c(2.0, 3.6, 2.6, 2.6, 7.3, 3.4, 14.9, 6.6, 2.3, 2.0, 6.8, 08.5)
+                 b <- c(3.5, 5.7, 2.9, 2.4, 9.9, 3.3, 16.7, 6.0, 3.8, 4.0, 9.1, 20.9)
+                 wilcox.test(a, b, paired=TRUE)
+
+            */
+
+            TwoSampleWilcoxonSignedRankTest target;
+
+            target = new TwoSampleWilcoxonSignedRankTest(sample1, sample2, TwoSampleHypothesis.ValuesAreDifferent, exact: false);
+            Assert.AreEqual(TwoSampleHypothesis.ValuesAreDifferent, target.Hypothesis);
+            Assert.AreEqual(0.01344, target.PValue, 1e-4); // wilcox.test(a,b, paired=TRUE)
+
+            target = new TwoSampleWilcoxonSignedRankTest(sample1, sample2, TwoSampleHypothesis.FirstValueIsGreaterThanSecond, exact: false);
+            Assert.AreEqual(TwoSampleHypothesis.FirstValueIsGreaterThanSecond, target.Hypothesis);
+            Assert.AreEqual(0.9946, target.PValue, 1e-4); // wilcox.test(a,b, paired=TRUE, alternative='greater')
+
+            target = new TwoSampleWilcoxonSignedRankTest(sample1, sample2, TwoSampleHypothesis.FirstValueIsSmallerThanSecond, exact: false);
+            Assert.AreEqual(TwoSampleHypothesis.FirstValueIsSmallerThanSecond, target.Hypothesis);
+            Assert.AreEqual(0.006718, target.PValue, 1e-4); // wilcox.test(a,b, paired=TRUE, alternative='less')
+
+
+
+            target = new TwoSampleWilcoxonSignedRankTest(sample1, sample2, adjustForTies: false);
+            Assert.IsTrue(target.StatisticDistribution.Exact);
+            Assert.AreEqual(TwoSampleHypothesis.ValuesAreDifferent, target.Hypothesis);
+            Assert.AreEqual(0.00927734375, target.PValue, 1e-8); 
+
+
+            target = new TwoSampleWilcoxonSignedRankTest(sample1, sample2,
+                TwoSampleHypothesis.FirstValueIsGreaterThanSecond, adjustForTies: false);
+            Assert.IsTrue(target.StatisticDistribution.Exact);
+            Assert.AreEqual(TwoSampleHypothesis.FirstValueIsGreaterThanSecond, target.Hypothesis);
+            Assert.AreEqual(0.99658203125, target.PValue, 1e-8);
+
+            target = new TwoSampleWilcoxonSignedRankTest(sample1, sample2, 
+                TwoSampleHypothesis.FirstValueIsSmallerThanSecond, adjustForTies: false);
+            Assert.IsTrue(target.StatisticDistribution.Exact);
+            Assert.AreEqual(TwoSampleHypothesis.FirstValueIsSmallerThanSecond, target.Hypothesis);
+            Assert.AreEqual(0.004638671875, target.PValue, 1e-8);
+
+            target = new TwoSampleWilcoxonSignedRankTest(sample1, sample2, 
+                TwoSampleHypothesis.ValuesAreDifferent, adjustForTies: false);
+            Assert.IsTrue(target.StatisticDistribution.Exact);
+            Assert.AreEqual(TwoSampleHypothesis.ValuesAreDifferent, target.Hypothesis);
+            Assert.AreEqual(0.00927734375, target.PValue, 1e-8);
+
+
+
+
+            target = new TwoSampleWilcoxonSignedRankTest(sample1, sample2, TwoSampleHypothesis.FirstValueIsGreaterThanSecond, exact: true);
+            Assert.AreEqual(TwoSampleHypothesis.FirstValueIsGreaterThanSecond, target.Hypothesis);
+            Assert.AreEqual(0.996337890625, target.PValue, 1e-8);
+
+            target = new TwoSampleWilcoxonSignedRankTest(sample1, sample2, TwoSampleHypothesis.FirstValueIsSmallerThanSecond, exact: true);
+            Assert.AreEqual(TwoSampleHypothesis.FirstValueIsSmallerThanSecond, target.Hypothesis);
+            Assert.AreEqual(0.00439453125, target.PValue, 1e-8);
+
+            target = new TwoSampleWilcoxonSignedRankTest(sample1, sample2, TwoSampleHypothesis.ValuesAreDifferent, exact: true);
+            Assert.AreEqual(TwoSampleHypothesis.ValuesAreDifferent, target.Hypothesis);
+            Assert.AreEqual(0.0087890625, target.PValue, 1e-8);
+
         }
     }
 }

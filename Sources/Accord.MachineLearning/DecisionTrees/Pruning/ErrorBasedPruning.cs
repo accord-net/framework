@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -183,7 +183,7 @@ namespace Accord.MachineLearning.DecisionTrees.Pruning
         private bool compute(DecisionNode node)
         {
             int[] indices = subsets[node].ToArray();
-            int[] outputSubset = outputs.Submatrix(indices);
+            int[] outputSubset = outputs.Get(indices);
 
             if (indices.Length == 0)
             {
@@ -233,7 +233,7 @@ namespace Accord.MachineLearning.DecisionTrees.Pruning
                 foreach (var child in node)
                     subsets[child].Clear();
 
-                double[][] inputSubset = inputs.Submatrix(indices);
+                double[][] inputSubset = inputs.Get(indices);
                 for (int i = 0; i < inputSubset.Length; i++)
                     trackDecisions(node, inputSubset[i], i);
             }

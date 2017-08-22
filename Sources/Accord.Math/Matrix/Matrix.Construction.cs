@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -23,9 +23,9 @@ namespace Accord.Math
 {
     using System;
     using System.Collections.Generic;
-    using AForge;
-    using System.Runtime.CompilerServices;
     using Accord.Math.Random;
+    using Accord.Compat;
+    using System.Runtime.CompilerServices;
 
     /// <summary>
     ///   Matrix major order. The default is to use C-style Row-Major order.
@@ -89,7 +89,7 @@ namespace Accord.Math
         /// 
         /// <returns>A matrix of the specified size.</returns>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[,] Zeros<T>(int rows, int columns)
@@ -107,7 +107,7 @@ namespace Accord.Math
         /// 
         /// <returns>A matrix of the specified size.</returns>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[,] Ones<T>(int rows, int columns)
@@ -126,7 +126,7 @@ namespace Accord.Math
         /// 
         /// <returns>A vector of the specified size.</returns>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Zeros(int rows, int columns)
@@ -143,7 +143,7 @@ namespace Accord.Math
         /// 
         /// <returns>A vector of the specified size.</returns>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] Ones(int rows, int columns)
@@ -163,7 +163,7 @@ namespace Accord.Math
         /// 
         /// <seealso cref="Jagged.Create{T}(int, int, T)"/>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[,] Create<T>(int rows, int columns, T value)
@@ -179,6 +179,44 @@ namespace Accord.Math
         ///   Creates a matrix with all values set to a given value.
         /// </summary>
         /// 
+        /// <param name="rows">The number of rows in the matrix.</param>
+        /// <param name="columns">The number of columns in the matrix.</param>
+        /// <param name="values">The initial values for the matrix.</param>
+        /// <param name="transpose">Whether to transpose the matrix when copying or not. Default is false.</param>
+        /// 
+        /// <returns>A matrix of the specified size.</returns>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static T[,] Create<T>(int rows, int columns, T[,] values, bool transpose = false)
+        {
+            var result = Zeros<T>(rows, columns);
+            Matrix.CopyTo(values, destination: result, transpose: transpose);
+            return result;
+        }
+
+        /// <summary>
+        ///   Creates a jagged matrix with all values set to a given value.
+        /// </summary>
+        /// 
+        /// <param name="elementType">The type of the elements to be contained in the matrix.</param>
+        /// <param name="shape">The number of dimensions that the matrix should have.</param>
+        /// 
+        /// <returns>A matrix of the specified size.</returns>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Array Create(Type elementType, params int[] shape)
+        {
+            return Array.CreateInstance(elementType, shape);
+        }
+
+        /// <summary>
+        ///   Creates a matrix with all values set to a given value.
+        /// </summary>
+        /// 
         /// <param name="size">The number of rows and columns in the matrix.</param>
         /// <param name="value">The initial values for the matrix.</param>
         /// 
@@ -186,7 +224,7 @@ namespace Accord.Math
         /// 
         /// <seealso cref="Jagged.Create{T}(int, int, T)"/>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[,] Square<T>(int size, T value)
@@ -204,7 +242,7 @@ namespace Accord.Math
         /// 
         /// <returns>A matrix of the specified size.</returns>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[,] Create<T>(int rows, int columns, params T[] values)
@@ -220,7 +258,7 @@ namespace Accord.Math
         /// 
         /// <param name="rows">The row vectors in the matrix.</param>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[,] Create<T>(params T[][] rows)
@@ -234,7 +272,7 @@ namespace Accord.Math
         /// 
         /// <param name="values">The values in the matrix.</param>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[,] Create<T>(T[,] values)
@@ -255,12 +293,12 @@ namespace Accord.Math
         /// <returns>A matrix containing one-hot vectors where only a single position
         /// is one and the others are zero.</returns>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[,] OneHot<T>(int[] indices)
         {
-            return OneHot<T>(indices, indices.DistinctCount());
+            return OneHot<T>(indices, indices.Max() + 1);
         }
 
         /// <summary>
@@ -273,12 +311,12 @@ namespace Accord.Math
         /// <returns>A matrix containing one-hot vectors where only a single position
         /// is one and the others are zero.</returns>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] OneHot(int[] indices)
         {
-            return OneHot(indices, indices.DistinctCount());
+            return OneHot(indices, indices.Max() + 1);
         }
 
         /// <summary>
@@ -294,7 +332,7 @@ namespace Accord.Math
         /// <returns>A matrix containing one-hot vectors where only a single position
         /// is one and the others are zero.</returns>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[,] OneHot<T>(int[] indices, int columns)
@@ -313,7 +351,7 @@ namespace Accord.Math
         /// <returns>A matrix containing one-hot vectors where only a single position
         /// is one and the others are zero.</returns>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] OneHot(int[] indices, int columns)
@@ -334,7 +372,7 @@ namespace Accord.Math
         /// <returns>A matrix containing one-hot vectors where only a single position
         /// is one and the others are zero.</returns>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[,] OneHot<T>(int[] indices, T[,] result)
@@ -356,7 +394,7 @@ namespace Accord.Math
         /// <returns>A matrix containing one-hot vectors where only a single position
         /// is one and the others are zero.</returns>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] OneHot(int[] indices, double[,] result)
@@ -381,7 +419,7 @@ namespace Accord.Math
         /// <returns>A matrix containing k-hot vectors where only elements at the indicated 
         ///   <paramref name="indices"/> are set to one and the others are zero.</returns>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[,] KHot<T>(int[][] indices, int columns)
@@ -400,7 +438,7 @@ namespace Accord.Math
         /// <returns>A matrix containing k-hot vectors where only elements at the indicated 
         ///   <paramref name="indices"/> are set to one and the others are zero.</returns>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] KHot(int[][] indices, int columns)
@@ -421,7 +459,7 @@ namespace Accord.Math
         /// <returns>A matrix containing k-hot vectors where only elements at the indicated 
         ///   <paramref name="indices"/> are set to one and the others are zero.</returns>
         ///    
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[,] KHot<T>(int[][] indices, T[,] result)
@@ -444,7 +482,7 @@ namespace Accord.Math
         /// <returns>A matrix containing k-hot vectors where only elements at the indicated 
         ///   <paramref name="indices"/> are set to one and the others are zero.</returns>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double[,] KHot(int[][] indices, double[,] result)
@@ -462,7 +500,7 @@ namespace Accord.Math
         ///   Creates a new multidimensional matrix with the same shape as another matrix.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[,] CreateAs<T>(T[,] matrix)
@@ -474,7 +512,7 @@ namespace Accord.Math
         ///   Creates a new multidimensional matrix with the same shape as another matrix.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[,] CreateAs<T>(T[][] matrix)
@@ -486,7 +524,7 @@ namespace Accord.Math
         ///   Creates a new multidimensional matrix with the same shape as another matrix.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static TOutput[,] CreateAs<TInput, TOutput>(TInput[,] matrix)
@@ -498,7 +536,7 @@ namespace Accord.Math
         ///   Creates a new multidimensional matrix with the same shape as another matrix.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static TOutput[,] CreateAs<TInput, TOutput>(TInput[][] matrix)
@@ -515,7 +553,7 @@ namespace Accord.Math
         ///   Returns a square diagonal matrix of the given size.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[,] Diagonal<T>(int size, T value)
@@ -527,7 +565,7 @@ namespace Accord.Math
         ///   Returns a square diagonal matrix of the given size.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[,] Diagonal<T>(int size, T value, T[,] result)
@@ -541,7 +579,7 @@ namespace Accord.Math
         ///   Returns a matrix of the given size with value on its diagonal.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[,] Diagonal<T>(int rows, int cols, T value)
@@ -553,7 +591,7 @@ namespace Accord.Math
         ///   Returns a matrix of the given size with value on its diagonal.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[,] Diagonal<T>(int rows, int cols, T value, T[,] result)
@@ -568,7 +606,7 @@ namespace Accord.Math
         ///   Return a square matrix with a vector of values on its diagonal.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[,] Diagonal<T>(T[] values)
@@ -580,7 +618,7 @@ namespace Accord.Math
         ///   Return a square matrix with a vector of values on its diagonal.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[,] Diagonal<T>(T[] values, T[,] result)
@@ -594,7 +632,7 @@ namespace Accord.Math
         ///   Return a square matrix with a vector of values on its diagonal.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[,] Diagonal<T>(int size, T[] values)
@@ -606,7 +644,7 @@ namespace Accord.Math
         ///   Return a square matrix with a vector of values on its diagonal.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[,] Diagonal<T>(int size, T[] values, T[,] result)
@@ -618,7 +656,7 @@ namespace Accord.Math
         ///   Returns a matrix with a vector of values on its diagonal.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[,] Diagonal<T>(int rows, int cols, T[] values)
@@ -630,7 +668,7 @@ namespace Accord.Math
         ///   Returns a matrix with a vector of values on its diagonal.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[,] Diagonal<T>(int rows, int cols, T[] values, T[,] result)
@@ -665,7 +703,7 @@ namespace Accord.Math
         ///   Returns a block-diagonal matrix with the given matrices on its diagonal.
         /// </summary>
         /// 
-#if NET45
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[,] Diagonal<T>(T[][,] blocks)
@@ -686,7 +724,7 @@ namespace Accord.Math
                 for (int r = 0; r < blocks[i].GetLength(0); r++)
                 {
                     for (int c = 0; c < blocks[i].GetLength(1); c++)
-                        result[currentRow + r, currentCol+ c] = blocks[i][r, c];
+                        result[currentRow + r, currentCol + c] = blocks[i][r, c];
                 }
 
                 currentRow = blocks[i].GetLength(0);
@@ -706,6 +744,15 @@ namespace Accord.Math
         public static double[,] Identity(int size)
         {
             return Diagonal(size, 1.0);
+        }
+
+        /// <summary>
+        ///   Creates a square matrix with ones across its diagonal.
+        /// </summary>
+        /// 
+        public static T[,] Identity<T>(int size)
+        {
+            return Diagonal(size, (T)System.Convert.ChangeType(1, typeof(T)));
         }
 
         /// <summary>
@@ -1037,20 +1084,20 @@ namespace Accord.Math
         ///   Gets the total length over all dimensions of an array.
         /// </summary>
         /// 
-        public static int Length(this Array array, bool deep = true, bool rectangular = true)
+        public static int GetTotalLength(this Array array, bool deep = true, bool rectangular = true)
         {
             if (deep && IsJagged(array))
             {
                 if (rectangular)
                 {
-                    int rest = Length(array.GetValue(0) as Array, deep);
+                    int rest = GetTotalLength(array.GetValue(0) as Array, deep);
                     return array.Length * rest;
                 }
                 else
                 {
                     int sum = 0;
                     for (int i = 0; i < array.Length; i++)
-                        sum += Length(array.GetValue(i) as Array, deep);
+                        sum += GetTotalLength(array.GetValue(i) as Array, deep);
                     return sum;
                 }
             }
@@ -1062,11 +1109,43 @@ namespace Accord.Math
         ///   Gets the length of each dimension of an array.
         /// </summary>
         /// 
-        public static int[] GetLength(this Array array, bool deep = false)
+        /// <param name="array">The array.</param>
+        /// <param name="deep">Pass true to retrieve all dimensions of the array,
+        ///   even if it contains nested arrays (as in jagged matrices)</param>
+        /// <param name="max">Gets the maximum length possible for each dimension (in case
+        ///   the jagged matrices has different lengths).</param>
+        /// 
+        public static int[] GetLength(this Array array, bool deep = true, bool max = false)
         {
+            if (array.Rank == 0)
+                return new int[0];
+
             if (deep && IsJagged(array))
             {
-                var rest = GetLength(array.GetValue(0) as Array, deep);
+                if (array.Length == 0)
+                    return new int[0];
+
+                int[] rest;
+                if (!max)
+                {
+                    rest = GetLength(array.GetValue(0) as Array, deep);
+                }
+                else
+                {
+                    // find the max
+                    rest = GetLength(array.GetValue(0) as Array, deep);
+                    for (int i = 1; i < array.Length; i++)
+                    {
+                        int[] r = GetLength(array.GetValue(i) as Array, deep);
+
+                        for (int j = 0; j < r.Length; j++)
+                        {
+                            if (r[j] > rest[j])
+                                rest[j] = r[j];
+                        }
+                    }
+                }
+
                 return array.Length.Concatenate(rest);
             }
 
@@ -1077,6 +1156,47 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Trims the specified array, removing zero and empty entries from arrays.
+        /// </summary>
+        /// 
+        /// <param name="array">The array to be trimmed.</param>
+        /// 
+        public static Array Trim(this Array array)
+        {
+            if (array.IsMatrix())
+                throw new Exception();
+
+            var list = new List<object>();
+            for (int i = 0; i < array.Length; i++)
+            {
+                var element = array.GetValue(i);
+                if (element != null)
+                {
+                    Array a = element as Array;
+                    if (a != null)
+                    {
+                        a = Trim(a);
+                        if (a != element)
+                        {
+                            array.SetValue(a, i);
+                            element = a;
+                        }
+                    }
+                    list.Add(element);
+                }
+            }
+
+            if (list.Count == array.Length)
+                return array;
+
+            Array newArray = Array.CreateInstance(array.GetType().GetElementType(), list.Count);
+            for (int i = 0; i < list.Count; i++)
+                newArray.SetValue(list[i], i);
+
+            return newArray;
+        }
+
+        /// <summary>
         ///   Determines whether an array is a jagged array 
         ///   (containing inner arrays as its elements).
         /// </summary>
@@ -1084,7 +1204,7 @@ namespace Accord.Math
         public static bool IsJagged(this Array array)
         {
             if (array.Length == 0)
-                return true;
+                return array.Rank == 1;
             return array.Rank == 1 && array.GetValue(0) is Array;
         }
 
@@ -1389,7 +1509,7 @@ namespace Accord.Math
         ///   Combines two vectors horizontally.
         /// </summary>
         /// 
-        public static T[] Concatenate<T>(this T[] a, T[] b)
+        public static T[] Concatenate<T>(this T[] a, params T[] b)
         {
             T[] r = new T[a.Length + b.Length];
             for (int i = 0; i < a.Length; i++)

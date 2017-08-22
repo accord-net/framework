@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -22,10 +22,13 @@
 
 namespace Accord.Statistics.Running
 {
+#pragma warning disable 612, 618
+
     using System;
     using Accord.Math;
     using Accord.Statistics.Distributions;
     using Accord.Statistics.Models.Markov;
+    using Accord.Compat;
 
     /// <summary>
     ///   Hidden Markov Model filter.
@@ -73,7 +76,7 @@ namespace Accord.Statistics.Running
             if (!Started)
             {
                 for (int i = 0; i < Current.Length; i++)
-                    Current[i] = Model.Probabilities[i] + Model.Emissions[i].LogProbabilityFunction(value);
+                    Current[i] = Model.LogInitial[i] + Model.Emissions[i].LogProbabilityFunction(value);
                 Started = true;
             }
             else
@@ -105,7 +108,7 @@ namespace Accord.Statistics.Running
             if (!Started)
             {
                 for (int i = 0; i < Current.Length; i++)
-                    next[i] = Model.Probabilities[i] + Model.Emissions[i].LogProbabilityFunction(value);
+                    next[i] = Model.LogInitial[i] + Model.Emissions[i].LogProbabilityFunction(value);
             }
             else
             {

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -158,8 +158,8 @@ namespace Accord.IO
         /// <param name="path">The path for the IDX file.</param>
         /// 
         public IdxReader(string path)
-            : this(new FileStream(path, FileMode.Open, FileAccess.Read))
         {
+            init(new FileStream(path, FileMode.Open, FileAccess.Read), path.EndsWith(".gz", StringComparison.OrdinalIgnoreCase));
         }
 
         /// <summary>
@@ -169,8 +169,8 @@ namespace Accord.IO
         /// <param name="file">The byte array representing the contents of the IDX file.</param>
         /// 
         public IdxReader(byte[] file)
-            : this(new MemoryStream(file))
         {
+            init(new MemoryStream(file), true);
         }
 
 
@@ -184,8 +184,8 @@ namespace Accord.IO
         ///   a compressed (.gz) file. Default is true.</param>
         /// 
         public IdxReader(string path, bool compressed)
-            : this(new FileStream(path, FileMode.Open, FileAccess.Read), compressed)
         {
+            init(new FileStream(path, FileMode.Open, FileAccess.Read), compressed);
         }
 
         /// <summary>
@@ -195,8 +195,8 @@ namespace Accord.IO
         /// <param name="input">The input stream containing the IDX file.</param>
         /// 
         public IdxReader(Stream input)
-            : this(input, true)
         {
+            init(input, compressed: true);
         }
 
         /// <summary>
@@ -209,6 +209,11 @@ namespace Accord.IO
         ///   a compressed (.gz) file. Default is true.</param>
         /// 
         public IdxReader(Stream input, bool compressed)
+        {
+            init(input, compressed);
+        }
+
+        private void init(Stream input, bool compressed)
         {
             if (compressed)
                 reader = new BinaryReader(new GZipStream(input, CompressionMode.Decompress));
@@ -462,7 +467,7 @@ namespace Accord.IO
             List<T> vectors = new List<T>();
 
             T current;
-            
+
             while (TryReadValue(out current))
             {
                 vectors.Add(current);
@@ -537,7 +542,9 @@ namespace Accord.IO
                 // free managed resources
                 if (reader != null)
                 {
+#if !NETSTANDARD1_4
                     reader.Close();
+#endif
                     reader = null;
                 }
             }

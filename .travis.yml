@@ -1,8 +1,31 @@
 language: csharp
-solution: Sources/Accord.NET.Mono.sln
+
+os:
+  - linux
+  - osx
+
+mono:
+  - latest
+  - 4.8.0
+  - 4.4.2
+  
 install:
-  - nuget restore Sources/Accord.NET.Mono.sln
+  - nuget restore Sources/Accord.NET.sln
+  - nuget restore Samples/Samples.sln
+  
 script:
-  - ./Build.sh framework
-  - ./Build.sh samples
-  - ./Tests.sh
+  - ./autogen.sh
+  - make
+  - make test
+  - make check
+    
+matrix:
+  exclude:
+    - os: osx
+      mono: 4.4.2
+    - os: osx
+      mono: 4.8.0
+          
+  allow_failures:
+    - os: osx
+      mono: latest

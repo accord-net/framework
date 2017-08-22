@@ -5,6 +5,27 @@
 // Copyright © AForge.NET, 2005-2011
 // contacts@aforgenet.com
 //
+// Accord Imaging Library
+// The Accord.NET Framework
+// http://accord-framework.net
+//
+// Copyright © César Souza, 2009-2017
+// cesarsouza at gmail.com
+//
+//    This library is free software; you can redistribute it and/or
+//    modify it under the terms of the GNU Lesser General Public
+//    License as published by the Free Software Foundation; either
+//    version 2.1 of the License, or (at your option) any later version.
+//
+//    This library is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+//    Lesser General Public License for more details.
+//
+//    You should have received a copy of the GNU Lesser General Public
+//    License along with this library; if not, write to the Free Software
+//    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+//
 
 namespace Accord.Imaging.Filters
 {
@@ -45,7 +66,7 @@ namespace Accord.Imaging.Filters
     public class ResizeBicubic : BaseResizeFilter
     {
         // format translation dictionary
-        private Dictionary<PixelFormat, PixelFormat> formatTranslations = new Dictionary<PixelFormat, PixelFormat>( );
+        private Dictionary<PixelFormat, PixelFormat> formatTranslations = new Dictionary<PixelFormat, PixelFormat>();
 
         /// <summary>
         /// Format translations dictionary.
@@ -54,7 +75,7 @@ namespace Accord.Imaging.Filters
         {
             get { return formatTranslations; }
         }
-        
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ResizeBicubic"/> class.
         /// </summary>
@@ -62,11 +83,13 @@ namespace Accord.Imaging.Filters
         /// <param name="newWidth">Width of new image.</param>
         /// <param name="newHeight">Height of new image.</param>
         /// 
-		public ResizeBicubic( int newWidth, int newHeight ) :
-            base( newWidth, newHeight )
+        public ResizeBicubic(int newWidth, int newHeight) :
+            base(newWidth, newHeight)
         {
             formatTranslations[PixelFormat.Format8bppIndexed] = PixelFormat.Format8bppIndexed;
-            formatTranslations[PixelFormat.Format24bppRgb]    = PixelFormat.Format24bppRgb;
+            formatTranslations[PixelFormat.Format24bppRgb] = PixelFormat.Format24bppRgb;
+            formatTranslations[PixelFormat.Format32bppRgb] = PixelFormat.Format32bppRgb;
+            formatTranslations[PixelFormat.Format32bppArgb] = PixelFormat.Format32bppArgb;
         }
 
         /// <summary>
@@ -76,128 +99,123 @@ namespace Accord.Imaging.Filters
         /// <param name="sourceData">Source image data.</param>
         /// <param name="destinationData">Destination image data.</param>
         /// 
-        protected override unsafe void ProcessFilter( UnmanagedImage sourceData, UnmanagedImage destinationData )
+        protected override unsafe void ProcessFilter(UnmanagedImage sourceData, UnmanagedImage destinationData)
         {
             // get source image size
-            int width   = sourceData.Width;
-            int height  = sourceData.Height;
+            int width = sourceData.Width;
+            int height = sourceData.Height;
 
-            int pixelSize = ( sourceData.PixelFormat == PixelFormat.Format8bppIndexed ) ? 1 : 3;
+            int pixelSize = sourceData.PixelSize;
             int srcStride = sourceData.Stride;
-            int dstOffset = destinationData.Stride - pixelSize * newWidth;
-            double xFactor = (double) width / newWidth;
-            double yFactor = (double) height / newHeight;
+            int dstOffset = destinationData.Offset;
+            double xFactor = (double)width / newWidth;
+            double yFactor = (double)height / newHeight;
 
             // do the job
-            byte* src = (byte*) sourceData.ImageData.ToPointer( );
-            byte* dst = (byte*) destinationData.ImageData.ToPointer( );
+            byte* src = (byte*)sourceData.ImageData.ToPointer();
+            byte* dst = (byte*)destinationData.ImageData.ToPointer();
 
-            // coordinates of source points and cooefficiens
-            double  ox, oy, dx, dy, k1, k2;
-            int     ox1, oy1, ox2, oy2;
-            // destination pixel values
-            double r, g, b;
             // width and height decreased by 1
             int ymax = height - 1;
             int xmax = width - 1;
-            // temporary pointer
-            byte* p;
 
             // check pixel format
-            if ( destinationData.PixelFormat == PixelFormat.Format8bppIndexed )
+            if (destinationData.PixelFormat == PixelFormat.Format8bppIndexed)
             {
                 // grayscale
-                for ( int y = 0; y < newHeight; y++ )
+                for (int y = 0; y < newHeight; y++)
                 {
                     // Y coordinates
-                    oy  = (double) y * yFactor - 0.5;
-                    oy1 = (int) oy;
-                    dy  = oy - (double) oy1;
+                    double oy = (double)y * yFactor - 0.5;
+                    int oy1 = (int)oy;
+                    double dy = oy - (double)oy1;
 
-                    for ( int x = 0; x < newWidth; x++, dst++ )
+                    for (int x = 0; x < newWidth; x++, dst++)
                     {
                         // X coordinates
-                        ox  = (double) x * xFactor - 0.5f;
-                        ox1 = (int) ox;
-                        dx  = ox - (double) ox1;
+                        double ox = (double)x * xFactor - 0.5f;
+                        int ox1 = (int)ox;
+                        double dx = ox - (double)ox1;
 
                         // initial pixel value
-                        g = 0;
+                        double g = 0;
 
-                        for ( int n = -1; n < 3; n++ )
+                        for (int n = -1; n < 3; n++)
                         {
                             // get Y cooefficient
-                            k1 = Interpolation.BiCubicKernel( dy - (double) n );
+                            double k1 = Interpolation.BiCubicKernel(dy - (double)n);
 
-                            oy2 = oy1 + n;
-                            if ( oy2 < 0 )
+                            int oy2 = oy1 + n;
+                            if (oy2 < 0)
                                 oy2 = 0;
-                            if ( oy2 > ymax )
+                            if (oy2 > ymax)
                                 oy2 = ymax;
 
-                            for ( int m = -1; m < 3; m++ )
+                            for (int m = -1; m < 3; m++)
                             {
                                 // get X cooefficient
-                                k2 = k1 * Interpolation.BiCubicKernel( (double) m - dx );
+                                double k2 = k1 * Interpolation.BiCubicKernel((double)m - dx);
 
-                                ox2 = ox1 + m;
-                                if ( ox2 < 0 )
+                                int ox2 = ox1 + m;
+                                if (ox2 < 0)
                                     ox2 = 0;
-                                if ( ox2 > xmax )
+                                if (ox2 > xmax)
                                     ox2 = xmax;
 
                                 g += k2 * src[oy2 * srcStride + ox2];
                             }
                         }
-                        *dst = (byte) Math.Max( 0, Math.Min( 255, g ) );
+                        *dst = (byte)Math.Max(0, Math.Min(255, g));
                     }
                     dst += dstOffset;
                 }
             }
-            else
+            else if (pixelSize == 3)
             {
                 // RGB
-                for ( int y = 0; y < newHeight; y++ )
+                for (int y = 0; y < newHeight; y++)
                 {
                     // Y coordinates
-                    oy  = (double) y * yFactor - 0.5f;
-                    oy1 = (int) oy;
-                    dy  = oy - (double) oy1;
+                    double oy = (double)y * yFactor - 0.5f;
+                    int oy1 = (int)oy;
+                    double dy = oy - (double)oy1;
 
-                    for ( int x = 0; x < newWidth; x++, dst += 3 )
+                    for (int x = 0; x < newWidth; x++, dst += 3)
                     {
                         // X coordinates
-                        ox  = (double) x * xFactor - 0.5f;
-                        ox1 = (int) ox;
-                        dx  = ox - (double) ox1;
+                        double ox = (double)x * xFactor - 0.5f;
+                        int ox1 = (int)ox;
+                        double dx = ox - (double)ox1;
 
                         // initial pixel value
-                        r = g = b = 0;
+                        double r = 0;
+                        double g = 0;
+                        double b = 0;
 
-                        for ( int n = -1; n < 3; n++ )
+                        for (int n = -1; n < 3; n++)
                         {
                             // get Y cooefficient
-                            k1 = Interpolation.BiCubicKernel( dy - (double) n );
+                            double k1 = Interpolation.BiCubicKernel(dy - (double)n);
 
-                            oy2 = oy1 + n;
-                            if ( oy2 < 0 )
+                            int oy2 = oy1 + n;
+                            if (oy2 < 0)
                                 oy2 = 0;
-                            if ( oy2 > ymax )
+                            if (oy2 > ymax)
                                 oy2 = ymax;
 
-                            for ( int m = -1; m < 3; m++ )
+                            for (int m = -1; m < 3; m++)
                             {
                                 // get X cooefficient
-                                k2 = k1 * Interpolation.BiCubicKernel( (double) m - dx );
+                                double k2 = k1 * Interpolation.BiCubicKernel((double)m - dx);
 
-                                ox2 = ox1 + m;
-                                if ( ox2 < 0 )
+                                int ox2 = ox1 + m;
+                                if (ox2 < 0)
                                     ox2 = 0;
-                                if ( ox2 > xmax )
+                                if (ox2 > xmax)
                                     ox2 = xmax;
 
                                 // get pixel of original image
-                                p = src + oy2 * srcStride + ox2 * 3;
+                                byte* p = src + oy2 * srcStride + ox2 * 3;
 
                                 r += k2 * p[RGB.R];
                                 g += k2 * p[RGB.G];
@@ -205,12 +223,79 @@ namespace Accord.Imaging.Filters
                             }
                         }
 
-                        dst[RGB.R] = (byte) Math.Max( 0, Math.Min( 255, r ) );
-                        dst[RGB.G] = (byte) Math.Max( 0, Math.Min( 255, g ) );
-                        dst[RGB.B] = (byte) Math.Max( 0, Math.Min( 255, b ) );
+                        dst[RGB.R] = (byte)Math.Max(0, Math.Min(255, r));
+                        dst[RGB.G] = (byte)Math.Max(0, Math.Min(255, g));
+                        dst[RGB.B] = (byte)Math.Max(0, Math.Min(255, b));
                     }
                     dst += dstOffset;
                 }
+            }
+            else if (pixelSize == 4)
+            {
+                // ARGB
+                for (int y = 0; y < newHeight; y++)
+                {
+                    // Y coordinates
+                    double oy = (double)y * yFactor - 0.5f;
+                    int oy1 = (int)oy;
+                    double dy = oy - (double)oy1;
+
+                    for (int x = 0; x < newWidth; x++, dst += 3)
+                    {
+                        // X coordinates
+                        double ox = (double)x * xFactor - 0.5f;
+                        int ox1 = (int)ox;
+                        double dx = ox - (double)ox1;
+
+                        // initial pixel value
+                        double a = 0;
+                        double r = 0;
+                        double g = 0;
+                        double b = 0;
+
+                        for (int n = -1; n < 3; n++)
+                        {
+                            // get Y cooefficient
+                            double k1 = Interpolation.BiCubicKernel(dy - (double)n);
+
+                            int oy2 = oy1 + n;
+                            if (oy2 < 0)
+                                oy2 = 0;
+                            if (oy2 > ymax)
+                                oy2 = ymax;
+
+                            for (int m = -1; m < 3; m++)
+                            {
+                                // get X cooefficient
+                                double k2 = k1 * Interpolation.BiCubicKernel((double)m - dx);
+
+                                int ox2 = ox1 + m;
+                                if (ox2 < 0)
+                                    ox2 = 0;
+                                if (ox2 > xmax)
+                                    ox2 = xmax;
+
+                                // get pixel of original image
+                                byte* p = src + oy2 * srcStride + ox2 * 3;
+
+                                a += k2 * p[RGB.A];
+                                r += k2 * p[RGB.R];
+                                g += k2 * p[RGB.G];
+                                b += k2 * p[RGB.B];
+                            }
+                        }
+
+                        dst[RGB.A] = (byte)Math.Max(0, Math.Min(255, a));
+                        dst[RGB.R] = (byte)Math.Max(0, Math.Min(255, r));
+                        dst[RGB.G] = (byte)Math.Max(0, Math.Min(255, g));
+                        dst[RGB.B] = (byte)Math.Max(0, Math.Min(255, b));
+                    }
+                    dst += dstOffset;
+                }
+            }
+            else
+            {
+                throw new InvalidOperationException("Execution should never reach here.");
             }
         }
     }

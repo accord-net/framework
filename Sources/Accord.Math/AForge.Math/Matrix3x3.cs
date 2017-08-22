@@ -9,6 +9,7 @@
 namespace Accord.Math
 {
     using System;
+    using Accord.Compat;
 
     /// <summary>
     /// A structure representing 3x3 matrix.

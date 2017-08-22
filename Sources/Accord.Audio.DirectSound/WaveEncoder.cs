@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -26,6 +26,7 @@ namespace Accord.Audio.Formats
     using System;
     using System.IO;
     using System.Runtime.InteropServices;
+    using Accord.Compat;
 
     /// <summary>
     ///   Wave audio file encoder.
@@ -275,7 +276,7 @@ namespace Accord.Audio.Formats
             numberOfSamples += signal.Samples;
             numberOfFrames += signal.Length;
             bytes += signal.RawData.Length;
-            duration += signal.Duration;
+            duration += (int)signal.Duration.TotalMilliseconds;
 
             // Navigate to start position
             long position = waveStream.Position;

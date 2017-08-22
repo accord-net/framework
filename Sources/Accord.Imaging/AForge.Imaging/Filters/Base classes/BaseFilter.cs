@@ -61,9 +61,7 @@ namespace Accord.Imaging.Filters
         public Bitmap Apply(Bitmap image)
         {
             // lock source bitmap data
-            BitmapData srcData = image.LockBits(
-                new Rectangle(0, 0, image.Width, image.Height),
-                ImageLockMode.ReadOnly, image.PixelFormat);
+            BitmapData srcData = image.LockBits(ImageLockMode.ReadOnly);
 
             Bitmap dstImage = null;
 
@@ -71,10 +69,7 @@ namespace Accord.Imaging.Filters
             {
                 // apply the filter
                 dstImage = Apply(srcData);
-                if ((image.HorizontalResolution > 0) && (image.VerticalResolution > 0))
-                {
-                    dstImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
-                }
+                dstImage.CopyResolutionFrom(image);
             }
             finally
             {

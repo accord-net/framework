@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 // Original work copyright © Lutz Roeder, 2000
@@ -29,6 +29,7 @@ namespace Accord.Math.Decompositions
 {
     using System;
     using Accord.Math;
+    using Accord.Compat;
 
     /// <summary>
     ///     Determines the eigenvalues and eigenvectors of a real square matrix.
@@ -84,7 +85,7 @@ namespace Accord.Math.Decompositions
             }
         }
 
-		/// <summary>
+        /// <summary>
         ///   Construct an eigenvalue decomposition.</summary>
         /// <param name="value">
         ///   The matrix to be decomposed.</param>
@@ -169,9 +170,9 @@ namespace Accord.Math.Decompositions
                     return -Math.Abs(d[i]).CompareTo(Math.Abs(d[j]));
                 });
 
-                this.d = this.d.Submatrix(idx);
-                this.e = this.e.Submatrix(idx);
-                this.V = this.V.Submatrix(null, idx);
+                this.d = this.d.Get(idx);
+                this.e = this.e.Get(idx);
+                this.V = this.V.Get(null, idx);
             }
         }
 
@@ -1024,6 +1025,14 @@ namespace Accord.Math.Decompositions
         }
         #endregion
 
+        /// <summary>
+        ///   Reverses the decomposition, reconstructing the original matrix <c>X</c>.
+        /// </summary>
+        /// 
+        public Single[][] Reverse()
+        {
+            return V.DotWithDiagonal(d).Divide(V);
+        }
 
 
         #region ICloneable Members

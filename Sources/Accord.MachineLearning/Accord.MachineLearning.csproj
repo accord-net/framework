@@ -4,75 +4,102 @@
     <ProjectGuid>{7AB4BBCC-6222-423D-9FF9-BA9CB7C09199}</ProjectGuid>
     <RootNamespace>Accord.MachineLearning</RootNamespace>
     <AssemblyName>Accord.MachineLearning</AssemblyName>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
-    <WarningLevel>4</WarningLevel>
-    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-    <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>Accord.snk</AssemblyOriginatorKeyFile>
-    <OldToolsVersion>3.5</OldToolsVersion>
-    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
-    <MapFileExtensions>true</MapFileExtensions>
-    <CodeAnalysisRuleSet>..\Accord.NET.ruleset</CodeAnalysisRuleSet>
-    <UseApplicationTrust>false</UseApplicationTrust>
-    <BootstrapperEnabled>true</BootstrapperEnabled>
-    <FileAlignment>4096</FileAlignment>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <DebugSymbols>true</DebugSymbols>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
-    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
-    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
   </PropertyGroup>
+  <Import Project="$(SolutionDir)Accord.NET.targets" />
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <OutputPath>bin\Debug\</OutputPath>
     <DebugType>Full</DebugType>
     <Optimize>False</Optimize>
-    <RunCodeAnalysis>False</RunCodeAnalysis>
     <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <OutputPath>$(SolutionDir)..\Debug\</OutputPath>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NET35|AnyCPU' ">
-    <OutputPath>$(SolutionDir)..\Release\net35</OutputPath>
-    <DefineConstants>TRACE;CODE_ANALYSIS;NET35</DefineConstants>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'net35|AnyCPU' ">
+    <DefineConstants>TRACE;NET35</DefineConstants>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
-    <DocumentationFile>$(SolutionDir)..\Release\net35\Accord.MachineLearning.XML</DocumentationFile>
-    <CodeAnalysisLogFile>$(SolutionDir)..\Release\net35\Accord.MachineLearning.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NET40|AnyCPU' ">
-    <OutputPath>$(SolutionDir)..\Release\net40</OutputPath>
-    <DefineConstants>TRACE;CODE_ANALYSIS;NET40</DefineConstants>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'net40|AnyCPU' ">
+    <DefineConstants>TRACE;NET40</DefineConstants>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <DocumentationFile>$(SolutionDir)..\Release\net40\Accord.MachineLearning.XML</DocumentationFile>
-    <CodeAnalysisLogFile>$(SolutionDir)..\Release\net40\Accord.MachineLearning.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'NET45|AnyCPU'">
-    <OutputPath>$(SolutionDir)..\Release\net45</OutputPath>
-    <DefineConstants>TRACE;CODE_ANALYSIS;NET45</DefineConstants>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'net45|AnyCPU'">
+    <DefineConstants>TRACE;NET45</DefineConstants>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <DocumentationFile>$(SolutionDir)..\Release\net45\Accord.MachineLearning.XML</DocumentationFile>
-    <CodeAnalysisLogFile>$(SolutionDir)..\Release\net45\Accord.MachineLearning.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'net46|AnyCPU'">
+    <DefineConstants>TRACE;NET46</DefineConstants>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'net462|AnyCPU' ">
+    <DefineConstants>TRACE;NET462</DefineConstants>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'mono|AnyCPU'">
+    <DefineConstants>TRACE;MONO</DefineConstants>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
-    <Reference Include="System.Numerics" Condition="'$(Configuration)' != 'NET35'" />
+    <Reference Include="System.Numerics" Condition="'$(Configuration)' != 'net35'" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\Accord.Core\Properties\VersionInfo.cs">
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
+    <Compile Include="Clustering\CentroidCluster`3.cs" />
+    <Compile Include="Clustering\CentroidCluster`4.cs" />
+    <Compile Include="Clustering\IClusterCollection`3.cs" />
+    <Compile Include="Clustering\KMeans\BalancedKMeans.cs" />
+    <Compile Include="Clustering\KMedoids\KMedoidsCluster.cs" />
+    <Compile Include="Clustering\KMedoids\KMedoids.cs" />
+    <Compile Include="Clustering\KMedoids\VoronoiIteration.cs" />
+    <Compile Include="DecisionTrees\DecisionTreeHelper.cs" />
+    <Compile Include="BaseKNearestNeighbors`2.cs" />
+    <Compile Include="DecisionTrees\Learning\Base\DecisionTreeLearningBase.cs" />
+    <Compile Include="MiniBatches.cs" />
+    <Compile Include="Performance\CrossValidation\New\CrossValidation`4.cs" />
+    <Compile Include="Performance\DataSubset.cs" />
+    <Compile Include="Performance\GridSearch\New\GridSearchRange.cs" />
+    <Compile Include="Performance\GridSearch\New\GridSearch`2.cs" />
+    <Compile Include="Performance\GridSearch\New\GridSearch`3.cs" />
+    <Compile Include="Performance\GridSearch\New\GridSearch`5.cs" />
+    <Compile Include="Performance\GridSearch\New\GridSearch.cs" />
+    <Compile Include="Performance\GridSearch\New\GridSearch`4.cs" />
+    <Compile Include="Performance\GridSearch\New\BaseGridSearch`5.cs" />
+    <Compile Include="Performance\Base\BaseSplitSetValidation`4.cs" />
+    <Compile Include="Performance\Bootstrap\New\BootstrapResult`3.cs" />
+    <Compile Include="Performance\Bootstrap\New\Bootstrap`2.cs" />
+    <Compile Include="Performance\Bootstrap\New\Bootstrap`3.cs" />
+    <Compile Include="Performance\CrossValidation\New\CrossValidationResult`3.cs" />
+    <Compile Include="Performance\Base\BaseSplitSetValidation`3.cs" />
+    <Compile Include="Performance\Data Splits\Base\IDataSplit.cs" />
+    <Compile Include="Performance\Data Splits\TrainValTestDataSplit.cs" />
+    <Compile Include="Performance\Data Splits\TrainTestDataSplit.cs" />
+    <Compile Include="Performance\GridSearch\New\GridSearchResult`4.cs" />
+    <Compile Include="Performance\GridSearch\New\IGridSearchRange.cs" />
+    <Compile Include="Performance\SetResult.cs" />
+    <Compile Include="Performance\SplitResult.cs" />
+    <Compile Include="Performance\CrossValidation\New\CrossValidation`2.cs" />
+    <Compile Include="Performance\CrossValidation\New\CrossValidation`3.cs" />
+    <Compile Include="Performance\SplitSet\New\SplitSetValidation`2.cs" />
+    <Compile Include="Performance\SplitSet\New\SplitSetValidation`3.cs" />
+    <Compile Include="Performance\Data Splits\TrainValDataSplit.cs" />
+    <Compile Include="Performance\Data Splits\Base\TrainValSplit.cs" />
+    <Compile Include="Performance\Data Splits\Base\TrainValTestSplit.cs" />
+    <Compile Include="Performance\Data Splits\Base\TrainTestSplit.cs" />
+    <Compile Include="Representations\BagOfWords`1.cs" />
+    <Compile Include="Representations\BagOfWords`2.cs" />
+    <Compile Include="Representations\BaseBagOfWords`3.cs" />
+    <Compile Include="Representations\TFIDF.cs" />
+    <Compile Include="Representations\BagOfWords.cs" />
     <Compile Include="Rules\AssociationRule.cs" />
     <Compile Include="Rules\Apriori.cs" />
     <Compile Include="Bayes\Learning\Base\NaiveBayesLearningBase`4.cs" />
@@ -83,17 +110,16 @@
     <Compile Include="Bayes\NaiveBayes`2.cs" />
     <Compile Include="Boosting\Accord.MachineLearning.Boosting.cs" />
     <Compile Include="Boosting\AdaBoost.cs" />
-    <Compile Include="BagOfWords.cs" />
+    <Compile Include="Representations\IBagOfWords.cs" />
     <Compile Include="Bayes\NaiveBayes`1.cs" />
     <Compile Include="Boosting\Boost.cs" />
     <Compile Include="Boosting\Learners\Accord.MachineLearning.Boosting.Learners.cs" />
     <Compile Include="Boosting\Learners\Weak.cs" />
     <Compile Include="Boosting\Learners\IWeakClassifier.cs" />
     <Compile Include="Boosting\Learners\DecisionStump.cs" />
-    <Compile Include="Clustering\ClusterCollection`3.cs" />
+    <Compile Include="Clustering\BaseCluster`3.cs" />
     <Compile Include="Clustering\KMeans\BinarySplit.cs" />
     <Compile Include="Clustering\Gaussian\GaussianCluster.cs" />
-    <Compile Include="Clustering\ClusterCollection`2.cs" />
     <Compile Include="Clustering\MeanShift\MeanShiftCluster.cs" />
     <Compile Include="Clustering\KMeans\KMeansCluster.cs" />
     <Compile Include="Clustering\IClusteringAlgorithm.cs" />
@@ -126,7 +152,6 @@
     <Compile Include="Exploration Policy\TabuSearchExploration.cs" />
     <Compile Include="Geometry\RansacCircle.cs" />
     <Compile Include="IO\LibSvmModel.cs" />
-    <Compile Include="MinimumMeanDistanceClassifier.cs" />
     <Compile Include="KNearestNeighbors`1.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Multiclass\Decision.cs" />
@@ -162,7 +187,7 @@
     <Compile Include="Performance\SplitSet\SplitSetStatistics`1.cs" />
     <Compile Include="Performance\SplitSet\SplitSetResult`1.cs" />
     <Compile Include="Performance\SplitSet\SplitSetValidation`1.cs" />
-    <Compile Include="GridSearch.cs" />
+    <Compile Include="GridSearch`1.cs" />
     <Compile Include="Clustering\KMeans\KMeans.cs" />
     <Compile Include="QLearning.cs" />
     <Compile Include="Ransac.cs" />
@@ -187,6 +212,7 @@
     <Compile Include="Collections\VPTreeNode`2.cs" />
     <Compile Include="Collections\Base\VPTreeNodeBase.cs" />
     <Compile Include="Collections\VPTreeNode`1.cs" />
+    <Compile Include="Tools.cs" />
     <Compile Include="VectorMachines\Accord.MachineLearning.VectorMachines.cs" />
     <Compile Include="VectorMachines\ISupportVectorMachine`2.cs" />
     <Compile Include="VectorMachines\KernelSupportVectorMachine.cs" />
@@ -195,6 +221,9 @@
     <Compile Include="VectorMachines\Learning\Base\BaseSupportVectorRegression.cs" />
     <Compile Include="VectorMachines\Learning\Base\ISupportVectorMachineLearning.cs" />
     <Compile Include="VectorMachines\Learning\LeastSquaresLearning.cs" />
+    <Compile Include="VectorMachines\Learning\AveragedStochasticGradientDescent.cs" />
+    <Compile Include="VectorMachines\Learning\Regression\FanChenLinSupportVectorRegression.cs" />
+    <Compile Include="VectorMachines\Learning\StochasticGradientDescent.cs" />
     <Compile Include="VectorMachines\Learning\LinearCoordinateDescent.cs" />
     <Compile Include="VectorMachines\Learning\LinearDualCoordinateDescent.cs" />
     <Compile Include="VectorMachines\Learning\LinearNewtonMethod.cs" />
@@ -224,7 +253,10 @@
       <Project>{A177A90C-8207-466A-AF70-F2B8452A42AC}</Project>
       <Name>Accord.Core</Name>
       <Private>False</Private>
-      <Aliases>global,core</Aliases>
+    </ProjectReference>
+    <ProjectReference Include="..\Accord.Math.Core\Accord.Math.Core.csproj">
+      <Project>{ed3a336f-6da2-4f34-87fe-1ccffa029f8c}</Project>
+      <Name>Accord.Math.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\Accord.Math\Accord.Math.csproj">
       <Project>{F718E9A8-DB62-4785-8C49-4333A60D256A}</Project>
@@ -243,7 +275,6 @@
     <None Include="Boosting\Accord.MachineLearning.Boosting.cd" />
     <None Include="Clustering\Accord.MachineLearning.Clustering.cd" />
     <None Include="DecisionTrees\Accord.MachineLearning.DecisionTrees.cd" />
-    <None Include="Collections\Accord.MachineLearning.Structures.cd" />
     <None Include="VectorMachines\Accord.MachineLearning.VectorMachines.cd" />
   </ItemGroup>
   <ItemGroup>

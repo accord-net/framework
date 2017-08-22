@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2016
+// Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -25,26 +25,11 @@ namespace Accord.Tests.Math
     using System;
     using Accord.Math.Optimization;
     using NUnit.Framework;
+    using System.Diagnostics;
 
     [TestFixture]
     public class NelderMeadTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
 
         [Test]
         public void ConstructorTest1()
@@ -131,5 +116,32 @@ namespace Accord.Tests.Math
             Assert.AreEqual(expectedMinimum, minimum);
         }
 
+        [Test]
+        public void gh335()
+        {
+            // https://github.com/accord-net/framework/issues/335
+            Func<Double[], Double> eval = (val) =>
+            {
+                // WxMaxima command: plot3d(y^2+4*y+x^2-2*x,[x,-3,5], [y,-5,3],[grid,8,8]);
+                Double x = val[0];
+                Double y = val[1];
+                Double ret = y * y + 4 * y + x * x - 2 * x;
+
+                Debug.WriteLine("{2}; x={0}; y={1}", x, y, ret);
+
+                return ret;
+            };
+
+            // This values are relevant for my RealWorld(TM) scenario
+            Double[] init = new double[] { 0.5, 0 };
+
+            NelderMead nm = new NelderMead(2, eval);
+
+            nm.Minimize(init);
+
+            // Solution
+            Assert.AreEqual(1, nm.Solution[0], 1e-7);
+            Assert.AreEqual(-2, nm.Solution[1], 1e-6);
+        }
     }
 }
