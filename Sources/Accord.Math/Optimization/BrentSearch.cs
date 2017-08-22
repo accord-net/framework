@@ -390,6 +390,9 @@ namespace Accord.Math.Optimization
             fb = function(upperBound);
             c = lowerBound; fc = fa;
 
+            if (Math.Sign(fa) == Math.Sign(fb))
+                throw new ConvergenceException("Root must be enclosed between bounds once and only once.");
+
             // Main loop
             while (true)
             {

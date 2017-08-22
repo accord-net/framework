@@ -64,7 +64,7 @@ namespace Accord.Tests.Math
             Assert.AreEqual(0.10219566016872624, root);
             Assert.AreEqual(0, value, 1e-5);
         }
-        
+
         [Test]
         public void FindRootTest()
         {
@@ -81,6 +81,31 @@ namespace Accord.Tests.Math
             Assert.IsFalse(Double.IsNaN(actual));
         }
 
+        [Test]
+        public void FindRootNotBoundedThrowsNonConvergenceException()
+        {
+            Func<double, double> f = x => (x + 2) * (x - 2);
+            double a = -1;
+            double b = +1;
+
+            Assert.Throws<ConvergenceException>(() =>
+            {
+                double actual = BrentSearch.FindRoot(f, a, b);
+            });
+        }
+
+        [Test]
+        public void FindRootBoundedTwiceThrowsNonConvergenceException()
+        {
+            Func<double, double> f = x => (x + 2) * (x - 2);
+            double a = -3;
+            double b = +3;
+
+            Assert.Throws<ConvergenceException>(() =>
+            {
+                double actual = BrentSearch.FindRoot(f, a, b);
+            });
+        }
 
         [Test]
         public void MaximizeTest()
