@@ -67,6 +67,7 @@ namespace Accord.Math.Optimization
     /// 
     public sealed class BrentSearch : IOptimizationMethod<double, double>
     {
+        private const double DefaultTolerance = 1e-6;
 
         /// <summary>
         ///   Gets the number of variables (free parameters)
@@ -137,12 +138,12 @@ namespace Accord.Math.Optimization
         /// <param name="a">Start of search region.</param>
         /// <param name="b">End of search region.</param>
         /// 
-        public BrentSearch(Func<double, double> function, double a, double b)
+        public BrentSearch(Func<double, double> function, double a, double b, double tol = DefaultTolerance)
         {
             this.Function = function;
             this.LowerBound = a;
             this.UpperBound = b;
-            this.Tolerance = 1e-6;
+            this.Tolerance = tol;
         }
 
 
@@ -211,7 +212,7 @@ namespace Accord.Math.Optimization
         /// <returns>The location of the minimum of the function in the given interval.</returns>
         /// 
         public static double Minimize(Func<double, double> function,
-            double lowerBound, double upperBound, double tol = 1e-6)
+            double lowerBound, double upperBound, double tol = DefaultTolerance)
         {
             if (Double.IsInfinity(lowerBound))
                 throw new ArgumentOutOfRangeException("lowerBound");
@@ -355,7 +356,7 @@ namespace Accord.Math.Optimization
         /// <returns>The location of the maximum of the function in the given interval.</returns>
         /// 
         public static double Maximize(Func<double, double> function,
-            double lowerBound, double upperBound, double tol = 1e-6)
+            double lowerBound, double upperBound, double tol = DefaultTolerance)
         {
             return Minimize(x => -function(x), lowerBound, upperBound, tol);
         }
@@ -372,7 +373,7 @@ namespace Accord.Math.Optimization
         /// <returns>The location of the zero value in the given interval.</returns>
         /// 
         public static double FindRoot(Func<double, double> function,
-            double lowerBound, double upperBound, double tol = 1e-6)
+            double lowerBound, double upperBound, double tol = DefaultTolerance)
         {
             if (Double.IsInfinity(lowerBound))
                 throw new ArgumentOutOfRangeException("lowerBound");
@@ -503,7 +504,7 @@ namespace Accord.Math.Optimization
         /// <returns>The location of the zero value in the given interval.</returns>
         /// 
         public static double Find(Func<double, double> function, double value,
-            double lowerBound, double upperBound, double tol = 1e-6)
+            double lowerBound, double upperBound, double tol = DefaultTolerance)
         {
             return FindRoot((x) => function(x) - value, lowerBound, upperBound, tol);
         }
