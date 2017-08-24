@@ -19,6 +19,15 @@ script:
   - make test
   - make check
     
+before_install:
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then 
+       brew update;
+       brew cask install mono-mdk; 
+       export PKG_CONFIG_PATH=/Library/Frameworks/Mono.framework/Versions/Current/lib/pkgconfig/;
+       export MONO=/Library/Frameworks/Mono.framework/Versions/Current/bin/mono;
+       export XBUILD=/Library/Frameworks/Mono.framework/Versions/Current/bin/xbuild;
+    fi
+
 matrix:
   exclude:
     - os: osx
