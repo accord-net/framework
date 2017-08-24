@@ -924,6 +924,95 @@ namespace Accord.Tests.MachineLearning
 
             Assert.IsTrue(teacher.optimized);
         }
+
+        [Test]
+        public void CrossValidationTest()
+        {
+            #region doc_cross_validation
+            // Ensure we have reproducible results
+            Accord.Math.Random.Generator.Seed = 0;
+
+            // Let's say we have the following data to be classified
+            // into three possible classes. Those are the samples:
+            //
+            int[][] inputs =
+            {
+                //               input      output
+                new int[] { 0, 1, 1, 0 }, //  0 
+                new int[] { 0, 1, 0, 0 }, //  0
+                new int[] { 0, 0, 1, 0 }, //  0
+                new int[] { 0, 1, 1, 0 }, //  0
+                new int[] { 0, 1, 0, 0 }, //  0
+                new int[] { 1, 0, 0, 0 }, //  1
+                new int[] { 1, 0, 0, 0 }, //  1
+                new int[] { 1, 0, 0, 1 }, //  1
+                new int[] { 0, 0, 0, 1 }, //  1
+                new int[] { 0, 0, 0, 1 }, //  1
+                new int[] { 1, 1, 1, 1 }, //  2
+                new int[] { 1, 0, 1, 1 }, //  2
+                new int[] { 1, 1, 0, 1 }, //  2
+                new int[] { 0, 1, 1, 1 }, //  2
+                new int[] { 1, 1, 1, 1 }, //  2
+            };
+
+            int[] outputs = // those are the class labels
+            {
+                0, 0, 0, 0, 0,
+                1, 1, 1, 1, 1,
+                2, 2, 2, 2, 2,
+            };
+
+            // Let's say we want to measure the cross-validation 
+            // performance of Naive Bayes on the above data set:
+            var cv = CrossValidation.Create(
+
+                k: 10, // We will be using 10-fold cross validation
+
+                // First we define the learning algorithm:
+                learner: (p) => new NaiveBayesLearning(),
+
+                // Now we have to specify how the tree performance should be measured:
+                loss: (actual, expected, p) => new ZeroOneLoss(expected).Loss(actual),
+
+                // This function can be used to perform any special
+                // operations before the actual learning is done, but
+                // here we will just leave it as simple as it can be:
+                fit: (teacher, x, y, w) => teacher.Learn(x, y, w),
+
+                // Finally, we have to pass the input and output data
+                // that will be used in cross-validation. 
+                x: inputs, y: outputs
+            );
+
+            // After the cross-validation object has been created,
+            // we can call its .Learn method with the input and 
+            // output data that will be partitioned into the folds:
+            var result = cv.Learn(inputs, outputs);
+
+            // We can grab some information about the problem:
+            int numberOfSamples = result.NumberOfSamples; // should be 15
+            int numberOfInputs = result.NumberOfInputs;   // should be 4
+            int numberOfOutputs = result.NumberOfOutputs; // should be 3
+
+            double trainingError = result.Training.Mean; // should be 0
+            double validationError = result.Validation.Mean; // should be 0.05
+            #endregion
+
+            Assert.AreEqual(15, numberOfSamples);
+            Assert.AreEqual(4, numberOfInputs);
+            Assert.AreEqual(3, numberOfOutputs);
+
+            Assert.AreEqual(10, cv.K);
+            Assert.AreEqual(0, result.Training.Mean, 1e-10);
+            Assert.AreEqual(0.05, result.Validation.Mean, 1e-10);
+
+            Assert.AreEqual(0, result.Training.Variance, 1e-10);
+            Assert.AreEqual(0.025000000000000005, result.Validation.Variance, 1e-10);
+
+            Assert.AreEqual(10, cv.Folds.Length);
+            Assert.AreEqual(10, result.Models.Length);
+
+        }
     }
 }
 #endif

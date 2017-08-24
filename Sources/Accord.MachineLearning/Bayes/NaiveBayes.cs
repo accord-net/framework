@@ -126,6 +126,11 @@ namespace Accord.MachineLearning.Bayes
     ///   Naive Bayes on those vectors.</para>
     /// 
     /// <code source="Unit Tests\Accord.Tests.MachineLearning\Bayes\NaiveBayesTest.cs" region="doc_multiclass" />
+    /// 
+    /// <para>
+    ///   Like all other learning algorithms in the framework, it is also possible to obtain a better measure
+    ///   of the performance of the Naive Bayes algorithm using cross-validation, as shown in the example below:</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\Bayes\NaiveBayesTest.cs" region="doc_cross_validation" />
     /// </example>
     /// 
     /// <seealso cref="NaiveBayesLearning"/>
