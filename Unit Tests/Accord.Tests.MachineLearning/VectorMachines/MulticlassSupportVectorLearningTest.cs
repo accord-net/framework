@@ -740,7 +740,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(0.5, machine[0].Value.Kernel.Gamma);
             Assert.AreEqual(0.5, machine[1].Value.Kernel.Gamma);
             Assert.AreEqual(0.5, machine[2].Value.Kernel.Gamma);
-            Assert.AreEqual(1.0231652126930515, loss);
+            Assert.AreEqual(1.0231652126930515, loss, 1e-8);
             Assert.IsTrue(predicted.IsEqual(outputs));
             Assert.IsTrue(expectedScores.IsEqual(scores, 1e-10));
             Assert.IsTrue(expectedLogL.IsEqual(logl, 1e-10));
