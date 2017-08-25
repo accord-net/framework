@@ -544,6 +544,7 @@ namespace Accord.Tests.MachineLearning
 
 #if !NET35
         [Test]
+        [Category("Slow")]
         public void cross_validation_decision_tree()
         {
         #region doc_learn_tree_cv

@@ -48,6 +48,7 @@ namespace Accord.Tests.Imaging
         }
 
         [Test]
+        [Category("Slow")]
         public void VarianceColorRotate()
         {
             Bitmap image = Accord.Imaging.Image.Clone(Resources.wiki_flower);

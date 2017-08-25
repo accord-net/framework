@@ -484,6 +484,7 @@ namespace Accord.Tests.Statistics
         }
 
         [Test]
+        [Category("Slow")]
         public void gh_803()
         {
             // Example from https://github.com/accord-net/framework/issues/803

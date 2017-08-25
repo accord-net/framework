@@ -282,6 +282,7 @@ namespace Accord.Tests.MachineLearning
         }
 
         [Test]
+        [Category("Slow")]
         public void learn_linear_sparse_kernel()
         {
             string tmp = Path.Combine(TestContext.CurrentContext.WorkDirectory, "tmp");
@@ -609,6 +610,7 @@ namespace Accord.Tests.MachineLearning
         }
 
         [Test]
+        [Category("Slow")]
         public void LargeLearningTest1()
         {
             // Create large input vectors

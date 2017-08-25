@@ -1018,7 +1018,7 @@ namespace Accord.Tests.MachineLearning
         [Test]
         public void gh_802()
         {
-            int[][] inputs = new int[][] 
+            int[][] inputs = new int[][]
             {
                 new int[] { 0, 2, 0, 10 },
                 new int[] { 0, 2, 0, 10 },
@@ -1179,7 +1179,7 @@ namespace Accord.Tests.MachineLearning
                 new int[] { 1, 1, 1, 6 },
                 new int[] { 0, 2, 0, 10 }
             };
-            
+
 
             int[] outputs = new int[] { 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1 };
 
@@ -1201,6 +1201,38 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(53.346248364202573, error, 1e-8);
 
         }
+
+
+
+        [Test]
+        public void gh_811()
+        {
+            // https://github.com/accord-net/framework/issues/811
+
+            Assert.That(() => new NaiveBayesLearning().Learn(new int[][] { new int[] { 1, 1, 1, 5 }, new int[] { 0, 2, 0, 10 } }, new int[] { 1, 1 }),
+                Throws.TypeOf<ArgumentException>().With.Message.EqualTo("There are no samples for class label 0. Please make sure that class labels are contiguous and there is at least one training sample for each label."));
+
+            Assert.That(() => new NaiveBayesLearning().Learn(new int[][] { new int[] { 1, 1, 1, 5 }, new int[] { 0, 2, 0, 10 } }, new int[] { 0, 0 }),
+                Throws.TypeOf<ArgumentOutOfRangeException>().With.Message.EqualTo(@"The number of classses should be higher than 1 (currently detected: 1).
+Parameter name: classes"));
+
+            Assert.That(() => new NaiveBayesLearning().Learn(new int[][] { new int[] { 1, 1, 1, 5 }, new int[] { 0, 2, 0, 10 } }, new int[] { 1, 2 }),
+                Throws.TypeOf<ArgumentException>().With.Message.EqualTo("There are no samples for class label 0. Please make sure that class labels are contiguous and there is at least one training sample for each label."));
+
+            Assert.That(() => new NaiveBayesLearning().Learn(new int[][] { new int[] { 1, 1, 1, 5 }, new int[] { 0, 2, 0, 10 } }, new int[] { 0, 0 }),
+                Throws.TypeOf<ArgumentOutOfRangeException>().With.Message.EqualTo(@"The number of classses should be higher than 1 (currently detected: 1).
+Parameter name: classes"));
+
+            Assert.That(() => new NaiveBayesLearning().Learn(new int[][] { new int[] { 1, 1, 1, 5 }, new int[] { 0, 2, 0, 10 } }, new int[] { 0, 3 }),
+                Throws.TypeOf<ArgumentException>().With.Message.EqualTo("There are no samples for class label 1. Please make sure that class labels are contiguous and there is at least one training sample for each label."));
+
+            Assert.That(() => new NaiveBayesLearning().Learn(new int[][] { new int[] { 1, -1, 1, 5 }, new int[] { 0, 2, 0, 10 } }, new int[] { 1, 1 }),
+                Throws.TypeOf<ArgumentException>().With.Message.EqualTo("The input vector ad index 0 contains a negative value at position 1, which is not supported by this algorithm."));
+
+            Assert.That(() => new NaiveBayesLearning().Learn(new int[][] { new int[] { 1, 1, -42, 5 }, new int[] { 0, 2, 0, 10 } }, new int[] { 0, 1 }),
+                Throws.TypeOf<ArgumentException>().With.Message.EqualTo("The input vector ad index 0 contains a negative value at position 2, which is not supported by this algorithm."));
+        }
+
     }
 }
 #endif

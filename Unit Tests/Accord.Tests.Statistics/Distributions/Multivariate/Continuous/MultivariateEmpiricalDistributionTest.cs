@@ -154,6 +154,7 @@ namespace Accord.Tests.Statistics
         }
 
         [Test]
+        [Category("Slow")]
         public void GenerateTest1()
         {
             Accord.Math.Tools.SetupGenerator(0);

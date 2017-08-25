@@ -34,6 +34,7 @@ namespace Accord.Tests.Math
     {
 
         [Test]
+        [Category("Slow")]
         public void FFTTest()
         {
             // Tests from 

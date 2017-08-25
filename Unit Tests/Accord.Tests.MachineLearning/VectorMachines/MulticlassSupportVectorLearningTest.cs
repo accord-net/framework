@@ -1180,6 +1180,7 @@ namespace Accord.Tests.MachineLearning
         }
 
         [Test]
+        [Category("Slow")]
         public void dynamic_time_warp_issue_470()
         {
             var instances = CsvReader.FromText(Resources.Shapes, hasHeaders: false).Select(x => new

@@ -38,6 +38,7 @@ namespace Accord.Tests.Imaging
     {
 
         [Test]
+        [Category("Slow")]
         public void NiblackTest1()
         {
             Bitmap image = Accord.Imaging.Image.Clone(Resources.lena512);
