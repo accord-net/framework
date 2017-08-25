@@ -16,11 +16,7 @@ install:
 script:
   - ./autogen.sh
   - make
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then 
-        make test-reduced # Travis has a limit of 50 minutes for jobs in OS X.
-    else
-        make test
-    fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]] ; then make test-reduced ; else make test ; fi
   - make check
     
 before_install:
