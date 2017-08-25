@@ -142,9 +142,9 @@ namespace Accord.Tests.Statistics
 
             expected = 2.1533930274840158;
             actual = target.Distance(x, y);
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected, actual, 1e-10);
             actual = target.Distance(y, x);
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected, actual, 1e-10);
 
 
             target = new DynamicTimeWarping(2, 1.42);

@@ -90,8 +90,11 @@ namespace Accord.DataSets
         public Chunking(string path = null)
             : base(path)
         {
-            Training = download("http://www.cnts.ua.ac.be/conll2000/chunking/train.txt.gz");
-            Testing = download("http://www.cnts.ua.ac.be/conll2000/chunking/test.txt.gz");
+            //Training = download("http://www.cnts.ua.ac.be/conll2000/chunking/train.txt.gz");
+            Training = download("https://onedrive.live.com/download?cid=808347681CC09388&resid=808347681CC09388%21529599&authkey=AEZPMjdmJutTF3k", "train.txt.gz");
+
+            //Testing = download("http://www.cnts.ua.ac.be/conll2000/chunking/test.txt.gz");
+            Testing = download("https://onedrive.live.com/download?cid=808347681CC09388&resid=808347681CC09388%21529598&authkey=AJ9SOABWAcm0FRY", "test.txt.gz");
 
             var trainWords = unique(Training.Item1);
             var testWords = unique(Testing.Item1);
@@ -115,10 +118,10 @@ namespace Accord.DataSets
             return voc;
         }
 
-        private Tuple<string[][], string[][]> download(string url)
+        private Tuple<string[][], string[][]> download(string url, string localFileName)
         {
             string uncompressedFileName;
-            Download(url, Path, out uncompressedFileName);
+            Download(url, Path, localFileName, out uncompressedFileName);
 
             var sentences = new List<string[]>();
             var tags = new List<string[]>();
