@@ -203,7 +203,7 @@ namespace Accord.Tests.Statistics
         {
             double actual = Circular.StandardError(angles, 0.05);
 
-            Assert.AreEqual(3.5294262881192373094e-01, actual);
+            Assert.AreEqual(3.5294262881192373094e-01, actual, 1e-10);
         }
 
         [Test]
