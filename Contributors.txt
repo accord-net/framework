@@ -8,6 +8,7 @@
  space below enlists a few of those people who either agreed to help
  or actively participated on its development:
  
+  - Alex Cross
   - Anders Gustafsson 
   - Antonino Porcino 
   - Antonis Kalapodis 
