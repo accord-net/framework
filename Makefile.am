@@ -89,6 +89,14 @@ test: build
 	$(MONO) --runtime=v4.0 ${NUNIT} --labels=All --timeout=1800000 --x86 \
 		--where "cat != Serialization && cat != Intensive && cat != WinForms && cat != Office && cat != MonoNotSupported && cat != Random" \
 		${TESTFILES}
+		
+test-reduced: build
+	$(MONO) --runtime=v4.0 ${NUNIT} --labels=All --timeout=1800000 \
+		--where "cat != Serialization && cat != Intensive && cat != WinForms && cat != Office && cat != MonoNotSupported && cat != Slow && cat != Random" \
+		${TESTFILES}
+	$(MONO) --runtime=v4.0 ${NUNIT} --labels=All --timeout=1800000 --x86 \
+		--where "cat != Serialization && cat != Intensive && cat != WinForms && cat != Office && cat != MonoNotSupported && cat != Slow && cat != Random" \
+		${TESTFILES}
 
 # target: clean - remove all obj and bin directories
 clean-local: 
