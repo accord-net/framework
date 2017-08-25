@@ -120,11 +120,9 @@ namespace Accord.Imaging.Filters
         /// 
         protected override unsafe void ProcessFilter(UnmanagedImage image, Rectangle rect)
         {
-            if (_horizontalKernelSize != 1)
-                HorizontalBoxBlur(ref image, rect, KernelSizeInRange(_horizontalKernelSize));
+            HorizontalBoxBlur(ref image, rect, KernelSizeInRange(_horizontalKernelSize));
 
-            if (_verticalKernelSize != 1)
-                VerticalBoxBlur(ref image, rect, KernelSizeInRange(_verticalKernelSize));
+            VerticalBoxBlur(ref image, rect, KernelSizeInRange(_verticalKernelSize));
         }
 
         static IntRange KernelSizeInRange(byte kernelSize)
@@ -137,7 +135,8 @@ namespace Accord.Imaging.Filters
 
         static unsafe void HorizontalBoxBlur(ref UnmanagedImage image, Rectangle rect, IntRange kernelSizeRange)
         {
-            int pixelSize = image.GetPixelFormatSizeInBytes();
+            var pixelSize = ((image.PixelFormat == PixelFormat.Format8bppIndexed) ||
+                (image.PixelFormat == PixelFormat.Format16bppGrayScale)) ? 1 : 3;
 
             int startY = rect.Top;
             int stopY = startY + rect.Height;
@@ -216,7 +215,8 @@ namespace Accord.Imaging.Filters
 
         static unsafe void VerticalBoxBlur(ref UnmanagedImage image, Rectangle rect, IntRange kernelSizeRange)
         {
-            int pixelSize = image.GetPixelFormatSizeInBytes();
+            var pixelSize = ((image.PixelFormat == PixelFormat.Format8bppIndexed) ||
+                (image.PixelFormat == PixelFormat.Format16bppGrayScale)) ? 1 : 3;
 
             int startY = rect.Top;
             int stopY = startY + rect.Height;
