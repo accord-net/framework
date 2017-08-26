@@ -65,6 +65,27 @@ namespace Accord.Tests.Math
             Assert.AreEqual(0, value, 1e-5);
         }
 
+
+        [Test]
+        public void CreateSearchWithParametersSetPropertiesSetsCorrectly()
+        {
+            Func<double, double> f = x => 2 * x + 4;
+
+            double lowerBound = -3;
+            double upperBound = +5;
+            double tolerance = 1e-9;
+            int maxIterations = 20;
+
+            BrentSearch sut = new BrentSearch(f, lowerBound, upperBound, tolerance, maxIterations);
+
+            Assert.AreSame(f, sut.Function);
+            Assert.AreEqual(lowerBound, sut.LowerBound);
+            Assert.AreEqual(upperBound, sut.UpperBound);
+            Assert.AreEqual(tolerance, sut.Tolerance);
+            Assert.AreEqual(maxIterations, sut.MaxIterations);
+        }
+
+
         [Test]
         public void FindRootTest()
         {
@@ -79,10 +100,87 @@ namespace Accord.Tests.Math
 
             Assert.AreEqual(expected, actual, 1e-6);
             Assert.IsFalse(Double.IsNaN(actual));
+
+            var search = new BrentSearch(f, a, b);
+            bool isSuccess = search.FindRoot();
+
+            Assert.True(isSuccess);
+            Assert.AreEqual(BrentSearchStatus.Success, search.Status);
+            Assert.AreEqual(expected, search.Solution, 1e-6);
+            Assert.That(Math.Abs(search.Value), Is.LessThan(1e-5));
         }
 
+
         [Test]
-        public void FindRootNotBoundedThrowsNonConvergenceException()
+        public void FindTest()
+        {
+            //  Example from http://en.wikipedia.org/wiki/Brent%27s_method
+            double value = 10;
+
+            Func<double, double> f = x => (x + 3) * Math.Pow((x - 1), 2) + value;
+            double a = -4;
+            double b = 4 / 3.0;
+
+            double expected = -3;
+            double actual = BrentSearch.Find(f, value, a, b);
+
+            Assert.AreEqual(expected, actual, 1e-6);
+            Assert.AreEqual(value, f(actual), 1e-5);
+
+            var search = new BrentSearch(f, a, b);
+            bool isSuccess = search.Find(value);
+
+            Assert.True(isSuccess);
+            Assert.AreEqual(BrentSearchStatus.Success, search.Status);
+            Assert.AreEqual(expected, search.Solution, 1e-6);
+            Assert.AreEqual(value, search.Value, 1e-5);
+        }
+
+
+        [Test]
+        public void MaximizeTest()
+        {
+            Func<double, double> f = x => -2 * x * x - 3 * x + 5;
+
+            double expected = -3 / 4d;
+            double actual = BrentSearch.Maximize(f, -200, +200);
+
+            Assert.AreEqual(expected, actual, 1e-10);
+
+
+            var search = new BrentSearch(f, -200, 200);
+            bool isSuccess = search.Maximize();
+
+            Assert.True(isSuccess);
+            Assert.AreEqual(BrentSearchStatus.Success, search.Status);
+            Assert.AreEqual(expected, search.Solution, 1e-10);
+            Assert.AreEqual(f(expected), search.Value, double.Epsilon);
+        }
+
+
+        [Test]
+        public void MinimizeTest()
+        {
+            Func<double, double> f = x => 2 * x * x - 3 * x + 5;
+
+            double expected = 3 / 4d;
+            double actual = BrentSearch.Minimize(f, -200, +200);
+
+            Assert.AreEqual(expected, actual, 1e-10);
+
+
+            var search = new BrentSearch(f, -200, 200);
+            bool isSuccess = search.Minimize();
+
+            Assert.True(isSuccess);
+            Assert.AreEqual(BrentSearchStatus.Success, search.Status);
+            Assert.AreEqual(expected, search.Solution, 1e-10);
+            Assert.AreEqual(f(expected), search.Value, double.Epsilon);
+        }
+
+
+        [Test]
+        public void FindRootNotBoundedThrowsConvergenceException()
         {
             Func<double, double> f = x => (x + 2) * (x - 2);
             double a = -1;
@@ -94,8 +192,24 @@ namespace Accord.Tests.Math
             });
         }
 
+
         [Test]
-        public void FindRootBoundedTwiceThrowsNonConvergenceException()
+        public void FindRootNotBoundedFailsToSolve()
+        {
+            Func<double, double> f = x => (x + 2) * (x - 2);
+            double a = -1;
+            double b = +1;
+
+            var search = new BrentSearch(f, a, b);
+            var isSuccess = search.FindRoot();
+
+            Assert.AreEqual(false, isSuccess);
+            Assert.AreEqual(BrentSearchStatus.RootNotBracketed, search.Status);
+        }
+
+
+        [Test]
+        public void FindRootBoundedTwiceThrowsConvergenceException()
         {
             Func<double, double> f = x => (x + 2) * (x - 2);
             double a = -3;
@@ -107,27 +221,81 @@ namespace Accord.Tests.Math
             });
         }
 
+
         [Test]
-        public void MaximizeTest()
+        public void FindRootBoundedTwiceFailsToSolve()
         {
-            Func<double, double> f = x => -2 * x * x - 3 * x + 5;
+            Func<double, double> f = x => (x + 2) * (x - 2);
+            double a = -3;
+            double b = +3;
 
-            double expected = -3 / 4.0;
-            double actual = BrentSearch.Maximize(f, -200, +200);
+            var search = new BrentSearch(f, a, b);
+            var isSuccess = search.FindRoot();
 
-            Assert.AreEqual(expected, actual, 1e-10);
+            Assert.AreEqual(false, isSuccess);
+            Assert.AreEqual(BrentSearchStatus.RootNotBracketed, search.Status);
         }
 
 
         [Test]
-        public void MinimizeTest()
+        public void FindRootWithLowMaxIterationsThrowsConvergenceException()
         {
-            Func<double, double> f = x => 2 * x * x - 3 * x + 5;
+            Func<double, double> f = x => (x + 2) * (x - 2);
+            double a = -1;
+            double b = +3000;
 
-            double expected = 3 / 4.0;
-            double actual = BrentSearch.Minimize(f, -200, +200);
+            Assert.Throws<ConvergenceException>(() =>
+            {
+                double actual = BrentSearch.FindRoot(f, a, b, maxIterations: 5);
+            });
+        }
 
-            Assert.AreEqual(expected, actual, 1e-10);
+
+        [Test]
+        public void FindRootWithLowMaxIterationsFailsToSolveButGivesLastKnownSolution()
+        {
+            Func<double, double> f = x => (x + 2) * (x - 2);
+            double a = -1;
+            double b = +3000;
+
+            var search = new BrentSearch(f, a, b, maxIterations: 5);
+            var isSuccess = search.FindRoot();
+
+            Assert.AreEqual(false, isSuccess);
+            Assert.AreEqual(BrentSearchStatus.MaxIterationsReached, search.Status);
+
+            Assert.That(search.Solution, Is.GreaterThan(a).And.LessThan(b));
+        }
+
+
+        [Test]
+        public void MaximizeWithLowMaxIterationsThrowsConvergenceException()
+        {
+            Func<double, double> f = x => -2 * x * x - 3 * x + 5;
+            double a = -200;
+            double b = +200;
+
+            Assert.Throws<ConvergenceException>(() =>
+            {
+                double actual = BrentSearch.Maximize(f, a, b, maxIterations: 10);
+            });
+        }
+
+
+        [Test]
+        public void MaximizeWithLowMaxIterationsFailsToSolveButGivesLastKnownSolution()
+        {
+            Func<double, double> f = x => -2 * x * x - 3 * x + 5;
+            double a = -200;
+            double b = +200;
+
+            var search = new BrentSearch(f, a, b, maxIterations: 10);
+            var isSuccess = search.Maximize();
+
+            Assert.AreEqual(false, isSuccess);
+            Assert.AreEqual(BrentSearchStatus.MaxIterationsReached, search.Status);
+
+            Assert.That(search.Solution, Is.GreaterThan(a).And.LessThan(b));
         }
     }
 }
