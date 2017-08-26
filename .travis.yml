@@ -35,6 +35,3 @@ matrix:
     - os: osx
       mono: 4.8.0
           
-  allow_failures:
-    - os: osx
-      mono: latest
