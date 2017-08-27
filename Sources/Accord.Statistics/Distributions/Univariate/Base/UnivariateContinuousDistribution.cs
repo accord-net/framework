@@ -813,13 +813,17 @@ namespace Accord.Statistics.Distributions.Univariate
                         f = DistributionFunction(upper);
                     }
                 }
-                else
+                else if (f < p)
                 {
                     while (f < p && !Double.IsInfinity(upper))
                     {
                         upper += 2 * (upper - lower) + 1;
                         f = DistributionFunction(upper);
                     }
+                }
+                else
+                {
+                    return lower;
                 }
             }
 
@@ -838,13 +842,17 @@ namespace Accord.Statistics.Distributions.Univariate
                         f = DistributionFunction(lower);
                     }
                 }
-                else
+                else if (f < p)
                 {
                     while (f < p && !Double.IsInfinity(lower))
                     {
                         lower = lower - 2 * lower;
                         f = DistributionFunction(lower);
                     }
+                }
+                else
+                {
+                    return upper;
                 }
             }
 
@@ -864,7 +872,7 @@ namespace Accord.Statistics.Distributions.Univariate
                         f = DistributionFunction(lower);
                     }
                 }
-                else
+                else if (f < p)
                 {
                     while (f < p && !Double.IsInfinity(upper))
                     {
@@ -872,6 +880,10 @@ namespace Accord.Statistics.Distributions.Univariate
                         upper = 2 * upper + 1;
                         f = DistributionFunction(upper);
                     }
+                }
+                else
+                {
+                    return 0;
                 }
             }
 

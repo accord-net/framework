@@ -28,7 +28,7 @@ namespace Accord.Math.Optimization
     ///   Status codes for the <see cref="BrentSearch"/>.
     /// </summary>
     /// 
-    public enum BrentSearchStatus
+    public enum BrentSearchStatus : byte
     {
         /// <summary>
         ///   The status is unset.
