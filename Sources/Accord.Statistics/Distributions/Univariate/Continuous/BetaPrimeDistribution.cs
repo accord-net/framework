@@ -221,7 +221,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override DoubleRange Support
         {
-            get { return new DoubleRange(0, Double.MaxValue); }
+            get { return new DoubleRange(0, Double.PositiveInfinity); }
         }
 
         /// <summary>
