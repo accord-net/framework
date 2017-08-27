@@ -148,28 +148,19 @@ namespace Accord.Statistics.Testing.Power
             // Attempt to locate the optimal sample size
             // to attain the required power by locating
             // a zero in the difference function:
-
-            double sol = BrentSearch.FindRoot(n =>
+            var search = new BrentSearch(n =>
             {
                 Samples = n;
                 ComputePower();
 
-                return requiredPower - Power;
+                return Power;
             },
 
             lowerBound: 2,
             upperBound: 1e+4);
 
-
-            // Check it
-            Samples = sol;  
-            ComputePower(); 
-
-            double newPower = Power;
+            Samples = search.Find(requiredPower) ? search.Solution : double.NaN;
             Power = requiredPower;
-
-            if (Math.Abs(requiredPower - newPower) > 1e-5)
-                Samples = Double.NaN;
         }
 
         /// <summary>
