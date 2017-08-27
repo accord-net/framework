@@ -285,6 +285,8 @@ namespace Accord.Tests.MachineLearning
         [Category("Slow")]
         public void learn_linear_sparse_kernel()
         {
+            Accord.Math.Random.Generator.Seed = 0;
+
             string tmp = Path.Combine(TestContext.CurrentContext.WorkDirectory, "tmp");
             var news20 = new Accord.DataSets.News20(tmp);
 
