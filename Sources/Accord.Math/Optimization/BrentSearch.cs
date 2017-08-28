@@ -534,9 +534,9 @@ namespace Accord.Math.Optimization
             if (tol < 0)
                 throw new ArgumentOutOfRangeException("tol", "Tolerance must be positive.");
 
-            double fa = function(lowerBound); // Abscissas 
-            double fb = function(upperBound); // f(a) 
-            double c = lowerBound;            // f(b)
+            double fa = function(lowerBound); // f(a)
+            double fb = function(upperBound); // f(b) 
+            double c = lowerBound;            // Abscissas
             double fc = fa;                   // f(c)
 
             if (Math.Sign(fa) == Math.Sign(fb))
