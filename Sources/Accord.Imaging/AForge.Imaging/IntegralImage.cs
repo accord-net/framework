@@ -11,6 +11,7 @@ namespace Accord.Imaging
     using System;
     using System.Drawing;
     using System.Drawing.Imaging;
+    using Accord.Math;
 
     /// <summary>
     /// Integral image.
@@ -57,7 +58,7 @@ namespace Accord.Imaging
         /// 
         /// <remarks>See remarks to <see cref="InternalData"/> property.</remarks>
         /// 
-        protected readonly uint[,] integralImage = null;
+        protected readonly uint[][] integralImage = null;
 
         // image's width and height
         private readonly int width;
@@ -91,7 +92,7 @@ namespace Accord.Imaging
         /// rectangles' sums.</note></para>
         /// </remarks>
         /// 
-        public uint[,] InternalData
+        public uint[][] InternalData
         {
             get { return integralImage; }
         }
@@ -111,7 +112,7 @@ namespace Accord.Imaging
         {
             this.width = width;
             this.height = height;
-            integralImage = new uint[height + 1, width + 1];
+            integralImage = Jagged.Zeros<uint>(height + 1, width + 1);
         }
 
         /// <summary>
@@ -129,7 +130,7 @@ namespace Accord.Imaging
             // check image format
             if (image.PixelFormat != PixelFormat.Format8bppIndexed)
             {
-                throw new UnsupportedImageFormatException("Source image can be graysclae (8 bpp indexed) image only.");
+                throw new UnsupportedImageFormatException("Source image can be grayscale (8 bpp indexed) image only.");
             }
 
             // lock source image
@@ -174,7 +175,7 @@ namespace Accord.Imaging
             // check image format
             if (image.PixelFormat != PixelFormat.Format8bppIndexed)
             {
-                throw new ArgumentException("Source image can be graysclae (8 bpp indexed) image only.");
+                throw new ArgumentException("Source image can be grayscale (8 bpp indexed) image only.");
             }
 
             // get source image size
@@ -184,7 +185,7 @@ namespace Accord.Imaging
 
             // create integral image
             var im = new IntegralImage(width, height);
-            uint[,] integralImage = im.integralImage;
+            uint[][] integralImage = im.integralImage;
 
             // do the job
             unsafe
@@ -203,7 +204,7 @@ namespace Accord.Imaging
 
                         rowSum += *src;
 
-                        integralImage[y, x] = rowSum + integralImage[y - 1, x];
+                        integralImage[y][x] = rowSum + integralImage[y - 1][x];
                     }
                     src += offset;
                 }
@@ -240,7 +241,7 @@ namespace Accord.Imaging
             if (x2 > width) x2 = width;
             if (y2 > height) y2 = height;
 
-            return integralImage[y2, x2] + integralImage[y1, x1] - integralImage[y2, x1] - integralImage[y1, x2];
+            return integralImage[y2][x2] + integralImage[y1][x1] - integralImage[y2][x1] - integralImage[y1][x2];
         }
 
         /// <summary>
@@ -313,7 +314,7 @@ namespace Accord.Imaging
             x2++;
             y2++;
 
-            return integralImage[y2, x2] + integralImage[y1, x1] - integralImage[y2, x1] - integralImage[y1, x2];
+            return integralImage[y2][x2] + integralImage[y1][x1] - integralImage[y2][x1] - integralImage[y1][x2];
         }
 
         /// <summary>
@@ -385,7 +386,7 @@ namespace Accord.Imaging
             if (y2 > height) y2 = height;
 
             // return sum divided by actual rectangles size
-            return (float)((double)(integralImage[y2, x2] + integralImage[y1, x1] - integralImage[y2, x1] - integralImage[y1, x2]) /
+            return (float)((double)(integralImage[y2][x2] + integralImage[y1][x1] - integralImage[y2][x1] - integralImage[y1][x2]) /
                 (double)((x2 - x1) * (y2 - y1)));
         }
 
@@ -408,7 +409,7 @@ namespace Accord.Imaging
             y2++;
 
             // return sum divided by actual rectangles size
-            return (float)((double)(integralImage[y2, x2] + integralImage[y1, x1] - integralImage[y2, x1] - integralImage[y1, x2]) /
+            return (float)((double)(integralImage[y2][x2] + integralImage[y1][x1] - integralImage[y2][x1] - integralImage[y1][x2]) /
                 (double)((x2 - x1) * (y2 - y1)));
         }
 
