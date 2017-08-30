@@ -272,6 +272,13 @@ namespace Accord.Tests.Math
             Assert.AreEqual(0.69314718055994529d, new LogisticLoss().Loss(true, 0), 1e-10);
             Assert.AreEqual(0.69314718055994529d, new LogisticLoss().Loss(false, 0), 1e-10);
         }
+        
+        [Test]
+        public void gh_824()
+        {
+            double loss = new ZeroOneLoss(new int[] {0, 1}).Loss(new int[] {0, 2}); 
+            Assert.AreEqual(0.5, loss, 1e-10);
+        }
 
     }
 }
