@@ -27,8 +27,8 @@ namespace Accord.Math.Optimization
     using System.Globalization;
     using System.Linq.Expressions;
     using System.Text;
-    using System.Text.RegularExpressions;
     using Accord.Compat;
+    using System.Linq;
 
     /// <summary>
     ///   Quadratic objective function.
@@ -139,7 +139,6 @@ namespace Accord.Math.Optimization
 
         private double[,] Q;
         private double[] d;
-        private double c;
 
 
         /// <summary>
@@ -158,11 +157,7 @@ namespace Accord.Math.Optimization
         ///   Gets the constant term in the quadratic function.
         /// </summary>
         /// 
-        public double ConstantTerm
-        {
-            get { return c; }
-            set { c = value; }
-        }
+        public double ConstantTerm { get; set; }
 
         /// <summary>
         ///   Creates a new objective function specified through a string.
@@ -174,10 +169,10 @@ namespace Accord.Math.Optimization
         /// 
         public QuadraticObjectiveFunction(double[,] quadraticTerms, double[] linearTerms, params string[] variables)
         {
-            if (quadraticTerms.GetLength(0) != quadraticTerms.GetLength(1))
+            if (quadraticTerms.Rows() != quadraticTerms.Columns())
                 throw new DimensionMismatchException("quadraticTerms", "The matrix must be square.");
 
-            if (quadraticTerms.GetLength(0) != linearTerms.Length)
+            if (quadraticTerms.Rows() != linearTerms.Length)
                 throw new DimensionMismatchException("linearTerms",
                     "The vector of linear terms must have the same length as the Hessian matrix side.");
 
@@ -216,7 +211,7 @@ namespace Accord.Math.Optimization
         /// the function in the form similar to "ax²+b".</param>
         /// 
         public QuadraticObjectiveFunction(string function)
-            : this(function, System.Globalization.CultureInfo.InvariantCulture)
+            : this(function, CultureInfo.InvariantCulture)
         {
         }
 
@@ -230,9 +225,9 @@ namespace Accord.Math.Optimization
         ///   numbers written in the <paramref name="function"/> should
         ///   be parsed. Default is CultureInfo.InvariantCulture.</param>
         /// 
-        public QuadraticObjectiveFunction(string function, System.Globalization.CultureInfo culture)
+        public QuadraticObjectiveFunction(string function, CultureInfo culture)
         {
-            var terms = parseString(function, culture);
+            var terms = QuadraticExpressionParser.ParseString(function, culture);
 
             initialize(terms);
         }
@@ -248,7 +243,7 @@ namespace Accord.Math.Optimization
         {
             var terms = new Dictionary<Tuple<string, string>, double>();
             double scalar;
-            parseExpression(terms, function.Body, out scalar);
+            QuadraticExpressionParser.ParseExpression(terms, function.Body, out scalar);
 
             initialize(terms);
         }
@@ -277,7 +272,7 @@ namespace Accord.Math.Optimization
                 }
                 else
                 {
-                    c = term.Value;
+                    ConstantTerm = term.Value;
                 }
             }
 
@@ -313,14 +308,11 @@ namespace Accord.Math.Optimization
                     if (quadratic.ContainsKey(k))
                     {
                         double s = quadratic[k];
-                        Q[i, j] = s;
-                        Q[j, i] = s;
+                        Q[i, j] += s;
+                        Q[j, i] += s;
                     }
                 }
             }
-
-            for (int i = 0; i < n; i++)
-                Q[i, i] *= 2;
 
             return Q;
         }
@@ -332,8 +324,9 @@ namespace Accord.Math.Optimization
 
             for (int i = 0; i < Indices.Count; i++)
             {
-                if (linear.ContainsKey(Indices[i]))
-                    d[i] = linear[Indices[i]];
+                var x = Indices[i];
+                if (linear.ContainsKey(x))
+                    d[i] += linear[x];
             }
 
             return d;
@@ -343,19 +336,177 @@ namespace Accord.Math.Optimization
         {
             double a = 0.5 * input.DotAndDot(Q, input);
             double b = input.Dot(d);
-            return a + b + c;
+            return a + b + ConstantTerm;
         }
 
         private double[] gradient(double[] input)
         {
-            double[] g = Q.TransposeAndDot(input);
-            for (int i = 0; i < d.Length; i++)
-                g[i] += d[i];
-
+            double[] g = Q.Dot(input);
+            g.Add(d, g);
+            
             return g;
         }
 
+        #region Operator Overloads
 
+        public static QuadraticObjectiveFunction operator *(double scalar, QuadraticObjectiveFunction a)
+        {
+            double[] linearTerms = a.LinearTerms.Multiply(scalar);
+            double[,] quadraticTerms = a.QuadraticTerms.Multiply(scalar);
+            double constantTerm = a.ConstantTerm * scalar;
+
+            string[] variables = new string[a.NumberOfVariables];
+            for (int i = 0; i < variables.Length; i++)
+                variables[i] = a.InnerIndices[i];
+
+            var scaled = new QuadraticObjectiveFunction(quadraticTerms, linearTerms, variables)
+            {
+                ConstantTerm = constantTerm,
+            };
+
+            scaled.linear = a.linear == null ? 
+                null : a.linear.ToDictionary(kvp => kvp.Key, kvp => kvp.Value * scalar);
+
+            scaled.quadratic = a.quadratic == null ?
+                null : a.quadratic.ToDictionary(kvp => kvp.Key, kvp => kvp.Value * scalar);
+
+            return scaled;
+        }
+
+        public static QuadraticObjectiveFunction operator *(QuadraticObjectiveFunction a, double scalar)
+        {
+            return scalar * a;
+        }
+
+        public static QuadraticObjectiveFunction operator /(QuadraticObjectiveFunction a, double scalar)
+        {
+            if (scalar == 0)
+            {
+                throw new DivideByZeroException("Cannot divide objective function by zero");
+            }
+
+            return a * (1 / scalar);
+        }
+
+        public static QuadraticObjectiveFunction operator -(QuadraticObjectiveFunction a)
+        {
+            return -1 * a;
+        }
+
+        public static QuadraticObjectiveFunction operator +(QuadraticObjectiveFunction a, QuadraticObjectiveFunction b)
+        {
+            if (a.NumberOfVariables != b.NumberOfVariables)
+                throw new DimensionMismatchException("NumberOfVariables",
+                    "The quadratic objective functions must have the same number of variables.");
+
+            double[] linearTerms = a.LinearTerms.Add(b.LinearTerms);
+            double[,] quadraticTerms = a.QuadraticTerms.Add(b.QuadraticTerms);
+            double constantTerm = a.ConstantTerm + b.ConstantTerm;
+
+            string[] variables;
+            if (a.InnerIndices.All(kvp => kvp.Value == b.InnerIndices[kvp.Key]))
+            {
+                variables = new string[a.NumberOfVariables];
+                for (int i = 0; i < variables.Length; i++)
+                    variables[i] = a.InnerIndices[i];
+            }
+            else
+            {
+                variables = new string[0];
+            }
+
+            var combined = new QuadraticObjectiveFunction(quadraticTerms, linearTerms, variables)
+            {
+                ConstantTerm = constantTerm,
+            };
+
+            // The variables don't match. We cannot combine.
+            if (variables.Length == 0)
+                return combined;
+
+            if (a.quadratic == null || b.quadratic == null)
+                return combined;
+
+            combined.quadratic = new Dictionary<Tuple<string, string>, double>(a.quadratic);
+            combined.linear = new Dictionary<string, double>(a.linear);
+
+            foreach (var term in b.quadratic)
+            {
+                if (combined.quadratic.ContainsKey(term.Key))
+                    combined.quadratic[term.Key] += term.Value;
+                else
+                    combined.quadratic[term.Key] = term.Value;
+            }
+
+            foreach (var term in b.linear)
+            {
+                if (combined.linear.ContainsKey(term.Key))
+                    combined.linear[term.Key] += term.Value;
+                else
+                    combined.linear[term.Key] = term.Value;
+            }
+
+            return combined;
+        }
+
+        public static QuadraticObjectiveFunction operator -(QuadraticObjectiveFunction a, QuadraticObjectiveFunction b)
+        {
+            if (a.NumberOfVariables != b.NumberOfVariables)
+                throw new DimensionMismatchException("NumberOfVariables",
+                    "The quadratic objective functions must have the same number of variables.");
+
+            double[] linearTerms = a.LinearTerms.Subtract(b.LinearTerms);
+            double[,] quadraticTerms = a.QuadraticTerms.Subtract(b.QuadraticTerms);
+            double constantTerm = a.ConstantTerm - b.ConstantTerm;
+
+            string[] variables;
+            if (a.InnerIndices.All(kvp => kvp.Value == b.InnerIndices[kvp.Key]))
+            {
+                variables = new string[a.NumberOfVariables];
+                for (int i = 0; i < variables.Length; i++)
+                    variables[i] = a.InnerIndices[i];
+            }
+            else
+            {
+                variables = new string[0];
+            }
+
+            var combined = new QuadraticObjectiveFunction(quadraticTerms, linearTerms, variables)
+            {
+                ConstantTerm = constantTerm,
+            };
+
+            // The variables don't match. We cannot combine.
+            if (variables.Length == 0)
+                return combined;
+
+            if (a.quadratic == null || b.quadratic == null)
+                return combined;
+
+            combined.quadratic = new Dictionary<Tuple<string, string>, double>(a.quadratic);
+            combined.linear = new Dictionary<string, double>(a.linear);
+
+            foreach (var term in b.quadratic)
+            {
+                if (combined.quadratic.ContainsKey(term.Key))
+                    combined.quadratic[term.Key] -= term.Value;
+                else
+                    combined.quadratic[term.Key] = -term.Value;
+            }
+
+            foreach (var term in b.linear)
+            {
+                if (combined.linear.ContainsKey(term.Key))
+                    combined.linear[term.Key] -= term.Value;
+                else
+                    combined.linear[term.Key] = -term.Value;
+            }
+
+            return combined;
+        }
+
+
+        #endregion
 
         /// <summary>
         ///   Returns a <see cref="System.String"/> that represents this instance.
@@ -367,302 +518,29 @@ namespace Accord.Math.Optimization
         /// 
         public override string ToString()
         {
+            if (quadratic == null || linear == null)
+            {
+                return string.Format("{0}-dimensional quadratic objective function", NumberOfVariables);
+            }
+
             StringBuilder sb = new StringBuilder();
 
-            foreach (var term in quadratic)
+            foreach (var term in quadratic.Where(t => t.Value != 0))
                 sb.AppendFormat("{0:+#;-#}{1}{2} ", term.Value, term.Key.Item1, term.Key.Item2);
 
-            foreach (var term in linear)
+            foreach (var term in linear.Where(t => t.Value != 0))
                 sb.AppendFormat("{0:+#;-#}{1} ", term.Value, term.Key);
 
-            if (c != 0)
-                sb.AppendFormat("{0:+#;-#} ", c);
+            if (ConstantTerm != 0)
+                sb.AppendFormat("{0:+#;-#} ", ConstantTerm);
 
-            if (sb.Length > 0)
-                sb.Remove(sb.Length - 1, 1);
+            if (sb.Length == 0)
+                return "0";
+
+            sb.Remove(sb.Length - 1, 1);
 
             return sb.ToString();
         }
-
-
-
-
-
-
-        private static Dictionary<Tuple<string, string>, double> parseString(string f, System.Globalization.CultureInfo culture)
-        {
-            f = f.Replace("*", String.Empty).Replace(" ", String.Empty);
-
-            var terms = new Dictionary<Tuple<string, string>, double>();
-
-            Regex replaceQuad = new Regex(@"([a-zA-Z])(²)");
-            f = replaceQuad.Replace(f, "$1$1");
-
-
-            string separator = culture.NumberFormat.NumberDecimalSeparator;
-
-            Regex r = new Regex(@"[\-\+]?[\s]*((\d*\" + separator + @"{0,1}\d+)|[a-zA-Z][²]?)+");
-            Regex number = new Regex(@"\d*\" + separator + @"{0,1}\d+");
-            Regex symbol = new Regex(@"[a-zA-Z]");
-
-
-            MatchCollection matches = r.Matches(f, 0);
-
-            foreach (Match m in matches)
-            {
-                string term = m.Value;
-
-                double scalar = (term[0] == '-') ? -1 : 1;
-
-                // Extract value
-                MatchCollection coeff = number.Matches(term);
-
-                foreach (Match c in coeff)
-                    scalar *= Double.Parse(c.Value, culture);
-
-                // Extract symbols
-                MatchCollection symbols = symbol.Matches(term);
-
-                if (symbols.Count == 1)
-                    terms.Add(Tuple.Create(symbols[0].Value, (string)null), scalar);
-                else if (symbols.Count == 2)
-                    terms.Add(Tuple.Create(symbols[0].Value, symbols[1].Value), scalar);
-                else
-                    terms.Add(Tuple.Create((string)null, (string)null), scalar);
-            }
-
-            return terms;
-        }
-
-        private static Tuple<string, string> parseExpression(
-          Dictionary<Tuple<string, string>, double> terms,
-          Expression expr, out double scalar, bool dontAdd = false)
-        {
-            scalar = 0;
-
-            if (expr == null)
-                return null;
-
-            BinaryExpression eb = expr as BinaryExpression;
-            MemberExpression em = expr as MemberExpression;
-            UnaryExpression eu = expr as UnaryExpression;
-
-            if (em != null) // member expression
-            {
-                var term = Tuple.Create(em.Member.Name, (string)null);
-                terms[term] = 1;
-                return term;
-            }
-            else if (eb != null) // binary expression
-            {
-                if (expr.NodeType == ExpressionType.Multiply)
-                {
-                    // This could be either a constant*expression, expression*constant or expression*expression
-                    ConstantExpression c = eb.Left as ConstantExpression ?? eb.Right as ConstantExpression;
-
-                    MemberExpression lm = eb.Left as MemberExpression;
-                    BinaryExpression lb = eb.Left as BinaryExpression;
-                    UnaryExpression lu = eb.Left as UnaryExpression;
-
-                    MemberExpression rm = eb.Right as MemberExpression;
-                    BinaryExpression rb = eb.Right as BinaryExpression;
-                    UnaryExpression ru = eb.Right as UnaryExpression;
-
-
-                    if (c != null)
-                    {
-                        // This is constant*expression or expression*constant
-                        scalar = (double)c.Value;
-
-                        if ((lm ?? rm) != null)
-                        {
-                            var term = Tuple.Create((lm ?? rm).Member.Name, (string)null);
-                            if (!dontAdd) terms[term] = scalar;
-                            return term;
-                        }
-                        else if ((lb ?? rb ?? (Expression)lm ?? lu) != null)
-                        {
-                            double n;
-                            var term = parseExpression(terms, lb ?? lu ?? (Expression)rb ?? ru, out n);
-                            if (!dontAdd) terms[term] = scalar;
-                            return term;
-                        }
-                        else throw new FormatException("Unexpected expression.");
-                    }
-                    else
-                    {
-                        // This is x * x
-                        if (lm != null && rm != null)
-                        {
-                            scalar = 1;
-                            return addTuple(terms, scalar, lm.Member.Name, rm.Member.Name);
-                        }
-                        else if ((lb ?? rb ?? lu ?? (Expression)ru) != null && (lm ?? rm) != null)
-                        {
-                            // This is expression * x
-                            var term = parseExpression(terms, (lb ?? rb ?? lu ?? (Expression)ru), out scalar, dontAdd: true);
-                            return addTuple(terms, scalar, term.Item1, (lm ?? rm).Member.Name);
-                        }
-                        else throw new FormatException("Unexpected expression.");
-                    }
-                }
-                else if (expr.NodeType == ExpressionType.Add)
-                {
-                    // This could be an expression + term, a term + expression or an expression + expression
-                    BinaryExpression lb = eb.Left as BinaryExpression;
-                    MemberExpression lm = eb.Left as MemberExpression;
-                    UnaryExpression lu = eb.Left as UnaryExpression;
-
-                    BinaryExpression rb = eb.Right as BinaryExpression;
-                    MemberExpression rm = eb.Right as MemberExpression;
-                    ConstantExpression rc = eb.Right as ConstantExpression;
-
-                    scalar = 1;
-                    if (lb != null)
-                    {
-                        parseExpression(terms, lb, out scalar);
-                    }
-                    else if (lm != null)
-                    {
-                        var term = Tuple.Create(lm.Member.Name, (string)null);
-                        if (!dontAdd) 
-                            terms[term] = scalar;
-                    }
-                    else if (lu != null)
-                    {
-                        parseExpression(terms, lu, out scalar);
-                    }
-                    else throw new FormatException("Unexpected expression.");
-
-                    scalar = 1;
-                    if (rb != null)
-                    {
-                        parseExpression(terms, rb, out scalar);
-                    }
-                    else if (rm != null)
-                    {
-                        var term = Tuple.Create(rm.Member.Name, (string)null);
-                        if (!dontAdd)
-                            terms[term] = scalar;
-                    }
-                    else if (rc != null)
-                    {
-                        scalar = (double)rc.Value;
-                        var term = Tuple.Create((string)null, (string)null);
-                        if (!dontAdd) 
-                            terms[term] = scalar;
-                    }
-                    else throw new FormatException("Unexpected expression.");
-
-                }
-                else if (expr.NodeType == ExpressionType.Subtract)
-                {
-                    // This could be an expression - term, a term - expression or an expression - expression
-                    BinaryExpression lb = eb.Left as BinaryExpression;
-                    MemberExpression lm = eb.Left as MemberExpression;
-                    UnaryExpression lu = eb.Left as UnaryExpression;
-
-                    BinaryExpression rb = eb.Right as BinaryExpression;
-                    MemberExpression rm = eb.Right as MemberExpression;
-
-                    ConstantExpression rc = eb.Right as ConstantExpression;
-
-
-                    if (lb != null)
-                    {
-                        parseExpression(terms, lb, out scalar);
-                    }
-                    else if (lm != null)
-                    {
-                        scalar = 1;
-                        var term = Tuple.Create(lm.Member.Name, (string)null);
-                        if (!dontAdd) terms[term] = scalar;
-                    }
-                    else if (lu != null)
-                    {
-                        parseExpression(terms, lu, out scalar);
-                    }
-                    else throw new FormatException("Unexpected expression.");
-
-                    if (rb != null)
-                    {
-                        var term = parseExpression(terms, rb, out scalar);
-                        terms[term] = -scalar;
-                    }
-                    else if (rm != null)
-                    {
-                        scalar = -1;
-                        var term = Tuple.Create(rm.Member.Name, (string)null);
-                        if (!dontAdd) terms[term] = scalar;
-                    }
-                    else if (rc != null)
-                    {
-                        scalar = (double)rc.Value;
-                        var term = Tuple.Create((string)null, (string)null);
-                        terms[term] = -scalar;
-                    }
-                    else throw new FormatException("Unexpected expression.");
-                }
-            }
-            else if (eu != null) // unary expression
-            {
-                if (expr.NodeType == ExpressionType.UnaryPlus)
-                {
-                    BinaryExpression lb = eu.Operand as BinaryExpression;
-                    MemberExpression lm = eu.Operand as MemberExpression;
-
-                    if (lm != null)
-                    {
-                        scalar = 1;
-                        var term = Tuple.Create(lm.Member.Name, (string)null);
-                        if (!dontAdd) terms[term] = scalar;
-                        return term;
-                    }
-                    else if (lb != null)
-                    {
-                        var term = parseExpression(terms, lb, out scalar);
-                        if (!dontAdd) terms[term] = scalar;
-                    }
-                    else throw new FormatException("Unexpected expression.");
-                }
-                else if (expr.NodeType == ExpressionType.Negate)
-                {
-                    BinaryExpression lb = eu.Operand as BinaryExpression;
-                    MemberExpression lm = eu.Operand as MemberExpression;
-
-                    if (lm != null)
-                    {
-                        scalar = -1;
-                        var term = Tuple.Create(lm.Member.Name, (string)null);
-                        if (!dontAdd) terms[term] = scalar;
-                        return term;
-                    }
-                    else if (lb != null)
-                    {
-                        var term = parseExpression(terms, lb, out scalar);
-                        terms[term] = -scalar;
-                    }
-                    else throw new FormatException("Unexpected expression.");
-                }
-                else throw new FormatException("Unexpected expression.");
-            }
-            else throw new FormatException("Unexpected expression.");
-
-            return null;
-        }
-
-        private static Tuple<string, string> addTuple(Dictionary<Tuple<string, string>,
-            double> terms, double v, string v1, string v2)
-        {
-
-            var t1 = Tuple.Create(v1, v2);
-            var t2 = Tuple.Create(v2, v1);
-
-            if (!terms.ContainsKey(t1) && !terms.ContainsKey(t2))
-                terms[t1] = v;
-            return t1;
-        }
-
 
         /// <summary>
         ///   Attempts to create a <see cref="QuadraticObjectiveFunction"/>
@@ -677,7 +555,7 @@ namespace Accord.Math.Optimization
         /// 
         public static bool TryParse(string str, out QuadraticObjectiveFunction function)
         {
-            return TryParse(str, System.Globalization.CultureInfo.InvariantCulture, out function);
+            return TryParse(str, CultureInfo.InvariantCulture, out function);
         }
 
         /// <summary>
@@ -694,7 +572,7 @@ namespace Accord.Math.Optimization
         /// <returns><c>true</c> if the function could be parsed
         ///   from the string, <c>false</c> otherwise.</returns>
         /// 
-        public static bool TryParse(string str, System.Globalization.CultureInfo culture, out QuadraticObjectiveFunction function)
+        public static bool TryParse(string str, CultureInfo culture, out QuadraticObjectiveFunction function)
         {
             // TODO: implement this method without the try-catch block.
 
