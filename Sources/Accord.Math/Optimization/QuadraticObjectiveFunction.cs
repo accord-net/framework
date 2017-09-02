@@ -349,6 +349,16 @@ namespace Accord.Math.Optimization
 
         #region Operator Overloads
 
+        /// <summary>
+        /// Multiplies each term in the <see cref="QuadraticObjectiveFunction"/> by the specified scalar.
+        /// </summary>
+        /// 
+        /// <param name="scalar">Scalar to multiply the individual terms by.</param>
+        /// <param name="a">A <see cref="QuadraticObjectiveFunction"/> instance.</param>
+        /// 
+        /// <returns>Returns a new <see cref="QuadraticObjectiveFunction"/> instance 
+        /// with all terms multiplied by the specified scalar.</returns>
+        ///
         public static QuadraticObjectiveFunction operator *(double scalar, QuadraticObjectiveFunction a)
         {
             double[] linearTerms = a.LinearTerms.Multiply(scalar);
@@ -373,11 +383,31 @@ namespace Accord.Math.Optimization
             return scaled;
         }
 
+        /// <summary>
+        /// Multiplies each term in the <see cref="QuadraticObjectiveFunction"/> by the specified scalar.
+        /// </summary>
+        /// 
+        /// <param name="a">A <see cref="QuadraticObjectiveFunction"/> instance.</param>
+        /// <param name="scalar">Scalar to multiply the individual terms by.</param>
+        /// 
+        /// <returns>Returns a new <see cref="QuadraticObjectiveFunction"/> instance 
+        /// with all terms multiplied by the specified scalar.</returns>
+        ///
         public static QuadraticObjectiveFunction operator *(QuadraticObjectiveFunction a, double scalar)
         {
             return scalar * a;
         }
 
+        /// <summary>
+        /// Divides each term in the <see cref="QuadraticObjectiveFunction"/> by the specified scalar.
+        /// </summary>
+        /// 
+        /// <param name="a">A <see cref="QuadraticObjectiveFunction"/> instance.</param>
+        /// <param name="scalar">Scalar to divide the individual terms by.</param>
+        /// 
+        /// <returns>Returns a new <see cref="QuadraticObjectiveFunction"/> instance 
+        /// with all terms divided by the specified scalar.</returns>
+        ///
         public static QuadraticObjectiveFunction operator /(QuadraticObjectiveFunction a, double scalar)
         {
             if (scalar == 0)
@@ -388,11 +418,31 @@ namespace Accord.Math.Optimization
             return a * (1 / scalar);
         }
 
+        /// <summary>
+        /// Negates the quadratic objective function.
+        /// </summary>
+        /// 
+        /// <param name="a">A <see cref="QuadraticObjectiveFunction"/> instance.</param>
+        /// 
+        /// <returns>Returns a new <see cref="QuadraticObjectiveFunction"/> instance where 
+        /// each term has been negated.</returns>
+        /// 
         public static QuadraticObjectiveFunction operator -(QuadraticObjectiveFunction a)
         {
             return -1 * a;
         }
 
+        /// <summary>
+        /// Adds two quadratic objective functions together by linearly combining 
+        /// the individual terms.
+        /// </summary>
+        /// 
+        /// <param name="a">The first quadratic objective function.</param>
+        /// <param name="b">The second quadratic objective function.</param>
+        /// 
+        /// <returns>Returns a new <see cref="QuadraticObjectiveFunction"/> where the resultant
+        /// terms are the sum of the individuals.</returns>
+        /// 
         public static QuadraticObjectiveFunction operator +(QuadraticObjectiveFunction a, QuadraticObjectiveFunction b)
         {
             if (a.NumberOfVariables != b.NumberOfVariables)
@@ -449,6 +499,17 @@ namespace Accord.Math.Optimization
             return combined;
         }
 
+        /// <summary>
+        /// Subtracts a quadratic objective function together by linearly subtracting 
+        /// the individual terms.
+        /// </summary>
+        /// 
+        /// <param name="a">The first quadratic objective function.</param>
+        /// <param name="b">The second quadratic objective function.</param>
+        /// 
+        /// <returns>Returns a new <see cref="QuadraticObjectiveFunction"/> where each of the resultant
+        /// terms are taken to be the difference of the corresponding individual terms.</returns>
+        /// 
         public static QuadraticObjectiveFunction operator -(QuadraticObjectiveFunction a, QuadraticObjectiveFunction b)
         {
             if (a.NumberOfVariables != b.NumberOfVariables)
@@ -504,7 +565,6 @@ namespace Accord.Math.Optimization
 
             return combined;
         }
-
 
         #endregion
 
