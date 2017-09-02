@@ -711,6 +711,12 @@ namespace Accord.Tests.Math
                         Assert.IsFalse(Double.IsNaN(a));
                         Assert.IsFalse(Double.IsNaN(e));
                     }
+
+            Assert.Throws<DivideByZeroException>(() => 
+            {
+                var resultant = actual / 0;
+                Assert.Null(resultant);
+            });
         }
 
         [Test]
