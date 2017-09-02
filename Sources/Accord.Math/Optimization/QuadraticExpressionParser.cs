@@ -30,6 +30,20 @@ namespace Accord.Math.Optimization
 
     internal static class QuadraticExpressionParser
     {
+        public static string ToVariable(this int num, char prefix = 'x')
+        {
+            string number = num.ToString();
+            char[] chars = new char[number.Length + 1];
+            chars[0] = prefix;
+
+            for (int i = 0; i < number.Length; i++)
+            {
+                chars[i + 1] = (char)(number[i] + (0x2080 - '0'));
+            }
+
+            return new string(chars);
+        }
+
         public static Dictionary<Tuple<string, string>, double> ParseString(string f, CultureInfo culture)
         {
             f = f.Replace("*", String.Empty).Replace(" ", String.Empty);

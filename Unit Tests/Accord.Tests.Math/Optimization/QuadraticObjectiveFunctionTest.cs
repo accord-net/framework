@@ -163,9 +163,9 @@ namespace Accord.Tests.Math
         {
             double[,] quadraticTerms = 
             {
-                {  1, 3, 1 },
-                {  3, 2, 2 },
-                {  1, 2, 3 },
+                {  8, 3, 1 },
+                {  3, 4, 2 },
+                {  1, 2, 6 },
             };
 
             double[] linearTerms = { 0, 0, 0 };

@@ -133,13 +133,8 @@ namespace Accord.Math.Optimization
     /// 
     public class QuadraticObjectiveFunction : NonlinearObjectiveFunction, IObjectiveFunction
     {
-
-        private Dictionary<string, double> linear;
-        private Dictionary<Tuple<string, string>, double> quadratic;
-
         private double[,] Q;
         private double[] d;
-
 
         /// <summary>
         ///   Gets the quadratic terms of the quadratic function.
@@ -180,7 +175,7 @@ namespace Accord.Math.Optimization
             {
                 variables = new string[linearTerms.Length];
                 for (int i = 0; i < variables.Length; i++)
-                    variables[i] = "x" + i;
+                    variables[i] = i.ToVariable();
             }
             else if (variables.Length != linearTerms.Length)
             {
@@ -250,8 +245,8 @@ namespace Accord.Math.Optimization
 
         private void initialize(Dictionary<Tuple<string, string>, double> terms)
         {
-            linear = new Dictionary<string, double>();
-            quadratic = new Dictionary<Tuple<string, string>, double>();
+            var linear = new Dictionary<string, double>();
+            var quadratic = new Dictionary<Tuple<string, string>, double>();
 
             var list = new SortedSet<string>();
 
@@ -285,14 +280,14 @@ namespace Accord.Math.Optimization
             }
 
             NumberOfVariables = Variables.Count;
-            this.Q = createQuadraticTermsMatrix();
-            this.d = createLinearTermsVector();
+            this.Q = createQuadraticTermsMatrix(quadratic);
+            this.d = createLinearTermsVector(linear);
 
             this.Function = function;
             this.Gradient = gradient;
         }
 
-        private double[,] createQuadraticTermsMatrix()
+        private double[,] createQuadraticTermsMatrix(Dictionary<Tuple<string, string>, double> quadratic)
         {
             int n = Variables.Count;
 
@@ -317,7 +312,7 @@ namespace Accord.Math.Optimization
             return Q;
         }
 
-        private double[] createLinearTermsVector()
+        private double[] createLinearTermsVector(Dictionary<string, double> linear)
         {
             int n = Variables.Count;
             double[] d = new double[n];
@@ -369,18 +364,10 @@ namespace Accord.Math.Optimization
             for (int i = 0; i < variables.Length; i++)
                 variables[i] = a.InnerIndices[i];
 
-            var scaled = new QuadraticObjectiveFunction(quadraticTerms, linearTerms, variables)
+            return new QuadraticObjectiveFunction(quadraticTerms, linearTerms, variables)
             {
                 ConstantTerm = constantTerm,
             };
-
-            scaled.linear = a.linear == null ? 
-                null : a.linear.ToDictionary(kvp => kvp.Key, kvp => kvp.Value * scalar);
-
-            scaled.quadratic = a.quadratic == null ?
-                null : a.quadratic.ToDictionary(kvp => kvp.Key, kvp => kvp.Value * scalar);
-
-            return scaled;
         }
 
         /// <summary>
@@ -465,38 +452,10 @@ namespace Accord.Math.Optimization
                 variables = new string[0];
             }
 
-            var combined = new QuadraticObjectiveFunction(quadraticTerms, linearTerms, variables)
+            return new QuadraticObjectiveFunction(quadraticTerms, linearTerms, variables)
             {
                 ConstantTerm = constantTerm,
             };
-
-            // The variables don't match. We cannot combine.
-            if (variables.Length == 0)
-                return combined;
-
-            if (a.quadratic == null || b.quadratic == null)
-                return combined;
-
-            combined.quadratic = new Dictionary<Tuple<string, string>, double>(a.quadratic);
-            combined.linear = new Dictionary<string, double>(a.linear);
-
-            foreach (var term in b.quadratic)
-            {
-                if (combined.quadratic.ContainsKey(term.Key))
-                    combined.quadratic[term.Key] += term.Value;
-                else
-                    combined.quadratic[term.Key] = term.Value;
-            }
-
-            foreach (var term in b.linear)
-            {
-                if (combined.linear.ContainsKey(term.Key))
-                    combined.linear[term.Key] += term.Value;
-                else
-                    combined.linear[term.Key] = term.Value;
-            }
-
-            return combined;
         }
 
         /// <summary>
@@ -532,38 +491,10 @@ namespace Accord.Math.Optimization
                 variables = new string[0];
             }
 
-            var combined = new QuadraticObjectiveFunction(quadraticTerms, linearTerms, variables)
+            return new QuadraticObjectiveFunction(quadraticTerms, linearTerms, variables)
             {
                 ConstantTerm = constantTerm,
             };
-
-            // The variables don't match. We cannot combine.
-            if (variables.Length == 0)
-                return combined;
-
-            if (a.quadratic == null || b.quadratic == null)
-                return combined;
-
-            combined.quadratic = new Dictionary<Tuple<string, string>, double>(a.quadratic);
-            combined.linear = new Dictionary<string, double>(a.linear);
-
-            foreach (var term in b.quadratic)
-            {
-                if (combined.quadratic.ContainsKey(term.Key))
-                    combined.quadratic[term.Key] -= term.Value;
-                else
-                    combined.quadratic[term.Key] = -term.Value;
-            }
-
-            foreach (var term in b.linear)
-            {
-                if (combined.linear.ContainsKey(term.Key))
-                    combined.linear[term.Key] -= term.Value;
-                else
-                    combined.linear[term.Key] = -term.Value;
-            }
-
-            return combined;
         }
 
         #endregion
@@ -578,18 +509,49 @@ namespace Accord.Math.Optimization
         /// 
         public override string ToString()
         {
-            if (quadratic == null || linear == null)
-            {
-                return string.Format("{0}-dimensional quadratic objective function", NumberOfVariables);
-            }
+            var simpleString = string.Format("{0}-dimensional quadratic objective function", NumberOfVariables);
+
+            const int MaxTerms = 15;
+            int terms = 0;
 
             StringBuilder sb = new StringBuilder();
 
-            foreach (var term in quadratic.Where(t => t.Value != 0))
-                sb.AppendFormat("{0:+#;-#}{1}{2} ", term.Value, term.Key.Item1, term.Key.Item2);
+            for (int i = 0; i < NumberOfVariables; i++)
+            {
+                if (Q[i, i] == 0)
+                    continue;
 
-            foreach (var term in linear.Where(t => t.Value != 0))
-                sb.AppendFormat("{0:+#;-#}{1} ", term.Value, term.Key);
+                if (++terms > MaxTerms)
+                    return simpleString;
+
+                sb.AppendFormat("{0:+#;-#}{1}² ", 0.5 * Q[i, i], InnerIndices[i]);
+            }
+
+            for (int i = 0; i < NumberOfVariables; i++)
+            {
+                for (int j = i + 1; j < NumberOfVariables; j++)
+                {
+                    if (Q[i, j] == 0)
+                        continue;
+
+                    if (++terms > MaxTerms)
+                        return simpleString;
+
+                    sb.AppendFormat("{0:+#;-#}{1}{2} ", Q[i, j], InnerIndices[i], InnerIndices[j]);
+                }
+            }
+
+            for (int i = 0; i < NumberOfVariables; i++)
+            {
+                if (d[i] == 0)
+                    continue;
+
+                if (++terms > MaxTerms)
+                    return simpleString;
+
+                sb.AppendFormat("{0:+#;-#}{1} ", d[i], InnerIndices[i]);
+            }
+
 
             if (ConstantTerm != 0)
                 sb.AppendFormat("{0:+#;-#} ", ConstantTerm);
@@ -598,6 +560,11 @@ namespace Accord.Math.Optimization
                 return "0";
 
             sb.Remove(sb.Length - 1, 1);
+
+            if (sb[0] == '+')
+            {
+                sb.Remove(0, 1);
+            }
 
             return sb.ToString();
         }
