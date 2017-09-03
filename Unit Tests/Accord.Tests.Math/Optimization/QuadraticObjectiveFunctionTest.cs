@@ -259,8 +259,8 @@ namespace Accord.Tests.Math
                     double e = expected();
 
                     Assert.AreEqual(e, a, 1e-10);
-                    Assert.IsFalse(Double.IsNaN(a));
-                    Assert.IsFalse(Double.IsNaN(e));
+                    Assert.IsFalse(double.IsNaN(a));
+                    Assert.IsFalse(double.IsNaN(e));
                 }
             }
         }
@@ -289,8 +289,8 @@ namespace Accord.Tests.Math
                         double e = expected();
 
                         Assert.AreEqual(e, a, 1e-10);
-                        Assert.IsFalse(Double.IsNaN(a));
-                        Assert.IsFalse(Double.IsNaN(e));
+                        Assert.IsFalse(double.IsNaN(a));
+                        Assert.IsFalse(double.IsNaN(e));
                     }
                 }
             }
@@ -312,8 +312,8 @@ namespace Accord.Tests.Math
                 double e = expected();
 
                 Assert.AreEqual(e, a, 1e-10);
-                Assert.IsFalse(Double.IsNaN(a));
-                Assert.IsFalse(Double.IsNaN(e));
+                Assert.IsFalse(double.IsNaN(a));
+                Assert.IsFalse(double.IsNaN(e));
             }
         }
 
@@ -341,8 +341,8 @@ namespace Accord.Tests.Math
                         double e = expected();
 
                         Assert.AreEqual(e, a, 1e-10);
-                        Assert.IsFalse(Double.IsNaN(a));
-                        Assert.IsFalse(Double.IsNaN(e));
+                        Assert.IsFalse(double.IsNaN(a));
+                        Assert.IsFalse(double.IsNaN(e));
                     }
                 }
             }
@@ -368,8 +368,8 @@ namespace Accord.Tests.Math
                     double e = expected();
 
                     Assert.AreEqual(e, a, 1e-10);
-                    Assert.IsFalse(Double.IsNaN(a));
-                    Assert.IsFalse(Double.IsNaN(e));
+                    Assert.IsFalse(double.IsNaN(a));
+                    Assert.IsFalse(double.IsNaN(e));
                 }
             }
         }
@@ -385,9 +385,7 @@ namespace Accord.Tests.Math
             var actual = new QuadraticObjectiveFunction(() => -2 * x * x + x * y - y * y - 10 * x * z + z * z);
 
             for (int i = 0; i < 10; i++)
-            {
                 for (int j = 0; j < 10; j++)
-                {
                     for (int k = 0; k < 10; k++)
                     {
                         x = (i - 5) / 10.0;
@@ -398,11 +396,9 @@ namespace Accord.Tests.Math
                         double e = expected();
 
                         Assert.AreEqual(e, a, 1e-10);
-                        Assert.IsFalse(Double.IsNaN(a));
-                        Assert.IsFalse(Double.IsNaN(e));
+                        Assert.IsFalse(double.IsNaN(a));
+                        Assert.IsFalse(double.IsNaN(e));
                     }
-                }
-            }
         }
 
         [Test]
@@ -437,9 +433,7 @@ namespace Accord.Tests.Math
             var actual = new QuadraticObjectiveFunction(() => -x * y + y * z);
 
             for (int i = 0; i < 10; i++)
-            {
                 for (int j = 0; j < 10; j++)
-                {
                     for (int k = 0; k < 10; k++)
                     {
                         x = (i - 5) / 10.0;
@@ -453,8 +447,6 @@ namespace Accord.Tests.Math
                         Assert.IsFalse(Double.IsNaN(a));
                         Assert.IsFalse(Double.IsNaN(e));
                     }
-                }
-            }
         }
 
         [Test]
@@ -555,6 +547,46 @@ namespace Accord.Tests.Math
         }
 
         [Test]
+        [TestCase("x² + 1", "x² + 1", 3, 5)]
+        [TestCase("x² + 1", "2x²", 1, 0)]
+        [TestCase("-x*y + y*z", "-x*y + y*z", 2, 2)]
+        [TestCase("-x*y + y*z", "-2x² + xy - y² - 10xz + z²", 0, 0)]
+        [TestCase("-x*y + y*z", "-2x² + xy - y² + 5z", -1, -1)]
+        [TestCase("-2x² + xy - y² - 10xz + z²", "-2x² + xy - y² - 10xz + z²", 4, 5)]
+        [TestCase("-2x² + xy - y² - 10xz + z²", "-2x² + xy - y² + 5z", 7, 6)]
+        [TestCase("-2x² + xy - y² + 5y", "-2x² + xy - y² + 5y", 3, 9)]
+        [TestCase("-2x² + xy - y² + 5y", "2x² -5y -5", 4, -7)]
+        [TestCase("2x² -5", "2x² -5", 2, -2)]
+        public void OperatorCompositionTest(string string1, string string2, double weight1, double weight2)
+        {
+            double x = 0;
+            double y = 0;
+            double z = 0;
+
+            var actual1 = new QuadraticObjectiveFunction(string1);
+            var actual2 = new QuadraticObjectiveFunction(string2);
+            var actual = (weight1 * actual1) + (weight2 * actual2);
+
+            for (int i = 0; i < 10; i++)
+                for (int j = 0; j < 10; j++)
+                    for (int k = 0; k < 10; k++)
+                    {
+                        x = (i - 5) / 10.0;
+                        y = (j - 5) / 10.0;
+                        z = (k - 5) / 10.0;
+
+                        var arg = new[] { x, y, z }.First(actual1.NumberOfVariables);
+
+                        double a = actual.Function(arg);
+                        double e = (weight1 * actual1.Function(arg)) + (weight2 * actual2.Function(arg));
+
+                        Assert.AreEqual(e, a, 1e-10);
+                        Assert.IsFalse(double.IsNaN(a));
+                        Assert.IsFalse(double.IsNaN(e));
+                    }
+        }
+
+        [Test]
         [TestCase("x² + 1", "x² + 1")]
         [TestCase("x² + 1", "2x²")]
         [TestCase("-x*y + y*z", "-x*y + y*z")]
@@ -618,8 +650,8 @@ namespace Accord.Tests.Math
                         double e = scalar * expected1();
 
                         Assert.AreEqual(e, a, 1e-10);
-                        Assert.IsFalse(Double.IsNaN(a));
-                        Assert.IsFalse(Double.IsNaN(e));
+                        Assert.IsFalse(double.IsNaN(a));
+                        Assert.IsFalse(double.IsNaN(e));
                     }
         }
 
@@ -680,8 +712,8 @@ namespace Accord.Tests.Math
                         double e = -expected1();
 
                         Assert.AreEqual(e, a, 1e-10);
-                        Assert.IsFalse(Double.IsNaN(a));
-                        Assert.IsFalse(Double.IsNaN(e));
+                        Assert.IsFalse(double.IsNaN(a));
+                        Assert.IsFalse(double.IsNaN(e));
                     }
         }
 
@@ -708,8 +740,8 @@ namespace Accord.Tests.Math
                         double e = expected1() / 5;
 
                         Assert.AreEqual(e, a, 1e-10);
-                        Assert.IsFalse(Double.IsNaN(a));
-                        Assert.IsFalse(Double.IsNaN(e));
+                        Assert.IsFalse(double.IsNaN(a));
+                        Assert.IsFalse(double.IsNaN(e));
                     }
 
             Assert.Throws<DivideByZeroException>(() => 
@@ -747,9 +779,7 @@ namespace Accord.Tests.Math
                 Assert.AreEqual(fl.NumberOfVariables, gl.NumberOfVariables);
 
                 for (int i = 0; i < 10; i++)
-                {
                     for (int j = 0; j < 10; j++)
-                    {
                         for (int k = 0; k < 10; k++)
                         {
                             x = (i - 5) / 10.0;
@@ -760,11 +790,9 @@ namespace Accord.Tests.Math
                             double e = gl.Function(new[] { x, y, z }.First(fl.NumberOfVariables));
 
                             Assert.AreEqual(e, a, 1e-10);
-                            Assert.IsFalse(Double.IsNaN(a));
-                            Assert.IsFalse(Double.IsNaN(e));
+                            Assert.IsFalse(double.IsNaN(a));
+                            Assert.IsFalse(double.IsNaN(e));
                         }
-                    }
-                }
             }
         }
     }
