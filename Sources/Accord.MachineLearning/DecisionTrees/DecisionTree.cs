@@ -719,7 +719,7 @@ namespace Accord.MachineLearning.DecisionTrees
         [OnDeserialized]
         private void OnDeserialized(StreamingContext context)
         {
-            if (Root.Owner == null)
+            if (Root != null && Root.Owner == null)
                 Root.Owner = this;
         }
 

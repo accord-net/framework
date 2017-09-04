@@ -27,6 +27,7 @@ namespace Accord.Statistics.Filters
     using MachineLearning;
     using System.Data;
     using Accord.Compat;
+    using System.Runtime.Serialization;
 
     /// <summary>
     ///   Codification Filter class.
@@ -60,6 +61,9 @@ namespace Accord.Statistics.Filters
     /// <seealso cref="Discretization{TInput, TOutput}"/>
     /// 
     [Serializable]
+#if NETSTANDARD2_0
+    [SurrogateSelector(typeof(Codification.Selector))]
+#endif
     public partial class Codification<T> : BaseFilter<Codification<T>.Options>,
         ITransform<T[], double[]>, IUnsupervisedLearning<Codification<T>, T[], double[]>,
         ITransform<T[], int[]>, IUnsupervisedLearning<Codification<T>, T[], int[]>
@@ -749,5 +753,6 @@ namespace Accord.Statistics.Filters
         {
             this.Add(new Options(this.Columns.Count.ToString(), variableType));
         }
+
     }
 }
