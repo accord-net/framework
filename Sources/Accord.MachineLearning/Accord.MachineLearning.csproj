@@ -58,6 +58,7 @@
     <Compile Include="Clustering\CentroidCluster`4.cs" />
     <Compile Include="Clustering\IClusterCollection`3.cs" />
     <Compile Include="Clustering\KMeans\BalancedKMeans.cs" />
+    <Compile Include="Clustering\KMeans\MiniBatchKMeans.cs" />
     <Compile Include="Clustering\KMedoids\KMedoidsCluster.cs" />
     <Compile Include="Clustering\KMedoids\KMedoids.cs" />
     <Compile Include="Clustering\KMedoids\VoronoiIteration.cs" />
