@@ -9,8 +9,10 @@ using namespace System::Security::Permissions;
 [assembly:ComVisible(false)];
 [assembly:CLSCompliantAttribute(true)];
 
+#if !NETSTANDARD
 [assembly:AssemblyKeyFileAttribute("Accord.snk")];
 [assembly:AssemblyDelaySignAttribute(true)];
+#endif
 
 [assembly:AssemblyTitleAttribute("Accord.Video.FFMPEG")];
 

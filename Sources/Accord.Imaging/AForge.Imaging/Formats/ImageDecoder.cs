@@ -34,6 +34,7 @@ namespace Accord.Imaging.Formats
     using System.Drawing.Imaging;
     using System.Globalization;
     using System.IO;
+    using Accord.Compat;
 
     /// <summary>
     /// Image decoder to decode different custom image file formats.

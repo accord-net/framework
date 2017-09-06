@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>Accord.Tests.Video.FFMPEG</RootNamespace>
+    <AssemblyName>Accord.Tests.Video.FFMPEG.GPL</AssemblyName>
+    <TargetFrameworks>net462</TargetFrameworks>
+  </PropertyGroup>
+
+  <Import Project="$(SolutionDir)../Unit Tests/Accord.Tests (NETStandard).targets" />
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Sources\Accord.Math.Core\Accord.Math.Core (NETStandard).csproj" />
+    <ProjectReference Include="..\..\..\Sources\Accord.Math\Accord.Math (NETStandard).csproj" />
+    <ProjectReference Include="..\..\..\Sources\Accord.Core\Accord.Core (NETStandard).csproj" />
+    <ProjectReference Include="..\..\..\Sources\Accord.Vision\Accord.Vision (NETStandard).csproj" />
+    <ProjectReference Include="..\..\Accord.Video\Accord.Video (NETStandard).csproj" />
+    <ProjectReference Include="..\Accord.Video.FFMPEG.GPL\Video.FFMPEG (NetStandard).vcxproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="Microsoft.NET.Test.Sdk" Version="15.3.0" />
+    <PackageReference Update="NUnit" Version="3.8.1" />
+    <PackageReference Update="NUnit.Console" Version="3.7.0" />
+  </ItemGroup>
+
+</Project>

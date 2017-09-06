@@ -3,15 +3,33 @@
   <PropertyGroup>
     <AssemblyName>Accord.Tests.MachineLearning</AssemblyName>
     <RootNamespace>Accord.Tests.MachineLearning</RootNamespace>
-    <TargetFrameworks>netcoreapp2.0;netcoreapp1.1</TargetFrameworks>
+    <TargetFrameworks>netcoreapp2.0;netcoreapp1.1<!--;net462--></TargetFrameworks>
   </PropertyGroup>
 
   <Import Project="$(SolutionDir)../Unit Tests/Accord.Tests (NETStandard).targets" />
+
+  <Choose>
+    <When Condition="'$(TargetFramework)' == 'netstandard2.0' OR '$(TargetFramework)' == 'netstandard1.4'">
+      <ItemGroup>
+        <Compile Remove="Properties\Resources.Designer.cs" />
+        <EmbeddedResource Remove="Properties\Resources.resx" />
+      </ItemGroup>
+    </When>
+    <Otherwise>
+      <ItemGroup>
+        <EmbeddedResource Remove="Properties\Resources.Standard.cs" />
+      </ItemGroup>
+    </Otherwise>
+  </Choose>
 
   <ItemGroup>
     <Compile Include="..\..\Samples\MachineLearning\Liblinear (SVMs)\Parameters.cs" />
     <Compile Include="..\..\Samples\MachineLearning\Liblinear (SVMs)\Problem.cs" />
     <Compile Include="..\..\Samples\MachineLearning\Liblinear (SVMs)\Train.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
   </ItemGroup>
 
   <ItemGroup>
