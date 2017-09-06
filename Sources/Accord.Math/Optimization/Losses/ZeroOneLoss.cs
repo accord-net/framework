@@ -109,6 +109,15 @@ namespace Accord.Math.Optimization.Losses
         public int NumberOfClasses { get; set; }
 
         /// <summary>
+        /// This flag indicates whether the expected class labels are binary.
+        /// </summary>
+        /// 
+        public bool IsBinary
+        {
+            get { return NumberOfClasses == 2; }
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="ZeroOneLoss"/> class.
         /// </summary>
         /// <param name="expected">The expected outputs (ground truth).</param>
