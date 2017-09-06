@@ -25,6 +25,7 @@ namespace Accord.Neuro.Layers
     using Accord.Neuro.ActivationFunctions;
     using Accord.Neuro.Neurons;
     using System;
+    using Accord.Compat;
 
     /// <summary>
     ///   Stochastic Activation Layer.
