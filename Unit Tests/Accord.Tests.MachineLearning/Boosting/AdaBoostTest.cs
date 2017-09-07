@@ -32,6 +32,8 @@ namespace Accord.Tests.MachineLearning
     using Accord.Statistics.Analysis;
     using Accord.Statistics;
     using Accord.DataSets;
+    using Accord.MachineLearning.DecisionTrees;
+    using Accord.MachineLearning.DecisionTrees.Learning;
 
     [TestFixture]
     public class AdaBoostTest
@@ -130,6 +132,59 @@ namespace Accord.Tests.MachineLearning
 
             // Now, we can obtain a learned classifier using:
             Boost<LogisticRegression> classifier = teacher.Learn(inputs, outputs);
+
+            // And we can test its performance using (error should be 0.11):
+            double error = ConfusionMatrix.Estimate(classifier, inputs, outputs).Error;
+
+            // And compute a decision for a single data point using:
+            bool y = classifier.Decide(inputs[0]); // result should false
+            #endregion
+
+            Assert.AreEqual(false, y);
+            Assert.AreEqual(0.11, error);
+
+            Assert.AreEqual(2, classifier.Models.Count);
+            Assert.AreEqual(0.63576818449825168, classifier.Models[0].Weight);
+            Assert.AreEqual(0.36423181550174832, classifier.Models[1].Weight);
+
+            int[] actual = new int[outputs.Length];
+            for (int i = 0; i < actual.Length; i++)
+                actual[i] = classifier.Compute(inputs[i]);
+        }
+
+        [Test]
+        public void learn_decision_trees()
+        {
+            #region doc_learn_dt
+            // This example shows how to use AdaBoost to train more complex
+            // models than a simple DecisionStump. For example, we will use
+            // it to train a boosted Decision Trees.
+
+            // Let's use some synthetic data for that: The Yin-Yang dataset is 
+            // a simple 2D binary non-linear decision problem where the points 
+            // belong to each of the classes interwine in a Yin-Yang shape:
+            var dataset = new YinYang();
+            double[][] inputs = dataset.Instances;
+            int[] outputs = dataset.ClassLabels;
+
+            // Create an AdaBoost for Logistic Regression as:
+            var teacher = new AdaBoost<DecisionTree>()
+            {
+                // Here we can specify how each regression should be learned:
+                Learner = (param) => new C45Learning()
+                {
+                    // i.e.
+                    // MaxHeight = 
+                    // MaxVariables = 
+                },
+
+                // Train until:
+                MaxIterations = 50,
+                Tolerance = 1e-5,
+            };
+
+            // Now, we can obtain a learned classifier using:
+            Boost<DecisionTree> classifier = teacher.Learn(inputs, outputs);
 
             // And we can test its performance using (error should be 0.11):
             double error = ConfusionMatrix.Estimate(classifier, inputs, outputs).Error;

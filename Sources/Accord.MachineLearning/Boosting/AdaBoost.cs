@@ -94,10 +94,12 @@ namespace Accord.MachineLearning.Boosting
     /// 
     /// <example>
     ///   <code source="Unit Tests\Accord.Tests.MachineLearning\Boosting\AdaBoostTest.cs" region="doc_learn" />
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\Boosting\AdaBoostTest.cs" region="doc_learn_lr" />
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\Boosting\AdaBoostTest.cs" region="doc_learn_dt" />
     /// </example>
     /// 
     public class AdaBoost<TModel> : ISupervisedBinaryLearning<Boost<TModel>, double[]>
-        where TModel : IClassifier<double[], bool>
+        where TModel : IClassifier<double[], int>
     {
 
         RelativeConvergence convergence = new RelativeConvergence();
@@ -200,7 +202,7 @@ namespace Accord.MachineLearning.Boosting
         ///   a learning algorithm for learning each stage of the boosted classsifier.
         /// </summary>
         /// 
-        public Func<AdaBoostParameters, ISupervisedLearning<TModel, double[], bool>> Learner { get; set; }
+        public Func<AdaBoostParameters, ISupervisedLearning<TModel, double[], int>> Learner { get; set; }
 
         /// <summary>
         ///   Gets or sets a cancellation token that can be used to 
@@ -249,9 +251,9 @@ namespace Accord.MachineLearning.Boosting
         /// 
         /// <returns>A model that has learned how to produce <paramref name="y"/> given <paramref name="x"/>.</returns>
         /// 
-        public Boost<TModel> Learn(double[][] x, int[] y, double[] weights = null)
+        public Boost<TModel> Learn(double[][] x, bool[] y, double[] weights = null)
         {
-            return Learn(x, Classes.Decide(y), weights);
+            return Learn(x, Classes.ToZeroOne(y), weights);
         }
 
         /// <summary>
@@ -264,7 +266,7 @@ namespace Accord.MachineLearning.Boosting
         /// 
         /// <returns>A model that has learned how to produce <paramref name="y"/> given <paramref name="x"/>.</returns>
         /// 
-        public Boost<TModel> Learn(double[][] x, bool[] y, double[] weights = null)
+        public Boost<TModel> Learn(double[][] x, int[] y, double[] weights = null)
         {
             if (weights == null)
                 weights = Vector.Create(x.Length, 1.0 / x.Length);
@@ -275,7 +277,7 @@ namespace Accord.MachineLearning.Boosting
             double error = 0;
             double weightSum = 0;
 
-            bool[] predicted = new bool[y.Length];
+            var predicted = new int[y.Length];
             var parameters = new AdaBoostParameters();
             TModel model;
 
@@ -290,7 +292,7 @@ namespace Accord.MachineLearning.Boosting
                 else
                 {
                     // Create and train a classifier
-                    ISupervisedLearning<TModel, double[], bool> learner = Learner(parameters);
+                    var learner = Learner(parameters);
                     model = learner.Learn(x, y, weights);
                 }
 

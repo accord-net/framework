@@ -40,7 +40,7 @@ namespace Accord.MachineLearning.Boosting
     /// 
     [Serializable]
     public class Weighted<TModel> : Weighted<TModel, double[]>
-           where TModel : IClassifier<double[], bool>
+           where TModel : IClassifier<double[], int>
     {
     }
 
@@ -53,7 +53,7 @@ namespace Accord.MachineLearning.Boosting
     /// 
     [Serializable]
     public class Weighted<TModel, TInput>
-       where TModel : IClassifier<TInput, bool>
+       where TModel : IClassifier<TInput, int>
     {
         /// <summary>
         ///   Gets or sets the weight associated
@@ -78,7 +78,7 @@ namespace Accord.MachineLearning.Boosting
     /// 
     [Serializable]
     public class Boost<TModel> : BoostBase<TModel, Weighted<TModel>, double[]>
-        where TModel : IClassifier<double[], bool>
+        where TModel : IClassifier<double[], int>
     {
         /// <summary>
         ///   Initializes a new instance of the <see cref="Boost&lt;TModel&gt;"/> class.
@@ -125,7 +125,7 @@ namespace Accord.MachineLearning.Boosting
     ///
     [Serializable]
     public class Boost<TModel, TInput> : BoostBase<TModel, Weighted<TModel, TInput>, TInput>
-        where TModel : IClassifier<TInput, bool>
+        where TModel : IClassifier<TInput, int>
     {
         /// <summary>
         ///   Initializes a new instance of the <see cref="Boost&lt;TModel&gt;"/> class.
@@ -158,7 +158,7 @@ namespace Accord.MachineLearning.Boosting
     /// 
     [Serializable]
     public class BoostBase<TModel, TWeighted, TInput> : BinaryClassifierBase<TInput>, IEnumerable<TWeighted>
-        where TModel : IClassifier<TInput, bool>
+        where TModel : IClassifier<TInput, int>
         where TWeighted : Weighted<TModel, TInput>, new()
     {
 
@@ -191,7 +191,11 @@ namespace Accord.MachineLearning.Boosting
                 throw new DimensionMismatchException("models", "The number of models and weights must match.");
 
             for (int i = 0; i < weights.Count; i++)
+            {
+                if (models[i].NumberOfClasses != 2)
+                    throw new ArgumentException("Only binary classifiers are supported at this time.");
                 Models.Add(new TWeighted() { Weight = weights[i], Model = models[i] });
+            }
         }
 
         /// <summary>
@@ -206,7 +210,7 @@ namespace Accord.MachineLearning.Boosting
             double sum = 0.0;
             foreach (var pair in Models)
             {
-                if (pair.Model.Decide(input))
+                if (pair.Model.Decide(input) > 0)
                     sum += pair.Weight;
                 else
                     sum -= pair.Weight;
