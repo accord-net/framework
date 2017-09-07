@@ -36,6 +36,7 @@ namespace Accord.Tests.MachineLearning
     using Accord.DataSets;
     using Accord.Math.Optimization.Losses;
     using Accord.MachineLearning.Performance;
+    using Accord.Statistics.Analysis;
 
     [TestFixture]
     public class DecisionTreeTest
@@ -280,7 +281,15 @@ namespace Accord.Tests.MachineLearning
 
             double trainingError = result.Training.Mean; // should be 0
             double validationError = result.Validation.Mean; // should be 0.089661654135338359
+
+            // If desired, compute an aggregate confusion matrix for the validation sets:
+            GeneralConfusionMatrix gcm = result.ToConfusionMatrix(input, output);
             #endregion
+
+            Assert.AreEqual(569, gcm.Samples);
+            Assert.AreEqual(0.9226713532513181, gcm.Accuracy);
+            Assert.AreEqual(0.0773286467486819, gcm.Error);
+            Assert.AreEqual(2, gcm.Classes);
 
             Assert.AreEqual(569, numberOfSamples);
             Assert.AreEqual(30, numberOfInputs);

@@ -261,6 +261,9 @@ namespace Accord.Tests.MachineLearning
             // Finally, access the measured performance.
             double trainingErrors = result.Training.Mean;
             double validationErrors = result.Validation.Mean;
+
+            // If desired, compute an aggregate confusion matrix for the validation sets:
+            GeneralConfusionMatrix gcm = result.ToConfusionMatrix(data, xor);
             #endregion
 
             Assert.AreEqual(3, crossvalidation.K);
@@ -345,7 +348,15 @@ namespace Accord.Tests.MachineLearning
             // Finally, access the measured performance.
             double trainingErrors = result.Training.Mean;
             double validationErrors = result.Validation.Mean;
+
+            // If desired, compute an aggregate confusion matrix for the validation sets:
+            GeneralConfusionMatrix gcm = result.ToConfusionMatrix(data, xor);
             #endregion
+
+            Assert.AreEqual(16, gcm.Samples);
+            Assert.AreEqual(0.25, gcm.Accuracy);
+            Assert.AreEqual(0.75, gcm.Error);
+            Assert.AreEqual(2, gcm.Classes);
 
             Assert.AreEqual(3, crossvalidation.K);
             Assert.AreEqual(0.37575757575757579, result.Training.Mean, 1e-10);
@@ -430,6 +441,9 @@ namespace Accord.Tests.MachineLearning
 
             // Compute the cross-validation
             var result = crossvalidation.Learn(inputs, outputs);
+
+            // If desired, compute an aggregate confusion matrix for the validation sets:
+            GeneralConfusionMatrix gcm = result.ToConfusionMatrix(inputs, outputs);
 
             // Finally, access the measured performance.
             double trainingErrors = result.Training.Mean;

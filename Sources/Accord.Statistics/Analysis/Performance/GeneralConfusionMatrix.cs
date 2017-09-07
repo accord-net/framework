@@ -191,6 +191,12 @@ namespace Accord.Statistics.Analysis
                 throw new DimensionMismatchException("predicted",
                     "The number of expected and predicted observations must match.");
 
+            if (classes == 2)
+            {
+                expected = Accord.Statistics.Classes.ToZeroOne(expected);
+                predicted = Accord.Statistics.Classes.ToZeroOne(predicted);
+            }
+
             for (int i = 0; i < expected.Length; i++)
             {
                 if (expected[i] < 0)
@@ -749,6 +755,18 @@ namespace Accord.Statistics.Analysis
         public double Accuracy
         {
             get { return OverallAgreement; }
+        }
+
+        /// <summary>
+        ///   Error. This is the same value as 1.0 - <see cref="OverallAgreement"/>.
+        /// </summary>
+        /// 
+        /// <value>The average error, or 1.0 - <see cref="OverallAgreement"/>.</value>
+        /// 
+        [DisplayName("Error")]
+        public double Error
+        {
+            get { return 1.0 - OverallAgreement; }
         }
 
         /// <summary>
