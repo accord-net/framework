@@ -971,7 +971,7 @@ namespace Accord.Tests.MachineLearning
                 // First we define the learning algorithm:
                 learner: (p) => new NaiveBayesLearning(),
 
-                // Now we have to specify how the tree performance should be measured:
+                // Now we have to specify how the n.b. performance should be measured:
                 loss: (actual, expected, p) => new ZeroOneLoss(expected).Loss(actual),
 
                 // This function can be used to perform any special
