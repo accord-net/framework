@@ -80,6 +80,14 @@ namespace Accord.Statistics.Models.Regression.Fitting
         ///   Constructs a new Iterative Reweighted Least Squares.
         /// </summary>
         /// 
+        public IterativeReweightedLeastSquares()
+        {
+        }
+
+        /// <summary>
+        ///   Constructs a new Iterative Reweighted Least Squares.
+        /// </summary>
+        /// 
         /// <param name="regression">The regression to estimate.</param>
         /// 
         public IterativeReweightedLeastSquares(LogisticRegression regression)

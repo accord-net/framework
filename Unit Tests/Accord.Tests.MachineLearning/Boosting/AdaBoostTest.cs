@@ -29,33 +29,132 @@ namespace Accord.Tests.MachineLearning
     using Accord.Statistics.Models.Regression;
     using Accord.Statistics.Models.Regression.Fitting;
     using NUnit.Framework;
-
+    using Accord.Statistics.Analysis;
+    using Accord.Statistics;
+    using Accord.DataSets;
 
     [TestFixture]
     public class AdaBoostTest
     {
 
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
+        [Test]
+        public void learn_stump_classifier()
         {
-            get
+            #region doc_learn
+            // Let's say we want to classify the following 2-dimensional 
+            // data samples into 2 possible classes, either true or false:
+            double[][] inputs =
             {
-                return testContextInstance;
-            }
-            set
+                new double[] {  10, 42 },
+                new double[] { 162, 96 },
+                new double[] { 125, 20 },
+                new double[] {  96,  6 },
+                new double[] {   2, 73 },
+                new double[] {  52, 51 },
+                new double[] {  71, 49 },
+            };
+
+            // And those are their associated class labels
+            bool[] outputs =
             {
-                testContextInstance = value;
-            }
+                false, false, true, true, false, false, true
+            };
+
+            // We can create an AdaBoost algorithm as:
+            var learner = new AdaBoost<DecisionStump>()
+            {
+                Learner = (p) => new ThresholdLearning(),
+
+                // Train until:
+                MaxIterations = 5,
+                Tolerance = 1e-3
+            };
+
+            // Now, we can use the Run method to learn:
+            Boost<DecisionStump> classifier = learner.Learn(inputs, outputs);
+
+            double error = new ConfusionMatrix(expected: outputs, predicted: classifier.Decide(inputs)).Error; // should be 0 
+
+            // Now, we can compute the model outputs for new samples using
+            bool y = classifier.Decide(new double[] { 71, 48 }); // should be true
+            #endregion
+
+            Assert.AreEqual(true, y);
+            Assert.AreEqual(0, error);
+
+            Assert.AreEqual(5, classifier.Models.Count);
+            Assert.AreEqual(0.16684734250395147, classifier.Models[0].Weight);
+            Assert.AreEqual(0.22329026900109736, classifier.Models[1].Weight);
+            Assert.AreEqual(0.28350372170582383, classifier.Models[2].Weight);
+            Assert.AreEqual(0.16684734250395139, classifier.Models[3].Weight);
+            Assert.AreEqual(0.15951132428517592, classifier.Models[4].Weight);
+
+            int[] actual = new int[outputs.Length];
+            for (int i = 0; i < actual.Length; i++)
+                actual[i] = classifier.Compute(inputs[i]);
+
+            for (int i = 0; i < actual.Length; i++)
+                Assert.AreEqual(outputs[i] ? 1 : -1, actual[i]);
         }
 
+        [Test]
+        public void learn_logistic_regression()
+        {
+            #region doc_learn_lr
+            // This example shows how to use AdaBoost to train more complex
+            // models than a simple DecisionStump. For example, we will use
+            // it to train a boosted Logistic Regression classifier.
 
+            // Let's use some synthetic data for that: The Yin-Yang dataset is 
+            // a simple 2D binary non-linear decision problem where the points 
+            // belong to each of the classes interwine in a Yin-Yang shape:
+            var dataset = new YinYang();
+            double[][] inputs = dataset.Instances;
+            int[] outputs = dataset.ClassLabels;
 
+            // Create an AdaBoost for Logistic Regression as:
+            var teacher = new AdaBoost<LogisticRegression>()
+            {
+                // Here we can specify how each regression should be learned:
+                Learner = (param) => new IterativeReweightedLeastSquares<LogisticRegression>()
+                {
+                    ComputeStandardErrors = false,
+                    MaxIterations = 50,
+                    Tolerance = 0
+                },
+
+                // Train until:
+                MaxIterations = 50,
+                Tolerance = 1e-5,
+            };
+
+            // Now, we can obtain a learned classifier using:
+            Boost<LogisticRegression> classifier = teacher.Learn(inputs, outputs);
+
+            // And we can test its performance using (error should be 0.11):
+            double error = ConfusionMatrix.Estimate(classifier, inputs, outputs).Error;
+
+            // And compute a decision for a single data point using:
+            bool y = classifier.Decide(inputs[0]); // result should false
+            #endregion
+
+            Assert.AreEqual(false, y);
+            Assert.AreEqual(0.11, error);
+
+            Assert.AreEqual(2, classifier.Models.Count);
+            Assert.AreEqual(0.63576818449825168, classifier.Models[0].Weight);
+            Assert.AreEqual(0.36423181550174832, classifier.Models[1].Weight);
+
+            int[] actual = new int[outputs.Length];
+            for (int i = 0; i < actual.Length; i++)
+                actual[i] = classifier.Compute(inputs[i]);
+        }
 
         [Test]
         public void ConstructorTest()
         {
+            // Let's say we want to classify the following 2-dimensional 
+            // data samples into 2 possible classes, either true or false:
             double[][] inputs =
             {
                 new double[] { 10, 42 },
@@ -67,14 +166,17 @@ namespace Accord.Tests.MachineLearning
                 new double[] { 71, 49 },
             };
 
-            int[] outputs = 
+            // And those are their associated class labels
+            int[] outputs =
             {
                 -1, -1, +1, +1, -1, -1, +1
             };
 
 
+            // First, we create a classsifier using:
             var classifier = new Boost<DecisionStump>();
 
+            // Now, we can create a AdaBoost learning algorithm as:
             var teacher = new AdaBoost<DecisionStump>(classifier)
             {
                 Creation = (weights) =>
@@ -84,12 +186,17 @@ namespace Accord.Tests.MachineLearning
                     return stump;
                 },
 
-                Iterations = 5,
+                // Train until:
+                MaxIterations = 5,
                 Tolerance = 1e-3
             };
 
+            // Now, we can use the Run method to learn:
+            double error = teacher.Run(inputs, outputs); // error should be zero.
 
-            double error = teacher.Run(inputs, outputs);
+            // Now, we can compute the model outputs for new samples using
+            int y = classifier.Compute(new double[] { 71, 48 }); // should be 1
+            Assert.AreEqual(1, y);
 
             Assert.AreEqual(0, error);
 
@@ -111,8 +218,9 @@ namespace Accord.Tests.MachineLearning
         [Test]
         public void ConstructorTest2()
         {
-            double[][] inputs = LeastSquaresLearningTest.yinyang.GetColumns(new[] { 0, 1 }).ToJagged();
-            int[] outputs = LeastSquaresLearningTest.yinyang.GetColumn(2).ToInt32();
+            var dataset = new YinYang();
+            double[][] inputs = dataset.Instances;
+            int[] outputs = dataset.ClassLabels;
 
             var outputs2 = outputs.Apply(x => x > 0 ? 1.0 : 0.0);
 

@@ -27,6 +27,7 @@ namespace Accord.Tests.MachineLearning
     using NUnit.Framework;
     using System;
     using Math.Distances;
+    using Accord.DataSets;
 
     [TestFixture]
     public class BalancedKMeansTest
@@ -534,7 +535,7 @@ namespace Accord.Tests.MachineLearning
         {
             // https://github.com/accord-net/framework/issues/451
 
-            double[][] observations = LeastSquaresLearningTest.yinyang.GetColumns(0, 1).ToJagged();
+            double[][] observations = new YinYang().Instances;
 
             Accord.Math.Random.Generator.Seed = 0;
 

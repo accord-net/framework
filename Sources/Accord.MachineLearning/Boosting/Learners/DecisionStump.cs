@@ -26,41 +26,43 @@
 namespace Accord.MachineLearning.Boosting.Learners
 {
     using System;
-    using Accord.Math.Comparers;
-    using Accord.Math;
     using Accord.Compat;
+    using Accord.MachineLearning.DecisionTrees;
 
     /// <summary>
     ///   Simple classifier that based on decision margins that
     ///   are perpendicular to one of the space dimensions.
     /// </summary>
     /// 
+    /// <seealso cref="ThresholdLearning"/>
+    /// <seealso cref="AdaBoost{TModel}"/>
+    /// 
     [Serializable]
-    public class DecisionStump : IWeakClassifier
+    public class DecisionStump : BinaryClassifierBase<double[]>
     {
-
-        private int inputCount;
+        // TODO: Consider merging this class with DecisionNode or KDTreeNode
 
         private double threshold;
         private int featureIndex;
-        private int sign;
+        private ComparisonKind comparison;
 
         /// <summary>
-        ///   Initializes a new instance of the <see cref="DecisionStump"/> class.
+        /// Initializes a new instance of the <see cref="DecisionStump"/> class.
         /// </summary>
-        /// 
-        /// <param name="inputs">The number of inputs for this classifier.</param>
-        /// 
-        public DecisionStump(int inputs)
+        public DecisionStump()
         {
-            this.inputCount = inputs;
+
         }
 
         /// <summary>
         ///   Gets the decision threshold for this linear classifier.
         /// </summary>
         /// 
-        public double Threshold { get { return threshold; } }
+        public double Threshold
+        {
+            get { return threshold; }
+            set { threshold = value; }
+        }
 
         /// <summary>
         ///   Gets the index of the attribute which this
@@ -68,15 +70,92 @@ namespace Accord.MachineLearning.Boosting.Learners
         ///   <see cref="Threshold"/>.
         /// </summary>
         /// 
-        public int Index { get { return featureIndex; } }
+        public int Index
+        {
+            get { return featureIndex; }
+            set { featureIndex = value; }
+        }
+
+        /// <summary>
+        ///   Gets or sets the comparison to be performed.
+        /// </summary>
+        /// 
+        public ComparisonKind Comparison
+        {
+            get { return comparison; }
+            set { comparison = value; }
+        }
+
+        /// <summary>
+        /// Computes a class-label decision for a given <paramref name="input" />.
+        /// </summary>
+        /// <param name="input">The input vector that should be classified into
+        /// one of the <see cref="P:Accord.MachineLearning.ITransform.NumberOfOutputs" /> possible classes.</param>
+        /// <returns>A class-label that best described <paramref name="input" /> according
+        /// to this classifier.</returns>
+        public override bool Decide(double[] input)
+        {
+            double value = input[featureIndex];
+
+            switch (comparison)
+            {
+                case ComparisonKind.Equal:
+                    return value == threshold;
+                case ComparisonKind.NotEqual:
+                    return value != threshold;
+                case ComparisonKind.GreaterThanOrEqual:
+                    return value >= threshold;
+                case ComparisonKind.GreaterThan:
+                    return value >= threshold;
+                case ComparisonKind.LessThan:
+                    return value < threshold;
+                case ComparisonKind.LessThanOrEqual:
+                    return value <= threshold;
+                default:
+                    throw new InvalidOperationException();
+            }
+        }
+
+
+
+
+        #region Obsolete
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="DecisionStump"/> class.
+        /// </summary>
+        /// 
+        /// <param name="inputs">The number of inputs for this classifier.</param>
+        /// 
+        [Obsolete("Please use the default constructor instead.")]
+        public DecisionStump(int inputs)
+        {
+        }
 
         /// <summary>
         ///   Gets the direction of the comparison 
         ///   (if greater than or less than).
         /// </summary>
         /// 
-        public int Sign { get { return sign; } }
-
+        [Obsolete("Please use the Comparison property instead.")]
+        public int Sign
+        {
+            get
+            {
+                switch (Comparison)
+                {
+                    case ComparisonKind.Equal:
+                        return 0;
+                    case ComparisonKind.GreaterThanOrEqual:
+                    case ComparisonKind.GreaterThan:
+                        return 1;
+                    case ComparisonKind.LessThan:
+                    case ComparisonKind.LessThanOrEqual:
+                        return -1;
+                    default:
+                        throw new InvalidOperationException();
+                }
+            }
+        }
 
         /// <summary>
         ///   Computes the output class label for a given input.
@@ -88,9 +167,10 @@ namespace Accord.MachineLearning.Boosting.Learners
         ///   The most likely class label for the given input.
         /// </returns>
         /// 
+        [Obsolete("Please use the Decide() method instead.")]
         public int Compute(double[] inputs)
         {
-            return inputs[featureIndex] < threshold ? sign : -sign;
+            return Decide(inputs) ? +1 : -1;
         }
 
         /// <summary>
@@ -102,58 +182,15 @@ namespace Accord.MachineLearning.Boosting.Learners
         /// <param name="outputs">The class labels corresponding to each input vector.</param>
         /// <param name="weights">The weights associated with each input vector.</param>
         /// 
+        [Obsolete("Please use the ThresholdLearning class instead.")]
         public void Learn(double[][] inputs, int[] outputs, double[] weights)
         {
-            ElementComparer comparer = new ElementComparer();
-
-            double errorMinimum = Double.MaxValue;
-
-            for (int i = 0; i < inputCount; i++)
+            new ThresholdLearning()
             {
-                comparer.Index = i;
-                int[] indices = Vector.Range(0, inputs.Length);
-                Array.Sort<int>(indices, (a, b) => inputs[a][i].CompareTo(inputs[b][i]));
-
-                double error = 0.0;
-                for (int j = 0; j < outputs.Length; j++)
-                {
-                    int idx = indices[j];
-                    if (outputs[idx] > 0)
-                        error += weights[idx];
-                }
-
-                for (int j = 0; j < outputs.Length - 1; j++)
-                {
-                    int idx = indices[j];
-                    int nidx = indices[j + 1];
-
-                    if (outputs[idx] < 0)
-                        error += weights[idx];
-                    else
-                        error -= weights[idx];
-
-                    double midpoint = (inputs[idx][i] + inputs[nidx][i]) / 2.0;
-
-                    // Compare to current best
-                    if (error < errorMinimum)
-                    {
-                        errorMinimum = error;
-                        this.featureIndex = i;
-                        this.threshold = midpoint;
-                        this.sign = +1;
-                    }
-                    if ((1.0 - error) < errorMinimum)
-                    {
-                        errorMinimum = (1.0 - error);
-                        this.featureIndex = i;
-                        this.threshold = midpoint;
-                        this.sign = -1;
-                    }
-                }
-            }
+                Model = this
+            }.Learn(inputs, outputs, weights);
         }
 
-
-
+        #endregion
     }
 }

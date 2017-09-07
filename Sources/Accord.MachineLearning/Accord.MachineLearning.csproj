@@ -54,6 +54,7 @@
     <Compile Include="..\Accord.Core\Properties\VersionInfo.cs">
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
+    <Compile Include="Boosting\Learners\ThresholdLearning.cs" />
     <Compile Include="Clustering\CentroidCluster`3.cs" />
     <Compile Include="Clustering\CentroidCluster`4.cs" />
     <Compile Include="Clustering\IClusterCollection`3.cs" />
