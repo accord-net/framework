@@ -39,7 +39,7 @@ namespace Accord.Tests.Imaging
         [Test]
         public void doc_example()
         {
-            string basePath = Path.Combine(TestContext.CurrentContext.WorkDirectory, "Resources", "PNM");
+            string basePath = Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources", "PNM");
 
             #region doc_load
             string filename = Path.Combine(basePath, "lena.pgm");
@@ -94,7 +94,7 @@ namespace Accord.Tests.Imaging
 
         private static void test(string actual, string expected)
         {
-            string basePath = Path.Combine(TestContext.CurrentContext.WorkDirectory, "Resources", "PNM");
+            string basePath = Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources", "PNM");
 
             string fileName = Path.Combine(basePath, actual);
             Bitmap actualImage = ImageDecoder.DecodeFromFile(fileName);
