@@ -272,6 +272,5 @@ namespace Accord.Tests.Math
             Assert.AreEqual(0.69314718055994529d, new LogisticLoss().Loss(true, 0), 1e-10);
             Assert.AreEqual(0.69314718055994529d, new LogisticLoss().Loss(false, 0), 1e-10);
         }
-
     }
 }

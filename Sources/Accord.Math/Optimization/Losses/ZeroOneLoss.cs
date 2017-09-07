@@ -22,10 +22,8 @@
 
 namespace Accord.Math.Optimization.Losses
 {
-    using Accord.Math;
     using Accord.Statistics;
     using System;
-    using Accord.Compat;
 
     /// <summary>
     ///   Accuracy loss, also known as zero-one-loss. This class
@@ -73,7 +71,7 @@ namespace Accord.Math.Optimization.Losses
         /// 
         /// <param name="expected">The expected outputs (ground truth).</param>
         /// 
-        public AccuracyLoss(bool[] expected)
+        public AccuracyLoss(bool[] expected) 
             : base(expected)
         {
         }
@@ -88,7 +86,6 @@ namespace Accord.Math.Optimization.Losses
         ILoss<double[][]>, ILoss<double[]>
     {
         private bool mean = true;
-        private bool isBinary;
 
         /// <summary>
         ///   Gets or sets a value indicating whether the average 
@@ -104,34 +101,39 @@ namespace Accord.Math.Optimization.Losses
             get { return mean; }
             set { mean = value; }
         }
+        
+        /// <summary>
+        /// Gets or sets the number of classes.
+        /// </summary>
+        /// <value>The number of classes.</value>
+        public int NumberOfClasses { get; set; }
 
         /// <summary>
-        ///   Gets a value indicating whether the expected class labels are binary.
+        /// This flag indicates whether the expected class labels are binary.
         /// </summary>
         /// 
         public bool IsBinary
         {
-            get { return isBinary; }
+            get { return NumberOfClasses == 2; }
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ZeroOneLoss"/> class.
         /// </summary>
         /// <param name="expected">The expected outputs (ground truth).</param>
-        public ZeroOneLoss(double[][] expected)
+        public ZeroOneLoss(double[][] expected) 
             : this(expected.ArgMax(dimension: 0))
         {
         }
-
+        
         /// <summary>
         /// Initializes a new instance of the <see cref="ZeroOneLoss"/> class.
         /// </summary>
-        /// 
+        /// <param name="classes">The number of classes.</param>
         /// <param name="expected">The expected outputs (ground truth).</param>
-        /// 
-        public ZeroOneLoss(double[] expected)
+        public ZeroOneLoss(int classes, double[][] expected) 
+            : this(classes, expected.ArgMax(dimension: 0))
         {
-            this.Expected = Classes.ToZeroOne(expected);
         }
 
         /// <summary>
@@ -140,10 +142,45 @@ namespace Accord.Math.Optimization.Losses
         /// 
         /// <param name="expected">The expected outputs (ground truth).</param>
         /// 
-        public ZeroOneLoss(int[] expected)
+        public ZeroOneLoss(double[] expected) 
+            : this(expected.ToZeroOne())
         {
-            this.Expected = Classes.IsMinusOnePlusOne(expected) ? expected.ToZeroOne() : expected;
-            this.isBinary = Classes.IsBinary(expected);
+        }
+        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ZeroOneLoss"/> class.
+        /// </summary>
+        /// <param name="classes">The number of classes.</param>
+        /// <param name="expected">The expected outputs (ground truth).</param>
+        /// 
+        public ZeroOneLoss(int classes, double[] expected) 
+            : this(classes, expected.ToZeroOne())
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ZeroOneLoss"/> class.
+        /// </summary>
+        /// 
+        /// <param name="expected">The expected outputs (ground truth).</param>
+        /// 
+        public ZeroOneLoss(int[] expected) 
+            : this(expected.Max() + 1, expected)
+        {
+        }
+        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ZeroOneLoss"/> class.
+        /// </summary>
+        /// <param name="classes">The number of classes.</param>
+        /// <param name="expected">The expected outputs (ground truth).</param>
+        /// 
+        public ZeroOneLoss(int classes, int[] expected)
+        {
+            NumberOfClasses = classes;
+            Expected = NumberOfClasses == 2 && expected.IsMinusOnePlusOne() ? 
+                expected.ToZeroOne() : 
+                expected;
         }
 
         /// <summary>
@@ -153,7 +190,7 @@ namespace Accord.Math.Optimization.Losses
         /// <param name="expected">The expected outputs (ground truth).</param>
         /// 
         public ZeroOneLoss(bool[] expected)
-            : this(expected.ToInt32())
+            : this(2, expected.ToInt32())
         {
         }
 
@@ -182,9 +219,13 @@ namespace Accord.Math.Optimization.Losses
         /// </returns>
         public override double Loss(int[] actual)
         {
-            if (isBinary)
-                actual = actual.ToZeroOne();
+            NumberOfClasses = Math.Max(NumberOfClasses, actual.Max() + 1);
 
+            if (NumberOfClasses == 2)
+            {
+                actual = actual.ToZeroOne();
+            }
+            
             int error = 0;
             for (int i = 0; i < Expected.Length; i++)
                 if (Expected[i] != actual[i])
@@ -206,7 +247,7 @@ namespace Accord.Math.Optimization.Losses
         /// </returns>
         public double Loss(bool[] actual)
         {
-            return Loss(Classes.ToZeroOne(actual));
+            return Loss(actual.ToZeroOne());
         }
 
         /// <summary>
