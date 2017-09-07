@@ -50,10 +50,11 @@ namespace Accord.Tests.IO
         [Test]
         public void serialize_batch_models()
         {
+#if !MONO
             test(new NaiveBayes(classes: 3, symbols: new[] { 1, 2, 3 }));
             test(new NaiveBayes<NormalDistribution>(classes: 4, inputs: 2, initial: (i, j) => new NormalDistribution(i, j + 1)));
             test(new NaiveBayes<NormalDistribution, double>(classes: 5, inputs: 3, initial: (i, j) => new NormalDistribution(i, j + 1)));
-
+#endif
             test(new LogisticRegression());
             test(new SimpleLinearRegression());
             test(new MultivariateLinearRegression());
