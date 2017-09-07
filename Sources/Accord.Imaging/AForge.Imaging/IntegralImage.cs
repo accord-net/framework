@@ -53,12 +53,20 @@ namespace Accord.Imaging
     public class IntegralImage : ICloneable
     {
         /// <summary>
-        /// Intergral image's array.
+        /// Integral image's array.
+        /// </summary>
+        /// 
+        /// <remarks>See remarks to <see cref="Matrix"/> property.</remarks>
+        /// 
+        protected readonly uint[][] matrix = null;
+
+        /// <summary>
+        /// Integral image's array.
         /// </summary>
         /// 
         /// <remarks>See remarks to <see cref="InternalData"/> property.</remarks>
         /// 
-        protected readonly uint[][] integralImage = null;
+        protected uint[,] integralImage = null;
 
         // image's width and height
         private readonly int width;
@@ -85,6 +93,23 @@ namespace Accord.Imaging
         /// </summary>
         /// 
         /// <remarks>
+        /// <para><note>The array should be accessed by [y][x] indexing.</note></para>
+        /// 
+        /// <para><note>The array's size is [<see cref="Height"/>+1, <see cref="Width"/>+1]. The first
+        /// row and column are filled with zeros, what is done for more efficient calculation of
+        /// rectangles' sums.</note></para>
+        /// </remarks>
+        /// 
+        public uint[][] Matrix
+        {
+            get { return matrix; }
+        }
+
+        /// <summary>
+        /// Provides access to internal array keeping integral image data.
+        /// </summary>
+        /// 
+        /// <remarks>
         /// <para><note>The array should be accessed by [y, x] indexing.</note></para>
         /// 
         /// <para><note>The array's size is [<see cref="Height"/>+1, <see cref="Width"/>+1]. The first
@@ -92,9 +117,25 @@ namespace Accord.Imaging
         /// rectangles' sums.</note></para>
         /// </remarks>
         /// 
-        public uint[][] InternalData
+        [Obsolete("Please use Matrix property instead.")]
+        public uint[,] InternalData
         {
-            get { return integralImage; }
+            get
+            {
+                if (integralImage == null)
+                {
+                    integralImage = new uint[height + 1, width + 1];
+                    for (int y = 0; y <= height; y++)
+                    {
+                        for (int x = 0; x <= width; x++)
+                        {
+                            integralImage[y, x] = matrix[y][x];
+                        }
+                    }
+                }
+
+                return integralImage;
+            }
         }
 
         /// <summary>
@@ -104,7 +145,7 @@ namespace Accord.Imaging
         /// <param name="width">Image width.</param>
         /// <param name="height">Image height.</param>
         /// 
-        /// <remarks>The constractor is protected, what makes it imposible to instantiate this
+        /// <remarks>The constructor is protected, what makes it impossible to instantiate this
         /// class directly. To create an instance of this class <see cref="FromBitmap(Bitmap)"/> or
         /// <see cref="FromBitmap(BitmapData)"/> method should be used.</remarks>
         ///
@@ -112,7 +153,7 @@ namespace Accord.Imaging
         {
             this.width = width;
             this.height = height;
-            integralImage = Jagged.Zeros<uint>(height + 1, width + 1);
+            this.matrix = Jagged.Zeros<uint>(height + 1, width + 1);
         }
 
         /// <summary>
@@ -185,7 +226,7 @@ namespace Accord.Imaging
 
             // create integral image
             var im = new IntegralImage(width, height);
-            uint[][] integralImage = im.integralImage;
+            uint[][] matrix = im.matrix;
 
             // do the job
             unsafe
@@ -204,7 +245,7 @@ namespace Accord.Imaging
 
                         rowSum += *src;
 
-                        integralImage[y][x] = rowSum + integralImage[y - 1][x];
+                        matrix[y][x] = rowSum + matrix[y - 1][x];
                     }
                     src += offset;
                 }
@@ -241,7 +282,7 @@ namespace Accord.Imaging
             if (x2 > width) x2 = width;
             if (y2 > height) y2 = height;
 
-            return integralImage[y2][x2] + integralImage[y1][x1] - integralImage[y2][x1] - integralImage[y1][x2];
+            return matrix[y2][x2] + matrix[y1][x1] - matrix[y2][x1] - matrix[y1][x2];
         }
 
         /// <summary>
@@ -257,7 +298,7 @@ namespace Accord.Imaging
         /// <remarks><para>The method calculates horizontal wavelet, which is a difference
         /// of two horizontally adjacent boxes' sums, i.e. <b>A-B</b>. A is the sum of rectangle with coordinates
         /// (x, y-radius, x+radius-1, y+radius-1). B is the sum of rectangle with coordinates
-        /// (x-radius, y-radius, x-1, y+radiys-1).</para></remarks>
+        /// (x-radius, y-radius, x-1, y+radius-1).</para></remarks>
         ///
         public int GetHaarXWavelet(int x, int y, int radius)
         {
@@ -314,7 +355,7 @@ namespace Accord.Imaging
             x2++;
             y2++;
 
-            return integralImage[y2][x2] + integralImage[y1][x1] - integralImage[y2][x1] - integralImage[y1][x2];
+            return matrix[y2][x2] + matrix[y1][x1] - matrix[y2][x1] - matrix[y1][x2];
         }
 
         /// <summary>
@@ -386,7 +427,7 @@ namespace Accord.Imaging
             if (y2 > height) y2 = height;
 
             // return sum divided by actual rectangles size
-            return (float)((double)(integralImage[y2][x2] + integralImage[y1][x1] - integralImage[y2][x1] - integralImage[y1][x2]) /
+            return (float)((double)(matrix[y2][x2] + matrix[y1][x1] - matrix[y2][x1] - matrix[y1][x2]) /
                 (double)((x2 - x1) * (y2 - y1)));
         }
 
@@ -409,7 +450,7 @@ namespace Accord.Imaging
             y2++;
 
             // return sum divided by actual rectangles size
-            return (float)((double)(integralImage[y2][x2] + integralImage[y1][x1] - integralImage[y2][x1] - integralImage[y1][x2]) /
+            return (float)((double)(matrix[y2][x2] + matrix[y1][x1] - matrix[y2][x1] - matrix[y1][x2]) /
                 (double)((x2 - x1) * (y2 - y1)));
         }
 
