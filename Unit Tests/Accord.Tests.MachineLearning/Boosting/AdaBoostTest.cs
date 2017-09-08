@@ -112,7 +112,7 @@ namespace Accord.Tests.MachineLearning
             // belong to each of the classes interwine in a Yin-Yang shape:
             var dataset = new YinYang();
             double[][] inputs = dataset.Instances;
-            int[] outputs = dataset.ClassLabels;
+            int[] outputs = Classes.ToZeroOne(dataset.ClassLabels);
 
             // Create an AdaBoost for Logistic Regression as:
             var teacher = new AdaBoost<LogisticRegression>()
@@ -165,7 +165,7 @@ namespace Accord.Tests.MachineLearning
             // belong to each of the classes interwine in a Yin-Yang shape:
             var dataset = new YinYang();
             double[][] inputs = dataset.Instances;
-            int[] outputs = dataset.ClassLabels;
+            int[] outputs = Classes.ToZeroOne(dataset.ClassLabels);
 
             // Create an AdaBoost for Logistic Regression as:
             var teacher = new AdaBoost<DecisionTree>()
@@ -194,11 +194,15 @@ namespace Accord.Tests.MachineLearning
             #endregion
 
             Assert.AreEqual(false, y);
-            Assert.AreEqual(0.11, error);
+            Assert.AreEqual(0, error);
 
-            Assert.AreEqual(2, classifier.Models.Count);
-            Assert.AreEqual(0.63576818449825168, classifier.Models[0].Weight);
-            Assert.AreEqual(0.36423181550174832, classifier.Models[1].Weight);
+            Assert.AreEqual(22, classifier.Models.Count);
+            Assert.AreEqual(0.063497989403001331, classifier.Models[0].Weight);
+            Assert.AreEqual(0.081129615464770655, classifier.Models[1].Weight);
+            Assert.AreEqual(0.083062765085567689, classifier.Models[2].Weight);
+            Assert.AreEqual(0.050307480220333232, classifier.Models[3].Weight);
+            Assert.AreEqual(0.044287142080877882, classifier.Models[4].Weight);
+            Assert.AreEqual(0.042772219812778081, classifier.Models[5].Weight);
 
             int[] actual = new int[outputs.Length];
             for (int i = 0; i < actual.Length; i++)

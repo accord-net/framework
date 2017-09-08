@@ -408,7 +408,7 @@ namespace Accord.Statistics
             return StandardError(values.Length, StandardDeviation(values));
         }
 
-       
+
         /// <summary>
         ///   Computes the Variance of the given values.
         /// </summary>
@@ -1198,6 +1198,29 @@ namespace Accord.Statistics
         /// 
         /// <param name="values">A number array containing the vector values.</param>
         /// <param name="pdf">A probability distribution function.</param>
+        /// <param name="weights">The importance for each sample.</param>
+        /// 
+        /// <returns>The distribution's entropy for the given values.</returns>
+        /// 
+        public static double Entropy(this double[] values, double[] weights, Func<double, double> pdf)
+        {
+            double sum = 0;
+            for (int i = 0; i < values.Length; i++)
+            {
+                double p = pdf(values[i]) * weights[i];
+                sum += p * Math.Log(p);
+            }
+
+            return sum;
+        }
+
+        /// <summary>
+        ///   Computes the entropy function for a set of numerical values in a 
+        ///   given Probability Density Function (pdf).
+        /// </summary>
+        /// 
+        /// <param name="values">A number array containing the vector values.</param>
+        /// <param name="pdf">A probability distribution function.</param>
         /// 
         /// <returns>The distribution's entropy for the given values.</returns>
         /// 
@@ -1259,8 +1282,8 @@ namespace Accord.Statistics
             double sum = 0;
             for (int i = 0; i < values.Length; i++)
             {
-                double p = pdf(values[i]);
-                sum += p * Math.Log(p) * weights[i];
+                double p = pdf(values[i]) * weights[i];
+                sum += p * Math.Log(p);
             }
 
             return sum;
@@ -1379,14 +1402,92 @@ namespace Accord.Statistics
 
                 // Count the number of instances inside
                 for (int i = 0; i < values.Length; i++)
-                    if (values[i] == c) count++;
+                    if (values[i] == c)
+                        count++;
 
                 if (count > 0)
                 {
                     // Avoid situations limiting situations
                     //  by forcing 0 * Math.Log(0) to be 0.
 
-                    double p = (double)count / values.Length;
+                    double p = count / (double)values.Length;
+                    entropy -= p * Math.Log(p, 2);
+                }
+            }
+
+            return entropy;
+        }
+
+        /// <summary>
+        ///   Computes the entropy for the given values.
+        /// </summary>
+        /// 
+        /// <param name="values">An array of integer symbols.</param>
+        /// <param name="startValue">The starting symbol.</param>
+        /// <param name="endValue">The ending symbol.</param>
+        /// <param name="weights">The importance for each sample.</param>
+        /// 
+        /// <returns>The evaluated entropy.</returns>
+        /// 
+        public static double WeightedEntropy(int[] values, double[] weights, int startValue, int endValue)
+        {
+            double entropy = 0;
+
+            // For each class
+            for (int c = startValue; c <= endValue; c++)
+            {
+                double count = 0;
+
+                // Count the number of instances inside
+                for (int i = 0; i < values.Length; i++)
+                    if (values[i] == c)
+                        count += weights[i];
+
+                if (count > 0)
+                {
+                    // Avoid situations limiting situations
+                    //  by forcing 0 * Math.Log(0) to be 0.
+
+                    double p = count / (double)values.Length;
+                    entropy -= p * Math.Log(p, 2);
+                }
+            }
+
+            return entropy;
+        }
+
+        /// <summary>
+        ///   Computes the entropy for the given values.
+        /// </summary>
+        /// 
+        /// <param name="values">An array of integer symbols.</param>
+        /// <param name="startValue">The starting symbol.</param>
+        /// <param name="endValue">The ending symbol.</param>
+        /// <param name="weights">The importance for each sample.</param>
+        /// 
+        /// <returns>The evaluated entropy.</returns>
+        /// 
+        public static double WeightedEntropy(double[] values, double[] weights, int startValue, int endValue)
+        {
+            double entropy = 0;
+            double totalWeightSum = weights.Sum();
+
+            // For each class
+            for (int c = startValue; c <= endValue; c++)
+            {
+                double classWeightSum = 0;
+
+                // Count the number of instances inside
+                for (int i = 0; i < values.Length; i++)
+                    if (values[i] == c)
+                        classWeightSum += weights[i];
+
+                if (classWeightSum > 0)
+                {
+                    // Avoid situations limiting situations
+                    //  by forcing 0 * Math.Log(0) to be 0.
+
+                    double p = classWeightSum / totalWeightSum;
                     entropy -= p * Math.Log(p, 2);
                 }
             }
@@ -1435,12 +1536,81 @@ namespace Accord.Statistics
         /// </summary>
         /// 
         /// <param name="values">An array of integer symbols.</param>
+        /// <param name="startValue">The starting symbol.</param>
+        /// <param name="endValue">The ending symbol.</param>
+        /// <param name="weights">The importance for each sample.</param>
+        /// 
+        /// <returns>The evaluated entropy.</returns>
+        /// 
+        public static double WeightedEntropy(IList<int> values, IList<double> weights, int startValue, int endValue)
+        {
+            double entropy = 0;
+            double totalWeightSum = weights.Sum();
+
+            // For each class
+            for (int c = startValue; c <= endValue; c++)
+            {
+                double classWeightSum = 0;
+
+                // Count the number of instances inside
+                for (int i = 0; i < values.Count; i++)
+                    if (values[i] == c)
+                        classWeightSum += weights[i];
+
+                if (classWeightSum > 0)
+                {
+                    // Avoid situations limiting situations
+                    //  by forcing 0 * Math.Log(0) to be 0.
+
+                    double p = classWeightSum / totalWeightSum;
+                    entropy -= p * Math.Log(p, 2);
+                }
+            }
+
+            return entropy;
+        }
+
+        /// <summary>
+        ///   Computes the entropy for the given values.
+        /// </summary>
+        /// 
+        /// <param name="values">An array of integer symbols.</param>
         /// <param name="valueRange">The range of symbols.</param>
         /// <returns>The evaluated entropy.</returns>
         /// 
         public static double Entropy(int[] values, IntRange valueRange)
         {
             return Entropy(values, valueRange.Min, valueRange.Max);
+        }
+
+        /// <summary>
+        ///   Computes the entropy for the given values.
+        /// </summary>
+        /// 
+        /// <param name="values">An array of integer symbols.</param>
+        /// <param name="classes">The number of distinct classes.</param>
+        /// <param name="weights">The importance for each sample.</param>
+        /// 
+        /// <returns>The evaluated entropy.</returns>
+        /// 
+        public static double WeightedEntropy(int[] values, double[] weights, int classes)
+        {
+            return WeightedEntropy(values, weights, 0, classes - 1);
+        }
+
+        /// <summary>
+        ///   Computes the entropy for the given values.
+        /// </summary>
+        /// 
+        /// <param name="values">An array of integer symbols.</param>
+        /// <param name="classes">The number of distinct classes.</param>
+        /// <param name="weights">The importance for each sample.</param>
+        /// 
+        /// <returns>The evaluated entropy.</returns>
+        /// 
+        public static double WeightedEntropy(double[] values, double[] weights, int classes)
+        {
+            return WeightedEntropy(values, weights, 0, classes - 1);
         }
 
         /// <summary>
@@ -1467,6 +1637,21 @@ namespace Accord.Statistics
         public static double Entropy(IList<int> values, int classes)
         {
             return Entropy(values, 0, classes - 1);
+        }
+
+        /// <summary>
+        ///   Computes the entropy for the given values.
+        /// </summary>
+        /// 
+        /// <param name="values">An array of integer symbols.</param>
+        /// <param name="classes">The number of distinct classes.</param>
+        /// <param name="weights">The importance for each sample.</param>
+        /// 
+        /// <returns>The evaluated entropy.</returns>
+        /// 
+        public static double WeightedEntropy(IList<int> values, IList<double> weights, int classes)
+        {
+            return WeightedEntropy(values, weights, 0, classes - 1);
         }
 
     }
