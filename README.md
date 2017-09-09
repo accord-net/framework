@@ -118,4 +118,4 @@ Donate using cryptocurrencties:
 
 Note: all donations are 100% invested towards improving the framework, including, but not limited to, the hiring of extra developers to work on issues currently present at the project's issue tracker. If you would like to donate resources towards the development of a particular issue, please let us know!
 
-Join the chat at https://gitter.im/accord-net/framework
+Join the chat at https://gitter.im/accord-net/framework - but to have issues and questions answered, [post it as an issue](https://github.com/accord-net/framework/issues).
