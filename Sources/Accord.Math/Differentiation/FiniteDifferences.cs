@@ -234,21 +234,9 @@ namespace Accord.Math.Differentiation
         /// 
         public double[] Compute(params double[] x)
         {
-            if (x == null)
-                throw new ArgumentNullException("x");
-
-            if (x.Length != parameters)
-                throw new ArgumentException("The number of dimensions does not match.", "x");
-
-            if (Function == null)
-                throw new InvalidOperationException("The Function has not been defined.");
-
-            double output = Function(x);
-
-            double[] gradient = new double[x.Length];
-            for (int i = 0; i < gradient.Length; i++)
-                gradient[i] = derivative(x, i, output);
-
+            // TODO: Rename to Gradient
+            var gradient = new double[x.Length];
+            Compute(x, gradient);
             return gradient;
         }
 
@@ -260,8 +248,18 @@ namespace Accord.Math.Differentiation
         /// <param name="x">The point where to compute the gradient.</param>
         /// <param name="gradient">The gradient of the function evaluated at point <c>x</c>.</param>
         /// 
-        public void Compute(double[] x, double[] gradient)
+        public double[] Compute(double[] x, double[] gradient)
         {
+            // TODO: Rename to Gradient
+            if (x == null)
+                throw new ArgumentNullException("x");
+
+            if (x.Length != parameters)
+                throw new ArgumentException("The number of dimensions does not match.", "x");
+
+            if (Function == null)
+                throw new InvalidOperationException("The Function has not been defined.");
+
             if (x.Length < gradient.Length)
             {
                 throw new DimensionMismatchException("gradient",
@@ -271,17 +269,55 @@ namespace Accord.Math.Differentiation
             if (Function == null)
                 throw new InvalidOperationException("The Function has not been defined.");
 
-            double output = Function(x);
+            double centerValue = Function(x);
 
             for (int i = 0; i < gradient.Length; i++)
-                gradient[i] = derivative(x, i, output);
+                gradient[i] = derivative(Function, x, i, centerValue);
+            return gradient;
+        }
+
+        /// <summary>
+        ///   Computes the Hessian matrix at given points <c>x</c>.
+        /// </summary>
+        /// 
+        /// <param name="x">The points where to compute the gradient.</param>
+        /// 
+        /// <returns>The Hessian of the function evaluated at points <c>x</c>.</returns>
+        /// 
+        public double[][] Hessian(double[] x)
+        {
+            return Hessian(x, Jagged.Zeros(x.Length, x.Length));
+        }
+
+        /// <summary>
+        ///   Computes the Hessian matrix at given points <c>x</c>.
+        /// </summary>
+        /// 
+        /// <param name="x">The points where to compute the gradient.</param>
+        /// <param name="result">The matrix where the Hessian should be stored.</param>
+        /// 
+        /// <returns>The Hessian of the function evaluated at points <c>x</c>.</returns>
+        /// 
+        public double[][] Hessian(double[] x, double[][] result)
+        {
+            for (int i = 0; i < x.Length; i++)
+            {
+                Func<double[], double> f = (double[] x0) => derivative(Function, x0, i, Function(x0));
+
+                double centerValue = Function(x);
+
+                for (int j = 0; j < x.Length; j++)
+                    result[i][j] = derivative(f, x, j, centerValue);
+            }
+
+            return result;
         }
 
         /// <summary>
         ///   Computes the derivative at point <c>x_i</c>.
         /// </summary>
         /// 
-        private double derivative(double[] x, int index, double output)
+        private double derivative(Func<double[], double> func, double[] x, int index, double centerValue)
         {
             // Saves the original parameter value
 
@@ -304,12 +340,12 @@ namespace Accord.Math.Differentiation
                     x[index] = original + (i - center) * step;
 
                     // Recompute the function to measure its importance
-                    points[i] = Function(x);
+                    points[i] = func(x);
                 }
                 else
                 {
                     // The center point is the original function
-                    points[i] = output;
+                    points[i] = centerValue;
                 }
             }
 
@@ -400,7 +436,7 @@ namespace Accord.Math.Differentiation
         /// 
         public static double Derivative(Func<double, double> function, double value, int order)
         {
-            return Derivative(function, value, order, 0.01);
+            return Derivative(function, value, order, stepSize: 0.01);
         }
 
         /// <summary>
@@ -414,7 +450,7 @@ namespace Accord.Math.Differentiation
         /// 
         public static double Derivative(Func<double, double> function, double value)
         {
-            return Derivative(function, value, 1);
+            return Derivative(function, value, order: 1);
         }
 
         /// <summary>
@@ -430,6 +466,8 @@ namespace Accord.Math.Differentiation
         /// 
         public static double Derivative(Func<double, double> function, double value, int order, double stepSize)
         {
+            // TODO: Separate FiniteDifferences into classes for univariate, multivariate and vector-valued functions
+
             double output = function(value);
             double original = value;
 
@@ -456,8 +494,7 @@ namespace Accord.Math.Differentiation
                 }
             }
 
-            return FiniteDifferences.Interpolate(coefficientCache,
-                outputs, order, center, stepSize);
+            return Interpolate(coefficientCache, outputs, order, center, stepSize);
         }
 
         /// <summary>
@@ -470,9 +507,24 @@ namespace Accord.Math.Differentiation
         /// 
         /// <returns>The gradient function of the given <paramref name="function"/>.</returns>
         /// 
-        public static Func<double[], double[]> Gradient(Func<double[], double> function, int variables, int order= 1)
+        public static Func<double[], double[]> Gradient(Func<double[], double> function, int variables, int order = 1)
         {
             return new FiniteDifferences(variables, function).Compute;
+        }
+
+        /// <summary>
+        ///   Obtains the Hessian function for a multidimensional function.
+        /// </summary>
+        /// 
+        /// <param name="function">The function to be differentiated.</param>
+        /// <param name="variables">The number of parameters for the function.</param>
+        /// <param name="order">The derivative order that should be obtained. Default is 1.</param>
+        /// 
+        /// <returns>The gradient function of the given <paramref name="function"/>.</returns>
+        /// 
+        public static Func<double[], double[][]> Hessian(Func<double[], double> function, int variables, int order = 1)
+        {
+            return new FiniteDifferences(variables, function).Hessian;
         }
 
     }
