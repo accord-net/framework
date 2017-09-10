@@ -465,10 +465,10 @@ namespace Accord.Math
             return false;
         }
 
-#endregion
+        #endregion
 
 
-#region Transpose
+        #region Transpose
 
         /// <summary>
         ///   Gets the transpose of a matrix.
@@ -628,10 +628,10 @@ namespace Accord.Math
             return r;
         }
 
-#endregion
+        #endregion
 
 
-#region Matrix Characteristics
+        #region Matrix Characteristics
 
         /// <summary>
         /// Gets the total number of elements in the vector.
@@ -788,37 +788,26 @@ namespace Accord.Math
         /// <summary>
         ///   Returns true if a matrix is square.
         /// </summary>
-        public static bool IsSquare<T>(this T[,] matrix)
+        /// 
+        public static bool IsSquare<T>(this T[][] matrix)
         {
-            if (matrix == null) throw new ArgumentNullException("matrix");
+            if (matrix == null)
+                throw new ArgumentNullException("matrix");
 
-            return matrix.GetLength(0) == matrix.GetLength(1);
+            return matrix.Rows() == matrix.Columns(max: true);
         }
 
         /// <summary>
-        ///   Returns true if a matrix is symmetric.
+        ///   Returns true if a matrix is square.
         /// </summary>
-        /// <param name="matrix"></param>
-        /// <returns></returns>
-        public static bool IsSymmetric<T>(this T[,] matrix) where T : IComparable
+        /// 
+        public static bool IsSquare<T>(this T[,] matrix)
         {
-            if (matrix == null) throw new ArgumentNullException("matrix");
+            if (matrix == null)
+                throw new ArgumentNullException("matrix");
 
-            if (matrix.GetLength(0) == matrix.GetLength(1))
-            {
-                for (int i = 0; i < matrix.GetLength(0); i++)
-                {
-                    for (int j = 0; j <= i; j++)
-                    {
-                        if (matrix[i, j].CompareTo(matrix[j, i]) != 0)
-                            return false;
-                    }
-                }
-                return true;
-            }
-            return false;
+            return matrix.Rows() == matrix.Columns();
         }
-
 
 
         /// <summary>
@@ -1334,11 +1323,11 @@ namespace Accord.Math
             return new CholeskyDecomposition(matrix).IsPositiveDefinite;
         }
 
-#endregion
+        #endregion
 
 
 
-#region Operation Mapping (Apply)
+        #region Operation Mapping (Apply)
 
         /// <summary>
         ///   Applies a function to every element of the array.
@@ -1505,10 +1494,10 @@ namespace Accord.Math
                 result[i] = func(vector[i]);
             return result;
         }
-#endregion
+        #endregion
 
 
-#region Rounding and discretization
+        #region Rounding and discretization
         /// <summary>
         ///   Rounds a double-precision floating-point matrix to a specified number of fractional digits.
         /// </summary>
@@ -1611,10 +1600,10 @@ namespace Accord.Math
             return result;
         }
 
-#endregion
+        #endregion
 
 
-#region Morphological operations
+        #region Morphological operations
 
         /// <summary>
         ///   Transforms a jagged array matrix into a single vector.
@@ -1809,7 +1798,7 @@ namespace Accord.Math
             return result;
         }
 
-#endregion
+        #endregion
 
         /// <summary>
         ///   Convolves an array with the given kernel.

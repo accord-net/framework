@@ -1919,8 +1919,33 @@ namespace Accord.Tests.Math
             expected = true;
             actual = Matrix.IsSymmetric(matrix2);
             Assert.AreEqual(expected, actual);
+        }
 
 
+        [Test]
+        public void IsSymmetricTest_multidimensional()
+        {
+            double[,] matrix =
+            {
+                { 1, 2.0000004 },
+                { 2.0000002, 4 }
+            };
+
+            Assert.IsFalse(Matrix.IsSymmetric(matrix, atol: 1e-10));
+            Assert.IsTrue(Matrix.IsSymmetric(matrix, atol: 1e-3));
+        }
+
+        [Test]
+        public void IsSymmetricTest_jagged()
+        {
+            double[][] matrix =
+            {
+                new[] { 1, 2.00000005 },
+                new[] { 2.0000003, 4 }
+            };
+
+            Assert.IsFalse(Matrix.IsSymmetric(matrix, atol: 1e-10));
+            Assert.IsTrue(Matrix.IsSymmetric(matrix, atol: 1e-3));
         }
 
         [Test]
