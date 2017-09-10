@@ -166,5 +166,83 @@ namespace Accord.Tests.Math
                 }
             }
         }
+
+
+        [Test]
+        public void gh_853()
+        {
+            double[] aParam = { 1.790978, 9.408872E-05, 0.9888748, 1E-08 };
+
+            Func<double[], double> funcionObjetivoLBFGS = x =>
+            {
+                int iSizeArray = 10;
+                double[] arrayDecimalesTrabajo = { 2.2227, 2.2188, 2.2144, 2.204, 2.2006, 2.2053, 2.2053, 2.2035, 2.1969, 2.2033 };
+
+                double mu = x[0];
+                double omega = x[1];
+                double alpha = x[2];
+                double beta = x[3];
+
+                double[] e2 = new double[iSizeArray];
+                double mediae2 = 0.0;
+                for (int i = 0; i <= iSizeArray - 1; i++)
+                {
+                    e2[i] = Math.Pow((arrayDecimalesTrabajo[i] - mu), 2);
+                    mediae2 = mediae2 + e2[i];
+                }
+
+                mediae2 = mediae2 / iSizeArray;
+                double[] sigmat2 = new double[iSizeArray];
+                sigmat2[0] = omega + alpha * mediae2;
+                for (int i = 1; i <= iSizeArray - 1; i++)
+                {
+                    sigmat2[i] = omega + alpha * e2[i - 1];
+                }
+                sigmat2[0] = sigmat2[0] + beta * mediae2;
+                for (int i = 1; i <= iSizeArray - 1; i++)
+                {
+                    sigmat2[i] = sigmat2[i] + beta * sigmat2[i - 1];
+                }
+
+                double sumalikelihood = iSizeArray * Math.Log(2 * Math.PI);
+                for (int i = 0; i <= iSizeArray - 1; i++)
+                {
+                    double dMathlog = Math.Log(sigmat2[i]);
+                    if (double.IsInfinity(dMathlog))
+                        break;
+                    if (double.IsNaN(dMathlog))
+                        break;
+                    sumalikelihood = sumalikelihood + dMathlog + e2[i] / sigmat2[i];
+                }
+                return 0.5 * sumalikelihood;
+
+            };
+
+            var calculator = new FiniteDifferences(variables: 4, function: funcionObjetivoLBFGS)
+            {
+                NumberOfPoints = 7,
+            };
+
+            double[] result = calculator.Compute(aParam);
+            double[][] actual = calculator.Hessian(aParam);
+
+            Assert.AreEqual(actual[0][0], -57.6160442364672, 1e-2);
+            Assert.AreEqual(actual[0][1], -1.27840745168738, 1e-2);
+            Assert.AreEqual(actual[0][2], 0.0255249049748045, 1e-2);
+            Assert.AreEqual(actual[0][3], 0.0231494572415752, 1e-2);
+            Assert.AreEqual(actual[1][0], -1.27840745168738, 1e-2);
+            Assert.AreEqual(actual[1][1], 173.045435758468, 1e-1);
+            Assert.AreEqual(actual[1][2], 29.9809421733244, 1e-2);
+            Assert.AreEqual(actual[1][3], 29.8568458845239, 1e-1);
+            Assert.AreEqual(actual[2][0], 0.0255249049748045, 1e-2);
+            Assert.AreEqual(actual[2][1], 29.9809421733244, 1e-2);
+            Assert.AreEqual(actual[2][2], 5.2012616436059, 1e-2);
+            Assert.AreEqual(actual[2][3], 5.17856868498256, 1e-2);
+            Assert.AreEqual(actual[3][0], 0.0231494572415752, 1e-2);
+            Assert.AreEqual(actual[3][1], 29.8568458845239, 1e-2);
+            Assert.AreEqual(actual[3][2], 5.17856868498256, 1e-2);
+            Assert.AreEqual(actual[3][3], 5.15878895157584, 1e-2);
+        }
+
     }
 }

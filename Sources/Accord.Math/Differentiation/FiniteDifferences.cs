@@ -407,8 +407,6 @@ namespace Accord.Math.Differentiation
             // Saves the original parameter value
             double original = x[index];
             double step = this.stepSizes[index];
-            if (original != 0.0)
-                step *= System.Math.Abs(original);
 
             // Create the interpolation points
             for (int i = 0; i < points.Length; i++)
@@ -450,7 +448,8 @@ namespace Accord.Math.Differentiation
                     sum += c * points[i];
             }
 
-            return sum / Math.Pow(step, order);
+            double r = sum / Math.Pow(step, order);
+            return r;
         }
 
 
