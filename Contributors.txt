@@ -28,12 +28,12 @@
   - Mikkel Porse Rasmussen
   - Peter Sergio Larsen 
   - Remy Disp
+  - Yang Ting
 
   
 In May 2015, the project has been merged with the AForge.NET codebase,
 incorporating the work of even more contributors. In a true spirit of
 community, notorious previous contributors are also listed below:
-
 
   - Andrew Kirillov (the project creator, with the best ideas)
   - Fábio Caversan

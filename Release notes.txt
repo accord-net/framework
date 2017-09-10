@@ -1,3 +1,59 @@
+Accord.NET Framework 3.7.1-alpha release notes
+-----------------------------------------
+20.09.2017.
+
+Version updates and fixes:
+  - GH-127: Fast KMeans (Request);
+  - GH-145: MovingNormalStatistics;
+  - GH-211: Any samples on how to use Boosted Decision Trees;
+  - GH-415: Add an Example for AdaBoost(TModel);
+  - GH-424: Add an Example for AdaBoost(TModel) Class;
+  - GH-441: Add Mel Frequency Cepstral Coefficients (MFCC);
+  - GH-629: Add an Example for AdaBoost(TModel) Class;
+  - GH-717: Possible issue with DynamicTimeWarp kernel class;
+  - GH-723: Procrustes analysis is giving weird/wrong results;
+  - GH-789: Add support for OS X;
+  - GH-798: System.AccessViolationException in FastBoxBlur;
+  - GH-800: Missing dependency for Accord.Neuro in NuGet;
+  - GH-802: Index outside of the bounds of the array in Naive Bayes;
+  - GH-803: NaN probabilities from large features with MultinomialLogisticRegression;
+  - GH-805: Unsafe keyword being exposed in the public API;
+  - GH-807: Add an Example for CrossValidating NaiveBayes;
+  - GH-811: Naive Bayes should provide better argument checking for negative symbols;
+  - GH-812: ZhangSuenSkeletonization filter not exist to use;
+  - GH-824: Improve number of class inference in ZeroOneLoss;
+  - GH-825: Replace multi-dimentional with jagged arrays in IntegralImage.cs;
+  - GH-828: Accord.Neuro under .Net Standard 2.0;
+  - GH-830: Read PGM image pending;
+  - GH-831: Index outside of the bounds of the array in Naive Bayes;
+  - GH-843: Where is Accord.NET AdaBoost Decide method;
+  - GH-848: Wilcoxon Signed Rank Test for PAIRED samples: TwoSampleWilcoxonSignedRankTest;
+  - GH-853: Access to last Hessian in BoundedBroydenFletcherGoldfarbShanno;
+
+* General
+  - The libsonly script is now in RAR4 format instead of RAR5 so they 
+    will not be listed as corrupted files by Linux/MacOSX decompressors;
+
+* Audio
+  - Adding the initial version for a MFCC audio feature extractor;
+
+* Imaging
+  - Adding support for decoding PNM files in format P2 and P3 (besides the already supported P5 and P6);
+
+* DataSets:
+  - Adding the Yin-Yang dataset as an example of a non-linear 2D binary classification problem;
+
+* Math
+  - Adding a method for calculating the Hessian in the FiniteDifferences class;
+
+* MachineLearning
+  - Updating the AdaBoost classes to implement the more recent classification framelet;
+  - Adding a Error property in ConfusionMatrix and GeneralConfusionMatrix (1.0 - Accuracy);
+  - Adding named constructors to ConfusionMatrix to create matrices directly from classifiers, their inputs and expected outputs;
+
+
+
+
 Accord.NET Framework 3.7.0 release notes
 -----------------------------------------
 20.08.2017.
