@@ -280,24 +280,17 @@ namespace Accord.Imaging
 
         private List<SpeededUpRobustFeaturePoint> processImage(UnmanagedImage image)
         {
-            // make sure we have grayscale image
-            UnmanagedImage grayImage = null;
-
+            // 1. Compute the integral for the given image
             if (image.PixelFormat == PixelFormat.Format8bppIndexed)
             {
-                grayImage = image;
+                integral = IntegralImage.FromBitmap(image);
             }
             else
             {
                 // create temporary grayscale image
-                grayImage = Grayscale.CommonAlgorithms.BT709.Apply(image);
+                using (UnmanagedImage grayImage = Grayscale.CommonAlgorithms.BT709.Apply(image))
+                    integral = IntegralImage.FromBitmap(grayImage);
             }
-
-
-            // 1. Compute the integral for the given image
-            integral = IntegralImage.FromBitmap(grayImage);
-
-
 
             // 2. Create and compute interest point response map
             if (responses == null)
