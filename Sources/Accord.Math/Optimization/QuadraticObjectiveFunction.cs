@@ -164,7 +164,12 @@ namespace Accord.Math.Optimization
         /// 
         public QuadraticObjectiveFunction(double[,] quadraticTerms, double[] linearTerms, params string[] variables)
         {
-            if (quadraticTerms.Rows() != quadraticTerms.Columns())
+            if (!quadraticTerms.IsSquare())
+                throw new DimensionMismatchException("quadraticTerms", "The matrix must be square.");
+
+            double tolerance = quadraticTerms.AbsoluteMax() * 1e-12;
+
+            if (!quadraticTerms.IsSymmetric(tolerance))
                 throw new DimensionMismatchException("quadraticTerms", "The matrix must be square.");
 
             if (quadraticTerms.Rows() != linearTerms.Length)
