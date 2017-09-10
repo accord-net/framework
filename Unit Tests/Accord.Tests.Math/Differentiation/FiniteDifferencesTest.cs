@@ -48,8 +48,31 @@ namespace Accord.Tests.Math
         }
 
         [Test]
+        public void test_order()
+        {
+            // https://www.wolframalpha.com/input/?i=third+derivative+of+(1+-+x)%5E2+%2B+100(y+-+x%5E2)%5E2+at+(-1,0.4)
+
+            int numberOfParameters = 2;
+            FiniteDifferences target = new FiniteDifferences(numberOfParameters)
+            {
+                NumberOfPoints = 7,
+                Order = 3,
+            };
+
+            double[] inputs = { -1, 0.4 };
+
+            target.Function = BroydenFletcherGoldfarbShannoTest.rosenbrockFunction;
+
+            double[] expected = { -2400, 0 };
+            double[] actual = target.Compute(inputs);
+
+            Assert.IsTrue(expected.IsEqual(actual, 1e-5));
+        }
+
+        [Test]
         public void ComputeTest2()
         {
+            #region doc_gradient
             // Create a simple function with two parameters: f(x,y) = x² + y
             Func<double[], double> function = x => Math.Pow(x[0], 2) + x[1];
 
@@ -62,6 +85,7 @@ namespace Accord.Tests.Math
 
             // Evaluate the gradient function at the point (2, -1)
             double[] result = calculator.Compute(2, -1); // answer is (4, 1)
+            #endregion
 
             Assert.AreEqual(4, result[0], 1e-10);
             Assert.AreEqual(1, result[1], 1e-10);
@@ -70,6 +94,7 @@ namespace Accord.Tests.Math
         [Test]
         public void Hessian_test()
         {
+            #region doc_hessian
             // Create a simple function with two parameters: f(x,y) = x² + y
             Func<double[], double> function = x => Math.Pow(x[0], 2) + x[1];
 
@@ -80,7 +105,8 @@ namespace Accord.Tests.Math
             var calculator = new FiniteDifferences(2, function);
 
             // Evaluate the gradient function at the point (2, -1)
-            double[][] result = calculator.Hessian(new[] { 2.0, -1.0 }); // answer is (4, 1)
+            double[][] result = calculator.Hessian(new[] { 2.0, -1.0 }); // answer is [(2, 0), (0, 0)]
+            #endregion
 
             double[][] expected =
             {
@@ -114,7 +140,11 @@ namespace Accord.Tests.Math
             // x² + log(y) + xy + exp(x+y) + 47
             Func<double[], double> function = x => Math.Pow(x[0], 2) + Math.Log(x[1]) + x[0] * x[1] + Math.Exp(x[0] + x[1]) + 47;
 
-            var calculator = new FiniteDifferences(2, function);
+            var calculator = new FiniteDifferences(variables: 2)
+            {
+                Function = function,
+                NumberOfPoints = 7
+            };
 
             Func<double[], double[][]> expectedFormula = (double[] x) =>
                 new double[][]
@@ -132,7 +162,7 @@ namespace Accord.Tests.Math
                     double[][] actual = calculator.Hessian(value);
                     double[][] expected = expectedFormula(value);
 
-                    Assert.IsTrue(actual.IsEqual(expected, rtol: 1e-2));
+                    Assert.IsTrue(actual.IsEqual(expected, rtol: 1e-5));
                 }
             }
         }
