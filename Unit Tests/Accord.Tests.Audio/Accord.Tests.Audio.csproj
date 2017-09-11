@@ -67,7 +67,12 @@
     <Compile Include="WaveFileAudioSourceTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\License.txt" />
+    <Content Include="Resources\License.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\sa1.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="Accord.snk" />
     <None Include="Resources\c.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

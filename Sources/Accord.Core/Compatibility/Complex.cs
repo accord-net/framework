@@ -1033,7 +1033,7 @@ namespace Accord.Compat
         /// <returns>Returns new <see cref="Complex"/> instance containing complex number with
         /// real part initialized to the specified value.</returns>
         /// 
-        public static explicit operator Complex(double value)
+        public static implicit operator Complex(double value)
         {
             return new Complex(value, 0);
         }

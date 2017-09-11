@@ -25,6 +25,7 @@ namespace Accord.Math.Differentiation
     using System;
     using Accord.Math;
     using System.Threading;
+    using Accord.Compat;
 
     /// <summary>
     ///   Derivative approximation by finite differences.
