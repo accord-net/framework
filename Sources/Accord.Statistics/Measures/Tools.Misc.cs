@@ -90,15 +90,12 @@ namespace Accord.Statistics
             if (samples.Length == 0)
                 return new double[0];
 
-            int start = 0;
-            while (samples[start] == 0)
-                start++;
+            ranks[0] = 1;
 
-            ranks[start] = 1;
             if (adjustForTies)
             {
                 int r = 1;
-                for (int i = start + 1; i < ranks.Length; i++)
+                for (int i = 1; i < ranks.Length; i++)
                 {
                     // Check if we have a tie
                     if (samples[i] != samples[i - 1])
@@ -146,7 +143,7 @@ namespace Accord.Statistics
             else
             {
                 // No need to adjust for ties
-                for (int i = start + 1, r = 1; i < ranks.Length; i++)
+                for (int i = 1, r = 1; i < ranks.Length; i++)
                 {
                     if (samples[i] == samples[i - 1])
                         hasTies = true;

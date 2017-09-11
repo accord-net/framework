@@ -1255,7 +1255,7 @@ namespace Accord.Tests.Statistics
             double[] values = { 7, 1, 2, 1, 7, 8, 1, 1, 2, 0, 10, 27 };
             double[] copy = (double[])values.Clone();
 
-            double[] expected = { 7.5, 2.5, 5.5, 2.5, 7.5, 9, 2.5, 2.5, 5.5, 0, 10, 11 };
+            double[] expected = { 8.5, 3.5, 6.5, 3.5, 8.5, 10.0, 3.5, 3.5, 6.5, 1.0, 11.0, 12.0 };
             double[] actual = values.Rank();
 
             Assert.IsTrue(expected.IsEqual(actual));
@@ -1277,6 +1277,77 @@ namespace Accord.Tests.Statistics
             Array.Sort(expected);
             Array.Sort(actual);
 
+            Assert.IsTrue(expected.IsEqual(actual));
+        }
+
+
+        [Test]
+        public void RankTest4()
+        {
+            double[] sample1 = new double[] { 250, 200, 450, 400, 250, 250, 350, 0, 200, 400, 300, 600, 200, 200,
+                550, 100, 300, 250, 350, 200, 550, 200, 450, 400, 200, 400, 450,
+                200, 400, 400, 500, 450, 300, 250, 200 };
+            double[] sample2 = new double[] { 250, 200, 450, 400, 250, 250, 350, 0, 200, 400, 300, 600, 200, 200,
+               550, 100, 300, 250, 350, 200, 550, 200, 450, 400, 200, 400, 450,
+               200, 400, 400, 500, 450, 300, 250, 200 };
+
+            double[] samples = sample1.Concatenate(sample2);
+
+            bool hasTies;
+            double[] actual = samples.Rank(hasTies: out hasTies, adjustForTies: true);
+            Assert.IsTrue(hasTies);
+
+            double[] expected =
+            {
+                27.5, 13.5, 58.5, 48.5, 27.5, 27.5, 40.5, 1.5, 13.5, 48.5, 35.5, 69.5, 13.5, 13.5, 66.5, 3.5, 35.5, 27.5, 40.5,
+                13.5, 66.5, 13.5, 58.5, 48.5, 13.5, 48.5, 58.5, 13.5, 48.5, 48.5, 63.5, 58.5, 35.5, 27.5, 13.5, 27.5, 13.5, 58.5, 48.5,
+                27.5, 27.5, 40.5, 1.5, 13.5, 48.5, 35.5, 69.5, 13.5, 13.5, 66.5, 3.5, 35.5, 27.5, 40.5, 13.5, 66.5, 13.5, 58.5, 48.5,
+                13.5, 48.5, 58.5, 13.5, 48.5, 48.5, 63.5, 58.5, 35.5, 27.5, 13.5
+            };
+
+            Assert.IsTrue(expected.IsEqual(actual));
+        }
+
+        [Test]
+        public void RankTest5()
+        {
+            double[] sample = new double[] { 250, 200, 450, 400, 250, 250, 350, 0, 200, 400, 300, 600, 200, 200,
+                550, 100, 300, 250, 350, 200, 550, 200, 450, 400, 200, 400, 450,
+                200, 400, 400, 500, 450, 300, 250, 200 };
+
+            bool hasTies;
+            double[] actual = sample.Rank(hasTies: out hasTies, adjustForTies: true);
+            Assert.IsTrue(hasTies);
+
+            double[] expected =
+            {
+                14.0, 7.0, 29.5, 24.5, 14.0, 14.0, 20.5, 1.0, 7.0, 24.5, 18.0, 35.0, 7.0, 7.0, 33.5,
+                2.0, 18.0, 14.0, 20.5, 7.0, 33.5, 7.0, 29.5, 24.5, 7.0, 24.5, 29.5, 7.0, 24.5, 24.5,
+                32.0, 29.5, 18.0, 14.0, 7.0
+            };
+
+            Assert.IsTrue(expected.IsEqual(actual));
+        }
+
+        [Test]
+        public void test_rank_all_ties_odd()
+        {
+            double[] samples = new double[] { 0, 0, 0 };
+            bool hasTies;
+            double[] actual = samples.Rank(hasTies: out hasTies, adjustForTies: true);
+            Assert.IsTrue(hasTies);
+            double[] expected = { 2, 2, 2 };
+            Assert.IsTrue(expected.IsEqual(actual));
+        }
+
+        [Test]
+        public void test_rank_all_ties_even()
+        {
+            double[] samples = new double[] { 0, 0, 0, 0 };
+            bool hasTies;
+            double[] actual = samples.Rank(hasTies: out hasTies, adjustForTies: true);
+            Assert.IsTrue(hasTies);
+            double[] expected = { 2.5, 2.5, 2.5, 2.5 };
             Assert.IsTrue(expected.IsEqual(actual));
         }
 
