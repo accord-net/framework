@@ -78,6 +78,23 @@ namespace Accord.IO
         /// 
         public static void Save<T>(this T obj, Stream stream, SerializerCompression compression = DEFAULT_COMPRESSION)
         {
+            Save(obj, new BinaryFormatter(), stream, compression);
+        }
+
+        /// <summary>
+        ///   Saves an object to a stream.
+        /// </summary>
+        /// 
+        /// <param name="obj">The object to be serialized.</param>
+        /// <param name="formatter">The binary formatter.</param>
+        /// <param name="stream">The stream to which the object is to be serialized.</param>
+        /// <param name="compression">The type of compression to use. Default is None.</param>
+        /// 
+        public static void Save<T>(this T obj, BinaryFormatter formatter, Stream stream, SerializerCompression compression = DEFAULT_COMPRESSION)
+        {
+            if (formatter.SurrogateSelector == null)
+                formatter.SurrogateSelector = GetSurrogate(typeof(T));
+
             if (compression == SerializerCompression.GZip)
             {
 #if NET35 || NET40
@@ -85,11 +102,11 @@ namespace Accord.IO
 #else
                 using (var gzip = new GZipStream(stream, CompressionLevel.Optimal, leaveOpen: true))
 #endif
-                    new BinaryFormatter().Serialize(gzip, obj);
+                    formatter.Serialize(gzip, obj);
             }
             else if (compression == SerializerCompression.None)
             {
-                new BinaryFormatter().Serialize(stream, obj);
+                formatter.Serialize(stream, obj);
             }
             else
             {
@@ -324,6 +341,9 @@ namespace Accord.IO
 
                     AppDomain.CurrentDomain.AssemblyResolve += resolve;
 
+                    if (formatter.SurrogateSelector == null)
+                        formatter.SurrogateSelector = GetSurrogate(typeof(T));
+
                     object obj;
                     if (compression == SerializerCompression.GZip)
                     {
@@ -382,6 +402,28 @@ namespace Accord.IO
                 var binder = field.GetValue(null) as SerializationBinder;
                 if (binder != null)
                     return binder;
+            }
+
+            return null;
+        }
+
+        private static SurrogateSelector GetSurrogate(Type type)
+        {
+            // Try to get the binder by checking if there type is
+            // marked with a SerializationBinderAttribute
+            var attribute = Attribute.GetCustomAttribute(type,
+                typeof(SurrogateSelectorAttribute)) as SurrogateSelectorAttribute;
+
+            if (attribute != null)
+                return attribute.Selector;
+
+            // Check if the type has an internal static property containing the surrogate selector
+            var field = type.GetField("Selector", BindingFlags.NonPublic | BindingFlags.Static);
+            if (field != null)
+            {
+                var selector = field.GetValue(null) as SurrogateSelector;
+                if (selector != null)
+                    return selector;
             }
 
             return null;

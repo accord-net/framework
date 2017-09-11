@@ -848,7 +848,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(0.5, machine[0].Kernel.Gamma);
             Assert.AreEqual(0.5, machine[1].Kernel.Gamma);
             Assert.AreEqual(0.5, machine[2].Kernel.Gamma);
-            Assert.AreEqual(2.9395943260892361, loss);
+            Assert.AreEqual(2.9395943260892361, loss, 1e-8);
             Assert.IsTrue(expectedScores.IsEqual(scores, 1e-10));
             Assert.IsTrue(expectedLogL.IsEqual(logl, 1e-10));
             Assert.IsTrue(expectedProbs.IsEqual(prob, 1e-10));
@@ -1062,7 +1062,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(0.5, ((Gaussian)machine[0].Kernel).Gamma);
             Assert.AreEqual(0.5, ((Gaussian)machine[1].Kernel).Gamma);
             Assert.AreEqual(0.5, ((Gaussian)machine[2].Kernel).Gamma);
-            Assert.AreEqual(2.9395943260892361, loss);
+            Assert.AreEqual(2.9395943260892361, loss, 1e-8);
             Assert.IsTrue(expectedScores.IsEqual(scores, 1e-10));
             Assert.IsTrue(expectedLogL.IsEqual(logl, 1e-10));
             Assert.IsTrue(expectedProbs.IsEqual(prob, 1e-10));

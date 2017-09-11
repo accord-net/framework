@@ -115,20 +115,20 @@ namespace Accord.DataSets.Base
             {
                 Directory.CreateDirectory(localPath);
 
-                int numberOfAttempts = 0;
-                bool success = false;
-                while (!success && numberOfAttempts <= 3)
+                int maxAttempts = 3;
+                for (int numberOfAttempts = 0; numberOfAttempts <= maxAttempts; numberOfAttempts++)
                 {
                     try
                     {
                         numberOfAttempts++;
                         using (var client = new WebClient())
                             client.DownloadFile(url, downloadedFullFilePath);
-                        success = true;
+                        break;
                     }
                     catch (WebException)
                     {
-                        success = false;
+                        if (numberOfAttempts == maxAttempts)
+                            throw;
                     }
                 }
             }

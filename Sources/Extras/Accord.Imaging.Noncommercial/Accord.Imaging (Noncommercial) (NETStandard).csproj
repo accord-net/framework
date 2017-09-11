@@ -3,7 +3,7 @@
   <PropertyGroup>
     <AssemblyName>Accord.Imaging.Noncommercial</AssemblyName>
     <RootNamespace>Accord.Imaging</RootNamespace>
-    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0<!--;net462;net46;net45;net40;net35--></TargetFrameworks>
     <OutputPath>bin\$(Configuration)\$(TargetFramework)\Noncommercial</OutputPath>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
   </PropertyGroup>
@@ -13,6 +13,10 @@
   <PropertyGroup Condition="'$(Configuration)'=='Release'">
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Noncommercial\$(AssemblyName).xml</DocumentationFile>
   </PropertyGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+    <PackageReference Include="CoreCompat.System.Drawing.v2" Version="5.2.0-preview1-r131" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Accord.Core\Accord.Core (NETStandard).csproj" />

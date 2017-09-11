@@ -31,22 +31,6 @@ namespace Accord.Tests.Statistics
     public class ChiSquareDistributionTest
     {
 
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
         [Test]
         public void ConstructorTest()
         {
@@ -70,28 +54,28 @@ namespace Accord.Tests.Statistics
             string str = chisq.ToString(); // "χ²(x; df = 7)
 
             Assert.AreEqual(7, mean);
-            Assert.AreEqual(6.345811195595612, median, 1e-6);
+            Assert.AreEqual(6.345811195595612, median, 1e-10);
             Assert.AreEqual(14, var);
             Assert.AreEqual(5.0, mode);
-            Assert.AreEqual(0.67609276602233315, chf);
-            Assert.AreEqual(0.49139966433823956, cdf);
-            Assert.AreEqual(0.11388708001184455, pdf);
-            Assert.AreEqual(-2.1725478476948092, lpdf);
-            Assert.AreEqual(0.22392254197721179, hf);
-            Assert.AreEqual(0.50860033566176044, ccdf);
-            Assert.AreEqual(6.2700000000852318, icdf, 1e-6);
+            Assert.AreEqual(0.67609276602233315, chf, 1e-10);
+            Assert.AreEqual(0.49139966433823956, cdf, 1e-10);
+            Assert.AreEqual(0.11388708001184455, pdf, 1e-10);
+            Assert.AreEqual(-2.1725478476948092, lpdf, 1e-10);
+            Assert.AreEqual(0.22392254197721179, hf, 1e-10);
+            Assert.AreEqual(0.50860033566176044, ccdf, 1e-10);
+            Assert.AreEqual(6.2700000000852318, icdf, 1e-10);
             Assert.AreEqual("χ²(x; df = 7)", str);
 
             var range1 = chisq.GetRange(0.95);
             var range2 = chisq.GetRange(0.99);
             var range3 = chisq.GetRange(0.01);
 
-            Assert.AreEqual(2.1673499092980579, range1.Min);
-            Assert.AreEqual(14.067140449340167, range1.Max);
-            Assert.AreEqual(1.2390423055679316, range2.Min);
-            Assert.AreEqual(18.475306906582361, range2.Max);
-            Assert.AreEqual(1.2390423055679316, range3.Min);
-            Assert.AreEqual(18.475306906582361, range3.Max);
+            Assert.AreEqual(2.1673499092980579, range1.Min, 1e-10);
+            Assert.AreEqual(14.067140449340167, range1.Max, 1e-10);
+            Assert.AreEqual(1.2390423055679316, range2.Min, 1e-10);
+            Assert.AreEqual(18.475306906582361, range2.Max, 1e-10);
+            Assert.AreEqual(1.2390423055679316, range3.Min, 1e-10);
+            Assert.AreEqual(18.475306906582361, range3.Max, 1e-10);
         }
 
         [Test]

@@ -24,27 +24,12 @@ namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Moving;
     using NUnit.Framework;
-    using Accord.Statistics;    
-    
+    using Accord.Statistics;
+    using System;
+
     [TestFixture]
     public class MovingNormalStatisticsTest
     {
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
 
         [Test]
         public void PushTest()
@@ -91,5 +76,42 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expectedVariance, actualVariance);
         }
 
+        [Test]
+        public void doc_example()
+        {
+            #region doc_example
+            // Moving Normal Statistics can be used to keep track of the mean, variance and standard 
+            // deviation of the last N samples that have been fed to it. It is possible to feed one 
+            // value at a time, and the class will keep track of the mean and variance of the samples 
+            // without registering the samples themselves. 
+
+            // An example where this class can be useful is when trying to filter the (x,y) trajectories 
+            // of a movement tracker (i.e. to show the average point on the past 10 frames) and monitor 
+            // the quality of the tracking (i.e. if the variance becomes too high, tracking might have been lost).
+
+            // Fix seed for reproducible results
+            Accord.Math.Random.Generator.Seed = 0;
+
+            Random rnd = Accord.Math.Random.Generator.Random;
+
+            // Create a estimator that will keep the mean and standard deviation of the past 5 samples:
+            var normal = new MovingNormalStatistics(windowSize: 5);
+
+            // Read 50 samples
+            for (int i = 0; i < 50; i++)
+                normal.Push(rnd.Next(1, 10));
+
+            // The properties of the 5 last samples are:
+            double sum = normal.Sum; // 21
+            double mean = normal.Mean; // 4.2
+            double stdDev = normal.StandardDeviation; // 2.4899799195977463
+            double var = normal.Variance; // 6.2
+            #endregion
+
+            Assert.AreEqual(21, sum, 1e-10);
+            Assert.AreEqual(4.2, mean, 1e-10);
+            Assert.AreEqual(2.4899799195977463, stdDev, 1e-10);
+            Assert.AreEqual(6.2, var, 1e-10);
+        }
     }
 }

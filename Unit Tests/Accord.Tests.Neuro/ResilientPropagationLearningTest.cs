@@ -78,6 +78,7 @@ namespace Accord.Tests.Neuro
         }
 
         [Test]
+        [Category("Slow")]
         public void MulticlassTest1()
         {
             Accord.Math.Tools.SetupGenerator(0);

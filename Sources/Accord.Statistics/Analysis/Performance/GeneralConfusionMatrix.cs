@@ -27,6 +27,7 @@ namespace Accord.Statistics.Analysis
     using Accord.Math;
     using Accord.Statistics.Testing;
     using Accord.Compat;
+    using Accord.MachineLearning;
 
     /* 
     // TODO: Implement arbitrary orientation for confusion matrices
@@ -189,6 +190,12 @@ namespace Accord.Statistics.Analysis
             if (expected.Length != predicted.Length)
                 throw new DimensionMismatchException("predicted",
                     "The number of expected and predicted observations must match.");
+
+            if (classes == 2)
+            {
+                expected = Accord.Statistics.Classes.ToZeroOne(expected);
+                predicted = Accord.Statistics.Classes.ToZeroOne(predicted);
+            }
 
             for (int i = 0; i < expected.Length; i++)
             {
@@ -751,6 +758,18 @@ namespace Accord.Statistics.Analysis
         }
 
         /// <summary>
+        ///   Error. This is the same value as 1.0 - <see cref="OverallAgreement"/>.
+        /// </summary>
+        /// 
+        /// <value>The average error, or 1.0 - <see cref="OverallAgreement"/>.</value>
+        /// 
+        [DisplayName("Error")]
+        public double Error
+        {
+            get { return 1.0 - OverallAgreement; }
+        }
+
+        /// <summary>
         ///   Geometric agreement.
         /// </summary>
         /// 
@@ -874,6 +893,43 @@ namespace Accord.Statistics.Analysis
             }
 
             return new GeneralConfusionMatrix(total);
+        }
+
+        /// <summary>
+        ///   Estimates a <see cref="GeneralConfusionMatrix"/> directly from a classifier, a set of inputs and its expected outputs.
+        /// </summary>
+        /// 
+        /// <typeparam name="TInput">The type of the inputs accepted by the classifier.</typeparam>
+        /// 
+        /// <param name="classifier">The classifier.</param>
+        /// <param name="inputs">The input vectors.</param>
+        /// <param name="expected">The expected outputs associated with each input vector.</param>
+        /// 
+        /// <returns>A <see cref="GeneralConfusionMatrix"/> capturing the performance of the classifier when
+        ///   trying to predict the outputs <paramref name="expected"/> from the <paramref name="inputs"/>.</returns>
+        ///   
+        public static GeneralConfusionMatrix Estimate<TInput>(IClassifier<TInput, int> classifier, TInput[] inputs, int[] expected)
+        {
+            return new GeneralConfusionMatrix(expected: expected, predicted: classifier.Decide(inputs));
+        }
+
+        /// <summary>
+        ///   Estimates a <see cref="GeneralConfusionMatrix"/> directly from a classifier, a set of inputs and its expected outputs.
+        /// </summary>
+        /// 
+        /// <typeparam name="TInput">The type of the inputs accepted by the classifier.</typeparam>
+        /// 
+        /// <param name="classifier">The classifier.</param>
+        /// <param name="inputs">The input vectors.</param>
+        /// <param name="expected">The expected outputs associated with each input vector.</param>
+        /// 
+        /// <returns>A <see cref="GeneralConfusionMatrix"/> capturing the performance of the classifier when
+        ///   trying to predict the outputs <paramref name="expected"/> from the <paramref name="inputs"/>.</returns>
+        ///   
+        public static GeneralConfusionMatrix Estimate<TInput>(IClassifier<TInput, bool> classifier, TInput[] inputs, bool[] expected)
+        {
+            return new GeneralConfusionMatrix(expected: Accord.Statistics.Classes.ToZeroOne(expected),
+                predicted: Accord.Statistics.Classes.ToZeroOne(classifier.Decide(inputs)));
         }
     }
 }

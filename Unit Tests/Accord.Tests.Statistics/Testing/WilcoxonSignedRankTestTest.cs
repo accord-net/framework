@@ -147,8 +147,7 @@ namespace Accord.Tests.Statistics
 
             // So we start by creating the test:
             var test = new WilcoxonSignedRankTest(sample,
-                hypothesizedMedian, OneSampleHypothesis.ValueIsSmallerThanHypothesis,
-                exact: false);
+                hypothesizedMedian, OneSampleHypothesis.ValueIsSmallerThanHypothesis);
 
             // Now, we can check whether this result would be
             // unlikely under a standard significance level:
@@ -164,12 +163,24 @@ namespace Accord.Tests.Statistics
               Test against R:
               a <- c(106, 115, 96, 88, 91, 88, 81, 104, 99, 68, 104, 100, 77, 98, 96, 104, 82, 94, 72, 96)
               wilcox.test(a, mu=100, alternative='less') # V = 40, p-value = 0.01385
+
+                Wilcoxon signed rank test with continuity correction
+
+                data:  a
+                V = 40, p-value = 0.01385
+                alternative hypothesis: true location is less than 100
+
+                Warning messages:
+                1: In wilcox.test.default(a, mu = 100, alternative = "less") :
+                  cannot compute exact p-value with ties
+                2: In wilcox.test.default(a, mu = 100, alternative = "less") :
+                  cannot compute exact p-value with zeroes
              */
 
             Assert.IsFalse(test.StatisticDistribution.Exact);
             Assert.AreEqual(96, sample.Median());
             Assert.AreEqual(statistic, 40.0); 
-            Assert.AreEqual(pvalue, 0.0080210309581972838, 1e-5);
+            Assert.AreEqual(pvalue, 0.01414652553632656, 1e-5);
             Assert.AreEqual(DistributionTail.OneLower, test.Tail);
         }
 
@@ -185,7 +196,7 @@ namespace Accord.Tests.Statistics
             double[] sample =
             {
                 106, 115, 96, 88, 91, 88, 81, 104, 99, 68,
-                104, 100, 77, 98, 96, 104, 82, 94, 72, 96
+                104, 100.0001, 77, 98, 96, 104, 82, 94, 72, 96
             };
 
             // ... could have happened just by chance inside a 
@@ -210,14 +221,24 @@ namespace Accord.Tests.Statistics
 
             /*
               Test against R:
-              a <- c(106, 115, 96, 88, 91, 88, 81, 104, 99, 68, 104, 100, 77, 98, 96, 104, 82, 94, 72, 96)
+              a <- c(106, 115, 96, 88, 91, 88, 81, 104, 99, 68, 104, 100.0001, 77, 98, 96, 104, 82, 94, 72, 96)
               wilcox.test(a, mu=100, alternative='less') # V = 40, p-value = 0.01385
+              
+                Wilcoxon signed rank test with continuity correction
+
+                data:  a
+                V = 46, p-value = 0.01422
+                alternative hypothesis: true location is less than 100
+
+                Warning message:
+                In wilcox.test.default(a, mu = 100, alternative = "less") :
+                  cannot compute exact p-value with ties
              */
 
             Assert.IsTrue(test.StatisticDistribution.Exact);
             Assert.AreEqual(96, sample.Median());
-            Assert.AreEqual(statistic, 40.0);
-            Assert.AreEqual(pvalue, 0.012226104736328125, 1e-10);
+            Assert.AreEqual(statistic, 46.0);
+            Assert.AreEqual(pvalue, 0.012667655944824219, 1e-10);
             Assert.AreEqual(DistributionTail.OneLower, test.Tail);
         }
 

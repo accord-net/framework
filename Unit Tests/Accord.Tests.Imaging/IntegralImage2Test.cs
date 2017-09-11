@@ -33,21 +33,6 @@ namespace Accord.Tests.Imaging
     public class IntegralImage2Test
     {
 
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
 #pragma warning disable 0618
 
         [Test]

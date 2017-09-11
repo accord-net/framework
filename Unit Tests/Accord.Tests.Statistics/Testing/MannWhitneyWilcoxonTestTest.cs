@@ -244,47 +244,56 @@ namespace Accord.Tests.Statistics
         [Test]
         public void non_exact_symmetry()
         {
-            // DO NOT CHANGE
+            /*
+                 a = c(4.6, 4.7, 4.9, 5.1, 5.2, 5.5, 5.8, 6.1, 6.5, 6.5, 7.2)
+                 b = c(5.2, 5.3, 5.4, 5.6, 6.2, 6.3, 6.8, 7.7, 8.0, 8.1)
+                 wilcox.test(a,b,'greater') # W = 30.5, p-value = 0.9609
+                 wilcox.test(a,b,'less')    # W = 30.5, p-value = 0.04541
+            */
             double[] sample2 = { 4.6, 4.7, 4.9, 5.1, 5.2, 5.5, 5.8, 6.1, 6.5, 6.5, 7.2 };
             double[] sample1 = { 5.2, 5.3, 5.4, 5.6, 6.2, 6.3, 6.8, 7.7, 8.0, 8.1 };
             {
                 // Those should be equal
                 var e12 = new MannWhitneyWilcoxonTest(sample1, sample2,
                     TwoSampleHypothesis.FirstValueIsSmallerThanSecond, exact: true);
-                Assert.AreEqual(e12.PValue, 0.959420610349403, 1e-5); // ok
+                Assert.AreEqual(e12.PValue, 0.96093080726732927, 1e-5); // ok
+                Assert.IsFalse(e12.IsExact); // the data contains ties
                 var a12 = new MannWhitneyWilcoxonTest(sample1, sample2,
                     TwoSampleHypothesis.FirstValueIsSmallerThanSecond, exact: false);
+                Assert.IsFalse(a12.IsExact); // the data contains ties
                 Assert.AreEqual(a12.PValue, 0.96093080726732927, 1e-5); // ok
                 var e21 = new MannWhitneyWilcoxonTest(sample2, sample1,
                     TwoSampleHypothesis.FirstValueIsGreaterThanSecond, exact: true);
-                Assert.AreEqual(e21.PValue, 0.959420610349403, 1e-5); // ok
+                Assert.IsFalse(e21.IsExact); // the data contains ties
+                Assert.AreEqual(e21.PValue, 0.96093080726732927, 1e-5); // ok
                 var a21 = new MannWhitneyWilcoxonTest(sample2, sample1,
                     TwoSampleHypothesis.FirstValueIsGreaterThanSecond, exact: false);
                 Assert.AreEqual(a21.PValue, 0.96093080726732927, 1e-5); // ok
+                Assert.IsFalse(a21.IsExact); // the data contains ties
 
-                Assert.AreEqual(a12.PValue, e12.PValue, 1e-2);
-                Assert.AreEqual(a21.PValue, e21.PValue, 1e-2);
-                Assert.AreEqual(a12.PValue, e21.PValue, 1e-2);
+                Assert.AreEqual(a12.PValue, e12.PValue, 1e-8);
+                Assert.AreEqual(a21.PValue, e21.PValue, 1e-8);
+                Assert.AreEqual(a12.PValue, e21.PValue, 1e-8);
             }
 
             {
                 // Those should be equal
                 var e12 = new MannWhitneyWilcoxonTest(sample1, sample2,
                     TwoSampleHypothesis.FirstValueIsGreaterThanSecond, exact: true);
-                Assert.AreEqual(e12.PValue, 0.043834132843420769, 1e-5); // ok
+                Assert.AreEqual(e12.PValue, 0.0454062185864162, 1e-5); // ok
                 var a12 = new MannWhitneyWilcoxonTest(sample1, sample2,
                     TwoSampleHypothesis.FirstValueIsGreaterThanSecond, exact: false);
                 Assert.AreEqual(a12.PValue, 0.0454062185864162, 1e-5); // ok
                 var e21 = new MannWhitneyWilcoxonTest(sample2, sample1,
                     TwoSampleHypothesis.FirstValueIsSmallerThanSecond, exact: true);
-                Assert.AreEqual(e21.PValue, 0.043834132843420769, 1e-5); // ok
+                Assert.AreEqual(e21.PValue, 0.0454062185864162, 1e-5); // ok
                 var a21 = new MannWhitneyWilcoxonTest(sample2, sample1,
                     TwoSampleHypothesis.FirstValueIsSmallerThanSecond, exact: false);
                 Assert.AreEqual(a21.PValue, 0.0454062185864162, 1e-5); // ok
 
-                Assert.AreEqual(a12.PValue, e12.PValue, 1e-2);
-                Assert.AreEqual(a21.PValue, e21.PValue, 1e-2);
-                Assert.AreEqual(a12.PValue, e21.PValue, 1e-2);
+                Assert.AreEqual(a12.PValue, e12.PValue, 1e-8);
+                Assert.AreEqual(a21.PValue, e21.PValue, 1e-8);
+                Assert.AreEqual(a12.PValue, e21.PValue, 1e-8);
             }
         }
 
@@ -297,20 +306,25 @@ namespace Accord.Tests.Statistics
                 // Those should be equal
                 var e12 = new MannWhitneyWilcoxonTest(sample1, sample2,
                     TwoSampleHypothesis.FirstValueIsSmallerThanSecond, exact: true);
-                Assert.AreEqual(e12.PValue, 0.97942691982939656, 1e-5); // ok
+                Assert.AreEqual(e12.PValue, 0.97945122400837448, 1e-5); // ok
                 var a12 = new MannWhitneyWilcoxonTest(sample1, sample2,
                     TwoSampleHypothesis.FirstValueIsSmallerThanSecond, exact: false);
                 Assert.AreEqual(a12.PValue, 0.97945122400837448, 1e-5); // ok
                 var e21 = new MannWhitneyWilcoxonTest(sample2, sample1,
                     TwoSampleHypothesis.FirstValueIsGreaterThanSecond, exact: true);
-                Assert.AreEqual(e21.PValue, 0.97942691982939656, 1e-5); // ok
+                Assert.AreEqual(e21.PValue, 0.97945122400837448, 1e-5); // ok
                 var a21 = new MannWhitneyWilcoxonTest(sample2, sample1,
                     TwoSampleHypothesis.FirstValueIsGreaterThanSecond, exact: false);
                 Assert.AreEqual(a21.PValue, 0.97945122400837448, 1e-5); // ok
 
-                Assert.AreEqual(a12.PValue, e12.PValue, 1e-2);
-                Assert.AreEqual(a21.PValue, e21.PValue, 1e-2);
-                Assert.AreEqual(a12.PValue, e21.PValue, 1e-2);
+                Assert.IsFalse(a12.IsExact);
+                Assert.IsFalse(a21.IsExact);
+                Assert.IsFalse(a12.IsExact);
+                Assert.IsFalse(e12.IsExact);
+
+                Assert.AreEqual(a12.PValue, e12.PValue, 1e-8);
+                Assert.AreEqual(a21.PValue, e21.PValue, 1e-8);
+                Assert.AreEqual(a12.PValue, e21.PValue, 1e-8);
                 Assert.AreEqual(e12.PValue, e21.PValue, 1e-8);
             }
 
@@ -318,20 +332,25 @@ namespace Accord.Tests.Statistics
                 // Those should be equal
                 var e12 = new MannWhitneyWilcoxonTest(sample1, sample2,
                     TwoSampleHypothesis.FirstValueIsGreaterThanSecond, exact: true);
-                Assert.AreEqual(e12.PValue, 0.022608196756803568, 1e-5); // ok
+                Assert.AreEqual(e12.PValue, 0.024597676755701903, 1e-5); // ok
                 var a12 = new MannWhitneyWilcoxonTest(sample1, sample2,
                     TwoSampleHypothesis.FirstValueIsGreaterThanSecond, exact: false);
                 Assert.AreEqual(a12.PValue, 0.024597676755701903, 1e-5); // ok
                 var e21 = new MannWhitneyWilcoxonTest(sample2, sample1,
                     TwoSampleHypothesis.FirstValueIsSmallerThanSecond, exact: true);
-                Assert.AreEqual(e21.PValue, 0.022608196756803568, 1e-5); // ok
+                Assert.AreEqual(e21.PValue, 0.024597676755701903, 1e-5); // ok
                 var a21 = new MannWhitneyWilcoxonTest(sample2, sample1,
                     TwoSampleHypothesis.FirstValueIsSmallerThanSecond, exact: false);
                 Assert.AreEqual(a21.PValue, 0.024597676755701903, 1e-5); // ok
 
-                Assert.AreEqual(a12.PValue, e12.PValue, 1e-2);
-                Assert.AreEqual(a21.PValue, e21.PValue, 1e-2);
-                Assert.AreEqual(a12.PValue, e21.PValue, 1e-2);
+                Assert.IsFalse(a12.IsExact);
+                Assert.IsFalse(a21.IsExact);
+                Assert.IsFalse(a12.IsExact);
+                Assert.IsFalse(e12.IsExact);
+
+                Assert.AreEqual(a12.PValue, e12.PValue, 1e-8);
+                Assert.AreEqual(a21.PValue, e21.PValue, 1e-8);
+                Assert.AreEqual(a12.PValue, e21.PValue, 1e-8);
                 Assert.AreEqual(e12.PValue, e21.PValue, 1e-8);
             }
         }
@@ -479,6 +498,33 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(46, mannWhitneyWilcoxonTest.Statistic2);
             Assert.AreEqual(false, mannWhitneyWilcoxonTest.Significant);
             Assert.AreEqual(TwoSampleHypothesis.FirstValueIsSmallerThanSecond, mannWhitneyWilcoxonTest.Hypothesis);
+        }
+
+        [Test]
+        public void same_vectors()
+        {
+            // https://github.com/accord-net/framework/issues/857
+
+            /*
+                a <- c(250,200,450,400,250,250,350,0,200,400,300,600,200,200,
+                       550,100,300,250,350,200,550,200,450,400,200,400,450,
+                       200,400,400,500,450,300,250,200)
+                b <- c(250,200,450,400,250,250,350,0,200,400,300,600,200,200,
+                       550,100,300,250,350,200,550,200,450,400,200,400,450,
+                       200,400,400,500,450,300,250,200)
+
+                wilcox.test(a, b)
+             */
+
+            double[] a = new double[] { 250, 200, 450, 400, 250, 250, 350, 0, 200, 400, 300, 600, 200, 200,
+                550, 100, 300, 250, 350, 200, 550, 200, 450, 400, 200, 400, 450,
+                200, 400, 400, 500, 450, 300, 250, 200 };
+            double[] b = new double[] { 250, 200, 450, 400, 250, 250, 350, 0, 200, 400, 300, 600, 200, 200,
+               550, 100, 300, 250, 350, 200, 550, 200, 450, 400, 200, 400, 450,
+               200, 400, 400, 500, 450, 300, 250, 200 };
+
+            var target = new MannWhitneyWilcoxonTest(a, b, adjustForTies: true);
+            Assert.AreEqual(1.0, target.PValue, 5e-3);
         }
 
 

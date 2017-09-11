@@ -3,10 +3,24 @@
   <PropertyGroup>
     <AssemblyName>Accord.Tests.Math</AssemblyName>
     <RootNamespace>Accord.Tests.Math</RootNamespace>
-    <TargetFrameworks>netcoreapp2.0;netcoreapp1.1</TargetFrameworks>
+    <TargetFrameworks>netcoreapp2.0;netcoreapp1.1<!--;net462--></TargetFrameworks>
   </PropertyGroup>
 
   <Import Project="$(SolutionDir)../Unit Tests/Accord.Tests (NETStandard).targets" />
+
+  <Choose>
+    <When Condition="'$(TargetFramework)' == 'netstandard2.0' OR '$(TargetFramework)' == 'netstandard1.4'">
+      <ItemGroup>
+        <Compile Remove="Properties\Resources.Designer.cs" />
+        <EmbeddedResource Remove="Properties\Resources.resx" />
+      </ItemGroup>
+    </When>
+    <Otherwise>
+      <ItemGroup>
+        <EmbeddedResource Remove="Properties\Resources.Standard.cs" />
+      </ItemGroup>
+    </Otherwise>
+  </Choose>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Sources\Accord.IO\Accord.IO (NETStandard).csproj" />
@@ -112,6 +126,12 @@
     <None Update="Resources\unfeasible_qp_1\unf_1_quadTerms.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="Microsoft.NET.Test.Sdk" Version="15.3.0" />
+    <PackageReference Update="NUnit" Version="3.8.1" />
+    <PackageReference Update="NUnit.Console" Version="3.7.0" />
   </ItemGroup>
 
 </Project>

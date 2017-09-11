@@ -147,7 +147,7 @@ namespace Accord.Tests.MachineLearning
         [Test]
         public void LargeRunTest()
         {
-        #region doc_nursery
+            #region doc_nursery
             // This example uses the Nursery Database available from the University of
             // California Irvine repository of machine learning databases, available at
             //
@@ -233,7 +233,7 @@ namespace Accord.Tests.MachineLearning
             //   such as the 25-th example in the set, we can use
             //
             int y = tree.Decide(inputs[25]); // should be 1
-        #endregion
+            #endregion
 
             Assert.AreEqual(12960, lines.Length);
             Assert.AreEqual("usual,proper,complete,1,convenient,convenient,nonprob,recommended,recommend", lines[0]);
@@ -251,7 +251,7 @@ namespace Accord.Tests.MachineLearning
             }
 
 #if !NET35
-        #region doc_nursery_native
+            #region doc_nursery_native
             // Finally, we can also convert our tree to a native
             // function, improving efficiency considerably, with
             //
@@ -260,7 +260,7 @@ namespace Accord.Tests.MachineLearning
             // Again, to compute a new decision, we can just use
             //
             int z = func(inputs[25]);
-        #endregion
+            #endregion
 
             Assert.AreEqual(z, y);
 
@@ -403,7 +403,7 @@ namespace Accord.Tests.MachineLearning
         [Test]
         public void missing_values_test()
         {
-        #region doc_missing
+            #region doc_missing
             // In this example, we will be using a modified version of the famous Play Tennis 
             // example by Tom Mitchell (1998), where some values have been replaced by missing 
             // values. We will use NaN double values to represent values missing from the data.
@@ -481,7 +481,7 @@ No =: (Outlook == Rain) && (Wind == Strong)
 Yes =: (Outlook == Overcast)
 Yes =: (Outlook == Rain) && (Wind == Weak)
 ";
-        #endregion
+            #endregion
 
             expected = expected.Replace("\r\n", Environment.NewLine);
             Assert.AreEqual(expected, ruleText);
@@ -510,7 +510,7 @@ Yes =: (Outlook == Rain) && (Wind == Weak)
         [Test]
         public void missing_values_thresholds_test()
         {
-        #region doc_missing_thresholds
+            #region doc_missing_thresholds
             // In this example, we will be using a modified version of the famous Play Tennis 
             // example by Tom Mitchell (1998), where some values have been replaced by missing 
             // values. We will use NaN double values to represent values missing from the data.
@@ -598,7 +598,7 @@ No =: (Outlook == Rain) && (Wind == Strong)
 Yes =: (Outlook == Overcast)
 Yes =: (Outlook == Rain) && (Wind == Weak)
 ";
-        #endregion
+            #endregion
 
             expected = expected.Replace("\r\n", Environment.NewLine);
             Assert.AreEqual(expected, ruleText);
@@ -715,6 +715,102 @@ Yes =: (Outlook == Rain) && (Wind == Weak)
             catch (ArgumentNullException) { thrown = true; }
 
             Assert.IsTrue(thrown);
+        }
+
+        [Test]
+        public void weight_test_1()
+        {
+
+            DecisionTree reference;
+
+            {
+                // Learn with weights
+                double[][] samples =
+                {
+                    new [] { 0, 2, 4.0 },
+                    new [] { 1, 5, 2.0 },
+                    new [] { 1, 5, 6.0 },
+                };
+
+                double[] weights = { 1, 1, 2 };
+
+                int[] outputs = { 1, 1, 0 };
+
+                // Learn without weights
+                reference = new C45Learning().Learn(samples, outputs, weights);
+            }
+
+            {
+                // Learn equivalent without weights
+                double[][] samples =
+                {
+                    new [] { 0, 2, 4.0 },
+                    new [] { 1, 5, 2.0 },
+                    new [] { 1, 5, 6.0 },
+                    new [] { 1, 5, 6.0 },
+                };
+
+                int[] outputs = { 1, 1, 0, 0 };
+
+                // Learn without weights
+                var target = new C45Learning().Learn(samples, outputs);
+                AreEqual(reference.Root, target.Root);
+            }
+
+            {
+                // Learn equivalent with weights
+                double[][] samples =
+                {
+                    new [] { 0, 2, 4.0 },
+                    new [] { 1, 5, 2.0 },
+                    new [] { 1, 5, 6.0 },
+                    new [] { 1, 5, 6.0 },
+                };
+
+                int[] outputs = { 1, 1, 0, 0 };
+
+                double[] weights = { 0.1, 0.1, 0.1, 0.0 };
+
+                // Learn without weights
+                var target = new C45Learning().Learn(samples, outputs, weights);
+                AreEqual(reference.Root, target.Root);
+            }
+
+            {
+                // Learn equivalent with weights
+                double[][] samples =
+                {
+                    new [] { 0, 2, 4.0 },
+                    new [] { 1, 5, 2.0 },
+                    new [] { 1, 5, 6.0 },
+                    new [] { 1, 5, 6.0 },
+                    new [] { 3, 5, 6.0 },
+                    new [] { 10, 4, 10.0 },
+                    new [] { -4, 7, 4.0 },
+                    new [] { 7, 5, 42.0 },
+                };
+
+                int[] outputs = { 1, 1, 0, 0, 3, 5, 4, 2 };
+
+                double[] weights = { 1, 1, 1, 1, 0, 0, 0, 0 };
+
+                // Learn with weights
+                var target = new C45Learning().Learn(samples, outputs, weights);
+                AreEqual(reference.Root, target.Root);
+            }
+        }
+
+        private static void AreEqual(DecisionNode a, DecisionNode b)
+        {
+            Assert.AreEqual(b.Comparison, a.Comparison);
+            Assert.AreEqual(b.IsLeaf, a.IsLeaf);
+            Assert.AreEqual(b.IsRoot, a.IsRoot);
+            Assert.AreEqual(b.Output, a.Output);
+            Assert.AreEqual(b.Value, a.Value);
+
+            Assert.AreEqual(a.Branches.Count, b.Branches.Count);
+            for (int i = 0; i < a.Branches.Count; i++)
+                AreEqual(b.Branches[i], b.Branches[i]);
         }
 
         [Test]
@@ -925,7 +1021,6 @@ Iris-virginica =: (2 > 2.45) && (3 > 1.75) && (0 <= 5.95) && (1 <= 3.05)
             Assert.AreEqual(expected, ruleText);
         }
 
-
         [Test]
         [Category("Random")]
         public void AttributeReuseTest1()
@@ -1064,31 +1159,6 @@ Iris-virginica =: (2 > 2.45) && (3 > 1.75) && (0 <= 5.95) && (1 <= 3.05)
             Assert.AreEqual(22, actual[2]);
             Assert.AreEqual(33, actual[3]);
             Assert.AreEqual(00, actual[4]);
-        }
-
-        [Test]
-        public void weighted_learn()
-        {
-            double[][] inputs =
-            {
-                new double[] { 1, 4 },
-                new double[] { 0, 2 },
-                new double[] { 2, 1 },
-                new double[] { 3, 7 },
-                new double[] { 0, 1 },
-            };
-
-            int[] outputs = { 1, 1, 2, 3, 1 };
-
-            double[] weights = { 0, 0, 0, 0, 1 };
-
-
-            C45Learning c45Learning = new C45Learning(new[] {
-                new DecisionVariable("x", DecisionVariableKind.Continuous),
-                new DecisionVariable("y", DecisionVariableKind.Continuous)
-            });
-
-            Assert.Throws<ArgumentException>(() => c45Learning.Learn(inputs, outputs, weights));
         }
 
         [Test]

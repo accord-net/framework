@@ -147,7 +147,11 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Matrix\Matrix.Product.Generated.cs" />
+    <Compile Include="Matrix\Matrix.Product.Generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Matrix.Product.tt</DependentUpon>
+    </Compile>
     <Compile Include="Matrix\Matrix.Set.cs" />
     <Compile Include="Matrix\Matrix.Linear.Generated.cs">
       <DependentUpon>Matrix.Linear.tt</DependentUpon>

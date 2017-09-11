@@ -1,9 +1,9 @@
-﻿<Project Sdk="Microsoft.NET.Sdk"> 
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <AssemblyName>Accord.Math</AssemblyName>
     <RootNamespace>Accord.Math</RootNamespace>
-    <TargetFrameworks>netstandard2.0;netstandard1.4</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;netstandard1.4<!--;net462;net46;net45;net40;net35--></TargetFrameworks>
   </PropertyGroup>
 
   <Import Project="$(SolutionDir)Accord.NET (NETStandard).targets" />
@@ -13,79 +13,96 @@
     <ProjectReference Include="..\Accord.Math.Core\Accord.Math.Core (NETStandard).csproj" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard1.4'">
-    <PackageReference Include="System.Threading.Thread" Version="4.3.0" />
-    <PackageReference Include="System.Threading.Tasks" Version="4.3.0" />
-  </ItemGroup>
+  <Choose>
+    <When Condition="'$(TargetFramework)' == 'netstandard1.4'">
+      <ItemGroup>
+        <PackageReference Include="System.Threading.Thread" Version="4.3.0" />
+        <PackageReference Include="System.Threading.Tasks" Version="4.3.0" />
+      </ItemGroup>
+    </When>
+    <When Condition="'$(TargetFramework)' == 'netstandard2.0'">
+      <ItemGroup>
+        <PackageReference Include="System.Threading.Thread" Version="4.3.0" />
+        <PackageReference Include="System.Threading.Tasks" Version="4.3.0" />
+      </ItemGroup>
+    </When>
+    <When Condition="'$(TargetFramework)' == 'net35' OR '$(TargetFramework)' == 'net40'">
+    </When>
+    <Otherwise>
+      <ItemGroup>
+        <Reference Include="System.IO.Compression" />
+      </ItemGroup>
+    </Otherwise>
+  </Choose>
 
   <ItemGroup>
     <None Update="Decompositions\CholeskyDecomposition.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>CholeskyDecomposition.txt</LastGenOutput>
       <LastOutputs>
-.\CholeskyDecomposition.cs
-.\CholeskyDecomposition.txt
-.\CholeskyDecompositionD.cs
-.\CholeskyDecompositionF.cs
-</LastOutputs>
+        .\CholeskyDecomposition.cs
+        .\CholeskyDecomposition.txt
+        .\CholeskyDecompositionD.cs
+        .\CholeskyDecompositionF.cs
+      </LastOutputs>
     </None>
     <None Update="Decompositions\EigenvalueDecomposition.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>EigenvalueDecomposition.txt</LastGenOutput>
       <LastOutputs>
-.\EigenvalueDecomposition.cs
-.\EigenvalueDecomposition.txt
-.\EigenvalueDecompositionF.cs
-</LastOutputs>
+        .\EigenvalueDecomposition.cs
+        .\EigenvalueDecomposition.txt
+        .\EigenvalueDecompositionF.cs
+      </LastOutputs>
     </None>
     <None Update="Decompositions\JaggedCholeskyDecomposition.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>JaggedCholeskyDecomposition.txt</LastGenOutput>
       <LastOutputs>
-.\JaggedCholeskyDecomposition.cs
-.\JaggedCholeskyDecomposition.txt
-.\JaggedCholeskyDecompositionD.cs
-.\JaggedCholeskyDecompositionF.cs
-</LastOutputs>
+        .\JaggedCholeskyDecomposition.cs
+        .\JaggedCholeskyDecomposition.txt
+        .\JaggedCholeskyDecompositionD.cs
+        .\JaggedCholeskyDecompositionF.cs
+      </LastOutputs>
     </None>
     <None Update="Decompositions\JaggedEigenvalueDecomposition.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>JaggedEigenvalueDecomposition.txt</LastGenOutput>
       <LastOutputs>
-.\JaggedEigenvalueDecomposition.cs
-.\JaggedEigenvalueDecomposition.txt
-.\JaggedEigenvalueDecompositionF.cs
-</LastOutputs>
+        .\JaggedEigenvalueDecomposition.cs
+        .\JaggedEigenvalueDecomposition.txt
+        .\JaggedEigenvalueDecompositionF.cs
+      </LastOutputs>
     </None>
     <None Update="Decompositions\JaggedLuDecomposition.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>JaggedLuDecomposition.txt</LastGenOutput>
       <LastOutputs>
-.\JaggedLuDecomposition.cs
-.\JaggedLuDecomposition.txt
-.\JaggedLuDecompositionD.cs
-.\JaggedLuDecompositionF.cs
-</LastOutputs>
+        .\JaggedLuDecomposition.cs
+        .\JaggedLuDecomposition.txt
+        .\JaggedLuDecompositionD.cs
+        .\JaggedLuDecompositionF.cs
+      </LastOutputs>
     </None>
     <None Update="Decompositions\JaggedQrDecomposition.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>JaggedQrDecomposition.txt</LastGenOutput>
       <LastOutputs>
-.\JaggedQrDecomposition.cs
-.\JaggedQrDecomposition.txt
-.\JaggedQrDecompositionD.cs
-.\JaggedQrDecompositionF.cs
-</LastOutputs>
+        .\JaggedQrDecomposition.cs
+        .\JaggedQrDecomposition.txt
+        .\JaggedQrDecompositionD.cs
+        .\JaggedQrDecompositionF.cs
+      </LastOutputs>
     </None>
     <None Update="Decompositions\JaggedSingularValueDecomposition.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>JaggedSingularValueDecomposition.txt</LastGenOutput>
       <LastOutputs>
-.\JaggedSingularValueDecomposition.cs
-.\JaggedSingularValueDecomposition.txt
-.\JaggedSingularValueDecompositionD.cs
-.\JaggedSingularValueDecompositionF.cs
-</LastOutputs>
+        .\JaggedSingularValueDecomposition.cs
+        .\JaggedSingularValueDecomposition.txt
+        .\JaggedSingularValueDecompositionD.cs
+        .\JaggedSingularValueDecompositionF.cs
+      </LastOutputs>
     </None>
     <None Update="Decompositions\JaggedSingularValueDecomposition.txt">
       <DesignTime>True</DesignTime>
@@ -96,31 +113,31 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>LuDecomposition.txt</LastGenOutput>
       <LastOutputs>
-.\LuDecomposition.cs
-.\LuDecomposition.txt
-.\LuDecompositionD.cs
-.\LuDecompositionF.cs
-</LastOutputs>
+        .\LuDecomposition.cs
+        .\LuDecomposition.txt
+        .\LuDecompositionD.cs
+        .\LuDecompositionF.cs
+      </LastOutputs>
     </None>
     <None Update="Decompositions\QrDecomposition.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>QrDecomposition.txt</LastGenOutput>
       <LastOutputs>
-.\QrDecomposition.cs
-.\QrDecomposition.txt
-.\QrDecompositionD.cs
-.\QrDecompositionF.cs
-</LastOutputs>
+        .\QrDecomposition.cs
+        .\QrDecomposition.txt
+        .\QrDecompositionD.cs
+        .\QrDecompositionF.cs
+      </LastOutputs>
     </None>
     <None Update="Decompositions\SingularValueDecomposition.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>SingularValueDecomposition.txt</LastGenOutput>
       <LastOutputs>
-.\SingularValueDecomposition.cs
-.\SingularValueDecomposition.txt
-.\SingularValueDecompositionD.cs
-.\SingularValueDecompositionF.cs
-</LastOutputs>
+        .\SingularValueDecomposition.cs
+        .\SingularValueDecomposition.txt
+        .\SingularValueDecompositionD.cs
+        .\SingularValueDecompositionF.cs
+      </LastOutputs>
     </None>
     <None Update="Distance.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

@@ -52,6 +52,7 @@
     <Compile Include="AForge.Core\DoublePoint.cs" />
     <Compile Include="Attributes\SourceTypeAttribute.cs" />
     <Compile Include="Attributes\SerializationBinderAttribute.cs" />
+    <Compile Include="Attributes\SurrogateSelectorAttribute.cs" />
     <Compile Include="Collections\BinaryNode.cs" />
     <Compile Include="Collections\BinaryTree.cs" />
     <Compile Include="Collections\PriorityQueue.cs" />

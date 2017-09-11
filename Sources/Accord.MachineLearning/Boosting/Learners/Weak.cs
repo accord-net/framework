@@ -28,15 +28,16 @@ namespace Accord.MachineLearning.Boosting.Learners
     using System;
     using Accord.Math.Comparers;
     using Accord.Math;
+    using Accord.Statistics;
 
     /// <summary>
-    ///   Simple classifier that based on decision margins that
-    ///   are perpendicular to one of the space dimensions.
+    ///   Adapter for models that do not implement a .Decide function.
     /// </summary>
     /// 
     /// <typeparam name="TModel">The type for the weak classifier model.</typeparam>
     /// 
-    public class Weak<TModel> : IWeakClassifier
+    [Obsolete("This class will be removed.")]
+    public class Weak<TModel> : BinaryClassifierBase<double[]>
     {
         /// <summary>
         ///   Gets or sets the weak decision model.
@@ -72,9 +73,22 @@ namespace Accord.MachineLearning.Boosting.Learners
         /// 
         /// <returns>The model's decision label.</returns>
         /// 
+        [Obsolete("Please use the Decide() method instead.")]
         public int Compute(double[] inputs)
         {
             return Function(Model, inputs);
+        }
+
+        /// <summary>
+        /// Computes a class-label decision for a given <paramref name="input" />.
+        /// </summary>
+        /// <param name="input">The input vector that should be classified into
+        /// one of the <see cref="P:Accord.MachineLearning.ITransform.NumberOfOutputs" /> possible classes.</param>
+        /// <returns>A class-label that best described <paramref name="input" /> according
+        /// to this classifier.</returns>
+        public override bool Decide(double[] input)
+        {
+            return Classes.Decide(Function(Model, input));
         }
     }
 }

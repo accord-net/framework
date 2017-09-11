@@ -22,10 +22,13 @@
 
 namespace Accord.MachineLearning
 {
+    using Accord.MachineLearning.Performance;
     using Accord.Math;
     using Accord.Math.Random;
+    using Accord.Statistics.Analysis;
     using System;
     using System.Collections;
+    using System.Collections.Generic;
     using System.Runtime.CompilerServices;
     using System.Text.RegularExpressions;
 
@@ -98,10 +101,10 @@ namespace Accord.MachineLearning
         }
 
         internal static void CheckArgs<TModel, TInput>(TInput[] x, double[] weights, Func<TModel> create,
-            bool allowNull = false, bool allowNaN = false)
+            bool allowNull = false, bool allowNaN = false, bool allowNegativeSymbols = false)
             where TModel : ITransform
         {
-            preCheckInputs(x, weights, allowNull: allowNull, allowNaN: allowNaN);
+            preCheckInputs(x, weights, allowNull: allowNull, allowNaN: allowNaN, allowNegativeSymbols: allowNegativeSymbols);
 
             var model = create();
 
@@ -109,18 +112,18 @@ namespace Accord.MachineLearning
         }
 
         internal static void CheckArgs<TModel, TInput, TOutput>(TInput[] x, TOutput[] y, double[] weights, Func<TModel> create,
-            bool onlyBinary = false, bool allowNull = false, bool allowNaN = false)
+            bool onlyBinary = false, bool allowNull = false, bool allowNaN = false, bool allowNegativeSymbols = false, bool allowNegativeClasses = false)
             where TModel : ITransform<TInput, TOutput>
         {
-            preCheckInputs(x, weights, allowNull: allowNull, allowNaN: allowNaN);
-            preCheckOutputs(x, y, onlyBinary: onlyBinary, allowNaN: allowNaN, allowNull: allowNull);
+            preCheckInputs(x, weights, allowNull: allowNull, allowNaN: allowNaN, allowNegativeSymbols: allowNegativeSymbols);
+            preCheckOutputs(x, y, onlyBinary: onlyBinary, allowNaN: allowNaN, allowNull: allowNull, allowNegativeClasses: allowNegativeClasses);
 
             var model = create();
 
             postCheck(model, x);
         }
 
-        private static void preCheckInputs<TInput>(TInput[] x, double[] weights, bool allowNull, bool allowNaN)
+        private static void preCheckInputs<TInput>(TInput[] x, double[] weights, bool allowNull, bool allowNaN, bool allowNegativeSymbols)
         {
             if (x == null)
                 throw new ArgumentNullException("x");
@@ -153,10 +156,26 @@ namespace Accord.MachineLearning
                         for (int j = 0; j < di.Length; j++)
                         {
                             if (Double.IsNaN(di[j]))
-                                throw new ArgumentException("The input vector at index " + i + " contains NaN values.");
+                                throw new ArgumentException("The input vector at index {0} contains a NaN value at position {1}, which is not supported by this algorithm.".Format(i, j));
 
                             if (Double.IsInfinity(di[j]))
-                                throw new ArgumentException("The input vector at index " + i + " contains infinity values.");
+                                throw new ArgumentException("The input vector at index {0} contains a infinity value at position {1}, which is not supported by this algorithm.".Format(i, j));
+                        }
+                    }
+                }
+            }
+
+            if (!allowNegativeSymbols)
+            {
+                for (int i = 0; i < x.Length; i++)
+                {
+                    var ii = x[i] as int[];
+                    if (ii != null)
+                    {
+                        for (int j = 0; j < ii.Length; j++)
+                        {
+                            if (ii[j] < 0)
+                                throw new ArgumentException("The input vector ad index {0} contains a negative value at position {1}, which is not supported by this algorithm.".Format(i, j));
                         }
                     }
                 }
@@ -165,7 +184,7 @@ namespace Accord.MachineLearning
 
 
 
-        private static void preCheckOutputs<TInput, TOutput>(TInput[] x, TOutput[] y, bool onlyBinary, bool allowNaN, bool allowNull)
+        private static void preCheckOutputs<TInput, TOutput>(TInput[] x, TOutput[] y, bool onlyBinary, bool allowNaN, bool allowNull, bool allowNegativeClasses)
         {
             if (x.Length != y.Length)
                 throw new DimensionMismatchException("y", "The number of output labels should match the number of training samples.");
@@ -187,8 +206,7 @@ namespace Accord.MachineLearning
                     {
                         if (binary[i] != 1 && binary[i] != -1)
                         {
-                            throw new ArgumentOutOfRangeException("y",
-                                "The output label at index " + i + " should be either +1 or -1.");
+                            throw new ArgumentOutOfRangeException("y", "The output label at index {0} should be either +1 or -1.".Format(i));
                         }
                     }
                 else
@@ -207,9 +225,15 @@ namespace Accord.MachineLearning
                 for (int i = 0; i < counts.Length; i++)
                 {
                     if (counts[i] < 1)
+                        throw new ArgumentException("There are no samples for class label {0}. Please make sure that class labels are contiguous and there is at least one training sample for each label.".Format(i));
+                }
+
+                if (!allowNegativeClasses)
+                {
+                    for (int i = 0; i < classes.Length; i++)
                     {
-                        throw new ArgumentException("There are no samples for class label {0}. Please make sure that class " +
-                            "labels are contiguous and there is at least one training sample for each label.".Format(i));
+                        if (classes[i] < 0)
+                            throw new ArgumentException("This learning algorithm does not support negative class labels. The class label passed for class {0} is {1}.".Format(i, classes[i]));
                     }
                 }
             }
@@ -269,8 +293,7 @@ namespace Accord.MachineLearning
                     {
                         if (sum[j] == 0)
                         {
-                            throw new ArgumentException("There are no samples for class label {0}. Please make sure that class " +
-                                "labels are contiguous and there is at least one training sample for each label.".Format(j));
+                            throw new ArgumentException("There are no samples for class label {0}. Please make sure that class labels are contiguous and there is at least one training sample for each label.".Format(j));
                         }
                     }
                 }
@@ -298,5 +321,67 @@ namespace Accord.MachineLearning
         }
 
 
+
+        /// <summary>
+        ///   Generates a <see cref="GeneralConfusionMatrix"/> from a set of cross-validation results.
+        /// </summary>
+        /// 
+        /// <typeparam name="TModel">The type of the model being evaluated.</typeparam>
+        /// <typeparam name="TInput">The type of the inputs accepted by the model.</typeparam>
+        /// 
+        /// <param name="cv">The cross-validation result.</param>
+        /// <param name="inputs">The inputs fed to the cross-validation object.</param>
+        /// <param name="outputs">The outputs fed to the cross-validation object.</param>
+        /// 
+        /// <returns>A <see cref="GeneralConfusionMatrix"/> that captures the performance of the model across all validation folds.</returns>
+        /// 
+        public static GeneralConfusionMatrix ToConfusionMatrix<TModel, TInput>(this CrossValidationResult<TModel, TInput, int> cv, TInput[] inputs, int[] outputs)
+            where TModel : class, ITransform<TInput, int>
+        {
+            var actual = new List<int>();
+            var expected = new List<int>();
+            foreach (SplitResult<TModel, TInput, int> model in cv.Models)
+            {
+                int[] idx = model.Validation.Indices;
+                TInput[] x = inputs.Get(idx);
+                int[] e = outputs.Get(idx);
+                int[] a = model.Transform(x);
+                actual.AddRange(a);
+                expected.AddRange(e);
+            }
+
+            return new GeneralConfusionMatrix(expected: expected.ToArray(), predicted: actual.ToArray());
+        }
+
+        /// <summary>
+        ///   Generates a <see cref="ConfusionMatrix"/> from a set of cross-validation results.
+        /// </summary>
+        /// 
+        /// <typeparam name="TModel">The type of the model being evaluated.</typeparam>
+        /// <typeparam name="TInput">The type of the inputs accepted by the model.</typeparam>
+        /// 
+        /// <param name="cv">The cross-validation result.</param>
+        /// <param name="inputs">The inputs fed to the cross-validation object.</param>
+        /// <param name="outputs">The outputs fed to the cross-validation object.</param>
+        /// 
+        /// <returns>A <see cref="ConfusionMatrix"/> that captures the performance of the model across all validation folds.</returns>
+        /// 
+        public static ConfusionMatrix ToConfusionMatrix<TModel, TInput>(this CrossValidationResult<TModel, TInput, bool> cv, TInput[] inputs, bool[] outputs)
+            where TModel : class, ITransform<TInput, bool>
+        {
+            var actual = new List<bool>();
+            var expected = new List<bool>();
+            foreach (SplitResult<TModel, TInput, bool> model in cv.Models)
+            {
+                int[] idx = model.Validation.Indices;
+                TInput[] x = inputs.Get(idx);
+                bool[] e = outputs.Get(idx);
+                bool[] a = model.Transform(x);
+                actual.AddRange(a);
+                expected.AddRange(e);
+            }
+
+            return new ConfusionMatrix(expected: expected.ToArray(), predicted: actual.ToArray());
+        }
     }
 }

@@ -79,7 +79,9 @@
     </Compile>
     <Compile Include="Clustering\KMedoidsPAMTest.cs" />
     <Compile Include="Clustering\KMedoidsVITest.cs" />
+    <Compile Include="Clustering\MiniBatchKMeansTest.cs" />
     <Compile Include="DecisionTrees\DecisionTreeWriterTest.cs" />
+    <Compile Include="IO\SerializationTest.cs" />
     <Compile Include="POSTest.cs" />
     <Compile Include="TFIDFTest.cs" />
     <Compile Include="BagOfWordsTest.cs" />

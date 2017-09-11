@@ -27,6 +27,7 @@ namespace Accord.Statistics.Analysis
     using Accord.Statistics.Testing;
     using Accord.Math;
     using Accord.Compat;
+    using Accord.MachineLearning;
 
     /// <summary>
     ///   Binary decision confusion matrix.
@@ -568,7 +569,21 @@ namespace Accord.Statistics.Analysis
         /// 
         public double Accuracy
         {
-            get { return 1.0 * (truePositives + trueNegatives) / Samples; }
+            get { return (truePositives + trueNegatives) / (double)Samples; }
+        }
+
+        /// <summary>
+        ///   Error rate, or 1 - accuracy.
+        /// </summary>
+        /// 
+        /// <remarks>
+        ///   The Error is calculated as 
+        ///   <c>ACC = (FP + FN) / (P + N).</c>
+        /// </remarks>
+        /// 
+        public double Error
+        {
+            get { return (falsePositives + falseNegatives) / (double)Samples; }
         }
 
         /// <summary>
@@ -1027,6 +1042,42 @@ namespace Accord.Statistics.Analysis
             }
 
             return new ConfusionMatrix(total);
+        }
+
+        /// <summary>
+        ///   Estimates a <see cref="ConfusionMatrix"/> directly from a classifier, a set of inputs and its expected outputs.
+        /// </summary>
+        /// 
+        /// <typeparam name="TInput">The type of the inputs accepted by the classifier.</typeparam>
+        /// 
+        /// <param name="classifier">The classifier.</param>
+        /// <param name="inputs">The input vectors.</param>
+        /// <param name="expected">The expected outputs associated with each input vector.</param>
+        /// 
+        /// <returns>A <see cref="ConfusionMatrix"/> capturing the performance of the classifier when
+        ///   trying to predict the outputs <paramref name="expected"/> from the <paramref name="inputs"/>.</returns>
+        ///   
+        public static ConfusionMatrix Estimate<TInput>(IClassifier<TInput, int> classifier, TInput[] inputs, int[] expected)
+        {
+            return new ConfusionMatrix(expected: expected, predicted: classifier.Decide(inputs));
+        }
+
+        /// <summary>
+        ///   Estimates a <see cref="ConfusionMatrix"/> directly from a classifier, a set of inputs and its expected outputs.
+        /// </summary>
+        /// 
+        /// <typeparam name="TInput">The type of the inputs accepted by the classifier.</typeparam>
+        /// 
+        /// <param name="classifier">The classifier.</param>
+        /// <param name="inputs">The input vectors.</param>
+        /// <param name="expected">The expected outputs associated with each input vector.</param>
+        /// 
+        /// <returns>A <see cref="ConfusionMatrix"/> capturing the performance of the classifier when
+        ///   trying to predict the outputs <paramref name="expected"/> from the <paramref name="inputs"/>.</returns>
+        ///   
+        public static ConfusionMatrix Estimate<TInput>(IClassifier<TInput, bool> classifier, TInput[] inputs, bool[] expected)
+        {
+            return new ConfusionMatrix(expected: expected, predicted: classifier.Decide(inputs));
         }
     }
 }

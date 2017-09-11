@@ -28,6 +28,8 @@ namespace Accord.Statistics.Filters
     using Accord.Math;
     using MachineLearning;
     using Accord.Compat;
+    using System.Runtime.Serialization;
+    using System.Reflection;
 
     /// <summary>
     ///   Codification type.
@@ -161,6 +163,9 @@ namespace Accord.Statistics.Filters
     /// <seealso cref="Discretization{TInput, TOutput}"/>
     /// 
     [Serializable]
+#if NETSTANDARD2_0
+    [SurrogateSelector(typeof(Codification.Selector))]
+#endif
     public class Codification : Codification<string>, IAutoConfigurableFilter, ITransform<string[], double[]>
     {
         // TODO: Mark redundant methods as obsolete
@@ -465,6 +470,39 @@ namespace Accord.Statistics.Filters
             for (int i = 0; i < columnNames.Length; i++)
                 Columns.Add(new Options(columnNames[i]).Learn(values.GetColumn(i)));
         }
+
+
+
+
+        #region Serialization backwards compatibility
+#if NETSTANDARD2_0
+        internal class Selector : SurrogateSelector
+        {
+            sealed class DBNullSerializationSurrogate : ISerializationSurrogate
+            {
+                const string representation = "__System.DBNull__";
+
+                public void GetObjectData(Object obj, SerializationInfo info, StreamingContext context)
+                {
+                    if (obj as System.DBNull != null)
+                        info.AddValue("value", representation);
+                }
+
+                public Object SetObjectData(Object obj, SerializationInfo info, StreamingContext context, ISurrogateSelector selector)
+                {
+                    if (info.GetString("value") == representation)
+                        return System.DBNull.Value;
+                    return null;
+                }
+            }
+
+            public Selector()
+            {
+                AddSurrogate(typeof(System.DBNull), new StreamingContext(StreamingContextStates.All), new DBNullSerializationSurrogate());
+            }
+        }
+#endif
+        #endregion
 
     }
 }

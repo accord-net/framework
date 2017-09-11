@@ -15,13 +15,11 @@ echo.
 set /p version=<"..\..\Version.txt"
 set rar="C:\Program Files\WinRAR\rar"
 set fullname="Accord.NET-%version%-archive.rar" 
-set libsname="Accord.NET-%version%-libsonly.rar"
-set opts=a -m5 -s
+set opts=a -ma5 -s
 
 
 echo  - Framework version: %version%
 echo  - Complete package : %fullname%     
-echo  - Lib-only package : %libsname%
 echo.
 echo  - WinRAR Command: %rar%
 echo  - WinRAR Options: "%opts%"
@@ -68,6 +66,18 @@ set ignore=-x*.tmp -x*\.vs -x*.suo -x*.user -x*.vsp -x*.pidb -x*SlimDX.pdb -x*.s
 echo.
 echo Creating Accord.NET %libsname% archive
 echo ---------------------------------------------------------
+
+set /p version=<"..\..\Version.txt"
+set rar="C:\Program Files\WinRAR\rar"
+set libsname="Accord.NET-%version%-libsonly.rar"
+set opts=a -ma4 -s
+
+echo  - Framework version: %version%
+echo  - Lib-only package : %libsname%
+echo.
+echo  - WinRAR Command: %rar%
+echo  - WinRAR Options: "%opts%"
+echo.
 
 timeout /T 5
 set output=..\bin\%libsname%

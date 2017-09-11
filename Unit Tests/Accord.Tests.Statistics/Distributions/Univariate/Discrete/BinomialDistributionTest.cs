@@ -365,6 +365,7 @@ namespace Accord.Tests.Statistics
         }
 
         [Test]
+        [Category("Slow")]
         public void GenerateTest()
         {
             var target = new BinomialDistribution(4, 0.2);

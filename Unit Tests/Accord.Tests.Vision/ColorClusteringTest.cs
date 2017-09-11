@@ -31,7 +31,6 @@ namespace Accord.Tests.Vision
     using Accord.Math.Distances;
     using Accord.Math;
     using Accord.Statistics.Distributions.DensityKernels;
-    using Accord.Controls;
     using System.IO;
     using Accord.DataSets;
 

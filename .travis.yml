@@ -16,9 +16,18 @@ install:
 script:
   - ./autogen.sh
   - make
-  - make test
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]] ; then make test-reduced ; else make test ; fi
   - make check
     
+before_install:
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then 
+       brew update;
+       brew cask install mono-mdk; 
+       export PKG_CONFIG_PATH=/Library/Frameworks/Mono.framework/Versions/Current/lib/pkgconfig/;
+       export MONO=/Library/Frameworks/Mono.framework/Versions/Current/bin/mono;
+       export XBUILD=/Library/Frameworks/Mono.framework/Versions/Current/bin/xbuild;
+    fi
+
 matrix:
   exclude:
     - os: osx
@@ -26,6 +35,8 @@ matrix:
     - os: osx
       mono: 4.8.0
           
+          
   allow_failures:
     - os: osx
       mono: latest
+      

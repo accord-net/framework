@@ -26,6 +26,7 @@ namespace Accord.Neuro.Networks
     using Accord.Neuro.ActivationFunctions;
     using Accord.Neuro.Layers;
     using Accord.Neuro.Neurons;
+    using Accord.Compat;
 
     /// <summary>
     ///   Restricted Boltzmann Machine.

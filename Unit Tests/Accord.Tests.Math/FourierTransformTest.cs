@@ -28,12 +28,14 @@ namespace Accord.Tests.Math
     using Accord.Math.Transforms;
     using Accord.Compat;
     using System.Numerics;
+    using CategoryAttribute = NUnit.Framework.CategoryAttribute;
 
     [TestFixture]
     public class FourierTransformTest
     {
 
         [Test]
+        [Category("Slow")]
         public void FFTTest()
         {
             // Tests from 

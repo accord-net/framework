@@ -30,6 +30,7 @@ namespace Accord.Neuro.ActivationFunctions
     using Accord.Statistics.Distributions.Univariate;
     using Accord.Math.Random;
     using Accord.Math;
+    using Accord.Compat;
 
     /// <summary>
     ///   Gaussian stochastic activation function.

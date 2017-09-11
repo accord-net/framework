@@ -1,8 +1,29 @@
-﻿// AForge Image Formats Library
+﻿// Accord Imaging Library
+// The Accord.NET Framework
+// http://accord-framework.net
+//
+// AForge Image Formats Library
 // AForge.NET framework
 //
 // Copyright © Andrew Kirillov, 2005-2008
 // andrew.kirillov@gmail.com
+//
+// Copyright © César Souza, 2009-2017
+// cesarsouza at gmail.com
+//
+//    This library is free software; you can redistribute it and/or
+//    modify it under the terms of the GNU Lesser General Public
+//    License as published by the Free Software Foundation; either
+//    version 2.1 of the License, or (at your option) any later version.
+//
+//    This library is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+//    Lesser General Public License for more details.
+//
+//    You should have received a copy of the GNU Lesser General Public
+//    License along with this library; if not, write to the Free Software
+//    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
 namespace Accord.Imaging.Formats
@@ -13,6 +34,7 @@ namespace Accord.Imaging.Formats
     using System.Drawing.Imaging;
     using System.Globalization;
     using System.IO;
+    using Accord.Compat;
 
     /// <summary>
     /// Image decoder to decode different custom image file formats.
@@ -30,20 +52,16 @@ namespace Accord.Imaging.Formats
     /// 
     /// <para><note>If the class can not find appropriate decode in the list of registered
     /// decoders, it passes file to .NET's image decoder for decoding.</note></para>
-    /// 
-    /// <para>Sample usage:</para>
-    /// <code>
-    /// // sample file name
-    /// string fileName = "myFile.pnm";
-    /// // decode image file
-    /// Bitmap = ImageDecoder.DecodeFromFile( fileName );
-    /// </code>
     /// </remarks>
+    /// 
+    /// <example>
+    /// <code source="Unit Tests\Accord.Tests.Imaging\Formats\PNMCodecTest.cs" region="doc_load" />
+    /// </example>
     /// 
     /// <seealso cref="PNMCodec"/>
     /// <seealso cref="FITSCodec"/>
     /// 
-    public class ImageDecoder
+    public static class ImageDecoder
     {
         private static Dictionary<string, IImageDecoder> decoders = new Dictionary<string, IImageDecoder>();
 
@@ -158,34 +176,13 @@ namespace Accord.Imaging.Formats
         private static System.Drawing.Bitmap FromFile(string fileName)
         {
             Bitmap loadedImage = null;
-            FileStream stream = null;
 
-            try
+            // read image to temporary memory stream
+            using (FileStream stream = File.OpenRead(fileName))
             {
-                // read image to temporary memory stream
-                stream = File.OpenRead(fileName);
                 MemoryStream memoryStream = new MemoryStream();
-
-                byte[] buffer = new byte[10000];
-                while (true)
-                {
-                    int read = stream.Read(buffer, 0, 10000);
-
-                    if (read == 0)
-                        break;
-
-                    memoryStream.Write(buffer, 0, read);
-                }
-
+                stream.CopyTo(memoryStream);
                 loadedImage = (Bitmap)Bitmap.FromStream(memoryStream);
-            }
-            finally
-            {
-                if (stream != null)
-                {
-                    stream.Close();
-                    stream.Dispose();
-                }
             }
 
             return loadedImage;

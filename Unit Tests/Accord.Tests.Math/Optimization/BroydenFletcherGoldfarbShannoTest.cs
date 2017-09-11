@@ -123,6 +123,7 @@ namespace Accord.Tests.Math
         // The famous Rosenbrock test function.
         public static double rosenbrockFunction(double[] x)
         {
+            // f(x, y) = (1 - x)^2 + 100(y - x^2)^2
             double a = x[1] - x[0] * x[0];
             double b = 1 - x[0];
             return b * b + 100 * a * a;

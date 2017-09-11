@@ -70,6 +70,7 @@ namespace Accord.Tests.Interop.Math
         }
 
         [Test]
+        [Category("Slow")]
         public void nth_element_test_2()
         {
             Accord.Math.Random.Generator.Seed = 0;

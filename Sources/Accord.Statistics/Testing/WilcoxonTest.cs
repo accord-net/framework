@@ -24,6 +24,9 @@ namespace Accord.Statistics.Testing
 {
     using System;
     using Accord.Statistics.Distributions.Univariate;
+    using System.Linq;
+    using Accord.Math;
+    using System.Collections.Generic;
 
     /// <summary>
     ///   Base class for Wilcoxon's W tests.
@@ -42,6 +45,7 @@ namespace Accord.Statistics.Testing
     /// 
     public class WilcoxonTest : HypothesisTest<WilcoxonDistribution>
     {
+        private bool hasTies;
 
         /// <summary>
         ///   Gets the number of samples being tested.
@@ -67,6 +71,23 @@ namespace Accord.Statistics.Testing
         /// 
         public double[] Ranks { get; protected set; }
 
+        /// <summary>
+        ///   Gets wether the samples to be ranked contain zeros.
+        /// </summary>
+        /// 
+        public bool HasZeros { get; private set; }
+
+        /// <summary>
+        ///   Gets wether the samples to be ranked contain ties.
+        /// </summary>
+        /// 
+        public bool HasTies { get { return hasTies; } }
+
+        /// <summary>
+        ///   Gets whether we are using a exact test.
+        /// </summary>
+        /// 
+        public bool IsExact { get; private set; }
 
         /// <summary>
         ///   Creates a new Wilcoxon's W+ test.
@@ -78,7 +99,7 @@ namespace Accord.Statistics.Testing
         /// 
         public WilcoxonTest(int[] signs, double[] diffs, DistributionTail tail)
         {
-            Compute(signs, diffs, tail, null, true);
+            Compute(signs, diffs, tail, null, adjustForTies: true);
         }
 
         /// <summary>
@@ -93,11 +114,24 @@ namespace Accord.Statistics.Testing
         ///   Computes the Wilcoxon Signed-Rank test.
         /// </summary>
         /// 
-        protected void Compute(int[] signs, double[] diffs, DistributionTail tail, bool? exact, bool adjustForTies)
+        protected void Compute(int[] signs, double[] diffs, DistributionTail tail, 
+            bool? exact, bool adjustForTies)
         {
+            int[] nonZeros = diffs.Find(x => x != 0);
+            this.HasZeros = nonZeros.Length != diffs.Length;
+
+            if (HasZeros)
+            {
+                // It is actually necessary to discard zeros before the test procedure
+                // https://en.wikipedia.org/wiki/Wilcoxon_signed-rank_test#Test_procedure
+                // http://vassarstats.net/textbook/ch12a.html
+                signs = signs.Get(nonZeros);
+                diffs = diffs.Get(nonZeros);
+            }
+
             this.Signs = signs;
             this.Delta = diffs;
-            this.Ranks = Delta.Rank(adjustForTies: adjustForTies);
+            this.Ranks = Delta.Rank(hasTies: out hasTies, adjustForTies: adjustForTies);
 
             double W = WilcoxonDistribution.WPositive(Signs, Ranks);
 
@@ -110,13 +144,32 @@ namespace Accord.Statistics.Testing
         /// 
         protected void Compute(double statistic, double[] ranks, DistributionTail tail, bool? exact)
         {
+            if (this.HasZeros)
+            {
+                if (!exact.HasValue)
+                    exact = false;
+
+                if (exact == true)
+                    throw new ArgumentException("An exact test cannot be computed when there are zeros in the samples (or when paired samples are the same in a paired test).");
+            }
+
             this.Statistic = statistic;
             this.Tail = tail;
 
-            this.StatisticDistribution = new WilcoxonDistribution(ranks, exact)
+            if (ranks.Length != 0)
             {
-                Correction = (Tail == DistributionTail.TwoTail) ? ContinuityCorrection.Midpoint : ContinuityCorrection.KeepInside
-            };
+                this.StatisticDistribution = new WilcoxonDistribution(ranks, exact)
+                {
+                    Correction = (Tail == DistributionTail.TwoTail) ? ContinuityCorrection.Midpoint : ContinuityCorrection.KeepInside
+                };
+
+                this.IsExact = this.StatisticDistribution.Exact;
+            }
+            else
+            {
+                this.StatisticDistribution = null;
+                this.IsExact = exact.GetValueOrDefault(false);
+            }
 
             this.PValue = StatisticToPValue(Statistic);
 
@@ -133,6 +186,9 @@ namespace Accord.Statistics.Testing
         /// 
         public override double StatisticToPValue(double x)
         {
+            if (StatisticDistribution == null)
+                return Double.NaN; // return NaN to match R's behavior
+
             double p;
             switch (Tail)
             {
