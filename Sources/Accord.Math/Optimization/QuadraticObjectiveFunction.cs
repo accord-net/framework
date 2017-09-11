@@ -93,6 +93,24 @@ namespace Accord.Math.Optimization
     /// </code>
     /// 
     /// <para>
+    ///   Finally, for large problems, it is usually best to declare quadratic
+    ///   problems using matrices and vectors. Without loss of generality, the
+    ///   quadratic matrix can always be taken to be symmetric (as the anti-
+    ///   symmetric part has no contribution to the function). For efficiency
+    ///   reasons, the quadratic matrix must be symmetric.
+    /// </para>
+    /// 
+    /// <code>
+    ///   var h1 = new QuadraticObjectiveFunction("3x² - 4y² + 6xy + 3x + 2y");
+    /// 
+    ///   double[,] Q = { { 6, 6 }, { 6, -8 } }; // Note the factor of 2
+    ///   double[] d = { 3, 2 };
+    /// 
+    ///   // Equivalently this can be written:
+    ///   var h2 = new QuadraticObjectiveFunction(Q, d);
+    /// </code>
+    /// 
+    /// <para>
     ///   After those functions are created, you can either query their values
     ///   using</para>
     ///   
@@ -127,6 +145,15 @@ namespace Accord.Math.Optimization
     ///   double value = solver.Value;
     ///   double[] solutions = solver.Solution;
     /// </code>
+    /// 
+    /// <para>
+    ///   Sometimes it easiest to compose quadratic functions as linear
+    ///   combinations of other quadratic functions. The <see cref="QuadraticObjectiveFunction" />
+    ///   supports this by overloading the addition and multiplication operators.
+    /// </para>
+    /// 
+    /// <code source="Unit Tests\Accord.Tests.Math\Optimization\QuadraticObjectiveFunctionTest.cs" region="doc_example" />
+    /// 
     /// </example>
     /// 
     /// <seealso cref="GoldfarbIdnani"/>
@@ -167,7 +194,7 @@ namespace Accord.Math.Optimization
             if (!quadraticTerms.IsSquare())
                 throw new DimensionMismatchException("quadraticTerms", "The matrix must be square.");
 
-            if (!quadraticTerms.IsSymmetric(rtol: 1e-12))
+            if (!quadraticTerms.IsSymmetric(rtol: 1e-6))
                 throw new NonSymmetricMatrixException("The matrix must be symmetric.");
 
             if (quadraticTerms.Rows() != linearTerms.Length)
