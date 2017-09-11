@@ -26,6 +26,7 @@ namespace Accord.Tests.Math
     using Accord.Math;
     using Accord.Math.Differentiation;
     using NUnit.Framework;
+    using Accord.Math.Optimization;
 
     [TestFixture]
     public class FiniteDifferencesTest
@@ -164,6 +165,28 @@ namespace Accord.Tests.Math
 
                     Assert.IsTrue(actual.IsEqual(expected, rtol: 1e-5));
                 }
+            }
+        }
+
+        [Test]
+        public void Hessian_test_4()
+        {
+            const int Size = 30;
+            const double Tolerance = 1e-8;
+
+            for (int i = 0; i < 10; i++)
+            {
+                double[,] mat = Matrix.Random(Size);
+                double[,] Q = mat.DotWithTransposed(mat);
+                double[] d = Vector.Random(Size);
+
+                var qof = new QuadraticObjectiveFunction(Q, d);
+
+                var calculator = new FiniteDifferences(Size, qof.Function);
+
+                double[][] result = calculator.Hessian(Vector.Random(Size));
+
+                Assert.IsTrue(result.IsEqual(Q, Tolerance));
             }
         }
 
