@@ -89,6 +89,14 @@ namespace Accord.MachineLearning
         private int batchSize;
         private int? initializationBatchSize;
         private int numberOfInitializations = 1;
+
+        /// <summary>
+        ///   Gets the labels assigned for each data point in the last 
+        ///   call to <see cref="Learn(double[][], double[])"/>.
+        /// </summary>
+        /// 
+        /// <value>The labels.</value>
+        /// 
         public int[] Labels { get; private set; }
 
         /// <summary>

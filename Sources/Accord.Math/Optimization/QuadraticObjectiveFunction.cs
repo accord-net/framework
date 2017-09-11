@@ -167,10 +167,8 @@ namespace Accord.Math.Optimization
             if (!quadraticTerms.IsSquare())
                 throw new DimensionMismatchException("quadraticTerms", "The matrix must be square.");
 
-            double tolerance = quadraticTerms.AbsoluteMax() * 1e-12;
-
-            if (!quadraticTerms.IsSymmetric(tolerance))
-                throw new DimensionMismatchException("quadraticTerms", "The matrix must be square.");
+            if (!quadraticTerms.IsSymmetric(rtol: 1e-12))
+                throw new NonSymmetricMatrixException("The matrix must be symmetric.");
 
             if (quadraticTerms.Rows() != linearTerms.Length)
                 throw new DimensionMismatchException("linearTerms",

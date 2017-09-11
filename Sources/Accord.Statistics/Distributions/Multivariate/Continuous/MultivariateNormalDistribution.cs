@@ -215,6 +215,18 @@ namespace Accord.Statistics.Distributions.Multivariate
         /// </summary>
         /// 
         /// <param name="mean">The mean vector μ (mu) for the distribution.</param>
+        /// 
+        public MultivariateNormalDistribution(double[] mean)
+            : this(mean, Matrix.Identity(mean.Length))
+        {
+        }
+
+        /// <summary>
+        ///   Constructs a multivariate Gaussian distribution
+        ///   with given mean vector and covariance matrix.
+        /// </summary>
+        /// 
+        /// <param name="mean">The mean vector μ (mu) for the distribution.</param>
         /// <param name="covariance">The covariance matrix Σ (sigma) for the distribution.</param>
         /// 
         public MultivariateNormalDistribution(double[] mean, double[,] covariance)

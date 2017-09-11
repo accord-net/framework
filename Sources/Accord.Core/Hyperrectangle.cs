@@ -47,7 +47,6 @@ namespace Accord.Math
     ///     </list></para>     
     /// </remarks>
     /// 
-    /// <seealso cref="System.ICloneable" />
     /// <seealso cref="System.IFormattable" />
     /// 
     public struct Hyperrectangle : ICloneable, IEquatable<Hyperrectangle>, IFormattable

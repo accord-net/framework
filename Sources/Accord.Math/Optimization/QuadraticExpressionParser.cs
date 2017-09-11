@@ -30,47 +30,6 @@ namespace Accord.Math.Optimization
 
     internal static class QuadraticExpressionParser
     {
-        public static bool IsSymmetric(this double[,] matrix, double tolerance = 0)
-        {
-            if (matrix == null) throw new ArgumentNullException("matrix");
-
-            if (!matrix.IsSquare()) return false;
-
-            if (tolerance == 0)
-            {
-                for (int i = 0; i < matrix.Rows(); i++)
-                    for (int j = 0; j < i; j++)
-                        if (matrix[i, j] == matrix[j, i])
-                            return false;
-            }
-            else
-            {
-                for (int i = 0; i < matrix.Rows(); i++)
-                    for (int j = 0; j < i; j++)
-                        if (Math.Abs(matrix[i, j] - matrix[j, i]) > tolerance)
-                            return false;
-            }
-
-            return true;
-        }
-
-        public static double AbsoluteMax(this double[,] matrix)
-        {
-            if (matrix == null) throw new ArgumentNullException("matrix");
-
-            double max = 0;
-
-            foreach (double element in matrix)
-            {
-                double abs = Math.Abs(element);
-                if (abs > max)
-                    max = abs;
-
-            }
-
-            return max;
-        }
-
         public static string ToVariable(this int num, char prefix = 'x')
         {
             string number = num.ToString();

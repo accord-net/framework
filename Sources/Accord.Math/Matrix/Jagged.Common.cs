@@ -393,28 +393,6 @@ namespace Accord.Math
             return true;
         }
 
-        /// <summary>
-        ///   Returns true if a matrix is symmetric.
-        /// </summary>
-        /// 
-        public static bool IsSymmetric<T>(this T[][] matrix) where T : IComparable
-        {
-            if (matrix == null) throw new ArgumentNullException("matrix");
-
-            if (matrix.Length == matrix[0].Length)
-            {
-                for (int i = 0; i < matrix.Length; i++)
-                {
-                    for (int j = 0; j <= i; j++)
-                    {
-                        if (matrix[i][j].CompareTo(matrix[j][i]) != 0)
-                            return false;
-                    }
-                }
-                return true;
-            }
-            return false;
-        }
 
         // TODO: Move to T4 template
         /// <summary>

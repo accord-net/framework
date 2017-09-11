@@ -24,6 +24,7 @@ namespace Accord.Math.Differentiation
 {
     using System;
     using Accord.Math;
+    using System.Threading;
 
     /// <summary>
     ///   Derivative approximation by finite differences.
@@ -63,33 +64,26 @@ namespace Accord.Math.Differentiation
     /// </remarks>
     /// 
     /// <example>
-    /// <code>
-    /// // Create a simple function with two parameters: f(x, y) = x² + y
-    /// Func &lt;double[], double> function = x => Math.Pow(x[0], 2) + x[1];
-    /// 
-    /// // The gradient function should be g(x,y) = &lt;2x, 1>
-    /// 
-    /// // Create a new finite differences calculator
-    /// var calculator = new FiniteDifferences(2, function);
-    /// 
-    /// // Evaluate the gradient function at the point (2, -1)
-    /// double[] result = calculator.Compute(2, -1); // answer is (4, 1)
-    /// </code>
+    ///   <code source="Unit Tests\Accord.Tests.Math\Differentiation\FiniteDifferencesTest.cs" region="doc_gradient" />
+    ///   <code source="Unit Tests\Accord.Tests.Math\Differentiation\FiniteDifferencesTest.cs" region="doc_hessian" />
     /// </example>
     /// 
     /// <seealso cref="Accord.Math.Integration"/>
     /// 
     public class FiniteDifferences
     {
-        private int parameters;
-        private int pointCount;
+        const double DEFAULT_STEPSIZE = 1e-2;
+        const int DEFAULT_NPOINTS = 3;
+        const int DEFAULT_ORDER = 1;
+
+        private int numberOfVariables;
+        private int derivativeOrder; // whether to compute first, second, ... derivatives
 
         private double[] stepSizes;
-        private int[] orders;
 
         private double[][,] coefficients; // differential coefficients
-
-
+        private ThreadLocal<double[][]> points; // cache for interpolation points
+        private int center;
 
         /// <summary>
         ///   Gets or sets the function to be differentiated.
@@ -98,8 +92,25 @@ namespace Accord.Math.Differentiation
         public Func<double[], double> Function { get; set; }
 
         /// <summary>
-        ///   Gets or sets the relative step size used to
-        ///   approximate the derivatives. Default is 1e-2.
+        ///   Gets or sets the relative step size used to approximate the derivatives. Default is 1e-2.
+        ///   Setting this property updates the step size for all parameters at once. To adjust only a
+        ///   single parameter, please refer to <see cref="StepSizes"/> instead.
+        /// </summary>
+        /// 
+        public double StepSize
+        {
+            get { return stepSizes.Max(); }
+            set
+            {
+                if (stepSizes == null)
+                    stepSizes = new double[numberOfVariables];
+                for (int i = 0; i < stepSizes.Length; i++)
+                    stepSizes[i] = value;
+            }
+        }
+
+        /// <summary>
+        ///   Gets or sets the relative step sizes used to approximate the derivatives. Default is 1e-2.
         /// </summary>
         /// 
         public double[] StepSizes
@@ -108,28 +119,69 @@ namespace Accord.Math.Differentiation
         }
 
         /// <summary>
-        ///   Gets or sets the order of the derivatives to be
+        ///   Gets or sets the order of the partial derivatives to be
         ///   obtained. Default is 1 (computes the first derivative).
         /// </summary>
         /// 
-        public double[] Orders
+        public int Order
         {
-            get { return Orders; }
+            get { return derivativeOrder; }
+            set
+            {
+                if (value >= NumberOfPoints)
+                {
+                    throw new ArgumentException("The order must be less than the number of points being used for interpolation." +
+                        " In order to use a higher order, please increase the number of interpolation points first.", "value");
+                }
+
+                derivativeOrder = value;
+            }
         }
+
 
         /// <summary>
         ///   Gets or sets the number of points to be used when 
         ///   computing the approximation. Default is 3.
         /// </summary>
         /// 
-        public int Points
+        public int NumberOfPoints
         {
-            get { return pointCount; }
+            get { return coefficients.Length; }
             set
             {
-                pointCount = value;
+                if (value % 2 != 1)
+                    throw new ArgumentException("The number of points must be odd.", "value");
+
+                if (derivativeOrder >= value)
+                {
+                    throw new ArgumentException("The number of points must be higher than the desired differentiation order." +
+                        " In order to use less interpolation points, please decrease the differentiation order first.", "value");
+                }
+
                 this.coefficients = CreateCoefficients(value);
+                this.points = new ThreadLocal<double[][]>(() => Jagged.Zeros(2, coefficients.Length));
+                this.center = (coefficients.Length - 1) / 2;
             }
+        }
+
+        /// <summary>
+        ///   Obsolete. Please use <see cref="NumberOfPoints"/> instead.
+        /// </summary>
+        /// 
+        [Obsolete("Please use NumberOfPoints instead.")]
+        public int Points
+        {
+            get { return NumberOfPoints; }
+            set { NumberOfPoints = value; }
+        }
+
+        /// <summary>
+        ///   Gets the number of parameters expected by the <see cref="Function"/> to be differentiated.
+        /// </summary>
+        /// 
+        public int NumberOfVariables
+        {
+            get { return numberOfVariables; }
         }
 
         /// <summary>
@@ -140,7 +192,7 @@ namespace Accord.Math.Differentiation
         /// 
         public FiniteDifferences(int variables)
         {
-            init(null, variables, 1, 1e-2);
+            init(variables: variables);
         }
 
         /// <summary>
@@ -152,7 +204,7 @@ namespace Accord.Math.Differentiation
         /// 
         public FiniteDifferences(int variables, int order)
         {
-            init(null, variables, order, 1e-2);
+            init(variables: variables, order: order);
         }
 
         /// <summary>
@@ -165,7 +217,7 @@ namespace Accord.Math.Differentiation
         /// 
         public FiniteDifferences(int variables, int order, double stepSize)
         {
-            init(null, variables, order, stepSize);
+            init(variables: variables, order: order, stepSize: stepSize);
         }
 
         /// <summary>
@@ -177,7 +229,7 @@ namespace Accord.Math.Differentiation
         /// 
         public FiniteDifferences(int variables, Func<double[], double> function)
         {
-            init(function, variables, 1, 1e-2);
+            init(variables, function: function);
         }
 
         /// <summary>
@@ -190,7 +242,7 @@ namespace Accord.Math.Differentiation
         /// 
         public FiniteDifferences(int variables, Func<double[], double> function, int order)
         {
-            init(function, variables, order, 1e-2);
+            init(variables: variables, function: function, order: order);
         }
 
         /// <summary>
@@ -204,27 +256,38 @@ namespace Accord.Math.Differentiation
         /// 
         public FiniteDifferences(int variables, Func<double[], double> function, int order, double stepSize)
         {
-            init(function, variables, order, stepSize);
+            init(variables: variables, function: function, order: order, stepSize: stepSize);
         }
 
-        private void init(Func<double[], double> func, int variables,
-            int order, double stepSize)
+        private void init(int variables, Func<double[], double> function = null, int? order = null, int? points = null, double? stepSize = null)
         {
-            this.Function = func;
-            this.parameters = variables;
-            this.stepSizes = new double[variables];
-            this.orders = new int[variables];
-            this.pointCount = 3;
-
-            this.coefficients = CreateCoefficients(3);
-
-            for (int i = 0; i < stepSizes.Length; i++)
-                stepSizes[i] = stepSize;
-
-            for (int i = 0; i < orders.Length; i++)
-                orders[i] = order;
+            this.numberOfVariables = variables;
+            this.Function = function;
+            this.StepSize = stepSize.GetValueOrDefault(DEFAULT_STEPSIZE);
+            this.NumberOfPoints = points.GetValueOrDefault(DEFAULT_NPOINTS);
+            this.Order = order.GetValueOrDefault(DEFAULT_ORDER);
         }
 
+
+        /// <summary>
+        ///   Obsolete. Please use <see cref="Gradient(double[])"/> instead.
+        /// </summary>
+        /// 
+        [Obsolete("Please use Gradient(double[]) instead.")]
+        public double[] Compute(params double[] x)
+        {
+            return Gradient(x);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please use <see cref="Gradient(double[], double[])"/> instead.
+        /// </summary>
+        /// 
+        [Obsolete("Please use Gradient(double[], double[]) instead.")]
+        public void Compute(double[] x, double[] gradient)
+        {
+            Gradient(x, gradient);
+        }
 
         /// <summary>
         ///   Computes the gradient at the given point <c>x</c>.
@@ -232,37 +295,33 @@ namespace Accord.Math.Differentiation
         /// <param name="x">The point where to compute the gradient.</param>
         /// <returns>The gradient of the function evaluated at point <c>x</c>.</returns>
         /// 
-        public double[] Compute(params double[] x)
+        public double[] Gradient(double[] x)
         {
-            if (x == null)
-                throw new ArgumentNullException("x");
-
-            if (x.Length != parameters)
-                throw new ArgumentException("The number of dimensions does not match.", "x");
-
-            if (Function == null)
-                throw new InvalidOperationException("The Function has not been defined.");
-
-            double output = Function(x);
-
-            double[] gradient = new double[x.Length];
-            for (int i = 0; i < gradient.Length; i++)
-                gradient[i] = derivative(x, i, output);
-
+            var gradient = new double[x.Length];
+            Gradient(x, gradient);
             return gradient;
         }
 
         /// <summary>
         ///   Computes the gradient at the given point <paramref name="x"/>, 
-        ///   storing the result at <paramref name="gradient"/>.
+        ///   storing the result at <paramref name="result"/>.
         /// </summary>
         /// 
         /// <param name="x">The point where to compute the gradient.</param>
-        /// <param name="gradient">The gradient of the function evaluated at point <c>x</c>.</param>
+        /// <param name="result">The gradient of the function evaluated at point <c>x</c>.</param>
         /// 
-        public void Compute(double[] x, double[] gradient)
+        public double[] Gradient(double[] x, double[] result)
         {
-            if (x.Length < gradient.Length)
+            if (x == null)
+                throw new ArgumentNullException("x");
+
+            if (x.Length != numberOfVariables)
+                throw new ArgumentException("The number of dimensions does not match.", "x");
+
+            if (Function == null)
+                throw new InvalidOperationException("The Function has not been defined.");
+
+            if (x.Length < result.Length)
             {
                 throw new DimensionMismatchException("gradient",
                     "Gradient vector must have at least the same size as x.");
@@ -271,31 +330,85 @@ namespace Accord.Math.Differentiation
             if (Function == null)
                 throw new InvalidOperationException("The Function has not been defined.");
 
-            double output = Function(x);
+            double[] pointCache = this.points.Value[0];
+            double centerValue = Function(x);
 
-            for (int i = 0; i < gradient.Length; i++)
-                gradient[i] = derivative(x, i, output);
+            for (int i = 0; i < result.Length; i++)
+                result[i] = derivative(Function, x, i, pointCache, centerValue);
+            return result;
+        }
+
+        /// <summary>
+        ///   Computes the Hessian matrix at given point <c>x</c>.
+        /// </summary>
+        /// 
+        /// <param name="x">The point where to compute the gradient.</param>
+        /// 
+        /// <returns>The Hessian of the function evaluated at point <c>x</c>.</returns>
+        /// 
+        public double[][] Hessian(double[] x)
+        {
+            return Hessian(x, Jagged.Zeros(x.Length, x.Length));
+        }
+
+        /// <summary>
+        ///   Computes the Hessian matrix at given point <c>x</c>.
+        /// </summary>
+        /// 
+        /// <param name="x">The point where to compute the gradient.</param>
+        /// <param name="result">The matrix where the Hessian should be stored.</param>
+        /// 
+        /// <returns>The Hessian of the function evaluated at point <c>x</c>.</returns>
+        /// 
+        public double[][] Hessian(double[] x, double[][] result)
+        {
+            double[] pointCache1 = this.points.Value[0];
+            double[] pointCache2 = this.points.Value[1];
+            double centerValue = Function(x);
+
+            for (int i = 0; i < x.Length; i++)
+            {
+                Func<double[], double> f = (double[] x0) => derivative(Function, x0, i, pointCache2, Function(x0));
+
+                // Process elements at the diagonal
+                result[i][i] = derivative(f, x, i, pointCache1, centerValue);
+
+                // Process off-diagonal elements
+                for (int j = 0; j < i; j++)
+                {
+                    double d = derivative(f, x, j, pointCache1, centerValue);
+                    result[j][i] = d; // Hessian is symmetric, no need
+                    result[i][j] = d; // to compute the derivative twice
+                }
+            }
+
+            return result;
         }
 
         /// <summary>
         ///   Computes the derivative at point <c>x_i</c>.
         /// </summary>
         /// 
-        private double derivative(double[] x, int index, double output)
+        private double derivative(Func<double[], double> func, double[] x, int index, double[] points, double centerValue)
+        {
+            //if (order >= coefficients.Length)
+            //{
+            //    throw new ArgumentOutOfRangeException("The derivative order needs to be less than the number of " +
+            //        "interpolation points. To use a higher order, please adjust the NumberOfPoints property first.");
+            //}
+
+            double step = GetUniformlySampledPoints(func, x, index, centerValue, points);
+
+            return Interpolate(this.coefficients, points, derivativeOrder, this.center, step);
+        }
+
+        private double GetUniformlySampledPoints(Func<double[], double> func, double[] x, int index, double centerValue, double[] points)
         {
             // Saves the original parameter value
-
             double original = x[index];
-            int order = orders[index];
-            double step = stepSizes[index];
-
-            if (original != 0.0)
-                step *= System.Math.Abs(original);
+            double step = this.stepSizes[index];
 
             // Create the interpolation points
-            var points = new double[pointCount];
-            int center = (points.Length - 1) / 2;
-
             for (int i = 0; i < points.Length; i++)
             {
                 if (i != center)
@@ -304,68 +417,26 @@ namespace Accord.Math.Differentiation
                     x[index] = original + (i - center) * step;
 
                     // Recompute the function to measure its importance
-                    points[i] = Function(x);
+                    points[i] = func(x);
                 }
                 else
                 {
-                    // The center point is the original function
-                    points[i] = output;
+                    // The center point is the original function output, so 
+                    points[i] = centerValue; // we can save one function call
                 }
             }
 
             // Reverts the modified value
             x[index] = original;
 
-            return Interpolate(coefficients, points, order, center, step);
-        }
-
-
-
-        /// <summary>
-        ///   Creates the interpolation coefficients.
-        /// </summary>
-        /// 
-        /// <param name="points">The number of points in the tableau.</param>
-        /// 
-        public static double[][,] CreateCoefficients(int points)
-        {
-            // Compute difference coefficient table
-            double[][,] c = new double[points][,];
-
-            double fac = Special.Factorial(points);
-
-            for (int i = 0; i < points; i++)
-            {
-                double[,] deltas = new double[points, points];
-
-                for (int j = 0; j < points; j++)
-                {
-                    double h = 1.0;
-                    double delta = j - i;
-
-                    for (int k = 0; k < points; k++)
-                    {
-                        deltas[j, k] = h / Special.Factorial(k);
-                        h *= delta;
-                    }
-                }
-
-                c[i] = Matrix.Inverse(deltas);
-
-                for (int j = 0; j < points; j++)
-                    for (int k = 0; k < points; k++)
-                        c[i][j, k] = (Math.Round(c[i][j, k] * fac, MidpointRounding.AwayFromZero)) / fac;
-            }
-
-            return c;
+            return step;
         }
 
         /// <summary>
-        ///   Interpolates the points to obtain an estimative of the derivative at x.
+        ///   Interpolates the points to obtain an estimative of the <paramref name="order"/> derivative.
         /// </summary>
         /// 
-        private static double Interpolate(double[][,] coefficients, double[] points,
-            int order, int center, double step)
+        private static double Interpolate(double[][,] coefficients, double[] points, int order, int center, double step)
         {
             double sum = 0.0;
 
@@ -377,7 +448,52 @@ namespace Accord.Math.Differentiation
                     sum += c * points[i];
             }
 
-            return sum / Math.Pow(step, order);
+            double r = sum / Math.Pow(step, order);
+            return r;
+        }
+
+
+
+        /// <summary>
+        ///   Creates the interpolation coefficient table for interpolated numerical differentation.
+        /// </summary>
+        /// 
+        /// <param name="numberOfPoints">The number of points in the tableau.</param>
+        /// 
+        public static double[][,] CreateCoefficients(int numberOfPoints)
+        {
+            if (numberOfPoints % 2 != 1)
+                throw new ArgumentException("The number of points must be odd.", "numberOfPoints");
+
+            // Compute difference coefficient table
+            double[][,] c = new double[numberOfPoints][,]; // [center][order, i];
+
+            double fac = Special.Factorial(numberOfPoints);
+
+            for (int i = 0; i < numberOfPoints; i++)
+            {
+                var deltas = new double[numberOfPoints, numberOfPoints];
+
+                for (int j = 0; j < numberOfPoints; j++)
+                {
+                    double h = 1.0;
+                    double delta = j - i;
+
+                    for (int k = 0; k < numberOfPoints; k++)
+                    {
+                        deltas[j, k] = h / Special.Factorial(k);
+                        h *= delta;
+                    }
+                }
+
+                c[i] = Matrix.Inverse(deltas);
+
+                for (int j = 0; j < numberOfPoints; j++)
+                    for (int k = 0; k < numberOfPoints; k++)
+                        c[i][j, k] = (Math.Round(c[i][j, k] * fac, MidpointRounding.AwayFromZero)) / fac;
+            }
+
+            return c;
         }
 
 
@@ -400,7 +516,7 @@ namespace Accord.Math.Differentiation
         /// 
         public static double Derivative(Func<double, double> function, double value, int order)
         {
-            return Derivative(function, value, order, 0.01);
+            return Derivative(function, value, order, stepSize: DEFAULT_STEPSIZE);
         }
 
         /// <summary>
@@ -414,7 +530,7 @@ namespace Accord.Math.Differentiation
         /// 
         public static double Derivative(Func<double, double> function, double value)
         {
-            return Derivative(function, value, 1);
+            return Derivative(function, value, order: DEFAULT_ORDER);
         }
 
         /// <summary>
@@ -430,6 +546,9 @@ namespace Accord.Math.Differentiation
         /// 
         public static double Derivative(Func<double, double> function, double value, int order, double stepSize)
         {
+            // This method is specific for univariate functions.
+            // TODO: Separate FiniteDifferences into classes for univariate, multivariate and vector-valued functions
+
             double output = function(value);
             double original = value;
 
@@ -439,7 +558,7 @@ namespace Accord.Math.Differentiation
 
 
             // Create the interpolation points
-            double[] outputs = new double[coefficientCache.Length];
+            var outputs = new double[coefficientCache.Length];
 
             int center = (outputs.Length - 1) / 2;
             for (int i = 0; i < outputs.Length; i++)
@@ -456,8 +575,7 @@ namespace Accord.Math.Differentiation
                 }
             }
 
-            return FiniteDifferences.Interpolate(coefficientCache,
-                outputs, order, center, stepSize);
+            return Interpolate(coefficientCache, outputs, order, center, stepSize);
         }
 
         /// <summary>
@@ -470,9 +588,23 @@ namespace Accord.Math.Differentiation
         /// 
         /// <returns>The gradient function of the given <paramref name="function"/>.</returns>
         /// 
-        public static Func<double[], double[]> Gradient(Func<double[], double> function, int variables, int order= 1)
+        public static Func<double[], double[]> Gradient(Func<double[], double> function, int variables, int order = 1)
         {
-            return new FiniteDifferences(variables, function).Compute;
+            return new FiniteDifferences(variables, function, order: order).Gradient;
+        }
+
+        /// <summary>
+        ///   Obtains the Hessian function for a multidimensional function.
+        /// </summary>
+        /// 
+        /// <param name="function">The function to be differentiated.</param>
+        /// <param name="variables">The number of parameters for the function.</param>
+        /// 
+        /// <returns>The gradient function of the given <paramref name="function"/>.</returns>
+        /// 
+        public static Func<double[], double[][]> Hessian(Func<double[], double> function, int variables)
+        {
+            return new FiniteDifferences(variables, function).Hessian;
         }
 
     }

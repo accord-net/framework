@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <AssemblyName>Accord.Debug.Visualizers</AssemblyName>
+    <RootNamespace>Accord.DebuggerVisualizers.GPL</RootNamespace>
+    <TargetFrameworks><!--net462--></TargetFrameworks>
+    <DocumentationFile></DocumentationFile>
+  </PropertyGroup>
+
+  <Import Project="$(SolutionDir)Accord.NET (NETStandard).targets" />
+
+  <PropertyGroup>
+    <DocumentationFile></DocumentationFile>
+  </PropertyGroup>
+
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Sources\Accord.Controls.Imaging\Accord.Controls.Imaging (NETStandard).csproj" />
+    <ProjectReference Include="..\..\Sources\Accord.Controls.Statistics\Accord.Controls (NETStandard).csproj" />
+    <ProjectReference Include="..\..\Sources\Accord.Imaging\Accord.Imaging (NETStandard).csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Microsoft.VisualStudio.DebuggerVisualizers">
+      <HintPath Condition="Exists('C:\Program Files (x86)\Microsoft Visual Studio\Preview\Professional')">C:\Program Files (x86)\Microsoft Visual Studio\Preview\Professional\Common7\IDE\PublicAssemblies\Microsoft.VisualStudio.DebuggerVisualizers.dll</HintPath>
+      <HintPath Condition="Exists('C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise')">C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\PublicAssemblies\Microsoft.VisualStudio.DebuggerVisualizers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+
+</Project>

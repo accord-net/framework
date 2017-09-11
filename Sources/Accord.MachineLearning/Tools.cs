@@ -22,10 +22,13 @@
 
 namespace Accord.MachineLearning
 {
+    using Accord.MachineLearning.Performance;
     using Accord.Math;
     using Accord.Math.Random;
+    using Accord.Statistics.Analysis;
     using System;
     using System.Collections;
+    using System.Collections.Generic;
     using System.Runtime.CompilerServices;
     using System.Text.RegularExpressions;
 
@@ -318,5 +321,67 @@ namespace Accord.MachineLearning
         }
 
 
+
+        /// <summary>
+        ///   Generates a <see cref="GeneralConfusionMatrix"/> from a set of cross-validation results.
+        /// </summary>
+        /// 
+        /// <typeparam name="TModel">The type of the model being evaluated.</typeparam>
+        /// <typeparam name="TInput">The type of the inputs accepted by the model.</typeparam>
+        /// 
+        /// <param name="cv">The cross-validation result.</param>
+        /// <param name="inputs">The inputs fed to the cross-validation object.</param>
+        /// <param name="outputs">The outputs fed to the cross-validation object.</param>
+        /// 
+        /// <returns>A <see cref="GeneralConfusionMatrix"/> that captures the performance of the model across all validation folds.</returns>
+        /// 
+        public static GeneralConfusionMatrix ToConfusionMatrix<TModel, TInput>(this CrossValidationResult<TModel, TInput, int> cv, TInput[] inputs, int[] outputs)
+            where TModel : class, ITransform<TInput, int>
+        {
+            var actual = new List<int>();
+            var expected = new List<int>();
+            foreach (SplitResult<TModel, TInput, int> model in cv.Models)
+            {
+                int[] idx = model.Validation.Indices;
+                TInput[] x = inputs.Get(idx);
+                int[] e = outputs.Get(idx);
+                int[] a = model.Transform(x);
+                actual.AddRange(a);
+                expected.AddRange(e);
+            }
+
+            return new GeneralConfusionMatrix(expected: expected.ToArray(), predicted: actual.ToArray());
+        }
+
+        /// <summary>
+        ///   Generates a <see cref="ConfusionMatrix"/> from a set of cross-validation results.
+        /// </summary>
+        /// 
+        /// <typeparam name="TModel">The type of the model being evaluated.</typeparam>
+        /// <typeparam name="TInput">The type of the inputs accepted by the model.</typeparam>
+        /// 
+        /// <param name="cv">The cross-validation result.</param>
+        /// <param name="inputs">The inputs fed to the cross-validation object.</param>
+        /// <param name="outputs">The outputs fed to the cross-validation object.</param>
+        /// 
+        /// <returns>A <see cref="ConfusionMatrix"/> that captures the performance of the model across all validation folds.</returns>
+        /// 
+        public static ConfusionMatrix ToConfusionMatrix<TModel, TInput>(this CrossValidationResult<TModel, TInput, bool> cv, TInput[] inputs, bool[] outputs)
+            where TModel : class, ITransform<TInput, bool>
+        {
+            var actual = new List<bool>();
+            var expected = new List<bool>();
+            foreach (SplitResult<TModel, TInput, bool> model in cv.Models)
+            {
+                int[] idx = model.Validation.Indices;
+                TInput[] x = inputs.Get(idx);
+                bool[] e = outputs.Get(idx);
+                bool[] a = model.Transform(x);
+                actual.AddRange(a);
+                expected.AddRange(e);
+            }
+
+            return new ConfusionMatrix(expected: expected.ToArray(), predicted: actual.ToArray());
+        }
     }
 }

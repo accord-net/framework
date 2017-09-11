@@ -1166,6 +1166,8 @@ namespace Accord.Tests.MachineLearning
                 }
             };
 
+            msvl.ParallelOptions.MaxDegreeOfParallelism = 1;
+
             var svm = msvl.Learn(x, y);
 
             var actual = svm.Decide(x);

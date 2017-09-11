@@ -3,17 +3,26 @@
   <PropertyGroup>
     <AssemblyName>Accord.Video.DirectShow</AssemblyName>
     <RootNamespace>Accord.Video.DirectShow</RootNamespace>
-    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0<!--;net462;net46;net45;net40;net35--></TargetFrameworks>
   </PropertyGroup>
 
   <Import Project="$(SolutionDir)Accord.NET (NETStandard).targets" />
 
-  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
-    <PackageReference Include="CoreCompat.System.Drawing.v2" Version="5.2.0-preview1-r131" />
-    <Compile Remove="VideoCaptureDeviceForm.cs" />
-    <Compile Remove="VideoCaptureDeviceForm.Designer.cs" />
-    <EmbeddedResource Remove="VideoCaptureDeviceForm.resx" />
-  </ItemGroup>
+  <Choose>
+    <When Condition="'$(TargetFramework)' == 'netstandard2.0'">
+      <ItemGroup>
+        <PackageReference Include="CoreCompat.System.Drawing.v2" Version="5.2.0-preview1-r131" />
+        <Compile Remove="VideoCaptureDeviceForm.cs" />
+        <Compile Remove="VideoCaptureDeviceForm.Designer.cs" />
+        <EmbeddedResource Remove="VideoCaptureDeviceForm.resx" />
+      </ItemGroup>
+    </When>
+    <Otherwise>
+      <ItemGroup>
+        <Reference Include="System.Windows.Forms" />
+      </ItemGroup>
+    </Otherwise>
+  </Choose>
 
   <ItemGroup>
     <ProjectReference Include="..\Accord.Imaging\Accord.Imaging (NETStandard).csproj" />

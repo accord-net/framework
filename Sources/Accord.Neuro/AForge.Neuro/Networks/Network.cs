@@ -12,6 +12,7 @@ namespace Accord.Neuro
     using System.IO;
     using System.Runtime.Serialization;
     using System.Runtime.Serialization.Formatters.Binary;
+    using Accord.Compat;
 
     /// <summary>
     /// Base neural network class.
@@ -148,6 +149,7 @@ namespace Accord.Neuro
             }
         }
 
+#if !NO_BINARY_SERIALIZATION
         /// <summary>
         /// Save network to specified file.
         /// </summary>
@@ -212,5 +214,6 @@ namespace Accord.Neuro
             Network network = (Network)formatter.Deserialize(stream);
             return network;
         }
+#endif
     }
 }

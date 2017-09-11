@@ -30,6 +30,7 @@ namespace Accord.Tests.MachineLearning
     using Accord.MachineLearning.Bayes;
     using Accord.Math;
     using Accord.Math.Optimization.Losses;
+    using Accord.Statistics.Analysis;
     using Accord.Statistics.Distributions.Fitting;
     using Accord.Statistics.Distributions.Univariate;
     using Accord.Statistics.Filters;
@@ -971,7 +972,7 @@ namespace Accord.Tests.MachineLearning
                 // First we define the learning algorithm:
                 learner: (p) => new NaiveBayesLearning(),
 
-                // Now we have to specify how the tree performance should be measured:
+                // Now we have to specify how the n.b. performance should be measured:
                 loss: (actual, expected, p) => new ZeroOneLoss(expected).Loss(actual),
 
                 // This function can be used to perform any special
@@ -996,6 +997,9 @@ namespace Accord.Tests.MachineLearning
 
             double trainingError = result.Training.Mean; // should be 0
             double validationError = result.Validation.Mean; // should be 0.05
+
+            // If desired, compute an aggregate confusion matrix for the validation sets:
+            GeneralConfusionMatrix gcm = result.ToConfusionMatrix(inputs, outputs);
             #endregion
 
             Assert.AreEqual(15, numberOfSamples);
@@ -1012,6 +1016,10 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(10, cv.Folds.Length);
             Assert.AreEqual(10, result.Models.Length);
 
+            Assert.AreEqual(15, gcm.Samples);
+            Assert.AreEqual(0.93333333333333335, gcm.Accuracy);
+            Assert.AreEqual(0.066666666666666652, gcm.Error);
+            Assert.AreEqual(3, gcm.Classes);
         }
 
 

@@ -30,6 +30,7 @@ namespace Accord.Statistics.Filters
     using MachineLearning;
     using Accord.Compat;
     using System.Threading;
+    using System.Runtime.Serialization;
 
     public partial class Codification<T>
     {
@@ -38,6 +39,9 @@ namespace Accord.Statistics.Filters
         /// </summary>
         /// 
         [Serializable]
+#if NETSTANDARD2_0
+        [SurrogateSelector(typeof(Codification.Selector))]
+#endif
         public class Options : ColumnOptionsBase,
             ITransform<T, int>, IClassifier<T, int>,
             ITransform<T, double[]>,

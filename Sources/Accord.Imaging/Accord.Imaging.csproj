@@ -59,6 +59,7 @@
     <Compile Include="AForge.Imaging\Filters\2 Source filters\Multiply.cs" />
     <Compile Include="AForge.Imaging\Filters\Convolution\FastBoxBlur.cs" />
     <Compile Include="AForge.Imaging\Filters\Other\ZhangSuenSkeletonization.cs" />
+    <Compile Include="AForge.Imaging\Formats\PNMImageInfo.cs" />
     <Compile Include="Blob Processing\Blob.cs" />
     <Compile Include="Blob Processing\BlobCounter.cs" />
     <Compile Include="Blob Processing\BlobCounterBase.cs" />
