@@ -163,6 +163,12 @@ namespace Accord.Statistics.Testing
         public bool HasTies { get { return hasTies; } }
 
         /// <summary>
+        ///   Gets whether we are using a exact test.
+        /// </summary>
+        /// 
+        public bool IsExact { get; private set; }
+
+        /// <summary>
         ///   Tests whether two samples comes from the 
         ///   same distribution without assuming normality.
         /// </summary>
@@ -183,11 +189,10 @@ namespace Accord.Statistics.Testing
         {
             this.NumberOfSamples1 = sample1.Length;
             this.NumberOfSamples2 = sample2.Length;
-            int n = NumberOfSamples1 + NumberOfSamples2;
 
             // Concatenate both samples and rank them
             double[] samples = sample1.Concatenate(sample2);
-            double[] rank = samples.Rank(hasTies: out hasTies, adjustForTies: true);
+            double[] rank = samples.Rank(hasTies: out hasTies, adjustForTies: adjustForTies);
 
             // Split the rankings back and sum
             Rank1 = rank.Get(0, NumberOfSamples1);
@@ -197,11 +202,12 @@ namespace Accord.Statistics.Testing
             this.RankSum1 = Rank1.Sum();
             this.RankSum2 = Rank2.Sum();
 
-            //if (hasTies && exact.HasValue && exact.Value)
-            //{
-            //    throw new ArgumentException("The exact method is not supported when there are ties in the data. "
-            //        + "Please set exact to false or present a set of samples without ties.");
-            //}
+            if (hasTies && exact == true)
+            {
+                Trace.TraceWarning("The exact method is not supported when there are ties in the data. "
+                    + "The p-value will be computed using the non-exact test.");
+                exact = false;
+            }
 
             // It is not necessary to compute the sum for both ranks. The sum of ranks in the second
             // sample can be determined from the first, since the sum of all the ranks equals n(n+1)/2 
@@ -255,7 +261,8 @@ namespace Accord.Statistics.Testing
                 };
             }
 
-            this.PValue = StatisticToPValue(Statistic);
+            this.IsExact = this.StatisticDistribution.Exact;
+            this.PValue = this.StatisticToPValue(Statistic);
 
             this.OnSizeChanged();
         }

@@ -162,10 +162,13 @@ namespace Accord.Statistics.Testing
                 {
                     Correction = (Tail == DistributionTail.TwoTail) ? ContinuityCorrection.Midpoint : ContinuityCorrection.KeepInside
                 };
+
+                this.IsExact = this.StatisticDistribution.Exact;
             }
             else
             {
                 this.StatisticDistribution = null;
+                this.IsExact = exact.GetValueOrDefault(false);
             }
 
             this.PValue = StatisticToPValue(Statistic);
