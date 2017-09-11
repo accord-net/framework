@@ -33,6 +33,7 @@ namespace Accord.MachineLearning.Boosting
     using Accord.Statistics.Analysis;
     using Accord.Statistics;
     using Accord.Math.Optimization.Losses;
+    using Accord.Compat;
 
     /// <summary>
     ///   Model construction (fitting) delegate.
