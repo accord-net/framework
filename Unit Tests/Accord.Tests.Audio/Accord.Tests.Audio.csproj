@@ -38,12 +38,12 @@
       <HintPath>..\..\Externals\NUnit\NUnit.Framework-3.6.1\bin\net-4.5\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX">
-      <HintPath Condition="'$(Configuration)' != 'net35' AND '$(Configuration)' != 'net40'">..\..\Externals\SharpDX\v311\net45\SharpDX.dll</HintPath>
+      <HintPath Condition="'$(Configuration)' != 'net35' AND '$(Configuration)' != 'net40'">..\..\Externals\SharpDX\v401\net45\SharpDX.dll</HintPath>
       <HintPath Condition="'$(Configuration)' == 'net35' OR '$(Configuration)' == 'net40'">..\..\Externals\SharpDX\v263\net20\SharpDX.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="SharpDX.DirectSound">
-      <HintPath Condition="'$(Configuration)' != 'net35' AND '$(Configuration)' != 'net40'">..\..\Externals\SharpDX\v311\net45\SharpDX.DirectSound.dll</HintPath>
+      <HintPath Condition="'$(Configuration)' != 'net35' AND '$(Configuration)' != 'net40'">..\..\Externals\SharpDX\v401\net45\SharpDX.DirectSound.dll</HintPath>
       <HintPath Condition="'$(Configuration)' == 'net35' OR '$(Configuration)' == 'net40'">..\..\Externals\SharpDX\v263\net20\SharpDX.DirectSound.dll</HintPath>
       <Private>True</Private>
     </Reference>
