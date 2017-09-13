@@ -309,6 +309,8 @@ namespace Accord.Tests.MachineLearning
             int height = tree.GetHeight();
             Assert.AreEqual(5, height);
 
+            Accord.Math.Random.Generator.Seed = 0;
+
             cv = CrossValidation.Create(
                k: 10,
                learner: (p) => new C45Learning()
@@ -322,6 +324,8 @@ namespace Accord.Tests.MachineLearning
                x: input, y: output
             );
 
+            cv.ParallelOptions.MaxDegreeOfParallelism = 1;
+
             result = cv.Learn(input, output);
 
             tree = result.Models[0].Model;
@@ -329,11 +333,11 @@ namespace Accord.Tests.MachineLearning
 
             Assert.AreEqual(1, height);
 
-            Assert.AreEqual(0.10896305433723197, result.Training.Mean, 5e-3);
-            Assert.AreEqual(0.1125, result.Validation.Mean, 1e-10);
+            Assert.AreEqual(0.24856047453703703, result.Training.Mean, 1e-10);
+            Assert.AreEqual(0.24981203007518799, result.Validation.Mean, 1e-10);
 
-            Assert.AreEqual(2.1009258672955873E-05, result.Training.Variance, 1e-10);
-            Assert.AreEqual(0.0017292179645018977, result.Validation.Variance, 1e-10);
+            Assert.AreEqual(0.017746725723413116, result.Training.Variance, 1e-10);
+            Assert.AreEqual(0.018667879843021644, result.Validation.Variance, 1e-10);
         }
     }
 }
