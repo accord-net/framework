@@ -167,7 +167,6 @@ namespace Accord.Math.Random
                     Generator.threadOverriden = true;
                     Generator.threadLastUpdateTicks = Environment.TickCount;
                     Generator.threadRandom = (value.HasValue) ? new Random(threadSeed.Value) : new Random();
-                    Thread.Sleep(100);
                 }
                 else
                 {
@@ -214,11 +213,16 @@ namespace Accord.Math.Random
         /// </summary>
         /// 
         /// <remarks>
+        /// <para>
         ///   Adjusting the global generator seed causes the calling thread to sleep for 100ms
         ///   so new threads spawned in a short time span after the call can be properly initialized
         ///   with the new random seeds. In order to better control the random behavior of different 
         ///   algorithms, please consider specifying random generators directly using appropriate 
-        ///   interfaces for these algorithms in case they are available.
+        ///   interfaces for these algorithms in case they are available.</para>
+        /// <para>
+        ///   If you do not need to change the seed number for threads other than the current,
+        ///   you can adjust the random seed for the current thread using <see cref="ThreadSeed"/>
+        ///   instead. Setting <see cref="ThreadSeed"/> should not introduce delays.</para>
         /// </remarks>
         /// 
         public static int? Seed
