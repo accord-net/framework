@@ -487,6 +487,54 @@ namespace Accord.Tests.Statistics
         }
 
         [Test]
+        public void quantile_test_manual_sort()
+        {
+            // https://github.com/accord-net/framework/issues/865
+            double[] values;
+            double q1, q3, q2;
+
+            values = new double[] { 18, 31, 25, 2, 22, 13, 37, 1, 4, 7, 6, 45, 10, 24, 23, 49, 27, 9, 35,
+                             14, 34, 33, 41, 42, 20, 43, 3, 48, 15, 39, 11, 38, 46, 17, 40, 16,
+                             50, 29, 19, 47, 12, 28, 32, 8, 30, 26, 5, 44, 36, 21};
+            values.Sort();
+            q2 = Measures.Quartiles(values, out q1, out q3, alreadySorted: true, type: QuantileMethod.R);
+            Assert.AreEqual(13.25, q1);
+            Assert.AreEqual(25.50, q2);
+            Assert.AreEqual(37.75, q3);
+
+            values = new double[] { 18,14,1,15,4,32,10,26,38,9,24,16,31,20,25,30,22,6,
+                             28,21,33,17,5,35,2,13,36,8,29,7 };
+            values.Sort();
+            q2 = Measures.Quartiles(values, out q1, out q3, alreadySorted: true, type: QuantileMethod.R);
+            Assert.AreEqual(9.25, q1);
+            Assert.AreEqual(19.0, q2);
+            Assert.AreEqual(28.75, q3);
+        }
+
+        [Test]
+        public void quantile_test_auto_sort()
+        {
+            // https://github.com/accord-net/framework/issues/865
+            double[] values;
+            double q1, q3, q2;
+
+            values = new double[] { 18, 31, 25, 2, 22, 13, 37, 1, 4, 7, 6, 45, 10, 24, 23, 49, 27, 9, 35,
+                             14, 34, 33, 41, 42, 20, 43, 3, 48, 15, 39, 11, 38, 46, 17, 40, 16,
+                             50, 29, 19, 47, 12, 28, 32, 8, 30, 26, 5, 44, 36, 21};
+            q2 = Measures.Quartiles(values, out q1, out q3, alreadySorted: false, type: QuantileMethod.R);
+            Assert.AreEqual(13.25, q1);
+            Assert.AreEqual(25.50, q2);
+            Assert.AreEqual(37.75, q3);
+
+            values = new double[] { 18,14,1,15,4,32,10,26,38,9,24,16,31,20,25,30,22,6,
+                             28,21,33,17,5,35,2,13,36,8,29,7 };
+            q2 = Measures.Quartiles(values, out q1, out q3, alreadySorted: false, type: QuantileMethod.R);
+            Assert.AreEqual(9.25, q1);
+            Assert.AreEqual(19.0, q2);
+            Assert.AreEqual(28.75, q3);
+        }
+
+        [Test]
         public void ModeTest1()
         {
             double[] values = { 3, 3, 1, 4 };

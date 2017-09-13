@@ -335,7 +335,7 @@ namespace Accord.Statistics
             {
                 int n = (int)Math.Ceiling(x.Length * p.Max());
                 if (n > 0) n--;
-                x.NthElement(n);
+                Sort.Partial(x, n);
             }
 
             for (int j = 0; j < result.Length; j++)
@@ -369,7 +369,7 @@ namespace Accord.Statistics
                 int n = (int)Math.Ceiling(x.Length * p.Max()) + 1;
                 if (n > x.Length) n = x.Length;
                 if (n > 0) n--;
-                x.NthElement(n);
+                Sort.Partial(x, n);
             }
 
             for (int j = 0; j < result.Length; j++)
@@ -410,7 +410,7 @@ namespace Accord.Statistics
             {
                 int n = (int)Math.Ceiling(x.Length * p.Max());
                 if (n > 0) n--;
-                x.NthElement(n);
+                Sort.Partial(x, n);
             }
 
             double lowThreshold = 0.5 / x.Length;
@@ -446,7 +446,7 @@ namespace Accord.Statistics
                 int n = (int)Math.Ceiling(x.Length * p.Max()) + 1;
                 if (n > x.Length) n = x.Length;
                 if (n > 0) n--;
-                x.NthElement(n);
+                Sort.Partial(x, n);
             }
 
             double lowThreshold = 1.0 / x.Length;
@@ -492,7 +492,7 @@ namespace Accord.Statistics
                 int n = (int)Math.Ceiling(x.Length * p.Max() + 0.5) + 1;
                 if (n > x.Length) n = x.Length;
                 if (n > 0) n--;
-                x.NthElement(n);
+                Sort.Partial(x, n);
             }
 
             double lowThreshold = 0.5 / x.Length;
@@ -539,7 +539,7 @@ namespace Accord.Statistics
                 int n = (int)Math.Ceiling((x.Length + 1) * p.Max());
                 if (n > x.Length) n = x.Length;
                 if (n > 0) n--;
-                x.NthElement(n);
+                Sort.Partial(x, n);
             }
 
             double lowThreshold = 1.0 / (x.Length + 1);
@@ -585,7 +585,7 @@ namespace Accord.Statistics
                 int n = (int)Math.Ceiling((x.Length - 1) * p.Max() + 1);
                 if (n > x.Length) n = x.Length;
                 if (n > 0) n--;
-                x.NthElement(n);
+                Sort.Partial(x, n);
             }
 
             for (int j = 0; j < result.Length; j++)
@@ -625,7 +625,7 @@ namespace Accord.Statistics
                 int n = (int)Math.Ceiling((x.Length + ONE_THIRD) * p.Max() + ONE_THIRD);
                 if (n >= x.Length) n = x.Length;
                 if (n > 0) n--;
-                x.NthElement(n);
+                Sort.Partial(x, n);
             }
 
             double lowThreshold = TWO_THIRDS / (x.Length + ONE_THIRD);
@@ -671,7 +671,7 @@ namespace Accord.Statistics
                 int n = (int)Math.Ceiling((x.Length + 0.25) * p.Max() + 0.375);
                 if (n >= x.Length) n = x.Length;
                 if (n > 0) n--;
-                x.NthElement(n);
+                Sort.Partial(x, n);
             }
 
             double lowThreshold = 0.625 / (x.Length + 0.25);

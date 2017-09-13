@@ -83,37 +83,45 @@ namespace Accord.Math
         ///   Sorts the elements of an entire one-dimensional array using the given comparison.
         /// </summary>
         /// 
-        public static void Sort<T>(this T[] values, Comparison<T> comparison, bool stable = false)
+        public static void Sort<T>(this T[] values, Comparison<T> comparison, bool stable = false, bool asc = true)
         {
             if (!stable)
             {
                 Array.Sort(values, comparison);
-                return;
+            }
+            else
+            {
+                var keys = new KeyValuePair<int, T>[values.Length];
+                for (var i = 0; i < values.Length; i++)
+                    keys[i] = new KeyValuePair<int, T>(i, values[i]);
+                Array.Sort(keys, values, new StableComparer<T>(comparison));
             }
 
-            var keys = new KeyValuePair<int, T>[values.Length];
-            for (var i = 0; i < values.Length; i++)
-                keys[i] = new KeyValuePair<int, T>(i, values[i]);
-            Array.Sort(keys, values, new StableComparer<T>(comparison));
+            if (!asc)
+                Array.Reverse(values);
         }
 
         /// <summary>
         ///   Sorts the elements of an entire one-dimensional array using the given comparison.
         /// </summary>
         /// 
-        public static void Sort<T>(this T[] values, bool stable = false)
+        public static void Sort<T>(this T[] values, bool stable = false, bool asc = true)
             where T : IComparable<T>
         {
             if (!stable)
             {
                 Array.Sort(values);
-                return;
+            }
+            else
+            {
+                var keys = new KeyValuePair<int, T>[values.Length];
+                for (var i = 0; i < values.Length; i++)
+                    keys[i] = new KeyValuePair<int, T>(i, values[i]);
+                Array.Sort(keys, values, new StableComparer<T>((a, b) => a.CompareTo(b)));
             }
 
-            var keys = new KeyValuePair<int, T>[values.Length];
-            for (var i = 0; i < values.Length; i++)
-                keys[i] = new KeyValuePair<int, T>(i, values[i]);
-            Array.Sort(keys, values, new StableComparer<T>((a, b) => a.CompareTo(b)));
+            if (!asc)
+                Array.Reverse(values);
         }
 
         /// <summary>
@@ -126,26 +134,29 @@ namespace Accord.Math
             if (!stable)
             {
                 order = Vector.Range(values.Length);
-                if (direction == ComparerDirection.Ascending)
-                    Array.Sort(values, order);
-                else
-                    Array.Sort(values, order, new GeneralComparer<T>(direction));
+                Array.Sort(values, order);
 
-                return;
+                if (direction == ComparerDirection.Descending)
+                {
+                    Array.Reverse(values);
+                    Array.Reverse(order);
+                }
             }
-
-            var keys = new KeyValuePair<int, T>[values.Length];
-            for (var i = 0; i < values.Length; i++)
-                keys[i] = new KeyValuePair<int, T>(i, values[i]);
-
-            if (direction == ComparerDirection.Ascending)
-                Array.Sort(keys, values, new StableComparer<T>((a, b) => a.CompareTo(b)));
             else
-                Array.Sort(keys, values, new StableComparer<T>((a, b) => -a.CompareTo(b)));
+            {
+                var keys = new KeyValuePair<int, T>[values.Length];
+                for (var i = 0; i < values.Length; i++)
+                    keys[i] = new KeyValuePair<int, T>(i, values[i]);
 
-            order = new int[values.Length];
-            for (int i = 0; i < keys.Length; i++)
-                order[i] = keys[i].Key;
+                if (direction == ComparerDirection.Ascending)
+                    Array.Sort(keys, values, new StableComparer<T>((a, b) => a.CompareTo(b)));
+                else
+                    Array.Sort(keys, values, new StableComparer<T>((a, b) => -a.CompareTo(b)));
+
+                order = new int[values.Length];
+                for (int i = 0; i < keys.Length; i++)
+                    order[i] = keys[i].Key;
+            }
         }
 
 
@@ -179,6 +190,7 @@ namespace Accord.Math
             return clone;
         }
 
+
         /// <summary>
         ///   Sorts the elements of an entire one-dimensional array using the given comparison.
         /// </summary>
@@ -194,11 +206,11 @@ namespace Accord.Math
         ///   Sorts the elements of an entire one-dimensional array using the given comparison.
         /// </summary>
         /// 
-        public static T[] Sorted<T>(this T[] values, bool stable = false)
+        public static T[] Sorted<T>(this T[] values, bool stable = false, bool asc = true)
             where T : IComparable<T>
         {
             var clone = (T[])values.Clone();
-            Sort(clone, stable);
+            Sort(clone, stable: stable, asc: asc);
             return clone;
         }
 
