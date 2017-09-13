@@ -147,7 +147,7 @@ namespace Accord.Math.Optimization
     /// </code>
     /// 
     /// <para>
-    ///   Sometimes it easiest to compose quadratic functions as linear
+    ///   Sometimes it is easiest to compose quadratic functions as linear
     ///   combinations of other quadratic functions. The <see cref="QuadraticObjectiveFunction" />
     ///   supports this by overloading the addition and multiplication operators.
     /// </para>
