@@ -206,6 +206,10 @@ namespace Accord.Math
         /// <summary>
         ///   Computes the inverse of a matrix.
         /// </summary>
+		/// 
+		/// <example>
+		///   <code source="Unit Tests\Accord.Tests.Math\Matrix\MatrixTest.cs" region="doc_inverse" />
+		/// </example>
         /// 
         public static Double[,] Inverse(this Double[,] matrix)
         {
@@ -215,6 +219,10 @@ namespace Accord.Math
         /// <summary>
         ///   Computes the inverse of a matrix.
         /// </summary>
+        /// 
+		/// <example>
+		///   <code source="Unit Tests\Accord.Tests.Math\Matrix\MatrixTest.cs" region="doc_inverse" />
+		/// </example>
         /// 
         public static Double[,] Inverse(this Double[,] matrix, bool inPlace)
         {
@@ -282,6 +290,10 @@ namespace Accord.Math
         /// <summary>
         ///   Computes the pseudo-inverse of a matrix.
         /// </summary>
+        ///
+		/// <example>
+		///   <code source="Unit Tests\Accord.Tests.Math\Matrix\MatrixTest.cs" region="doc_pseudoinverse" />
+		/// </example>
         /// 
         public static Double[,] PseudoInverse(this Double[,] matrix)
         {
@@ -507,6 +519,11 @@ namespace Accord.Math
         ///   Computes the inverse of a matrix.
         /// </summary>
         /// 
+		/// 
+		/// <example>
+		///   <code source="Unit Tests\Accord.Tests.Math\Matrix\MatrixTest.cs" region="doc_inverse" />
+		/// </example>
+        /// 
         public static Double[][] Inverse(this Double[][] matrix)
         {
             return Inverse(matrix, false);
@@ -515,6 +532,10 @@ namespace Accord.Math
         /// <summary>
         ///   Computes the inverse of a matrix.
         /// </summary>
+        /// 
+		/// <example>
+		///   <code source="Unit Tests\Accord.Tests.Math\Matrix\MatrixTest.cs" region="doc_inverse" />
+		/// </example>
         /// 
         public static Double[][] Inverse(this Double[][] matrix, bool inPlace)
         {
@@ -596,6 +617,10 @@ namespace Accord.Math
         /// <summary>
         ///   Computes the pseudo-inverse of a matrix.
         /// </summary>
+		///
+		/// <example>
+		///   <code source="Unit Tests\Accord.Tests.Math\Matrix\MatrixTest.cs" region="doc_pseudoinverse" />
+		/// </example>
         /// 
         public static Double[][] PseudoInverse(this Double[][] matrix)
         {
@@ -903,6 +928,10 @@ namespace Accord.Math
         /// <summary>
         ///   Computes the inverse of a matrix.
         /// </summary>
+		/// 
+		/// <example>
+		///   <code source="Unit Tests\Accord.Tests.Math\Matrix\MatrixTest.cs" region="doc_inverse" />
+		/// </example>
         /// 
         public static Single[,] Inverse(this Single[,] matrix)
         {
@@ -912,6 +941,10 @@ namespace Accord.Math
         /// <summary>
         ///   Computes the inverse of a matrix.
         /// </summary>
+        /// 
+		/// <example>
+		///   <code source="Unit Tests\Accord.Tests.Math\Matrix\MatrixTest.cs" region="doc_inverse" />
+		/// </example>
         /// 
         public static Single[,] Inverse(this Single[,] matrix, bool inPlace)
         {
@@ -979,6 +1012,10 @@ namespace Accord.Math
         /// <summary>
         ///   Computes the pseudo-inverse of a matrix.
         /// </summary>
+        ///
+		/// <example>
+		///   <code source="Unit Tests\Accord.Tests.Math\Matrix\MatrixTest.cs" region="doc_pseudoinverse" />
+		/// </example>
         /// 
         public static Single[,] PseudoInverse(this Single[,] matrix)
         {
@@ -1204,6 +1241,11 @@ namespace Accord.Math
         ///   Computes the inverse of a matrix.
         /// </summary>
         /// 
+		/// 
+		/// <example>
+		///   <code source="Unit Tests\Accord.Tests.Math\Matrix\MatrixTest.cs" region="doc_inverse" />
+		/// </example>
+        /// 
         public static Single[][] Inverse(this Single[][] matrix)
         {
             return Inverse(matrix, false);
@@ -1212,6 +1254,10 @@ namespace Accord.Math
         /// <summary>
         ///   Computes the inverse of a matrix.
         /// </summary>
+        /// 
+		/// <example>
+		///   <code source="Unit Tests\Accord.Tests.Math\Matrix\MatrixTest.cs" region="doc_inverse" />
+		/// </example>
         /// 
         public static Single[][] Inverse(this Single[][] matrix, bool inPlace)
         {
@@ -1293,6 +1339,10 @@ namespace Accord.Math
         /// <summary>
         ///   Computes the pseudo-inverse of a matrix.
         /// </summary>
+		///
+		/// <example>
+		///   <code source="Unit Tests\Accord.Tests.Math\Matrix\MatrixTest.cs" region="doc_pseudoinverse" />
+		/// </example>
         /// 
         public static Single[][] PseudoInverse(this Single[][] matrix)
         {
@@ -1600,6 +1650,10 @@ namespace Accord.Math
         /// <summary>
         ///   Computes the inverse of a matrix.
         /// </summary>
+		/// 
+		/// <example>
+		///   <code source="Unit Tests\Accord.Tests.Math\Matrix\MatrixTest.cs" region="doc_inverse" />
+		/// </example>
         /// 
         public static Decimal[,] Inverse(this Decimal[,] matrix)
         {
@@ -1609,6 +1663,10 @@ namespace Accord.Math
         /// <summary>
         ///   Computes the inverse of a matrix.
         /// </summary>
+        /// 
+		/// <example>
+		///   <code source="Unit Tests\Accord.Tests.Math\Matrix\MatrixTest.cs" region="doc_inverse" />
+		/// </example>
         /// 
         public static Decimal[,] Inverse(this Decimal[,] matrix, bool inPlace)
         {
@@ -1676,6 +1734,10 @@ namespace Accord.Math
         /// <summary>
         ///   Computes the pseudo-inverse of a matrix.
         /// </summary>
+        ///
+		/// <example>
+		///   <code source="Unit Tests\Accord.Tests.Math\Matrix\MatrixTest.cs" region="doc_pseudoinverse" />
+		/// </example>
         /// 
         public static Decimal[,] PseudoInverse(this Decimal[,] matrix)
         {
@@ -1901,6 +1963,11 @@ namespace Accord.Math
         ///   Computes the inverse of a matrix.
         /// </summary>
         /// 
+		/// 
+		/// <example>
+		///   <code source="Unit Tests\Accord.Tests.Math\Matrix\MatrixTest.cs" region="doc_inverse" />
+		/// </example>
+        /// 
         public static Decimal[][] Inverse(this Decimal[][] matrix)
         {
             return Inverse(matrix, false);
@@ -1909,6 +1976,10 @@ namespace Accord.Math
         /// <summary>
         ///   Computes the inverse of a matrix.
         /// </summary>
+        /// 
+		/// <example>
+		///   <code source="Unit Tests\Accord.Tests.Math\Matrix\MatrixTest.cs" region="doc_inverse" />
+		/// </example>
         /// 
         public static Decimal[][] Inverse(this Decimal[][] matrix, bool inPlace)
         {
@@ -1990,6 +2061,10 @@ namespace Accord.Math
         /// <summary>
         ///   Computes the pseudo-inverse of a matrix.
         /// </summary>
+		///
+		/// <example>
+		///   <code source="Unit Tests\Accord.Tests.Math\Matrix\MatrixTest.cs" region="doc_pseudoinverse" />
+		/// </example>
         /// 
         public static Decimal[][] PseudoInverse(this Decimal[][] matrix)
         {

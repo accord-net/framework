@@ -223,6 +223,10 @@ namespace Accord.Math
         /// <summary>
         ///   Computes the inverse of a matrix.
         /// </summary>
+		/// 
+		/// <example>
+		///   <code source="Unit Tests\Accord.Tests.Math\Matrix\MatrixTest.cs" region="doc_inverse" />
+		/// </example>
         /// 
         public static <#=type#>[,] Inverse(this <#=type#>[,] matrix)
         {
@@ -232,6 +236,10 @@ namespace Accord.Math
         /// <summary>
         ///   Computes the inverse of a matrix.
         /// </summary>
+        /// 
+		/// <example>
+		///   <code source="Unit Tests\Accord.Tests.Math\Matrix\MatrixTest.cs" region="doc_inverse" />
+		/// </example>
         /// 
         public static <#=type#>[,] Inverse(this <#=type#>[,] matrix, bool inPlace)
         {
@@ -299,6 +307,10 @@ namespace Accord.Math
         /// <summary>
         ///   Computes the pseudo-inverse of a matrix.
         /// </summary>
+        ///
+		/// <example>
+		///   <code source="Unit Tests\Accord.Tests.Math\Matrix\MatrixTest.cs" region="doc_pseudoinverse" />
+		/// </example>
         /// 
         public static <#=type#>[,] PseudoInverse(this <#=type#>[,] matrix)
         {
@@ -524,6 +536,11 @@ namespace Accord.Math
         ///   Computes the inverse of a matrix.
         /// </summary>
         /// 
+		/// 
+		/// <example>
+		///   <code source="Unit Tests\Accord.Tests.Math\Matrix\MatrixTest.cs" region="doc_inverse" />
+		/// </example>
+        /// 
         public static <#=type#>[][] Inverse(this <#=type#>[][] matrix)
         {
             return Inverse(matrix, false);
@@ -532,6 +549,10 @@ namespace Accord.Math
         /// <summary>
         ///   Computes the inverse of a matrix.
         /// </summary>
+        /// 
+		/// <example>
+		///   <code source="Unit Tests\Accord.Tests.Math\Matrix\MatrixTest.cs" region="doc_inverse" />
+		/// </example>
         /// 
         public static <#=type#>[][] Inverse(this <#=type#>[][] matrix, bool inPlace)
         {
@@ -613,6 +634,10 @@ namespace Accord.Math
         /// <summary>
         ///   Computes the pseudo-inverse of a matrix.
         /// </summary>
+		///
+		/// <example>
+		///   <code source="Unit Tests\Accord.Tests.Math\Matrix\MatrixTest.cs" region="doc_pseudoinverse" />
+		/// </example>
         /// 
         public static <#=type#>[][] PseudoInverse(this <#=type#>[][] matrix)
         {
