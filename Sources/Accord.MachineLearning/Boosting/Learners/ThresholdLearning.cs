@@ -35,6 +35,20 @@ namespace Accord.MachineLearning.Boosting.Learners
     /// <seealso cref="AdaBoost{TModel}" />
     /// <seealso cref="DecisionStump" />
     /// 
+    /// <example>
+    /// <para>
+    ///   The <see cref="ThresholdLearning"/> algorithm is mostly intended to be used to create 
+    ///   <see cref="DecisionStump"/> weak classifiers in the context of an <see cref="AdaBoost{TModel}"/> 
+    ///   learning algorithm. Please refer to the <see cref="AdaBoost{TModel}"/> class for more examples
+    ///   on using the classifier in this scenario. A simple example is shown below:</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\Boosting\AdaBoostTest.cs" region="doc_learn" />
+    ///   
+    /// <para>
+    ///   It is also possible to use the <see cref="ThresholdLearning"/> as a standalone learning algorithm. 
+    ///   An example is given below:</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\Boosting\DecisionStumpTest.cs" region="doc_learn" />
+    /// </example>
+    /// 
     public class ThresholdLearning : ParallelLearningBase,
         ISupervisedBinaryLearning<DecisionStump, double[]>
     {

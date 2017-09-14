@@ -37,6 +37,20 @@ namespace Accord.MachineLearning.Boosting.Learners
     /// <seealso cref="ThresholdLearning"/>
     /// <seealso cref="AdaBoost{TModel}"/>
     /// 
+    /// <example>
+    /// <para>
+    ///   The <see cref="DecisionStump"/> classifier is mostly intended to be used as a weak classifier
+    ///   in the context of an <see cref="AdaBoost{TModel}"/> learning algorithm. Please refer to the
+    ///   <see cref="AdaBoost{TModel}"/> class for more examples on using the classifier in this scenario.
+    ///   A simple example is shown below:</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\Boosting\AdaBoostTest.cs" region="doc_learn" />
+    ///   
+    /// <para>
+    ///   It is also possible to use the <see cref="DecisionStump"/> as a standalone classifier through
+    ///   the <see cref="ThresholdLearning"/> algorithm. An example is given below:</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\Boosting\DecisionStumpTest.cs" region="doc_learn" />
+    /// </example>
+    /// 
     [Serializable]
     public class DecisionStump : BinaryClassifierBase<double[]>
     {

@@ -77,6 +77,7 @@
     <Compile Include="..\..\Samples\MachineLearning\Liblinear %28SVMs%29\Train.cs">
       <Link>VectorMachines\Liblinear\Train.cs</Link>
     </Compile>
+    <Compile Include="Boosting\DecisionStumpTest.cs" />
     <Compile Include="Clustering\KMedoidsPAMTest.cs" />
     <Compile Include="Clustering\KMedoidsVITest.cs" />
     <Compile Include="Clustering\MiniBatchKMeansTest.cs" />

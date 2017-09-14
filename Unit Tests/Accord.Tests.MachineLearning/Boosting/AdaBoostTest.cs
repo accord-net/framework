@@ -72,7 +72,7 @@ namespace Accord.Tests.MachineLearning
                 Tolerance = 1e-3
             };
 
-            // Now, we can use the Run method to learn:
+            // Now, we can use the Learn method to learn a boosted classifier
             Boost<DecisionStump> classifier = learner.Learn(inputs, outputs);
 
             double error = new ConfusionMatrix(expected: outputs, predicted: classifier.Decide(inputs)).Error; // should be 0 
@@ -130,7 +130,7 @@ namespace Accord.Tests.MachineLearning
                 Tolerance = 1e-5,
             };
 
-            // Now, we can obtain a learned classifier using:
+            // Now, we can use the Learn method to learn a boosted classifier
             Boost<LogisticRegression> classifier = teacher.Learn(inputs, outputs);
 
             // And we can test its performance using (error should be 0.11):
@@ -183,7 +183,7 @@ namespace Accord.Tests.MachineLearning
                 Tolerance = 1e-5,
             };
 
-            // Now, we can obtain a learned classifier using:
+            // Now, we can use the Learn method to learn a boosted classifier
             Boost<DecisionTree> classifier = teacher.Learn(inputs, outputs);
 
             // And we can test its performance using (error should be 0.11):
