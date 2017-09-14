@@ -49,14 +49,12 @@ namespace Accord.Statistics.Filters
             IUnsupervisedLearning<Options, T, double[]>
         {
 
+            internal Codification<T> owner;
+
             bool hasMissingValue;
             T missingValue;
 
-#if !NETSTANDARD1_4
-            object missingValueReplacement = DBNull.Value;
-#else
-            object missingValueReplacement = null;
-#endif
+            object missingValueReplacement;
 
             /// <summary>
             ///   Gets or sets the label mapping for translating
@@ -92,7 +90,12 @@ namespace Accord.Statistics.Filters
             /// 
             public object MissingValueReplacement
             {
-                get { return missingValueReplacement; }
+                get
+                {
+                    if (missingValueReplacement == null)
+                        return owner.DefaultMissingValueReplacement;
+                    return missingValueReplacement;
+                }
                 set { missingValueReplacement = value; }
             }
 
@@ -544,8 +547,8 @@ namespace Accord.Statistics.Filters
             ///   Constructs a new Options object.
             /// </summary>
             /// 
-            public Options()
-                : this("New column")
+            public Options(Codification<T> owner)
+                : this("New column", owner)
             {
             }
 
@@ -553,12 +556,11 @@ namespace Accord.Statistics.Filters
             ///   Constructs a new Options object for the given column.
             /// </summary>
             /// 
-            /// <param name="name">
-            ///   The name of the column to create this options for.
-            /// </param>
+            /// <param name="name">The name of the column to create this options for.</param>
+            /// <param name="owner">The codification filter to which this options belong.</param>
             /// 
-            public Options(String name)
-                : this(name, new Dictionary<T, int>())
+            public Options(String name, Codification<T> owner)
+                : this(name, new Dictionary<T, int>(), owner)
             {
             }
 
@@ -568,9 +570,10 @@ namespace Accord.Statistics.Filters
             /// 
             /// <param name="name">The name of the column to create this options for.</param>
             /// <param name="variableType">The type of the variable in the column.</param>
+            /// <param name="owner">The codification filter to which this options belong.</param>
             /// 
-            public Options(String name, CodificationVariable variableType)
-                : this(name)
+            public Options(String name, CodificationVariable variableType, Codification<T> owner)
+                : this(name, owner)
             {
                 this.VariableType = variableType;
             }
@@ -584,13 +587,15 @@ namespace Accord.Statistics.Filters
             /// </param>
             /// 
             /// <param name="map">The initial mapping for this column.</param>
+            /// <param name="owner">The codification filter to which this options belong.</param>
             /// 
-            public Options(String name, Dictionary<T, int> map)
+            public Options(String name, Dictionary<T, int> map, Codification<T> owner)
                 : base(name)
             {
                 this.Mapping = new TwoWayDictionary<T, int>(map);
                 this.NumberOfInputs = 1;
                 this.NumberOfOutputs = 1;
+                this.owner = owner;
             }
 
         }

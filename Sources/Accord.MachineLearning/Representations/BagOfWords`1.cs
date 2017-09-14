@@ -58,7 +58,7 @@ namespace Accord.MachineLearning
         /// 
         public BagOfWords()
         {
-            Clustering = new Codification<TInput>.Options();
+            Clustering = new Codification<TInput>.Options(null);
         }
 
 

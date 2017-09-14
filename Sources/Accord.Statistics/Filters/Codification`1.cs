@@ -119,7 +119,7 @@ namespace Accord.Statistics.Filters
             : this()
         {
             for (int i = 0; i < columns.Length; i++)
-                Columns.Add(new Options(columns[i]).Learn(data));
+                Columns.Add(new Options(columns[i], this).Learn(data));
         }
 #endif
 
@@ -130,7 +130,7 @@ namespace Accord.Statistics.Filters
         public Codification(string columnName, params T[] values)
             : this()
         {
-            Columns.Add(new Options(columnName).Learn(values));
+            Columns.Add(new Options(columnName, this).Learn(values));
         }
 
         /// <summary>
@@ -141,7 +141,7 @@ namespace Accord.Statistics.Filters
             : this()
         {
             for (int i = 0; i < columnNames.Length; i++)
-                Columns.Add(new Options(columnNames[i]).Learn(values.GetColumn(i)));
+                Columns.Add(new Options(columnNames[i], this).Learn(values.GetColumn(i)));
         }
 
         /// <summary>
@@ -151,7 +151,7 @@ namespace Accord.Statistics.Filters
         public Codification(string columnName, T[][] values)
             : this()
         {
-            Columns.Add(new Options(columnName).Learn(values.Concatenate()));
+            Columns.Add(new Options(columnName, this).Learn(values.Concatenate()));
         }
 
         /// <summary>
@@ -667,7 +667,7 @@ namespace Accord.Statistics.Filters
         public Codification<T> Learn(T[] x, double[] weights = null)
         {
             if (this.Columns.Count == 0)
-                this.Columns.Add(new Options("0"));
+                this.Columns.Add(new Options("0", this));
             if (this.Columns.Count != 1)
                 throw new Exception("There are more predefined columns than columns in the data.");
 
@@ -688,7 +688,7 @@ namespace Accord.Statistics.Filters
         public Codification<T> Learn(T[][] x, double[] weights = null)
         {
             for (int i = this.Columns.Count; i < x.Columns(); i++)
-                this.Columns.Add(new Options(i.ToString()));
+                this.Columns.Add(new Options(i.ToString(), this));
             if (this.Columns.Count != x.Columns())
                 throw new Exception("There are more predefined columns than columns in the data.");
 
@@ -715,12 +715,7 @@ namespace Accord.Statistics.Filters
                 if (!this.Columns.Contains(col.ColumnName))
                 {
                     if (col.DataType == typeof(T))
-                    {
-                        Columns.Add(new Options(col.ColumnName)
-                        {
-                            MissingValueReplacement = DefaultMissingValueReplacement
-                        });
-                    }
+                        Columns.Add(new Options(col.ColumnName, this));
                 }
             }
 
@@ -751,8 +746,14 @@ namespace Accord.Statistics.Filters
         /// 
         public void Add(CodificationVariable variableType)
         {
-            this.Add(new Options(this.Columns.Count.ToString(), variableType));
+            this.Add(new Options(this.Columns.Count.ToString(), variableType, this));
         }
 
+        [OnDeserializedAttribute]
+        private void OnDeserialized(StreamingContext context)
+        {
+            foreach (var option in this)
+                option.owner = this;
+        }
     }
 }

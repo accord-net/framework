@@ -350,6 +350,50 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual("adult", reloaded.Translate("Label", 1));
             Assert.AreEqual("elder", reloaded.Translate("Label", 2));
         }
+
+        [Test]
+        public void missing_values_gh809()
+        {
+            // https://github.com/accord-net/framework/issues/809
+
+            DataTable data = new DataTable("Tennis Example with Missing Values");
+
+            data.Columns.Add("Day", typeof(string));
+            data.Columns.Add("Outlook", typeof(string));
+            data.Columns.Add("Temperature", typeof(string));
+            data.Columns.Add("Humidity", typeof(string));
+            data.Columns.Add("Wind", typeof(string));
+            data.Columns.Add("PlayTennis", typeof(string));
+
+            data.Rows.Add("D2", null, "Hot", "High", "Strong", "No");
+            data.Rows.Add("D3", null, null, "High", null, "Yes");
+            data.Rows.Add("D4", "Rain", "Mild", "High", "Weak", "Yes");
+            data.Rows.Add("D5", "Rain", "Cool", null, "Weak", "Yes");
+            data.Rows.Add("D8", null, "Mild", "High", null, "No");
+
+            var codebook = new Codification(data)
+            {
+                DefaultMissingValueReplacement = Double.NaN
+            };
+
+            codebook["Wind"].MissingValueReplacement = 42;
+
+            DataTable symbols = codebook.Apply(data);
+            double[][] inputs = symbols.ToJagged("Outlook", "Temperature", "Humidity", "Wind");
+
+            //string str = inputs.ToCSharp();
+
+            double[][] expected = 
+            {
+                new double[] { Double.NaN, 0, 0, 0 },
+                new double[] { Double.NaN, Double.NaN, 0, 42 },
+                new double[] { 0, 1, 0, 1 },
+                new double[] { 0, 2, Double.NaN, 1 },
+                new double[] { Double.NaN, 1, 0, 42 }
+            };
+
+            Assert.AreEqual(expected, inputs);
+        }
 #endif
 
         [Test]

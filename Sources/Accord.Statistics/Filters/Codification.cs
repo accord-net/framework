@@ -419,7 +419,7 @@ namespace Accord.Statistics.Filters
         public void Detect(DataTable data, string[] columns)
         {
             for (int i = 0; i < columns.Length; i++)
-                Columns.Add(new Options(columns[i]).Learn(data));
+                Columns.Add(new Options(columns[i], this).Learn(data));
         }
 
         /// <summary>
@@ -441,7 +441,7 @@ namespace Accord.Statistics.Filters
         /// 
         public void Detect(string columnName, string[] values)
         {
-            Columns.Add(new Options(columnName).Learn(values));
+            Columns.Add(new Options(columnName, this).Learn(values));
         }
 
         /// <summary>
@@ -468,7 +468,7 @@ namespace Accord.Statistics.Filters
         public void Detect(string[] columnNames, string[][] values)
         {
             for (int i = 0; i < columnNames.Length; i++)
-                Columns.Add(new Options(columnNames[i]).Learn(values.GetColumn(i)));
+                Columns.Add(new Options(columnNames[i], this).Learn(values.GetColumn(i)));
         }
 
 
