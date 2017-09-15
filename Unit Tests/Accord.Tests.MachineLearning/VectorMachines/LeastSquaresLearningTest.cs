@@ -94,7 +94,7 @@ namespace Accord.Tests.MachineLearning
         {
             var dataset = new YinYang();
             double[][] inputs = dataset.Instances;
-            int[] outputs = dataset.ClassLabels;
+            int[] outputs = dataset.ClassLabels.Apply(x => x ? 1 : -1);
 
             // Create Kernel Support Vector Machine with a Polynomial Kernel of 2nd degree
             KernelSupportVectorMachine machine = new KernelSupportVectorMachine(new Polynomial(3), inputs[0].Length);
@@ -222,6 +222,6 @@ namespace Accord.Tests.MachineLearning
                 }
             }
         }
-      
+
     }
 }

@@ -50,7 +50,7 @@ namespace Accord.DataSets
         ///   in Fisher's Iris flower dataset.
         /// </summary>
         /// 
-        public int[] ClassLabels { get; private set; }
+        public bool[] ClassLabels { get; private set; }
 
         /// <summary>
         ///   Gets the class labels in the Yin Yang dataset: "Yin", "Yang".
@@ -182,13 +182,13 @@ namespace Accord.DataSets
             int n = data.GetLength(0);
             int d = data.GetLength(1) - 1;
             Instances = new double[n][];
-            ClassLabels = new int[n];
+            ClassLabels = new bool[n];
             for (int i = 0; i < Instances.Length; i++)
             {
                 Instances[i] = new double[d];
                 for (int j = 0; j < d; j++)
                     Instances[i][j] = data[i, j];
-                ClassLabels[i] = (int)data[i, d];
+                ClassLabels[i] = data[i, d] > 0;
             }
 
         }

@@ -279,9 +279,9 @@ namespace Accord.Tests.MachineLearning
         {
             var dataset = new YinYang();
             double[][] inputs = dataset.Instances;
-            int[] outputs = dataset.ClassLabels;
+            bool[] outputs2 = dataset.ClassLabels;
 
-            var outputs2 = outputs.Apply(x => x > 0 ? 1.0 : 0.0);
+            int[] outputs = outputs2.Apply(x => x ? 1 : 0);
 
             var classifier = new Boost<Weak<LogisticRegression>>();
 
@@ -297,7 +297,7 @@ namespace Accord.Tests.MachineLearning
                     };
 
                     for (int i = 0; i < 50; i++)
-                        irls.Run(inputs, outputs2, weights);
+                        irls.Run(inputs, outputs, weights);
 
                     return new Weak<LogisticRegression>(reg, (s, x) => Math.Sign(s.Compute(x) - 0.5));
                 },
