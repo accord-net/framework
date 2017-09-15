@@ -344,7 +344,7 @@ namespace Accord.Statistics.Filters
             public Options Learn(T[] x, double[] weights = null)
             {
                 if (weights != null)
-                    throw new ArgumentException("Weights are not supported and should be null.");
+                    throw new ArgumentException(Accord.Properties.Resources.NotSupportedWeights, "weights");
 
                 this.NumberOfInputs = 1;
                 this.NumberOfOutputs = 1;
@@ -388,7 +388,7 @@ namespace Accord.Statistics.Filters
             public Options Learn(DataTable x, double[] weights = null)
             {
                 if (weights != null)
-                    throw new ArgumentException("Weights are not supported and should be null.");
+                    throw new ArgumentException(Accord.Properties.Resources.NotSupportedWeights, "weights");
 
                 this.NumberOfInputs = 1;
                 this.NumberOfOutputs = 1;
@@ -422,7 +422,7 @@ namespace Accord.Statistics.Filters
             public Options Learn(DataRow[] x, double[] weights = null)
             {
                 if (weights != null)
-                    throw new ArgumentException("Weights are not supported and should be null.");
+                    throw new ArgumentException(Accord.Properties.Resources.NotSupportedWeights, "weights");
 
                 this.NumberOfInputs = 1;
                 this.NumberOfOutputs = 1;

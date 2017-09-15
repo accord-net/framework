@@ -439,6 +439,9 @@ namespace Accord.Statistics.Filters
         /// given the input data <paramref name="x" />.</returns>
         public Discretization<TInput, TOutput> Learn(DataTable x, double[] weights = null)
         {
+            if (weights != null)
+                throw new ArgumentException(Accord.Properties.Resources.NotSupportedWeights, "weights");
+
             foreach (DataColumn col in x.Columns)
             {
                 if (!this.Columns.Contains(col.ColumnName))

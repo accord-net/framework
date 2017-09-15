@@ -251,6 +251,9 @@ namespace Accord.MachineLearning
         /// given the input data <paramref name="x" />.</returns>
         public TFIDF Learn(string[][] x, double[] weights = null)
         {
+            if (weights != null)
+                throw new ArgumentException(Accord.Properties.Resources.NotSupportedWeights, "weights");
+
             if (UpdateDictionary)
                 bow.Learn(x);
 

@@ -190,35 +190,66 @@ namespace Accord.Statistics.Analysis
 
             if (Method == PrincipalComponentMethod.Center || Method == PrincipalComponentMethod.Standardize)
             {
-                this.Means = x.Mean(dimension: 0);
-
-                double[][] matrix = Overwrite ? x : Jagged.CreateAs(x);
-                x.Subtract(Means, dimension: 0, result: matrix);
-
-                if (Method == PrincipalComponentMethod.Standardize)
+                if (weights == null)
                 {
-                    this.StandardDeviations = x.StandardDeviation(Means);
-                    matrix.Divide(StandardDeviations, dimension: 0, result: matrix);
+                    this.Means = x.Mean(dimension: 0);
+
+                    double[][] matrix = Overwrite ? x : Jagged.CreateAs(x);
+                    x.Subtract(Means, dimension: 0, result: matrix);
+
+                    if (Method == PrincipalComponentMethod.Standardize)
+                    {
+                        this.StandardDeviations = x.StandardDeviation(Means);
+                        matrix.Divide(StandardDeviations, dimension: 0, result: matrix);
+                    }
+
+                    //  The principal components of 'Source' are the eigenvectors of Cov(Source). Thus if we
+                    //  calculate the SVD of 'matrix' (which is Source standardized), the columns of matrix V
+                    //  (right side of SVD) will be the principal components of Source.                        
+
+                    // Perform the Singular Value Decomposition (SVD) of the matrix
+                    var svd = new JaggedSingularValueDecomposition(matrix,
+                        computeLeftSingularVectors: false,
+                        computeRightSingularVectors: true,
+                        autoTranspose: true, inPlace: true);
+
+                    SingularValues = svd.Diagonal;
+                    Eigenvalues = SingularValues.Pow(2);
+                    Eigenvalues.Divide(x.Rows() - 1, result: Eigenvalues);
+                    ComponentVectors = svd.RightSingularVectors.Transpose();
                 }
+                else
+                {
+                    this.Means = x.WeightedMean(weights: weights);
 
-                //  The principal components of 'Source' are the eigenvectors of Cov(Source). Thus if we
-                //  calculate the SVD of 'matrix' (which is Source standardized), the columns of matrix V
-                //  (right side of SVD) will be the principal components of Source.                        
+                    double[][] matrix = Overwrite ? x : Jagged.CreateAs(x);
+                    x.Subtract(Means, dimension: 0, result: matrix);
 
-                // Perform the Singular Value Decomposition (SVD) of the matrix
-                var svd = new JaggedSingularValueDecomposition(matrix,
-                    computeLeftSingularVectors: false,
-                    computeRightSingularVectors: true,
-                    autoTranspose: true, inPlace: true);
+                    if (Method == PrincipalComponentMethod.Standardize)
+                    {
+                        this.StandardDeviations = x.WeightedStandardDeviation(weights, Means);
+                        matrix.Divide(StandardDeviations, dimension: 0, result: matrix);
+                    }
 
-                SingularValues = svd.Diagonal;
-                Eigenvalues = SingularValues.Pow(2);
-                Eigenvalues.Divide(x.Rows() - 1, result: Eigenvalues);
-                ComponentVectors = svd.RightSingularVectors.Transpose();
+                    double[,] cov = x.WeightedCovariance(weights, Means);
+
+                    // Perform the Eigenvalue Decomposition of the covariance
+                    // We only have the covariance matrix. Compute the Eigenvalue decomposition
+                    var evd = new EigenvalueDecomposition(cov,
+                        assumeSymmetric: true, sort: true);
+
+                    // Gets the Eigenvalues and corresponding Eigenvectors
+                    Eigenvalues = evd.RealEigenvalues;
+                    SingularValues = Eigenvalues.Sqrt();
+                    ComponentVectors = Jagged.Transpose(evd.Eigenvectors);
+                }
             }
             else if (Method == PrincipalComponentMethod.CovarianceMatrix
                   || Method == PrincipalComponentMethod.CorrelationMatrix)
             {
+                if (weights != null)
+                    throw new Exception();
+
                 // We only have the covariance matrix. Compute the Eigenvalue decomposition
                 var evd = new JaggedEigenvalueDecomposition(x,
                     assumeSymmetric: true, sort: true);

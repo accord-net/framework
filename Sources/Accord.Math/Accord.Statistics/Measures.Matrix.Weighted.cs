@@ -88,7 +88,7 @@ namespace Accord.Statistics
         /// </param>
         /// <returns>Returns a vector containing the means of the given matrix.</returns>
         /// 
-        public static double[] WeightedMean(double[][] matrix, double[] weights, int dimension = 0)
+        public static double[] WeightedMean(this double[][] matrix, double[] weights, int dimension = 0)
         {
             int rows = matrix.Length;
 
@@ -182,7 +182,7 @@ namespace Accord.Statistics
         /// </param>
         /// <returns>Returns a vector containing the means of the given matrix.</returns>
         /// 
-        public static double[] WeightedMean(double[,] matrix, double[] weights, int dimension = 0)
+        public static double[] WeightedMean(this double[,] matrix, double[] weights, int dimension = 0)
         {
             int rows = matrix.GetLength(0);
             int cols = matrix.GetLength(1);
@@ -271,7 +271,7 @@ namespace Accord.Statistics
         /// </param>
         /// <returns>Returns a vector containing the means of the given matrix.</returns>
         /// 
-        public static double[] WeightedMean(double[][] matrix, int[] weights, int dimension = 0)
+        public static double[] WeightedMean(this double[][] matrix, int[] weights, int dimension = 0)
         {
             int rows = matrix.Length;
 
@@ -365,7 +365,7 @@ namespace Accord.Statistics
         /// </param>
         /// <returns>Returns a vector containing the means of the given matrix.</returns>
         /// 
-        public static double[] WeightedMean(double[,] matrix, int[] weights, int dimension = 0)
+        public static double[] WeightedMean(this double[,] matrix, int[] weights, int dimension = 0)
         {
             int rows = matrix.GetLength(0);
             int cols = matrix.GetLength(1);
@@ -664,7 +664,7 @@ namespace Accord.Statistics
         /// 
         /// <returns>The covariance matrix.</returns>
         /// 
-        public static double[,] WeightedCovariance(double[][] matrix, double[] weights, double[] means)
+        public static double[,] WeightedCovariance(this double[][] matrix, double[] weights, double[] means)
         {
             return WeightedCovariance(matrix, weights, means, dimension: 0);
         }
@@ -688,7 +688,7 @@ namespace Accord.Statistics
         /// 
         /// <returns>The covariance matrix.</returns>
         /// 
-        public static double[,] WeightedCovariance(double[][] matrix, double[] weights, int dimension = 0)
+        public static double[,] WeightedCovariance(this double[][] matrix, double[] weights, int dimension = 0)
         {
             double[] mean = WeightedMean(matrix, weights, dimension);
             return WeightedCovariance(matrix, weights, mean, dimension);
@@ -712,7 +712,7 @@ namespace Accord.Statistics
         /// 
         /// <returns>The covariance matrix.</returns>
         /// 
-        public static double[,] WeightedCovariance(double[][] matrix, int[] weights, int dimension = 0)
+        public static double[,] WeightedCovariance(this double[][] matrix, int[] weights, int dimension = 0)
         {
             double[] mean = WeightedMean(matrix, weights, dimension);
             return WeightedCovariance(matrix, weights, mean, dimension);
@@ -738,7 +738,7 @@ namespace Accord.Statistics
         /// 
         /// <returns>The covariance matrix.</returns>
         /// 
-        public static double[,] WeightedCovariance(double[][] matrix, double[] weights, double[] means, int dimension)
+        public static double[,] WeightedCovariance(this double[][] matrix, double[] weights, double[] means, int dimension)
         {
             double s1 = 0, s2 = 0;
             for (int i = 0; i < weights.Length; i++)
@@ -770,7 +770,7 @@ namespace Accord.Statistics
         /// 
         /// <returns>The covariance matrix.</returns>
         /// 
-        public static double[,] WeightedCovariance(double[][] matrix, int[] weights, double[] means, int dimension)
+        public static double[,] WeightedCovariance(this double[][] matrix, int[] weights, double[] means, int dimension)
         {
             double s1 = 0, s2 = 0;
             for (int i = 0; i < weights.Length; i++)
@@ -804,7 +804,7 @@ namespace Accord.Statistics
         /// 
         /// <returns>The covariance matrix.</returns>
         /// 
-        public static double[,] WeightedScatter(double[][] matrix, double[] weights,
+        public static double[,] WeightedScatter(this double[][] matrix, double[] weights,
             double[] means, double factor, int dimension)
         {
             int rows = matrix.Length;
@@ -896,7 +896,7 @@ namespace Accord.Statistics
         /// 
         /// <returns>The covariance matrix.</returns>
         /// 
-        public static double[,] WeightedScatter(double[][] matrix, int[] weights,
+        public static double[,] WeightedScatter(this double[][] matrix, int[] weights,
             double[] means, double factor, int dimension)
         {
             int rows = matrix.Length;

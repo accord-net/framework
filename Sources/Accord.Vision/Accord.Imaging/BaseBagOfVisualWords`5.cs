@@ -576,6 +576,9 @@ namespace Accord.Imaging
         /// given the input data <paramref name="x" />.</returns>
         public TModel Learn(Bitmap[] x, double[] weights = null)
         {
+            if (weights != null)
+                throw new ArgumentException(Accord.Properties.Resources.NotSupportedWeights, "weights");
+
             // Note: See note in the method below
             var descriptors = new TFeature[x.Length][];
 
@@ -598,6 +601,9 @@ namespace Accord.Imaging
         /// given the input data <paramref name="x" />.</returns>
         public TModel Learn(UnmanagedImage[] x, double[] weights = null)
         {
+            if (weights != null)
+                throw new ArgumentException(Accord.Properties.Resources.NotSupportedWeights, "weights");
+
             // Note: we cannot use a ConcurrentBag here to store all the descriptors because
             // it would break the reproducibility of the clustering algorithm that is run
             // after this step. The point is that the ConcurrentBag cannot guarantee order of
@@ -624,6 +630,9 @@ namespace Accord.Imaging
         /// given the input data <paramref name="x" />.</returns>
         public TModel Learn(TFeature[] x, double[] weights = null)
         {
+            if (weights != null)
+                throw new ArgumentException(Accord.Properties.Resources.NotSupportedWeights, "weights");
+
             if (x.Length <= NumberOfWords)
             {
                 throw new InvalidOperationException("Not enough data points to cluster. Please try "

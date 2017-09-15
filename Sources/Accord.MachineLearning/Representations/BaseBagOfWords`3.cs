@@ -172,6 +172,9 @@ namespace Accord.MachineLearning
         /// given the input data <paramref name="inputs" />.</returns>
         public TModel Learn(TInput[][] inputs, double[] weights = null)
         {
+            if (weights != null)
+                throw new ArgumentException(Accord.Properties.Resources.NotSupportedWeights, "weights");
+
             if (inputs.Length <= NumberOfWords)
             {
                 throw new InvalidOperationException("Not enough data points to cluster. Please try "

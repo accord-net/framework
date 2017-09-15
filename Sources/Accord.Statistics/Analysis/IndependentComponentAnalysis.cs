@@ -858,6 +858,9 @@ namespace Accord.Statistics.Analysis
         /// </returns>
         public MultivariateLinearRegression Learn(double[][] x, double[] weights = null)
         {
+            if (weights != null)
+                throw new ArgumentException(Accord.Properties.Resources.NotSupportedWeights, "weights");
+
             // Calculate common measures to speedup other calculations
             this.columnMeans = Measures.Mean(x, dimension: 0);
             this.columnStdDev = Measures.StandardDeviation(x, columnMeans);

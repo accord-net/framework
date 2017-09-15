@@ -197,7 +197,7 @@ namespace Accord.MachineLearning
         private static void checkArgs(string[][] texts, double[] weights)
         {
             if (weights != null)
-                throw new ArgumentException("Weights are not supported.");
+                throw new ArgumentException(Accord.Properties.Resources.NotSupportedWeights, "weights");
 
             if (texts == null)
                 throw new ArgumentNullException("texts");

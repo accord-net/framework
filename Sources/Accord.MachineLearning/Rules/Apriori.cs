@@ -139,6 +139,9 @@ namespace Accord.MachineLearning.Rules
         /// 
         public AssociationRuleMatcher<T> Learn(SortedSet<T>[] x, double[] weights = null)
         {
+            if (weights != null)
+                throw new ArgumentException(Accord.Properties.Resources.NotSupportedWeights, "weights");
+
             frequent.Clear();
             var L = new HashSet<SortedSet<T>>(new Comparer());
             var counts = new Dictionary<SortedSet<T>, int>(new Comparer());
