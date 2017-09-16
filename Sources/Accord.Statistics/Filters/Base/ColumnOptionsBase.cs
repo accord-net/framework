@@ -31,16 +31,24 @@ namespace Accord.Statistics.Filters
     /// </summary>
     /// 
     [Serializable]
-    public abstract class ColumnOptionsBase
+    public abstract class ColumnOptionsBase<TFilter>
     {
         [NonSerialized]
         private CancellationToken token;
 
         /// <summary>
+        ///   Gets or sets the filter to which these options belong to.
+        /// </summary>
+        /// 
+        /// <value>The owner filter.</value>
+        /// 
+        public TFilter Owner { get; set; }
+
+        /// <summary>
         ///   Gets or sets the name of the column that the options will apply to.
         /// </summary>
         /// 
-        public String ColumnName { get; private set; }
+        public String ColumnName { get; internal set; }
 
         /// <summary>
         ///   Gets or sets a user-determined object associated with this column.

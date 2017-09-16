@@ -57,6 +57,7 @@
     <Compile Include="Collections\BinaryTree.cs" />
     <Compile Include="Collections\PriorityQueue.cs" />
     <Compile Include="Collections\PriorityQueueNode.cs" />
+    <Compile Include="Collections\OrderedDictionary`2.cs" />
     <Compile Include="Collections\Tree.cs" />
     <Compile Include="Collections\TreeNode.cs" />
     <Compile Include="Collections\TreeTraversal.cs" />

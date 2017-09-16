@@ -33,11 +33,14 @@ namespace Accord.Statistics.Filters
     /// <summary>
     ///   Base abstract class for the Data Table preprocessing filters.
     /// </summary>
-    /// <typeparam name="T">The column options type.</typeparam>
+    /// 
+    /// <typeparam name="TOptions">The column options type.</typeparam>
+    /// <typeparam name="TFilter">The filter type to whom these options should belong to.</typeparam>
     /// 
     [Serializable]
-    public abstract class BaseFilter<T> : IFilter, IEnumerable<T>
-        where T : ColumnOptionsBase
+    public abstract class BaseFilter<TOptions, TFilter> : IFilter, IEnumerable<TOptions>
+        where TOptions : ColumnOptionsBase<TFilter>, new()
+        where TFilter : BaseFilter<TOptions, TFilter>
     {
         [NonSerialized]
         private CancellationToken token;
@@ -55,7 +58,7 @@ namespace Accord.Statistics.Filters
         /// </summary>
         /// 
         [Description("Gets or sets processing options for the columns in the source DataTables")]
-        public ColumnOptionCollection<T> Columns { get; private set; }
+        public ColumnOptionCollection<TOptions, TFilter> Columns { get; private set; }
 
         /// <summary>
         /// Gets or sets a cancellation token that can be used to
@@ -76,7 +79,7 @@ namespace Accord.Statistics.Filters
         /// 
         protected BaseFilter()
         {
-            this.Columns = new ColumnOptionCollection<T>();
+            this.Columns = new ColumnOptionCollection<TOptions, TFilter>();
             this.Active = true;
         }
 
@@ -140,9 +143,21 @@ namespace Accord.Statistics.Filters
         /// 
         /// <param name="columnName">The name of the variable.</param>
         /// 
-        public T this[string columnName]
+        public TOptions this[string columnName]
         {
-            get { return Columns[columnName]; }
+            get
+            {
+                if (!Columns.Contains(columnName))
+                {
+                    this.Columns.Add(new TOptions()
+                    {
+                        ColumnName = columnName,
+                        Owner = (TFilter)this
+                    });
+                }
+
+                return Columns[columnName];
+            }
         }
 
         /// <summary>
@@ -151,9 +166,21 @@ namespace Accord.Statistics.Filters
         /// 
         /// <param name="index">The column's index for the variable.</param>
         /// 
-        public T this[int index]
+        public TOptions this[int index]
         {
-            get { return Columns[index]; }
+            get
+            {
+                for (int i = Columns.Count; i <= index; i++)
+                {
+                    this.Columns.Add(new TOptions()
+                    {
+                        ColumnName = i.ToString(),
+                        Owner = (TFilter)this
+                    });
+                }
+
+                return Columns[index];
+            }
         }
 
         /// <summary>
@@ -172,7 +199,7 @@ namespace Accord.Statistics.Filters
         /// Returns an enumerator that iterates through the collection.
         /// </summary>
         /// <returns>An enumerator that can be used to iterate through the collection.</returns>
-        public IEnumerator<T> GetEnumerator()
+        public IEnumerator<TOptions> GetEnumerator()
         {
             return Columns.GetEnumerator();
         }
@@ -190,7 +217,7 @@ namespace Accord.Statistics.Filters
         ///   Add a new column options definition to the collection.
         /// </summary>
         /// 
-        public void Add(T options)
+        public void Add(TOptions options)
         {
             this.Columns.Add(options);
         }

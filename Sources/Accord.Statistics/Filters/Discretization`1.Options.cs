@@ -38,7 +38,7 @@ namespace Accord.Statistics.Filters
         /// </summary>
         /// 
         [Serializable]
-        public class Options : ColumnOptionsBase,
+        public class Options : ColumnOptionsBase<Discretization<TInput, TOutput>>,
             ITransform<TInput, TOutput>,
             IUnsupervisedLearning<Options, TInput, TOutput>
         {

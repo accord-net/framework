@@ -31,14 +31,14 @@ namespace Accord.Statistics.Filters
     /// </summary>
     /// 
     [Serializable]
-    public class ColumnOptionCollection<T> : KeyedCollection<String, T>
-        where T : ColumnOptionsBase
+    public class ColumnOptionCollection<TOptions, TFilter> : KeyedCollection<String, TOptions>
+        where TOptions : ColumnOptionsBase<TFilter>
     {
         /// <summary>
         ///   Extracts the key from the specified column options.
         /// </summary>
         /// 
-        protected override string GetKeyForItem(T item)
+        protected override string GetKeyForItem(TOptions item)
         {
             return item.ColumnName;
         }
@@ -51,7 +51,7 @@ namespace Accord.Statistics.Filters
         /// 
         /// <returns>The added column options.</returns>
         /// 
-        new public T Add(T options)
+        new public TOptions Add(TOptions options)
         {
             base.Add(options);
             return options;
@@ -66,7 +66,7 @@ namespace Accord.Statistics.Filters
         /// 
         /// <returns>True if the options was contained in the collection; false otherwise.</returns>
         /// 
-        public bool TryGetValue(String columnName, out T options)
+        public bool TryGetValue(String columnName, out TOptions options)
         {
             return base.Dictionary.TryGetValue(columnName, out options);
         }

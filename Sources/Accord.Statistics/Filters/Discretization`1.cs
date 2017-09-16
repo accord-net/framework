@@ -56,8 +56,10 @@ namespace Accord.Statistics.Filters
     /// <seealso cref="Codification"/>
     /// 
     [Serializable]
-    public partial class Discretization<TInput, TOutput> : BaseFilter<Discretization<TInput, TOutput>.Options>, IAutoConfigurableFilter,
-        ITransform<TInput[], TOutput[]>, IUnsupervisedLearning<Discretization<TInput, TOutput>, TInput[], TOutput[]>
+    public partial class Discretization<TInput, TOutput> : BaseFilter<Discretization<TInput, TOutput>.Options, Discretization<TInput, TOutput>>, 
+        IAutoConfigurableFilter,
+        ITransform<TInput[], TOutput[]>, 
+        IUnsupervisedLearning<Discretization<TInput, TOutput>, TInput[], TOutput[]>
     {
 
         /// <summary>

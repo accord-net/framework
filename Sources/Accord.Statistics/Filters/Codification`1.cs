@@ -64,7 +64,7 @@ namespace Accord.Statistics.Filters
 #if NETSTANDARD2_0
     [SurrogateSelector(typeof(Codification.Selector))]
 #endif
-    public partial class Codification<T> : BaseFilter<Codification<T>.Options>,
+    public partial class Codification<T> : BaseFilter<Codification<T>.Options, Codification<T>>,
         ITransform<T[], double[]>, IUnsupervisedLearning<Codification<T>, T[], double[]>,
         ITransform<T[], int[]>, IUnsupervisedLearning<Codification<T>, T[], int[]>
     {
@@ -89,7 +89,6 @@ namespace Accord.Statistics.Filters
                     total += col.NumberOfSymbols;
                 return total;
             }
-            set { throw new InvalidOperationException("This property is read only."); }
         }
 
         /// <summary>
@@ -163,6 +162,12 @@ namespace Accord.Statistics.Filters
         {
             get { return this.defaultMissingValueReplacement; }
             set { this.defaultMissingValueReplacement = value; }
+        }
+
+        int ITransform.NumberOfOutputs
+        {
+            get { return NumberOfOutputs; }
+            set { throw new InvalidOperationException("This property is read only."); }
         }
 
         /// <summary>
@@ -666,6 +671,9 @@ namespace Accord.Statistics.Filters
         /// given the input data <paramref name="x" />.</returns>
         public Codification<T> Learn(T[] x, double[] weights = null)
         {
+            if (weights != null)
+                throw new ArgumentException(Accord.Properties.Resources.NotSupportedWeights, "weights");
+
             if (this.Columns.Count == 0)
                 this.Columns.Add(new Options("0", this));
             if (this.Columns.Count != 1)
@@ -687,6 +695,9 @@ namespace Accord.Statistics.Filters
         /// given the input data <paramref name="x" />.</returns>
         public Codification<T> Learn(T[][] x, double[] weights = null)
         {
+            if (weights != null)
+                throw new ArgumentException(Accord.Properties.Resources.NotSupportedWeights, "weights");
+
             for (int i = this.Columns.Count; i < x.Columns(); i++)
                 this.Columns.Add(new Options(i.ToString(), this));
             if (this.Columns.Count != x.Columns())
@@ -710,6 +721,9 @@ namespace Accord.Statistics.Filters
         /// given the input data <paramref name="x" />.</returns>
         public Codification<T> Learn(DataTable x, double[] weights = null)
         {
+            if (weights != null)
+                throw new ArgumentException(Accord.Properties.Resources.NotSupportedWeights, "weights");
+
             foreach (DataColumn col in x.Columns)
             {
                 if (!this.Columns.Contains(col.ColumnName))
@@ -753,7 +767,7 @@ namespace Accord.Statistics.Filters
         private void OnDeserialized(StreamingContext context)
         {
             foreach (var option in this)
-                option.owner = this;
+                option.Owner = this;
         }
     }
 }

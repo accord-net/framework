@@ -111,7 +111,7 @@ namespace Accord.Statistics.Filters
     /// </example>
     /// 
     [Serializable]
-    public class Branching : BaseFilter<Branching.Options>
+    public class Branching : BaseFilter<Branching.Options, Branching>
     {
 
         /// <summary>
@@ -198,7 +198,7 @@ namespace Accord.Statistics.Filters
         /// </summary>
         /// 
         [Serializable]
-        public class Options : ColumnOptionsBase, IAutoConfigurableColumn
+        public class Options : ColumnOptionsBase<Branching>, IAutoConfigurableColumn
         {
 
             /// <summary>

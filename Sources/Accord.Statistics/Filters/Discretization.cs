@@ -61,7 +61,7 @@ namespace Accord.Statistics.Filters
     /// </example>
     /// 
     [Serializable]
-    public class Discretization : BaseFilter<Discretization.Options>, IAutoConfigurableFilter
+    public class Discretization : BaseFilter<Discretization.Options, Discretization>, IAutoConfigurableFilter
     {
         /// <summary>
         ///   Creates a new Discretization filter.
@@ -147,7 +147,7 @@ namespace Accord.Statistics.Filters
         /// </summary>
         /// 
         [Serializable]
-        public class Options : ColumnOptionsBase
+        public class Options : ColumnOptionsBase<Discretization>
         {
             /// <summary>
             ///   Gets or sets the threshold for the discretization filter.

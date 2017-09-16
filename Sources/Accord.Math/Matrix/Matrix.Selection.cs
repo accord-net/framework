@@ -926,8 +926,27 @@ namespace Accord.Math
         }
         #endregion
 
+        /// <summary>
+        ///   Removes all elements in the array that are equal to the given <paramref name="value"/>.
+        /// </summary>
+        /// 
+        /// <typeparam name="T"></typeparam>
+        /// 
+        /// <param name="values">The values.</param>
+        /// <param name="value">The value to be removed.</param>
+        /// 
+        public static T[] RemoveAll<T>(this T[] values, T value)
+        {
+            var result = new List<T>(values.Length);
 
+            foreach (T v in values)
+            {
+                if (!Object.Equals(v, value))
+                    result.Add(v);
+            }
 
+            return result.ToArray();
+        }
 
         /// <summary>
         ///   Performs an in-place re-ordering of elements in 

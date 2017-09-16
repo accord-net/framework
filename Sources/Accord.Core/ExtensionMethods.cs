@@ -36,6 +36,7 @@ namespace Accord
     using Accord.Compat;
     using Accord.IO;
     using System.Data;
+    using Accord.Collections;
 
     /// <summary>
     ///   Static class for utility extension methods.
@@ -67,6 +68,35 @@ namespace Accord
         {
             for (int i = 0; i < columnNames.Length; i++)
                 collection.Add(columnNames[i]);
+        }
+
+        /// <summary>
+        ///   Creates and adds multiple <see cref="System.Data.DataColumn"/>
+        ///   objects with the given names at once.
+        /// </summary>
+        /// 
+        /// <param name="collection">The <see cref="System.Data.DataColumnCollection"/>
+        ///   to add in.</param>
+        /// <param name="columns">The names of the <see cref="System.Data.DataColumn"/>s to
+        ///   be created and added, alongside with their types.</param>
+        /// 
+        /// <example>
+        ///   <code>
+        ///   DataTable table = new DataTable();
+        ///   
+        ///   // Add multiple columns at once:
+        ///   table.Columns.Add(new OrderedDictionary&gt;String, Type&lt;()
+        ///   {
+        ///       { "columnName1", typeof(int)    },
+        ///       { "columnName2", typeof(double) },
+        ///   });
+        ///   </code>
+        /// </example>
+        /// 
+        public static void Add(this DataColumnCollection collection, OrderedDictionary<string, Type> columns)
+        {
+            foreach (var pair in columns)
+                collection.Add(pair.Key, pair.Value);
         }
 #endif
 
@@ -495,5 +525,20 @@ namespace Accord
         {
             return a.CompareTo(b) <= 0;
         }
+
+        /// <summary>
+        ///   Gets the default value for a type. This method should serve as
+        ///   a programmatic equivalent to <c>default(T)</c>.
+        /// </summary>
+        /// 
+        /// <param name="type">The type whose default value should be retrieved.</param>
+        /// 
+        public static object GetDefaultValue(this Type type)
+        {
+            if (type.IsValueType)
+                return Activator.CreateInstance(type);
+            return null;
+        }
+
     }
 }
