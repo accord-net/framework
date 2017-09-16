@@ -85,6 +85,7 @@
     <Compile Include="IO\SerializationTest.cs" />
     <Compile Include="Kernels\SplineTest.cs" />
     <Compile Include="POSTest.cs" />
+    <Compile Include="SarsaTest.cs" />
     <Compile Include="TFIDFTest.cs" />
     <Compile Include="BagOfWordsTest.cs" />
     <Compile Include="Boosting\AdaBoostTest.cs" />

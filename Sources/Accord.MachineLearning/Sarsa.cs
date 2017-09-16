@@ -37,6 +37,10 @@ namespace Accord.MachineLearning
     /// <remarks>The class provides implementation of Sarsa algorithm, known as
     /// on-policy Temporal Difference control.</remarks>
     /// 
+    /// <example>
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\SarsaTest.cs" region="doc_main" />
+    /// </example>
+    /// 
     /// <seealso cref="QLearning"/>
     /// 
     public class Sarsa
