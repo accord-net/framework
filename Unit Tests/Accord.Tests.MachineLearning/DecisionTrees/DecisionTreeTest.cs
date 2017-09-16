@@ -166,6 +166,24 @@ namespace Accord.Tests.MachineLearning
                 Assert.AreEqual(expected.Length, i);
             }
         }
+
+        [Test]
+        public void unknown_values_test()
+        {
+            // https://github.com/accord-net/framework/issues/689
+
+            DecisionTree tree;
+            int[][] inputs;
+            int[] outputs;
+
+            ID3LearningTest.CreateMitchellExample(out tree, out inputs, out outputs);
+
+            int a = tree.Decide(new[] { 42, Double.NaN, 52, 21 });
+            int b= tree.Decide(new[] { 42, 3, 52, 21 });
+
+            Assert.AreEqual(0, a);
+            Assert.AreEqual(0, b);
+        }
 #endif
 
         //[Test]
