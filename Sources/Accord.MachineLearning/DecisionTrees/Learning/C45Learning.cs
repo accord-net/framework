@@ -99,7 +99,6 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
         private double[][] thresholds;
         private IntRange[] inputRanges;
 
-        private int maxVariables;
         private int splitStep = 1;
 
 
@@ -123,29 +122,6 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
                 splitStep = value;
             }
         }
-
-        /// <summary>
-        ///   Gets or sets the maximum number of variables that
-        ///   can enter the tree. A value of zero indicates there
-        ///   is no limit. Default is 0 (there is no limit on the
-        ///   number of variables).
-        /// </summary>
-        /// 
-        public int MaxVariables
-        {
-            get { return maxVariables; }
-            set
-            {
-                if (value < 0)
-                {
-                    throw new ArgumentOutOfRangeException("value",
-                        "The height must be greater than or equal to zero.");
-                }
-
-                maxVariables = value;
-            }
-        }
-
 
         /// <summary>
         ///   Creates a new C4.5 learning algorithm.

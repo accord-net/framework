@@ -73,24 +73,10 @@ namespace Accord.Tests.MachineLearning
             //  - https://en.wikipedia.org/wiki/Iris_flower_data_set
             //
 
-            // First, let's load the dataset into an array of text that we can process
-            string[][] text = Resources.iris_data.Split(new[] { "\r\n" },
-                StringSplitOptions.RemoveEmptyEntries).Apply(x => x.Split(','));
-
-            // The first four columns contain the flower features
-            double[][] inputs = text.GetColumns(0, 1, 2, 3).To<double[][]>();
-
-            // The last column contains the expected flower type
-            string[] labels = text.GetColumn(4);
-
-            // Since the labels are represented as text, the first step is to convert
-            // those text labels into integer class labels, so we can process them
-            // more easily. For this, we will create a codebook to encode class labels:
-            //
-            var codebook = new Codification("Output", labels);
-
-            // With the codebook, we can convert the labels:
-            int[] outputs = codebook.Translate("Output", labels);
+            // First, let's load the dataset:
+            var iris = new DataSets.Iris();
+            double[][] inputs = iris.Instances; // flower features
+            int[] outputs = iris.ClassLabels; // flower categories
 
             // Create the forest learning algorithm
             var teacher = new RandomForestLearning()
@@ -142,54 +128,12 @@ namespace Accord.Tests.MachineLearning
             // Let's begin by loading the raw data. This string variable contains
             // the contents of the nursery.data file as a single, continuous text.
             //
-            string nurseryData = Resources.nursery;
-
-            // Those are the input columns available in the data
-            //
-            string[] inputColumns =
-            {
-                "parents", "has_nurs", "form", "children",
-                "housing", "finance", "social", "health"
-            };
-
-            // And this is the output, the last column of the data.
-            //
-            string outputColumn = "output";
-
-
-            // Let's populate a data table with this information.
-            //
-            DataTable table = new DataTable("Nursery");
-            table.Columns.Add(inputColumns);
-            table.Columns.Add(outputColumn);
-
-            string[] lines = nurseryData.Split(
-                new[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
-
-            foreach (var line in lines)
-                table.Rows.Add(line.Split(','));
-
-
-            // Now, we have to convert the textual, categorical data found
-            // in the table to a more manageable discrete representation.
-            //
-            // For this, we will create a codebook to translate text to
-            // discrete integer symbols:
-            //
-            Codification codebook = new Codification(table);
-
-            // And then convert all data into symbols
-            //
-            DataTable symbols = codebook.Apply(table);
-            double[][] inputs = symbols.ToArray(inputColumns);
-            int[] outputs = symbols.ToArray<int>(outputColumn);
-
-            // From now on, we can start creating the decision tree.
-            //
-            var attributes = DecisionVariable.FromCodebook(codebook, inputColumns);
+            var nursery = new DataSets.Nursery(@"C:\Temp\");
+            int[][] inputs = nursery.Instances;
+            int[] outputs = nursery.ClassLabels;
 
             // Now, let's create the forest learning algorithm
-            var teacher = new RandomForestLearning(attributes)
+            var teacher = new RandomForestLearning(nursery.VariableNames)
             {
                 NumberOfTrees = 1,
                 SampleRatio = 1.0
@@ -208,20 +152,45 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(0, error, 1e-10);
             Assert.IsTrue(outputs.IsEqual(predicted));
 
-            Assert.AreEqual(12960, lines.Length);
-            Assert.AreEqual("usual,proper,complete,1,convenient,convenient,nonprob,recommended,recommend", lines[0]);
-            Assert.AreEqual("great_pret,very_crit,foster,more,critical,inconv,problematic,not_recom,not_recom", lines[lines.Length - 1]);
-
             Assert.AreEqual(0, error);
 
             for (int i = 0; i < inputs.Length; i++)
             {
                 int expected = outputs[i];
-                int actual = forest.Compute(inputs[i]);
+                int actual = forest.Compute(inputs[i].ToDouble());
 
                 Assert.AreEqual(expected, actual);
             }
+        }
 
+        [Test]
+        public void sample_ratio_less_than_1()
+        {
+            // https://github.com/accord-net/framework/issues/576
+
+            Accord.Math.Random.Generator.Seed = 1;
+
+            var nursery = new DataSets.Nursery(@"C:\Temp\");
+            int[][] inputs = nursery.Instances;
+            int[] outputs = nursery.ClassLabels;
+
+            var teacher = new RandomForestLearning(nursery.VariableNames)
+            {
+                NumberOfTrees = 1,
+                SampleRatio = 0.5
+            };
+
+            teacher.ParallelOptions.MaxDegreeOfParallelism = 1;
+
+            var forest = teacher.Learn(inputs, outputs);
+
+            forest.ParallelOptions.MaxDegreeOfParallelism = 1;
+
+            int[] predicted = forest.Decide(inputs);
+
+            double error = new ZeroOneLoss(outputs).Loss(forest.Decide(inputs));
+
+            Assert.AreEqual(0.0023148148148148147d, error, 1e-10);
         }
 #endif
 

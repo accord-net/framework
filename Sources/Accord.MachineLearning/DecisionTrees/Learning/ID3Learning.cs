@@ -140,7 +140,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
                 inputRanges[i] = tree.Attributes[i].Range.ToIntRange(provideInnerRange: false);
         }
 
-      
+
 
         /// <summary>
         ///   Learns a model that can map the given inputs to the given outputs.
@@ -246,37 +246,43 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             //
 
             // how many variables have been used less than the limit (if there is a limit)
-            int candidateCount = AttributeUsageCount.Count(x => Join == 0 ? true : x < Join);
+            int[] candidates = Matrix.Find(AttributeUsageCount, x => Join == 0 ? true : x < Join);
 
-            if (candidateCount == 0 || (MaxHeight > 0 && height == MaxHeight))
+            if (candidates.Length == 0 || (MaxHeight > 0 && height == MaxHeight))
             {
                 root.Output = Measures.Mode(output);
                 return;
             }
 
-
             // 4. Otherwise, try to select the attribute which
-            //    best explains the data sample subset.
+            //    best explains the data sample subset. If the tree
+            //    is part of a random forest, only consider a percentage
+            //    of the candidate attributes at each split point
 
-            double[] scores = new double[candidateCount];
-            int[][][] partitions = new int[candidateCount][][];
-            int[][][] outputSubs = new int[candidateCount][][];
+            if (MaxVariables > 0 && candidates.Length > MaxVariables)
+                candidates = Vector.Sample(candidates, MaxVariables);
 
-            // Retrieve candidate attribute indices
-            int[] candidates = new int[candidateCount];
-            for (int i = 0, k = 0; i < AttributeUsageCount.Length; i++)
+            double[] scores = new double[candidates.Length];
+            int[][][] partitions = new int[candidates.Length][][];
+            int[][][] outputSubs = new int[candidates.Length][][];
+
+            if (ParallelOptions.MaxDegreeOfParallelism == 1)
             {
-                if (AttributeUsageCount[i] < Join)
-                    candidates[k++] = i;
+                for (int i = 0; i < scores.Length; i++)
+                {
+                    scores[i] = computeGainRatio(input, output, candidates[i],
+                        entropy, out partitions[i], out outputSubs[i]);
+                }
             }
-
-
-            // For each attribute in the data set
-            Parallel.For(0, scores.Length, ParallelOptions, i =>
-            {
-                scores[i] = computeGainRatio(input, output, candidates[i],
-                    entropy, out partitions[i], out outputSubs[i]);
-            });
+            else
+            {             
+                // For each attribute in the data set
+                Parallel.For(0, scores.Length, ParallelOptions, i =>
+                {
+                    scores[i] = computeGainRatio(input, output, candidates[i],
+                        entropy, out partitions[i], out outputSubs[i]);
+                });
+            }
 
             // Select the attribute with maximum gain ratio
             int maxGainIndex; scores.Max(out maxGainIndex);
