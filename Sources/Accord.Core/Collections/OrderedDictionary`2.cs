@@ -113,6 +113,28 @@ namespace Accord.Collections
         }
 
         /// <summary>
+        ///   Gets the <typeparam ref="TValue"/> at the specified index.
+        /// </summary>
+        /// 
+        /// <param name="index">The index.</param>
+        /// 
+        public TKey GetKeyByIndex(int index)
+        {
+            return list[index];
+        }
+
+        /// <summary>
+        ///   Gets the <typeparam ref="TValue"/> at the specified index.
+        /// </summary>
+        /// 
+        /// <param name="index">The index.</param>
+        /// 
+        public TValue GetValueByIndex(int index)
+        {
+            return this[GetKeyByIndex(index)];
+        }
+
+        /// <summary>
         ///   Gets or sets the <typeparam ref="TValue"/> with the specified key.
         /// </summary>
         /// 
