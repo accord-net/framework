@@ -29,6 +29,7 @@ namespace Accord.Math.Optimization
     using Accord.Statistics.Models;
     using Accord.Compat;
     using System.Threading.Tasks;
+    using Accord.Math.Differentiation;
 
     /// <summary>
     ///   Gauss-Newton algorithm for solving Least-Squares problems.
@@ -40,7 +41,22 @@ namespace Accord.Math.Optimization
     ///   optimization methods, such as <see cref="LevenbergMarquardt"/>.
     /// </remarks>
     /// 
+    /// <example>
+    /// <para>
+    ///   While it is possible to use the <see cref="GaussNewton"/> class as a standalone
+    ///   method for solving least squares problems, this class is intended to be used as
+    ///   a strategy for NonlinearLestSquares, as shown in the example below:</para>
+    ///   <code source="Unit Tests\Accord.Tests.Statistics\Models\Regression\NonlinearLeastSquaresTest.cs" region="doc_learn_gn" lang="cs"/>
+    ///   <code source="Unit Tests\Accord.Tests.Statistics.VB\Models\Regression\NonlinearLeastSquaresTest.vb" region="doc_learn_gn" lang="vb"/>
+    ///   
+    /// <para>
+    ///   However, as mentioned above it is also possible to use <see cref="GaussNewton"/> as
+    ///   a standalone class, as shown in the example below:</para>
+    ///   <code source="Unit Tests\Accord.Tests.Statistics\Models\Regression\GaussNewtonTest.cs" region="doc_minimize"/>
+    /// </example>
+    /// 
     /// <seealso cref="LevenbergMarquardt"/>
+    /// <seealso cref="FiniteDifferences"/>
     /// 
     public class GaussNewton : BaseLeastSquaresMethod, ILeastSquaresMethod, IConvergenceLearning
     {

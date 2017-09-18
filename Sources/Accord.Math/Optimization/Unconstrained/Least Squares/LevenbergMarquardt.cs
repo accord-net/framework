@@ -28,10 +28,28 @@ namespace Accord.Math.Optimization
     using Accord.Statistics.Models;
     using Accord.Compat;
     using System.Threading.Tasks;
+    using Accord.Math.Differentiation;
 
     /// <summary>
     ///   Levenberg-Marquardt algorithm for solving Least-Squares problems.
     /// </summary>
+    /// 
+    /// <example>
+    /// <para>
+    ///   While it is possible to use the <see cref="LevenbergMarquardt"/> class as a standalone
+    ///   method for solving least squares problems, this class is intended to be used as
+    ///   a strategy for NonlinearLestSquares, as shown in the example below:</para>
+    ///   <code source="Unit Tests\Accord.Tests.Statistics\Models\Regression\NonlinearLeastSquaresTest.cs" region="doc_learn_lm" lang="cs"/>
+    ///   <code source="Unit Tests\Accord.Tests.Statistics.VB\Models\Regression\NonlinearLeastSquaresTest.vb" region="doc_learn_lm" lang="vb"/>
+    ///   
+    /// <para>
+    ///   However, as mentioned above it is also possible to use <see cref="LevenbergMarquardt"/> 
+    ///   as a standalone class, as shown in the example below:</para>
+    ///   <code source="Unit Tests\Accord.Tests.Statistics\Models\Regression\LevenbergMarquardtTest.cs" region="doc_minimize"/>
+    /// </example>
+    /// 
+    /// <seealso cref="GaussNewton"/>
+    /// <seealso cref="FiniteDifferences"/>
     /// 
     public class LevenbergMarquardt : BaseLeastSquaresMethod, ILeastSquaresMethod, IConvergenceLearning
     {
