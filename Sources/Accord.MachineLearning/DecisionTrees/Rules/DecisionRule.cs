@@ -29,10 +29,24 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
     using Accord.Math;
     using Accord.Statistics.Filters;
     using Accord.Compat;
+    using Accord.MachineLearning.DecisionTrees.Learning;
 
     /// <summary>
     ///   Decision Rule.
     /// </summary>
+    /// 
+    /// <example>
+    /// <para>
+    ///   The simplest way to create a set of decision rules is by extracting them from an existing <see cref="DecisionTree"/>.
+    ///   The example below shows how to create a simple decision tree and convert it to a <see cref="DecisionSet">set of rules</see>
+    ///   using its <see cref="DecisionTree.ToRules()"/> method.</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\DecisionTrees\C45LearningTest.cs" region="doc_simplest" />
+    /// </example>
+    /// 
+    /// <seealso cref="DecisionSet"/>
+    /// <seealso cref="DecisionTree"/>
+    /// <seealso cref="C45Learning"/>
+    /// <seealso cref="ID3Learning"/>
     /// 
     public class DecisionRule : ICloneable, IEnumerable<Antecedent>,
         IEquatable<DecisionRule>, IComparable<DecisionRule>
