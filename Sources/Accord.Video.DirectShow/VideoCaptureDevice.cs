@@ -1332,13 +1332,8 @@ namespace Accord.Video.DirectShow
         }
 
         // Set resolution for the specified stream configuration
-        private void SetResolution(IAMStreamConfig streamConfig, VideoCapabilities resolution)
+        private void SetResolution(IAMStreamConfig streamConfig, VideoCapabilities resolution = null)
         {
-            if (resolution == null)
-            {
-                return;
-            }
-
             // iterate through device's capabilities to find mediaType for desired resolution
             int capabilitiesCount = 0, capabilitySize = 0;
             AMMediaType newMediaType = null;
@@ -1352,7 +1347,7 @@ namespace Accord.Video.DirectShow
                 {
                     VideoCapabilities vc = new VideoCapabilities(streamConfig, i);
 
-                    if (resolution == vc)
+                    if (resolution == vc || resolution == null)
                     {
                         if (streamConfig.GetStreamCaps(i, out newMediaType, caps) == 0)
                         {
@@ -1368,6 +1363,11 @@ namespace Accord.Video.DirectShow
             // set the new format
             if (newMediaType != null)
             {
+                unsafe
+                {
+                    VideoInfoHeader* vih = (VideoInfoHeader*)newMediaType.FormatPtr;
+                    vih->AverageTimePerFrame = 0;
+                }
                 streamConfig.SetFormat(newMediaType);
                 newMediaType.Dispose();
             }
@@ -1406,11 +1406,9 @@ namespace Accord.Video.DirectShow
                         }
                     }
 
-                    // check if it is required to change capture settings
-                    if (resolutionToSet != null)
-                    {
-                        SetResolution(streamConfig, resolutionToSet);
-                    }
+                    // Call the SetResolution method even with a null resolution, 
+                    // so that the first video mode will be used.
+                    SetResolution(streamConfig, resolutionToSet);
                 }
 
                 Marshal.ReleaseComObject(streamConfigObject);
