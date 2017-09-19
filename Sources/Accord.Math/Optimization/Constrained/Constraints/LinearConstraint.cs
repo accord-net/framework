@@ -348,15 +348,23 @@ namespace Accord.Math.Optimization
         {
             if (grad == null)
             {
-                var tmp = new double[x.Length];
-
-                for (int i = 0; i < indices.Length; i++)
+                if (x.Length == indices.Length && indices.IsEqual(Vector.Range(x.Length)))
                 {
-                    int index = indices[i];
-                    tmp[index] = CombinedAs[i];
+                    grad = combinedAs;
+                }
+                else
+                {
+                    var tmp = new double[x.Length];
+
+                    for (int i = 0; i < indices.Length; i++)
+                    {
+                        int index = indices[i];
+                        tmp[index] = CombinedAs[i];
+                    }
+
+                    grad = tmp;
                 }
                 
-                grad = tmp;
             }
 
             return grad;
