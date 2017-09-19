@@ -151,5 +151,81 @@ namespace Accord.Tests.Math
             }
         }
 
+        [Test]
+        public void TestGradientWithIndices()
+        {
+            // Arrange1
+            int[] indices1 = { 2, 4, 6 };
+            int[] indices2 = { 0, 4, 6 };
+            double[] combinedAs1 = { 2, 3, 4 };
+            double[] combinedAs2 = { 9, 5, 1 };
+            double[] x = Vector.Random(8);
+            double[] expected1 = { 0, 0, 2, 0, 3, 0, 4, 0 };
+            double[] expected2 = { 0, 0, 9, 0, 5, 0, 1, 0 };
+            double[] expected3 = { 9, 0, 0, 0, 5, 0, 1, 0 };
+
+            var linearConstraint = new LinearConstraint(indices1.Length)
+            {
+                CombinedAs = combinedAs1,
+                VariablesAtIndices = indices1,
+                ShouldBe = ConstraintType.EqualTo,
+                Value = 42
+            };
+
+            // Act1
+            double[] gradient = linearConstraint.Gradient(x);
+
+            // Assert1
+            Assert.True(gradient.IsEqual(expected1));
+
+            // Arrange2
+            linearConstraint.CombinedAs = combinedAs2;
+
+            // Act2
+            double[] gradient2 = linearConstraint.Gradient(x);
+
+            // Assert2
+            Assert.True(gradient2.IsEqual(expected2));
+
+            // Arrange3
+            linearConstraint.VariablesAtIndices = indices2;
+
+            // Act3
+            double[] gradient3 = linearConstraint.Gradient(x);
+
+            // Assert3
+            Assert.True(gradient3.IsEqual(expected3));
+        }
+
+        [Test]
+        public void TestGradientWithoutIndices()
+        {
+            // Arrange1
+            double[] combinedAs1 = { 2, 3, 4, 5, 6 };
+            double[] combinedAs2 = { 9, 5, 1, 5, 8 };
+            double[] x = Vector.Random(5);
+
+            var linearConstraint = new LinearConstraint(combinedAs1)
+            {
+                ShouldBe = ConstraintType.EqualTo,
+                Value = 42
+            };
+
+            // Act1
+            double[] gradient = linearConstraint.Gradient(x);
+
+            // Assert1
+            Assert.True(gradient.IsEqual(combinedAs1));
+
+            // Arrange2
+            linearConstraint.CombinedAs = combinedAs2;
+
+            // Act2
+            double[] gradient2 = linearConstraint.Gradient(x);
+
+            // Assert2
+            Assert.True(gradient2.IsEqual(combinedAs2));
+        }
+
     }
 }
