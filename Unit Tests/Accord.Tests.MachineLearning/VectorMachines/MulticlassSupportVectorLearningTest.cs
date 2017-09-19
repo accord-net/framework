@@ -156,6 +156,40 @@ namespace Accord.Tests.MachineLearning
             Assert.IsTrue(ovo.Scores(inputs[0]).IsEqual(new double[] { 0.62, -0.25, -0.59, -0.62 }, 1e-2));
             Assert.IsTrue(ovo.Scores(inputs[1]).IsEqual(new double[] { -0.62, -0.57, -0.13, 0.62 }, 1e-2));
             Assert.IsTrue(ovo.Scores(inputs[2]).IsEqual(new double[] { -0.25, 0.63, -0.63, -0.51 }, 1e-2));
+
+            #region doc_learn_decision_path
+            // The decision process in a multi-class SVM is actually based on a series of
+            // smaller, binary decisions combined together using a one-vs-one strategy. It
+            // is possible to determine the results of each of those internal one-vs-one
+            // decisions using:
+
+            // First, call Decide, Scores, LogLikelihood or Probability methods:
+            int y = ovo.Decide(new double[] { 6, 2, 3 }); // result should be 3
+
+            // Now, call method GetLastDecisionPath():
+            Decision[] path = ovo.GetLastDecisionPath(); // contains 3 decisions
+
+            // The binary decisions obtained while computing the last decision
+            // above (i.e. the last call to the Decide method), were:
+            //
+            //  - Class 0 vs. class 3, winner was 3
+            //  - Class 1 vs. class 3, winner was 3
+            //  - Class 2 vs. class 3, winner was 3
+
+            // The GetLastDecisionPath() method is thread-safe and will always
+            // return the last computed path in the current calling thread.
+            #endregion
+
+            Assert.AreEqual(3, y);
+            Assert.AreEqual(0, path[0].Pair.Class1);
+            Assert.AreEqual(1, path[1].Pair.Class1);
+            Assert.AreEqual(2, path[2].Pair.Class1);
+            Assert.AreEqual(3, path[0].Pair.Class2);
+            Assert.AreEqual(3, path[1].Pair.Class2);
+            Assert.AreEqual(3, path[2].Pair.Class2);
+            Assert.AreEqual(3, path[0].Winner);
+            Assert.AreEqual(3, path[1].Winner);
+            Assert.AreEqual(3, path[2].Winner);
         }
 
         [Test]
