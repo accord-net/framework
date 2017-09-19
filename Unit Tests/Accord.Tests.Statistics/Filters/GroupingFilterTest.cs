@@ -107,7 +107,6 @@ namespace Accord.Tests.Statistics
         [Test]
         public void ApplyTest2()
         {
-
             DataTable input = new DataTable("Sample data");
 
             input.Columns.Add("Age", typeof(int));

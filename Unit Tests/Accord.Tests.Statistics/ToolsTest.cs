@@ -122,11 +122,14 @@ namespace Accord.Tests.Statistics
 
             double[][] groups = value.Subgroups(idx);
 
+            int[] hist = idx.Histogram();
+
             Assert.AreEqual(4, groups.Length);
             Assert.AreEqual(3, groups[0].Length);
             Assert.AreEqual(4, groups[1].Length);
             Assert.AreEqual(3, groups[2].Length);
             Assert.AreEqual(3, groups[3].Length);
+            Assert.AreEqual(new[] { 3, 4, 3, 3 }, hist);
 
             for (int i = 0; i < groups.Length; i++)
             {

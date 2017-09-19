@@ -246,6 +246,7 @@
     <Compile Include="Testing\TwoSamples\TwoSampleZTestTest.cs" />
     <Compile Include="Testing\Power\TTestPowerAnalysisTest.cs" />
     <Compile Include="Testing\TwoSamples\TwoSampleKolmogorovSmirnovTestTest.cs" />
+    <Compile Include="ClassesTest.cs" />
     <Compile Include="Visualizations\HistogramTest.cs" />
     <Compile Include="Kernels\AnovaTest.cs" />
     <Compile Include="Filters\CodificationFilterTest.cs" />

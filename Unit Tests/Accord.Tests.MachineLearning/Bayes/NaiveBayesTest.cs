@@ -996,7 +996,7 @@ namespace Accord.Tests.MachineLearning
             int numberOfOutputs = result.NumberOfOutputs; // should be 3
 
             double trainingError = result.Training.Mean; // should be 0
-            double validationError = result.Validation.Mean; // should be 0.05
+            double validationError = result.Validation.Mean; // should be 0.15 (+/- var. 0.11388888888888887)
 
             // If desired, compute an aggregate confusion matrix for the validation sets:
             GeneralConfusionMatrix gcm = result.ToConfusionMatrix(inputs, outputs);
@@ -1008,17 +1008,17 @@ namespace Accord.Tests.MachineLearning
 
             Assert.AreEqual(10, cv.K);
             Assert.AreEqual(0, result.Training.Mean, 1e-10);
-            Assert.AreEqual(0.05, result.Validation.Mean, 1e-10);
+            Assert.AreEqual(0.15, result.Validation.Mean, 1e-10);
 
             Assert.AreEqual(0, result.Training.Variance, 1e-10);
-            Assert.AreEqual(0.025000000000000005, result.Validation.Variance, 1e-10);
+            Assert.AreEqual(0.11388888888888887, result.Validation.Variance, 1e-10);
 
             Assert.AreEqual(10, cv.Folds.Length);
             Assert.AreEqual(10, result.Models.Length);
 
             Assert.AreEqual(15, gcm.Samples);
-            Assert.AreEqual(0.93333333333333335, gcm.Accuracy);
-            Assert.AreEqual(0.066666666666666652, gcm.Error);
+            Assert.AreEqual(0.8666666666666667, gcm.Accuracy);
+            Assert.AreEqual(0.1333333333333333, gcm.Error);
             Assert.AreEqual(3, gcm.Classes);
         }
 

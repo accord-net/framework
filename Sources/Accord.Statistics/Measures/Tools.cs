@@ -48,13 +48,8 @@ namespace Accord.Statistics
 
         #region Summarizing, grouping and extending operations
         /// <summary>
-        ///   Calculates the prevalence of a class for each variable.
+        ///   Obsolete. Please use <see cref="Classes.GetRatio(int[], int[])"/> instead.
         /// </summary>
-        /// 
-        /// <param name="positives">An array of counts detailing the occurrence of the first class.</param>
-        /// <param name="negatives">An array of counts detailing the occurrence of the second class.</param>
-        /// 
-        /// <returns>An array containing the proportion of the first class over the total of occurrences.</returns>
         /// 
         [Obsolete("Please use Classes.GetRatio instead.")]
         public static double[] Proportions(int[] positives, int[] negatives)
@@ -63,14 +58,8 @@ namespace Accord.Statistics
         }
 
         /// <summary>
-        ///   Calculates the prevalence of a class.
+        ///   Obsolete. Please use <see cref="Classes.GetRatio(int[][], int, int)"/> instead.
         /// </summary>
-        /// 
-        /// <param name="data">A matrix containing counted, grouped data.</param>
-        /// <param name="positiveColumn">The index for the column which contains counts for occurrence of the first class.</param>
-        /// <param name="negativeColumn">The index for the column which contains counts for occurrence of the second class.</param>
-        /// 
-        /// <returns>An array containing the proportion of the first class over the total of occurrences.</returns>
         /// 
         [Obsolete("Please use Classes.GetRatio instead.")]
         public static double[] Proportions(int[][] data, int positiveColumn, int negativeColumn)
@@ -79,17 +68,8 @@ namespace Accord.Statistics
         }
 
         /// <summary>
-        ///   Groups the occurrences contained in data matrix of binary (dichotomous) data.
+        ///   Obsolete. Please use <see cref="Classes.Summarize(int[][], int, int)"/> instead.
         /// </summary>
-        /// 
-        /// <param name="data">A data matrix containing at least a column of binary data.</param>
-        /// <param name="labelColumn">Index of the column which contains the group label name.</param>
-        /// <param name="dataColumn">Index of the column which contains the binary [0,1] data.</param>
-        /// 
-        /// <returns>
-        ///    A matrix containing the group label in the first column, the number of occurrences of the first class
-        ///    in the second column and the number of occurrences of the second class in the third column.
-        /// </returns>
         /// 
         [Obsolete("Please use Classes.Summarize instead.")]
         public static int[][] Group(int[][] data, int labelColumn, int dataColumn)
@@ -98,18 +78,8 @@ namespace Accord.Statistics
         }
 
         /// <summary>
-        ///   Extends a grouped data into a full observation matrix.
+        ///   Obsolete. Please use <see cref="Classes.Expand(int[], int[], int[])"/> instead.
         /// </summary>
-        /// 
-        /// <param name="data">The group labels.</param>
-        /// <param name="positives">
-        ///   An array containing he occurrence of the positive class
-        ///   for each of the groups.</param>
-        /// <param name="negatives">
-        ///   An array containing he occurrence of the negative class
-        ///   for each of the groups.</param>
-        ///   
-        /// <returns>A full sized observation matrix.</returns>
         /// 
         [Obsolete("Please use Classes.Expand instead.")]
         public static int[][] Expand(int[] data, int[] positives, int[] negatives)
@@ -118,18 +88,8 @@ namespace Accord.Statistics
         }
 
         /// <summary>
-        ///   Expands a grouped data into a full observation matrix.
+        ///   Obsolete. Please use <see cref="Classes.Expand(int[], int[], int[])"/> instead.
         /// </summary>
-        /// 
-        /// <param name="data">The grouped data matrix.</param>
-        /// <param name="labelColumn">Index of the column which contains the labels
-        /// in the grouped data matrix. </param>
-        /// <param name="positiveColumn">Index of the column which contains
-        ///   the occurrences for the first class.</param>
-        /// <param name="negativeColumn">Index of the column which contains
-        ///   the occurrences for the second class.</param>
-        ///   
-        /// <returns>A full sized observation matrix.</returns>
         /// 
         [Obsolete("Please use Classes.Expand instead.")]
         public static int[][] Expand(int[][] data, int labelColumn, int positiveColumn, int negativeColumn)
@@ -138,16 +98,8 @@ namespace Accord.Statistics
         }
 
         /// <summary>
-        ///   Expands a grouped data into a full observation matrix.
+        ///   Obsolete. Please use <see cref="Jagged.OneHot(int[])"/> instead.
         /// </summary>
-        /// 
-        /// <param name="labels">The class labels.</param>
-        /// 
-        /// <returns>A jagged matrix where each row corresponds to each element 
-        ///   given in the <paramref name="labels"/> parameter, and each row has
-        ///   the same length as the number of <paramref name="labels"/> in the
-        ///   problem. Each row contains the value 1 on the position corresponding
-        ///   to the label index.</returns>
         /// 
         [Obsolete("Please use Jagged.OneHot instead.")]
         public static double[][] Expand(int[] labels)
@@ -156,18 +108,8 @@ namespace Accord.Statistics
         }
 
         /// <summary>
-        ///   Expands a grouped data into a full observation matrix.
+        ///   Obsolete. Please use <see cref="Jagged.OneHot(int[])"/> instead.
         /// </summary>
-        /// 
-        /// <param name="labels">The class labels.</param>
-        /// <param name="negative">The negative value to indicate the absence of the class.</param>
-        /// <param name="positive">The positive value to indicate the presence of the class.</param>
-        /// 
-        /// <returns>A jagged matrix where each row corresponds to each element 
-        ///   given in the <paramref name="labels"/> parameter, and each row has
-        ///   the same length as the number of <paramref name="labels"/> in the
-        ///   problem. Each row contains the positive value on the position corresponding
-        ///   to the label index, and the negative value on all others.</returns>
         /// 
         [Obsolete("Please use Jagged.OneHot instead.")]
         public static double[][] Expand(int[] labels, double negative, double positive)
@@ -176,17 +118,8 @@ namespace Accord.Statistics
         }
 
         /// <summary>
-        ///   Expands a grouped data into a full observation matrix.
+        ///   Obsolete. Please use <see cref="Jagged.OneHot(int[])"/> instead.
         /// </summary>
-        /// 
-        /// <param name="labels">The class labels.</param>
-        /// <param name="classes">The number of classes.</param>
-        /// 
-        /// <returns>A jagged matrix where each row corresponds to each element 
-        ///   given in the <paramref name="labels"/> parameter, and each row has
-        ///   the same length as the number of <paramref name="classes"/> in the
-        ///   problem. Each row contains the positive value on the position corresponding
-        ///   to the label index, and the negative value on all others.</returns>
         /// 
         [Obsolete("Please use Jagged.OneHot instead.")]
         public static double[][] Expand(int[] labels, int classes)
@@ -195,19 +128,8 @@ namespace Accord.Statistics
         }
 
         /// <summary>
-        ///   Expands a grouped data into a full observation matrix.
+        ///   Obsolete. Please use <see cref="Jagged.OneHot(int[])"/> instead.
         /// </summary>
-        /// 
-        /// <param name="labels">The class labels.</param>
-        /// <param name="classes">The number of classes.</param>
-        /// <param name="negative">The negative value to indicate the absence of the class.</param>
-        /// <param name="positive">The positive value to indicate the presence of the class.</param>
-        /// 
-        /// <returns>A jagged matrix where each row corresponds to each element 
-        ///   given in the <paramref name="labels"/> parameter, and each row has
-        ///   the same length as the number of <paramref name="classes"/> in the
-        ///   problem. Each row contains the value 1 on the position corresponding
-        ///   to the label index.</returns>
         /// 
         [Obsolete("Please use Jagged.OneHot instead.")]
         public static double[][] Expand(int[] labels, int classes, double negative, double positive)
@@ -267,7 +189,7 @@ namespace Accord.Statistics
         #region Permutations and combinatorials
 
         /// <summary>
-        ///   Returns a random sample of size k from a population of size n.
+        ///   Obsolete. Please use <see cref="Vector.Sample(int, int)"/> instead.
         /// </summary>
         /// 
         [Obsolete("Please use Vector.Sample instead.")]
@@ -277,11 +199,8 @@ namespace Accord.Statistics
         }
 
         /// <summary>
-        ///   Returns a random group assignment for a sample.
+        ///   Obsolete. Please use <see cref="Classes.Random(int, int)"/> instead.
         /// </summary>
-        /// 
-        /// <param name="size">The sample size.</param>
-        /// <param name="groups">The number of groups.</param>
         /// 
         [Obsolete("Please use Classes.Random instead.")]
         public static int[] RandomGroups(int size, int groups)
@@ -290,12 +209,8 @@ namespace Accord.Statistics
         }
 
         /// <summary>
-        ///   Returns a random group assignment for a sample
-        ///   into two mutually exclusive groups.
+        ///   Obsolete. Please use <see cref="Classes.Random(int, double)"/> instead.
         /// </summary>
-        /// 
-        /// <param name="size">The sample size.</param>
-        /// <param name="proportion">The proportion of samples between the groups.</param>
         /// 
         [Obsolete("Please use Classes.Random instead.")]
         public static int[] RandomGroups(int size, double proportion)
@@ -304,14 +219,8 @@ namespace Accord.Statistics
         }
 
         /// <summary>
-        ///   Returns a random group assignment for a sample, making
-        ///   sure different class labels are distributed evenly among
-        ///   the groups.
+        ///   Obsolete. Please use <see cref="Classes.Random(int[], int, int)"/> instead.
         /// </summary>
-        /// 
-        /// <param name="labels">A vector containing class labels.</param>
-        /// <param name="classes">The number of different classes in <paramref name="labels"/>.</param>
-        /// <param name="groups">The number of groups.</param>
         /// 
         [Obsolete("Please use Classes.Random instead.")]
         public static int[] RandomGroups(int[] labels, int classes, int groups)
@@ -320,7 +229,7 @@ namespace Accord.Statistics
         }
 
         /// <summary>
-        ///   Returns a random permutation of size n.
+        ///   Obsolete. Please use <see cref="Vector.Sample(int)"/> instead.
         /// </summary>
         /// 
         [Obsolete("Please use Vector.Sample instead.")]
@@ -330,7 +239,7 @@ namespace Accord.Statistics
         }
 
         /// <summary>
-        ///   Shuffles an array.
+        ///   Obsolete. Please use <see cref="Vector.Shuffle{T}(T[])"/> instead.
         /// </summary>
         /// 
         [Obsolete("Please use Vector.Shuffle instead.")]
@@ -340,7 +249,7 @@ namespace Accord.Statistics
         }
 
         /// <summary>
-        ///   Shuffles a collection.
+        ///   Obsolete. Please use <see cref="Vector.Shuffle{T}(IList{T})"/> instead.
         /// </summary>
         /// 
         [Obsolete("Please use Vector.Shuffle instead.")]
