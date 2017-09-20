@@ -1,17 +1,33 @@
-Accord.NET Framework 3.7.1-alpha release notes
+Accord.NET Framework 3.7.2-alpha release notes
 -----------------------------------------
-16.09.2017.
+24.09.2017.
 
 Version updates and fixes:
+  - GH-82: Add support for weighted PCA;
   - GH-127: Fast KMeans (Request);
   - GH-145: MovingNormalStatistics;
   - GH-211: Any samples on how to use Boosted Decision Trees;
+  - GH-262: C45Learning Discrete vs Real;
+  - GH-377: Add an Example for LevenbergMarquardt Class;
   - GH-415: Add an Example for AdaBoost(TModel);
+  - GH-422: Add an Example for DecisionStump.Learn Method;
   - GH-424: Add an Example for AdaBoost(TModel) Class;
   - GH-441: Add Mel Frequency Cepstral Coefficients (MFCC);
+  - GH-467: Add an Example for Spline Class;
+  - GH-473: Add an Example for IParallel.ParallelOptions Property;
+  - GH-517: Add an Example for Sarsa Class;
+  - GH-530: Add an Example for Matrix.Inverse Method (Double[][]);
+  - GH-532: Add an Example for GaussNewton Class;
+  - GH-576: RandomForestLearning : Examples can't run with SampleRatio not equal 1.0;
+  - GH-616: Add an Example for LevenbergMarquardt Class;
+  - GH-618: Add an Example for Apriori Class;
   - GH-629: Add an Example for AdaBoost(TModel) Class;
+  - GH-642: Add an Example for Matrix.PseudoInverse Method (Decimal[,]);
+  - GH-703: Add an Example for Imputation Class;
   - GH-717: Possible issue with DynamicTimeWarp kernel class;
   - GH-723: Procrustes analysis is giving weird/wrong results;
+  - GH-764: Add an Example for AndersonDarlingTest Class;
+  - GH-785: Add an Example for Tools.RandomGroups Method (Int32, Double);
   - GH-789: Add support for OS X;
   - GH-798: System.AccessViolationException in FastBoxBlur;
   - GH-800: Missing dependency for Accord.Neuro in NuGet;
@@ -19,6 +35,7 @@ Version updates and fixes:
   - GH-803: NaN probabilities from large features with MultinomialLogisticRegression;
   - GH-805: Unsafe keyword being exposed in the public API;
   - GH-807: Add an Example for CrossValidating NaiveBayes;
+  - GH-809: The Codification filter should honor the value of DefaultMissingValueReplacement unless overriden;
   - GH-811: Naive Bayes should provide better argument checking for negative symbols;
   - GH-812: ZhangSuenSkeletonization filter not exist to use;
   - GH-824: Improve number of class inference in ZeroOneLoss;
@@ -27,11 +44,15 @@ Version updates and fixes:
   - GH-830: Read PGM image pending;
   - GH-831: Index outside of the bounds of the array in Naive Bayes;
   - GH-843: Where is Accord.NET AdaBoost Decide method;
+  - GH-845: Add an Example for Decision Structure;
   - GH-848: Wilcoxon Signed Rank Test for PAIRED samples: TwoSampleWilcoxonSignedRankTest;
   - GH-849: TwoSampleWilcoxonSignedRankTest crashing when sample vectors are exactly the same values;
   - GH-853: Access to last Hessian in BoundedBroydenFletcherGoldfarbShanno;
   - GH-856: Add an overload to IsSymmetric that accepts a tolerance;
   - GH-857: Mann-Whitney-U Test producing strange results;
+  - GH-862: Accord.Math -> Vector -> T[] Sample<T>(T[] values, int size) incorrect;
+  - GH-865: Measures.Quartiles: value for Q1 (lower quartile) wrong in QuantileMethod.R;
+  - GH-873: Add an Example for DecisionRule Class;
 
 * General
   - The libsonly script is now in RAR4 format instead of RAR5 so they 
@@ -52,7 +73,8 @@ Version updates and fixes:
 * MachineLearning
   - Updating the AdaBoost classes to implement the more recent classification framelet;
   - Adding a Error property in ConfusionMatrix and GeneralConfusionMatrix (1.0 - Accuracy);
-  - Adding named constructors to ConfusionMatrix to create matrices directly from classifiers, their inputs and expected outputs;
+  - Adding named constructors to ConfusionMatrix to create matrices 
+    directly from classifiers, their inputs and expected outputs;
 
 
 
