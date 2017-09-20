@@ -127,8 +127,15 @@ namespace Accord.Math
         /// </summary>
         /// 
         /// <remarks>
-        ///   This method relies on reflection and might not work on all scenarios,
-        ///   environments, and/or platforms.
+        /// <para>
+        ///   This method is intended to be used in scenarios where you have been using any
+        ///   of the static methods in the <see cref="Distance"/> class, but now you would like
+        ///   to obtain a reference to an object that implements the same distance you have been
+        ///   using before, but in a object-oriented, polymorphic manner. Please see the example
+        ///   below for more details.</para>
+        /// <para>
+        ///   Note: This method relies on reflection and might not work 
+        ///   on all scenarios, environments, and/or platforms.</para>  
         /// </remarks>
         /// 
         /// <typeparam name="T">The type of the elements being compared in the distance function.</typeparam>
@@ -138,6 +145,10 @@ namespace Accord.Math
         /// <returns>
         ///   An object of the class that implements the given distance.
         /// </returns>
+        /// 
+        /// <example>
+        /// <code source="Unit Tests\Accord.Tests.Math\DistanceTest.cs" region="doc_getdistance" />
+        /// </example>
         /// 
         public static IDistance<T> GetDistance<T>(Func<T, T, double> func)
         {

@@ -39,7 +39,7 @@ namespace Accord.Tests.Math
             // Example from Statistical Distance Calculator
             // http://maplepark.com/~drf5n/cgi-bin/dist.cgi
 
-            double[,] cov = 
+            double[,] cov =
             {
                 { 1.030303, 2.132728, 0.576716 },
                 { 2.132728, 4.510515, 1.185771 },
@@ -71,7 +71,7 @@ namespace Accord.Tests.Math
             // Example from Statistical Distance Calculator
             // http://maplepark.com/~drf5n/cgi-bin/dist.cgi
 
-            double[,] cov = 
+            double[,] cov =
             {
                 { 1.030303, 2.132728, 0.576716 },
                 { 2.132728, 4.510515, 1.185771 },
@@ -201,11 +201,11 @@ namespace Accord.Tests.Math
             double[] x = { -1, 0, 0 };
             double[] y = { 0, 0, 0 };
 
-            double[,] covX = 
+            double[,] covX =
             {
                 { 2, 3, 0 },
                 { 3, 1, 0 },
-                { 0, 0, 0 } 
+                { 0, 0, 0 }
             };
 
             var pinv = covX.PseudoInverse();
@@ -288,7 +288,7 @@ namespace Accord.Tests.Math
             Assert.AreEqual(0, Distance.Levenshtein(null, ""));
             Assert.AreEqual(5, Distance.Levenshtein("apple", "banana"));
 
-            Assert.AreEqual(0, Distance.Levenshtein(new int [] { }, new int[] { }));
+            Assert.AreEqual(0, Distance.Levenshtein(new int[] { }, new int[] { }));
             Assert.AreEqual(1, Distance.Levenshtein(new int[] { }, new int[] { 1 }));
             Assert.AreEqual(1, Distance.Levenshtein(new int[] { 1 }, new int[] { }));
             Assert.AreEqual(0, Distance.Levenshtein(new int[] { 1 }, new int[] { 1 }));
@@ -351,6 +351,32 @@ namespace Accord.Tests.Math
             Assert.IsFalse(Distance.IsMetric<double[]>(new Dice()));
 
             // Assert.IsFalse(Distance.IsMetric(Dissimilarity.RusselRao));
+        }
+
+        [Test]
+        public void getdistance_test()
+        {
+            #region doc_getdistance
+            // Let's say you have been using the static Distance.Euclidean() method in 
+            // your code, and now you would like to obtain a reference to a class that 
+            // implements the IDistance interface for this same distance, such that you 
+            // could pass it to some other method in the framework:
+
+            double[] x = new double[] { 2, 4, 1 };
+            double[] y = new double[] { 0, 0, 0 };
+
+            double a = Distance.Euclidean(x, y); // should be 4.58257569495584
+
+            // Use the GetDistance method to obtain an IDistance that implements it:
+            IDistance<double[]> obj = Distance.GetDistance<double[]>(Distance.Euclidean);
+
+            // We can continue computing the same distances as before using:
+            double b = obj.Distance(x, y); // should be 4.58257569495584
+            #endregion
+
+            double expected = 4.58257569495584;
+            Assert.AreEqual(a, expected);
+            Assert.AreEqual(b, expected);
         }
     }
 }
