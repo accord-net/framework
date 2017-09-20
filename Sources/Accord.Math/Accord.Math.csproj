@@ -232,6 +232,7 @@
     <Compile Include="Optimization\Losses\SquareLoss.cs" />
     <Compile Include="Optimization\Losses\ZeroOneLoss.cs" />
     <Compile Include="Optimization\Munkres.cs" />
+    <Compile Include="Optimization\QuadraticExpressionParser.cs" />
     <Compile Include="Optimization\Unconstrained\GradientDescent.cs" />
     <Compile Include="Optimization\Base\BaseLeastSquaresMethod.cs" />
     <Compile Include="Optimization\Unconstrained\TrustRegionNewtonMethod.cs" />
