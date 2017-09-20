@@ -26,8 +26,8 @@ namespace Accord.IO
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
-    using Accord.IO.Compression;
     using Accord.Compat;
+    using ICSharpCode.SharpZipLib.LZW;
 
     /// <summary>
     ///   Reader for UNIPEN files (such as Pendigits dataset).
@@ -158,7 +158,17 @@ namespace Accord.IO
 
             do // Find the next ".SEGMENT" region
             {
-                line = reader.ReadLine();
+                try
+                {
+                    line = reader.ReadLine();
+                }
+                catch
+                {
+                    line = null; // TODO: This try-catch block is only necessary because of the 
+                    // current version of SharpZipLib being used. This block can be removed after
+                    // SharpZipLib NuGet's package is finally updated.
+                }
+
                 if (line == null)
                     return false;
             } while (!line.StartsWith(".SEGMENT"));
