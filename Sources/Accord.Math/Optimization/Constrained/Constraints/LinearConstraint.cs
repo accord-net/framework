@@ -66,7 +66,8 @@ namespace Accord.Math.Optimization
         public const double DefaultTolerance = 1e-12;
 
         private int[] indices;
-        private double[] scalars;
+        private double[] combinedAs;
+        private double[] grad;
 
         /// <summary>
         ///   Gets the number of variables in the constraint.
@@ -92,6 +93,7 @@ namespace Accord.Math.Optimization
                     throw new DimensionMismatchException("value");
 
                 this.indices = value;
+                this.grad = null;
             }
         }
 
@@ -101,7 +103,7 @@ namespace Accord.Math.Optimization
         /// </summary>
         public double[] CombinedAs
         {
-            get { return scalars; }
+            get { return combinedAs; }
             set
             {
                 if (value == null)
@@ -110,7 +112,8 @@ namespace Accord.Math.Optimization
                 if (value.Length != NumberOfVariables)
                     throw new DimensionMismatchException("value");
 
-                this.scalars = value;
+                this.combinedAs = value;
+                this.grad = null;
             }
         }
 
@@ -150,7 +153,7 @@ namespace Accord.Math.Optimization
         {
             this.NumberOfVariables = numberOfVariables;
             this.indices = Vector.Range(numberOfVariables);
-            this.scalars = Vector.Ones(numberOfVariables);
+            this.combinedAs = Vector.Ones(numberOfVariables);
             this.ShouldBe = ConstraintType.GreaterThanOrEqualTo;
 
             this.Function = compute;
@@ -244,15 +247,7 @@ namespace Accord.Math.Optimization
         /// 
         public double GetViolation(double[] input)
         {
-            double fx = 0;
-
-            for (int i = 0; i < indices.Length; i++)
-            {
-                double x = input[indices[i]];
-                double a = CombinedAs[i];
-
-                fx += x * a;
-            }
+            double fx = compute(input);
 
             switch (ShouldBe)
             {
@@ -351,7 +346,28 @@ namespace Accord.Math.Optimization
 
         private double[] gradient(double[] x)
         {
-            return CombinedAs;
+            if (grad == null)
+            {
+                if (x.Length == indices.Length && indices.IsEqual(Vector.Range(x.Length)))
+                {
+                    grad = combinedAs;
+                }
+                else
+                {
+                    var tmp = new double[x.Length];
+
+                    for (int i = 0; i < indices.Length; i++)
+                    {
+                        int index = indices[i];
+                        tmp[index] = CombinedAs[i];
+                    }
+
+                    grad = tmp;
+                }
+                
+            }
+
+            return grad;
         }
 
 
