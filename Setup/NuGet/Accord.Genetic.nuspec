@@ -15,13 +15,25 @@
       Contains chromosome and selection classes to create Genetic Algorithms (GA), Genetic Programming (GP) and Gene Expression Programming (GEP). This package originated from the AForge.NET Framework and is now part of the Accord.NET Framework.
     </description>
     <summary>Genetic Algorithms (GA), Genetic Programming (GP) and Gene Expression Programming (GEP) for non-linear optimization.</summary>
-    <tags>accord.net aforge.net framework genetic algorithms programming GA GP GEP</tags>
+    <tags>accord.net aforge.net framework genetic algorithms programming GA GP GEP unity3d unity</tags>
     <dependencies>
       <dependency id="Accord"       version="$version$" />
       <dependency id="Accord.Math"  version="$version$" />
     </dependencies>
   </metadata>
   <files>
+    <file src="..\..\Release\net35\Accord.Genetic.dll" target="lib\net35-unity full v3.5\Accord.Genetic.dll" />
+    <file src="..\..\Release\net35\Accord.Genetic.xml" target="lib\net35-unity full v3.5\Accord.Genetic.xml" />
+
+    <file src="..\..\Release\net35\Accord.Genetic.dll" target="lib\net35-unity subset v3.5\Accord.Genetic.dll" />
+    <file src="..\..\Release\net35\Accord.Genetic.xml" target="lib\net35-unity subset v3.5\Accord.Genetic.xml" />
+
+    <file src="..\..\Release\net35\Accord.Genetic.dll" target="lib\net35-unity web v3.5\Accord.Genetic.dll" />
+    <file src="..\..\Release\net35\Accord.Genetic.xml" target="lib\net35-unity web v3.5\Accord.Genetic.xml" />
+
+    <file src="..\..\Release\net35\Accord.Genetic.dll" target="lib\net35-unity micro v3.5\Accord.Genetic.dll" />
+    <file src="..\..\Release\net35\Accord.Genetic.xml" target="lib\net35-unity micro v3.5\Accord.Genetic.xml" />
+
     <file src="..\..\Release\net35\Accord.Genetic.dll" target="lib\net35\Accord.Genetic.dll" />
     <file src="..\..\Release\net35\Accord.Genetic.xml" target="lib\net35\Accord.Genetic.xml" />
 

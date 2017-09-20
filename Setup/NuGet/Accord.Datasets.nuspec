@@ -15,7 +15,7 @@
       Contains classes to download and parse machine learning datasets such as MNIST, News20, Iris. This package is part of the Accord.NET Framework.
     </description>
     <summary>Download and open standard machine learning datasets from the web, such as MNIST, Newsgroups, Iris and others.</summary>
-    <tags>accord.net aforge.net framework statistics mnist machine learning cifar imagenet</tags>
+    <tags>accord.net aforge.net framework statistics mnist machine learning cifar imagenet unity3d unity</tags>
     <dependencies>
       <dependency id="Accord"         version="$version$" />
       <dependency id="Accord.IO"      version="$version$" />
@@ -24,6 +24,18 @@
     </dependencies>
   </metadata>
   <files>
+    <file src="..\..\Release\net35\Accord.DataSets.dll" target="lib\net35-unity full v3.5\Accord.DataSets.dll" />
+    <file src="..\..\Release\net35\Accord.DataSets.xml" target="lib\net35-unity full v3.5\Accord.DataSets.xml" />
+
+    <file src="..\..\Release\net35\Accord.DataSets.dll" target="lib\net35-unity subset v3.5\Accord.DataSets.dll" />
+    <file src="..\..\Release\net35\Accord.DataSets.xml" target="lib\net35-unity subset v3.5\Accord.DataSets.xml" />
+
+    <file src="..\..\Release\net35\Accord.DataSets.dll" target="lib\net35-unity web v3.5\Accord.DataSets.dll" />
+    <file src="..\..\Release\net35\Accord.DataSets.xml" target="lib\net35-unity web v3.5\Accord.DataSets.xml" />
+
+    <file src="..\..\Release\net35\Accord.DataSets.dll" target="lib\net35-unity micro v3.5\Accord.DataSets.dll" />
+    <file src="..\..\Release\net35\Accord.DataSets.xml" target="lib\net35-unity micro v3.5\Accord.DataSets.xml" />
+
     <file src="..\..\Release\net35\Accord.DataSets.dll" target="lib\net35\Accord.DataSets.dll" />
     <file src="..\..\Release\net35\Accord.DataSets.xml" target="lib\net35\Accord.DataSets.xml" />
 

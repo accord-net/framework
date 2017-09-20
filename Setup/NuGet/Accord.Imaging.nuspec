@@ -16,7 +16,7 @@
       This package is part of the Accord.NET Framework.
     </description>
     <summary>Point detectors (i.e. SURF, Fast, Harris, SUSAN, HOG), large collection of image filters, texture generation, bag-of-visual-words for feature representation, homography estimation, and others image processing related algorithms.</summary>
-    <tags>accord.net aforge.net framework image processing computer vision blur Gaussian integral</tags>
+    <tags>accord.net aforge.net framework image processing computer vision blur Gaussian integral unity3d unity</tags>
     <dependencies>
       <dependency id="Accord"                 version="$version$" />
       <dependency id="Accord.Math"            version="$version$" />
@@ -24,6 +24,18 @@
     </dependencies>
   </metadata>
   <files>
+    <file src="..\..\Release\net35\Accord.Imaging.dll" target="lib\net35-unity full v3.5\Accord.Imaging.dll" />
+    <file src="..\..\Release\net35\Accord.Imaging.xml" target="lib\net35-unity full v3.5\Accord.Imaging.xml" />
+
+    <file src="..\..\Release\net35\Accord.Imaging.dll" target="lib\net35-unity subset v3.5\Accord.Imaging.dll" />
+    <file src="..\..\Release\net35\Accord.Imaging.xml" target="lib\net35-unity subset v3.5\Accord.Imaging.xml" />
+
+    <file src="..\..\Release\net35\Accord.Imaging.dll" target="lib\net35-unity web v3.5\Accord.Imaging.dll" />
+    <file src="..\..\Release\net35\Accord.Imaging.xml" target="lib\net35-unity web v3.5\Accord.Imaging.xml" />
+
+    <file src="..\..\Release\net35\Accord.Imaging.dll" target="lib\net35-unity micro v3.5\Accord.Imaging.dll" />
+    <file src="..\..\Release\net35\Accord.Imaging.xml" target="lib\net35-unity micro v3.5\Accord.Imaging.xml" />
+
     <file src="..\..\Release\net35\Accord.Imaging.dll" target="lib\net35\Accord.Imaging.dll" />
     <file src="..\..\Release\net35\Accord.Imaging.xml" target="lib\net35\Accord.Imaging.xml" />
 

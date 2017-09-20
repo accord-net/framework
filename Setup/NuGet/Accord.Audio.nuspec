@@ -15,13 +15,33 @@
       Process, transforms, filters and handle audio signals for machine learning and statistical applications. This package is part of the Accord.NET Framework.
     </description>
     <summary>Audio filters (i.e. envelope, high/low-pass, FFT), temporal windows (i.e. Blackman, raised cosine), signal generators, beat detection and general audio analysis for machine learning applications.</summary>
-    <tags>accord.net aforge.net framework computer audition audio processing fft spectral classification extraction beat detection</tags>
+    <tags>accord.net aforge.net framework computer audition audio processing fft spectral classification extraction beat detection unity3d unity</tags>
     <dependencies>
       <dependency id="Accord"      version="$version$" />
       <dependency id="Accord.Math" version="$version$" />
     </dependencies>
   </metadata>
   <files>
+    <file src="..\..\Release\net35\Accord.Audio.dll" target="lib\net35-unity full v3.5\Accord.Audio.dll" />
+    <file src="..\..\Release\net35\Accord.Audio.xml" target="lib\net35-unity full v3.5\Accord.Audio.xml" />
+    <file src="..\..\Release\net35\Accord.Audio.Audition.dll" target="lib\net35-unity full v3.5\Accord.Audio.Audition.dll" />
+    <file src="..\..\Release\net35\Accord.Audio.Audition.xml" target="lib\net35-unity full v3.5\Accord.Audio.Audition.xml" />
+
+    <file src="..\..\Release\net35\Accord.Audio.dll" target="lib\net35-unity subset v3.5\Accord.Audio.dll" />
+    <file src="..\..\Release\net35\Accord.Audio.xml" target="lib\net35-unity subset v3.5\Accord.Audio.xml" />
+    <file src="..\..\Release\net35\Accord.Audio.Audition.dll" target="lib\net35-unity subset v3.5\Accord.Audio.Audition.dll" />
+    <file src="..\..\Release\net35\Accord.Audio.Audition.xml" target="lib\net35-unity subset v3.5\Accord.Audio.Audition.xml" />
+
+    <file src="..\..\Release\net35\Accord.Audio.dll" target="lib\net35-unity web v3.5\Accord.Audio.dll" />
+    <file src="..\..\Release\net35\Accord.Audio.xml" target="lib\net35-unity web v3.5\Accord.Audio.xml" />
+    <file src="..\..\Release\net35\Accord.Audio.Audition.dll" target="lib\net35-unity web v3.5\Accord.Audio.Audition.dll" />
+    <file src="..\..\Release\net35\Accord.Audio.Audition.xml" target="lib\net35-unity web v3.5\Accord.Audio.Audition.xml" />
+
+    <file src="..\..\Release\net35\Accord.Audio.dll" target="lib\net35-unity micro v3.5\Accord.Audio.dll" />
+    <file src="..\..\Release\net35\Accord.Audio.xml" target="lib\net35-unity micro v3.5\Accord.Audio.xml" />
+    <file src="..\..\Release\net35\Accord.Audio.Audition.dll" target="lib\net35-unity micro v3.5\Accord.Audio.Audition.dll" />
+    <file src="..\..\Release\net35\Accord.Audio.Audition.xml" target="lib\net35-unity micro v3.5\Accord.Audio.Audition.xml" />
+
     <file src="..\..\Release\net35\Accord.Audio.dll"    target="lib\net35\Accord.Audio.dll" />
     <file src="..\..\Release\net35\Accord.Audio.xml"    target="lib\net35\Accord.Audio.xml" />
     <file src="..\..\Release\net35\Accord.Audition.dll" target="lib\net35\Accord.Audition.dll" />

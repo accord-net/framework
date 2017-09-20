@@ -15,7 +15,7 @@
       Contains Fuzzy logic tools, such as fuzzy sets, linguistic variables and inference systems. This package originated from the AForge.NET Framework and is part of the Accord.NET Framework.
     </description>
     <summary>Create fuzzy decision systems using fuzzy logic. Contains Fuzzy sets, linguistic variables and fuzzy inference systems.</summary>
-    <tags>accord.net aforge.net fuzzy logic math</tags>
+    <tags>accord.net aforge.net fuzzy logic math unity3d unity</tags>
     <dependencies>
       <dependency id="Accord"            version="$version$" />
       <dependency id="Accord.Math"       version="$version$" />
@@ -23,6 +23,18 @@
     </dependencies>
   </metadata>
   <files>
+    <file src="..\..\Release\net35\Accord.Fuzzy.dll" target="lib\net35-unity full v3.5\Accord.Fuzzy.dll" />
+    <file src="..\..\Release\net35\Accord.Fuzzy.xml" target="lib\net35-unity full v3.5\Accord.Fuzzy.xml" />
+
+    <file src="..\..\Release\net35\Accord.Fuzzy.dll" target="lib\net35-unity subset v3.5\Accord.Fuzzy.dll" />
+    <file src="..\..\Release\net35\Accord.Fuzzy.xml" target="lib\net35-unity subset v3.5\Accord.Fuzzy.xml" />
+
+    <file src="..\..\Release\net35\Accord.Fuzzy.dll" target="lib\net35-unity web v3.5\Accord.Fuzzy.dll" />
+    <file src="..\..\Release\net35\Accord.Fuzzy.xml" target="lib\net35-unity web v3.5\Accord.Fuzzy.xml" />
+
+    <file src="..\..\Release\net35\Accord.Fuzzy.dll" target="lib\net35-unity micro v3.5\Accord.Fuzzy.dll" />
+    <file src="..\..\Release\net35\Accord.Fuzzy.xml" target="lib\net35-unity micro v3.5\Accord.Fuzzy.xml" />
+
     <file src="..\..\Release\net35\Accord.Fuzzy.dll" target="lib\net35\Accord.Fuzzy.dll" />
     <file src="..\..\Release\net35\Accord.Fuzzy.xml" target="lib\net35\Accord.Fuzzy.xml" />
 
