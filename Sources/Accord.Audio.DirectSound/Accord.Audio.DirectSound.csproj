@@ -46,11 +46,11 @@
     <When Condition="'$(Configuration)' == 'net35'">
       <ItemGroup>
         <Reference Include="SharpDX">
-          <HintPath>..\..\Externals\SharpDX\v263\net35\SharpDX.dll</HintPath>
+          <HintPath>..\..\Externals\SharpDX\v263\net20\SharpDX.dll</HintPath>
           <Private>True</Private>
         </Reference>
         <Reference Include="SharpDX.DirectSound">
-          <HintPath>..\..\Externals\SharpDX\v263\net35\SharpDX.DirectSound.dll</HintPath>
+          <HintPath>..\..\Externals\SharpDX\v263\net20\SharpDX.DirectSound.dll</HintPath>
           <Private>True</Private>
         </Reference>
       </ItemGroup>

@@ -32,9 +32,9 @@ namespace Accord.MachineLearning
     /// </summary>
     /// 
     /// <remarks>
-    ///   The <see cref="Decision"/> structure is the equivalent of a <see cref="System.Tuple{T1, T2}"/>
+    ///   The <see cref="Decision"/> structure is the equivalent of a <see cref="Tuple{T1, T2}"/>
     ///   where the tuple elements are called <see cref="Class1"/> and <see cref="Class2"/> instead of
-    ///   <see cref="System.Tuple{T1, T2}.Item1"/> and <see cref="System.Tuple{T1, T2}.Item2"/>. It is
+    ///   <see cref="Tuple{T1, T2}.Item1"/> and <see cref="Tuple{T1, T2}.Item2"/>. It is
     ///   mainly used to index or provide access to individual binary models within a <see cref="OneVsOne{TBinary}"/>
     ///   (i.e. through <see cref="OneVsOne{TBinary, TInput}.Indices"/> and 
     ///   <see cref="OneVsOne{TBinary, TInput}.GetEnumerator()"/>) and in the definition of the
