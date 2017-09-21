@@ -40,7 +40,7 @@ namespace Accord.Math
 #pragma warning disable 1591
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -55,7 +55,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -70,7 +70,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The vector <c>a</c>.</param>
@@ -82,7 +82,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a vector <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a vector <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The vector <c>a</c>.</param>
@@ -97,7 +97,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -112,7 +112,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -127,7 +127,7 @@ namespace Accord.Math
         }     
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -142,7 +142,7 @@ namespace Accord.Math
         }      
 */
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -157,7 +157,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -172,7 +172,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a vector <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a vector <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -187,7 +187,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -208,7 +208,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -229,7 +229,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -244,7 +244,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -259,7 +259,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -274,7 +274,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -289,7 +289,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -304,7 +304,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -319,7 +319,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -334,7 +334,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -350,7 +350,7 @@ namespace Accord.Math
  
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -365,7 +365,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -380,7 +380,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The vector <c>a</c>.</param>
@@ -392,7 +392,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a vector <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a vector <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The vector <c>a</c>.</param>
@@ -407,7 +407,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -422,7 +422,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -437,7 +437,7 @@ namespace Accord.Math
         }     
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -452,7 +452,7 @@ namespace Accord.Math
         }      
 */
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -467,7 +467,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -482,7 +482,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a vector <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a vector <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -497,7 +497,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -518,7 +518,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -539,7 +539,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -554,7 +554,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -569,7 +569,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -584,7 +584,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -599,7 +599,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -614,7 +614,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -629,7 +629,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -644,7 +644,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -660,7 +660,7 @@ namespace Accord.Math
  
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -675,7 +675,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -690,7 +690,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The vector <c>a</c>.</param>
@@ -702,7 +702,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a vector <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a vector <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The vector <c>a</c>.</param>
@@ -717,7 +717,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -732,7 +732,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -747,7 +747,7 @@ namespace Accord.Math
         }     
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -762,7 +762,7 @@ namespace Accord.Math
         }      
 */
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -777,7 +777,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -792,7 +792,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a vector <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a vector <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -807,7 +807,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -828,7 +828,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -849,7 +849,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -864,7 +864,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -879,7 +879,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -894,7 +894,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -909,7 +909,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -924,7 +924,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -939,7 +939,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -954,7 +954,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -970,7 +970,7 @@ namespace Accord.Math
  
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -985,7 +985,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -1000,7 +1000,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The vector <c>a</c>.</param>
@@ -1012,7 +1012,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a vector <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a vector <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The vector <c>a</c>.</param>
@@ -1027,7 +1027,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -1042,7 +1042,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -1057,7 +1057,7 @@ namespace Accord.Math
         }     
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -1072,7 +1072,7 @@ namespace Accord.Math
         }      
 */
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -1087,7 +1087,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -1102,7 +1102,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a vector <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a vector <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -1117,7 +1117,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -1138,7 +1138,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -1159,7 +1159,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -1174,7 +1174,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -1189,7 +1189,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -1204,7 +1204,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -1219,7 +1219,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -1234,7 +1234,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -1249,7 +1249,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -1264,7 +1264,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -1280,7 +1280,7 @@ namespace Accord.Math
  
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -1295,7 +1295,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -1310,7 +1310,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The vector <c>a</c>.</param>
@@ -1322,7 +1322,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a vector <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a vector <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The vector <c>a</c>.</param>
@@ -1337,7 +1337,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -1352,7 +1352,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -1367,7 +1367,7 @@ namespace Accord.Math
         }     
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -1382,7 +1382,7 @@ namespace Accord.Math
         }      
 */
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -1397,7 +1397,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -1412,7 +1412,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a vector <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a vector <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -1427,7 +1427,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -1448,7 +1448,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -1469,7 +1469,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -1484,7 +1484,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -1499,7 +1499,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -1514,7 +1514,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -1529,7 +1529,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -1544,7 +1544,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -1559,7 +1559,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -1574,7 +1574,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -1590,7 +1590,7 @@ namespace Accord.Math
  
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -1605,7 +1605,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -1620,7 +1620,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The vector <c>a</c>.</param>
@@ -1632,7 +1632,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a vector <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a vector <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The vector <c>a</c>.</param>
@@ -1647,7 +1647,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -1662,7 +1662,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -1677,7 +1677,7 @@ namespace Accord.Math
         }     
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -1692,7 +1692,7 @@ namespace Accord.Math
         }      
 */
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -1707,7 +1707,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -1722,7 +1722,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a vector <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a vector <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -1737,7 +1737,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -1758,7 +1758,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -1779,7 +1779,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -1794,7 +1794,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -1809,7 +1809,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -1824,7 +1824,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -1839,7 +1839,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -1854,7 +1854,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -1869,7 +1869,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -1884,7 +1884,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -1900,7 +1900,7 @@ namespace Accord.Math
  
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -1915,7 +1915,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -1930,7 +1930,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The vector <c>a</c>.</param>
@@ -1942,7 +1942,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a vector <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a vector <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The vector <c>a</c>.</param>
@@ -1957,7 +1957,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -1972,7 +1972,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -1987,7 +1987,7 @@ namespace Accord.Math
         }     
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -2002,7 +2002,7 @@ namespace Accord.Math
         }      
 */
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -2017,7 +2017,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -2032,7 +2032,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a vector <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a vector <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -2047,7 +2047,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -2068,7 +2068,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -2089,7 +2089,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -2104,7 +2104,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -2119,7 +2119,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -2134,7 +2134,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -2149,7 +2149,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -2164,7 +2164,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -2179,7 +2179,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -2194,7 +2194,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -2210,7 +2210,7 @@ namespace Accord.Math
  
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -2225,7 +2225,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -2240,7 +2240,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The vector <c>a</c>.</param>
@@ -2252,7 +2252,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a vector <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a vector <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The vector <c>a</c>.</param>
@@ -2267,7 +2267,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -2282,7 +2282,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -2297,7 +2297,7 @@ namespace Accord.Math
         }     
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -2312,7 +2312,7 @@ namespace Accord.Math
         }      
 */
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -2327,7 +2327,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -2342,7 +2342,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a vector <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a vector <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -2357,7 +2357,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -2378,7 +2378,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -2399,7 +2399,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -2414,7 +2414,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -2429,7 +2429,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -2444,7 +2444,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -2459,7 +2459,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -2474,7 +2474,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -2489,7 +2489,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -2504,7 +2504,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -2520,7 +2520,7 @@ namespace Accord.Math
  
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -2535,7 +2535,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -2550,7 +2550,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The vector <c>a</c>.</param>
@@ -2562,7 +2562,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a vector <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a vector <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The vector <c>a</c>.</param>
@@ -2577,7 +2577,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -2592,7 +2592,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -2607,7 +2607,7 @@ namespace Accord.Math
         }     
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -2622,7 +2622,7 @@ namespace Accord.Math
         }      
 */
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -2637,7 +2637,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -2652,7 +2652,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a vector <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a vector <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -2667,7 +2667,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -2688,7 +2688,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -2709,7 +2709,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -2724,7 +2724,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -2739,7 +2739,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -2754,7 +2754,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -2769,7 +2769,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -2784,7 +2784,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -2799,7 +2799,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -2814,7 +2814,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -2830,7 +2830,7 @@ namespace Accord.Math
  
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -2845,7 +2845,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -2860,7 +2860,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The vector <c>a</c>.</param>
@@ -2872,7 +2872,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a vector <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a vector <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The vector <c>a</c>.</param>
@@ -2887,7 +2887,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -2902,7 +2902,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -2917,7 +2917,7 @@ namespace Accord.Math
         }     
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -2932,7 +2932,7 @@ namespace Accord.Math
         }      
 */
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -2947,7 +2947,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -2962,7 +2962,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a vector <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a vector <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -2977,7 +2977,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -2998,7 +2998,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -3019,7 +3019,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -3034,7 +3034,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -3049,7 +3049,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -3064,7 +3064,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -3079,7 +3079,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -3094,7 +3094,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -3109,7 +3109,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -3124,7 +3124,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -3140,7 +3140,7 @@ namespace Accord.Math
  
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -3155,7 +3155,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -3170,7 +3170,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The vector <c>a</c>.</param>
@@ -3182,7 +3182,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a vector <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a vector <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The vector <c>a</c>.</param>
@@ -3197,7 +3197,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -3212,7 +3212,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -3227,7 +3227,7 @@ namespace Accord.Math
         }     
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -3242,7 +3242,7 @@ namespace Accord.Math
         }      
 */
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -3257,7 +3257,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -3272,7 +3272,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a vector <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a vector <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -3287,7 +3287,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -3308,7 +3308,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -3329,7 +3329,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -3344,7 +3344,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -3359,7 +3359,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -3374,7 +3374,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -3389,7 +3389,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -3404,7 +3404,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -3419,7 +3419,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -3434,7 +3434,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -3450,7 +3450,7 @@ namespace Accord.Math
  
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -3465,7 +3465,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -3480,7 +3480,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The vector <c>a</c>.</param>
@@ -3492,7 +3492,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a vector <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a vector <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The vector <c>a</c>.</param>
@@ -3507,7 +3507,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -3522,7 +3522,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -3537,7 +3537,7 @@ namespace Accord.Math
         }     
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -3552,7 +3552,7 @@ namespace Accord.Math
         }      
 */
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -3567,7 +3567,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -3582,7 +3582,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a vector <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a vector <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -3597,7 +3597,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -3618,7 +3618,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -3639,7 +3639,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -3654,7 +3654,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -3669,7 +3669,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -3684,7 +3684,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -3699,7 +3699,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -3714,7 +3714,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -3729,7 +3729,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -3744,7 +3744,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -3760,7 +3760,7 @@ namespace Accord.Math
  
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -3775,7 +3775,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -3790,7 +3790,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The vector <c>a</c>.</param>
@@ -3802,7 +3802,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a vector <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a vector <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The vector <c>a</c>.</param>
@@ -3817,7 +3817,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -3832,7 +3832,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -3847,7 +3847,7 @@ namespace Accord.Math
         }     
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -3862,7 +3862,7 @@ namespace Accord.Math
         }      
 */
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -3877,7 +3877,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -3892,7 +3892,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a vector <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a vector <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -3907,7 +3907,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -3928,7 +3928,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -3949,7 +3949,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -3964,7 +3964,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -3979,7 +3979,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -3994,7 +3994,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -4009,7 +4009,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -4024,7 +4024,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -4039,7 +4039,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -4054,7 +4054,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -4070,7 +4070,7 @@ namespace Accord.Math
  
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -4085,7 +4085,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -4100,7 +4100,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The vector <c>a</c>.</param>
@@ -4112,7 +4112,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a vector <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a vector <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The vector <c>a</c>.</param>
@@ -4127,7 +4127,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -4142,7 +4142,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -4157,7 +4157,7 @@ namespace Accord.Math
         }     
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -4172,7 +4172,7 @@ namespace Accord.Math
         }      
 */
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -4187,7 +4187,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -4202,7 +4202,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a vector <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a vector <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -4217,7 +4217,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -4238,7 +4238,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -4259,7 +4259,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -4274,7 +4274,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -4289,7 +4289,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -4304,7 +4304,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -4319,7 +4319,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -4334,7 +4334,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -4349,7 +4349,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -4364,7 +4364,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -4380,7 +4380,7 @@ namespace Accord.Math
  
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -4395,7 +4395,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -4410,7 +4410,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The vector <c>a</c>.</param>
@@ -4422,7 +4422,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a vector <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a vector <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The vector <c>a</c>.</param>
@@ -4437,7 +4437,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -4452,7 +4452,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -4467,7 +4467,7 @@ namespace Accord.Math
         }     
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -4482,7 +4482,7 @@ namespace Accord.Math
         }      
 */
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -4497,7 +4497,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -4512,7 +4512,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a vector <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a vector <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -4527,7 +4527,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -4548,7 +4548,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -4569,7 +4569,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -4584,7 +4584,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -4599,7 +4599,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -4614,7 +4614,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -4629,7 +4629,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -4644,7 +4644,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -4659,7 +4659,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -4674,7 +4674,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -4690,7 +4690,7 @@ namespace Accord.Math
  
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -4705,7 +4705,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -4720,7 +4720,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The vector <c>a</c>.</param>
@@ -4732,7 +4732,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a vector <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a vector <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The vector <c>a</c>.</param>
@@ -4747,7 +4747,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -4762,7 +4762,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -4777,7 +4777,7 @@ namespace Accord.Math
         }     
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -4792,7 +4792,7 @@ namespace Accord.Math
         }      
 */
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -4807,7 +4807,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -4822,7 +4822,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a vector <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a vector <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -4837,7 +4837,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -4858,7 +4858,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -4879,7 +4879,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -4894,7 +4894,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -4909,7 +4909,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -4924,7 +4924,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -4939,7 +4939,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -4954,7 +4954,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -4969,7 +4969,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -4984,7 +4984,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -5000,7 +5000,7 @@ namespace Accord.Math
  
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -5015,7 +5015,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -5030,7 +5030,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The vector <c>a</c>.</param>
@@ -5042,7 +5042,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a vector <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a vector <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The vector <c>a</c>.</param>
@@ -5057,7 +5057,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -5072,7 +5072,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -5087,7 +5087,7 @@ namespace Accord.Math
         }     
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -5102,7 +5102,7 @@ namespace Accord.Math
         }      
 */
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -5117,7 +5117,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -5132,7 +5132,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a vector <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a vector <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -5147,7 +5147,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -5168,7 +5168,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -5189,7 +5189,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -5204,7 +5204,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -5219,7 +5219,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -5234,7 +5234,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -5249,7 +5249,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -5264,7 +5264,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -5279,7 +5279,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -5294,7 +5294,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -5310,7 +5310,7 @@ namespace Accord.Math
  
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -5325,7 +5325,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -5340,7 +5340,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The vector <c>a</c>.</param>
@@ -5352,7 +5352,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a vector <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a vector <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The vector <c>a</c>.</param>
@@ -5367,7 +5367,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -5382,7 +5382,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -5397,7 +5397,7 @@ namespace Accord.Math
         }     
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -5412,7 +5412,7 @@ namespace Accord.Math
         }      
 */
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -5427,7 +5427,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -5442,7 +5442,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a vector <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a vector <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -5457,7 +5457,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -5478,7 +5478,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -5499,7 +5499,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -5514,7 +5514,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -5529,7 +5529,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -5544,7 +5544,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -5559,7 +5559,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -5574,7 +5574,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -5589,7 +5589,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -5604,7 +5604,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -5620,7 +5620,7 @@ namespace Accord.Math
  
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -5635,7 +5635,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -5650,7 +5650,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The vector <c>a</c>.</param>
@@ -5662,7 +5662,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a vector <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a vector <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The vector <c>a</c>.</param>
@@ -5677,7 +5677,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -5692,7 +5692,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -5707,7 +5707,7 @@ namespace Accord.Math
         }     
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -5722,7 +5722,7 @@ namespace Accord.Math
         }      
 */
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -5737,7 +5737,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -5752,7 +5752,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a vector <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a vector <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -5767,7 +5767,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -5788,7 +5788,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -5809,7 +5809,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -5824,7 +5824,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -5839,7 +5839,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -5854,7 +5854,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -5869,7 +5869,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -5884,7 +5884,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -5899,7 +5899,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -5914,7 +5914,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -5930,7 +5930,7 @@ namespace Accord.Math
  
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -5945,7 +5945,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -5960,7 +5960,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The vector <c>a</c>.</param>
@@ -5972,7 +5972,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a vector <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a vector <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The vector <c>a</c>.</param>
@@ -5987,7 +5987,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -6002,7 +6002,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -6017,7 +6017,7 @@ namespace Accord.Math
         }     
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -6032,7 +6032,7 @@ namespace Accord.Math
         }      
 */
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -6047,7 +6047,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -6062,7 +6062,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a vector <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a vector <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -6077,7 +6077,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -6098,7 +6098,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -6119,7 +6119,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -6134,7 +6134,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -6149,7 +6149,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -6164,7 +6164,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -6179,7 +6179,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -6194,7 +6194,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -6209,7 +6209,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -6224,7 +6224,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -6240,7 +6240,7 @@ namespace Accord.Math
  
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -6255,7 +6255,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -6270,7 +6270,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The vector <c>a</c>.</param>
@@ -6282,7 +6282,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a vector <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a vector <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The vector <c>a</c>.</param>
@@ -6297,7 +6297,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -6312,7 +6312,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -6327,7 +6327,7 @@ namespace Accord.Math
         }     
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -6342,7 +6342,7 @@ namespace Accord.Math
         }      
 */
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -6357,7 +6357,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -6372,7 +6372,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a vector <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a vector <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -6387,7 +6387,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -6408,7 +6408,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -6429,7 +6429,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -6444,7 +6444,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -6459,7 +6459,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -6474,7 +6474,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -6489,7 +6489,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -6504,7 +6504,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -6519,7 +6519,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -6534,7 +6534,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -6550,7 +6550,7 @@ namespace Accord.Math
  
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -6565,7 +6565,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -6580,7 +6580,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The vector <c>a</c>.</param>
@@ -6592,7 +6592,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a vector <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a vector <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The vector <c>a</c>.</param>
@@ -6607,7 +6607,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -6622,7 +6622,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -6637,7 +6637,7 @@ namespace Accord.Math
         }     
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -6652,7 +6652,7 @@ namespace Accord.Math
         }      
 */
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -6667,7 +6667,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -6682,7 +6682,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a vector <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a vector <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -6697,7 +6697,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -6718,7 +6718,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -6739,7 +6739,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -6754,7 +6754,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -6769,7 +6769,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -6784,7 +6784,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -6799,7 +6799,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -6814,7 +6814,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -6829,7 +6829,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -6844,7 +6844,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -6860,7 +6860,7 @@ namespace Accord.Math
  
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -6875,7 +6875,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -6890,7 +6890,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The vector <c>a</c>.</param>
@@ -6902,7 +6902,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a vector <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a vector <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The vector <c>a</c>.</param>
@@ -6917,7 +6917,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -6932,7 +6932,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -6947,7 +6947,7 @@ namespace Accord.Math
         }     
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -6962,7 +6962,7 @@ namespace Accord.Math
         }      
 */
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -6977,7 +6977,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -6992,7 +6992,7 @@ namespace Accord.Math
         }     
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a vector <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a vector <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -7007,7 +7007,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -7028,7 +7028,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -7049,7 +7049,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -7064,7 +7064,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -7079,7 +7079,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -7094,7 +7094,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -7109,7 +7109,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -7124,7 +7124,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -7139,7 +7139,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -7154,7 +7154,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by to the main diagonal of matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -7172,7 +7172,7 @@ namespace Accord.Math
 #region Matrix matrix
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -7207,7 +7207,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -7242,7 +7242,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -7277,7 +7277,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -7310,7 +7310,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -7342,7 +7342,7 @@ namespace Accord.Math
         }
 */
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -7367,7 +7367,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -7430,7 +7430,7 @@ namespace Accord.Math
 #region Matrix with scalar
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -7463,7 +7463,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -7487,7 +7487,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -7512,7 +7512,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -7545,7 +7545,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -7569,7 +7569,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -7602,7 +7602,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -7635,7 +7635,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -7668,7 +7668,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -7701,7 +7701,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -7752,7 +7752,7 @@ namespace Accord.Math
 #region vector vector
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -7783,7 +7783,7 @@ namespace Accord.Math
 #region Vector with scalar
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a scalar <c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -7806,7 +7806,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -7837,7 +7837,7 @@ namespace Accord.Math
 
 #region Matrix vector
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -7885,7 +7885,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -8118,7 +8118,7 @@ namespace Accord.Math
 #region Matrix matrix
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -8153,7 +8153,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -8188,7 +8188,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -8223,7 +8223,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -8256,7 +8256,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -8288,7 +8288,7 @@ namespace Accord.Math
         }
 */
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -8313,7 +8313,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -8376,7 +8376,7 @@ namespace Accord.Math
 #region Matrix with scalar
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -8409,7 +8409,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -8433,7 +8433,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -8458,7 +8458,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -8491,7 +8491,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -8515,7 +8515,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -8548,7 +8548,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -8581,7 +8581,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -8614,7 +8614,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -8647,7 +8647,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -8698,7 +8698,7 @@ namespace Accord.Math
 #region vector vector
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -8729,7 +8729,7 @@ namespace Accord.Math
 #region Vector with scalar
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a scalar <c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -8752,7 +8752,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -8783,7 +8783,7 @@ namespace Accord.Math
 
 #region Matrix vector
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -8831,7 +8831,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -9064,7 +9064,7 @@ namespace Accord.Math
 #region Matrix matrix
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -9099,7 +9099,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -9134,7 +9134,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -9169,7 +9169,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -9202,7 +9202,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -9234,7 +9234,7 @@ namespace Accord.Math
         }
 */
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -9259,7 +9259,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -9322,7 +9322,7 @@ namespace Accord.Math
 #region Matrix with scalar
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -9355,7 +9355,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -9379,7 +9379,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -9404,7 +9404,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -9437,7 +9437,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -9461,7 +9461,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -9494,7 +9494,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -9527,7 +9527,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -9560,7 +9560,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -9593,7 +9593,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -9644,7 +9644,7 @@ namespace Accord.Math
 #region vector vector
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -9675,7 +9675,7 @@ namespace Accord.Math
 #region Vector with scalar
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a scalar <c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -9698,7 +9698,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -9729,7 +9729,7 @@ namespace Accord.Math
 
 #region Matrix vector
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -9777,7 +9777,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -10010,7 +10010,7 @@ namespace Accord.Math
 #region Matrix matrix
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -10045,7 +10045,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -10080,7 +10080,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -10115,7 +10115,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -10148,7 +10148,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -10180,7 +10180,7 @@ namespace Accord.Math
         }
 */
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -10205,7 +10205,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -10268,7 +10268,7 @@ namespace Accord.Math
 #region Matrix with scalar
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -10301,7 +10301,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -10325,7 +10325,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -10350,7 +10350,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -10383,7 +10383,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -10407,7 +10407,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -10440,7 +10440,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -10473,7 +10473,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -10506,7 +10506,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -10539,7 +10539,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -10590,7 +10590,7 @@ namespace Accord.Math
 #region vector vector
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -10621,7 +10621,7 @@ namespace Accord.Math
 #region Vector with scalar
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a scalar <c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -10644,7 +10644,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -10675,7 +10675,7 @@ namespace Accord.Math
 
 #region Matrix vector
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -10723,7 +10723,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -10956,7 +10956,7 @@ namespace Accord.Math
 #region Matrix matrix
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -10991,7 +10991,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -11026,7 +11026,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -11061,7 +11061,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -11094,7 +11094,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -11126,7 +11126,7 @@ namespace Accord.Math
         }
 */
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -11151,7 +11151,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -11214,7 +11214,7 @@ namespace Accord.Math
 #region Matrix with scalar
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -11247,7 +11247,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -11271,7 +11271,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -11296,7 +11296,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -11329,7 +11329,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -11353,7 +11353,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -11386,7 +11386,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -11419,7 +11419,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -11452,7 +11452,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -11485,7 +11485,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -11536,7 +11536,7 @@ namespace Accord.Math
 #region vector vector
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -11567,7 +11567,7 @@ namespace Accord.Math
 #region Vector with scalar
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a scalar <c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -11590,7 +11590,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -11621,7 +11621,7 @@ namespace Accord.Math
 
 #region Matrix vector
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -11669,7 +11669,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -11902,7 +11902,7 @@ namespace Accord.Math
 #region Matrix matrix
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -11937,7 +11937,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -11972,7 +11972,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -12007,7 +12007,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -12040,7 +12040,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -12072,7 +12072,7 @@ namespace Accord.Math
         }
 */
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -12097,7 +12097,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -12160,7 +12160,7 @@ namespace Accord.Math
 #region Matrix with scalar
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -12193,7 +12193,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -12217,7 +12217,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -12242,7 +12242,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -12275,7 +12275,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -12299,7 +12299,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -12332,7 +12332,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -12365,7 +12365,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -12398,7 +12398,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -12431,7 +12431,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -12482,7 +12482,7 @@ namespace Accord.Math
 #region vector vector
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -12513,7 +12513,7 @@ namespace Accord.Math
 #region Vector with scalar
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a scalar <c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -12536,7 +12536,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -12567,7 +12567,7 @@ namespace Accord.Math
 
 #region Matrix vector
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -12615,7 +12615,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -12848,7 +12848,7 @@ namespace Accord.Math
 #region Matrix matrix
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -12883,7 +12883,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -12918,7 +12918,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -12953,7 +12953,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -12986,7 +12986,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -13018,7 +13018,7 @@ namespace Accord.Math
         }
 */
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -13043,7 +13043,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -13106,7 +13106,7 @@ namespace Accord.Math
 #region Matrix with scalar
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -13139,7 +13139,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -13163,7 +13163,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -13188,7 +13188,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -13221,7 +13221,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -13245,7 +13245,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -13278,7 +13278,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -13311,7 +13311,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -13344,7 +13344,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -13377,7 +13377,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -13428,7 +13428,7 @@ namespace Accord.Math
 #region vector vector
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -13459,7 +13459,7 @@ namespace Accord.Math
 #region Vector with scalar
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a scalar <c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -13482,7 +13482,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -13513,7 +13513,7 @@ namespace Accord.Math
 
 #region Matrix vector
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -13561,7 +13561,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -13794,7 +13794,7 @@ namespace Accord.Math
 #region Matrix matrix
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -13829,7 +13829,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -13864,7 +13864,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -13899,7 +13899,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -13932,7 +13932,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -13964,7 +13964,7 @@ namespace Accord.Math
         }
 */
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -13989,7 +13989,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -14052,7 +14052,7 @@ namespace Accord.Math
 #region Matrix with scalar
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -14085,7 +14085,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -14109,7 +14109,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -14134,7 +14134,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -14167,7 +14167,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -14191,7 +14191,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -14224,7 +14224,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -14257,7 +14257,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -14290,7 +14290,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -14323,7 +14323,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -14374,7 +14374,7 @@ namespace Accord.Math
 #region vector vector
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -14405,7 +14405,7 @@ namespace Accord.Math
 #region Vector with scalar
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a scalar <c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -14428,7 +14428,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -14459,7 +14459,7 @@ namespace Accord.Math
 
 #region Matrix vector
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -14507,7 +14507,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -14740,7 +14740,7 @@ namespace Accord.Math
 #region Matrix matrix
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -14775,7 +14775,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -14810,7 +14810,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -14845,7 +14845,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -14878,7 +14878,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -14910,7 +14910,7 @@ namespace Accord.Math
         }
 */
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -14935,7 +14935,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -14998,7 +14998,7 @@ namespace Accord.Math
 #region Matrix with scalar
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -15031,7 +15031,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -15055,7 +15055,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -15080,7 +15080,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -15113,7 +15113,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -15137,7 +15137,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -15170,7 +15170,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -15203,7 +15203,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -15236,7 +15236,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -15269,7 +15269,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -15320,7 +15320,7 @@ namespace Accord.Math
 #region vector vector
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -15351,7 +15351,7 @@ namespace Accord.Math
 #region Vector with scalar
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a scalar <c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -15374,7 +15374,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -15405,7 +15405,7 @@ namespace Accord.Math
 
 #region Matrix vector
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -15453,7 +15453,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -15686,7 +15686,7 @@ namespace Accord.Math
 #region Matrix matrix
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -15721,7 +15721,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -15756,7 +15756,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -15791,7 +15791,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -15824,7 +15824,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -15856,7 +15856,7 @@ namespace Accord.Math
         }
 */
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -15881,7 +15881,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -15944,7 +15944,7 @@ namespace Accord.Math
 #region Matrix with scalar
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -15977,7 +15977,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -16001,7 +16001,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -16026,7 +16026,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -16059,7 +16059,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -16083,7 +16083,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -16116,7 +16116,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -16149,7 +16149,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -16182,7 +16182,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -16215,7 +16215,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -16266,7 +16266,7 @@ namespace Accord.Math
 #region vector vector
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -16297,7 +16297,7 @@ namespace Accord.Math
 #region Vector with scalar
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a scalar <c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -16320,7 +16320,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -16351,7 +16351,7 @@ namespace Accord.Math
 
 #region Matrix vector
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -16399,7 +16399,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -16632,7 +16632,7 @@ namespace Accord.Math
 #region Matrix matrix
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -16667,7 +16667,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -16702,7 +16702,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -16737,7 +16737,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -16770,7 +16770,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -16802,7 +16802,7 @@ namespace Accord.Math
         }
 */
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -16827,7 +16827,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -16890,7 +16890,7 @@ namespace Accord.Math
 #region Matrix with scalar
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -16923,7 +16923,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -16947,7 +16947,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -16972,7 +16972,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -17005,7 +17005,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -17029,7 +17029,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -17062,7 +17062,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -17095,7 +17095,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -17128,7 +17128,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -17161,7 +17161,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -17212,7 +17212,7 @@ namespace Accord.Math
 #region vector vector
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -17243,7 +17243,7 @@ namespace Accord.Math
 #region Vector with scalar
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a scalar <c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -17266,7 +17266,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -17297,7 +17297,7 @@ namespace Accord.Math
 
 #region Matrix vector
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -17345,7 +17345,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -17578,7 +17578,7 @@ namespace Accord.Math
 #region Matrix matrix
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -17613,7 +17613,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -17648,7 +17648,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -17683,7 +17683,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -17716,7 +17716,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -17748,7 +17748,7 @@ namespace Accord.Math
         }
 */
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -17773,7 +17773,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -17836,7 +17836,7 @@ namespace Accord.Math
 #region Matrix with scalar
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -17869,7 +17869,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -17893,7 +17893,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -17918,7 +17918,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -17951,7 +17951,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -17975,7 +17975,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -18008,7 +18008,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -18041,7 +18041,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -18074,7 +18074,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -18107,7 +18107,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -18158,7 +18158,7 @@ namespace Accord.Math
 #region vector vector
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -18189,7 +18189,7 @@ namespace Accord.Math
 #region Vector with scalar
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a scalar <c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -18212,7 +18212,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -18243,7 +18243,7 @@ namespace Accord.Math
 
 #region Matrix vector
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -18291,7 +18291,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -18524,7 +18524,7 @@ namespace Accord.Math
 #region Matrix matrix
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -18559,7 +18559,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -18594,7 +18594,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -18629,7 +18629,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -18662,7 +18662,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -18694,7 +18694,7 @@ namespace Accord.Math
         }
 */
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -18719,7 +18719,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -18782,7 +18782,7 @@ namespace Accord.Math
 #region Matrix with scalar
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -18815,7 +18815,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -18839,7 +18839,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -18864,7 +18864,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -18897,7 +18897,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -18921,7 +18921,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -18954,7 +18954,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -18987,7 +18987,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -19020,7 +19020,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -19053,7 +19053,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -19104,7 +19104,7 @@ namespace Accord.Math
 #region vector vector
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -19135,7 +19135,7 @@ namespace Accord.Math
 #region Vector with scalar
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a scalar <c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -19158,7 +19158,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -19189,7 +19189,7 @@ namespace Accord.Math
 
 #region Matrix vector
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -19237,7 +19237,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -19470,7 +19470,7 @@ namespace Accord.Math
 #region Matrix matrix
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -19505,7 +19505,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -19540,7 +19540,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -19575,7 +19575,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -19608,7 +19608,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -19640,7 +19640,7 @@ namespace Accord.Math
         }
 */
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -19665,7 +19665,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -19728,7 +19728,7 @@ namespace Accord.Math
 #region Matrix with scalar
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -19761,7 +19761,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -19785,7 +19785,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -19810,7 +19810,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -19843,7 +19843,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -19867,7 +19867,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -19900,7 +19900,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -19933,7 +19933,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -19966,7 +19966,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -19999,7 +19999,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -20050,7 +20050,7 @@ namespace Accord.Math
 #region vector vector
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -20081,7 +20081,7 @@ namespace Accord.Math
 #region Vector with scalar
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a scalar <c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -20104,7 +20104,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -20135,7 +20135,7 @@ namespace Accord.Math
 
 #region Matrix vector
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -20183,7 +20183,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -20416,7 +20416,7 @@ namespace Accord.Math
 #region Matrix matrix
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -20451,7 +20451,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -20486,7 +20486,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -20521,7 +20521,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -20554,7 +20554,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -20586,7 +20586,7 @@ namespace Accord.Math
         }
 */
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -20611,7 +20611,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -20674,7 +20674,7 @@ namespace Accord.Math
 #region Matrix with scalar
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -20707,7 +20707,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -20731,7 +20731,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -20756,7 +20756,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -20789,7 +20789,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -20813,7 +20813,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -20846,7 +20846,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -20879,7 +20879,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -20912,7 +20912,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -20945,7 +20945,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -20996,7 +20996,7 @@ namespace Accord.Math
 #region vector vector
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -21027,7 +21027,7 @@ namespace Accord.Math
 #region Vector with scalar
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a scalar <c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -21050,7 +21050,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -21081,7 +21081,7 @@ namespace Accord.Math
 
 #region Matrix vector
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -21129,7 +21129,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -21362,7 +21362,7 @@ namespace Accord.Math
 #region Matrix matrix
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -21397,7 +21397,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -21432,7 +21432,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -21467,7 +21467,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -21500,7 +21500,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -21532,7 +21532,7 @@ namespace Accord.Math
         }
 */
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -21557,7 +21557,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -21620,7 +21620,7 @@ namespace Accord.Math
 #region Matrix with scalar
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -21653,7 +21653,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -21677,7 +21677,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -21702,7 +21702,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -21735,7 +21735,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -21759,7 +21759,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -21792,7 +21792,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -21825,7 +21825,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -21858,7 +21858,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -21891,7 +21891,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -21942,7 +21942,7 @@ namespace Accord.Math
 #region vector vector
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -21973,7 +21973,7 @@ namespace Accord.Math
 #region Vector with scalar
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a scalar <c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -21996,7 +21996,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -22027,7 +22027,7 @@ namespace Accord.Math
 
 #region Matrix vector
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -22075,7 +22075,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -22308,7 +22308,7 @@ namespace Accord.Math
 #region Matrix matrix
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -22343,7 +22343,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -22378,7 +22378,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -22413,7 +22413,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -22446,7 +22446,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -22478,7 +22478,7 @@ namespace Accord.Math
         }
 */
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -22503,7 +22503,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -22566,7 +22566,7 @@ namespace Accord.Math
 #region Matrix with scalar
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -22599,7 +22599,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -22623,7 +22623,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -22648,7 +22648,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -22681,7 +22681,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -22705,7 +22705,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -22738,7 +22738,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -22771,7 +22771,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -22804,7 +22804,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -22837,7 +22837,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -22888,7 +22888,7 @@ namespace Accord.Math
 #region vector vector
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -22919,7 +22919,7 @@ namespace Accord.Math
 #region Vector with scalar
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a scalar <c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -22942,7 +22942,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -22973,7 +22973,7 @@ namespace Accord.Math
 
 #region Matrix vector
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -23021,7 +23021,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -23254,7 +23254,7 @@ namespace Accord.Math
 #region Matrix matrix
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -23289,7 +23289,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -23324,7 +23324,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -23359,7 +23359,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -23392,7 +23392,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -23424,7 +23424,7 @@ namespace Accord.Math
         }
 */
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -23449,7 +23449,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -23512,7 +23512,7 @@ namespace Accord.Math
 #region Matrix with scalar
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -23545,7 +23545,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -23569,7 +23569,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -23594,7 +23594,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -23627,7 +23627,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -23651,7 +23651,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -23684,7 +23684,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -23717,7 +23717,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -23750,7 +23750,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -23783,7 +23783,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -23834,7 +23834,7 @@ namespace Accord.Math
 #region vector vector
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -23865,7 +23865,7 @@ namespace Accord.Math
 #region Vector with scalar
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a scalar <c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -23888,7 +23888,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -23919,7 +23919,7 @@ namespace Accord.Math
 
 #region Matrix vector
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -23967,7 +23967,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -24200,7 +24200,7 @@ namespace Accord.Math
 #region Matrix matrix
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -24235,7 +24235,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -24270,7 +24270,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -24305,7 +24305,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -24338,7 +24338,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -24370,7 +24370,7 @@ namespace Accord.Math
         }
 */
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -24395,7 +24395,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -24458,7 +24458,7 @@ namespace Accord.Math
 #region Matrix with scalar
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -24491,7 +24491,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -24515,7 +24515,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -24540,7 +24540,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -24573,7 +24573,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -24597,7 +24597,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -24630,7 +24630,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -24663,7 +24663,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -24696,7 +24696,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -24729,7 +24729,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -24780,7 +24780,7 @@ namespace Accord.Math
 #region vector vector
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -24811,7 +24811,7 @@ namespace Accord.Math
 #region Vector with scalar
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a scalar <c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -24834,7 +24834,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -24865,7 +24865,7 @@ namespace Accord.Math
 
 #region Matrix vector
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -24913,7 +24913,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -25146,7 +25146,7 @@ namespace Accord.Math
 #region Matrix matrix
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -25181,7 +25181,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -25216,7 +25216,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -25251,7 +25251,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -25284,7 +25284,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -25316,7 +25316,7 @@ namespace Accord.Math
         }
 */
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -25341,7 +25341,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -25404,7 +25404,7 @@ namespace Accord.Math
 #region Matrix with scalar
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -25437,7 +25437,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -25461,7 +25461,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -25486,7 +25486,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -25519,7 +25519,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -25543,7 +25543,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -25576,7 +25576,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -25609,7 +25609,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -25642,7 +25642,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -25675,7 +25675,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -25726,7 +25726,7 @@ namespace Accord.Math
 #region vector vector
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -25757,7 +25757,7 @@ namespace Accord.Math
 #region Vector with scalar
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a scalar <c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -25780,7 +25780,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -25811,7 +25811,7 @@ namespace Accord.Math
 
 #region Matrix vector
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -25859,7 +25859,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -26092,7 +26092,7 @@ namespace Accord.Math
 #region Matrix matrix
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -26127,7 +26127,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -26162,7 +26162,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -26197,7 +26197,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -26230,7 +26230,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -26262,7 +26262,7 @@ namespace Accord.Math
         }
 */
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -26287,7 +26287,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -26350,7 +26350,7 @@ namespace Accord.Math
 #region Matrix with scalar
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -26383,7 +26383,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -26407,7 +26407,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -26432,7 +26432,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -26465,7 +26465,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -26489,7 +26489,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -26522,7 +26522,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -26555,7 +26555,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -26588,7 +26588,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -26621,7 +26621,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -26672,7 +26672,7 @@ namespace Accord.Math
 #region vector vector
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -26703,7 +26703,7 @@ namespace Accord.Math
 #region Vector with scalar
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a scalar <c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -26726,7 +26726,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -26757,7 +26757,7 @@ namespace Accord.Math
 
 #region Matrix vector
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -26805,7 +26805,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -27038,7 +27038,7 @@ namespace Accord.Math
 #region Matrix matrix
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -27073,7 +27073,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -27108,7 +27108,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -27143,7 +27143,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -27176,7 +27176,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -27208,7 +27208,7 @@ namespace Accord.Math
         }
 */
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -27233,7 +27233,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -27296,7 +27296,7 @@ namespace Accord.Math
 #region Matrix with scalar
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -27329,7 +27329,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -27353,7 +27353,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -27378,7 +27378,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -27411,7 +27411,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -27435,7 +27435,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -27468,7 +27468,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -27501,7 +27501,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -27534,7 +27534,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -27567,7 +27567,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -27618,7 +27618,7 @@ namespace Accord.Math
 #region vector vector
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -27649,7 +27649,7 @@ namespace Accord.Math
 #region Vector with scalar
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a scalar <c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -27672,7 +27672,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -27703,7 +27703,7 @@ namespace Accord.Math
 
 #region Matrix vector
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -27751,7 +27751,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -27984,7 +27984,7 @@ namespace Accord.Math
 #region Matrix matrix
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -28019,7 +28019,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -28054,7 +28054,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -28089,7 +28089,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -28122,7 +28122,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -28154,7 +28154,7 @@ namespace Accord.Math
         }
 */
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -28179,7 +28179,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -28242,7 +28242,7 @@ namespace Accord.Math
 #region Matrix with scalar
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -28275,7 +28275,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -28299,7 +28299,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -28324,7 +28324,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -28357,7 +28357,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -28381,7 +28381,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -28414,7 +28414,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -28447,7 +28447,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -28480,7 +28480,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -28513,7 +28513,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -28564,7 +28564,7 @@ namespace Accord.Math
 #region vector vector
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -28595,7 +28595,7 @@ namespace Accord.Math
 #region Vector with scalar
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a scalar <c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -28618,7 +28618,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -28649,7 +28649,7 @@ namespace Accord.Math
 
 #region Matrix vector
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -28697,7 +28697,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -28930,7 +28930,7 @@ namespace Accord.Math
 #region Matrix matrix
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -28965,7 +28965,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -29000,7 +29000,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -29035,7 +29035,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -29068,7 +29068,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -29100,7 +29100,7 @@ namespace Accord.Math
         }
 */
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -29125,7 +29125,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -29188,7 +29188,7 @@ namespace Accord.Math
 #region Matrix with scalar
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -29221,7 +29221,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -29245,7 +29245,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -29270,7 +29270,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -29303,7 +29303,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -29327,7 +29327,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -29360,7 +29360,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -29393,7 +29393,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -29426,7 +29426,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -29459,7 +29459,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -29510,7 +29510,7 @@ namespace Accord.Math
 #region vector vector
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -29541,7 +29541,7 @@ namespace Accord.Math
 #region Vector with scalar
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a scalar <c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -29564,7 +29564,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -29595,7 +29595,7 @@ namespace Accord.Math
 
 #region Matrix vector
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -29643,7 +29643,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -29876,7 +29876,7 @@ namespace Accord.Math
 #region Matrix matrix
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -29911,7 +29911,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -29946,7 +29946,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -29981,7 +29981,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -30014,7 +30014,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -30046,7 +30046,7 @@ namespace Accord.Math
         }
 */
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -30071,7 +30071,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -30134,7 +30134,7 @@ namespace Accord.Math
 #region Matrix with scalar
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -30167,7 +30167,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -30191,7 +30191,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -30216,7 +30216,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -30249,7 +30249,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -30273,7 +30273,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -30306,7 +30306,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -30339,7 +30339,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -30372,7 +30372,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -30405,7 +30405,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -30456,7 +30456,7 @@ namespace Accord.Math
 #region vector vector
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -30487,7 +30487,7 @@ namespace Accord.Math
 #region Vector with scalar
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a scalar <c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -30510,7 +30510,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -30541,7 +30541,7 @@ namespace Accord.Math
 
 #region Matrix vector
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -30589,7 +30589,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -30822,7 +30822,7 @@ namespace Accord.Math
 #region Matrix matrix
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -30857,7 +30857,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -30892,7 +30892,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -30927,7 +30927,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -30960,7 +30960,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -30992,7 +30992,7 @@ namespace Accord.Math
         }
 */
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -31017,7 +31017,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -31080,7 +31080,7 @@ namespace Accord.Math
 #region Matrix with scalar
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -31113,7 +31113,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -31137,7 +31137,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -31162,7 +31162,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -31195,7 +31195,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -31219,7 +31219,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -31252,7 +31252,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -31285,7 +31285,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -31318,7 +31318,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -31351,7 +31351,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -31402,7 +31402,7 @@ namespace Accord.Math
 #region vector vector
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -31433,7 +31433,7 @@ namespace Accord.Math
 #region Vector with scalar
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a scalar <c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -31456,7 +31456,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -31487,7 +31487,7 @@ namespace Accord.Math
 
 #region Matrix vector
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -31535,7 +31535,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -31768,7 +31768,7 @@ namespace Accord.Math
 #region Matrix matrix
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -31803,7 +31803,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -31838,7 +31838,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -31873,7 +31873,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -31906,7 +31906,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -31938,7 +31938,7 @@ namespace Accord.Math
         }
 */
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -31963,7 +31963,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -32026,7 +32026,7 @@ namespace Accord.Math
 #region Matrix with scalar
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -32059,7 +32059,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -32083,7 +32083,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -32108,7 +32108,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -32141,7 +32141,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -32165,7 +32165,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -32198,7 +32198,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -32231,7 +32231,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -32264,7 +32264,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -32297,7 +32297,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -32348,7 +32348,7 @@ namespace Accord.Math
 #region vector vector
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -32379,7 +32379,7 @@ namespace Accord.Math
 #region Vector with scalar
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a scalar <c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -32402,7 +32402,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -32433,7 +32433,7 @@ namespace Accord.Math
 
 #region Matrix vector
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -32481,7 +32481,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -32714,7 +32714,7 @@ namespace Accord.Math
 #region Matrix matrix
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -32749,7 +32749,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -32784,7 +32784,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -32819,7 +32819,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -32852,7 +32852,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -32884,7 +32884,7 @@ namespace Accord.Math
         }
 */
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -32909,7 +32909,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -32972,7 +32972,7 @@ namespace Accord.Math
 #region Matrix with scalar
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -33005,7 +33005,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -33029,7 +33029,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -33054,7 +33054,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -33087,7 +33087,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -33111,7 +33111,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -33144,7 +33144,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -33177,7 +33177,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -33210,7 +33210,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -33243,7 +33243,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -33294,7 +33294,7 @@ namespace Accord.Math
 #region vector vector
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -33325,7 +33325,7 @@ namespace Accord.Math
 #region Vector with scalar
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a scalar <c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -33348,7 +33348,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -33379,7 +33379,7 @@ namespace Accord.Math
 
 #region Matrix vector
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -33427,7 +33427,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -33660,7 +33660,7 @@ namespace Accord.Math
 #region Matrix matrix
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -33695,7 +33695,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -33730,7 +33730,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -33765,7 +33765,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -33798,7 +33798,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -33830,7 +33830,7 @@ namespace Accord.Math
         }
 */
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -33855,7 +33855,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -33918,7 +33918,7 @@ namespace Accord.Math
 #region Matrix with scalar
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -33951,7 +33951,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -33975,7 +33975,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -34000,7 +34000,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -34033,7 +34033,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -34057,7 +34057,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -34090,7 +34090,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -34123,7 +34123,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -34156,7 +34156,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -34189,7 +34189,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -34240,7 +34240,7 @@ namespace Accord.Math
 #region vector vector
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -34271,7 +34271,7 @@ namespace Accord.Math
 #region Vector with scalar
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a scalar <c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -34294,7 +34294,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -34325,7 +34325,7 @@ namespace Accord.Math
 
 #region Matrix vector
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -34373,7 +34373,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -34606,7 +34606,7 @@ namespace Accord.Math
 #region Matrix matrix
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -34641,7 +34641,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -34676,7 +34676,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -34711,7 +34711,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -34744,7 +34744,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -34776,7 +34776,7 @@ namespace Accord.Math
         }
 */
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -34801,7 +34801,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -34864,7 +34864,7 @@ namespace Accord.Math
 #region Matrix with scalar
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -34897,7 +34897,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -34921,7 +34921,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -34946,7 +34946,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -34979,7 +34979,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -35003,7 +35003,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -35036,7 +35036,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -35069,7 +35069,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -35102,7 +35102,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -35135,7 +35135,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -35186,7 +35186,7 @@ namespace Accord.Math
 #region vector vector
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -35217,7 +35217,7 @@ namespace Accord.Math
 #region Vector with scalar
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a scalar <c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -35240,7 +35240,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -35271,7 +35271,7 @@ namespace Accord.Math
 
 #region Matrix vector
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -35319,7 +35319,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -35552,7 +35552,7 @@ namespace Accord.Math
 #region Matrix matrix
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -35587,7 +35587,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -35622,7 +35622,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -35657,7 +35657,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -35690,7 +35690,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -35722,7 +35722,7 @@ namespace Accord.Math
         }
 */
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -35747,7 +35747,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -35810,7 +35810,7 @@ namespace Accord.Math
 #region Matrix with scalar
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -35843,7 +35843,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -35867,7 +35867,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -35892,7 +35892,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -35925,7 +35925,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -35949,7 +35949,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -35982,7 +35982,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -36015,7 +36015,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -36048,7 +36048,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -36081,7 +36081,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -36132,7 +36132,7 @@ namespace Accord.Math
 #region vector vector
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -36163,7 +36163,7 @@ namespace Accord.Math
 #region Vector with scalar
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a scalar <c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -36186,7 +36186,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -36217,7 +36217,7 @@ namespace Accord.Math
 
 #region Matrix vector
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -36265,7 +36265,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -36498,7 +36498,7 @@ namespace Accord.Math
 #region Matrix matrix
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -36533,7 +36533,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -36568,7 +36568,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -36603,7 +36603,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -36636,7 +36636,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -36668,7 +36668,7 @@ namespace Accord.Math
         }
 */
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -36693,7 +36693,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -36756,7 +36756,7 @@ namespace Accord.Math
 #region Matrix with scalar
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -36789,7 +36789,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -36813,7 +36813,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -36838,7 +36838,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -36871,7 +36871,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -36895,7 +36895,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -36928,7 +36928,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -36961,7 +36961,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -36994,7 +36994,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -37027,7 +37027,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -37078,7 +37078,7 @@ namespace Accord.Math
 #region vector vector
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -37109,7 +37109,7 @@ namespace Accord.Math
 #region Vector with scalar
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a scalar <c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -37132,7 +37132,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -37163,7 +37163,7 @@ namespace Accord.Math
 
 #region Matrix vector
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -37211,7 +37211,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -37444,7 +37444,7 @@ namespace Accord.Math
 #region Matrix matrix
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -37479,7 +37479,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -37514,7 +37514,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -37549,7 +37549,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -37582,7 +37582,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -37614,7 +37614,7 @@ namespace Accord.Math
         }
 */
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -37639,7 +37639,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -37702,7 +37702,7 @@ namespace Accord.Math
 #region Matrix with scalar
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -37735,7 +37735,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -37759,7 +37759,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -37784,7 +37784,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -37817,7 +37817,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -37841,7 +37841,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -37874,7 +37874,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -37907,7 +37907,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -37940,7 +37940,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -37973,7 +37973,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -38024,7 +38024,7 @@ namespace Accord.Math
 #region vector vector
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -38055,7 +38055,7 @@ namespace Accord.Math
 #region Vector with scalar
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a scalar <c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -38078,7 +38078,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -38109,7 +38109,7 @@ namespace Accord.Math
 
 #region Matrix vector
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -38157,7 +38157,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -38390,7 +38390,7 @@ namespace Accord.Math
 #region Matrix matrix
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -38425,7 +38425,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -38460,7 +38460,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -38495,7 +38495,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -38528,7 +38528,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -38560,7 +38560,7 @@ namespace Accord.Math
         }
 */
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -38585,7 +38585,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -38648,7 +38648,7 @@ namespace Accord.Math
 #region Matrix with scalar
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -38681,7 +38681,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -38705,7 +38705,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -38730,7 +38730,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -38763,7 +38763,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -38787,7 +38787,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -38820,7 +38820,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -38853,7 +38853,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -38886,7 +38886,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -38919,7 +38919,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -38970,7 +38970,7 @@ namespace Accord.Math
 #region vector vector
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -39001,7 +39001,7 @@ namespace Accord.Math
 #region Vector with scalar
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a scalar <c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -39024,7 +39024,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -39055,7 +39055,7 @@ namespace Accord.Math
 
 #region Matrix vector
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -39103,7 +39103,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -39336,7 +39336,7 @@ namespace Accord.Math
 #region Matrix matrix
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -39371,7 +39371,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -39406,7 +39406,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -39441,7 +39441,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -39474,7 +39474,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -39506,7 +39506,7 @@ namespace Accord.Math
         }
 */
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -39531,7 +39531,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -39594,7 +39594,7 @@ namespace Accord.Math
 #region Matrix with scalar
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -39627,7 +39627,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -39651,7 +39651,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -39676,7 +39676,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -39709,7 +39709,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -39733,7 +39733,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -39766,7 +39766,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -39799,7 +39799,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -39832,7 +39832,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -39865,7 +39865,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -39916,7 +39916,7 @@ namespace Accord.Math
 #region vector vector
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -39947,7 +39947,7 @@ namespace Accord.Math
 #region Vector with scalar
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a scalar <c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -39970,7 +39970,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -40001,7 +40001,7 @@ namespace Accord.Math
 
 #region Matrix vector
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -40049,7 +40049,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -40282,7 +40282,7 @@ namespace Accord.Math
 #region Matrix matrix
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -40317,7 +40317,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -40352,7 +40352,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -40387,7 +40387,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -40420,7 +40420,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -40452,7 +40452,7 @@ namespace Accord.Math
         }
 */
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -40477,7 +40477,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -40540,7 +40540,7 @@ namespace Accord.Math
 #region Matrix with scalar
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -40573,7 +40573,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -40597,7 +40597,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -40622,7 +40622,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -40655,7 +40655,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -40679,7 +40679,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -40712,7 +40712,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -40745,7 +40745,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -40778,7 +40778,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -40811,7 +40811,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -40862,7 +40862,7 @@ namespace Accord.Math
 #region vector vector
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -40893,7 +40893,7 @@ namespace Accord.Math
 #region Vector with scalar
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a scalar <c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -40916,7 +40916,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -40947,7 +40947,7 @@ namespace Accord.Math
 
 #region Matrix vector
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -40995,7 +40995,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -41228,7 +41228,7 @@ namespace Accord.Math
 #region Matrix matrix
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -41263,7 +41263,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -41298,7 +41298,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -41333,7 +41333,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -41366,7 +41366,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -41398,7 +41398,7 @@ namespace Accord.Math
         }
 */
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -41423,7 +41423,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -41486,7 +41486,7 @@ namespace Accord.Math
 #region Matrix with scalar
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -41519,7 +41519,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -41543,7 +41543,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -41568,7 +41568,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -41601,7 +41601,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -41625,7 +41625,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -41658,7 +41658,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -41691,7 +41691,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -41724,7 +41724,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -41757,7 +41757,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -41808,7 +41808,7 @@ namespace Accord.Math
 #region vector vector
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -41839,7 +41839,7 @@ namespace Accord.Math
 #region Vector with scalar
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a scalar <c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -41862,7 +41862,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -41893,7 +41893,7 @@ namespace Accord.Math
 
 #region Matrix vector
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -41941,7 +41941,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -42174,7 +42174,7 @@ namespace Accord.Math
 #region Matrix matrix
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -42209,7 +42209,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -42244,7 +42244,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -42279,7 +42279,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -42312,7 +42312,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -42344,7 +42344,7 @@ namespace Accord.Math
         }
 */
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -42369,7 +42369,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -42432,7 +42432,7 @@ namespace Accord.Math
 #region Matrix with scalar
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -42465,7 +42465,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -42489,7 +42489,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -42514,7 +42514,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -42547,7 +42547,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -42571,7 +42571,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -42604,7 +42604,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -42637,7 +42637,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -42670,7 +42670,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -42703,7 +42703,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -42754,7 +42754,7 @@ namespace Accord.Math
 #region vector vector
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -42785,7 +42785,7 @@ namespace Accord.Math
 #region Vector with scalar
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a scalar <c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -42808,7 +42808,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -42839,7 +42839,7 @@ namespace Accord.Math
 
 #region Matrix vector
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -42887,7 +42887,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -43120,7 +43120,7 @@ namespace Accord.Math
 #region Matrix matrix
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -43155,7 +43155,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -43190,7 +43190,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -43225,7 +43225,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -43258,7 +43258,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -43290,7 +43290,7 @@ namespace Accord.Math
         }
 */
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -43315,7 +43315,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -43378,7 +43378,7 @@ namespace Accord.Math
 #region Matrix with scalar
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -43411,7 +43411,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -43435,7 +43435,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -43460,7 +43460,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -43493,7 +43493,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -43517,7 +43517,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -43550,7 +43550,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -43583,7 +43583,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -43616,7 +43616,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -43649,7 +43649,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -43700,7 +43700,7 @@ namespace Accord.Math
 #region vector vector
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -43731,7 +43731,7 @@ namespace Accord.Math
 #region Vector with scalar
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a scalar <c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -43754,7 +43754,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -43785,7 +43785,7 @@ namespace Accord.Math
 
 #region Matrix vector
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -43833,7 +43833,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -44066,7 +44066,7 @@ namespace Accord.Math
 #region Matrix matrix
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -44101,7 +44101,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -44136,7 +44136,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -44171,7 +44171,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -44204,7 +44204,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -44236,7 +44236,7 @@ namespace Accord.Math
         }
 */
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -44261,7 +44261,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -44324,7 +44324,7 @@ namespace Accord.Math
 #region Matrix with scalar
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -44357,7 +44357,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -44381,7 +44381,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -44406,7 +44406,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -44439,7 +44439,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -44463,7 +44463,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -44496,7 +44496,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -44529,7 +44529,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -44562,7 +44562,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -44595,7 +44595,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -44646,7 +44646,7 @@ namespace Accord.Math
 #region vector vector
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -44677,7 +44677,7 @@ namespace Accord.Math
 #region Vector with scalar
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a scalar <c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -44700,7 +44700,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -44731,7 +44731,7 @@ namespace Accord.Math
 
 #region Matrix vector
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -44779,7 +44779,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -45012,7 +45012,7 @@ namespace Accord.Math
 #region Matrix matrix
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -45047,7 +45047,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -45082,7 +45082,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -45117,7 +45117,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -45150,7 +45150,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -45182,7 +45182,7 @@ namespace Accord.Math
         }
 */
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -45207,7 +45207,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -45270,7 +45270,7 @@ namespace Accord.Math
 #region Matrix with scalar
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -45303,7 +45303,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -45327,7 +45327,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -45352,7 +45352,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -45385,7 +45385,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -45409,7 +45409,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -45442,7 +45442,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -45475,7 +45475,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -45508,7 +45508,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -45541,7 +45541,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -45592,7 +45592,7 @@ namespace Accord.Math
 #region vector vector
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -45623,7 +45623,7 @@ namespace Accord.Math
 #region Vector with scalar
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a scalar <c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -45646,7 +45646,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -45677,7 +45677,7 @@ namespace Accord.Math
 
 #region Matrix vector
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -45725,7 +45725,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -45958,7 +45958,7 @@ namespace Accord.Math
 #region Matrix matrix
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -45993,7 +45993,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -46028,7 +46028,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -46063,7 +46063,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -46096,7 +46096,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -46128,7 +46128,7 @@ namespace Accord.Math
         }
 */
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -46153,7 +46153,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -46216,7 +46216,7 @@ namespace Accord.Math
 #region Matrix with scalar
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -46249,7 +46249,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -46273,7 +46273,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -46298,7 +46298,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -46331,7 +46331,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -46355,7 +46355,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -46388,7 +46388,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -46421,7 +46421,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -46454,7 +46454,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -46487,7 +46487,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -46538,7 +46538,7 @@ namespace Accord.Math
 #region vector vector
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -46569,7 +46569,7 @@ namespace Accord.Math
 #region Vector with scalar
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a scalar <c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -46592,7 +46592,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -46623,7 +46623,7 @@ namespace Accord.Math
 
 #region Matrix vector
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -46671,7 +46671,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -46904,7 +46904,7 @@ namespace Accord.Math
 #region Matrix matrix
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -46939,7 +46939,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -46974,7 +46974,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -47009,7 +47009,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -47042,7 +47042,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -47074,7 +47074,7 @@ namespace Accord.Math
         }
 */
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -47099,7 +47099,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -47162,7 +47162,7 @@ namespace Accord.Math
 #region Matrix with scalar
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -47195,7 +47195,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -47219,7 +47219,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -47244,7 +47244,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -47277,7 +47277,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -47301,7 +47301,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -47334,7 +47334,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -47367,7 +47367,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -47400,7 +47400,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -47433,7 +47433,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -47484,7 +47484,7 @@ namespace Accord.Math
 #region vector vector
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -47515,7 +47515,7 @@ namespace Accord.Math
 #region Vector with scalar
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a scalar <c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -47538,7 +47538,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -47569,7 +47569,7 @@ namespace Accord.Math
 
 #region Matrix vector
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -47617,7 +47617,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -47850,7 +47850,7 @@ namespace Accord.Math
 #region Matrix matrix
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -47885,7 +47885,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -47920,7 +47920,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -47955,7 +47955,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -47988,7 +47988,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -48020,7 +48020,7 @@ namespace Accord.Math
         }
 */
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -48045,7 +48045,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -48108,7 +48108,7 @@ namespace Accord.Math
 #region Matrix with scalar
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -48141,7 +48141,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -48165,7 +48165,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -48190,7 +48190,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -48223,7 +48223,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -48247,7 +48247,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -48280,7 +48280,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -48313,7 +48313,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -48346,7 +48346,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -48379,7 +48379,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -48430,7 +48430,7 @@ namespace Accord.Math
 #region vector vector
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -48461,7 +48461,7 @@ namespace Accord.Math
 #region Vector with scalar
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a scalar <c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -48484,7 +48484,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -48515,7 +48515,7 @@ namespace Accord.Math
 
 #region Matrix vector
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -48563,7 +48563,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -48796,7 +48796,7 @@ namespace Accord.Math
 #region Matrix matrix
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -48831,7 +48831,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -48866,7 +48866,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -48901,7 +48901,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -48934,7 +48934,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -48966,7 +48966,7 @@ namespace Accord.Math
         }
 */
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -48991,7 +48991,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -49054,7 +49054,7 @@ namespace Accord.Math
 #region Matrix with scalar
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -49087,7 +49087,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -49111,7 +49111,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -49136,7 +49136,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -49169,7 +49169,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -49193,7 +49193,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -49226,7 +49226,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -49259,7 +49259,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -49292,7 +49292,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -49325,7 +49325,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -49376,7 +49376,7 @@ namespace Accord.Math
 #region vector vector
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -49407,7 +49407,7 @@ namespace Accord.Math
 #region Vector with scalar
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a scalar <c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -49430,7 +49430,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -49461,7 +49461,7 @@ namespace Accord.Math
 
 #region Matrix vector
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -49509,7 +49509,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -49742,7 +49742,7 @@ namespace Accord.Math
 #region Matrix matrix
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -49777,7 +49777,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -49812,7 +49812,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -49847,7 +49847,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -49880,7 +49880,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -49912,7 +49912,7 @@ namespace Accord.Math
         }
 */
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -49937,7 +49937,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -50000,7 +50000,7 @@ namespace Accord.Math
 #region Matrix with scalar
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -50033,7 +50033,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -50057,7 +50057,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -50082,7 +50082,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -50115,7 +50115,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -50139,7 +50139,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -50172,7 +50172,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -50205,7 +50205,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -50238,7 +50238,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -50271,7 +50271,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -50322,7 +50322,7 @@ namespace Accord.Math
 #region vector vector
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -50353,7 +50353,7 @@ namespace Accord.Math
 #region Vector with scalar
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a scalar <c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -50376,7 +50376,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -50407,7 +50407,7 @@ namespace Accord.Math
 
 #region Matrix vector
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -50455,7 +50455,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -50688,7 +50688,7 @@ namespace Accord.Math
 #region Matrix matrix
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -50723,7 +50723,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -50758,7 +50758,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -50793,7 +50793,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -50826,7 +50826,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -50858,7 +50858,7 @@ namespace Accord.Math
         }
 */
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -50883,7 +50883,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -50946,7 +50946,7 @@ namespace Accord.Math
 #region Matrix with scalar
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -50979,7 +50979,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -51003,7 +51003,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -51028,7 +51028,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -51061,7 +51061,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -51085,7 +51085,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -51118,7 +51118,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -51151,7 +51151,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -51184,7 +51184,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -51217,7 +51217,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -51268,7 +51268,7 @@ namespace Accord.Math
 #region vector vector
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -51299,7 +51299,7 @@ namespace Accord.Math
 #region Vector with scalar
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a scalar <c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -51322,7 +51322,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -51353,7 +51353,7 @@ namespace Accord.Math
 
 #region Matrix vector
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -51401,7 +51401,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -51634,7 +51634,7 @@ namespace Accord.Math
 #region Matrix matrix
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -51669,7 +51669,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -51704,7 +51704,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -51739,7 +51739,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -51772,7 +51772,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -51804,7 +51804,7 @@ namespace Accord.Math
         }
 */
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -51829,7 +51829,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -51892,7 +51892,7 @@ namespace Accord.Math
 #region Matrix with scalar
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -51925,7 +51925,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -51949,7 +51949,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -51974,7 +51974,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -52007,7 +52007,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -52031,7 +52031,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -52064,7 +52064,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -52097,7 +52097,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -52130,7 +52130,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -52163,7 +52163,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -52214,7 +52214,7 @@ namespace Accord.Math
 #region vector vector
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -52245,7 +52245,7 @@ namespace Accord.Math
 #region Vector with scalar
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a scalar <c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -52268,7 +52268,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -52299,7 +52299,7 @@ namespace Accord.Math
 
 #region Matrix vector
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -52347,7 +52347,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -52580,7 +52580,7 @@ namespace Accord.Math
 #region Matrix matrix
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -52615,7 +52615,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -52650,7 +52650,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -52685,7 +52685,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -52718,7 +52718,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -52750,7 +52750,7 @@ namespace Accord.Math
         }
 */
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -52775,7 +52775,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -52838,7 +52838,7 @@ namespace Accord.Math
 #region Matrix with scalar
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -52871,7 +52871,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -52895,7 +52895,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -52920,7 +52920,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -52953,7 +52953,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -52977,7 +52977,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -53010,7 +53010,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -53043,7 +53043,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -53076,7 +53076,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -53109,7 +53109,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -53160,7 +53160,7 @@ namespace Accord.Math
 #region vector vector
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -53191,7 +53191,7 @@ namespace Accord.Math
 #region Vector with scalar
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a scalar <c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -53214,7 +53214,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -53245,7 +53245,7 @@ namespace Accord.Math
 
 #region Matrix vector
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -53293,7 +53293,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -53526,7 +53526,7 @@ namespace Accord.Math
 #region Matrix matrix
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -53561,7 +53561,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -53596,7 +53596,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -53631,7 +53631,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -53664,7 +53664,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -53696,7 +53696,7 @@ namespace Accord.Math
         }
 */
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -53721,7 +53721,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -53784,7 +53784,7 @@ namespace Accord.Math
 #region Matrix with scalar
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -53817,7 +53817,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -53841,7 +53841,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -53866,7 +53866,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -53899,7 +53899,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -53923,7 +53923,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -53956,7 +53956,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -53989,7 +53989,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -54022,7 +54022,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -54055,7 +54055,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -54106,7 +54106,7 @@ namespace Accord.Math
 #region vector vector
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -54137,7 +54137,7 @@ namespace Accord.Math
 #region Vector with scalar
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a scalar <c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -54160,7 +54160,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -54191,7 +54191,7 @@ namespace Accord.Math
 
 #region Matrix vector
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -54239,7 +54239,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -54472,7 +54472,7 @@ namespace Accord.Math
 #region Matrix matrix
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -54507,7 +54507,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -54542,7 +54542,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -54577,7 +54577,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -54610,7 +54610,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -54642,7 +54642,7 @@ namespace Accord.Math
         }
 */
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -54667,7 +54667,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -54730,7 +54730,7 @@ namespace Accord.Math
 #region Matrix with scalar
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -54763,7 +54763,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -54787,7 +54787,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -54812,7 +54812,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -54845,7 +54845,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -54869,7 +54869,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -54902,7 +54902,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -54935,7 +54935,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -54968,7 +54968,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -55001,7 +55001,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -55052,7 +55052,7 @@ namespace Accord.Math
 #region vector vector
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -55083,7 +55083,7 @@ namespace Accord.Math
 #region Vector with scalar
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a scalar <c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -55106,7 +55106,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -55137,7 +55137,7 @@ namespace Accord.Math
 
 #region Matrix vector
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -55185,7 +55185,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -55418,7 +55418,7 @@ namespace Accord.Math
 #region Matrix matrix
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -55453,7 +55453,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -55488,7 +55488,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -55523,7 +55523,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -55556,7 +55556,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -55588,7 +55588,7 @@ namespace Accord.Math
         }
 */
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -55613,7 +55613,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -55676,7 +55676,7 @@ namespace Accord.Math
 #region Matrix with scalar
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -55709,7 +55709,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -55733,7 +55733,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -55758,7 +55758,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -55791,7 +55791,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -55815,7 +55815,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -55848,7 +55848,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -55881,7 +55881,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -55914,7 +55914,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -55947,7 +55947,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -55998,7 +55998,7 @@ namespace Accord.Math
 #region vector vector
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -56029,7 +56029,7 @@ namespace Accord.Math
 #region Vector with scalar
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a scalar <c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -56052,7 +56052,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -56083,7 +56083,7 @@ namespace Accord.Math
 
 #region Matrix vector
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -56131,7 +56131,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -56364,7 +56364,7 @@ namespace Accord.Math
 #region Matrix matrix
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -56399,7 +56399,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -56434,7 +56434,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -56469,7 +56469,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -56502,7 +56502,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -56534,7 +56534,7 @@ namespace Accord.Math
         }
 */
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -56559,7 +56559,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -56622,7 +56622,7 @@ namespace Accord.Math
 #region Matrix with scalar
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -56655,7 +56655,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -56679,7 +56679,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -56704,7 +56704,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -56737,7 +56737,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -56761,7 +56761,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -56794,7 +56794,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -56827,7 +56827,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -56860,7 +56860,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -56893,7 +56893,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -56944,7 +56944,7 @@ namespace Accord.Math
 #region vector vector
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -56975,7 +56975,7 @@ namespace Accord.Math
 #region Vector with scalar
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a scalar <c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -56998,7 +56998,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -57029,7 +57029,7 @@ namespace Accord.Math
 
 #region Matrix vector
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -57077,7 +57077,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -57310,7 +57310,7 @@ namespace Accord.Math
 #region Matrix matrix
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -57345,7 +57345,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -57380,7 +57380,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -57415,7 +57415,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -57448,7 +57448,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -57480,7 +57480,7 @@ namespace Accord.Math
         }
 */
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -57505,7 +57505,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -57568,7 +57568,7 @@ namespace Accord.Math
 #region Matrix with scalar
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -57601,7 +57601,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -57625,7 +57625,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -57650,7 +57650,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -57683,7 +57683,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -57707,7 +57707,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -57740,7 +57740,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -57773,7 +57773,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -57806,7 +57806,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -57839,7 +57839,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -57890,7 +57890,7 @@ namespace Accord.Math
 #region vector vector
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -57921,7 +57921,7 @@ namespace Accord.Math
 #region Vector with scalar
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a scalar <c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -57944,7 +57944,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -57975,7 +57975,7 @@ namespace Accord.Math
 
 #region Matrix vector
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -58023,7 +58023,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -58256,7 +58256,7 @@ namespace Accord.Math
 #region Matrix matrix
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -58291,7 +58291,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -58326,7 +58326,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -58361,7 +58361,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -58394,7 +58394,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -58426,7 +58426,7 @@ namespace Accord.Math
         }
 */
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -58451,7 +58451,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -58514,7 +58514,7 @@ namespace Accord.Math
 #region Matrix with scalar
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -58547,7 +58547,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -58571,7 +58571,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -58596,7 +58596,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -58629,7 +58629,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -58653,7 +58653,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -58686,7 +58686,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -58719,7 +58719,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -58752,7 +58752,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -58785,7 +58785,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -58836,7 +58836,7 @@ namespace Accord.Math
 #region vector vector
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -58867,7 +58867,7 @@ namespace Accord.Math
 #region Vector with scalar
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a scalar <c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -58890,7 +58890,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -58921,7 +58921,7 @@ namespace Accord.Math
 
 #region Matrix vector
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -58969,7 +58969,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -59202,7 +59202,7 @@ namespace Accord.Math
 #region Matrix matrix
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -59237,7 +59237,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -59272,7 +59272,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -59307,7 +59307,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -59340,7 +59340,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -59372,7 +59372,7 @@ namespace Accord.Math
         }
 */
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -59397,7 +59397,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -59460,7 +59460,7 @@ namespace Accord.Math
 #region Matrix with scalar
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -59493,7 +59493,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -59517,7 +59517,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -59542,7 +59542,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -59575,7 +59575,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -59599,7 +59599,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -59632,7 +59632,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -59665,7 +59665,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -59698,7 +59698,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -59731,7 +59731,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -59782,7 +59782,7 @@ namespace Accord.Math
 #region vector vector
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -59813,7 +59813,7 @@ namespace Accord.Math
 #region Vector with scalar
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a scalar <c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -59836,7 +59836,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -59867,7 +59867,7 @@ namespace Accord.Math
 
 #region Matrix vector
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -59915,7 +59915,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -60148,7 +60148,7 @@ namespace Accord.Math
 #region Matrix matrix
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -60183,7 +60183,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -60218,7 +60218,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -60253,7 +60253,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -60286,7 +60286,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -60318,7 +60318,7 @@ namespace Accord.Math
         }
 */
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -60343,7 +60343,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -60406,7 +60406,7 @@ namespace Accord.Math
 #region Matrix with scalar
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -60439,7 +60439,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -60463,7 +60463,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -60488,7 +60488,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -60521,7 +60521,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -60545,7 +60545,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -60578,7 +60578,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -60611,7 +60611,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -60644,7 +60644,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -60677,7 +60677,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -60728,7 +60728,7 @@ namespace Accord.Math
 #region vector vector
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -60759,7 +60759,7 @@ namespace Accord.Math
 #region Vector with scalar
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a scalar <c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -60782,7 +60782,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -60813,7 +60813,7 @@ namespace Accord.Math
 
 #region Matrix vector
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -60861,7 +60861,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -61094,7 +61094,7 @@ namespace Accord.Math
 #region Matrix matrix
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -61129,7 +61129,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -61164,7 +61164,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -61199,7 +61199,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -61232,7 +61232,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -61264,7 +61264,7 @@ namespace Accord.Math
         }
 */
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -61289,7 +61289,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -61352,7 +61352,7 @@ namespace Accord.Math
 #region Matrix with scalar
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -61385,7 +61385,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -61409,7 +61409,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -61434,7 +61434,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -61467,7 +61467,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -61491,7 +61491,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -61524,7 +61524,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -61557,7 +61557,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -61590,7 +61590,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -61623,7 +61623,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -61674,7 +61674,7 @@ namespace Accord.Math
 #region vector vector
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -61705,7 +61705,7 @@ namespace Accord.Math
 #region Vector with scalar
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a scalar <c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -61728,7 +61728,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -61759,7 +61759,7 @@ namespace Accord.Math
 
 #region Matrix vector
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -61807,7 +61807,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -62040,7 +62040,7 @@ namespace Accord.Math
 #region Matrix matrix
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -62075,7 +62075,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -62110,7 +62110,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -62145,7 +62145,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -62178,7 +62178,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -62210,7 +62210,7 @@ namespace Accord.Math
         }
 */
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -62235,7 +62235,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -62298,7 +62298,7 @@ namespace Accord.Math
 #region Matrix with scalar
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -62331,7 +62331,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -62355,7 +62355,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -62380,7 +62380,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -62413,7 +62413,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -62437,7 +62437,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -62470,7 +62470,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -62503,7 +62503,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -62536,7 +62536,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -62569,7 +62569,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -62620,7 +62620,7 @@ namespace Accord.Math
 #region vector vector
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -62651,7 +62651,7 @@ namespace Accord.Math
 #region Vector with scalar
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a scalar <c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -62674,7 +62674,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -62705,7 +62705,7 @@ namespace Accord.Math
 
 #region Matrix vector
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -62753,7 +62753,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -62986,7 +62986,7 @@ namespace Accord.Math
 #region Matrix matrix
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -63021,7 +63021,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -63056,7 +63056,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -63091,7 +63091,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -63124,7 +63124,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -63156,7 +63156,7 @@ namespace Accord.Math
         }
 */
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -63181,7 +63181,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -63244,7 +63244,7 @@ namespace Accord.Math
 #region Matrix with scalar
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -63277,7 +63277,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -63301,7 +63301,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -63326,7 +63326,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -63359,7 +63359,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -63383,7 +63383,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -63416,7 +63416,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -63449,7 +63449,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -63482,7 +63482,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -63515,7 +63515,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -63566,7 +63566,7 @@ namespace Accord.Math
 #region vector vector
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -63597,7 +63597,7 @@ namespace Accord.Math
 #region Vector with scalar
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a scalar <c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -63620,7 +63620,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -63651,7 +63651,7 @@ namespace Accord.Math
 
 #region Matrix vector
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -63699,7 +63699,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -63932,7 +63932,7 @@ namespace Accord.Math
 #region Matrix matrix
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -63967,7 +63967,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -64002,7 +64002,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -64037,7 +64037,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -64070,7 +64070,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -64102,7 +64102,7 @@ namespace Accord.Math
         }
 */
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -64127,7 +64127,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -64190,7 +64190,7 @@ namespace Accord.Math
 #region Matrix with scalar
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -64223,7 +64223,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -64247,7 +64247,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -64272,7 +64272,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -64305,7 +64305,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>B</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>B</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -64329,7 +64329,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -64362,7 +64362,7 @@ namespace Accord.Math
 */
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a matrix <c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a matrix <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -64395,7 +64395,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -64428,7 +64428,7 @@ namespace Accord.Math
         }
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -64461,7 +64461,7 @@ namespace Accord.Math
 */
 /*
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a scalar <c>b</c>.
         /// </summary>
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -64512,7 +64512,7 @@ namespace Accord.Math
 #region vector vector
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -64543,7 +64543,7 @@ namespace Accord.Math
 #region Vector with scalar
 
         /// <summary>
-        ///   Divides a vector <c>a</c> by a scalar <c>b</c>.
+        ///   Elementwise division between a vector <c>a</c> and a scalar <c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The vector <c>a</c>.</param>
@@ -64566,7 +64566,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a scalar <c>a</c> by a vector<c>b</c>.
+        ///   Elementwise division between a scalar <c>a</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The scalar <c>a</c>.</param>
@@ -64597,7 +64597,7 @@ namespace Accord.Math
 
 #region Matrix vector
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
@@ -64645,7 +64645,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Divides a matrix <c>A</c> by a vector<c>b</c>.
+        ///   Elementwise division between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
