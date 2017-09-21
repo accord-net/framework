@@ -425,6 +425,8 @@ namespace Accord.Tests.Math
             Assert.IsTrue(target1.DiagonalMatrix.IsEqual(target2.DiagonalMatrix));
             Assert.IsTrue(Matrix.IsEqual(value1, target1.Reverse(), 1e-2));
             Assert.IsTrue(Matrix.IsEqual(value2, target2.Reverse(), 1e-2));
+
+            Assert.AreSame(target1.DiagonalMatrix, target1.DiagonalMatrix);
         }
 
         [Test]
