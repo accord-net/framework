@@ -106,6 +106,29 @@ namespace Accord.Tests.Math
             Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.0000000000001));
         }
 
+        [Test]
+        public void QrDecompositionCachingTest()
+        {
+            double[,] value =
+            {
+               {  2, -1,  0 },
+               { -1,  2, -1 },
+               {  0, -1,  2 }
+            };
+
+            var target = new QrDecomposition(value);
+
+            // Decomposition Identity
+            var Q1 = target.OrthogonalFactor;
+            var Q2 = target.OrthogonalFactor;
+
+            var utf1 = target.UpperTriangularFactor;
+            var utf2 = target.UpperTriangularFactor;
+
+            Assert.AreSame(Q1, Q2);
+            Assert.AreSame(utf1, utf2);
+        }
+
 
         [Test]
         public void InverseTest2()

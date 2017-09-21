@@ -57,10 +57,7 @@ namespace Accord.Math.Decompositions
         private Decimal[,] qr;
         private Decimal[] Rdiag;
 
-
 		// cache for lazy evaluation
-        // private Decimal? determinant;	// delete
-        // private double? lndeterminant;	// delete
         private bool? fullRank;
         private Decimal[,] orthogonalFactor;
         private Decimal[,] upperTriangularFactor;
@@ -309,19 +306,13 @@ namespace Accord.Math.Decompositions
             get
             {
 				if (this.fullRank.HasValue)
-				{
 					return this.fullRank.Value;
-				}
 
                 for (int i = 0; i < p; i++)
                     if (this.Rdiag[i] == 0)
-					{
-                        this.fullRank = false;
-						return false;
-					}
+						return (bool)(this.fullRank = false);
                 
-				this.fullRank = true;
-				return true;
+				return (bool)(this.fullRank = true);
             }
         }
 
@@ -331,9 +322,7 @@ namespace Accord.Math.Decompositions
             get
             {
 				if (this.upperTriangularFactor != null)
-				{
 					return this.upperTriangularFactor;
-				}
 
                 int rows = economy ? m : n;
                 var x = Matrix.Zeros<Decimal>(rows, p);
@@ -361,9 +350,7 @@ namespace Accord.Math.Decompositions
             get
             {
 				if (this.orthogonalFactor != null)
-				{
 					return this.orthogonalFactor;
-				}
 
                 int cols = economy ? m : n;
                 var x = Matrix.Zeros<Decimal>(n, cols);

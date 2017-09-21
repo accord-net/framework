@@ -115,6 +115,29 @@ namespace Accord.Tests.Math
         }
 
         [Test]
+        public void JaggedQrDecompositionCachingTest()
+        {
+            double[,] value =
+            {
+               {  2, -1,  0 },
+               { -1,  2, -1 },
+               {  0, -1,  2 }
+            };
+
+            var target = new JaggedQrDecomposition(value.ToJagged());
+
+            // Decomposition Identity
+            double[][] Q1 = target.OrthogonalFactor;
+            double[][] Q2 = target.OrthogonalFactor;
+
+            double[][] utf1 = target.UpperTriangularFactor;
+            double[][] utf2 = target.UpperTriangularFactor;
+
+            Assert.AreSame(Q1, Q2);
+            Assert.AreSame(utf1, utf2);
+        }
+
+        [Test]
         public void full_decomposition()
         {
             double[][] value =
