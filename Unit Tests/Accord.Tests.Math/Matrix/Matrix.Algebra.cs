@@ -33,7 +33,7 @@ namespace Accord.Tests.Math
     using Accord.IO;
     using System.Globalization;
 #if NO_CULTURE
-    using CultureInfo = Accord.Compat.CultureInfo;
+    using CultureInfo = Accord.Compat.CultureInfoEx;
 #endif
 
     [TestFixture]

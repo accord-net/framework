@@ -1,5 +1,4 @@
-﻿
-// Accord Math Library
+﻿// Accord Math Library
 // The Accord.NET Framework
 // http://accord-framework.net
 //
@@ -30,6 +29,7 @@ namespace Accord.Math.Decompositions
 {
     using System;
     using Accord.Math;
+	using Accord.Compat;
 
     /// <summary>
     ///   LU decomposition of a multidimensional rectangular matrix.

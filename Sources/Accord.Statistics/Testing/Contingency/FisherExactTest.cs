@@ -26,6 +26,7 @@ namespace Accord.Statistics.Testing
     using Accord.Statistics.Analysis;
     using Accord.Statistics.Distributions.Univariate;
     using System.Diagnostics;
+    using Accord.Compat;
 
     /// <summary>
     ///   Fisher's exact test for contingency tables.

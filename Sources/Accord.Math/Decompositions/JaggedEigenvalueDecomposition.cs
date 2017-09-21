@@ -29,6 +29,7 @@ namespace Accord.Math.Decompositions
 {
     using System;
     using Accord.Math;
+	using Accord.Compat;
 
     /// <summary>
     ///     Determines the eigenvalues and eigenvectors of a real square matrix.

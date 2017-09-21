@@ -20,7 +20,6 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-#if !NETSTANDARD1_4
 namespace Accord.Statistics.Filters
 {
     using System;
@@ -29,6 +28,7 @@ namespace Accord.Statistics.Filters
     using Accord.Math;
     using Accord.MachineLearning;
     using System.Collections.Generic;
+    using Accord.Compat;
 
     /// <summary>
     ///   Strategies for missing value imputations.
@@ -224,6 +224,7 @@ namespace Accord.Statistics.Filters
             return result;
         }
 
+#if !NETSTANDARD1_4
         /// <summary>
         ///   Processes the current filter.
         /// </summary>
@@ -289,6 +290,7 @@ namespace Accord.Statistics.Filters
 
             return this;
         }
+#endif
 
         /// <summary>
         ///   Learns a model that can map the given inputs to the desired outputs.
@@ -388,7 +390,7 @@ namespace Accord.Statistics.Filters
             public Options()
                 : this("New column") { }
 
-
+#if !NETSTANDARD1_4
             /// <summary>
             ///   Auto detects the column options by analyzing
             ///   a given <see cref="System.Data.DataColumn"/>.
@@ -484,6 +486,7 @@ namespace Accord.Statistics.Filters
 
                 return this;
             }
+#endif
 
             /// <summary>
             ///   Learns a model that can map the given inputs to the desired outputs.
@@ -548,7 +551,11 @@ namespace Accord.Statistics.Filters
                     }
                     else
                     {
+#if NETSTANDARD1_4
+                        this.MissingValue = default(T);
+#else
                         this.MissingValue = type.GetDefaultValue().To<T>();
+#endif
                     }
                 }
             }
@@ -602,6 +609,7 @@ namespace Accord.Statistics.Filters
                 return false;
             }
 
+#if !NETSTANDARD1_4
             private TValue[] filter<TValue>(DataColumn column)
             {
                 var m = new List<TValue>();
@@ -618,6 +626,7 @@ namespace Accord.Statistics.Filters
 
                 return m.ToArray();
             }
+#endif
 
             private TValue[] filter<TValue>(TValue[] column)
             {
@@ -636,4 +645,3 @@ namespace Accord.Statistics.Filters
         }
     }
 }
-#endif

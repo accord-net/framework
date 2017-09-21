@@ -28,7 +28,11 @@ namespace Accord.DataSets.Base
     using ICSharpCode.SharpZipLib.BZip2;
     using ICSharpCode.SharpZipLib.GZip;
     using Accord.Compat;
+#if NETSTANDARD
+    using ICSharpCode.SharpZipLib.Lzw;
+#else
     using ICSharpCode.SharpZipLib.LZW;
+#endif
 
     /// <summary>
     ///   Base class for sparse datasets that can be downloaded from LIBSVM website.

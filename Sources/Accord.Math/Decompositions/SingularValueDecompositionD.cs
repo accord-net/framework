@@ -30,9 +30,7 @@ namespace Accord.Math.Decompositions
     using System;
     using Accord.Math;
 	using System.Diagnostics;
-#if NO_TRACE
-    using Trace = Accord.Diagnostics.Trace;
-#endif
+	using Accord.Compat;
 
     /// <summary>
     ///   Singular Value Decomposition for a rectangular matrix.
