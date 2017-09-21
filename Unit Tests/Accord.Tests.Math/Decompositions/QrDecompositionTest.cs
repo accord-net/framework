@@ -93,7 +93,7 @@ namespace Accord.Tests.Math
 
             // Decomposition Identity
             var Q = target.OrthogonalFactor;
-            var QQt = Matrix.Multiply(Q, Q.Transpose());
+            var QQt = Q.DotWithTransposed(Q);
             Assert.IsTrue(Matrix.IsEqual(QQt, Matrix.Identity(3), 1e-6));
             Assert.IsTrue(Matrix.IsEqual(value, target.Reverse(), 1e-6));
 
