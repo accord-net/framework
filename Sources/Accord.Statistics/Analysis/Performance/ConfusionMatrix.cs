@@ -385,13 +385,24 @@ namespace Accord.Statistics.Analysis
         /// </summary>
         /// 
         [DisplayName("Number of samples")]
-        public int Samples
+        public int NumberOfSamples
         {
             get
             {
                 return trueNegatives + truePositives +
                     falseNegatives + falsePositives;
             }
+        }
+
+        /// <summary>
+        ///   Gets the number of observations for this matrix
+        /// </summary>
+        /// 
+        [Obsolete("Please use NumberOfSamples instead.")]
+        [DisplayName("Number of samples")]
+        public int Samples
+        {
+            get { return NumberOfSamples; }
         }
 
         /// <summary>
@@ -569,7 +580,7 @@ namespace Accord.Statistics.Analysis
         /// 
         public double Accuracy
         {
-            get { return (truePositives + trueNegatives) / (double)Samples; }
+            get { return (truePositives + trueNegatives) / (double)NumberOfSamples; }
         }
 
         /// <summary>
@@ -583,7 +594,7 @@ namespace Accord.Statistics.Analysis
         /// 
         public double Error
         {
-            get { return (falsePositives + falseNegatives) / (double)Samples; }
+            get { return (falsePositives + falseNegatives) / (double)NumberOfSamples; }
         }
 
         /// <summary>
@@ -592,7 +603,7 @@ namespace Accord.Statistics.Analysis
         /// 
         public double Prevalence
         {
-            get { return ActualPositives / (double)Samples; }
+            get { return ActualPositives / (double)NumberOfSamples; }
         }
 
         /// <summary>
@@ -769,7 +780,7 @@ namespace Accord.Statistics.Analysis
                 double b = falsePositives;
                 double c = falseNegatives;
                 double d = trueNegatives;
-                double N = Samples;
+                double N = NumberOfSamples;
 
                 return (double)((a + d) - (((a + c) * (a + b) + (b + d) * (c + d)) / N))
                     / (N - (((a + c) * (a + b) + (b + d) * (c + d)) / N));
@@ -871,7 +882,7 @@ namespace Accord.Statistics.Analysis
         [DisplayName("Overall Diagnostic Power")]
         public double OverallDiagnosticPower
         {
-            get { return (double)(falsePositives + trueNegatives) / Samples; }
+            get { return (double)(falsePositives + trueNegatives) / NumberOfSamples; }
         }
 
         /// <summary>
@@ -887,7 +898,7 @@ namespace Accord.Statistics.Analysis
                 double b = falsePositives;
                 double c = falseNegatives;
                 double d = trueNegatives;
-                double N = Samples;
+                double N = NumberOfSamples;
 
                 double num = a * Math.Log(a) + b * Math.Log(b) + c * Math.Log(c) + d * Math.Log(d)
                            - (a + b) * Math.Log(a + b) - (c + d) * Math.Log(c + d);
@@ -944,7 +955,7 @@ namespace Accord.Statistics.Analysis
 
                 for (int i = 0; i < row.Length; i++)
                     for (int j = 0; j < col.Length; j++)
-                        expected[i, j] = (col[j] * row[i]) / (double)Samples;
+                        expected[i, j] = (col[j] * row[i]) / (double)NumberOfSamples;
 
                 return expected;
             }
@@ -969,7 +980,7 @@ namespace Accord.Statistics.Analysis
                     {
                         for (int j = 0; j < col.Length; j++)
                         {
-                            double e = (row[i] * col[j]) / (double)Samples;
+                            double e = (row[i] * col[j]) / (double)NumberOfSamples;
                             double o = Matrix[i, j];
 
                             x += ((o - e) * (o - e)) / e;

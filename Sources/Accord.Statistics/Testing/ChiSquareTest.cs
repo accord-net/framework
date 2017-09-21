@@ -172,7 +172,7 @@ namespace Accord.Statistics.Testing
             int[] row = matrix.RowTotals;
             int[] col = matrix.ColumnTotals;
             int[,] values = matrix.Matrix;
-            int samples = matrix.Samples;
+            int samples = matrix.NumberOfSamples;
 
             double chiSquare = compute(values, row, col, samples, yatesCorrection);
 
