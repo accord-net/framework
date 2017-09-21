@@ -93,7 +93,7 @@ namespace Accord.Tests.Math
 
             // Decomposition Identity
             var Q = target.OrthogonalFactor;
-            var QQt = Matrix.Multiply(Q, Q.Transpose());
+            var QQt = Q.DotWithTransposed(Q);
             Assert.IsTrue(Matrix.IsEqual(QQt, Matrix.Identity(3), 1e-6));
             Assert.IsTrue(Matrix.IsEqual(value, target.Reverse(), 1e-6));
 
@@ -104,6 +104,29 @@ namespace Accord.Tests.Math
             double[,] actual = target.Solve(B);
 
             Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.0000000000001));
+        }
+
+        [Test]
+        public void QrDecompositionCachingTest()
+        {
+            double[,] value =
+            {
+               {  2, -1,  0 },
+               { -1,  2, -1 },
+               {  0, -1,  2 }
+            };
+
+            var target = new QrDecomposition(value);
+
+            // Decomposition Identity
+            var Q1 = target.OrthogonalFactor;
+            var Q2 = target.OrthogonalFactor;
+
+            var utf1 = target.UpperTriangularFactor;
+            var utf2 = target.UpperTriangularFactor;
+
+            Assert.AreSame(Q1, Q2);
+            Assert.AreSame(utf1, utf2);
         }
 
 

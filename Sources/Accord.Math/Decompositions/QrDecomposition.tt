@@ -76,6 +76,11 @@ namespace Accord.Math.Decompositions
         private <#=T#>[,] qr;
         private <#=T#>[] Rdiag;
 
+		// cache for lazy evaluation
+        private bool? fullRank;
+        private <#=T#>[,] orthogonalFactor;
+        private <#=T#>[,] upperTriangularFactor;
+
         /// <summary>Constructs a QR decomposition.</summary>    
         /// <param name="value">The matrix A to be decomposed.</param>
         /// <param name="transpose">True if the decomposition should be performed on
@@ -319,10 +324,14 @@ namespace Accord.Math.Decompositions
         {
             get
             {
+				if (this.fullRank.HasValue)
+					return this.fullRank.Value;
+
                 for (int i = 0; i < p; i++)
                     if (this.Rdiag[i] == 0)
-                        return false;
-                return true;
+						return (bool)(this.fullRank = false);
+                
+				return (bool)(this.fullRank = true);
             }
         }
 
@@ -331,6 +340,9 @@ namespace Accord.Math.Decompositions
         {
             get
             {
+				if (this.upperTriangularFactor != null)
+					return this.upperTriangularFactor;
+
                 int rows = economy ? m : n;
                 var x = Matrix.Zeros<<#=T#>>(rows, p);
 
@@ -345,7 +357,7 @@ namespace Accord.Math.Decompositions
                     }
                 }
 
-                return x;
+                return this.upperTriangularFactor = x;
             }
         }
 
@@ -356,6 +368,9 @@ namespace Accord.Math.Decompositions
         {
             get
             {
+				if (this.orthogonalFactor != null)
+					return this.orthogonalFactor;
+
                 int cols = economy ? m : n;
                 var x = Matrix.Zeros<<#=T#>>(n, cols);
 
@@ -380,7 +395,7 @@ namespace Accord.Math.Decompositions
                     }
                 }
 
-                return x;
+                return this.orthogonalFactor = x;
             }
         }
 

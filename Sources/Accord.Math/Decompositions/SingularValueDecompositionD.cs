@@ -30,7 +30,9 @@ namespace Accord.Math.Decompositions
     using System;
     using Accord.Math;
 	using System.Diagnostics;
-    using Accord.Compat;
+#if NO_TRACE
+    using Trace = Accord.Diagnostics.Trace;
+#endif
 
     /// <summary>
     ///   Singular Value Decomposition for a rectangular matrix.
@@ -75,10 +77,13 @@ namespace Accord.Math.Decompositions
         private const Decimal eps = 2 * Constants.DecimalEpsilon;
         private const Decimal tiny = Constants.DecimalSmall;
 
-        Decimal? determinant;
+        int? rank;
+		Decimal? determinant;
         Decimal? lndeterminant;
         Decimal? pseudoDeterminant;
         Decimal? lnpseudoDeterminant;
+
+		Decimal[,] diagonalMatrix;
 
         /// <summary>
         ///   Returns the condition number <c>max(S) / min(S)</c>.
@@ -117,13 +122,16 @@ namespace Accord.Math.Decompositions
         {
             get
             {
+				if (this.rank.HasValue)
+					return this.rank.Value;
+
                 Decimal tol = System.Math.Max(m, n) * s[0] * eps;
 
                 int r = 0;
                 for (int i = 0; i < s.Rows(); i++)
                     if (s[i] > tol) r++;
 
-                return r;
+                return (int)(this.rank = r);
             }
         }
 
@@ -151,7 +159,13 @@ namespace Accord.Math.Decompositions
         ///
         public Decimal[,] DiagonalMatrix
         {
-            get { return Matrix.Diagonal(u.Columns(), v.Columns(), s); }
+            get 
+			{	
+				if (this.diagonalMatrix != null)
+					return this.diagonalMatrix;
+
+				return diagonalMatrix = Matrix.Diagonal(u.Columns(), v.Columns(), s);
+			}
         }
 
         /// <summary>

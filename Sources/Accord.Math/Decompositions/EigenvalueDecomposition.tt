@@ -78,6 +78,9 @@ namespace Accord.Math.Decompositions
         private <#=T#>[] ort;       // storage for nonsymmetric algorithm.
         private bool symmetric;
 
+		private int? rank;
+		private <#=T#>[,] diagonalMatrix;
+
         private const <#=T#> eps = 2 * Constants.<#=T#>Epsilon;
         
 
@@ -91,13 +94,16 @@ namespace Accord.Math.Decompositions
         {
             get
             {
+				if (this.rank.HasValue)
+					return this.rank.Value;
+
                 <#=T#> tol = n * d[0] * eps;
 
                 int r = 0;
                 for (int i = 0; i < d.Length; i++)
                     if (d[i] > tol) r++;
 
-                return r;
+                return (int)(this.rank = r);
             }
         }
 
@@ -216,6 +222,9 @@ namespace Accord.Math.Decompositions
         {
             get
             {
+				if (this.diagonalMatrix != null)
+					return this.diagonalMatrix;
+
                 var x = new <#=T#>[n, n];
 
                 for (int i = 0; i < n; i++)
@@ -234,7 +243,7 @@ namespace Accord.Math.Decompositions
                     }
                 }
 
-                return x;
+                return this.diagonalMatrix = x;
             }
         }
 

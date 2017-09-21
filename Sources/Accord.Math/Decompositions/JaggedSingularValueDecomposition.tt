@@ -96,10 +96,13 @@ namespace Accord.Math.Decompositions
         private const <#=T#> eps = 2 * Constants.<#=T#>Epsilon;
         private const <#=T#> tiny = Constants.<#=T#>Small;
 
-        <#=T#>? determinant;
+        int? rank;
+		<#=T#>? determinant;
         <#=T#>? lndeterminant;
         <#=T#>? pseudoDeterminant;
         <#=T#>? lnpseudoDeterminant;
+
+		<#=T#>[][] diagonalMatrix;
 
         /// <summary>
         ///   Returns the condition number <c>max(S) / min(S)</c>.
@@ -138,13 +141,16 @@ namespace Accord.Math.Decompositions
         {
             get
             {
+				if (this.rank.HasValue)
+					return this.rank.Value;
+
                 <#=T#> tol = System.Math.Max(m, n) * s[0] * eps;
 
                 int r = 0;
                 for (int i = 0; i < s.Length; i++)
                     if (s[i] > tol) r++;
 
-                return r;
+                return (int)(this.rank = r);
             }
         }
 
@@ -172,7 +178,13 @@ namespace Accord.Math.Decompositions
         ///
         public <#=T#>[][] DiagonalMatrix
         {
-            get { return Jagged.Diagonal(u[0].Length, v[0].Length, s); }
+            get 
+			{
+				if (this.diagonalMatrix != null)
+					return this.diagonalMatrix;
+
+				return this.diagonalMatrix = Jagged.Diagonal(u[0].Length, v[0].Length, s); 
+			}
         }
 
         /// <summary>
