@@ -546,5 +546,61 @@ namespace Accord.Tests.Math
             actual = a.Get(-1, 0, 0, -1);
             Assert.IsTrue(new[] { new[] { 1, 2, 6, 8 } }.IsEqual(actual));
         }
+
+        [Test]
+        public void matrix_sort()
+        {
+            #region doc_matrix_sort
+            // Let's say we are in a situation where you have a NxM matrix of values and 
+            // a row vector 1xM where each value in the vector is associated with a column 
+            // in the matrix (e.g. this is the case if we had a matrix of Eigenvectors and 
+            // their associated eigenvalues):
+
+            double[,] matrix =
+            {
+                { 1, 5, 3 },
+                { 2, 2, 6 },
+                { 1, 3, 4 },
+                { 2, 4, 3 },
+                { 1, 0, 1 },
+            };
+
+            double[] v = { -3, 1, 0.42 };
+
+            // Let's say we would like to sort the columns of the matrix 
+            // according to the value of the elements in the row vector:
+
+            double[,] sortedMatrix1 = Matrix.Sort(keys: v, values: matrix);
+
+            // The resulting matrix will be:
+            double[,] expected1 =
+            {
+                { 1, 3, 5 },
+                { 2, 6, 2 },
+                { 1, 4, 3 },
+                { 2, 3, 4 },
+                { 1, 1, 0 },
+            };
+
+            // Now, let's say we would like to sort the columns of the matrix 
+            // according to the absolute value of the elements in the row vector:
+
+            double[,] sortedMatrix2 = Matrix.Sort(keys: v, values: matrix, 
+                comparer: new GeneralComparer(ComparerDirection.Ascending, useAbsoluteValues: true));
+
+            // The resulting matrix will be:
+            double[,] expected2 =
+            {
+                { 3, 5, 1 },
+                { 6, 2, 2 },
+                { 4, 3, 1 },
+                { 3, 4, 2 },
+                { 1, 0, 1 },
+            };
+            #endregion
+
+            Assert.AreEqual(expected1, sortedMatrix1);
+            Assert.AreEqual(expected2, sortedMatrix2);
+        }
     }
 }

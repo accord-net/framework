@@ -1153,19 +1153,21 @@ namespace Accord.Math
             return values.Distinct().Length;
         }
 
-
         /// <summary>
         ///   Sorts the columns of a matrix by sorting keys.
         /// </summary>
         /// 
         /// <param name="keys">The key value for each column.</param>
         /// <param name="values">The matrix to be sorted.</param>
-        /// <param name="comparer">The comparer to use.</param>
         /// 
-        public static TValue[,] Sort<TKey, TValue>(TKey[] keys, TValue[,] values, IComparer<TKey> comparer)
+        /// <example>
+        /// <code source="Unit Tests\Accord.Tests.Math\Matrix\Matrix.Selection.cs" region="doc_matrix_sort" />
+        /// </example>
+        /// 
+        public static TValue[,] Sort<TKey, TValue>(TKey[] keys, TValue[,] values)
         {
             int[] indices = Accord.Math.Vector.Range(keys.Length);
-            Array.Sort<TKey, int>(keys, indices, comparer);
+            Array.Sort<TKey, int>(keys.Copy(), indices);
             return values.Get(0, values.Rows(), indices);
         }
 
@@ -1177,10 +1179,51 @@ namespace Accord.Math
         /// <param name="values">The matrix to be sorted.</param>
         /// <param name="comparer">The comparer to use.</param>
         /// 
+        /// <example>
+        /// <code source="Unit Tests\Accord.Tests.Math\Matrix\Matrix.Selection.cs" region="doc_matrix_sort" />
+        /// </example>
+        /// 
+        public static TValue[,] Sort<TKey, TValue>(TKey[] keys, TValue[,] values, IComparer<TKey> comparer)
+        {
+            int[] indices = Accord.Math.Vector.Range(keys.Length);
+            Array.Sort<TKey, int>(keys.Copy(), indices, comparer);
+            return values.Get(0, values.Rows(), indices);
+        }
+
+        /// <summary>
+        ///   Sorts the columns of a matrix by sorting keys.
+        /// </summary>
+        /// 
+        /// <param name="keys">The key value for each column.</param>
+        /// <param name="values">The matrix to be sorted.</param>
+        /// <param name="comparer">The comparer to use.</param>
+        /// 
+        /// <example>
+        /// <code source="Unit Tests\Accord.Tests.Math\Matrix\Matrix.Selection.cs" region="doc_matrix_sort" />
+        /// </example>
+        /// 
         public static TValue[][] Sort<TKey, TValue>(TKey[] keys, TValue[][] values, IComparer<TKey> comparer)
         {
             int[] indices = Accord.Math.Vector.Range(keys.Length);
-            Array.Sort<TKey, int>(keys, indices, comparer);
+            Array.Sort<TKey, int>(keys.Copy(), indices, comparer);
+            return values.Submatrix(null, indices);
+        }
+
+        /// <summary>
+        ///   Sorts the columns of a matrix by sorting keys.
+        /// </summary>
+        /// 
+        /// <param name="keys">The key value for each column.</param>
+        /// <param name="values">The matrix to be sorted.</param>
+        /// 
+        /// <example>
+        /// <code source="Unit Tests\Accord.Tests.Math\Matrix\Matrix.Selection.cs" region="doc_matrix_sort" />
+        /// </example>
+        /// 
+        public static TValue[][] Sort<TKey, TValue>(TKey[] keys, TValue[][] values)
+        {
+            int[] indices = Accord.Math.Vector.Range(keys.Length);
+            Array.Sort<TKey, int>(keys.Copy(), indices);
             return values.Submatrix(null, indices);
         }
 
