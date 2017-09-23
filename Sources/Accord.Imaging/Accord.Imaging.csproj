@@ -251,6 +251,7 @@
     <Compile Include="Blob Processing\RecursiveBlobCounter.cs" />
     <Compile Include="AForge.Imaging\SusanCornersDetector.cs" />
     <Compile Include="AForge.Imaging\TemplateMatch.cs" />
+    <Compile Include="Interest Points\Haralick\HaralickDescriptorDictionary.cs" />
     <Compile Include="Textures\Base\BaseTextureGenerator.cs" />
     <Compile Include="Textures\CloudsTexture.cs" />
     <Compile Include="Textures\Base\ITextureGenerator.cs" />

@@ -40,6 +40,7 @@ namespace Accord.Tests.Imaging
     using Accord.Math.Optimization.Losses;
     using Accord.Math.Metrics;
     using Accord.Tests.Vision.Properties;
+    using Accord.Imaging.Textures;
 #if NO_BITMAP
     using Resources = Accord.Tests.Vision.Properties.Resources_Standard;
 #endif
@@ -480,7 +481,7 @@ namespace Accord.Tests.Imaging
             Assert.AreEqual(error, 0);
         }
 
-        [Test, Ignore("Haralick does not extract good features in this dataset")]
+        [Test]
         public void custom_feature_test_haralick()
         {
             #region doc_feature_haralick
@@ -496,11 +497,28 @@ namespace Accord.Tests.Imaging
             // In this example, we will use the Haralick feature extractor
             // and the GMM clustering algorithm instead.
 
-            // Create a new Bag-of-Visual-Words (BoW) model using HOG features
-            var bow = BagOfVisualWords.Create(new Haralick(), new GaussianMixtureModel(3));
+            // Create a new Bag-of-Visual-Words (BoW) model using Haralick features
+            var bow = BagOfVisualWords.Create(new Haralick()
+            {
+                CellSize = 256, // divide images in cells of 256x256 pixels
+                Mode = HaralickMode.AverageWithRange,
+            }, new KMeans(3));
 
-            // Get some training images
-            Bitmap[] images = GetImages();
+            // Generate some training images. Haralick is best for classifying
+            // textures, so we will be generating examples of wood and clouds:
+            var woodenGenerator = new WoodTexture();
+            var cloudsGenerator = new CloudsTexture();
+
+            Bitmap[] images = new[]
+            {
+                woodenGenerator.Generate(512, 512).ToBitmap(),
+                woodenGenerator.Generate(512, 512).ToBitmap(),
+                woodenGenerator.Generate(512, 512).ToBitmap(),
+
+                cloudsGenerator.Generate(512, 512).ToBitmap(),
+                cloudsGenerator.Generate(512, 512).ToBitmap(),
+                cloudsGenerator.Generate(512, 512).ToBitmap()
+            };
 
             // Compute the model
             bow.Learn(images);
@@ -510,23 +528,23 @@ namespace Accord.Tests.Imaging
             double[][] features = bow.Transform(images);
             #endregion
 
-            Assert.AreEqual(features.GetLength(), new[] { 6, 10 });
+            Assert.AreEqual(features.GetLength(), new[] { 6, 3 });
 
             string str = features.ToCSharp();
 
             double[][] expected = new double[][]
             {
-                new double[] { 141, 332, 240, 88, 363, 238, 282, 322, 114, 232 },
-                new double[] { 103, 452, 195, 140, 158, 260, 283, 368, 163, 230 },
-                new double[] { 88, 231, 185, 172, 631, 189, 219, 241, 237, 159 },
-                new double[] { 106, 318, 262, 212, 165, 276, 264, 275, 244, 230 },
-                new double[] { 143, 302, 231, 113, 332, 241, 273, 320, 157, 240 },
-                new double[] { 87, 347, 248, 249, 63, 227, 292, 288, 339, 212 }
+                new double[] { 3, 0, 1 },
+                new double[] { 3, 0, 1 },
+                new double[] { 3, 0, 1 },
+                new double[] { 3, 1, 0 },
+                new double[] { 3, 1, 0 },
+                new double[] { 3, 1, 0 }
             };
 
-            for (int i = 0; i < features.Length; i++)
-                for (int j = 0; j < features[i].Length; j++)
-                    Assert.IsTrue(expected[i].Contains(features[i][j]));
+            for (int i = 0; i < expected.Length; i++)
+                for (int j = 0; j < expected[i].Length; j++)
+                    Assert.IsTrue(expected[i][j] == features[i][j]);
 
             #region doc_classification_feature_haralick
 

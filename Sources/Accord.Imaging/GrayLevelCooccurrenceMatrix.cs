@@ -41,25 +41,25 @@ namespace Accord.Imaging
         ///   Find co-occurrences at 0° degrees.
         /// </summary>
         /// 
-        Degree0,
+        Degree0 = 0,
 
         /// <summary>
         ///   Find co-occurrences at 45° degrees.
         /// </summary>
         /// 
-        Degree45,
+        Degree45 = 45,
 
         /// <summary>
         ///   Find co-occurrences at 90° degrees.
         /// </summary>
         /// 
-        Degree90,
+        Degree90 = 90,
 
         /// <summary>
         ///   Find co-occurrences at 135° degrees.
         /// </summary>
         /// 
-        Degree135
+        Degree135 = 135
     };
 
 

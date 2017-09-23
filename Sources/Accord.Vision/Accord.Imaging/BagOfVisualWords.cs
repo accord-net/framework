@@ -97,6 +97,13 @@ namespace Accord.Imaging
     ///   
     ///   <code source="Unit Tests\Accord.Tests.Vision\Imaging\BagOfVisualWordsTest.cs" region="doc_datatype" />
     ///   <code source="Unit Tests\Accord.Tests.Vision\Imaging\BagOfVisualWordsTest.cs" region="doc_classification_datatype" />
+    /// 
+    /// <para>
+    ///   Other more specialized feature extractors can also be used, such as <see cref="Haralick"/>
+    ///   texture feature extractors for performing texture classification.</para>
+    ///   
+    ///   <code source="Unit Tests\Accord.Tests.Vision\Imaging\BagOfVisualWodsTest.cs" region="doc_feature_haralick" />
+    ///   <code source="Unit Tests\Accord.Tests.Vision\Imaging\BagOfVisualWodsTest.cs" region="doc_classification_haralick" />
     /// </example>
     /// 
     /// <seealso cref="BagOfVisualWords{TPoint}"/>
