@@ -1,8 +1,8 @@
-// Accord Machine Learning Library
+ï»¿// Accord Machine Learning Library
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2017
+// Copyright Â© CÃ©sar Souza, 2009-2017
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -22,15 +22,17 @@
 
 namespace Accord.MachineLearning.VectorMachines
 {
-    using Accord.MachineLearning;
-    using Accord.MachineLearning.VectorMachines.Learning;
-    using Accord.Math;
-    using Accord.Statistics;
-    using Accord.Statistics.Kernels;
     using System;
+    using System.IO;
+    using Accord.MachineLearning.VectorMachines.Learning;
+    using System.Runtime.Serialization.Formatters.Binary;
+    using Accord.Math;
+    using Accord.Statistics.Kernels;
     using System.Collections.Generic;
-    using System.Runtime.Serialization;
     using System.Threading;
+    using System.Runtime.Serialization;
+    using Accord.MachineLearning;
+    using System.Reflection;
     using Accord.Compat;
     using System.Threading.Tasks;
 
@@ -61,7 +63,7 @@ namespace Accord.MachineLearning.VectorMachines
     ///        http://nlp.stanford.edu/IR-book/html/htmledition/multiclass-svms-1.html </a></description></item>
     ///     </list></para>
     /// </remarks>
-    ///
+    /// 
     /// <example>
     /// <para>
     ///   The following example shows how to learn a linear, multi-label (one-vs-rest) support 
@@ -82,29 +84,38 @@ namespace Accord.MachineLearning.VectorMachines
     /// <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MultilabelSupportVectorLearningTest.cs" region="doc_learn_calibration" />
     /// </example>
     /// 
-    /// <seealso cref="SupportVectorMachine{TKernel}"/>
-    /// <seealso cref="MulticlassSupportVectorMachine{TKernel}"/>
     /// <seealso cref="MultilabelSupportVectorLearning{TKernel}"/>
-    /// <seealso cref="SequentialMinimalOptimization{TKernel}"/>
-    ///
+    /// <seealso cref="MulticlassSupportVectorMachine{TKernel}"/>
+    /// 
     [Serializable]
-    public class MultilabelSupportVectorMachine<TKernel, TInput> :
-        MultilabelSupportVectorMachine<SupportVectorMachine<TKernel, TInput>, TKernel, TInput>
-        where TKernel : IKernel<TInput>
-#if !NETSTANDARD1_4
-        where TInput : ICloneable
-#endif
+    public class MultilabelSupportVectorMachine<TKernel> :
+        MultilabelSupportVectorMachine<
+            SupportVectorMachine<TKernel>,
+            TKernel,
+            double[]>
+        where TKernel : IKernel<double[]>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="MultilabelSupportVectorMachine{TModel, TKernel, TInput}"/> class.
+        /// Initializes a new instance of the <see cref="MultilabelSupportVectorMachine{TKernel}"/> class.
         /// </summary>
-        /// <param name="classes">The number of classes in the multi-class classification problem.</param>
-        /// <param name="inputs">The number of inputs (length of the input vectors) accepted by the machine.</param>
-        /// <param name="kernel">The kernel function to be used.</param>
-        public MultilabelSupportVectorMachine(int inputs, TKernel kernel, int classes)
-            : base(classes, () => new SupportVectorMachine<TKernel, TInput>(inputs, kernel))
+        /// <param name="classes">The number of classes in the multi-label classification problem.</param>
+        /// <param name="initializer">A function to create the inner binary classifiers.</param>
+        public MultilabelSupportVectorMachine(int classes, Func<SupportVectorMachine<TKernel>> initializer)
+            : base(classes, initializer)
         {
         }
-    }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MultilabelSupportVectorMachine{TKernel}"/> class.
+        /// </summary>
+        /// <param name="inputs">The number of inputs by the machine.</param>
+        /// <param name="classes">The number of classes to be handled by the machine.</param>
+        /// <param name="kernel">The kernel function to be used in the machine.</param>
+        /// 
+        public MultilabelSupportVectorMachine(int inputs, TKernel kernel, int classes)
+            : base(classes, () => new SupportVectorMachine<TKernel>(inputs, kernel))
+        {
+        }
+
+    }
 }
