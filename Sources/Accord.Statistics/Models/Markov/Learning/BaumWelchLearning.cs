@@ -174,7 +174,7 @@ namespace Accord.Statistics.Models.Markov.Learning
             if (Topology == null)
                 throw new InvalidOperationException("Please set the Topology property before trying to learn a new hidden Markov model.");
 
-            this.NumberOfSymbols = x.Concatenate().DistinctCount();
+            this.NumberOfSymbols = x.Max() + 1;
 
             return new HiddenMarkovModel(Topology, NumberOfSymbols);
         }

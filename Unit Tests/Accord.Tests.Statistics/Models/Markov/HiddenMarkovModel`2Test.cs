@@ -1419,5 +1419,51 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0, loaded);
         }
 
+        [Test]
+        public void learn_predict()
+        {
+            #region doc_predict
+            // We will try to create a Hidden Markov Model which
+            // can recognize (and predict) the following sequences:
+            double[][] sequences =
+            {
+                new double[] { 1, 3, 5, 7, 9, 11, 13 },
+                new double[] { 1, 3, 5, 7, 9, 11 },
+                new double[] { 1, 3, 5, 7, 9, 11, 13 },
+                new double[] { 1, 3, 3, 7, 7, 9, 11, 11, 13, 13 },
+                new double[] { 1, 3, 7, 9, 11, 13 },
+            };
+
+            // Create a Baum-Welch HMM algorithm:
+            var teacher = new BaumWelchLearning<NormalDistribution, double, NormalOptions>()
+            {
+                // Let's creates a left-to-right (forward)
+                // Hidden Markov Model with 7 hidden states
+                Topology = new Forward(7),
+
+                FittingOptions = new NormalOptions()
+                {
+                    Regularization = 1e-8
+                },
+
+                // We'll try to fit the model to the data until the difference in
+                // the average log-likelihood changes only by as little as 0.0001
+                Tolerance = 0.0001,
+                Iterations = 0 // do not impose a limit on the number of iterations
+            };
+
+            // Use the algorithm to learn a new Markov model:
+            HiddenMarkovModel<NormalDistribution, double> hmm = teacher.Learn(sequences);
+
+            // Now, we will try to predict the next 1 observation in a base symbol sequence
+            double[] prediction = hmm.Predict(observations: new double[] { 1, 3, 5, 7, 9 }, next: 1);
+
+            // At this point, prediction should be around double[] { 11.909090909090905 }
+            double nextObservation = prediction[0]; // should be comparatively near 11.
+            #endregion
+
+            Assert.AreEqual(prediction.Length, 1);
+            Assert.AreEqual(11.909090909090905, prediction[0], 1e-6);
+        }
     }
 }
