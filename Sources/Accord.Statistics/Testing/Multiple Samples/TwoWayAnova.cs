@@ -127,6 +127,10 @@ namespace Accord.Statistics.Testing
     /// 
     /// <see cref="TwoWayAnovaModel"/>
     /// 
+    /// <example>
+    ///   <code source="Unit Tests\Accord.Tests.Statistics\Testing\TwoWayAnovaTest.cs" region="doc_test" />
+    /// </example>
+    /// 
     [Serializable]
     public class TwoWayAnova : IAnova
     {
@@ -231,6 +235,18 @@ namespace Accord.Statistics.Testing
                         throw new ArgumentException("Samples do not have the same number of replicates.", "samples");
 
             initialize(sets, type);
+        }
+
+        /// <summary>
+        ///   Constructs a new <see cref="TwoWayAnova"/>.
+        /// </summary>
+        /// 
+        /// <param name="samples">The samples in grouped form.</param>
+        /// <param name="type">The type of the analysis.</param>
+        /// 
+        public TwoWayAnova(double[,,] samples, TwoWayAnovaModel type = TwoWayAnovaModel.Mixed)
+            : this(jagged(samples), type)
+        {
         }
 
         /// <summary>
@@ -408,14 +424,14 @@ namespace Accord.Statistics.Testing
                 bSignificance = new FTest(bMeanSquares / errorMeanSquares, bDegreesOfFreedom, errorDegreesOfFreedom);
                 abSignificance = new FTest(abMeanSquares / errorMeanSquares, abDegreesOfFreedom, errorDegreesOfFreedom);
             }
-            else throw new ArgumentException("Unhandled analysis type.","type");
+            else throw new ArgumentException("Unhandled analysis type.", "type");
 
 
             // Step 11. Create the ANOVA table and sources
-            AnovaVariationSource cell  = new AnovaVariationSource(this, "Cells", cellSumOfSquares, cellDegreesOfFreedom);
-            AnovaVariationSource a     = new AnovaVariationSource(this, "Factor A", aSumOfSquares, aDegreesOfFreedom, aMeanSquares, aSignificance);
-            AnovaVariationSource b     = new AnovaVariationSource(this, "Factor B", bSumOfSquares, bDegreesOfFreedom, bMeanSquares, bSignificance);
-            AnovaVariationSource ab    = new AnovaVariationSource(this, "Interaction AxB", abSumOfSquares, abDegreesOfFreedom, abMeanSquares, abSignificance);
+            AnovaVariationSource cell = new AnovaVariationSource(this, "Cells", cellSumOfSquares, cellDegreesOfFreedom);
+            AnovaVariationSource a = new AnovaVariationSource(this, "Factor A", aSumOfSquares, aDegreesOfFreedom, aMeanSquares, aSignificance);
+            AnovaVariationSource b = new AnovaVariationSource(this, "Factor B", bSumOfSquares, bDegreesOfFreedom, bMeanSquares, bSignificance);
+            AnovaVariationSource ab = new AnovaVariationSource(this, "Interaction AxB", abSumOfSquares, abDegreesOfFreedom, abMeanSquares, abSignificance);
             AnovaVariationSource error = new AnovaVariationSource(this, "Within-cells (error)", errorSumOfSquares, errorDegreesOfFreedom, errorMeanSquares);
             AnovaVariationSource total = new AnovaVariationSource(this, "Total", totalSumOfSquares, totalDegreesOfFreedom);
 
@@ -431,50 +447,27 @@ namespace Accord.Statistics.Testing
 
             this.Table = new AnovaSourceCollection(cell, a, b, ab, error, total);
         }
-    }
 
-    /// <summary>
-    ///   Variation sources associated with two-way ANOVA.
-    /// </summary>
-    /// 
-    public class TwoWayAnovaVariationSources
-    {
-        internal TwoWayAnovaVariationSources() { }
+        private static double[][][] jagged(double[,,] samples)
+        {
+            int m = samples.GetLength(0);
+            int n = samples.GetLength(1);
+            int p = samples.GetLength(2);
+            double[][][] jagged = new double[m][][];
+            for (int i = 0; i < jagged.Length; i++)
+            {
+                jagged[i] = new double[n][];
+                for (int j = 0; j < jagged[i].Length; j++)
+                {
+                    jagged[i][j] = new double[p];
+                    for (int k = 0; k < jagged[i][j].Length; k++)
+                    {
+                        jagged[i][j][k] = samples[i, j, k];
+                    }
+                }
+            }
 
-        /// <summary>
-        ///   Gets information about the first factor (A).
-        /// </summary>
-        /// 
-        public AnovaVariationSource FactorA { get; internal set; }
-
-        /// <summary>
-        ///   Gets information about the second factor (B) source.
-        /// </summary>
-        /// 
-        public AnovaVariationSource FactorB { get; internal set; }
-
-        /// <summary>
-        ///   Gets information about the interaction factor (AxB) source.
-        /// </summary>
-        /// 
-        public AnovaVariationSource Interaction { get; internal set; }
-
-        /// <summary>
-        ///   Gets information about the error (within-variance) source.
-        /// </summary>
-        /// 
-        public AnovaVariationSource Error { get; internal set; }
-
-        /// <summary>
-        ///   Gets information about the grouped (cells) variance source.
-        /// </summary>
-        /// 
-        public AnovaVariationSource Cells { get; internal set; }
-
-        /// <summary>
-        ///   Gets information about the total source of variance.
-        /// </summary>
-        /// 
-        public AnovaVariationSource Total { get; internal set; }
+            return jagged;
+        }
     }
 }
