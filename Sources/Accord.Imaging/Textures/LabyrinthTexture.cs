@@ -54,7 +54,7 @@ namespace Accord.Imaging.Textures
     /// <img src="img/imaging/labyrinth_texture.jpg" width="320" height="240" />
     /// </remarks>
     /// 
-    public class LabyrinthTexture : ITextureGenerator
+    public class LabyrinthTexture : BaseTextureGenerator, ITextureGenerator
     {
         // Perlin noise function used for texture generation
         private PerlinNoise noise = new PerlinNoise(1, 0.65, 1.0 / 16, 1.0);

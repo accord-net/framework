@@ -54,7 +54,7 @@ namespace Accord.Imaging.Textures
     /// <img src="img/imaging/textile_texture.jpg" width="320" height="240" />
     /// </remarks>
     /// 
-    public class TextileTexture : ITextureGenerator
+    public class TextileTexture : BaseTextureGenerator, ITextureGenerator
     {
         // Perlin noise function used for texture generation
         private PerlinNoise noise = new PerlinNoise(3, 0.65, 1.0 / 8, 1.0);

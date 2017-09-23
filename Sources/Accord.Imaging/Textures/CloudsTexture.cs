@@ -54,7 +54,7 @@ namespace Accord.Imaging.Textures
     /// <img src="img/imaging/clouds_texture.jpg" width="320" height="240" />
     /// </remarks>
     /// 
-    public class CloudsTexture : ITextureGenerator
+    public class CloudsTexture : BaseTextureGenerator, ITextureGenerator
     {
         // Perlin noise function used for texture generation
         private PerlinNoise noise = new PerlinNoise(8, 0.5, 1.0 / 32, 1.0);
