@@ -43,11 +43,13 @@ namespace Accord.Imaging.Textures
     /// <para>Sample usage:</para>
     /// <code>
     /// // create texture generator
-    /// CloudsTexture textureGenerator = new CloudsTexture( );
+    /// CloudsTexture textureGenerator = new CloudsTexture();
+    /// 
     /// // generate new texture
-    /// float[,] texture = textureGenerator.Generate( 320, 240 );
+    /// float[,] texture = textureGenerator.Generate(320, 240);
+    /// 
     /// // convert it to image to visualize
-    /// Bitmap textureImage = TextureTools.ToBitmap( texture );
+    /// Bitmap textureImage = texture.ToBitmap();
     /// </code>
     ///
     /// <para><b>Result image:</b></para>
@@ -59,17 +61,12 @@ namespace Accord.Imaging.Textures
         // Perlin noise function used for texture generation
         private PerlinNoise noise = new PerlinNoise(8, 0.5, 1.0 / 32, 1.0);
 
-        // random number generator
-        private Random rand = new Random();
-        private int r;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="CloudsTexture"/> class.
         /// </summary>
         /// 
         public CloudsTexture()
         {
-            Reset();
         }
 
         /// <summary>
@@ -83,33 +80,24 @@ namespace Accord.Imaging.Textures
         /// 
         /// <remarks>Generates new texture of the specified size.</remarks>
         ///  
-        public float[,] Generate(int width, int height)
+        public override float[,] Generate(int width, int height)
         {
             float[,] texture = new float[height, width];
+
+            int r = Accord.Math.Random.Generator.Random.Next(5000);
 
             for (int y = 0; y < height; y++)
             {
                 for (int x = 0; x < width; x++)
                 {
-                    texture[y, x] =
-                        Math.Max(0.0f, Math.Min(1.0f,
-                            (float)noise.Function2D(x + r, y + r) * 0.5f + 0.5f
-                        ));
+                    float a = (float)noise.Function2D(x + r, y + r) * 0.5f + 0.5f;
+                    texture[y, x] = Math.Max(0.0f, Math.Min(1.0f, a));
 
                 }
             }
+
             return texture;
         }
 
-        /// <summary>
-        /// Reset generator.
-        /// </summary>
-        /// 
-        /// <remarks>Regenerates internal random numbers.</remarks>
-        /// 
-        public void Reset()
-        {
-            r = rand.Next(5000);
-        }
     }
 }

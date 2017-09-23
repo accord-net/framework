@@ -59,17 +59,12 @@ namespace Accord.Imaging.Textures
         // Perlin noise function used for texture generation
         private PerlinNoise noise = new PerlinNoise(1, 0.65, 1.0 / 16, 1.0);
 
-        // random number generator
-        private Random rand = new Random();
-        private int r;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="LabyrinthTexture"/> class.
         /// </summary>
         /// 
         public LabyrinthTexture()
         {
-            Reset();
         }
 
         /// <summary>
@@ -83,33 +78,23 @@ namespace Accord.Imaging.Textures
         /// 
         /// <remarks>Generates new texture of the specified size.</remarks>
         ///  
-        public float[,] Generate(int width, int height)
+        public override float[,] Generate(int width, int height)
         {
-            float[,] texture = new float[height, width];
+            var texture = new float[height, width];
+
+            int r = Accord.Math.Random.Generator.Random.Next(5000);
 
             for (int y = 0; y < height; y++)
             {
                 for (int x = 0; x < width; x++)
                 {
-                    texture[y, x] =
-                        Math.Min(1.0f,
-                            (float)Math.Abs(noise.Function2D(x + r, y + r))
-                        );
-
+                    float a = (float)Math.Abs(noise.Function2D(x + r, y + r));
+                    texture[y, x] = Math.Min(1.0f, a);
                 }
             }
+
             return texture;
         }
 
-        /// <summary>
-        /// Reset generator.
-        /// </summary>
-        /// 
-        /// <remarks>Regenerates internal random numbers.</remarks>
-        /// 
-        public void Reset()
-        {
-            r = rand.Next(5000);
-        }
     }
 }

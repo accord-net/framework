@@ -45,6 +45,26 @@ namespace Accord.Imaging.Textures
         /// <summary>
         /// Generate texture.
         /// </summary>
+        /// <param name="width">Texture's width.</param>
+        /// <param name="height">Texture's height.</param>
+        /// <returns>Two dimensional array of texture's intensities.</returns>
+        /// <remarks>Generates new texture of the specified size.</remarks>
+        public abstract float[,] Generate(int width, int height);
+
+        /// <summary>
+        /// Reset generator.
+        /// </summary>
+        /// <remarks>Resets the generator - resets all internal variables, regenerates
+        /// internal random numbers, etc.</remarks>
+        [Obsolete("The texture generators now use a different seed at each call to Generate.")]
+        public void Reset()
+        {
+
+        }
+
+        /// <summary>
+        /// Generate texture.
+        /// </summary>
         /// 
         /// <param name="width">Texture's width.</param>
         /// <param name="height">Texture's height.</param>
@@ -53,9 +73,9 @@ namespace Accord.Imaging.Textures
         /// 
         /// <remarks>Generates new texture of the specified size.</remarks>
         /// 
-        Bitmap GenerateBitmap(int width, int height)
+        public virtual Bitmap GenerateBitmap(int width, int height)
         {
-            return TextureTools.ToBitmap(width, height);
+            return Generate(width, height).ToBitmap();
         }
     }
 }
