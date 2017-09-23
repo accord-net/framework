@@ -24,13 +24,63 @@ namespace Accord.Tests.Imaging
 {
     using Accord.Imaging;
     using Accord.Imaging.Converters;
+    using Accord.Imaging.Textures;
     using Accord.Math;
     using NUnit.Framework;
     using System.Collections.Generic;
+    using System.Drawing;
 
     [TestFixture]
     public class HaralickTest
     {
+
+        [Test]
+        public void apply_test()
+        {
+            WoodTexture generator = new WoodTexture();
+            Bitmap wood = generator.Generate(512, 512);
+
+            int size = 255;
+            UnmanagedImage output = createGradient(size);
+
+            Haralick haralick = new Haralick()
+            {
+                Mode = HaralickMode.AverageWithRange
+            };
+
+            Assert.AreEqual(13, haralick.Features);
+            Assert.AreEqual(4, haralick.Degrees.Count);
+
+            List<double[]> result = haralick.ProcessImage(output);
+
+            GrayLevelCooccurrenceMatrix glcm = haralick.Matrix;
+            HaralickDescriptorDictionary[,] features = haralick.Descriptors;
+
+            Assert.AreEqual(1, features.GetLength(0));
+            Assert.AreEqual(1, features.GetLength(1));
+
+
+            Assert.AreEqual(1, result.Count);
+            double[] actual = result[0];
+            double[] expected =
+            {
+                0.00393314806237454, 1.54392465647286E-05, 0.749999999999999,
+                0.999999999999998, 3.63895932683582E+37, 1.45558373073433E+38,
+                126.87498462129943, 1, 0.624999999999999,
+                0.499999999999998, 254, 3.12638803734444E-13, 83280.6247942052,
+                167.714124263744, 5.5383165865535, 0.00392927813992738,
+                5.5383165865535, 0.00392927813992738, 0.00392156862745099,
+                1.12757025938492E-17, 2.02615701994091E-15,
+                1.4432899320127E-15, -1, 0, 0.999992265120898,
+                6.06657187818271E-08
+            };
+
+            // string str = actual.ToString(Math.Formats.CSharpArrayFormatProvider.InvariantCulture);
+
+            Assert.AreEqual(26, actual.Length);
+            for (int i = 0; i < actual.Length; i++)
+                Assert.AreEqual(expected[i], actual[i], System.Math.Abs(expected[i]) * 1e-10);
+        }
 
         [Test]
         public void ComputeTest()

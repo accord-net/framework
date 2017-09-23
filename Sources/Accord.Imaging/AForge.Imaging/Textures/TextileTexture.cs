@@ -1,9 +1,30 @@
+// Accord Imaging Library
+// The Accord.NET Framework
+// http://accord-framework.net
+//
 // AForge Image Processing Library
 // AForge.NET framework
 // http://www.aforgenet.com/framework/
 //
-// Copyright © Andrew Kirillov, 2005-2010
+// Copyright © Andrew Kirillov, 2005-2009
 // andrew.kirillov@aforgenet.com
+//
+// Copyright © César Souza, 2009-2017
+// cesarsouza at gmail.com
+//
+//    This library is free software; you can redistribute it and/or
+//    modify it under the terms of the GNU Lesser General Public
+//    License as published by the Free Software Foundation; either
+//    version 2.1 of the License, or (at your option) any later version.
+//
+//    This library is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+//    Lesser General Public License for more details.
+//
+//    You should have received a copy of the GNU Lesser General Public
+//    License along with this library; if not, write to the Free Software
+//    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
 namespace Accord.Imaging.Textures
@@ -36,19 +57,19 @@ namespace Accord.Imaging.Textures
     public class TextileTexture : ITextureGenerator
     {
         // Perlin noise function used for texture generation
-        private PerlinNoise noise = new PerlinNoise( 3, 0.65, 1.0 / 8, 1.0 );
+        private PerlinNoise noise = new PerlinNoise(3, 0.65, 1.0 / 8, 1.0);
 
         // random number generator
-        private Random rand = new Random( );
+        private Random rand = new Random();
         private int r;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TextileTexture"/> class.
         /// </summary>
         /// 
-        public TextileTexture( )
+        public TextileTexture()
         {
-            Reset( );
+            Reset();
         }
 
         /// <summary>
@@ -62,21 +83,21 @@ namespace Accord.Imaging.Textures
         /// 
         /// <remarks>Generates new texture of the specified size.</remarks>
         /// 
-        public float[,] Generate( int width, int height )
+        public float[,] Generate(int width, int height)
         {
             float[,] texture = new float[height, width];
 
-            for ( int y = 0; y < height; y++ )
+            for (int y = 0; y < height; y++)
             {
-                for ( int x = 0; x < width; x++ )
+                for (int x = 0; x < width; x++)
                 {
                     texture[y, x] =
-                        Math.Max( 0.0f, Math.Min( 1.0f,
+                        Math.Max(0.0f, Math.Min(1.0f,
                             (
-                                (float) Math.Sin( x + noise.Function2D( x + r, y + r ) ) +
-                                (float) Math.Sin( y + noise.Function2D( x + r, y + r ) )
+                                (float)Math.Sin(x + noise.Function2D(x + r, y + r)) +
+                                (float)Math.Sin(y + noise.Function2D(x + r, y + r))
                             ) * 0.25f + 0.5f
-                        ) );
+                        ));
 
                 }
             }
@@ -89,9 +110,9 @@ namespace Accord.Imaging.Textures
         /// 
         /// <remarks>Regenerates internal random numbers.</remarks>
         /// 
-        public void Reset( )
+        public void Reset()
         {
-            r = rand.Next( 5000 );
+            r = rand.Next(5000);
         }
     }
 }

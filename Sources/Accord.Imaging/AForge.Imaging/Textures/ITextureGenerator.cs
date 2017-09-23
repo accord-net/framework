@@ -1,9 +1,30 @@
+// Accord Imaging Library
+// The Accord.NET Framework
+// http://accord-framework.net
+//
 // AForge Image Processing Library
 // AForge.NET framework
 // http://www.aforgenet.com/framework/
 //
 // Copyright © Andrew Kirillov, 2005-2009
 // andrew.kirillov@aforgenet.com
+//
+// Copyright © César Souza, 2009-2017
+// cesarsouza at gmail.com
+//
+//    This library is free software; you can redistribute it and/or
+//    modify it under the terms of the GNU Lesser General Public
+//    License as published by the Free Software Foundation; either
+//    version 2.1 of the License, or (at your option) any later version.
+//
+//    This library is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+//    Lesser General Public License for more details.
+//
+//    You should have received a copy of the GNU Lesser General Public
+//    License along with this library; if not, write to the Free Software
+//    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
 namespace Accord.Imaging.Textures
@@ -31,7 +52,7 @@ namespace Accord.Imaging.Textures
         /// 
         /// <remarks>Generates new texture of the specified size.</remarks>
         /// 
-        float[,] Generate( int width, int height );
+        float[,] Generate(int width, int height);
 
         /// <summary>
         /// Reset generator.
@@ -40,6 +61,6 @@ namespace Accord.Imaging.Textures
         /// <remarks>Resets the generator - resets all internal variables, regenerates
         /// internal random numbers, etc.</remarks>
         /// 
-        void Reset( );
+        void Reset();
     }
 }
