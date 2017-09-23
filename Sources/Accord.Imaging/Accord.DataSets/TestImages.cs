@@ -37,6 +37,45 @@ namespace Accord.DataSets
     ///   This dataset contains famous images used in the image processing literature, such as 
     ///   <a href="https://en.wikipedia.org/wiki/Lenna">Lena Söderberg</a> picture.</para>
     ///   
+    /// <para>Using this class, you can retrieve any of the following famous test images:</para>
+    /// 
+    /// <list type="bullet">
+    ///  <list><description>airplane.png  </description></list>
+    ///  <list><description>arctichare.png</description></list>
+    ///  <list><description>baboon.png    </description></list>
+    ///  <list><description>barbara.bmp   </description></list>
+    ///  <list><description>barbara.png   </description></list>
+    ///  <list><description>boat.png      </description></list>
+    ///  <list><description>boy.bmp       </description></list>
+    ///  <list><description>boy.ppm       </description></list>
+    ///  <list><description>cameraman.tif </description></list>
+    ///  <list><description>cat.png       </description></list>
+    ///  <list><description>fprint3.pgm   </description></list>
+    ///  <list><description>fruits.png    </description></list>
+    ///  <list><description>frymire.png   </description></list>
+    ///  <list><description>girl.png      </description></list>
+    ///  <list><description>goldhill.bmp  </description></list>
+    ///  <list><description>goldhill.png  </description></list>
+    ///  <list><description>lena.bmp      </description></list>
+    ///  <list><description>lenacolor.png </description></list>
+    ///  <list><description>lena.ppm      </description></list>
+    ///  <list><description>Lenaclor.ppm  </description></list>
+    ///  <list><description>monarch.png   </description></list>
+    ///  <list><description>mountain.png  </description></list>
+    ///  <list><description>mountain.bmp  </description></list>
+    ///  <list><description>p64int.txt    </description></list>
+    ///  <list><description>peppers.png   </description></list>
+    ///  <list><description>pool.png      </description></list>
+    ///  <list><description>sails.bmp     </description></list>
+    ///  <list><description>sails.png     </description></list>
+    ///  <list><description>serrano.png   </description></list>
+    ///  <list><description>tulips.png    </description></list>
+    ///  <list><description>us021.pgm     </description></list>
+    ///  <list><description>us092.pgm     </description></list>
+    ///  <list><description>watch.png     </description></list>
+    ///  <list><description>zelda.png     </description></list>
+    /// </list>
+    ///   
     /// <para>
     ///   References:
     ///   <list type="bullet">
@@ -46,6 +85,10 @@ namespace Accord.DataSets
     ///       </description></item>
     ///    </list></para>
     /// </remarks>
+    /// 
+    /// <example>
+    /// <code source="Unit Tests\Accord.Tests.Imaging\HistogramsOfOrientedGradientsTest.cs" region="doc_apply" />
+    /// </example>
     /// 
     public class TestImages
     {
@@ -117,14 +160,25 @@ namespace Accord.DataSets
         }
 
         /// <summary>
+        ///   Gets the example <see cref="Bitmap"/> with the specified name.
+        /// </summary>
+        /// 
+        /// <param name="name">The standard image name. For a list of all possible names, see <see cref="ImageNames"/>.</param>
+        /// 
+        public Bitmap this[string name]
+        {
+            get { return GetImage(name); }
+        }
+
+        /// <summary>
         ///   Gets the example image.
         /// </summary>
         /// 
-        /// <param name="filename">The filename of the image to be retrieved.</param>
+        /// <param name="name">The standard image name. For a list of all possible names, see <see cref="ImageNames"/>.</param>
         /// 
-        public Bitmap GetImage(string filename)
+        public Bitmap GetImage(string name)
         {
-            return Accord.Imaging.Image.FromUrl("https://homepages.cae.wisc.edu/~ece533/images/" + filename, path);
+            return Accord.Imaging.Image.FromUrl("https://homepages.cae.wisc.edu/~ece533/images/" + name, path);
         }
 
     }
