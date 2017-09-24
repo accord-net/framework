@@ -95,13 +95,21 @@ namespace Accord.Imaging
     /// </remarks>
     /// 
     /// <example>
+    /// <para>
+    ///   Gray-level Cooccurrence matrices can be computed directly from images:</para>
     ///   <code source="Unit Tests\Accord.Tests.Imaging\GrayLevelCooccurrenceMatrixTest.cs" region="doc_learn" />
+    ///   
+    /// <para>
+    ///   These matrices also play a major role in the computation of <see cref="Haralick"/> descriptors. For
+    ///   more examples, including on how to use those matrices for image classification, please see <see cref="Haralick"/>
+    ///   and <see cref="HaralickDescriptor"/> documentation pages.</para>
     /// </example>
+    /// 
+    /// <seealso cref="Haralick"/>
+    /// <seealso cref="HaralickDescriptor"/>
     /// 
     public class GrayLevelCooccurrenceMatrix : ICloneable
     {
-        // Dictionary<PixelFormat, PixelFormat> formatTranslations;
-
         private CooccurrenceDegree degree;
         private bool autoGray = true;
         private bool normalize = true;
@@ -137,7 +145,8 @@ namespace Accord.Imaging
         }
 
         /// <summary>
-        ///   Gets or sets the direction at which the co-occurrence should be found.
+        ///   Gets or sets the direction at which the co-occurrence should 
+        ///   be found. Default is <see cref="CooccurrenceDegree.Degree0"/>.
         /// </summary>
         /// 
         public CooccurrenceDegree Degree
@@ -167,50 +176,22 @@ namespace Accord.Imaging
             get { return numPairs; }
         }
 
-        ///// <summary>
-        ///// Format translations dictionary.
-        ///// </summary>
-        ///// <value>The format translations.</value>
-        ///// <remarks><para>The dictionary defines, which pixel formats are supported for
-        ///// source images and which pixel format will be used for resulting image.
-        ///// </para>
-        ///// <para>See <see cref="IFilterInformation.FormatTranslations" /> for more information.</para></remarks>
-        //public override Dictionary<PixelFormat, PixelFormat> FormatTranslations
-        //{
-        //    get { return formatTranslations; }
-        //}
-
         /// <summary>
         ///   Initializes a new instance of the <see cref="GrayLevelCooccurrenceMatrix"/> class.
         /// </summary>
         /// 
         public GrayLevelCooccurrenceMatrix()
         {
-            //formatTranslations[PixelFormat.Format8bppIndexed] = PixelFormat.Format8bppIndexed;
-            //formatTranslations[PixelFormat.Format24bppRgb] = PixelFormat.Format8bppIndexed;
-            //formatTranslations[PixelFormat.Format32bppRgb] = PixelFormat.Format8bppIndexed;
-            //formatTranslations[PixelFormat.Format32bppArgb] = PixelFormat.Format8bppIndexed;
         }
 
         /// <summary>
         ///   Initializes a new instance of the <see cref="GrayLevelCooccurrenceMatrix"/> class.
         /// </summary>
         /// 
-        /// <param name="distance">The distance at which the texture should be analyzed.</param>
+        /// <param name="distance">The distance at which the texture should be analyzed. Default is 1.</param>
+        /// <param name="degree">The direction to look for co-occurrences. Default is <see cref="CooccurrenceDegree.Degree0"/>.</param>
         /// 
-        public GrayLevelCooccurrenceMatrix(int distance)
-        {
-            this.distance = distance;
-        }
-
-        /// <summary>
-        ///   Initializes a new instance of the <see cref="GrayLevelCooccurrenceMatrix"/> class.
-        /// </summary>
-        /// 
-        /// <param name="distance">The distance at which the texture should be analyzed.</param>
-        /// <param name="degree">The direction to look for co-occurrences.</param>
-        /// 
-        public GrayLevelCooccurrenceMatrix(int distance, CooccurrenceDegree degree)
+        public GrayLevelCooccurrenceMatrix(int distance = 1, CooccurrenceDegree degree = CooccurrenceDegree.Degree0)
         {
             this.distance = distance;
             this.degree = degree;
@@ -220,8 +201,8 @@ namespace Accord.Imaging
         ///   Initializes a new instance of the <see cref="GrayLevelCooccurrenceMatrix"/> class.
         /// </summary>
         /// 
-        /// <param name="distance">The distance at which the texture should be analyzed.</param>
-        /// <param name="degree">The direction to look for co-occurrences.</param>
+        /// <param name="distance">The distance at which the texture should be analyzed. Default is 1.</param>
+        /// <param name="degree">The direction to look for co-occurrences. Default is <see cref="CooccurrenceDegree.Degree0"/>.</param>
         /// <param name="autoGray">Whether the maximum value of gray should be
         ///   automatically computed from the image. Default is true.</param>
         /// <param name="normalize">Whether the produced GLCM should be normalized,
@@ -430,8 +411,5 @@ namespace Accord.Imaging
             return clone;
         }
 
-        //protected override void ProcessFilter(UnmanagedImage sourceData, UnmanagedImage destinationData)
-        //{
-        //}
     }
 }
