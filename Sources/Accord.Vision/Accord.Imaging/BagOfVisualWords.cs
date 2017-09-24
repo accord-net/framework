@@ -104,6 +104,17 @@ namespace Accord.Imaging
     ///   
     ///   <code source="Unit Tests\Accord.Tests.Vision\Imaging\BagOfVisualWodsTest.cs" region="doc_feature_haralick" />
     ///   <code source="Unit Tests\Accord.Tests.Vision\Imaging\BagOfVisualWodsTest.cs" region="doc_classification_haralick" />
+    ///   
+    /// <para>
+    ///   In some applications, learning a BoW with the default settings might need a large amount of memory to be
+    ///   available. In those cases, it is possible to reduce the memory and CPU requirements for the learning phase
+    ///   using the <see cref="BaseBagOfVisualWords{A,B,C,D,E}.NumberOfDescriptors"/> and 
+    ///   <see cref="BaseBagOfVisualWords{A,B,C,D,E}.MaxDescriptorsPerImage"/> properties. It is also possible
+    ///   to avoid loading all images at once by feeding the algorithm with the image filenames instead of their Bitmap
+    ///   representations:</para>
+    ///   
+    ///   <code source="Unit Tests\Accord.Tests.Vision\Imaging\BagOfVisualWodsTest.cs" region="doc_learn_disk" />
+    ///   <code source="Unit Tests\Accord.Tests.Vision\Imaging\BagOfVisualWodsTest.cs" region="doc_classification_disk" />
     /// </example>
     /// 
     /// <seealso cref="BagOfVisualWords{TPoint}"/>
@@ -117,6 +128,7 @@ namespace Accord.Imaging
                 IUnsupervisedLearning<IClassifier<double[], int>, double[], int>,
                 SpeededUpRobustFeaturesDetector>
     {
+
         /// <summary>
         ///   Constructs a new <see cref="BagOfVisualWords"/> using a
         ///   <see cref="SpeededUpRobustFeaturesDetector">surf</see>
