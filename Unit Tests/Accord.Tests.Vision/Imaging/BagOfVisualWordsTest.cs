@@ -226,9 +226,9 @@ namespace Accord.Tests.Imaging
             // feature extractor and K-means as the clustering algorithm.
 
             // Create a new Bag-of-Visual-Words (BoW) model
-            BagOfVisualWords bow = new BagOfVisualWords(10);
-            // Note: the BoW model can also be created using
-            // var bow = BagOfVisualWords.Create(10);
+            var bow = BagOfVisualWords.Create(numberOfWords: 10);
+            // Note: a simple BoW model can also be created using
+            // var bow = new BagOfVisualWords(numberOfWords: 10);
 
             // Get some training images
             Bitmap[] images = GetImages();
@@ -419,7 +419,10 @@ namespace Accord.Tests.Imaging
             // By default, the BoW object will use the sparse SURF as the 
             // feature extractor and K-means as the clustering algorithm.
             // In this example, we will use the HOG feature extractor
-            // and the Binary-Split clustering algorithm instead.
+            // and the Binary-Split clustering algorithm instead. However, 
+            // this is just an example: the best features and the best clustering 
+            // algorithm might need to be found through experimentation. Please
+            // also try with KMeans first to obtain a baseline value.
 
             // Create a new Bag-of-Visual-Words (BoW) model using HOG features
             var bow = BagOfVisualWords.Create(new HistogramsOfOrientedGradients(), new BinarySplit(10));
@@ -490,12 +493,11 @@ namespace Accord.Tests.Imaging
             // The Bag-of-Visual-Words model converts images of arbitrary 
             // size into fixed-length feature vectors. In this example, we
             // will be setting the codebook size to 3. This means all feature
-            // vectors that will be generated will have the same length of 10.
+            // vectors that will be generated will have the same length of 3.
 
             // By default, the BoW object will use the sparse SURF as the 
             // feature extractor and K-means as the clustering algorithm.
-            // In this example, we will use the Haralick feature extractor
-            // and the GMM clustering algorithm instead.
+            // In this example, we will use the Haralick feature extractor.
 
             // Create a new Bag-of-Visual-Words (BoW) model using Haralick features
             var bow = BagOfVisualWords.Create(new Haralick()
@@ -586,12 +588,16 @@ namespace Accord.Tests.Imaging
             // The Bag-of-Visual-Words model converts images of arbitrary 
             // size into fixed-length feature vectors. In this example, we
             // will be setting the codebook size to 3. This means all feature
-            // vectors that will be generated will have the same length of 10.
+            // vectors that will be generated will have the same length of 3.
 
             // By default, the BoW object will use the sparse SURF as the 
             // feature extractor and K-means as the clustering algorithm.
             // In this example, we will use the Local Binary Pattern (LBP) 
             // feature extractor and the Binary-Split clustering algorithm.
+            // However, this is just an example: the best features and the
+            // best clustering algorithm might need to be found through 
+            // experimentation. Please also try with KMeans first to obtain
+            // a baseline value.
 
             // Create a new Bag-of-Visual-Words (BoW) model using LBP features
             var bow = BagOfVisualWords.Create(new LocalBinaryPattern(), new BinarySplit(3));

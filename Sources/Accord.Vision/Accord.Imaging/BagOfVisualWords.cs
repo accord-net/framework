@@ -258,6 +258,17 @@ namespace Accord.Imaging
         /// </summary>
         /// 
         public static BagOfVisualWords<IFeatureDescriptor<double[]>, double[], KMeans, TDetector>
+            Create<TDetector>(TDetector detector, int numberOfWords)
+            where TDetector : IFeatureDetector<IFeatureDescriptor<double[]>, double[]>
+        {
+            return Create<TDetector, KMeans, IFeatureDescriptor<double[]>, double[]>(detector, new KMeans(numberOfWords));
+        }
+
+        /// <summary>
+        /// Creates a Bag-of-Words model using the given feature detector and K-Means.
+        /// </summary>
+        /// 
+        public static BagOfVisualWords<IFeatureDescriptor<double[]>, double[], KMeans, TDetector>
             Create<TDetector, TClustering>(TDetector detector, int numberOfWords)
             where TDetector : IFeatureDetector<IFeatureDescriptor<double[]>, double[]>
         {

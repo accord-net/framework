@@ -28,6 +28,7 @@ namespace Accord.Imaging
     using System.Drawing.Imaging;
     using Accord.Imaging;
     using Accord.Imaging.Filters;
+    using Accord.Math;
 
     /// <summary>
     ///   <see cref="Haralick"/>'s operation modes.
@@ -114,7 +115,8 @@ namespace Accord.Imaging
     /// <para>
     ///   The second example shows how to use the Haralick feature extractor as part of a
     ///   Bag-of-Words model in order to perform texture image classification:</para>
-    ///   <code source="Unit Tests\Accord.Tests.Vision\Imaging\BagOfVisualWodsTest.cs" region="doc_feature_haralick" />
+    ///   <code source="Unit Tests\Accord.Tests.Vision\Imaging\BagOfVisualWordsTest.cs" region="doc_feature_haralick" />
+    ///   <code source="Unit Tests\Accord.Tests.Vision\Imaging\BagOfVisualWordsTest.cs" region="doc_classification_feature_haralick" />
     /// </example>
     /// 
     /// <seealso cref="HaralickDescriptor"/>
@@ -130,6 +132,8 @@ namespace Accord.Imaging
         int distance = 1;
         bool autoGray = true;
         int featureCount = 13;
+
+        double epsilon = 1e-10;
 
         HashSet<CooccurrenceDegree> degrees;
         HaralickDescriptorDictionary[,] features;
@@ -214,7 +218,6 @@ namespace Accord.Imaging
         ///   histogram feature vectors. Default is false.
         /// </summary>
         /// 
-        [Obsolete("This property will be removed.")]
         public bool Normalize
         {
             get { return normalize; }
@@ -415,14 +418,8 @@ namespace Accord.Imaging
             {
                 // TODO: Remove this block and instead propose a general architecture 
                 //       for applying normalizations to descriptor blocks
-                var sum = new double[featureCount];
                 foreach (double[] block in blocks)
-                    for (int i = 0; i < sum.Length; i++)
-                        sum[i] += block[i];
-
-                foreach (double[] block in blocks)
-                    for (int i = 0; i < sum.Length; i++)
-                        block[i] /= sum[i];
+                    block.Divide(block.Euclidean() + epsilon, result: block);
             }
 
             return blocks;

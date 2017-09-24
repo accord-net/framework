@@ -54,12 +54,25 @@ namespace Accord.Imaging
     /// </para>
     /// </remarks>
     /// 
+    /// <example>
+    /// <para>
+    ///   The first example shows how to extract LBP descriptors given an image.</para>
+    ///   <code source="Unit Tests\Accord.Tests.Imaging\LocalBinaryPatternsTest.cs" region="doc_apply" />
+    ///   <para><b>Input image:</b></para>
+    ///   <img src="img/imaging/wood_texture.jpg" width="320" height="240" />
+    ///   
+    /// <para>
+    ///   The second example shows how to use the LBP feature extractor as part of a
+    ///   Bag-of-Words model in order to perform texture image classification:</para>
+    ///   <code source="Unit Tests\Accord.Tests.Vision\Imaging\BagOfVisualWodsTest.cs" region="doc_feature_lbp" />
+    /// </example>
+    /// 
     public class LocalBinaryPattern : IFeatureDetector<FeatureDescriptor>,
         IFeatureDetector<IFeatureDescriptor<double[]>>
     {
         const int numberOfBins = 256;
 
-        readonly int cellSize = 6;  // size of the cell, in number of pixels
+        int cellSize = 6;  // size of the cell, in number of pixels
         int blockSize = 3; // size of the block, in number of cells
         bool normalize = true;
 
@@ -71,16 +84,24 @@ namespace Accord.Imaging
 
 
         /// <summary>
-        ///   Gets the size of a cell, in pixels.
+        ///   Gets the size of a cell, in pixels. Default is 6.
         /// </summary>
         /// 
-        public int CellSize { get { return cellSize; } }
+        public int CellSize
+        {
+            get { return cellSize; }
+            set { cellSize = value; }
+        }
 
         /// <summary>
-        ///   Gets the size of a block, in pixels.
+        ///   Gets the size of a block, in pixels. Default is 3.
         /// </summary>
         /// 
-        public int BlockSize { get { return blockSize; } }
+        public int BlockSize
+        {
+            get { return blockSize; }
+            set { blockSize = value; }
+        }
 
         /// <summary>
         ///   Gets the set of local binary patterns computed for each
@@ -332,6 +353,8 @@ namespace Accord.Imaging
                         }
                     }
 
+                    // TODO: Remove this block and instead propose a general architecture 
+                    //       for applying normalizations to descriptor blocks
                     if (normalize)
                         block.Divide(block.Euclidean() + epsilon, result: block);
 

@@ -53,8 +53,8 @@ namespace Accord.Imaging
     /// <para>
     ///   The second example shows how to use HOG descriptors as part of a BagOfVisualWords (BoW) pipeline 
     ///   for image classification:</para>
-    ///   <code source="Unit Tests\Accord.Tests.Vision\Imaging\BagOfVisualWordsTest.cs" region="doc_feature" />
-    ///   <code source="Unit Tests\Accord.Tests.Vision\Imaging\BagOfVisualWordsTest.cs" region="doc_classification_feature" />
+    ///   <code source="Unit Tests\Accord.Tests.Vision\Imaging\BagOfVisualWordsTest.cs" region="doc_feature_lbp" />
+    ///   <code source="Unit Tests\Accord.Tests.Vision\Imaging\BagOfVisualWordsTest.cs" region="doc_classification_feature_lbp" />
     /// </example>
     /// 
     public class HistogramsOfOrientedGradients : IFeatureDetector<FeatureDescriptor>,
@@ -355,6 +355,8 @@ namespace Accord.Imaging
                         }
                     }
 
+                    // TODO: Remove this block and instead propose a general architecture 
+                    //       for applying normalizations to descriptor blocks
                     if (normalize)
                         block.Divide(block.Euclidean() + epsilon, result: block);
 
