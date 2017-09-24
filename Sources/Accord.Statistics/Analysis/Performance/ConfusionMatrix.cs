@@ -30,35 +30,37 @@ namespace Accord.Statistics.Analysis
     using Accord.MachineLearning;
 
     /// <summary>
-    ///   Binary decision confusion matrix.
+    ///   Binary confusion matrix for binary decision problems. For multi-class 
+    ///   decision problems, please see <see cref="GeneralConfusionMatrix"/>.
     /// </summary>
     /// 
+    /// <remarks>
+    /// <para>
+    ///   References:
+    ///   <list type="bullet">
+    ///     <item><description>
+    ///       <a href="http://uwf.edu/zhu/evr6930/2.pdf">
+    ///       R.  G.  Congalton. A Review  of Assessing  the Accuracy  of Classifications 
+    ///       of Remotely  Sensed  Data. Available on: http://uwf.edu/zhu/evr6930/2.pdf </a></description></item>
+    ///     <item><description>
+    ///       <a href="http://www.iiasa.ac.at/Admin/PUB/Documents/IR-98-081.pdf">
+    ///       G. Banko. A Review of Assessing the Accuracy of Classiﬁcations of Remotely Sensed Data and
+    ///       of Methods Including Remote Sensing Data in Forest Inventory. Interim report. Available on:
+    ///       http://www.iiasa.ac.at/Admin/PUB/Documents/IR-98-081.pdf </a></description></item>
+    ///     </list></para>  
+    /// </remarks>
+    /// 
     /// <example>
-    ///   <code>
-    ///   // The correct and expected output values (as confirmed by a Gold
-    ///   //  standard rule, actual experiment or true verification)
-    ///   int[] expected = { 0, 0, 1, 0, 1, 0, 0, 0, 0, 0 };
-    ///   
-    ///   // The values as predicted by the decision system or
-    ///   //  the test whose performance is being measured.
-    ///   int[] predicted = { 0, 0, 0, 1, 1, 0, 0, 0, 0, 1 };
-    ///   
-    ///   
-    ///   // In this test, 1 means positive, 0 means negative
-    ///   int positiveValue = 1;
-    ///   int negativeValue = 0;
-    ///   
-    ///   // Create a new confusion matrix using the given parameters
-    ///   ConfusionMatrix matrix = new ConfusionMatrix(predicted, expected,
-    ///       positiveValue, negativeValue);
-    ///
-    ///   // At this point,
-    ///   //   True Positives should be equal to 1;
-    ///   //   True Negatives should be equal to 6;
-    ///   //   False Negatives should be equal to 1;
-    ///   //   False Positives should be equal to 2.
-    ///   </code>
+    /// <para>
+    ///   The first example shows how a confusion matrix can be constructed from a vector of expected (ground-truth)
+    ///   values and their associated predictions (as done by a test, procedure or machine learning classifier):</para>
+    ///   <code source="Unit Tests\Accord.Tests.Statistics\Analysis\GeneralConfusionMatrixTest.cs" region="doc_ctor_values" />
+    /// <para>
+    ///   The second example shows how to construct a binary confusion matrix directly from a classifier and a dataset:</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\Boosting\AdaBoostTest.cs" region="doc_learn" />
     /// </example>
+    /// 
+    /// <seealso cref="GeneralConfusionMatrix"/>
     /// 
     [Serializable]
     public class ConfusionMatrix // TODO: Rename ConfusionMatrix to BinaryConfusionMatrix to make explicit it is only valid for binary problems
@@ -381,7 +383,7 @@ namespace Accord.Statistics.Analysis
 
 
         /// <summary>
-        ///   Gets the number of observations for this matrix
+        ///   Gets the number of observations for this matrix.
         /// </summary>
         /// 
         [DisplayName("Number of samples")]
@@ -392,6 +394,16 @@ namespace Accord.Statistics.Analysis
                 return trueNegatives + truePositives +
                     falseNegatives + falsePositives;
             }
+        }
+
+        /// <summary>
+        ///   Gets the number of classes in this decision problem.
+        /// </summary>
+        /// 
+        [DisplayName("Number of classes")]
+        public int NumberOfClasses
+        {
+            get { return 2; }
         }
 
         /// <summary>
@@ -607,6 +619,15 @@ namespace Accord.Statistics.Analysis
         }
 
         /// <summary>
+        ///   Gets the diagonal of the confusion matrix.
+        /// </summary>
+        /// 
+        public int[] Diagonal
+        {
+            get { return new int[] { truePositives, trueNegatives }; }
+        }
+
+        /// <summary>
         ///   Positive Predictive Value, also known as Positive Precision
         /// </summary>
         /// 
@@ -745,6 +766,44 @@ namespace Accord.Statistics.Analysis
             }
         }
 
+        /// <summary>
+        ///   Pearson's contingency coefficient C.
+        /// </summary>
+        /// 
+        /// <remarks>
+        /// <para>
+        ///   Pearson's C measures the degree of association between the two variables. However,
+        ///   C suffers from the disadvantage that it does not reach a maximum of 1 or the minimum 
+        ///   of -1; the highest it can reach in a 2 x 2 table is .707; the maximum it can reach in
+        ///   a 4 × 4 table is 0.870. It can reach values closer to 1 in contingency tables with more
+        ///   categories. It should, therefore, not be used to compare associations among tables with
+        ///   different numbers of categories.</para>
+        ///   
+        /// <para>
+        ///   References:
+        ///     http://en.wikipedia.org/wiki/Contingency_table </para>
+        /// </remarks>
+        /// 
+        [DisplayName("Pearson's C")]
+        public double Pearson
+        {
+            get { return Math.Sqrt(ChiSquare / (ChiSquare + NumberOfSamples)); }
+        }
+
+        /// <summary>
+        ///   Geometric agreement.
+        /// </summary>
+        /// 
+        /// <remarks>
+        ///   The geometric agreement is the geometric mean of the
+        ///   diagonal elements of the confusion matrix.
+        /// </remarks>
+        /// 
+        [DisplayName("Geometric Agreement")]
+        public double GeometricAgreement
+        {
+            get { return Math.Exp(Measures.LogGeometricMean(Diagonal)); }
+        }
 
         /// <summary>
         ///   Odds-ratio.
@@ -764,6 +823,52 @@ namespace Accord.Statistics.Analysis
         }
 
         /// <summary>
+        ///   Overall agreement.
+        /// </summary>
+        /// 
+        /// <remarks>
+        ///   The overall agreement is the sum of the diagonal elements
+        ///   of the contingency table divided by the number of samples.
+        /// </remarks>
+        /// 
+        [DisplayName("Overall Agreement")]
+        public double OverallAgreement
+        {
+            get
+            {
+                double a = truePositives;
+                double d = trueNegatives;
+                double N = NumberOfSamples;
+
+                return (a + d) / N;
+            }
+        }
+
+        /// <summary>
+        ///   Chance agreement.
+        /// </summary>
+        /// 
+        /// <remarks>
+        ///   The chance agreement tells how many samples
+        ///   were correctly classified by chance alone.
+        /// </remarks>
+        /// 
+        [DisplayName("Chance Agreement")]
+        public double ChanceAgreement
+        {
+            get
+            {
+                double a = truePositives;
+                double b = falsePositives;
+                double c = falseNegatives;
+                double d = trueNegatives;
+                double N = NumberOfSamples;
+
+                return (((a + c) * (a + b) + (b + d) * (c + d)) / (N * N));
+            }
+        }
+
+        /// <summary>
         ///   Kappa coefficient.
         /// </summary>
         ///
@@ -776,14 +881,9 @@ namespace Accord.Statistics.Analysis
         {
             get
             {
-                double a = truePositives;
-                double b = falsePositives;
-                double c = falseNegatives;
-                double d = trueNegatives;
-                double N = NumberOfSamples;
-
-                return (double)((a + d) - (((a + c) * (a + b) + (b + d) * (c + d)) / N))
-                    / (N - (((a + c) * (a + b) + (b + d) * (c + d)) / N));
+                double Po = OverallAgreement;
+                double Pc = ChanceAgreement;
+                return (Po - Pc) / (1.0 - Pc);
             }
         }
 
@@ -983,7 +1083,9 @@ namespace Accord.Statistics.Analysis
                             double e = (row[i] * col[j]) / (double)NumberOfSamples;
                             double o = Matrix[i, j];
 
-                            x += ((o - e) * (o - e)) / e;
+                            double num = (o - e) * (o - e);
+                            if (num != 0)
+                                x += num / e;
                         }
                     }
 
@@ -1040,8 +1142,10 @@ namespace Accord.Statistics.Analysis
         /// 
         public static ConfusionMatrix Combine(params ConfusionMatrix[] matrices)
         {
-            if (matrices == null) throw new ArgumentNullException("matrices");
-            if (matrices.Length == 0) throw new ArgumentException("At least one confusion matrix is required.");
+            if (matrices == null)
+                throw new ArgumentNullException("matrices");
+            if (matrices.Length == 0)
+                throw new ArgumentException("At least one confusion matrix is required.");
 
             int[,] total = new int[2, 2];
 

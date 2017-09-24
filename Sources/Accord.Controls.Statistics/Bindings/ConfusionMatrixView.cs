@@ -105,7 +105,7 @@ namespace Accord.Controls
         {
             this.Matrix = matrix;
 
-            int classes = matrix.Classes;
+            int classes = matrix.NumberOfClasses;
 
             rows = new ConfusionMatrixRowView[classes + 1];
             RowNames = new String[classes + 1];
