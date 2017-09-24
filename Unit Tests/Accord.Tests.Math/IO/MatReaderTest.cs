@@ -38,19 +38,103 @@ namespace Accord.Tests.Math
             return new FileStream(fileName, FileMode.Open, FileAccess.Read);
         }
 
+      
         [Test]
-        public void ConstructorTest()
+        public void matrix_test_int32()
         {
-            var file = GetMat("simplestruct.mat");
+            string localPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources", "mat");
 
-            // Create a new MAT file reader
-            var reader = new MatReader(file);
+            #region doc_matrix_int32
+            // Let's say we would like to load different .mat files which can be found at:
+            // https://github.com/accord-net/framework/blob/development/Unit%20Tests/Accord.Tests.Math/Resources/mat/
 
-            // Extract some basic information about the file:
+            // Let's assume they all currently reside in a "localPath" 
+            // folder. So let's start by trying to load a 32-bit matrix:
+            string pathInt32 = Path.Combine(localPath, "int32.mat");
+
+            // Create a .MAT reader for the file:
+            var reader = new MatReader(pathInt32);
+
+            // Let's check what is the name of the variable we need to load:
+            string[] names = reader.FieldNames; // should be { "a" }
+
+            // Ok, so we have to load the matrix called "a".
+
+            // However, what if we didn't know the matrix type in advance?
+            // In this case, we could use the non-generic version of Read:
+            object unknown = reader.Read("a");
+
+            // And we could check it's type through C#:
+            Type t = unknown.GetType(); // should be typeof(int[,])
+
+            // Now we could either cast it to the correct type or
+            // use the generic version of Read<> to read it again:
+            int[,] matrix = reader.Read<int[,]>("a");
+
+            // The a matrix should be equal to { 1, 2, 3, 4 }
+            #endregion
+
+            Assert.AreEqual(typeof(int[,]), t);
+            Assert.AreEqual(new int[,]
+            {
+                { 1, 2, 3, 4 },
+            }, matrix);
+            Assert.AreEqual(new[] { "a" }, names);
+        }
+
+        [Test]
+        public void matrix_test_bytes()
+        {
+            string localPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources", "mat");
+
+            #region doc_matrix_byte
+            // Let's say we would like to load different .mat files which can be found at:
+            // https://github.com/accord-net/framework/blob/development/Unit%20Tests/Accord.Tests.Math/Resources/mat/
+
+            // Let's assume they all currently reside in a "localPath" 
+            // folder. So let's start by trying to load a 8-bit matrix:
+            string pathInt8 = Path.Combine(localPath, "int8.mat");
+
+            // Create a .MAT reader for the file:
+            var reader = new MatReader(pathInt8);
+
+            // The variable in the file is called "arr"
+            sbyte[,] matrix = reader.Read<sbyte[,]>("arr");
+
+            // The arr matrix should be equal to { -128, 127 }
+
+            // (in case he didn't know the name of the variable,
+            // we would have inspected the FieldNames property:
+            string[] names = reader.FieldNames; // should contain "arr"
+            #endregion
+
+            Assert.AreEqual(new sbyte[,]
+            {
+                { -128, 127 },
+            }, matrix);
+            Assert.AreEqual(new[] { "arr" }, names);
+        }
+
+        [Test]
+        public void structure_test()
+        {
+            string localPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources", "mat");
+
+            #region doc_structure
+            // Let's say we would like to load a .mat file
+            // called "simplestruct.mat". It can be found at
+            // https://github.com/accord-net/framework/blob/development/Unit%20Tests/Accord.Tests.Math/Resources/mat/simplestruct.mat
+
+            // Let's assume it currently resides in a "localPath" folder
+            string fileName = Path.Combine(localPath, "simplestruct.mat");
+
+            // Create a .MAT reader for the file:
+            var reader = new MatReader(fileName);
+
+            // We can extract some basic information about the file:
             string description = reader.Description; // "MATLAB 5.0 MAT-file, Platform: PCWIN"
-            int    version     = reader.Version;     // 256
-            bool   bigEndian   = reader.BigEndian;   // false
-
+            int version = reader.Version;     // 256
+            bool bigEndian = reader.BigEndian;   // false
 
             // Enumerate the fields in the file
             foreach (var field in reader.Fields)
@@ -71,7 +155,7 @@ namespace Accord.Tests.Math
 
             // We can also do directly if we know the type in advance
             var s = reader["structure"]["string"].GetValue<string>();
-
+            #endregion
 
             Assert.AreEqual(typeof(byte[,]), aType);
             Assert.AreEqual(typeof(string), reader["structure"]["string"].ValueType);
@@ -82,7 +166,7 @@ namespace Accord.Tests.Math
             Assert.AreEqual(256, reader.Version);
             Assert.IsFalse(reader.BigEndian);
 
-            byte[,] expected = 
+            byte[,] expected =
             {
                 { 1, 2, 3 },
                 { 4, 5, 6 },
@@ -91,6 +175,10 @@ namespace Accord.Tests.Math
             Assert.IsTrue(expected.IsEqual(a));
             Assert.AreEqual("ala ma kota", s);
         }
+
+
+
+
 
 
         [Test]
