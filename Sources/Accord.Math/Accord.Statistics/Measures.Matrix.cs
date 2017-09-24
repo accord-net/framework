@@ -1515,6 +1515,15 @@ namespace Accord.Statistics
         /// </remarks>
         /// <param name="matrix">A multi-dimensional array containing the matrix values.</param>
         /// <returns>The correlation matrix.</returns>
+        /// 
+        /// <example>
+        ///   <code source="Unit Tests\Accord.Tests.Statistics\ToolsTest.cs" region="doc_correlation" />
+        /// </example>
+        /// 
+        /// <example>
+        ///   <code source="Unit Tests\Accord.Tests.Statistics\ToolsTest.cs" region="doc_correlation" />
+        /// </example>
+        /// 
         public static double[,] Correlation(this double[,] matrix)
         {
             double[] means = Mean(matrix, dimension: 0);
@@ -1530,6 +1539,11 @@ namespace Accord.Statistics
         /// </remarks>
         /// <param name="matrix">A multi-dimensional array containing the matrix values.</param>
         /// <returns>The correlation matrix.</returns>
+        /// 
+        /// <example>
+        ///   <code source="Unit Tests\Accord.Tests.Statistics\ToolsTest.cs" region="doc_correlation" />
+        /// </example>
+        /// 
         public static double[][] Correlation(this double[][] matrix)
         {
             double[] means = Mean(matrix, dimension: 0);
@@ -1550,6 +1564,10 @@ namespace Accord.Statistics
         /// <param name="standardDeviations">The values' standard deviation vector, if already known.</param>
         /// 
         /// <returns>The correlation matrix.</returns>
+        /// 
+        /// <example>
+        ///   <code source="Unit Tests\Accord.Tests.Statistics\ToolsTest.cs" region="doc_correlation" />
+        /// </example>
         /// 
         public static double[,] Correlation(this double[,] matrix, double[] means, double[] standardDeviations)
         {
@@ -1592,6 +1610,10 @@ namespace Accord.Statistics
         /// <param name="standardDeviations">The values' standard deviation vector, if already known.</param>
         /// 
         /// <returns>The correlation matrix.</returns>
+        /// 
+        /// <example>
+        ///   <code source="Unit Tests\Accord.Tests.Statistics\ToolsTest.cs" region="doc_correlation" />
+        /// </example>
         /// 
         public static double[][] Correlation(this double[][] matrix, double[] means, double[] standardDeviations)
         {

@@ -974,6 +974,9 @@ namespace Accord.Tests.Statistics
         {
             // http://www.solvemymath.com/online_math_calculator/statistics/descriptive/correlation.php
 
+            #region doc_correlation
+            // Let's say we have a matrix containing 5
+            // samples (rows) of 3 dimensions (columns):
             double[,] matrix = new double[,]
             {
                 { 4.0, 2.0, 0.60 },
@@ -983,7 +986,10 @@ namespace Accord.Tests.Statistics
                 { 4.1, 2.2, 0.63 }
             };
 
+            // We can compute their correlation matrix using
+            double[,] corr1 = Measures.Correlation(matrix);
 
+            // The matrix should be equal to:
             double[,] expected = new double[,]
             {
                 { 1.000000, 0.5669467, 0.533745 },
@@ -992,10 +998,22 @@ namespace Accord.Tests.Statistics
             };
 
 
-            double[,] actual = Measures.Correlation(matrix);
+            // The same could be repeated with a jagged matrix instead:
+            double[][] jagged = new double[][]
+            {
+                new double[] { 4.0, 2.0, 0.60 },
+                new double[] { 4.2, 2.1, 0.59 },
+                new double[] { 3.9, 2.0, 0.58 },
+                new double[] { 4.3, 2.1, 0.62 },
+                new double[] { 4.1, 2.2, 0.63 }
+            };
 
-            Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.001));
+            // And the value would be the same:
+            double[][] corr2 = Measures.Correlation(jagged);
+            #endregion
 
+            Assert.IsTrue(Matrix.IsEqual(expected, corr1, 1e-5));
+            Assert.IsTrue(Matrix.IsEqual(expected, corr2, 1e-5));
         }
 
 
