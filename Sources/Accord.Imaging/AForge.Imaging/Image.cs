@@ -38,6 +38,8 @@ namespace Accord.Imaging
         /// <see cref="System.Drawing.Imaging.PixelFormat">Format8bppIndexed</see>
         /// and then it examines its palette to check if the image is grayscale or not.</remarks>
         /// 
+        /// <seealso cref="IsColor8bpp(Bitmap)"/>
+        /// 
         public static bool IsGrayscale(this Bitmap image)
         {
             // check pixel format
@@ -58,6 +60,24 @@ namespace Accord.Imaging
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// Check if specified 8 bpp image is contains color-indexed pixels instead of intensity values.
+        /// </summary>
+        /// 
+        /// <param name="image">Image to check.</param>
+        /// 
+        /// <returns>Returns <b>true</b> if the image is color-indexed or <b>false</b> otherwise.</returns>
+        /// 
+        /// <seealso cref="IsGrayscale(Bitmap)"/>
+        /// 
+        public static bool IsColor8bpp(this Bitmap image)
+        {
+            if (image.PixelFormat != PixelFormat.Format8bppIndexed)
+                return false;
+
+            return !image.IsGrayscale();
         }
 
         /// <summary>
@@ -212,6 +232,59 @@ namespace Accord.Imaging
             }
 
             return destination;
+        }
+
+        /// <summary>
+        ///   Converts a 8-bpp color image into a 8-bpp grayscale image, setting its color 
+        ///   palette to grayscale and replacing palette indices with their grayscale values.
+        /// </summary>
+        /// 
+        /// <param name="bitmap">The bitmap to be converted.</param>
+        /// 
+        public static void ConvertColor8bppToGrayscale8bpp(this Bitmap bitmap)
+        {
+            if (bitmap.PixelFormat != PixelFormat.Format8bppIndexed)
+                throw new UnsupportedImageFormatException("Only 8-bpp images are supported.");
+
+            // lock source bitmap data
+            BitmapData sourceData = bitmap.LockBits(ImageLockMode.ReadWrite);
+            ColorPalette palette = bitmap.Palette;
+
+            int height = bitmap.Height;
+            int width = bitmap.Width;
+            int stride = sourceData.Stride;
+            int offset = stride - width;
+
+            try
+            {
+                unsafe
+                {
+                    // base pointers
+                    byte* src = (byte*)sourceData.Scan0.ToPointer();
+
+                    for (int y = 0; y < height; y++)
+                    { 
+                        for (int x = 0; x < width; x++, src++)
+                        {
+                            Color entry = palette.Entries[*src];
+#if DEBUG
+                            if (entry.R != entry.G || entry.R != entry.B)
+                                throw new Exception();
+#endif
+                            *src = entry.R;
+                        }
+
+                        src += offset;
+                    }
+                }
+            }
+            finally
+            {
+                // unlock source image
+                bitmap.UnlockBits(sourceData);
+            }
+
+            SetGrayscalePalette(bitmap);
         }
 
         /// <summary>

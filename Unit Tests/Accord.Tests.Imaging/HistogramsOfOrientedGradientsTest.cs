@@ -62,7 +62,7 @@ namespace Accord.Tests.Imaging
             // Let's load an example image, such as Lena,
             // from a standard dataset of example images:
             var images = new TestImages(path: localPath);
-            Bitmap lena = images["lena"];
+            Bitmap lena = images["lena.bmp"];
 
             // Create a new Histogram of Oriented Gradients with the default parameter values:
             var hog = new HistogramsOfOrientedGradients(numberOfBins: 9, blockSize: 3, cellSize: 6);
@@ -76,7 +76,7 @@ namespace Accord.Tests.Imaging
 
             Assert.AreEqual(784, descriptors.Count);
             double sum = descriptors.Sum(x => x.Sum());
-            Assert.AreEqual(4549.1265463951577, sum, 1e-10);
+            Assert.AreEqual(3359.1014569812564, sum, 1e-10);
         }
 
         [Test]

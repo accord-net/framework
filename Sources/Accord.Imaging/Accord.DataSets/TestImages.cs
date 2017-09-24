@@ -22,10 +22,15 @@
 
 namespace Accord.DataSets
 {
+    using Accord;
+    using Accord.Imaging;
     using Accord.Math;
     using System;
+    using System.Collections.Generic;
     using System.Drawing;
+    using System.Drawing.Imaging;
     using System.IO;
+    using System.Linq;
     using System.Net;
 
     /// <summary>
@@ -92,10 +97,7 @@ namespace Accord.DataSets
     /// 
     public class TestImages
     {
-
-        string path;
-
-        private string[] imageNames = new[]
+        static readonly string[] imageNames = new []
         {
             "airplane.png",
             "arctichare.png",
@@ -133,6 +135,8 @@ namespace Accord.DataSets
             "zelda.png",
         };
 
+        string path;
+
         /// <summary>
         ///   Gets all the image names that can be passed to
         ///   the <see cref="GetImage(string)"/> method.
@@ -140,10 +144,20 @@ namespace Accord.DataSets
         /// 
         /// <value>The image names in this dataset.</value>
         /// 
-        public string[] ImageNames
+        public IReadOnlyList<string> ImageNames
         {
             get { return imageNames; }
         }
+
+        /// <summary>
+        ///   Gets or sets whether images with non-standard color palettes (i.e. 8-bpp images where
+        ///   values do not represent intensity values but rather indices in a color palette) should
+        ///   be converted to true 8-bpp grayscale. Default is true.
+        /// </summary>
+        /// 
+        /// <seealso cref="Accord.Imaging.Image.ConvertColor8bppToGrayscale8bpp"/>
+        /// 
+        public bool CorrectIndexedPalettes { get; set; }
 
         /// <summary>
         ///   Downloads and prepares the Iris dataset.
@@ -157,6 +171,8 @@ namespace Accord.DataSets
             if (path == null)
                 path = "data";
             this.path = path;
+
+            this.CorrectIndexedPalettes = true;
         }
 
         /// <summary>
@@ -178,7 +194,19 @@ namespace Accord.DataSets
         /// 
         public Bitmap GetImage(string name)
         {
-            return Accord.Imaging.Image.FromUrl("https://homepages.cae.wisc.edu/~ece533/images/" + name, path);
+            if (!imageNames.Contains(name))
+            {
+                throw new ArgumentOutOfRangeException("name", String.Format("The provided image '{0}' is not in the list of " +
+                    "test images provided by this class. The list of supported image names can be found in the ImageNames " +
+                    "property and in the Accord.DataSets.TestImages class documentation page.", name));
+            }
+
+            Bitmap bmp = Accord.Imaging.Image.FromUrl("https://homepages.cae.wisc.edu/~ece533/images/" + name, path);
+
+            if (CorrectIndexedPalettes && bmp.IsColor8bpp())
+                Accord.Imaging.Image.ConvertColor8bppToGrayscale8bpp(bmp);
+
+            return bmp;
         }
 
     }
