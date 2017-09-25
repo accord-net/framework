@@ -427,6 +427,70 @@ namespace Accord.Statistics
             return mean;
         }
 
+        public static double[] ExponentialWeightedMean(this double[][] matrix, double alpha = 0)
+        {
+            if (matrix == null)
+            {
+                throw new ArgumentNullException("matrix", "The matrix cannot be null.");
+            }
+
+            return matrix.ExponentialWeightedMean(matrix.Rows(), alpha);
+        }
+
+        public static double[] ExponentialWeightedMean(this double[][] matrix, int window, double alpha = 0)
+        {
+            // Perform some basic error validation
+            if (matrix == null)
+            {
+                throw new ArgumentNullException("series", "The matrix cannot be null.");
+            }
+
+            if (alpha < 0 || alpha >= 1)
+            {
+                string message = string.Format(
+                    "Alpha must lie in the interval [0, 1) but was {0}", alpha);
+
+                throw new ArgumentOutOfRangeException("decay", message);
+            }
+
+            int rows = matrix.Rows();
+            int cols = matrix.Columns();
+
+            if (window <= 0 || window > rows)
+            {
+                string message = string.Format(
+                    "Window size ({0}) must be less than or equal to the total number of samples ({1})",
+                    window,
+                    rows);
+
+                throw new ArgumentOutOfRangeException("window", message);
+            }
+
+            // Now we create the weights
+            double decay = 1 - alpha;
+            double[] decayWeights = new double[window];
+            double decayRow = 1;
+            for (int i = window - 1; i >= 0; i--)
+            {
+                decayWeights[i] = decayRow;
+                decayRow *= decay;
+            }
+
+            double[][] truncatedSeries = window == rows ? matrix : matrix.Get(-window, 0);
+
+            return truncatedSeries.WeightedMean(decayWeights);
+
+            /*
+            double effectiveNumObs = decay == 1 ? window : ((1 - Math.Pow(decay, window)) / (1 - decay));
+            
+            double[,] weightedVariances = truncatedSeries.WeightedScatter(
+                decayWeights, weightedMeans, 1 / effectiveNumObs, 0);
+
+            double[,] cov = truncatedSeries.WeightedCovariance(decayWeights, weightedMeans); 
+             */
+        }
+
+
         /// <summary>
         ///   Calculates the matrix Standard Deviations vector.
         /// </summary>
@@ -648,14 +712,8 @@ namespace Accord.Statistics
         }
 
         /// <summary>
-        ///   Calculates the scatter matrix of a sample matrix.
+        ///   Calculates the covariance matrix of a sample matrix.
         /// </summary>
-        /// 
-        /// <remarks>
-        ///   By dividing the Scatter matrix by the sample size, we get the population
-        ///   Covariance matrix. By dividing by the sample size minus one, we get the
-        ///   sample Covariance matrix.
-        /// </remarks>
         /// 
         /// <param name="matrix">A number multi-dimensional array containing the matrix values.</param>
         /// <param name="weights">An unit vector containing the importance of each sample
@@ -670,14 +728,8 @@ namespace Accord.Statistics
         }
 
         /// <summary>
-        ///   Calculates the scatter matrix of a sample matrix.
+        ///   Calculates the covariance matrix of a sample matrix.
         /// </summary>
-        /// 
-        /// <remarks>
-        ///   By dividing the Scatter matrix by the sample size, we get the population
-        ///   Covariance matrix. By dividing by the sample size minus one, we get the
-        ///   sample Covariance matrix.
-        /// </remarks>
         /// 
         /// <param name="matrix">A number multi-dimensional array containing the matrix values.</param>
         /// <param name="dimension">
@@ -695,17 +747,11 @@ namespace Accord.Statistics
         }
 
         /// <summary>
-        ///   Calculates the scatter matrix of a sample matrix.
+        ///   Calculates the covariance matrix of a sample matrix.
         /// </summary>
         /// 
-        /// <remarks>
-        ///   By dividing the Scatter matrix by the sample size, we get the population
-        ///   Covariance matrix. By dividing by the sample size minus one, we get the
-        ///   sample Covariance matrix.
-        /// </remarks>
-        /// 
-        /// <param name="weights">The number of times each sample should be repeated.</param>
         /// <param name="matrix">A number multi-dimensional array containing the matrix values.</param>
+        /// <param name="weights">The number of times each sample should be repeated.</param>
         /// <param name="dimension">
         ///   Pass 0 to if mean vector is a row vector, 1 otherwise. Default value is 0.
         /// </param>
@@ -719,14 +765,8 @@ namespace Accord.Statistics
         }
 
         /// <summary>
-        ///   Calculates the scatter matrix of a sample matrix.
+        ///   Calculates the covariance matrix of a sample matrix.
         /// </summary>
-        /// 
-        /// <remarks>
-        ///   By dividing the Scatter matrix by the sample size, we get the population
-        ///   Covariance matrix. By dividing by the sample size minus one, we get the
-        ///   sample Covariance matrix.
-        /// </remarks>
         /// 
         /// <param name="matrix">A number multi-dimensional array containing the matrix values.</param>
         /// <param name="weights">An unit vector containing the importance of each sample
@@ -752,17 +792,11 @@ namespace Accord.Statistics
         }
 
         /// <summary>
-        ///   Calculates the scatter matrix of a sample matrix.
+        ///   Calculates the covariance matrix of a sample matrix.
         /// </summary>
         /// 
-        /// <remarks>
-        ///   By dividing the Scatter matrix by the sample size, we get the population
-        ///   Covariance matrix. By dividing by the sample size minus one, we get the
-        ///   sample Covariance matrix.
-        /// </remarks>
-        /// 
-        /// <param name="weights">The number of times each sample should be repeated.</param>
         /// <param name="matrix">A number multi-dimensional array containing the matrix values.</param>
+        /// <param name="weights">The number of times each sample should be repeated.</param>
         /// <param name="means">The mean value of the given values, if already known.</param>
         /// <param name="dimension">
         ///   Pass 0 to if mean vector is a row vector, 1 otherwise. Default value is 0.
