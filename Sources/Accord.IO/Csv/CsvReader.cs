@@ -44,6 +44,7 @@ namespace Accord.IO
     using System.Globalization;
     using System.IO;
     using Accord.IO.Resources;
+    using System.Net;
 
     /// <summary>
     ///   Represents a reader that provides fast, non-cached, forward-only access to CSV data.  
@@ -138,7 +139,19 @@ namespace Accord.IO
         /// <param name="hasHeaders"><see langword="true"/> if field names are located on the first non commented line, otherwise, <see langword="false"/>.</param>
         /// 
         public CsvReader(string path, bool hasHeaders)
-            : this(new StreamReader(new FileStream(path, FileMode.Open, FileAccess.Read)), hasHeaders, DefaultDelimiter, DefaultBufferSize)
+            : this(new FileStream(path, FileMode.Open, FileAccess.Read), hasHeaders)
+        {
+        }
+
+        /// <summary>
+        ///   Initializes a new instance of the CsvReader class.
+        /// </summary>
+        /// 
+        /// <param name="path">The path for the CSV file.</param>
+        /// <param name="hasHeaders"><see langword="true"/> if field names are located on the first non commented line, otherwise, <see langword="false"/>.</param>
+        /// 
+        public CsvReader(Stream stream, bool hasHeaders)
+            : this(new StreamReader(stream), hasHeaders, DefaultDelimiter, DefaultBufferSize)
         {
         }
 
@@ -239,6 +252,21 @@ namespace Accord.IO
         ///   Creates a new CsvReader to read from a string.
         /// </summary>
         /// 
+        /// <param name="url">The url pointing to the file in .CSV format.</param>
+        /// <param name="hasHeaders"><see langword="true"/> if field names are located on the first non commented line, otherwise, <see langword="false"/>.</param>
+        /// 
+        public static CsvReader FromUrl(string url, bool hasHeaders)
+        {
+            WebClient client = new WebClient();
+            byte[] bytes = client.DownloadData(url);
+            MemoryStream stream = new MemoryStream(bytes);
+            return new CsvReader(stream, hasHeaders);
+        }
+
+        /// <summary>
+        ///   Creates a new CsvReader to read from a string.
+        /// </summary>
+        /// 
         /// <param name="text">The text containing the fields in the CSV format.</param>
         /// <param name="hasHeaders"><see langword="true"/> if field names are located on the first non commented line, otherwise, <see langword="false"/>.</param>
         /// 
@@ -246,7 +274,6 @@ namespace Accord.IO
         {
             return new CsvReader(new StringReader(text), hasHeaders, text.Length);
         }
-
 
 
         /// <summary>
