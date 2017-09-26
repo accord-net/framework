@@ -6,7 +6,7 @@ master branch is reserved to contain only the latest official public release of
 the framework.
 
 
-## Please stick to C# 4.0 (i.e. avoid features from C# 5, 6 and 7)
+## Please stick to C# 4.0 (avoid features from C# 5, 6 and 7)
 
 If possible, when contributing code to the framework, please avoid using C# language features from above C# 4.0. There are at least two reasons for this restriction:
 
