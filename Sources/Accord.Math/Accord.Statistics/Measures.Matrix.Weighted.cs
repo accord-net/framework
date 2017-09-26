@@ -430,9 +430,7 @@ namespace Accord.Statistics
         public static double[] ExponentialWeightedMean(this double[][] matrix, double alpha = 0)
         {
             if (matrix == null)
-            {
                 throw new ArgumentNullException("matrix", "The matrix cannot be null.");
-            }
 
             return matrix.ExponentialWeightedMean(matrix.Rows(), alpha);
         }
@@ -440,56 +438,62 @@ namespace Accord.Statistics
         public static double[] ExponentialWeightedMean(this double[][] matrix, int window, double alpha = 0)
         {
             // Perform some basic error validation
+            Validate(matrix, window, alpha);
+
+            // Handle the trivial case
+            if (alpha == 1)
+                return matrix.GetRow(-1);
+
+            // Now we create the weights
+            double[] decayWeights = GetDecayWeights(window, alpha);
+
+            double[][] truncatedSeries = window == matrix.Rows()
+                ? truncatedSeries = matrix
+                : truncatedSeries = matrix.Get(-window, 0);
+
+            return truncatedSeries.WeightedMean(decayWeights);
+        }
+
+        public static double[,] ExponentialWeightedCovariance(
+            this double[][] matrix, double alpha = 0, bool bias = true)
+        {
             if (matrix == null)
-            {
-                throw new ArgumentNullException("series", "The matrix cannot be null.");
-            }
+                throw new ArgumentNullException("matrix", "The matrix cannot be null.");
 
-            if (alpha < 0 || alpha >= 1)
-            {
-                string message = string.Format(
-                    "Alpha must lie in the interval [0, 1) but was {0}", alpha);
+            return matrix.ExponentialWeightedCovariance(matrix.Rows(), alpha, bias);
+        }
 
-                throw new ArgumentOutOfRangeException("decay", message);
-            }
+        public static double[,] ExponentialWeightedCovariance(
+            this double[][] matrix, int window, double alpha = 0, bool bias = true)
+        {
+            // Perform some basic error validation
+            Validate(matrix, window, alpha);
 
             int rows = matrix.Rows();
             int cols = matrix.Columns();
 
-            if (window <= 0 || window > rows)
-            {
-                string message = string.Format(
-                    "Window size ({0}) must be less than or equal to the total number of samples ({1})",
-                    window,
-                    rows);
-
-                throw new ArgumentOutOfRangeException("window", message);
-            }
+            // Handle the trivial case
+            if (alpha == 1)
+                return Matrix.Zeros(cols, cols);
 
             // Now we create the weights
-            double decay = 1 - alpha;
-            double[] decayWeights = new double[window];
-            double decayRow = 1;
-            for (int i = window - 1; i >= 0; i--)
+            double[] decayWeights = GetDecayWeights(window, alpha);
+
+            double[][] truncatedSeries = window == rows
+                ? truncatedSeries = matrix
+                : truncatedSeries = matrix.Get(-window, 0);
+
+            double[] weightedMeans = truncatedSeries.WeightedMean(decayWeights);
+
+            if (bias)
             {
-                decayWeights[i] = decayRow;
-                decayRow *= decay;
+                double effectiveNumObs = alpha == 0 ? window : ((1 - Math.Pow(1 - alpha, window)) / alpha);
+
+                return truncatedSeries.WeightedScatter(decayWeights, weightedMeans, 1 / effectiveNumObs, 0);
             }
 
-            double[][] truncatedSeries = window == rows ? matrix : matrix.Get(-window, 0);
-
-            return truncatedSeries.WeightedMean(decayWeights);
-
-            /*
-            double effectiveNumObs = decay == 1 ? window : ((1 - Math.Pow(decay, window)) / (1 - decay));
-            
-            double[,] weightedVariances = truncatedSeries.WeightedScatter(
-                decayWeights, weightedMeans, 1 / effectiveNumObs, 0);
-
-            double[,] cov = truncatedSeries.WeightedCovariance(decayWeights, weightedMeans); 
-             */
+            return truncatedSeries.WeightedCovariance(decayWeights, weightedMeans);
         }
-
 
         /// <summary>
         ///   Calculates the matrix Standard Deviations vector.
@@ -1002,6 +1006,53 @@ namespace Accord.Statistics
             return cov;
         }
 
+        private static double[] GetDecayWeights(int window, double alpha)
+        {
+            if (alpha == 0)
+                return Vector.Ones(window);
+
+            double decay = 1 - alpha;
+            double[] decayWeights = new double[window];
+
+            double decayRow = 1;
+            for (int i = window - 1; i >= 0; i--)
+            {
+                decayWeights[i] = decayRow;
+                decayRow *= decay;
+            }
+
+            return decayWeights;
+        }
+
+        private static void Validate(double[][] matrix, int window, double alpha)
+        {
+            // Perform some basic error validation
+            if (matrix == null)
+            {
+                throw new ArgumentNullException("matrix", "The matrix cannot be null.");
+            }
+
+            if (alpha < 0 || alpha > 1)
+            {
+                string message = string.Format(
+                    "Alpha must lie in the interval [0, 1] but was {0}", alpha);
+
+                throw new ArgumentOutOfRangeException("decay", message);
+            }
+
+            int rows = matrix.Rows();
+            int cols = matrix.Columns();
+
+            if (window <= 0 || window > rows)
+            {
+                string message = string.Format(
+                    "Window size ({0}) must be less than or equal to the total number of samples ({1})",
+                    window,
+                    rows);
+
+                throw new ArgumentOutOfRangeException("window", message);
+            }
+        }
 
         private static double correct(bool unbiased, WeightType weightType, double sum, double weightSum, double squareSum)
         {
