@@ -427,6 +427,25 @@ namespace Accord.Statistics
             return mean;
         }
 
+        /// <summary>
+        ///   Calculates the exponentially weighted mean vector.
+        /// </summary>
+        /// 
+        /// <param name="matrix">
+        ///   A matrix of observations whose EW mean vector will be calculated. It is assumed 
+        ///   that the matrix is ordered with the most recent observations at the bottom of 
+        ///   the matrix.
+        /// </param>
+        /// <param name="alpha">
+        ///   The weighting to be applied to the calculation. A higher alpha discounts
+        ///   older observations faster. Alpha must be between 0 and 1 (inclusive).
+        /// </param>
+        /// 
+        /// <returns>
+        ///   Returns a vector containing the exponentially weighted average of the columns of 
+        ///   the given matrix.
+        /// </returns>
+        /// 
         public static double[] ExponentialWeightedMean(this double[][] matrix, double alpha = 0)
         {
             if (matrix == null)
@@ -435,6 +454,26 @@ namespace Accord.Statistics
             return matrix.ExponentialWeightedMean(matrix.Rows(), alpha);
         }
 
+        /// <summary>
+        ///   Calculates the exponentially weighted mean vector.
+        /// </summary>
+        /// 
+        /// <param name="matrix">
+        ///   A matrix of observations whose EW mean vector will be calculated. It is assumed 
+        ///   that the matrix is ordered with the most recent observations at the bottom of 
+        ///   the matrix.
+        /// </param>
+        /// <param name="window">The number of rows to be used in the calculation.</param>
+        /// <param name="alpha">
+        ///   The weighting to be applied to the calculation. A higher alpha discounts
+        ///   older observations faster. Alpha must be between 0 and 1 (inclusive).
+        /// </param>
+        /// 
+        /// <returns>
+        ///   Returns a vector containing the exponentially weighted average of the columns of 
+        ///   the given matrix.
+        /// </returns>
+        /// 
         public static double[] ExponentialWeightedMean(this double[][] matrix, int window, double alpha = 0)
         {
             // Perform some basic error validation
@@ -444,16 +483,39 @@ namespace Accord.Statistics
             if (alpha == 1)
                 return matrix.GetRow(-1);
 
-            // Now we create the weights
-            double[] decayWeights = GetDecayWeights(window, alpha);
-
             double[][] truncatedSeries = window == matrix.Rows()
                 ? truncatedSeries = matrix
                 : truncatedSeries = matrix.Get(-window, 0);
 
+            if (alpha == 0)
+                return truncatedSeries.Mean(0);
+
+            // Now we create the weights
+            double[] decayWeights = GetDecayWeights(window, alpha);
+
             return truncatedSeries.WeightedMean(decayWeights);
         }
 
+        /// <summary>
+        ///   Calculates the exponentially weighted covariance matrix.
+        /// </summary>
+        /// 
+        /// <param name="matrix">
+        ///   A matrix of observations whose EW covariance matrix will be calculated. It 
+        ///   is assumed that the matrix is ordered with the most recent observations at 
+        ///   the bottom of the matrix.
+        /// </param>
+        /// <param name="alpha">
+        ///   The weighting to be applied to the calculation. A higher alpha discounts
+        ///   older observations faster. Alpha must be between 0 and 1 (inclusive).
+        /// </param>
+        /// <param name="bias">Use a standard estimation bias correction.</param>
+        /// 
+        /// <returns>
+        ///   Returns a vector containing the exponentially weighted average of the columns of 
+        ///   the given matrix.
+        /// </returns>
+        /// 
         public static double[,] ExponentialWeightedCovariance(
             this double[][] matrix, double alpha = 0, bool bias = true)
         {
@@ -463,6 +525,27 @@ namespace Accord.Statistics
             return matrix.ExponentialWeightedCovariance(matrix.Rows(), alpha, bias);
         }
 
+        /// <summary>
+        ///   Calculates the exponentially weighted covariance matrix.
+        /// </summary>
+        /// 
+        /// <param name="matrix">
+        ///   A matrix of observations whose EW covariance matrix will be calculated. It 
+        ///   is assumed that the matrix is ordered with the most recent observations at 
+        ///   the bottom of the matrix.
+        /// </param>
+        /// <param name="window">The number of rows to be used in the calculation.</param>
+        /// <param name="alpha">
+        ///   The weighting to be applied to the calculation. A higher alpha discounts
+        ///   older observations faster. Alpha must be between 0 and 1 (inclusive).
+        /// </param>
+        /// <param name="bias">Use a standard estimation bias correction.</param>
+        /// 
+        /// <returns>
+        ///   Returns a vector containing the exponentially weighted average of the columns of 
+        ///   the given matrix.
+        /// </returns>
+        /// 
         public static double[,] ExponentialWeightedCovariance(
             this double[][] matrix, int window, double alpha = 0, bool bias = true)
         {

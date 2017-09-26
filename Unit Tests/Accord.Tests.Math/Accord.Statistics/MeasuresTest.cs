@@ -60,25 +60,6 @@ namespace Accord.Tests.Statistics
 
             // Assert
             Assert.True(ewmas.IsEqual(expected, Tolerance), "EWMA does not agree with expected");
-
-
-            /*
-            double[] x = X.Transpose()[0];
-
-            decay = 0.2;
-
-            new Ewma().Compute(X, x.Rows(), 1 - decay);
-
-            double ema = x[0];
-            double emv = 0;
-
-            for (int i = 1; i < x.Length; i++)
-            {
-                double delta = x[i] - ema;
-                ema = ema + decay * delta;
-                emv = (1 - decay) * (emv + decay * delta * delta);
-            }
-            */
         }
 
         [Test]
