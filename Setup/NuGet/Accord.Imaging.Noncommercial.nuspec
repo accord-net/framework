@@ -23,17 +23,17 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="..\..\Release\net35\Accord.Imaging.Noncommercial.dll" target="lib\net35-unity full v3.5\Accord.Imaging.Noncommercial.dll" />
-    <file src="..\..\Release\net35\Accord.Imaging.Noncommercial.xml" target="lib\net35-unity full v3.5\Accord.Imaging.Noncommercial.xml" />
+    <file src="..\..\Release\net35\Noncommercial\Accord.Imaging.Noncommercial.dll" target="lib\net35-unity full v3.5\Accord.Imaging.Noncommercial.dll" />
+    <file src="..\..\Release\net35\Noncommercial\Accord.Imaging.Noncommercial.xml" target="lib\net35-unity full v3.5\Accord.Imaging.Noncommercial.xml" />
 
-    <file src="..\..\Release\net35\Accord.Imaging.Noncommercial.dll" target="lib\net35-unity subset v3.5\Accord.Imaging.Noncommercial.dll" />
-    <file src="..\..\Release\net35\Accord.Imaging.Noncommercial.xml" target="lib\net35-unity subset v3.5\Accord.Imaging.Noncommercial.xml" />
+    <file src="..\..\Release\net35\Noncommercial\Accord.Imaging.Noncommercial.dll" target="lib\net35-unity subset v3.5\Accord.Imaging.Noncommercial.dll" />
+    <file src="..\..\Release\net35\Noncommercial\Accord.Imaging.Noncommercial.xml" target="lib\net35-unity subset v3.5\Accord.Imaging.Noncommercial.xml" />
 
-    <file src="..\..\Release\net35\Accord.Imaging.Noncommercial.dll" target="lib\net35-unity web v3.5\Accord.Imaging.Noncommercial.dll" />
-    <file src="..\..\Release\net35\Accord.Imaging.Noncommercial.xml" target="lib\net35-unity web v3.5\Accord.Imaging.Noncommercial.xml" />
+    <file src="..\..\Release\net35\Noncommercial\Accord.Imaging.Noncommercial.dll" target="lib\net35-unity web v3.5\Accord.Imaging.Noncommercial.dll" />
+    <file src="..\..\Release\net35\Noncommercial\Accord.Imaging.Noncommercial.xml" target="lib\net35-unity web v3.5\Accord.Imaging.Noncommercial.xml" />
 
-    <file src="..\..\Release\net35\Accord.Imaging.Noncommercial.dll" target="lib\net35-unity micro v3.5\Accord.Imaging.Noncommercial.dll" />
-    <file src="..\..\Release\net35\Accord.Imaging.Noncommercial.xml" target="lib\net35-unity micro v3.5\Accord.Imaging.Noncommercial.xml" />
+    <file src="..\..\Release\net35\Noncommercial\Accord.Imaging.Noncommercial.dll" target="lib\net35-unity micro v3.5\Accord.Imaging.Noncommercial.dll" />
+    <file src="..\..\Release\net35\Noncommercial\Accord.Imaging.Noncommercial.xml" target="lib\net35-unity micro v3.5\Accord.Imaging.Noncommercial.xml" />
 
     <file src="..\..\Release\net35\Noncommercial\Accord.Imaging.Noncommercial.dll" target="lib\net35\Accord.Imaging.Noncommercial.dll" />
     <file src="..\..\Release\net35\Noncommercial\Accord.Imaging.Noncommercial.xml" target="lib\net35\Accord.Imaging.Noncommercial.xml" />

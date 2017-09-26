@@ -22,7 +22,6 @@
     </Otherwise>
   </Choose>
 
-
   <ItemGroup>
     <ProjectReference Include="..\..\..\Sources\Accord.Math.Core\Accord.Math.Core (NETStandard).csproj" />
     <ProjectReference Include="..\..\..\Sources\Accord.Math\Accord.Math (NETStandard).csproj" />

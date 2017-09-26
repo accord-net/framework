@@ -40,6 +40,7 @@ namespace Accord.Tests.Imaging
     using Accord.Math.Optimization.Losses;
     using Accord.Math.Metrics;
     using Accord.Tests.Vision.Properties;
+    using Accord.Imaging.Textures;
 #if NO_BITMAP
     using Resources = Accord.Tests.Vision.Properties.Resources_Standard;
 #endif
@@ -225,9 +226,9 @@ namespace Accord.Tests.Imaging
             // feature extractor and K-means as the clustering algorithm.
 
             // Create a new Bag-of-Visual-Words (BoW) model
-            BagOfVisualWords bow = new BagOfVisualWords(10);
-            // Note: the BoW model can also be created using
-            // var bow = BagOfVisualWords.Create(10);
+            var bow = BagOfVisualWords.Create(numberOfWords: 10);
+            // Note: a simple BoW model can also be created using
+            // var bow = new BagOfVisualWords(numberOfWords: 10);
 
             // Get some training images
             Bitmap[] images = GetImages();
@@ -238,7 +239,35 @@ namespace Accord.Tests.Imaging
             // After this point, we will be able to translate
             // images into double[] feature vectors using
             double[][] features = bow.Transform(images);
+
+            // We can also check some statistics about the dataset:
+            int numberOfImages = bow.Statistics.TotalNumberOfImages; // 6
+
+            // Statistics about all the descriptors that have been extracted:
+            int totalDescriptors = bow.Statistics.TotalNumberOfDescriptors; // 4132
+            double totalMean = bow.Statistics.TotalNumberOfDescriptorsPerImage.Mean; // 688.66666666666663
+            double totalVar = bow.Statistics.TotalNumberOfDescriptorsPerImage.Variance; // 96745.866666666669
+            IntRange totalRange = bow.Statistics.TotalNumberOfDescriptorsPerImageRange; // [409, 1265]
+
+            // Statistics only about the descriptors that have been actually used:
+            int takenDescriptors = bow.Statistics.NumberOfDescriptorsTaken; // 4132
+            double takenMean = bow.Statistics.NumberOfDescriptorsTakenPerImage.Mean; // 688.66666666666663
+            double takenVar = bow.Statistics.NumberOfDescriptorsTakenPerImage.Variance; // 96745.866666666669
+            IntRange takenRange = bow.Statistics.NumberOfDescriptorsTakenPerImageRange; // [409, 1265]
             #endregion
+
+            Assert.AreEqual(6, numberOfImages);
+
+            Assert.AreEqual(4132, totalDescriptors);
+            Assert.AreEqual(688.66666666666663, totalMean);
+            Assert.AreEqual(96745.866666666669, totalVar);
+            Assert.AreEqual(new IntRange(409, 1265), totalRange);
+
+            Assert.AreEqual(4132, takenDescriptors);
+            Assert.AreEqual(688.66666666666663, takenMean);
+            Assert.AreEqual(96745.866666666669, takenVar);
+            Assert.AreEqual(new IntRange(409, 1265), takenRange);
+
 
             var kmeans = bow.Clustering as KMeans;
             Assert.AreEqual(64, kmeans.Clusters.NumberOfInputs);
@@ -418,7 +447,10 @@ namespace Accord.Tests.Imaging
             // By default, the BoW object will use the sparse SURF as the 
             // feature extractor and K-means as the clustering algorithm.
             // In this example, we will use the HOG feature extractor
-            // and the Binary-Split clustering algorithm instead.
+            // and the Binary-Split clustering algorithm instead. However, 
+            // this is just an example: the best features and the best clustering 
+            // algorithm might need to be found through experimentation. Please
+            // also try with KMeans first to obtain a baseline value.
 
             // Create a new Bag-of-Visual-Words (BoW) model using HOG features
             var bow = BagOfVisualWords.Create(new HistogramsOfOrientedGradients(), new BinarySplit(10));
@@ -480,7 +512,7 @@ namespace Accord.Tests.Imaging
             Assert.AreEqual(error, 0);
         }
 
-        [Test, Ignore("Haralick does not extract good features in this dataset")]
+        [Test]
         public void custom_feature_test_haralick()
         {
             #region doc_feature_haralick
@@ -489,18 +521,34 @@ namespace Accord.Tests.Imaging
             // The Bag-of-Visual-Words model converts images of arbitrary 
             // size into fixed-length feature vectors. In this example, we
             // will be setting the codebook size to 3. This means all feature
-            // vectors that will be generated will have the same length of 10.
+            // vectors that will be generated will have the same length of 3.
 
             // By default, the BoW object will use the sparse SURF as the 
             // feature extractor and K-means as the clustering algorithm.
-            // In this example, we will use the Haralick feature extractor
-            // and the GMM clustering algorithm instead.
+            // In this example, we will use the Haralick feature extractor.
 
-            // Create a new Bag-of-Visual-Words (BoW) model using HOG features
-            var bow = BagOfVisualWords.Create(new Haralick(), new GaussianMixtureModel(3));
+            // Create a new Bag-of-Visual-Words (BoW) model using Haralick features
+            var bow = BagOfVisualWords.Create(new Haralick()
+            {
+                CellSize = 256, // divide images in cells of 256x256 pixels
+                Mode = HaralickMode.AverageWithRange,
+            }, new KMeans(3));
 
-            // Get some training images
-            Bitmap[] images = GetImages();
+            // Generate some training images. Haralick is best for classifying
+            // textures, so we will be generating examples of wood and clouds:
+            var woodenGenerator = new WoodTexture();
+            var cloudsGenerator = new CloudsTexture();
+
+            Bitmap[] images = new[]
+            {
+                woodenGenerator.Generate(512, 512).ToBitmap(),
+                woodenGenerator.Generate(512, 512).ToBitmap(),
+                woodenGenerator.Generate(512, 512).ToBitmap(),
+
+                cloudsGenerator.Generate(512, 512).ToBitmap(),
+                cloudsGenerator.Generate(512, 512).ToBitmap(),
+                cloudsGenerator.Generate(512, 512).ToBitmap()
+            };
 
             // Compute the model
             bow.Learn(images);
@@ -510,23 +558,23 @@ namespace Accord.Tests.Imaging
             double[][] features = bow.Transform(images);
             #endregion
 
-            Assert.AreEqual(features.GetLength(), new[] { 6, 10 });
+            Assert.AreEqual(features.GetLength(), new[] { 6, 3 });
 
             string str = features.ToCSharp();
 
             double[][] expected = new double[][]
             {
-                new double[] { 141, 332, 240, 88, 363, 238, 282, 322, 114, 232 },
-                new double[] { 103, 452, 195, 140, 158, 260, 283, 368, 163, 230 },
-                new double[] { 88, 231, 185, 172, 631, 189, 219, 241, 237, 159 },
-                new double[] { 106, 318, 262, 212, 165, 276, 264, 275, 244, 230 },
-                new double[] { 143, 302, 231, 113, 332, 241, 273, 320, 157, 240 },
-                new double[] { 87, 347, 248, 249, 63, 227, 292, 288, 339, 212 }
+                new double[] { 3, 0, 1 },
+                new double[] { 3, 0, 1 },
+                new double[] { 3, 0, 1 },
+                new double[] { 3, 1, 0 },
+                new double[] { 3, 1, 0 },
+                new double[] { 3, 1, 0 }
             };
 
-            for (int i = 0; i < features.Length; i++)
-                for (int j = 0; j < features[i].Length; j++)
-                    Assert.IsTrue(expected[i].Contains(features[i][j]));
+            for (int i = 0; i < expected.Length; i++)
+                for (int j = 0; j < expected[i].Length; j++)
+                    Assert.IsTrue(expected[i][j] == features[i][j]);
 
             #region doc_classification_feature_haralick
 
@@ -568,12 +616,16 @@ namespace Accord.Tests.Imaging
             // The Bag-of-Visual-Words model converts images of arbitrary 
             // size into fixed-length feature vectors. In this example, we
             // will be setting the codebook size to 3. This means all feature
-            // vectors that will be generated will have the same length of 10.
+            // vectors that will be generated will have the same length of 3.
 
             // By default, the BoW object will use the sparse SURF as the 
             // feature extractor and K-means as the clustering algorithm.
             // In this example, we will use the Local Binary Pattern (LBP) 
             // feature extractor and the Binary-Split clustering algorithm.
+            // However, this is just an example: the best features and the
+            // best clustering algorithm might need to be found through 
+            // experimentation. Please also try with KMeans first to obtain
+            // a baseline value.
 
             // Create a new Bag-of-Visual-Words (BoW) model using LBP features
             var bow = BagOfVisualWords.Create(new LocalBinaryPattern(), new BinarySplit(3));
@@ -723,6 +775,141 @@ namespace Accord.Tests.Imaging
             Assert.AreEqual(error, 0);
         }
 
+        [Test]
+        [Category("Random")]
+#if NET35
+        [Ignore("Random behaviour differs in net35.")]
+#endif
+        public void learn_from_disk()
+        {
+            string basePath = Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources", "SURF");
+
+            #region doc_learn_disk
+            // Ensure results are reproducible
+            Accord.Math.Random.Generator.Seed = 0;
+
+            // Depending on the problem we are trying to tackle, learning a BoW might require 
+            // large amounts of available memory. In those cases, we can alleviate the amount
+            // of memory required by using only a subsample of the training datasete to learn
+            // the model. Likewise, we can also load images from the disk on-demand instead of
+            // having to load all of them right at the beginning.
+
+            // Create a new Bag-of-Visual-Words (BoW) model
+            var bow = BagOfVisualWords.Create(numberOfWords: 10);
+
+            // We will learn the codebooks from only 25 descriptors, which
+            // will be randomly selected from the multiple training images
+            bow.NumberOfDescriptors = 1000; // Note: in the real world, use >10,000 samples
+
+            // We will load at most 5 descriptors from each image. This means
+            // that we will only keep 5 descriptors per image at maximum in 
+            // memory at a given time.
+            bow.MaxDescriptorsPerImage = 200; // Note: In the real world, use >1,000 samples
+
+            // Get some training images. Here, instead of loading Bitmaps as in
+            // the other examples, we will just specify their paths in the disk:
+            string[] filenames =
+            {
+                Path.Combine(basePath, "flower01.jpg"),
+                Path.Combine(basePath, "flower02.jpg"),
+                Path.Combine(basePath, "flower03.jpg"),
+                Path.Combine(basePath, "flower04.jpg"),
+                Path.Combine(basePath, "flower05.jpg"),
+                Path.Combine(basePath, "flower06.jpg"),
+            };
+
+            // Compute the model
+            bow.Learn(filenames);
+
+            // After this point, we will be able to translate
+            // images into double[] feature vectors using
+            double[][] features = bow.Transform(filenames);
+
+            // We can also check some statistics about the dataset:
+            int numberOfImages = bow.Statistics.TotalNumberOfImages; // 6
+
+            // Statistics about all the descriptors that have been extracted:
+            int totalDescriptors = bow.Statistics.TotalNumberOfDescriptors; // 4132
+            double totalMean = bow.Statistics.TotalNumberOfDescriptorsPerImage.Mean; // 688.66666666666663
+            double totalVar = bow.Statistics.TotalNumberOfDescriptorsPerImage.Variance; // 96745.866666666669
+            IntRange totalRange = bow.Statistics.TotalNumberOfDescriptorsPerImageRange; // [409, 1265]
+
+            // Statistics only about the descriptors that have been actually used:
+            int takenDescriptors = bow.Statistics.NumberOfDescriptorsTaken; // 1000
+            double takenMean = bow.Statistics.NumberOfDescriptorsTakenPerImage.Mean; // 200
+            double takenVar = bow.Statistics.NumberOfDescriptorsTakenPerImage.Variance; // 0
+            IntRange takenRange = bow.Statistics.NumberOfDescriptorsTakenPerImageRange; // [200, 200]
+            #endregion
+
+            Assert.AreEqual(6, numberOfImages);
+
+            Assert.AreEqual(4132, totalDescriptors);
+            Assert.AreEqual(688.66666666666663, totalMean);
+            Assert.AreEqual(96745.866666666669, totalVar);
+            Assert.AreEqual(new IntRange(409, 1265), totalRange);
+
+            Assert.AreEqual(1000, takenDescriptors);
+            Assert.AreEqual(200, takenMean);
+            Assert.AreEqual(0, takenVar);
+            Assert.AreEqual(new IntRange(200, 200), takenRange);
+
+            var kmeans = bow.Clustering as KMeans;
+            Assert.AreEqual(64, kmeans.Clusters.NumberOfInputs);
+            Assert.AreEqual(10, kmeans.Clusters.NumberOfOutputs);
+            Assert.AreEqual(10, kmeans.Clusters.NumberOfClasses);
+
+            string str = kmeans.Clusters.Proportions.ToCSharp();
+            double[] expectedProportions = new double[] { 0.029, 0.167, 0.143, 0.129, 0.079, 0.104, 0.068, 0.09, 0.094, 0.097 };
+
+            Assert.IsTrue(kmeans.Clusters.Proportions.IsEqual(expectedProportions, 1e-10));
+            Assert.IsTrue(kmeans.Clusters.Covariances.All(x => x == null));
+
+            Assert.AreEqual(features.GetLength(), new[] { 6, 10 });
+
+            str = features.ToCSharp();
+
+            double[][] expected = new double[][]
+            {
+                new double[] { 6, 104, 59, 68, 41, 7, 45, 25, 26, 28 },
+                new double[] { 13, 102, 61, 39, 51, 114, 69, 108, 115, 55 },
+                new double[] { 10, 138, 91, 78, 27, 46, 28, 39, 52, 43 },
+                new double[] { 4, 66, 51, 84, 59, 32, 25, 54, 61, 24 },
+                new double[] { 88, 85, 161, 94, 5, 119, 13, 35, 22, 97 },
+                new double[] { 57, 269, 134, 81, 53, 214, 59, 111, 139, 148 }
+            };
+
+            for (int i = 0; i < features.Length; i++)
+                for (int j = 0; j < features[i].Length; j++)
+                    Assert.IsTrue(expected[i].Contains(features[i][j]));
+
+            #region doc_classification
+
+            // Now, the features can be used to train any classification
+            // algorithm as if they were the images themselves. For example,
+            // let's assume the first three images belong to a class and
+            // the second three to another class. We can train an SVM using
+
+            int[] labels = { -1, -1, -1, +1, +1, +1 };
+
+            // Create the SMO algorithm to learn a Linear kernel SVM
+            var teacher = new SequentialMinimalOptimization<Linear>()
+            {
+                Complexity = 10000 // make a hard margin SVM
+            };
+
+            // Obtain a learned machine
+            var svm = teacher.Learn(features, labels);
+
+            // Use the machine to classify the features
+            bool[] output = svm.Decide(features);
+
+            // Compute the error between the expected and predicted labels
+            double error = new ZeroOneLoss(labels).Loss(output);
+            #endregion
+
+            Assert.IsTrue(new ZeroOneLoss(labels).IsBinary);
+            Assert.AreEqual(error, 0);
+        }
 
         [Test, Category("Serialization")]
         public void SerializeTest()

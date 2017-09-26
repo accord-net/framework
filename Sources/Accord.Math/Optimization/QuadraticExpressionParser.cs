@@ -27,6 +27,7 @@ namespace Accord.Math.Optimization
     using System.Globalization;
     using System.Linq.Expressions;
     using System.Text.RegularExpressions;
+    using Accord.Compat;
 
     internal static class QuadraticExpressionParser
     {

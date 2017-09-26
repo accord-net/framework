@@ -31,7 +31,7 @@ namespace Accord.Imaging
     using Accord.Imaging.Filters;
 
     /// <summary>
-    ///   Histograms of Oriented Gradients.
+    ///   Histograms of Oriented Gradients (HOG) descriptor extractor.
     /// </summary>
     /// 
     /// <remarks>
@@ -44,6 +44,18 @@ namespace Accord.Imaging
     ///       http://lear.inrialpes.fr/people/triggs/pubs/Dalal-cvpr05.pdf </a> </description></item>
     ///   </list></para>
     /// </remarks>
+    /// 
+    /// <example>
+    /// <para>
+    ///   The first example shows how to extract HOG descriptors from a standard test image:</para>
+    ///   <code source="Unit Tests\Accord.Tests.Imaging\HistogramsOfOrientedGradientsTest.cs" region="doc_apply" />
+    ///   
+    /// <para>
+    ///   The second example shows how to use HOG descriptors as part of a BagOfVisualWords (BoW) pipeline 
+    ///   for image classification:</para>
+    ///   <code source="Unit Tests\Accord.Tests.Vision\Imaging\BagOfVisualWordsTest.cs" region="doc_feature_lbp" />
+    ///   <code source="Unit Tests\Accord.Tests.Vision\Imaging\BagOfVisualWordsTest.cs" region="doc_classification_feature_lbp" />
+    /// </example>
     /// 
     public class HistogramsOfOrientedGradients : IFeatureDetector<FeatureDescriptor>,
         IFeatureDetector<IFeatureDescriptor<double[]>>
@@ -63,22 +75,48 @@ namespace Accord.Imaging
 
 
         /// <summary>
-        ///   Gets the size of a cell, in pixels.
+        ///   Gets the size of a cell, in pixels. Default is 6.
         /// </summary>
         /// 
-        public int CellSize { get { return cellSize; } }
+        public int CellSize
+        {
+            get { return cellSize; }
+            set { cellSize = value; }
+        }
 
         /// <summary>
-        ///   Gets the size of a block, in pixels.
+        ///   Gets the size of a block, in pixels. Default is 3.
         /// </summary>
         /// 
-        public int BlockSize { get { return blockSize; } }
+        public int BlockSize
+        {
+            get { return blockSize; }
+            set { blockSize = value; }
+        }
 
         /// <summary>
-        ///   Gets the number of histogram bins.
+        ///   Gets the number of histogram bins. Default is 9.
         /// </summary>
         /// 
-        public int NumberOfBins { get { return numberOfBins; } }
+        public int NumberOfBins
+        {
+            get { return numberOfBins; }
+            set
+            {
+                this.numberOfBins = value;
+                this.binWidth = (2.0 * System.Math.PI) / numberOfBins; // 0 to 360}
+            }
+        }
+
+        /// <summary>
+        ///   Gets the width of the histogram bin. This property is 
+        ///   computed as <c>(2.0 * System.Math.PI) / numberOfBins</c>.
+        /// </summary>
+        /// 
+        public double BinWidth
+        {
+            get { return this.binWidth; }
+        }
 
         /// <summary>
         ///   Gets the matrix of orientations generated in 
@@ -117,7 +155,7 @@ namespace Accord.Imaging
         /// 
         public HistogramsOfOrientedGradients()
         {
-            this.binWidth = (2.0 * System.Math.PI) / numberOfBins; // 0 to 360
+            this.NumberOfBins = numberOfBins;
         }
 
         /// <summary>
@@ -130,10 +168,9 @@ namespace Accord.Imaging
         /// 
         public HistogramsOfOrientedGradients(int numberOfBins = 9, int blockSize = 3, int cellSize = 6)
         {
-            this.numberOfBins = numberOfBins;
-            this.cellSize = cellSize;
-            this.blockSize = blockSize;
-            this.binWidth = (2.0 * System.Math.PI) / numberOfBins; // 0 to 360
+            this.NumberOfBins = numberOfBins;
+            this.CellSize = cellSize;
+            this.BlockSize = blockSize;
         }
 
 
@@ -318,6 +355,8 @@ namespace Accord.Imaging
                         }
                     }
 
+                    // TODO: Remove this block and instead propose a general architecture 
+                    //       for applying normalizations to descriptor blocks
                     if (normalize)
                         block.Divide(block.Euclidean() + epsilon, result: block);
 

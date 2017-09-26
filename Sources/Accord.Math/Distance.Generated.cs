@@ -35,7 +35,7 @@ namespace Accord.Math
     using Accord;
     using Accord.Math.Distances;
     using Accord.Math.Decompositions;
-	using Accord.Compat;
+    using Accord.Compat;
 
     /// <summary>
     ///   Static class Distance. Defines a set of methods defining distance measures.
@@ -48,18 +48,22 @@ namespace Accord.Math
         ///   Gets the Yule distance between two points.
         /// </summary>
         ///  
-        /// <param name="x"></param>
-        /// <param name="y"></param>
+        /// <param name="x">The first point <c>x</c>.</param>
+        /// <param name="y">The second point <c>y</c>.</param>
         /// 
         /// <returns>The Yule distance between x and y.</returns>
         /// 
+        /// <example>
+        ///   For examples, please see <see cref="Accord.Math.Distances.Yule"/> documentation page.
+        /// </example>
+        ///
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Yule(int[] x, int[] y)
         {
-		    // Note: this is an auto-generated method stub that forwards the call
-			// to the actual implementation, indicated in the next line below:
+            // Note: this is an auto-generated method stub that forwards the call
+            // to the actual implementation, indicated in the next line below:
             return cacheYule.Distance(x, y);
         }
 
@@ -67,18 +71,22 @@ namespace Accord.Math
         ///   Gets the Yule distance between two points.
         /// </summary>
         ///  
-        /// <param name="x"></param>
-        /// <param name="y"></param>
+        /// <param name="x">The first point <c>x</c>.</param>
+        /// <param name="y">The second point <c>y</c>.</param>
         /// 
         /// <returns>The Yule distance between x and y.</returns>
         /// 
+        /// <example>
+        ///   For examples, please see <see cref="Accord.Math.Distances.Yule"/> documentation page.
+        /// </example>
+        ///
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Yule(double[] x, double[] y)
         {
-		    // Note: this is an auto-generated method stub that forwards the call
-			// to the actual implementation, indicated in the next line below:
+            // Note: this is an auto-generated method stub that forwards the call
+            // to the actual implementation, indicated in the next line below:
             return cacheYule.Distance(x, y);
         }
 
@@ -89,18 +97,22 @@ namespace Accord.Math
         ///   Gets the Jaccard distance between two points.
         /// </summary>
         ///  
-        /// <param name="x"></param>
-        /// <param name="y"></param>
+        /// <param name="x">The first point <c>x</c>.</param>
+        /// <param name="y">The second point <c>y</c>.</param>
         /// 
         /// <returns>The Jaccard distance between x and y.</returns>
         /// 
+        /// <example>
+        ///   For examples, please see <see cref="Accord.Math.Distances.Jaccard"/> documentation page.
+        /// </example>
+        ///
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Jaccard(double[] x, double[] y)
         {
-		    // Note: this is an auto-generated method stub that forwards the call
-			// to the actual implementation, indicated in the next line below:
+            // Note: this is an auto-generated method stub that forwards the call
+            // to the actual implementation, indicated in the next line below:
             return cacheJaccard.Distance(x, y);
         }
 
@@ -111,18 +123,22 @@ namespace Accord.Math
         ///   Gets the Hellinger distance between two points.
         /// </summary>
         ///  
-        /// <param name="x"></param>
-        /// <param name="y"></param>
+        /// <param name="x">The first point <c>x</c>.</param>
+        /// <param name="y">The second point <c>y</c>.</param>
         /// 
         /// <returns>The Hellinger distance between x and y.</returns>
         /// 
+        /// <example>
+        ///   For examples, please see <see cref="Accord.Math.Distances.Hellinger"/> documentation page.
+        /// </example>
+        ///
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Hellinger(double[] x, double[] y)
         {
-		    // Note: this is an auto-generated method stub that forwards the call
-			// to the actual implementation, indicated in the next line below:
+            // Note: this is an auto-generated method stub that forwards the call
+            // to the actual implementation, indicated in the next line below:
             return cacheHellinger.Distance(x, y);
         }
 
@@ -133,18 +149,22 @@ namespace Accord.Math
         ///   Gets the Euclidean distance between two points.
         /// </summary>
         ///  
-        /// <param name="x"></param>
-        /// <param name="y"></param>
+        /// <param name="x">The first point <c>x</c>.</param>
+        /// <param name="y">The second point <c>y</c>.</param>
         /// 
         /// <returns>The Euclidean distance between x and y.</returns>
         /// 
+        /// <example>
+        ///   For examples, please see <see cref="Accord.Math.Distances.Euclidean"/> documentation page.
+        /// </example>
+        ///
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Euclidean(double x, double y)
         {
-		    // Note: this is an auto-generated method stub that forwards the call
-			// to the actual implementation, indicated in the next line below:
+            // Note: this is an auto-generated method stub that forwards the call
+            // to the actual implementation, indicated in the next line below:
             return cacheEuclidean.Distance(x, y);
         }
 
@@ -152,18 +172,22 @@ namespace Accord.Math
         ///   Gets the Euclidean distance between two points.
         /// </summary>
         ///  
-        /// <param name="x"></param>
-        /// <param name="y"></param>
+        /// <param name="x">The first point <c>x</c>.</param>
+        /// <param name="y">The second point <c>y</c>.</param>
         /// 
         /// <returns>The Euclidean distance between x and y.</returns>
         /// 
+        /// <example>
+        ///   For examples, please see <see cref="Accord.Math.Distances.Euclidean"/> documentation page.
+        /// </example>
+        ///
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Euclidean(double[] x, double[] y)
         {
-		    // Note: this is an auto-generated method stub that forwards the call
-			// to the actual implementation, indicated in the next line below:
+            // Note: this is an auto-generated method stub that forwards the call
+            // to the actual implementation, indicated in the next line below:
             return cacheEuclidean.Distance(x, y);
         }
 
@@ -178,13 +202,17 @@ namespace Accord.Math
         /// 
         /// <returns>The Euclidean distance between x and y.</returns>
         /// 
+        /// <example>
+        ///   For examples, please see <see cref="Accord.Math.Distances.Euclidean"/> documentation page.
+        /// </example>
+        ///
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Euclidean(double vector1x, double vector1y, double vector2x, double vector2y)
         {
-		    // Note: this is an auto-generated method stub that forwards the call
-			// to the actual implementation, indicated in the next line below:
+            // Note: this is an auto-generated method stub that forwards the call
+            // to the actual implementation, indicated in the next line below:
             return cacheEuclidean.Distance(vector1x, vector1y, vector2x, vector2y);
         }
 
@@ -192,18 +220,22 @@ namespace Accord.Math
         ///   Gets the Euclidean distance between two points.
         /// </summary>
         ///  
-        /// <param name="x"></param>
-        /// <param name="y"></param>
+        /// <param name="x">The first point <c>x</c>.</param>
+        /// <param name="y">The second point <c>y</c>.</param>
         /// 
         /// <returns>The Euclidean distance between x and y.</returns>
         /// 
+        /// <example>
+        ///   For examples, please see <see cref="Accord.Math.Distances.Euclidean"/> documentation page.
+        /// </example>
+        ///
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Euclidean(Tuple<double, double> x, Tuple<double, double> y)
         {
-		    // Note: this is an auto-generated method stub that forwards the call
-			// to the actual implementation, indicated in the next line below:
+            // Note: this is an auto-generated method stub that forwards the call
+            // to the actual implementation, indicated in the next line below:
             return cacheEuclidean.Distance(x, y);
         }
 
@@ -211,18 +243,22 @@ namespace Accord.Math
         ///   Gets the Euclidean distance between two points.
         /// </summary>
         ///  
-        /// <param name="x"></param>
-        /// <param name="y"></param>
+        /// <param name="x">The first point <c>x</c>.</param>
+        /// <param name="y">The second point <c>y</c>.</param>
         /// 
         /// <returns>The Euclidean distance between x and y.</returns>
         /// 
+        /// <example>
+        ///   For examples, please see <see cref="Accord.Math.Distances.Euclidean"/> documentation page.
+        /// </example>
+        ///
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Euclidean(Sparse<double> x, Sparse<double> y)
         {
-		    // Note: this is an auto-generated method stub that forwards the call
-			// to the actual implementation, indicated in the next line below:
+            // Note: this is an auto-generated method stub that forwards the call
+            // to the actual implementation, indicated in the next line below:
             return cacheEuclidean.Distance(x, y);
         }
 
@@ -233,19 +269,23 @@ namespace Accord.Math
         ///   Gets the SquareMahalanobis distance between two points.
         /// </summary>
         ///  
-        /// <param name="x"></param>
-        /// <param name="y"></param>
+        /// <param name="x">The first point <c>x</c>.</param>
+        /// <param name="y">The second point <c>y</c>.</param>
         /// <param name="chol"></param>
         /// 
         /// <returns>The SquareMahalanobis distance between x and y.</returns>
         /// 
+        /// <example>
+        ///   For examples, please see <see cref="Accord.Math.Distances.SquareMahalanobis"/> documentation page.
+        /// </example>
+        ///
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double SquareMahalanobis(double[] x, double[] y, CholeskyDecomposition chol)
         {
-		    // Note: this is an auto-generated method stub that forwards the call
-			// to the actual implementation, indicated in the next line below:
+            // Note: this is an auto-generated method stub that forwards the call
+            // to the actual implementation, indicated in the next line below:
             return new SquareMahalanobis(chol).Distance(x, y);
         }
 
@@ -253,19 +293,23 @@ namespace Accord.Math
         ///   Gets the SquareMahalanobis distance between two points.
         /// </summary>
         ///  
-        /// <param name="x"></param>
-        /// <param name="y"></param>
+        /// <param name="x">The first point <c>x</c>.</param>
+        /// <param name="y">The second point <c>y</c>.</param>
         /// <param name="svd"></param>
         /// 
         /// <returns>The SquareMahalanobis distance between x and y.</returns>
         /// 
+        /// <example>
+        ///   For examples, please see <see cref="Accord.Math.Distances.SquareMahalanobis"/> documentation page.
+        /// </example>
+        ///
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double SquareMahalanobis(double[] x, double[] y, SingularValueDecomposition svd)
         {
-		    // Note: this is an auto-generated method stub that forwards the call
-			// to the actual implementation, indicated in the next line below:
+            // Note: this is an auto-generated method stub that forwards the call
+            // to the actual implementation, indicated in the next line below:
             return new SquareMahalanobis(svd).Distance(x, y);
         }
 
@@ -273,19 +317,23 @@ namespace Accord.Math
         ///   Gets the SquareMahalanobis distance between two points.
         /// </summary>
         ///  
-        /// <param name="x"></param>
-        /// <param name="y"></param>
+        /// <param name="x">The first point <c>x</c>.</param>
+        /// <param name="y">The second point <c>y</c>.</param>
         /// <param name="precision"></param>
         /// 
         /// <returns>The SquareMahalanobis distance between x and y.</returns>
         /// 
+        /// <example>
+        ///   For examples, please see <see cref="Accord.Math.Distances.SquareMahalanobis"/> documentation page.
+        /// </example>
+        ///
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double SquareMahalanobis(double[] x, double[] y, double[,] precision)
         {
-		    // Note: this is an auto-generated method stub that forwards the call
-			// to the actual implementation, indicated in the next line below:
+            // Note: this is an auto-generated method stub that forwards the call
+            // to the actual implementation, indicated in the next line below:
             return new SquareMahalanobis(precision).Distance(x, y);
         }
 
@@ -293,18 +341,22 @@ namespace Accord.Math
         ///   Gets the SquareMahalanobis distance between two points.
         /// </summary>
         ///  
-        /// <param name="x"></param>
-        /// <param name="y"></param>
+        /// <param name="x">The first point <c>x</c>.</param>
+        /// <param name="y">The second point <c>y</c>.</param>
         /// 
         /// <returns>The SquareMahalanobis distance between x and y.</returns>
         /// 
+        /// <example>
+        ///   For examples, please see <see cref="Accord.Math.Distances.SquareMahalanobis"/> documentation page.
+        /// </example>
+        ///
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double SquareMahalanobis(double[] x, double[] y)
         {
-		    // Note: this is an auto-generated method stub that forwards the call
-			// to the actual implementation, indicated in the next line below:
+            // Note: this is an auto-generated method stub that forwards the call
+            // to the actual implementation, indicated in the next line below:
             return cacheSquareMahalanobis.Distance(x, y);
         }
 
@@ -315,18 +367,22 @@ namespace Accord.Math
         ///   Gets the RusselRao distance between two points.
         /// </summary>
         ///  
-        /// <param name="x"></param>
-        /// <param name="y"></param>
+        /// <param name="x">The first point <c>x</c>.</param>
+        /// <param name="y">The second point <c>y</c>.</param>
         /// 
         /// <returns>The RusselRao distance between x and y.</returns>
         /// 
+        /// <example>
+        ///   For examples, please see <see cref="Accord.Math.Distances.RusselRao"/> documentation page.
+        /// </example>
+        ///
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double RusselRao(int[] x, int[] y)
         {
-		    // Note: this is an auto-generated method stub that forwards the call
-			// to the actual implementation, indicated in the next line below:
+            // Note: this is an auto-generated method stub that forwards the call
+            // to the actual implementation, indicated in the next line below:
             return cacheRusselRao.Distance(x, y);
         }
 
@@ -334,18 +390,22 @@ namespace Accord.Math
         ///   Gets the RusselRao distance between two points.
         /// </summary>
         ///  
-        /// <param name="x"></param>
-        /// <param name="y"></param>
+        /// <param name="x">The first point <c>x</c>.</param>
+        /// <param name="y">The second point <c>y</c>.</param>
         /// 
         /// <returns>The RusselRao distance between x and y.</returns>
         /// 
+        /// <example>
+        ///   For examples, please see <see cref="Accord.Math.Distances.RusselRao"/> documentation page.
+        /// </example>
+        ///
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double RusselRao(double[] x, double[] y)
         {
-		    // Note: this is an auto-generated method stub that forwards the call
-			// to the actual implementation, indicated in the next line below:
+            // Note: this is an auto-generated method stub that forwards the call
+            // to the actual implementation, indicated in the next line below:
             return cacheRusselRao.Distance(x, y);
         }
 
@@ -356,18 +416,22 @@ namespace Accord.Math
         ///   Gets the Chebyshev distance between two points.
         /// </summary>
         ///  
-        /// <param name="x"></param>
-        /// <param name="y"></param>
+        /// <param name="x">The first point <c>x</c>.</param>
+        /// <param name="y">The second point <c>y</c>.</param>
         /// 
         /// <returns>The Chebyshev distance between x and y.</returns>
         /// 
+        /// <example>
+        ///   For examples, please see <see cref="Accord.Math.Distances.Chebyshev"/> documentation page.
+        /// </example>
+        ///
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Chebyshev(double[] x, double[] y)
         {
-		    // Note: this is an auto-generated method stub that forwards the call
-			// to the actual implementation, indicated in the next line below:
+            // Note: this is an auto-generated method stub that forwards the call
+            // to the actual implementation, indicated in the next line below:
             return cacheChebyshev.Distance(x, y);
         }
 
@@ -378,18 +442,22 @@ namespace Accord.Math
         ///   Gets the Dice distance between two points.
         /// </summary>
         ///  
-        /// <param name="x"></param>
-        /// <param name="y"></param>
+        /// <param name="x">The first point <c>x</c>.</param>
+        /// <param name="y">The second point <c>y</c>.</param>
         /// 
         /// <returns>The Dice distance between x and y.</returns>
         /// 
+        /// <example>
+        ///   For examples, please see <see cref="Accord.Math.Distances.Dice"/> documentation page.
+        /// </example>
+        ///
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Dice(int[] x, int[] y)
         {
-		    // Note: this is an auto-generated method stub that forwards the call
-			// to the actual implementation, indicated in the next line below:
+            // Note: this is an auto-generated method stub that forwards the call
+            // to the actual implementation, indicated in the next line below:
             return cacheDice.Distance(x, y);
         }
 
@@ -397,18 +465,22 @@ namespace Accord.Math
         ///   Gets the Dice distance between two points.
         /// </summary>
         ///  
-        /// <param name="x"></param>
-        /// <param name="y"></param>
+        /// <param name="x">The first point <c>x</c>.</param>
+        /// <param name="y">The second point <c>y</c>.</param>
         /// 
         /// <returns>The Dice distance between x and y.</returns>
         /// 
+        /// <example>
+        ///   For examples, please see <see cref="Accord.Math.Distances.Dice"/> documentation page.
+        /// </example>
+        ///
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Dice(double[] x, double[] y)
         {
-		    // Note: this is an auto-generated method stub that forwards the call
-			// to the actual implementation, indicated in the next line below:
+            // Note: this is an auto-generated method stub that forwards the call
+            // to the actual implementation, indicated in the next line below:
             return cacheDice.Distance(x, y);
         }
 
@@ -419,18 +491,22 @@ namespace Accord.Math
         ///   Gets the SokalMichener distance between two points.
         /// </summary>
         ///  
-        /// <param name="x"></param>
-        /// <param name="y"></param>
+        /// <param name="x">The first point <c>x</c>.</param>
+        /// <param name="y">The second point <c>y</c>.</param>
         /// 
         /// <returns>The SokalMichener distance between x and y.</returns>
         /// 
+        /// <example>
+        ///   For examples, please see <see cref="Accord.Math.Distances.SokalMichener"/> documentation page.
+        /// </example>
+        ///
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double SokalMichener(int[] x, int[] y)
         {
-		    // Note: this is an auto-generated method stub that forwards the call
-			// to the actual implementation, indicated in the next line below:
+            // Note: this is an auto-generated method stub that forwards the call
+            // to the actual implementation, indicated in the next line below:
             return cacheSokalMichener.Distance(x, y);
         }
 
@@ -438,18 +514,22 @@ namespace Accord.Math
         ///   Gets the SokalMichener distance between two points.
         /// </summary>
         ///  
-        /// <param name="x"></param>
-        /// <param name="y"></param>
+        /// <param name="x">The first point <c>x</c>.</param>
+        /// <param name="y">The second point <c>y</c>.</param>
         /// 
         /// <returns>The SokalMichener distance between x and y.</returns>
         /// 
+        /// <example>
+        ///   For examples, please see <see cref="Accord.Math.Distances.SokalMichener"/> documentation page.
+        /// </example>
+        ///
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double SokalMichener(double[] x, double[] y)
         {
-		    // Note: this is an auto-generated method stub that forwards the call
-			// to the actual implementation, indicated in the next line below:
+            // Note: this is an auto-generated method stub that forwards the call
+            // to the actual implementation, indicated in the next line below:
             return cacheSokalMichener.Distance(x, y);
         }
 
@@ -460,19 +540,23 @@ namespace Accord.Math
         ///   Gets the WeightedEuclidean distance between two points.
         /// </summary>
         ///  
-        /// <param name="x"></param>
-        /// <param name="y"></param>
+        /// <param name="x">The first point <c>x</c>.</param>
+        /// <param name="y">The second point <c>y</c>.</param>
         /// <param name="dimensions"></param>
         /// 
         /// <returns>The WeightedEuclidean distance between x and y.</returns>
         /// 
+        /// <example>
+        ///   For examples, please see <see cref="Accord.Math.Distances.WeightedEuclidean"/> documentation page.
+        /// </example>
+        ///
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double WeightedEuclidean(double[] x, double[] y, int dimensions)
         {
-		    // Note: this is an auto-generated method stub that forwards the call
-			// to the actual implementation, indicated in the next line below:
+            // Note: this is an auto-generated method stub that forwards the call
+            // to the actual implementation, indicated in the next line below:
             return new WeightedEuclidean(dimensions).Distance(x, y);
         }
 
@@ -480,19 +564,23 @@ namespace Accord.Math
         ///   Gets the WeightedEuclidean distance between two points.
         /// </summary>
         ///  
-        /// <param name="x"></param>
-        /// <param name="y"></param>
+        /// <param name="x">The first point <c>x</c>.</param>
+        /// <param name="y">The second point <c>y</c>.</param>
         /// <param name="weights"></param>
         /// 
         /// <returns>The WeightedEuclidean distance between x and y.</returns>
         /// 
+        /// <example>
+        ///   For examples, please see <see cref="Accord.Math.Distances.WeightedEuclidean"/> documentation page.
+        /// </example>
+        ///
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double WeightedEuclidean(double[] x, double[] y, double[] weights)
         {
-		    // Note: this is an auto-generated method stub that forwards the call
-			// to the actual implementation, indicated in the next line below:
+            // Note: this is an auto-generated method stub that forwards the call
+            // to the actual implementation, indicated in the next line below:
             return new WeightedEuclidean(weights).Distance(x, y);
         }
 
@@ -500,18 +588,22 @@ namespace Accord.Math
         ///   Gets the WeightedEuclidean distance between two points.
         /// </summary>
         ///  
-        /// <param name="x"></param>
-        /// <param name="y"></param>
+        /// <param name="x">The first point <c>x</c>.</param>
+        /// <param name="y">The second point <c>y</c>.</param>
         /// 
         /// <returns>The WeightedEuclidean distance between x and y.</returns>
         /// 
+        /// <example>
+        ///   For examples, please see <see cref="Accord.Math.Distances.WeightedEuclidean"/> documentation page.
+        /// </example>
+        ///
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double WeightedEuclidean(double[] x, double[] y)
         {
-		    // Note: this is an auto-generated method stub that forwards the call
-			// to the actual implementation, indicated in the next line below:
+            // Note: this is an auto-generated method stub that forwards the call
+            // to the actual implementation, indicated in the next line below:
             return cacheWeightedEuclidean.Distance(x, y);
         }
 
@@ -522,18 +614,22 @@ namespace Accord.Math
         ///   Gets the Angular distance between two points.
         /// </summary>
         ///  
-        /// <param name="x"></param>
-        /// <param name="y"></param>
+        /// <param name="x">The first point <c>x</c>.</param>
+        /// <param name="y">The second point <c>y</c>.</param>
         /// 
         /// <returns>The Angular distance between x and y.</returns>
         /// 
+        /// <example>
+        ///   For examples, please see <see cref="Accord.Math.Distances.Angular"/> documentation page.
+        /// </example>
+        ///
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Angular(double[] x, double[] y)
         {
-		    // Note: this is an auto-generated method stub that forwards the call
-			// to the actual implementation, indicated in the next line below:
+            // Note: this is an auto-generated method stub that forwards the call
+            // to the actual implementation, indicated in the next line below:
             return cacheAngular.Distance(x, y);
         }
 
@@ -544,18 +640,22 @@ namespace Accord.Math
         ///   Gets the SquareEuclidean distance between two points.
         /// </summary>
         ///  
-        /// <param name="x"></param>
-        /// <param name="y"></param>
+        /// <param name="x">The first point <c>x</c>.</param>
+        /// <param name="y">The second point <c>y</c>.</param>
         /// 
         /// <returns>The SquareEuclidean distance between x and y.</returns>
         /// 
+        /// <example>
+        ///   For examples, please see <see cref="Accord.Math.Distances.SquareEuclidean"/> documentation page.
+        /// </example>
+        ///
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double SquareEuclidean(double[] x, double[] y)
         {
-		    // Note: this is an auto-generated method stub that forwards the call
-			// to the actual implementation, indicated in the next line below:
+            // Note: this is an auto-generated method stub that forwards the call
+            // to the actual implementation, indicated in the next line below:
             return cacheSquareEuclidean.Distance(x, y);
         }
 
@@ -563,18 +663,22 @@ namespace Accord.Math
         ///   Gets the SquareEuclidean distance between two points.
         /// </summary>
         ///  
-        /// <param name="x"></param>
-        /// <param name="y"></param>
+        /// <param name="x">The first point <c>x</c>.</param>
+        /// <param name="y">The second point <c>y</c>.</param>
         /// 
         /// <returns>The SquareEuclidean distance between x and y.</returns>
         /// 
+        /// <example>
+        ///   For examples, please see <see cref="Accord.Math.Distances.SquareEuclidean"/> documentation page.
+        /// </example>
+        ///
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double SquareEuclidean(double x, double y)
         {
-		    // Note: this is an auto-generated method stub that forwards the call
-			// to the actual implementation, indicated in the next line below:
+            // Note: this is an auto-generated method stub that forwards the call
+            // to the actual implementation, indicated in the next line below:
             return cacheSquareEuclidean.Distance(x, y);
         }
 
@@ -582,18 +686,22 @@ namespace Accord.Math
         ///   Gets the SquareEuclidean distance between two points.
         /// </summary>
         ///  
-        /// <param name="x"></param>
-        /// <param name="y"></param>
+        /// <param name="x">The first point <c>x</c>.</param>
+        /// <param name="y">The second point <c>y</c>.</param>
         /// 
         /// <returns>The SquareEuclidean distance between x and y.</returns>
         /// 
+        /// <example>
+        ///   For examples, please see <see cref="Accord.Math.Distances.SquareEuclidean"/> documentation page.
+        /// </example>
+        ///
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double SquareEuclidean(Sparse<double> x, Sparse<double> y)
         {
-		    // Note: this is an auto-generated method stub that forwards the call
-			// to the actual implementation, indicated in the next line below:
+            // Note: this is an auto-generated method stub that forwards the call
+            // to the actual implementation, indicated in the next line below:
             return cacheSquareEuclidean.Distance(x, y);
         }
 
@@ -608,13 +716,17 @@ namespace Accord.Math
         /// 
         /// <returns>The SquareEuclidean distance between x and y.</returns>
         /// 
+        /// <example>
+        ///   For examples, please see <see cref="Accord.Math.Distances.SquareEuclidean"/> documentation page.
+        /// </example>
+        ///
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double SquareEuclidean(double x1, double y1, double x2, double y2)
         {
-		    // Note: this is an auto-generated method stub that forwards the call
-			// to the actual implementation, indicated in the next line below:
+            // Note: this is an auto-generated method stub that forwards the call
+            // to the actual implementation, indicated in the next line below:
             return cacheSquareEuclidean.Distance(x1, y1, x2, y2);
         }
 
@@ -625,18 +737,22 @@ namespace Accord.Math
         ///   Gets the Hamming distance between two points.
         /// </summary>
         ///  
-        /// <param name="x"></param>
-        /// <param name="y"></param>
+        /// <param name="x">The first point <c>x</c>.</param>
+        /// <param name="y">The second point <c>y</c>.</param>
         /// 
         /// <returns>The Hamming distance between x and y.</returns>
         /// 
+        /// <example>
+        ///   For examples, please see <see cref="Accord.Math.Distances.Hamming"/> documentation page.
+        /// </example>
+        ///
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Hamming(byte[] x, byte[] y)
         {
-		    // Note: this is an auto-generated method stub that forwards the call
-			// to the actual implementation, indicated in the next line below:
+            // Note: this is an auto-generated method stub that forwards the call
+            // to the actual implementation, indicated in the next line below:
             return cacheHamming.Distance(x, y);
         }
 
@@ -644,18 +760,22 @@ namespace Accord.Math
         ///   Gets the Hamming distance between two points.
         /// </summary>
         ///  
-        /// <param name="x"></param>
-        /// <param name="y"></param>
+        /// <param name="x">The first point <c>x</c>.</param>
+        /// <param name="y">The second point <c>y</c>.</param>
         /// 
         /// <returns>The Hamming distance between x and y.</returns>
         /// 
+        /// <example>
+        ///   For examples, please see <see cref="Accord.Math.Distances.Hamming"/> documentation page.
+        /// </example>
+        ///
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Hamming(string x, string y)
         {
-		    // Note: this is an auto-generated method stub that forwards the call
-			// to the actual implementation, indicated in the next line below:
+            // Note: this is an auto-generated method stub that forwards the call
+            // to the actual implementation, indicated in the next line below:
             return cacheHamming.Distance(x, y);
         }
 
@@ -663,18 +783,22 @@ namespace Accord.Math
         ///   Gets the Hamming distance between two points.
         /// </summary>
         ///  
-        /// <param name="x"></param>
-        /// <param name="y"></param>
+        /// <param name="x">The first point <c>x</c>.</param>
+        /// <param name="y">The second point <c>y</c>.</param>
         /// 
         /// <returns>The Hamming distance between x and y.</returns>
         /// 
+        /// <example>
+        ///   For examples, please see <see cref="Accord.Math.Distances.Hamming"/> documentation page.
+        /// </example>
+        ///
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Hamming(double[] x, double[] y)
         {
-		    // Note: this is an auto-generated method stub that forwards the call
-			// to the actual implementation, indicated in the next line below:
+            // Note: this is an auto-generated method stub that forwards the call
+            // to the actual implementation, indicated in the next line below:
             return cacheHamming.Distance(x, y);
         }
 
@@ -682,18 +806,22 @@ namespace Accord.Math
         ///   Gets the Hamming distance between two points.
         /// </summary>
         ///  
-        /// <param name="x"></param>
-        /// <param name="y"></param>
+        /// <param name="x">The first point <c>x</c>.</param>
+        /// <param name="y">The second point <c>y</c>.</param>
         /// 
         /// <returns>The Hamming distance between x and y.</returns>
         /// 
+        /// <example>
+        ///   For examples, please see <see cref="Accord.Math.Distances.Hamming"/> documentation page.
+        /// </example>
+        ///
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Hamming(BitArray x, BitArray y)
         {
-		    // Note: this is an auto-generated method stub that forwards the call
-			// to the actual implementation, indicated in the next line below:
+            // Note: this is an auto-generated method stub that forwards the call
+            // to the actual implementation, indicated in the next line below:
             return cacheHamming.Distance(x, y);
         }
 
@@ -704,18 +832,22 @@ namespace Accord.Math
         ///   Gets the ArgMax distance between two points.
         /// </summary>
         ///  
-        /// <param name="x"></param>
-        /// <param name="y"></param>
+        /// <param name="x">The first point <c>x</c>.</param>
+        /// <param name="y">The second point <c>y</c>.</param>
         /// 
         /// <returns>The ArgMax distance between x and y.</returns>
         /// 
+        /// <example>
+        ///   For examples, please see <see cref="Accord.Math.Distances.ArgMax"/> documentation page.
+        /// </example>
+        ///
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double ArgMax(double[] x, double[] y)
         {
-		    // Note: this is an auto-generated method stub that forwards the call
-			// to the actual implementation, indicated in the next line below:
+            // Note: this is an auto-generated method stub that forwards the call
+            // to the actual implementation, indicated in the next line below:
             return cacheArgMax.Distance(x, y);
         }
 
@@ -726,19 +858,23 @@ namespace Accord.Math
         ///   Gets the Modular distance between two points.
         /// </summary>
         ///  
-        /// <param name="x"></param>
-        /// <param name="y"></param>
+        /// <param name="x">The first point <c>x</c>.</param>
+        /// <param name="y">The second point <c>y</c>.</param>
         /// <param name="modulo"></param>
         /// 
         /// <returns>The Modular distance between x and y.</returns>
         /// 
+        /// <example>
+        ///   For examples, please see <see cref="Accord.Math.Distances.Modular"/> documentation page.
+        /// </example>
+        ///
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Modular(double x, double y, int modulo)
         {
-		    // Note: this is an auto-generated method stub that forwards the call
-			// to the actual implementation, indicated in the next line below:
+            // Note: this is an auto-generated method stub that forwards the call
+            // to the actual implementation, indicated in the next line below:
             return new Modular(modulo).Distance(x, y);
         }
 
@@ -746,19 +882,23 @@ namespace Accord.Math
         ///   Gets the Modular distance between two points.
         /// </summary>
         ///  
-        /// <param name="x"></param>
-        /// <param name="y"></param>
+        /// <param name="x">The first point <c>x</c>.</param>
+        /// <param name="y">The second point <c>y</c>.</param>
         /// <param name="modulo"></param>
         /// 
         /// <returns>The Modular distance between x and y.</returns>
         /// 
+        /// <example>
+        ///   For examples, please see <see cref="Accord.Math.Distances.Modular"/> documentation page.
+        /// </example>
+        ///
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Modular(int x, int y, int modulo)
         {
-		    // Note: this is an auto-generated method stub that forwards the call
-			// to the actual implementation, indicated in the next line below:
+            // Note: this is an auto-generated method stub that forwards the call
+            // to the actual implementation, indicated in the next line below:
             return new Modular(modulo).Distance(x, y);
         }
 
@@ -766,18 +906,22 @@ namespace Accord.Math
         ///   Gets the Modular distance between two points.
         /// </summary>
         ///  
-        /// <param name="x"></param>
-        /// <param name="y"></param>
+        /// <param name="x">The first point <c>x</c>.</param>
+        /// <param name="y">The second point <c>y</c>.</param>
         /// 
         /// <returns>The Modular distance between x and y.</returns>
         /// 
+        /// <example>
+        ///   For examples, please see <see cref="Accord.Math.Distances.Modular"/> documentation page.
+        /// </example>
+        ///
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Modular(double x, double y)
         {
-		    // Note: this is an auto-generated method stub that forwards the call
-			// to the actual implementation, indicated in the next line below:
+            // Note: this is an auto-generated method stub that forwards the call
+            // to the actual implementation, indicated in the next line below:
             return cacheModular.Distance(x, y);
         }
 
@@ -785,18 +929,22 @@ namespace Accord.Math
         ///   Gets the Modular distance between two points.
         /// </summary>
         ///  
-        /// <param name="x"></param>
-        /// <param name="y"></param>
+        /// <param name="x">The first point <c>x</c>.</param>
+        /// <param name="y">The second point <c>y</c>.</param>
         /// 
         /// <returns>The Modular distance between x and y.</returns>
         /// 
+        /// <example>
+        ///   For examples, please see <see cref="Accord.Math.Distances.Modular"/> documentation page.
+        /// </example>
+        ///
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Modular(int x, int y)
         {
-		    // Note: this is an auto-generated method stub that forwards the call
-			// to the actual implementation, indicated in the next line below:
+            // Note: this is an auto-generated method stub that forwards the call
+            // to the actual implementation, indicated in the next line below:
             return cacheModular.Distance(x, y);
         }
 
@@ -807,18 +955,22 @@ namespace Accord.Math
         ///   Gets the Cosine distance between two points.
         /// </summary>
         ///  
-        /// <param name="x"></param>
-        /// <param name="y"></param>
+        /// <param name="x">The first point <c>x</c>.</param>
+        /// <param name="y">The second point <c>y</c>.</param>
         /// 
         /// <returns>The Cosine distance between x and y.</returns>
         /// 
+        /// <example>
+        ///   For examples, please see <see cref="Accord.Math.Distances.Cosine"/> documentation page.
+        /// </example>
+        ///
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Cosine(double[] x, double[] y)
         {
-		    // Note: this is an auto-generated method stub that forwards the call
-			// to the actual implementation, indicated in the next line below:
+            // Note: this is an auto-generated method stub that forwards the call
+            // to the actual implementation, indicated in the next line below:
             return cacheCosine.Distance(x, y);
         }
 
@@ -829,19 +981,23 @@ namespace Accord.Math
         ///   Gets the Mahalanobis distance between two points.
         /// </summary>
         ///  
-        /// <param name="x"></param>
-        /// <param name="y"></param>
+        /// <param name="x">The first point <c>x</c>.</param>
+        /// <param name="y">The second point <c>y</c>.</param>
         /// <param name="chol"></param>
         /// 
         /// <returns>The Mahalanobis distance between x and y.</returns>
         /// 
+        /// <example>
+        ///   For examples, please see <see cref="Accord.Math.Distances.Mahalanobis"/> documentation page.
+        /// </example>
+        ///
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Mahalanobis(double[] x, double[] y, CholeskyDecomposition chol)
         {
-		    // Note: this is an auto-generated method stub that forwards the call
-			// to the actual implementation, indicated in the next line below:
+            // Note: this is an auto-generated method stub that forwards the call
+            // to the actual implementation, indicated in the next line below:
             return new Mahalanobis(chol).Distance(x, y);
         }
 
@@ -849,19 +1005,23 @@ namespace Accord.Math
         ///   Gets the Mahalanobis distance between two points.
         /// </summary>
         ///  
-        /// <param name="x"></param>
-        /// <param name="y"></param>
+        /// <param name="x">The first point <c>x</c>.</param>
+        /// <param name="y">The second point <c>y</c>.</param>
         /// <param name="svd"></param>
         /// 
         /// <returns>The Mahalanobis distance between x and y.</returns>
         /// 
+        /// <example>
+        ///   For examples, please see <see cref="Accord.Math.Distances.Mahalanobis"/> documentation page.
+        /// </example>
+        ///
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Mahalanobis(double[] x, double[] y, SingularValueDecomposition svd)
         {
-		    // Note: this is an auto-generated method stub that forwards the call
-			// to the actual implementation, indicated in the next line below:
+            // Note: this is an auto-generated method stub that forwards the call
+            // to the actual implementation, indicated in the next line below:
             return new Mahalanobis(svd).Distance(x, y);
         }
 
@@ -869,19 +1029,23 @@ namespace Accord.Math
         ///   Gets the Mahalanobis distance between two points.
         /// </summary>
         ///  
-        /// <param name="x"></param>
-        /// <param name="y"></param>
+        /// <param name="x">The first point <c>x</c>.</param>
+        /// <param name="y">The second point <c>y</c>.</param>
         /// <param name="precision"></param>
         /// 
         /// <returns>The Mahalanobis distance between x and y.</returns>
         /// 
+        /// <example>
+        ///   For examples, please see <see cref="Accord.Math.Distances.Mahalanobis"/> documentation page.
+        /// </example>
+        ///
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Mahalanobis(double[] x, double[] y, double[,] precision)
         {
-		    // Note: this is an auto-generated method stub that forwards the call
-			// to the actual implementation, indicated in the next line below:
+            // Note: this is an auto-generated method stub that forwards the call
+            // to the actual implementation, indicated in the next line below:
             return new Mahalanobis(precision).Distance(x, y);
         }
 
@@ -889,18 +1053,22 @@ namespace Accord.Math
         ///   Gets the Mahalanobis distance between two points.
         /// </summary>
         ///  
-        /// <param name="x"></param>
-        /// <param name="y"></param>
+        /// <param name="x">The first point <c>x</c>.</param>
+        /// <param name="y">The second point <c>y</c>.</param>
         /// 
         /// <returns>The Mahalanobis distance between x and y.</returns>
         /// 
+        /// <example>
+        ///   For examples, please see <see cref="Accord.Math.Distances.Mahalanobis"/> documentation page.
+        /// </example>
+        ///
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Mahalanobis(double[] x, double[] y)
         {
-		    // Note: this is an auto-generated method stub that forwards the call
-			// to the actual implementation, indicated in the next line below:
+            // Note: this is an auto-generated method stub that forwards the call
+            // to the actual implementation, indicated in the next line below:
             return cacheMahalanobis.Distance(x, y);
         }
 
@@ -911,18 +1079,22 @@ namespace Accord.Math
         ///   Gets the BrayCurtis distance between two points.
         /// </summary>
         ///  
-        /// <param name="x"></param>
-        /// <param name="y"></param>
+        /// <param name="x">The first point <c>x</c>.</param>
+        /// <param name="y">The second point <c>y</c>.</param>
         /// 
         /// <returns>The BrayCurtis distance between x and y.</returns>
         /// 
+        /// <example>
+        ///   For examples, please see <see cref="Accord.Math.Distances.BrayCurtis"/> documentation page.
+        /// </example>
+        ///
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double BrayCurtis(double[] x, double[] y)
         {
-		    // Note: this is an auto-generated method stub that forwards the call
-			// to the actual implementation, indicated in the next line below:
+            // Note: this is an auto-generated method stub that forwards the call
+            // to the actual implementation, indicated in the next line below:
             return cacheBrayCurtis.Distance(x, y);
         }
 
@@ -933,19 +1105,23 @@ namespace Accord.Math
         ///   Gets the Minkowski distance between two points.
         /// </summary>
         ///  
-        /// <param name="x"></param>
-        /// <param name="y"></param>
+        /// <param name="x">The first point <c>x</c>.</param>
+        /// <param name="y">The second point <c>y</c>.</param>
         /// <param name="p"></param>
         /// 
         /// <returns>The Minkowski distance between x and y.</returns>
         /// 
+        /// <example>
+        ///   For examples, please see <see cref="Accord.Math.Distances.Minkowski"/> documentation page.
+        /// </example>
+        ///
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Minkowski(int[] x, int[] y, double p)
         {
-		    // Note: this is an auto-generated method stub that forwards the call
-			// to the actual implementation, indicated in the next line below:
+            // Note: this is an auto-generated method stub that forwards the call
+            // to the actual implementation, indicated in the next line below:
             return new Minkowski(p).Distance(x, y);
         }
 
@@ -953,19 +1129,23 @@ namespace Accord.Math
         ///   Gets the Minkowski distance between two points.
         /// </summary>
         ///  
-        /// <param name="x"></param>
-        /// <param name="y"></param>
+        /// <param name="x">The first point <c>x</c>.</param>
+        /// <param name="y">The second point <c>y</c>.</param>
         /// <param name="p"></param>
         /// 
         /// <returns>The Minkowski distance between x and y.</returns>
         /// 
+        /// <example>
+        ///   For examples, please see <see cref="Accord.Math.Distances.Minkowski"/> documentation page.
+        /// </example>
+        ///
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Minkowski(double[] x, double[] y, double p)
         {
-		    // Note: this is an auto-generated method stub that forwards the call
-			// to the actual implementation, indicated in the next line below:
+            // Note: this is an auto-generated method stub that forwards the call
+            // to the actual implementation, indicated in the next line below:
             return new Minkowski(p).Distance(x, y);
         }
 
@@ -973,18 +1153,22 @@ namespace Accord.Math
         ///   Gets the Minkowski distance between two points.
         /// </summary>
         ///  
-        /// <param name="x"></param>
-        /// <param name="y"></param>
+        /// <param name="x">The first point <c>x</c>.</param>
+        /// <param name="y">The second point <c>y</c>.</param>
         /// 
         /// <returns>The Minkowski distance between x and y.</returns>
         /// 
+        /// <example>
+        ///   For examples, please see <see cref="Accord.Math.Distances.Minkowski"/> documentation page.
+        /// </example>
+        ///
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Minkowski(int[] x, int[] y)
         {
-		    // Note: this is an auto-generated method stub that forwards the call
-			// to the actual implementation, indicated in the next line below:
+            // Note: this is an auto-generated method stub that forwards the call
+            // to the actual implementation, indicated in the next line below:
             return cacheMinkowski.Distance(x, y);
         }
 
@@ -992,18 +1176,22 @@ namespace Accord.Math
         ///   Gets the Minkowski distance between two points.
         /// </summary>
         ///  
-        /// <param name="x"></param>
-        /// <param name="y"></param>
+        /// <param name="x">The first point <c>x</c>.</param>
+        /// <param name="y">The second point <c>y</c>.</param>
         /// 
         /// <returns>The Minkowski distance between x and y.</returns>
         /// 
+        /// <example>
+        ///   For examples, please see <see cref="Accord.Math.Distances.Minkowski"/> documentation page.
+        /// </example>
+        ///
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Minkowski(double[] x, double[] y)
         {
-		    // Note: this is an auto-generated method stub that forwards the call
-			// to the actual implementation, indicated in the next line below:
+            // Note: this is an auto-generated method stub that forwards the call
+            // to the actual implementation, indicated in the next line below:
             return cacheMinkowski.Distance(x, y);
         }
 
@@ -1014,18 +1202,22 @@ namespace Accord.Math
         ///   Gets the Levenshtein distance between two points.
         /// </summary>
         ///  
-        /// <param name="x"></param>
-        /// <param name="y"></param>
+        /// <param name="x">The first point <c>x</c>.</param>
+        /// <param name="y">The second point <c>y</c>.</param>
         /// 
         /// <returns>The Levenshtein distance between x and y.</returns>
         /// 
+        /// <example>
+        ///   For examples, please see <see cref="Accord.Math.Distances.Levenshtein"/> documentation page.
+        /// </example>
+        ///
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Levenshtein(string x, string y)
         {
-		    // Note: this is an auto-generated method stub that forwards the call
-			// to the actual implementation, indicated in the next line below:
+            // Note: this is an auto-generated method stub that forwards the call
+            // to the actual implementation, indicated in the next line below:
             return cacheLevenshtein.Distance(x, y);
         }
 
@@ -1036,18 +1228,22 @@ namespace Accord.Math
         ///   Gets the SokalSneath distance between two points.
         /// </summary>
         ///  
-        /// <param name="x"></param>
-        /// <param name="y"></param>
+        /// <param name="x">The first point <c>x</c>.</param>
+        /// <param name="y">The second point <c>y</c>.</param>
         /// 
         /// <returns>The SokalSneath distance between x and y.</returns>
         /// 
+        /// <example>
+        ///   For examples, please see <see cref="Accord.Math.Distances.SokalSneath"/> documentation page.
+        /// </example>
+        ///
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double SokalSneath(int[] x, int[] y)
         {
-		    // Note: this is an auto-generated method stub that forwards the call
-			// to the actual implementation, indicated in the next line below:
+            // Note: this is an auto-generated method stub that forwards the call
+            // to the actual implementation, indicated in the next line below:
             return cacheSokalSneath.Distance(x, y);
         }
 
@@ -1055,18 +1251,22 @@ namespace Accord.Math
         ///   Gets the SokalSneath distance between two points.
         /// </summary>
         ///  
-        /// <param name="x"></param>
-        /// <param name="y"></param>
+        /// <param name="x">The first point <c>x</c>.</param>
+        /// <param name="y">The second point <c>y</c>.</param>
         /// 
         /// <returns>The SokalSneath distance between x and y.</returns>
         /// 
+        /// <example>
+        ///   For examples, please see <see cref="Accord.Math.Distances.SokalSneath"/> documentation page.
+        /// </example>
+        ///
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double SokalSneath(double[] x, double[] y)
         {
-		    // Note: this is an auto-generated method stub that forwards the call
-			// to the actual implementation, indicated in the next line below:
+            // Note: this is an auto-generated method stub that forwards the call
+            // to the actual implementation, indicated in the next line below:
             return cacheSokalSneath.Distance(x, y);
         }
 
@@ -1077,18 +1277,22 @@ namespace Accord.Math
         ///   Gets the Matching distance between two points.
         /// </summary>
         ///  
-        /// <param name="x"></param>
-        /// <param name="y"></param>
+        /// <param name="x">The first point <c>x</c>.</param>
+        /// <param name="y">The second point <c>y</c>.</param>
         /// 
         /// <returns>The Matching distance between x and y.</returns>
         /// 
+        /// <example>
+        ///   For examples, please see <see cref="Accord.Math.Distances.Matching"/> documentation page.
+        /// </example>
+        ///
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Matching(int[] x, int[] y)
         {
-		    // Note: this is an auto-generated method stub that forwards the call
-			// to the actual implementation, indicated in the next line below:
+            // Note: this is an auto-generated method stub that forwards the call
+            // to the actual implementation, indicated in the next line below:
             return cacheMatching.Distance(x, y);
         }
 
@@ -1096,18 +1300,22 @@ namespace Accord.Math
         ///   Gets the Matching distance between two points.
         /// </summary>
         ///  
-        /// <param name="x"></param>
-        /// <param name="y"></param>
+        /// <param name="x">The first point <c>x</c>.</param>
+        /// <param name="y">The second point <c>y</c>.</param>
         /// 
         /// <returns>The Matching distance between x and y.</returns>
         /// 
+        /// <example>
+        ///   For examples, please see <see cref="Accord.Math.Distances.Matching"/> documentation page.
+        /// </example>
+        ///
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Matching(double[] x, double[] y)
         {
-		    // Note: this is an auto-generated method stub that forwards the call
-			// to the actual implementation, indicated in the next line below:
+            // Note: this is an auto-generated method stub that forwards the call
+            // to the actual implementation, indicated in the next line below:
             return cacheMatching.Distance(x, y);
         }
 
@@ -1118,18 +1326,22 @@ namespace Accord.Math
         ///   Gets the Canberra distance between two points.
         /// </summary>
         ///  
-        /// <param name="x"></param>
-        /// <param name="y"></param>
+        /// <param name="x">The first point <c>x</c>.</param>
+        /// <param name="y">The second point <c>y</c>.</param>
         /// 
         /// <returns>The Canberra distance between x and y.</returns>
         /// 
+        /// <example>
+        ///   For examples, please see <see cref="Accord.Math.Distances.Canberra"/> documentation page.
+        /// </example>
+        ///
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Canberra(double[] x, double[] y)
         {
-		    // Note: this is an auto-generated method stub that forwards the call
-			// to the actual implementation, indicated in the next line below:
+            // Note: this is an auto-generated method stub that forwards the call
+            // to the actual implementation, indicated in the next line below:
             return cacheCanberra.Distance(x, y);
         }
 
@@ -1140,18 +1352,22 @@ namespace Accord.Math
         ///   Gets the RogersTanimoto distance between two points.
         /// </summary>
         ///  
-        /// <param name="x"></param>
-        /// <param name="y"></param>
+        /// <param name="x">The first point <c>x</c>.</param>
+        /// <param name="y">The second point <c>y</c>.</param>
         /// 
         /// <returns>The RogersTanimoto distance between x and y.</returns>
         /// 
+        /// <example>
+        ///   For examples, please see <see cref="Accord.Math.Distances.RogersTanimoto"/> documentation page.
+        /// </example>
+        ///
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double RogersTanimoto(int[] x, int[] y)
         {
-		    // Note: this is an auto-generated method stub that forwards the call
-			// to the actual implementation, indicated in the next line below:
+            // Note: this is an auto-generated method stub that forwards the call
+            // to the actual implementation, indicated in the next line below:
             return cacheRogersTanimoto.Distance(x, y);
         }
 
@@ -1159,18 +1375,22 @@ namespace Accord.Math
         ///   Gets the RogersTanimoto distance between two points.
         /// </summary>
         ///  
-        /// <param name="x"></param>
-        /// <param name="y"></param>
+        /// <param name="x">The first point <c>x</c>.</param>
+        /// <param name="y">The second point <c>y</c>.</param>
         /// 
         /// <returns>The RogersTanimoto distance between x and y.</returns>
         /// 
+        /// <example>
+        ///   For examples, please see <see cref="Accord.Math.Distances.RogersTanimoto"/> documentation page.
+        /// </example>
+        ///
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double RogersTanimoto(double[] x, double[] y)
         {
-		    // Note: this is an auto-generated method stub that forwards the call
-			// to the actual implementation, indicated in the next line below:
+            // Note: this is an auto-generated method stub that forwards the call
+            // to the actual implementation, indicated in the next line below:
             return cacheRogersTanimoto.Distance(x, y);
         }
 
@@ -1181,18 +1401,22 @@ namespace Accord.Math
         ///   Gets the Manhattan distance between two points.
         /// </summary>
         ///  
-        /// <param name="x"></param>
-        /// <param name="y"></param>
+        /// <param name="x">The first point <c>x</c>.</param>
+        /// <param name="y">The second point <c>y</c>.</param>
         /// 
         /// <returns>The Manhattan distance between x and y.</returns>
         /// 
+        /// <example>
+        ///   For examples, please see <see cref="Accord.Math.Distances.Manhattan"/> documentation page.
+        /// </example>
+        ///
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Manhattan(int[] x, int[] y)
         {
-		    // Note: this is an auto-generated method stub that forwards the call
-			// to the actual implementation, indicated in the next line below:
+            // Note: this is an auto-generated method stub that forwards the call
+            // to the actual implementation, indicated in the next line below:
             return cacheManhattan.Distance(x, y);
         }
 
@@ -1200,18 +1424,22 @@ namespace Accord.Math
         ///   Gets the Manhattan distance between two points.
         /// </summary>
         ///  
-        /// <param name="x"></param>
-        /// <param name="y"></param>
+        /// <param name="x">The first point <c>x</c>.</param>
+        /// <param name="y">The second point <c>y</c>.</param>
         /// 
         /// <returns>The Manhattan distance between x and y.</returns>
         /// 
+        /// <example>
+        ///   For examples, please see <see cref="Accord.Math.Distances.Manhattan"/> documentation page.
+        /// </example>
+        ///
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Manhattan(double[] x, double[] y)
         {
-		    // Note: this is an auto-generated method stub that forwards the call
-			// to the actual implementation, indicated in the next line below:
+            // Note: this is an auto-generated method stub that forwards the call
+            // to the actual implementation, indicated in the next line below:
             return cacheManhattan.Distance(x, y);
         }
 
@@ -1222,18 +1450,22 @@ namespace Accord.Math
         ///   Gets the Kulczynski distance between two points.
         /// </summary>
         ///  
-        /// <param name="x"></param>
-        /// <param name="y"></param>
+        /// <param name="x">The first point <c>x</c>.</param>
+        /// <param name="y">The second point <c>y</c>.</param>
         /// 
         /// <returns>The Kulczynski distance between x and y.</returns>
         /// 
+        /// <example>
+        ///   For examples, please see <see cref="Accord.Math.Distances.Kulczynski"/> documentation page.
+        /// </example>
+        ///
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Kulczynski(int[] x, int[] y)
         {
-		    // Note: this is an auto-generated method stub that forwards the call
-			// to the actual implementation, indicated in the next line below:
+            // Note: this is an auto-generated method stub that forwards the call
+            // to the actual implementation, indicated in the next line below:
             return cacheKulczynski.Distance(x, y);
         }
 
@@ -1241,18 +1473,22 @@ namespace Accord.Math
         ///   Gets the Kulczynski distance between two points.
         /// </summary>
         ///  
-        /// <param name="x"></param>
-        /// <param name="y"></param>
+        /// <param name="x">The first point <c>x</c>.</param>
+        /// <param name="y">The second point <c>y</c>.</param>
         /// 
         /// <returns>The Kulczynski distance between x and y.</returns>
         /// 
+        /// <example>
+        ///   For examples, please see <see cref="Accord.Math.Distances.Kulczynski"/> documentation page.
+        /// </example>
+        ///
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double Kulczynski(double[] x, double[] y)
         {
-		    // Note: this is an auto-generated method stub that forwards the call
-			// to the actual implementation, indicated in the next line below:
+            // Note: this is an auto-generated method stub that forwards the call
+            // to the actual implementation, indicated in the next line below:
             return cacheKulczynski.Distance(x, y);
         }
 
@@ -1263,19 +1499,23 @@ namespace Accord.Math
         ///   Gets the WeightedSquareEuclidean distance between two points.
         /// </summary>
         ///  
-        /// <param name="x"></param>
-        /// <param name="y"></param>
+        /// <param name="x">The first point <c>x</c>.</param>
+        /// <param name="y">The second point <c>y</c>.</param>
         /// <param name="dimensions"></param>
         /// 
         /// <returns>The WeightedSquareEuclidean distance between x and y.</returns>
         /// 
+        /// <example>
+        ///   For examples, please see <see cref="Accord.Math.Distances.WeightedSquareEuclidean"/> documentation page.
+        /// </example>
+        ///
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double WeightedSquareEuclidean(double[] x, double[] y, int dimensions)
         {
-		    // Note: this is an auto-generated method stub that forwards the call
-			// to the actual implementation, indicated in the next line below:
+            // Note: this is an auto-generated method stub that forwards the call
+            // to the actual implementation, indicated in the next line below:
             return new WeightedSquareEuclidean(dimensions).Distance(x, y);
         }
 
@@ -1283,19 +1523,23 @@ namespace Accord.Math
         ///   Gets the WeightedSquareEuclidean distance between two points.
         /// </summary>
         ///  
-        /// <param name="x"></param>
-        /// <param name="y"></param>
+        /// <param name="x">The first point <c>x</c>.</param>
+        /// <param name="y">The second point <c>y</c>.</param>
         /// <param name="weights"></param>
         /// 
         /// <returns>The WeightedSquareEuclidean distance between x and y.</returns>
         /// 
+        /// <example>
+        ///   For examples, please see <see cref="Accord.Math.Distances.WeightedSquareEuclidean"/> documentation page.
+        /// </example>
+        ///
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double WeightedSquareEuclidean(double[] x, double[] y, double[] weights)
         {
-		    // Note: this is an auto-generated method stub that forwards the call
-			// to the actual implementation, indicated in the next line below:
+            // Note: this is an auto-generated method stub that forwards the call
+            // to the actual implementation, indicated in the next line below:
             return new WeightedSquareEuclidean(weights).Distance(x, y);
         }
 
@@ -1303,18 +1547,22 @@ namespace Accord.Math
         ///   Gets the WeightedSquareEuclidean distance between two points.
         /// </summary>
         ///  
-        /// <param name="x"></param>
-        /// <param name="y"></param>
+        /// <param name="x">The first point <c>x</c>.</param>
+        /// <param name="y">The second point <c>y</c>.</param>
         /// 
         /// <returns>The WeightedSquareEuclidean distance between x and y.</returns>
         /// 
+        /// <example>
+        ///   For examples, please see <see cref="Accord.Math.Distances.WeightedSquareEuclidean"/> documentation page.
+        /// </example>
+        ///
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double WeightedSquareEuclidean(double[] x, double[] y)
         {
-		    // Note: this is an auto-generated method stub that forwards the call
-			// to the actual implementation, indicated in the next line below:
+            // Note: this is an auto-generated method stub that forwards the call
+            // to the actual implementation, indicated in the next line below:
             return cacheWeightedSquareEuclidean.Distance(x, y);
         }
 

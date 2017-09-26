@@ -48,7 +48,7 @@ namespace Accord.Math
     using Accord;
     using Accord.Math.Distances;
     using Accord.Math.Decompositions;
-	using Accord.Compat;
+    using Accord.Compat;
 
     /// <summary>
     ///   Static class Distance. Defines a set of methods defining distance measures.
@@ -59,8 +59,8 @@ namespace Accord.Math
 <#
     foreach (KeyValuePair<string, CodeElement> pair in FindClasses("Accord.Math.Distances", "", ""))
     {
-		string name = pair.Key;
-		CodeElement cls = pair.Value;
+        string name = pair.Key;
+        CodeElement cls = pair.Value;
         if (cls.FullName.Contains("<T>"))
             continue;
 
@@ -97,13 +97,17 @@ namespace Accord.Math
 #>        /// 
         /// <returns>The <#=cls.Name#> distance between x and y.</returns>
         /// 
+        /// <example>
+        ///   For examples, please see <see cref="Accord.Math.Distances.<#=cls.Name#>"/> documentation page.
+        /// </example>
+        ///
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static double <#=cls.Name#>(<#=parameters#>)
         {
-		    // Note: this is an auto-generated method stub that forwards the call
-			// to the actual implementation, indicated in the next line below:
+            // Note: this is an auto-generated method stub that forwards the call
+            // to the actual implementation, indicated in the next line below:
 <#
                 if (String.IsNullOrEmpty(ctorParameters))
                 {
@@ -142,10 +146,10 @@ namespace Accord.Math
     {
         var methods = GetMethods(cls, cls.Name);
 
-		if (cls is CodeStruct)
-			methods.Add(null);
+        if (cls is CodeStruct)
+            methods.Add(null);
 
-		return methods;
+        return methods;
     }
 
     private List<CodeElement> GetMethods(CodeElement cls, string name)
@@ -153,11 +157,11 @@ namespace Accord.Math
         var methods = new List<CodeElement>();
         foreach (CodeElement e in cls.Children)
         {
-			string eName = e.Name;
-			vsCMElement eKind = e.Kind;
+            string eName = e.Name;
+            vsCMElement eKind = e.Kind;
 
-			if (eKind == vsCMElement.vsCMElementFunction && eName == name)
-				methods.Add(e);
+            if (eKind == vsCMElement.vsCMElementFunction && eName == name)
+                methods.Add(e);
         }
 
         return methods;
@@ -167,16 +171,24 @@ namespace Accord.Math
     {
         var list = new List<Tuple<string, string>>();
 
-		if (e != null)
-		{
-			foreach (CodeElement a in e.Children)
-			{
-				EnvDTE.CodeParameter p = a as EnvDTE.CodeParameter;
-				if (p == null)
-					continue;
-				list.Add(Tuple.Create(p.Name, p.DocComment));
-			}
-		}
+        if (e != null)
+        {
+            foreach (CodeElement a in e.Children)
+            {
+                EnvDTE.CodeParameter p = a as EnvDTE.CodeParameter;
+                if (p == null)
+                    continue;
+				string comment = p.DocComment;
+				if (String.IsNullOrEmpty(comment))
+				{	
+					if (p.Name == "x")
+						comment = "The first point <c>x</c>.";
+					else if  (p.Name == "y")
+						comment = "The second point <c>y</c>.";
+				}
+                list.Add(Tuple.Create(p.Name, comment));
+            }
+        }
 
         return list;
     }
@@ -184,24 +196,24 @@ namespace Accord.Math
     private string GetParameterString(CodeElement e, bool includeTypes)
     {
         var list = new List<string>();
-		
-		if (e != null)
-		{
-			foreach (CodeElement a in e.Children)
-			{
-				EnvDTE.CodeParameter p = a as EnvDTE.CodeParameter;
-				if (p == null)
-					continue;
+        
+        if (e != null)
+        {
+            foreach (CodeElement a in e.Children)
+            {
+                EnvDTE.CodeParameter p = a as EnvDTE.CodeParameter;
+                if (p == null)
+                    continue;
 
-				if (includeTypes)
-				{
-					var str = p.Type.AsString.Split('.');
-					list.Add(str[str.Length - 1] + " " + p.FullName);
-				}
-				else 
-					list.Add(p.FullName);
-			}
-		}
+                if (includeTypes)
+                {
+                    var str = p.Type.AsString.Split('.');
+                    list.Add(str[str.Length - 1] + " " + p.FullName);
+                }
+                else 
+                    list.Add(p.FullName);
+            }
+        }
 
         return String.Join(", ", list);
     }
@@ -242,7 +254,7 @@ namespace Accord.Math
                 CodeNamespace ns = element as CodeNamespace;
                 if (ns != null)
                 {
-					string fullName = ns.FullName;
+                    string fullName = ns.FullName;
 
                     if (fullName == searchNamespace)
                         FindClasses(ns.Members, className, baseClassName, searchNamespace, result, true);
@@ -256,8 +268,8 @@ namespace Accord.Math
                 CodeClass c = element as CodeClass;
                 if (c != null)
                 {
-					string name = c.Name;
-					string fullName = c.FullName;
+                    string name = c.Name;
+                    string fullName = c.FullName;
 
                     if (fullName.Contains(className) && (String.IsNullOrEmpty(baseClassName) || (HasIt(c.Bases, baseClassName) && name != baseClassName)))
                         result.Add(fullName, element);
@@ -266,13 +278,13 @@ namespace Accord.Math
                 }
             }
 
-			else if (element is CodeStruct && isNamespaceOk) 
+            else if (element is CodeStruct && isNamespaceOk) 
             {
                 CodeStruct c = element as CodeStruct; 
                 if (c != null)
                 {
-					string name = c.Name;
-					string fullName = c.FullName;
+                    string name = c.Name;
+                    string fullName = c.FullName;
 
                     if (fullName.Contains(className) && (String.IsNullOrEmpty(baseClassName) || (HasIt(c.Bases, baseClassName) && name != baseClassName)))
                         result.Add(fullName, element);

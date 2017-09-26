@@ -108,7 +108,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        /// Number of octaves, [1, 32].
+        /// Number of octaves, [1, 32]. Default is 4.
         /// </summary>
         /// 
         /// <remarks><para>The property sets the number of noise functions, which sum up the resulting
@@ -120,7 +120,12 @@ namespace Accord.Math
         public int Octaves
         {
             get { return octaves; }
-            set { octaves = System.Math.Max(1, System.Math.Min(32, value)); }
+            set
+            {
+                if (value < 1 || value > 32)
+                    throw new ArgumentOutOfRangeException("value", "The number of octaves must be between 1 and 32.");
+                octaves = value;
+            }
         }
 
         /// <summary>
@@ -226,7 +231,9 @@ namespace Accord.Math
             int n = x + y * 57;
             n = (n << 13) ^ n;
 
-            return (1.0 - ((n * (n * n * 15731 + 789221) + 1376312589) & 0x7fffffff) / 1073741824.0);
+            int a = unchecked((n * (n * n * 15731 + 789221) + 1376312589) & 0x7fffffff);
+
+            return (1.0 - a / 1073741824.0);
         }
 
 

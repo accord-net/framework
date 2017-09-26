@@ -82,7 +82,7 @@ namespace Accord.Statistics.Distributions
         /// 
         /// <value>The distribution's mode.</value>
         /// 
-        double Mode { get; }
+        double Mode { get; } // TODO: The mode type should be of TObservation instead of double
 
         /// <summary>
         ///   Gets entropy of the distribution.

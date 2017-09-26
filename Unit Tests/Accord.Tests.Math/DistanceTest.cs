@@ -263,17 +263,45 @@ namespace Accord.Tests.Math
         [Test]
         public void EuclideanTest1()
         {
+            #region doc_euclidean_4
+            // Let's say the coordinates of the first 2D vector are
             double x1 = 1.5;
             double y1 = -2.1;
 
+            // And then the coordinates of the second 2D vector are:
             double x2 = 4;
             double y2 = 1;
 
-            double actual = Distance.Euclidean(x1, y1, x2, y2);
+            // The euclidean distance between (x1, y1) and (x2, y2) are:
+            double a = Distance.Euclidean(x1, y1, x2, y2); // should be ~3.9824615503479754
 
-            Assert.AreEqual(3.9824615503479754, actual, 1e-10);
-            Assert.IsFalse(double.IsNaN(actual));
+            // This is equivalent to 
+            double b = Distance.Euclidean(new[] { x1, y1 }, new[] { x2, y2 });
+            #endregion
+
+            Assert.AreEqual(3.9824615503479754, a, 1e-10);
+            Assert.AreEqual(a, b);
+            Assert.IsFalse(double.IsNaN(a));
+            Assert.IsFalse(double.IsNaN(b));
         }
+
+        [Test]
+        public void CosineTest1()
+        {
+            #region doc_cosine_2
+            // The Cosine distance between (0, 2, 4) and (2, 5, 1) can be directly computed as:
+            double a = Distance.Cosine(new[] { 0.0, 2.0, 4.0 }, new[] { 2.0, 5.0, 1.0 }); // ~0.42845239335059182d
+
+            // Or could also be computed by instantiating the Cosine class beforehand as:
+            Cosine cos = new Cosine();
+            double b = cos.Distance(new[] { 0.0, 2.0, 4.0 }, new[] { 2.0, 5.0, 1.0 }); // ~0.42845239335059182d
+            #endregion
+
+            Assert.AreEqual(0.42845239335059182d, a, 1e-10);
+            Assert.AreEqual(a, b);
+        }
+
+
 
         [Test]
         public void LevenshteinTest1()

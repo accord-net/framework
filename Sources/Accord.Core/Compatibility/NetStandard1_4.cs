@@ -154,7 +154,7 @@ namespace Accord.Compat
         }
     }
 
-    internal static class CultureInfo
+    internal class CultureInfoEx
     {
         public static IFormatProvider InvariantCulture = System.Globalization.CultureInfo.InvariantCulture;
 
@@ -351,6 +351,8 @@ namespace Accord.Compat
     internal class NonSerializedAttribute : Attribute { }
 
     internal class SerializableAttribute : Attribute { }
+
+    internal class OptionalFieldAttribute : Attribute { }
 
     internal class OnDeserializedAttribute : Attribute { }
 

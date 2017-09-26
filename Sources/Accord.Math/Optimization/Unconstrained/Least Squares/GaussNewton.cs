@@ -45,7 +45,7 @@ namespace Accord.Math.Optimization
     /// <para>
     ///   While it is possible to use the <see cref="GaussNewton"/> class as a standalone
     ///   method for solving least squares problems, this class is intended to be used as
-    ///   a strategy for NonlinearLestSquares, as shown in the example below:</para>
+    ///   a strategy for NonlinearLeastSquares, as shown in the example below:</para>
     ///   <code source="Unit Tests\Accord.Tests.Statistics\Models\Regression\NonlinearLeastSquaresTest.cs" region="doc_learn_gn" lang="cs"/>
     ///   <code source="Unit Tests\Accord.Tests.Statistics.VB\Models\Regression\NonlinearLeastSquaresTest.vb" region="doc_learn_gn" lang="vb"/>
     ///   

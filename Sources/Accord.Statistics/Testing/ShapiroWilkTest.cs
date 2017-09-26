@@ -33,8 +33,23 @@ namespace Accord.Statistics.Testing
     /// 
     /// <remarks>
     /// <para>
-    ///   The Shapiro–Wilk test is a test of normality in frequentist statistics. It was published in 1965 by Samuel Sanford Shapiro and Martin Wilk.
-    /// </para>
+    ///   The Shapiro–Wilk test is a test of normality in frequentist statistics. It was 
+    ///   published in 1965 by Samuel Sanford Shapiro and Martin Wilk. The The Shapiro–Wilk 
+    ///   test tests the null hypothesis that a sample came from a normally distributed 
+    ///   population.</para>
+    ///   
+    /// <para>
+    ///   The null-hypothesis of this test is that the population is normally distributed. Thus,
+    ///   if the <see cref="HypothesisTest{T}.PValue">p-value</see> is less than the chosen 
+    ///   <see cref="HypothesisTest{T}.Size">alpha level</see>, then the null hypothesis is rejected
+    ///   and there is evidence that the data tested are not from a normally distributed population; 
+    ///   in other words, the data are not normal. On the contrary, if the p-value is greater than
+    ///   the chosen alpha level, then the null hypothesis that the data came from a normally 
+    ///   distributed population cannot be rejected (e.g., for an alpha level of 0.05, a data 
+    ///   set with a p-value of 0.02 rejects the null hypothesis that the data are from a normally
+    ///   distributed population). However, since the test is biased by sample size, the 
+    ///   test may be statistically significant from a normal distribution in any large samples. 
+    ///   Thus a Q–Q plot is required for verification in addition to the test.</para>
     /// 
     /// <para>    
     ///   References:
@@ -44,6 +59,10 @@ namespace Accord.Statistics.Testing
     ///       http://en.wikipedia.org/wiki/Shapiro%E2%80%93Wilk_test </a></description></item>
     ///   </list></para>
     /// </remarks>
+    /// 
+    /// <example>
+    ///   <code source="Unit Tests\Accord.Tests.Statistics\Testing\ShapiroWilkTestTest.cs" region="doc_test"/>
+    /// </example>
     /// 
     [Serializable]
     public class ShapiroWilkTest : HypothesisTest<ShapiroWilkDistribution>,

@@ -242,9 +242,13 @@
     <Compile Include="VectorMachines\Learning\SequentialMinimalOptimization.cs" />
     <Compile Include="VectorMachines\Learning\SupportVectorLearningHelper.cs" />
     <Compile Include="VectorMachines\Learning\SupportVectorReduction.cs" />
+    <Compile Include="VectorMachines\MulticlassSupportVectorMachine`1.cs" />
     <Compile Include="VectorMachines\MulticlassSupportVectorMachine.cs" />
+    <Compile Include="VectorMachines\MulticlassSupportVectorMachine`3.cs" />
     <Compile Include="VectorMachines\MulticlassSupportVectorMachine`2.cs" />
+    <Compile Include="VectorMachines\MultilabelSupportVectorMachine`1.cs" />
     <Compile Include="VectorMachines\MultilabelSupportVectorMachine.cs" />
+    <Compile Include="VectorMachines\MultilabelSupportVectorMachine`3.cs" />
     <Compile Include="VectorMachines\MultilabelSupportVectorMachine`2.cs" />
     <Compile Include="VectorMachines\SupportVectorMachine.cs" />
     <Compile Include="VectorMachines\SupportVectorMachine`1.cs" />

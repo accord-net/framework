@@ -29,7 +29,7 @@ namespace Accord.Math.Decompositions
 {
     using System;
     using Accord.Math;
-    using Accord.Compat;
+	using Accord.Compat;
 
     /// <summary>
     ///     Determines the eigenvalues and eigenvectors of a real square matrix.
@@ -62,6 +62,9 @@ namespace Accord.Math.Decompositions
         private Single[] ort;       // storage for nonsymmetric algorithm.
         private bool symmetric;
 
+		private int? rank;
+		private Single[][] diagonalMatrix;
+
         private const Single eps = 2 * Constants.SingleEpsilon;
 
 
@@ -75,13 +78,16 @@ namespace Accord.Math.Decompositions
         {
             get
             {
+				if (this.rank.HasValue)
+					return this.rank.Value;
+
                 Single tol = n * d[0] * eps;
 
                 int r = 0;
                 for (int i = 0; i < d.Length; i++)
                     if (d[i] > tol) r++;
 
-                return r;
+                return (int)(this.rank = r);
             }
         }
 
@@ -200,6 +206,9 @@ namespace Accord.Math.Decompositions
         {
             get
             {
+				if (this.diagonalMatrix != null)
+					return this.diagonalMatrix;
+
                 var x = new Single[n][];
                 for (int i = 0; i < n; i++)
                   x[i] = new Single[n];
@@ -220,7 +229,7 @@ namespace Accord.Math.Decompositions
                     }
                 }
 
-                return x;
+                return this.diagonalMatrix = x;
             }
         }
 

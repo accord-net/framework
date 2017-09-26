@@ -24,17 +24,17 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="..\..\Release\net35\Accord.MachineLearning.GPL.dll" target="lib\net35-unity full v3.5\Accord.MachineLearning.GPL.dll" />
-    <file src="..\..\Release\net35\Accord.MachineLearning.GPL.xml" target="lib\net35-unity full v3.5\Accord.MachineLearning.GPL.xml" />
+    <file src="..\..\Release\net35\GPL\Accord.MachineLearning.GPL.dll" target="lib\net35-unity full v3.5\Accord.MachineLearning.GPL.dll" />
+    <file src="..\..\Release\net35\GPL\Accord.MachineLearning.GPL.xml" target="lib\net35-unity full v3.5\Accord.MachineLearning.GPL.xml" />
 
-    <file src="..\..\Release\net35\Accord.MachineLearning.GPL.dll" target="lib\net35-unity subset v3.5\Accord.MachineLearning.GPL.dll" />
-    <file src="..\..\Release\net35\Accord.MachineLearning.GPL.xml" target="lib\net35-unity subset v3.5\Accord.MachineLearning.GPL.xml" />
+    <file src="..\..\Release\net35\GPL\Accord.MachineLearning.GPL.dll" target="lib\net35-unity subset v3.5\Accord.MachineLearning.GPL.dll" />
+    <file src="..\..\Release\net35\GPL\Accord.MachineLearning.GPL.xml" target="lib\net35-unity subset v3.5\Accord.MachineLearning.GPL.xml" />
 
-    <file src="..\..\Release\net35\Accord.MachineLearning.GPL.dll" target="lib\net35-unity web v3.5\Accord.MachineLearning.GPL.dll" />
-    <file src="..\..\Release\net35\Accord.MachineLearning.GPL.xml" target="lib\net35-unity web v3.5\Accord.MachineLearning.GPL.xml" />
+    <file src="..\..\Release\net35\GPL\Accord.MachineLearning.GPL.dll" target="lib\net35-unity web v3.5\Accord.MachineLearning.GPL.dll" />
+    <file src="..\..\Release\net35\GPL\Accord.MachineLearning.GPL.xml" target="lib\net35-unity web v3.5\Accord.MachineLearning.GPL.xml" />
 
-    <file src="..\..\Release\net35\Accord.MachineLearning.GPL.dll" target="lib\net35-unity micro v3.5\Accord.MachineLearning.GPL.dll" />
-    <file src="..\..\Release\net35\Accord.MachineLearning.GPL.xml" target="lib\net35-unity micro v3.5\Accord.MachineLearning.GPL.xml" />
+    <file src="..\..\Release\net35\GPL\Accord.MachineLearning.GPL.dll" target="lib\net35-unity micro v3.5\Accord.MachineLearning.GPL.dll" />
+    <file src="..\..\Release\net35\GPL\Accord.MachineLearning.GPL.xml" target="lib\net35-unity micro v3.5\Accord.MachineLearning.GPL.xml" />
 
     <file src="..\..\Release\net35\GPL\Accord.MachineLearning.GPL.dll" target="lib\net35\Accord.MachineLearning.GPL.dll" />
     <file src="..\..\Release\net35\GPL\Accord.MachineLearning.GPL.xml" target="lib\net35\Accord.MachineLearning.GPL.xml" />

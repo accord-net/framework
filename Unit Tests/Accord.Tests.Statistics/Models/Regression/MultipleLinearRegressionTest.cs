@@ -29,7 +29,7 @@ namespace Accord.Tests.Statistics
     using Accord.Tests.Statistics.Properties;
     using System.Globalization;
 #if NO_CULTURE
-    using CultureInfo = Accord.Compat.CultureInfo;
+    using CultureInfo = Accord.Compat.CultureInfoEx;
 #endif
 
     [TestFixture]

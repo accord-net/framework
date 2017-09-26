@@ -105,6 +105,10 @@ namespace Accord.Math.Distances
         /// 
         /// <returns>The Euclidean distance between x and y.</returns>
         /// 
+        /// <example>
+        ///   <code source="Unit Tests\Accord.Tests.Math\DistanceTest.cs" region="doc_euclidean_4" />
+        /// </example>
+        /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif

@@ -27,7 +27,11 @@ namespace Accord.IO
     using System.IO;
     using System.Linq;
     using Accord.Compat;
+#if NETSTANDARD
+    using ICSharpCode.SharpZipLib.Lzw;
+#else
     using ICSharpCode.SharpZipLib.LZW;
+#endif
 
     /// <summary>
     ///   Reader for UNIPEN files (such as Pendigits dataset).

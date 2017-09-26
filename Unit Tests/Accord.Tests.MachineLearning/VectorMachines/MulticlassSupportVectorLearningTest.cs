@@ -39,6 +39,7 @@ namespace Accord.Tests.MachineLearning
     using Accord.IO;
     using Accord.Tests.MachineLearning.Properties;
     using System.Data;
+    using Accord.DataSets;
 
     [TestFixture]
     public class MulticlassSupportVectorLearningTest
@@ -190,6 +191,54 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(3, path[0].Winner);
             Assert.AreEqual(3, path[1].Winner);
             Assert.AreEqual(3, path[2].Winner);
+        }
+
+        [Test]
+        public void learn_test_iris()
+        {
+            #region doc_learn_iris_confusion_matrix
+            // Generate always same random numbers
+            Accord.Math.Random.Generator.Seed = 0;
+
+            // Let's say we would like to learn a classifier for the famous Iris
+            // dataset, and measure its performance using a GeneralConfusionMatrix
+
+            // Download and load the Iris dataset
+            var iris = new Iris();
+            double[][] inputs = iris.Instances;
+            int[] outputs = iris.ClassLabels;
+
+            // Create the multi-class learning algorithm for the machine
+            var teacher = new MulticlassSupportVectorLearning<Linear>()
+            {
+                // Configure the learning algorithm to use SMO to train the
+                //  underlying SVMs in each of the binary class subproblems.
+                Learner = (param) => new SequentialMinimalOptimization<Linear>()
+                {
+                    // If you would like to use other kernels, simply replace
+                    // the generic parameter to the desired kernel class, such
+                    // as for example, Polynomial or Gaussian:
+
+                    Kernel = new Linear() // use the Linear kernel
+                }
+            };
+
+            // Estimate the multi-class support vector machine using one-vs-one method
+            MulticlassSupportVectorMachine<Linear> ovo = teacher.Learn(inputs, outputs);
+
+            // Compute classification error
+            GeneralConfusionMatrix cm = GeneralConfusionMatrix.Estimate(ovo, inputs, outputs);
+
+            double error = cm.Error;         // should be 0.066666666666666652
+            double accuracy = cm.Accuracy;   // should be 0.93333333333333335
+            double kappa = cm.Kappa;         // should be 0.9
+            double chiSquare = cm.ChiSquare; // should be 248.52216748768473
+            #endregion
+
+            Assert.AreEqual(0.066666666666666652, error);
+            Assert.AreEqual(0.93333333333333335, accuracy);
+            Assert.AreEqual(0.9, kappa);
+            Assert.AreEqual(248.52216748768473, chiSquare);
         }
 
         [Test]

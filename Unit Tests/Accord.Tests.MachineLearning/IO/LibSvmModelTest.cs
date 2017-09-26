@@ -32,7 +32,7 @@ namespace Accord.Tests.IO
     using System.Globalization;
 
 #if NO_CULTURE
-    using CultureInfo = Accord.Compat.CultureInfo;
+    using CultureInfo = Accord.Compat.CultureInfoEx;
 #endif
 
 #if NO_DEFAULT_ENCODING

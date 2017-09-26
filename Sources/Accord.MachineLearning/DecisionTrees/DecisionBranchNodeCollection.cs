@@ -138,7 +138,7 @@ namespace Accord.MachineLearning.DecisionTrees
         /// 
         public override string ToString()
         {
-            string values = String.Join(", ", this.Select(x => x.ToString()));
+            string values = String.Join(", ", this.Select(x => x.ToString()).ToArray());
             return String.Format("{0} ({1}) => {2}", this.Attribute, this.AttributeIndex, values);
         }
     }

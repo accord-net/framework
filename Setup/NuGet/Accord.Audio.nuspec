@@ -24,23 +24,23 @@
   <files>
     <file src="..\..\Release\net35\Accord.Audio.dll" target="lib\net35-unity full v3.5\Accord.Audio.dll" />
     <file src="..\..\Release\net35\Accord.Audio.xml" target="lib\net35-unity full v3.5\Accord.Audio.xml" />
-    <file src="..\..\Release\net35\Accord.Audio.Audition.dll" target="lib\net35-unity full v3.5\Accord.Audio.Audition.dll" />
-    <file src="..\..\Release\net35\Accord.Audio.Audition.xml" target="lib\net35-unity full v3.5\Accord.Audio.Audition.xml" />
+    <file src="..\..\Release\net35\Accord.Audition.dll" target="lib\net35-unity full v3.5\Accord.Audition.dll" />
+    <file src="..\..\Release\net35\Accord.Audition.xml" target="lib\net35-unity full v3.5\Accord.Audition.xml" />
 
     <file src="..\..\Release\net35\Accord.Audio.dll" target="lib\net35-unity subset v3.5\Accord.Audio.dll" />
     <file src="..\..\Release\net35\Accord.Audio.xml" target="lib\net35-unity subset v3.5\Accord.Audio.xml" />
-    <file src="..\..\Release\net35\Accord.Audio.Audition.dll" target="lib\net35-unity subset v3.5\Accord.Audio.Audition.dll" />
-    <file src="..\..\Release\net35\Accord.Audio.Audition.xml" target="lib\net35-unity subset v3.5\Accord.Audio.Audition.xml" />
+    <file src="..\..\Release\net35\Accord.Audition.dll" target="lib\net35-unity subset v3.5\Accord.Audition.dll" />
+    <file src="..\..\Release\net35\Accord.Audition.xml" target="lib\net35-unity subset v3.5\Accord.Audition.xml" />
 
     <file src="..\..\Release\net35\Accord.Audio.dll" target="lib\net35-unity web v3.5\Accord.Audio.dll" />
     <file src="..\..\Release\net35\Accord.Audio.xml" target="lib\net35-unity web v3.5\Accord.Audio.xml" />
-    <file src="..\..\Release\net35\Accord.Audio.Audition.dll" target="lib\net35-unity web v3.5\Accord.Audio.Audition.dll" />
-    <file src="..\..\Release\net35\Accord.Audio.Audition.xml" target="lib\net35-unity web v3.5\Accord.Audio.Audition.xml" />
+    <file src="..\..\Release\net35\Accord.Audition.dll" target="lib\net35-unity web v3.5\Accord.Audition.dll" />
+    <file src="..\..\Release\net35\Accord.Audition.xml" target="lib\net35-unity web v3.5\Accord.Audition.xml" />
 
     <file src="..\..\Release\net35\Accord.Audio.dll" target="lib\net35-unity micro v3.5\Accord.Audio.dll" />
     <file src="..\..\Release\net35\Accord.Audio.xml" target="lib\net35-unity micro v3.5\Accord.Audio.xml" />
-    <file src="..\..\Release\net35\Accord.Audio.Audition.dll" target="lib\net35-unity micro v3.5\Accord.Audio.Audition.dll" />
-    <file src="..\..\Release\net35\Accord.Audio.Audition.xml" target="lib\net35-unity micro v3.5\Accord.Audio.Audition.xml" />
+    <file src="..\..\Release\net35\Accord.Audition.dll" target="lib\net35-unity micro v3.5\Accord.Audition.dll" />
+    <file src="..\..\Release\net35\Accord.Audition.xml" target="lib\net35-unity micro v3.5\Accord.Audition.xml" />
 
     <file src="..\..\Release\net35\Accord.Audio.dll"    target="lib\net35\Accord.Audio.dll" />
     <file src="..\..\Release\net35\Accord.Audio.xml"    target="lib\net35\Accord.Audio.xml" />

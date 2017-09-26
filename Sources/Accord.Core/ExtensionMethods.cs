@@ -526,6 +526,7 @@ namespace Accord
             return a.CompareTo(b) <= 0;
         }
 
+#if !NETSTANDARD1_4
         /// <summary>
         ///   Gets the default value for a type. This method should serve as
         ///   a programmatic equivalent to <c>default(T)</c>.
@@ -535,10 +536,14 @@ namespace Accord
         /// 
         public static object GetDefaultValue(this Type type)
         {
+#if NETSTANDARD2_0
+            if (type.GetTypeInfo().IsValueType)
+#else
             if (type.IsValueType)
+#endif
                 return Activator.CreateInstance(type);
             return null;
         }
-
+#endif
     }
 }

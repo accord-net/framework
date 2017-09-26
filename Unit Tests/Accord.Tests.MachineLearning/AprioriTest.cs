@@ -136,8 +136,7 @@ namespace Accord.Tests.MachineLearning
                 Tuple.Create(new[] {3,4}, 3),
             };
 
-            Dictionary<SortedSet<int>, int> frequent = apriori.Frequent;
-
+            var frequent = apriori.Frequent;
 
             foreach (var tuple in expected)
             {

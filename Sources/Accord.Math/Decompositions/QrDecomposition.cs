@@ -29,10 +29,10 @@ namespace Accord.Math.Decompositions
 {
     using System;
     using Accord.Math;
-    using Accord.Compat;
+	using Accord.Compat;
 
     /// <summary>
-    ///      QR decomposition for a rectangular matrix.
+    ///   QR decomposition for a rectangular matrix.
     /// </summary>
     ///
     /// <remarks>
@@ -57,6 +57,11 @@ namespace Accord.Math.Decompositions
 
         private Double[,] qr;
         private Double[] Rdiag;
+
+		// cache for lazy evaluation
+        private bool? fullRank;
+        private Double[,] orthogonalFactor;
+        private Double[,] upperTriangularFactor;
 
         /// <summary>Constructs a QR decomposition.</summary>    
         /// <param name="value">The matrix A to be decomposed.</param>
@@ -301,10 +306,14 @@ namespace Accord.Math.Decompositions
         {
             get
             {
+				if (this.fullRank.HasValue)
+					return this.fullRank.Value;
+
                 for (int i = 0; i < p; i++)
                     if (this.Rdiag[i] == 0)
-                        return false;
-                return true;
+						return (bool)(this.fullRank = false);
+                
+				return (bool)(this.fullRank = true);
             }
         }
 
@@ -313,6 +322,9 @@ namespace Accord.Math.Decompositions
         {
             get
             {
+				if (this.upperTriangularFactor != null)
+					return this.upperTriangularFactor;
+
                 int rows = economy ? m : n;
                 var x = Matrix.Zeros<Double>(rows, p);
 
@@ -327,7 +339,7 @@ namespace Accord.Math.Decompositions
                     }
                 }
 
-                return x;
+                return this.upperTriangularFactor = x;
             }
         }
 
@@ -338,6 +350,9 @@ namespace Accord.Math.Decompositions
         {
             get
             {
+				if (this.orthogonalFactor != null)
+					return this.orthogonalFactor;
+
                 int cols = economy ? m : n;
                 var x = Matrix.Zeros<Double>(n, cols);
 
@@ -362,7 +377,7 @@ namespace Accord.Math.Decompositions
                     }
                 }
 
-                return x;
+                return this.orthogonalFactor = x;
             }
         }
 

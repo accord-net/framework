@@ -61,7 +61,7 @@ namespace Accord.Controls
             get
             {
                 if (RowIndex == -1) 
-                    return Owner.RowNames[Owner.Matrix.Classes];
+                    return Owner.RowNames[Owner.Matrix.NumberOfClasses];
                 return Owner.RowNames[RowIndex];
             }
         }
@@ -127,7 +127,7 @@ namespace Accord.Controls
         public PropertyDescriptorCollection GetProperties(Attribute[] attributes)
         {
             GeneralConfusionMatrix matrix = Owner.Matrix;
-            int classes = matrix.Classes;
+            int classes = matrix.NumberOfClasses;
 
             PropertyDescriptor[] columns = new PropertyDescriptor[classes + 1];
 
@@ -152,7 +152,7 @@ namespace Accord.Controls
             {
                 if (Owner.Proportions)
                     return 1;
-                else return Owner.Matrix.Samples;
+                else return Owner.Matrix.NumberOfSamples;
             }
 
             if (RowIndex == -1)

@@ -48,7 +48,7 @@ namespace Accord.Math
         /// 
         /// <returns>A vector containing the samples drawn from <paramref name="values"/>.</returns>
         /// 
-        public static T[] Sample<T>(T[] values, int size)
+        public static T[] Sample<T>(this T[] values, int size)
         {
             int[] idx = Vector.Sample(size, values.Length);
             System.Diagnostics.Debug.Assert(idx.Length == size);

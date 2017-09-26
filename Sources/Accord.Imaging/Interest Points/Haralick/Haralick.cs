@@ -28,6 +28,7 @@ namespace Accord.Imaging
     using System.Drawing.Imaging;
     using Accord.Imaging;
     using Accord.Imaging.Filters;
+    using Accord.Math;
 
     /// <summary>
     ///   <see cref="Haralick"/>'s operation modes.
@@ -68,6 +69,61 @@ namespace Accord.Imaging
     ///   Haralick textural feature extractor.
     /// </summary>
     /// 
+    /// <remarks>
+    /// <para>
+    ///   Haralick's texture features are based on measures derived from
+    ///   <see cref="GrayLevelCooccurrenceMatrix">Gray-level Co-occurrence 
+    ///   matrices (GLCM)</see>.</para>
+    /// <para>
+    ///   Whether considering the intensity or grayscale values of the image 
+    ///   or various dimensions of color, the co-occurrence matrix can measure
+    ///   the texture of the image. Because co-occurrence matrices are typically
+    ///   large and sparse, various metrics of the matrix are often taken to get
+    ///   a more useful set of features. Features generated using this technique
+    ///   are usually called Haralick features, after R. M. Haralick, attributed to
+    ///   his paper Textural features for image classification (1973).</para>
+    ///   
+    /// <para>
+    ///   This class can extract <see cref="HaralickDescriptor"/>s from different
+    ///   regions of an image using a pre-defined cell size. For more information
+    ///   about which features are computed, please see documentation for the
+    ///   <see cref="HaralickDescriptor"/> class.</para>
+    ///   
+    /// <para>
+    ///   References:
+    ///   <list type="bullet">
+    ///     <item><description>
+    ///       Wikipedia Contributors, "Co-occurrence matrix". Available at
+    ///       http://en.wikipedia.org/wiki/Co-occurrence_matrix </description></item>
+    ///     <item><description>
+    ///       Robert M Haralick, K Shanmugam, Its'hak Dinstein; "Textural 
+    ///       Features for Image Classification". IEEE Transactions on Systems, Man,
+    ///       and Cybernetics. SMC-3 (6): 610–621, 1973. Available at:
+    ///       <a href="http://www.makseq.com/materials/lib/Articles-Books/Filters/Texture/Co-occurrence/haralick73.pdf">
+    ///       http://www.makseq.com/materials/lib/Articles-Books/Filters/Texture/Co-occurrence/haralick73.pdf </a>
+    ///       </description></item>
+    ///   </list></para>
+    /// </remarks>
+    /// 
+    /// <example>
+    /// <para>
+    ///   The first example shows how to extract Haralick descriptors given an image.</para>
+    ///   <code source="Unit Tests\Accord.Tests.Imaging\HaralickTest.cs" region="doc_apply" />
+    ///   <para><b>Input image:</b></para>
+    ///   <img src="img/imaging/wood_texture.jpg" width="320" height="240" />
+    ///   
+    /// <para>
+    ///   The second example shows how to use the Haralick feature extractor as part of a
+    ///   Bag-of-Words model in order to perform texture image classification:</para>
+    ///   <code source="Unit Tests\Accord.Tests.Vision\Imaging\BagOfVisualWordsTest.cs" region="doc_feature_haralick" />
+    ///   <code source="Unit Tests\Accord.Tests.Vision\Imaging\BagOfVisualWordsTest.cs" region="doc_classification_feature_haralick" />
+    /// </example>
+    /// 
+    /// <seealso cref="HaralickDescriptor"/>
+    /// <seealso cref="GrayLevelCooccurrenceMatrix"/>
+    /// <seealso cref="SpeededUpRobustFeaturesDetector"/>
+    /// <seealso cref="HarrisCornersDetector"/>
+    /// 
     public class Haralick : IFeatureDetector<FeatureDescriptor>,
         IFeatureDetector<IFeatureDescriptor<double[]>>
     {
@@ -77,6 +133,8 @@ namespace Accord.Imaging
         bool autoGray = true;
         int featureCount = 13;
 
+        double epsilon = 1e-10;
+
         HashSet<CooccurrenceDegree> degrees;
         HaralickDescriptorDictionary[,] features;
         GrayLevelCooccurrenceMatrix matrix;
@@ -84,10 +142,16 @@ namespace Accord.Imaging
         HaralickMode mode = HaralickMode.NormalizedAverage;
 
         /// <summary>
-        ///   Gets the size of a cell, in pixels.
+        ///   Gets the size of a cell, in pixels. A value of 0 means the 
+        ///   cell will have the size of the image. Default is 0 (uses the 
+        ///   entire image).
         /// </summary>
         /// 
-        public int CellSize { get { return cellSize; } }
+        public int CellSize
+        {
+            get { return cellSize; }
+            set { cellSize = value; }
+        }
 
         /// <summary>
         ///   Gets the <see cref="CooccurrenceDegree"/>s which should
@@ -244,6 +308,8 @@ namespace Accord.Imaging
         /// 
         public List<double[]> ProcessImage(UnmanagedImage image)
         {
+            // TODO: Improve memory usage of this method by
+            // caching into class variables whenever possible
 
             // check image format
             if (
@@ -275,46 +341,46 @@ namespace Accord.Imaging
             int height = grayImage.Height;
 
 
-            matrix = new GrayLevelCooccurrenceMatrix(distance,
-                CooccurrenceDegree.Degree0, true, autoGray);
+            this.matrix = new GrayLevelCooccurrenceMatrix(distance,
+                CooccurrenceDegree.Degree0, normalize: true, autoGray: autoGray);
 
             if (cellSize > 0)
             {
                 int cellCountX = (int)Math.Floor(width / (double)cellSize);
                 int cellCountY = (int)Math.Floor(height / (double)cellSize);
-                features = new HaralickDescriptorDictionary[cellCountX, cellCountY];
+                this.features = new HaralickDescriptorDictionary[cellCountX, cellCountY];
 
                 // For each cell
                 for (int i = 0; i < cellCountX; i++)
                 {
                     for (int j = 0; j < cellCountY; j++)
                     {
-                        var featureDict = new HaralickDescriptorDictionary();
+                        var dict = new HaralickDescriptorDictionary();
 
-                        Rectangle region = new Rectangle(
-                            i * cellSize, j * cellSize, cellSize, cellSize);
+                        var region = new Rectangle(i * cellSize, j * cellSize, cellSize, cellSize);
 
                         foreach (CooccurrenceDegree degree in degrees)
                         {
                             matrix.Degree = degree;
                             double[,] glcm = matrix.Compute(grayImage, region);
-                            featureDict[degree] = new HaralickDescriptor(glcm);
+                            dict[degree] = new HaralickDescriptor(glcm);
                         }
 
-                        features[i, j] = featureDict;
+                        this.features[i, j] = dict;
                     }
                 }
             }
             else
             {
-                features = new HaralickDescriptorDictionary[1, 1];
-                features[0, 0] = new HaralickDescriptorDictionary();
+                var dict = new HaralickDescriptorDictionary();
                 foreach (CooccurrenceDegree degree in degrees)
                 {
                     matrix.Degree = degree;
                     double[,] glcm = matrix.Compute(grayImage);
-                    features[0, 0][degree] = new HaralickDescriptor(glcm);
+                    dict[degree] = new HaralickDescriptor(glcm);
                 }
+
+                this.features = new HaralickDescriptorDictionary[,] { {  dict } };
             }
 
             // Free some resources which wont be needed anymore
@@ -350,14 +416,10 @@ namespace Accord.Imaging
 
             if (normalize)
             {
-                var sum = new double[featureCount];
+                // TODO: Remove this block and instead propose a general architecture 
+                //       for applying normalizations to descriptor blocks
                 foreach (double[] block in blocks)
-                    for (int i = 0; i < sum.Length; i++)
-                        sum[i] += block[i];
-
-                foreach (double[] block in blocks)
-                    for (int i = 0; i < sum.Length; i++)
-                        block[i] /= sum[i];
+                    block.Divide(block.Euclidean() + epsilon, result: block);
             }
 
             return blocks;
@@ -474,8 +536,10 @@ namespace Accord.Imaging
             clone.degrees = degrees;
             clone.distance = distance;
             clone.featureCount = featureCount;
-            clone.features = (HaralickDescriptorDictionary[,])features.Clone();
-            clone.matrix = (GrayLevelCooccurrenceMatrix)matrix.Clone();
+            if (features != null)
+                clone.features = (HaralickDescriptorDictionary[,])features.Clone();
+            if (matrix != null)
+                clone.matrix = (GrayLevelCooccurrenceMatrix)matrix.Clone();
             clone.mode = mode;
             clone.normalize = normalize;
             return clone;

@@ -35,7 +35,7 @@ namespace Accord.Tests.MachineLearning
     using System.Data;
     using System.Globalization;
 #if NO_CULTURE
-    using CultureInfo = Accord.Compat.CultureInfo;
+    using CultureInfo = Accord.Compat.CultureInfoEx;
 #endif
 
     [TestFixture]

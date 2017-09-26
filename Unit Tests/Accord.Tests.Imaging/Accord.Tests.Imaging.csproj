@@ -115,6 +115,7 @@
     <Compile Include="TestUtils.cs" />
     <Compile Include="ToolsTest.cs" />
     <Compile Include="Filters\WaveletTransformTest.cs" />
+    <Compile Include="ImageTest.cs" />
     <Compile Include="UnmanagedImageTest.cs" />
   </ItemGroup>
   <ItemGroup>

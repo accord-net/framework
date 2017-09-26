@@ -101,8 +101,8 @@ namespace Accord.Statistics.Testing
         /// 
         public StuartMaxwellTest(GeneralConfusionMatrix matrix)
         {
-            int classes = matrix.Classes;
-            int samples = matrix.Samples;
+            int classes = matrix.NumberOfClasses;
+            int samples = matrix.NumberOfSamples;
 
             int df = classes - 1;
 

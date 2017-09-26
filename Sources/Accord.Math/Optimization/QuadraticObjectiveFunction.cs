@@ -368,7 +368,7 @@ namespace Accord.Math.Optimization
         {
             double[] g = Q.Dot(input);
             g.Add(d, g);
-            
+
             return g;
         }
 
