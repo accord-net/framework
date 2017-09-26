@@ -30,10 +30,23 @@ namespace Accord.Statistics.Filters
     ///   Column option collection.
     /// </summary>
     /// 
+    /// <typeparam name="TFilter">The type of the filter that this collection belongs to.</typeparam>
+    /// <typeparam name="TOptions">The type of the column options that will be used by the 
+    ///   <typeparamref name="TFilter"/> to determine how to process a particular column.</typeparam>
+    /// 
     [Serializable]
     public class ColumnOptionCollection<TOptions, TFilter> : KeyedCollection<String, TOptions>
         where TOptions : ColumnOptionsBase<TFilter>
     {
+
+        /// <summary>
+        ///   Occurs when a new <typeparamref name="TOptions"/> is being 
+        ///   added to the collection. Handlers of this event can prevent a column
+        ///   options from being added by throwing an exception.
+        /// </summary>
+        /// 
+        public event EventHandler<TOptions> AddingNew;
+
         /// <summary>
         ///   Extracts the key from the specified column options.
         /// </summary>
@@ -53,6 +66,9 @@ namespace Accord.Statistics.Filters
         /// 
         new public TOptions Add(TOptions options)
         {
+            if (AddingNew != null)
+                AddingNew(this, options);
+
             base.Add(options);
             return options;
         }

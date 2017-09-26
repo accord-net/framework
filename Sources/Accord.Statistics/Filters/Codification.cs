@@ -38,13 +38,19 @@ namespace Accord.Statistics.Filters
     public enum CodificationVariable
     {
         /// <summary>
-        ///   The variable should be codified as an ordinal variable,
-        ///   meaning they will be translated to symbols 0, 1, 2, ... n,
-        ///   where n is the total number of distinct symbols this variable
-        ///   can assume.
+        ///   Returns <see cref="Ordinal"/>.
         /// </summary>
         /// 
-        Ordinal,
+        Default = Ordinal,
+
+        /// <summary>
+        ///   The variable should be codified as an ordinal variable, meaning they will be 
+        ///   translated to symbols 0, 1, 2, ... n, where n is the total number of distinct 
+        ///   symbols this variable can assume. This is the default encoding in the 
+        ///   <see cref="Codification"/> filter.
+        /// </summary>
+        /// 
+        Ordinal = 0,
 
         /// <summary>
         ///   This variable should be codified as a 1-of-n vector by creating
@@ -53,7 +59,7 @@ namespace Accord.Statistics.Filters
         ///   as zero.
         /// </summary>
         /// 
-        Categorical,
+        Categorical = 1,
 
         /// <summary>
         ///   This variable should be codified as a 1-of-(n-1) vector by creating
@@ -63,19 +69,19 @@ namespace Accord.Statistics.Filters
         ///   a zero in every column).
         /// </summary>
         /// 
-        CategoricalWithBaseline,
+        CategoricalWithBaseline = 2,
 
         /// <summary>
         ///   This variable is continuous and should be not be codified.
         /// </summary>
         /// 
-        Continuous,
+        Continuous = 3,
 
         /// <summary>
         ///   This variable is discrete and should be not be codified.
         /// </summary>
         /// 
-        Discrete
+        Discrete = 4
     }
 
     /// <summary>
@@ -119,8 +125,7 @@ namespace Accord.Statistics.Filters
     /// 
     /// 
     /// <para>
-    ///   The following more elaborated examples show how to
-    ///   use the <see cref="Codification"/> filter without
+    ///   The following more elaborated examples show how to use the <see cref="Codification"/> filter without
     ///   necessarily handling <c>System.Data.DataTable</c>s.</para>
     ///   
     /// <code source="Unit Tests\Accord.Tests.MachineLearning\Statistics\CodificationFilterSvmTest.cs" region="doc_learn_1" />
@@ -156,7 +161,15 @@ namespace Accord.Statistics.Filters
     ///   The codification filter can also work with missing values. The example below shows how a codification codebook
     ///   can be created from a dataset that includes missing values and how to use this codebook to replace missing values
     ///   by some other representation (in the case below, replacing <c>null</c> by <c>NaN</c> double numbers.</para>
+    ///   
     ///   <code source="Unit Tests\Accord.Tests.MachineLearning\DecisionTrees\C45LearningTest.cs" region="doc_missing" />
+    ///   
+    /// <para>
+    ///   The codification can also support more advanced scenarios where it is necessary to use different categorical
+    ///   representations for different variables, such as one-hot-vectors and categorical-with-baselines, as shown
+    ///   in the example below:</para>
+    ///   
+    ///   <code source="Unit Tests\Accord.Tests.Statistics\Analysis\MultinomialLogisticRegressionAnalysisTest.cs" region="doc_learn_1" />
     /// </example>
     /// 
     /// <seealso cref="Codification{T}"/>
@@ -419,7 +432,7 @@ namespace Accord.Statistics.Filters
         public void Detect(DataTable data, string[] columns)
         {
             for (int i = 0; i < columns.Length; i++)
-                Columns.Add(new Options(columns[i], this).Learn(data));
+                this.Add(new Options(columns[i]).Learn(data));
         }
 
         /// <summary>
@@ -441,7 +454,7 @@ namespace Accord.Statistics.Filters
         /// 
         public void Detect(string columnName, string[] values)
         {
-            Columns.Add(new Options(columnName, this).Learn(values));
+            this.Add(new Options(columnName).Learn(values));
         }
 
         /// <summary>
@@ -468,7 +481,7 @@ namespace Accord.Statistics.Filters
         public void Detect(string[] columnNames, string[][] values)
         {
             for (int i = 0; i < columnNames.Length; i++)
-                Columns.Add(new Options(columnNames[i], this).Learn(values.GetColumn(i)));
+                this.Add(new Options(columnNames[i]).Learn(values.GetColumn(i)));
         }
 
 

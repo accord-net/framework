@@ -117,6 +117,96 @@ namespace Accord.Tests.Statistics
                 for (int j = 0; j < actual.Columns.Count; j++)
                     Assert.AreEqual(expected.Rows[i][j], actual.Rows[i][j]);
         }
+
+        [Test]
+        public void remapping_test()
+        {
+            // https://web.archive.org/web/20170210050820/http://www.ats.ucla.edu/stat/stata/dae/mlogit.htm
+            CsvReader reader = CsvReader.FromText(Properties.Resources.hsbdemo, hasHeaders: true);
+
+            var table = reader.ToTable();
+
+            var codification = new Codification(table);
+            codification["ses"].VariableType = CodificationVariable.CategoricalWithBaseline;
+            codification["prog"].VariableType = CodificationVariable.Categorical;
+            codification["write"].VariableType = CodificationVariable.Discrete;
+            codification["ses"].Remap("low", 0);
+            codification["ses"].Remap("middle", 1);
+            codification["prog"].Remap("academic", 0);
+            codification["prog"].Remap("general", 1);
+
+            Assert.AreEqual(CodificationVariable.Discrete, codification["write"].VariableType);
+
+            var inputs = codification.Apply(table, "write", "ses");
+            var output = codification.Apply(table, "prog");
+
+            // Get inputs
+            string[] inputNames;
+            var inputsData = inputs.ToArray(out inputNames);
+
+            // Get outputs
+            string[] outputNames;
+            var outputData = output.ToArray(out outputNames);
+
+            Assert.AreEqual(new[] { "write", "ses: middle", "ses: high" }, inputNames);
+            Assert.AreEqual(new[] { "prog: academic", "prog: general", "prog: vocation" }, outputNames);
+
+            Assert.AreEqual(new double[] { 35, 0, 0 }, inputsData[0]);
+            Assert.AreEqual(new double[] { 33, 1, 0 }, inputsData[1]);
+            Assert.AreEqual(new double[] { 39, 0, 1 }, inputsData[2]);
+
+            Assert.AreEqual(new double[] { 0, 0, 1 }, outputData[0]);
+            Assert.AreEqual(new double[] { 0, 1, 0 }, outputData[1]);
+            Assert.AreEqual(new double[] { 0, 0, 1 }, outputData[2]);
+            Assert.AreEqual(new double[] { 1, 0, 0 }, outputData[11]);
+        }
+
+        [Test]
+        public void remapping_test_new_method()
+        {
+            // https://web.archive.org/web/20170210050820/http://www.ats.ucla.edu/stat/stata/dae/mlogit.htm
+
+            // Let's download an example dataset from the web to learn a multinomial logistic regression:
+            CsvReader reader = CsvReader.FromUrl("https://raw.githubusercontent.com/rlowrance/re/master/hsbdemo.csv", hasHeaders: true);
+
+            // Let's read the CSV into a DataTable. As mentioned above, this step
+            // can help, but is not necessarily required for learning a the model:
+            DataTable table = reader.ToTable();
+
+            // We will learn a MLR regression between the following input and output fields of this table:
+            string[] inputNames = new[] { "write", "ses" };
+            string[] outputNames = new[] { "prog" };
+
+            // Now let's create a codification codebook to convert the string fields in the data 
+            // into integer symbols. This is required because the MLR model can only learn from 
+            // numeric data, so strings have to be transformed first. We can force a particular
+            // interpretation for those columns if needed, as shown in the initializer below:
+            var codification = new Codification()
+            {
+                new Codification.Options("write", CodificationVariable.Continuous),
+                new Codification.Options("ses", CodificationVariable.CategoricalWithBaseline, order: new[] { "low", "middle", "high" }),
+                new Codification.Options("prog", CodificationVariable.Categorical, order: new[] { "academic", "general" })
+            };
+
+            // Learn the codification
+            codification.Learn(table);
+
+            // Now, transform symbols into a vector representation, growing the number of inputs:
+            double[][] inputsData = codification.Transform(table, inputNames, out inputNames).ToDouble();
+            double[][] outputData = codification.Transform(table, outputNames, out outputNames).ToDouble();
+
+            Assert.AreEqual(new[] { "write", "ses: middle", "ses: high" }, inputNames);
+            Assert.AreEqual(new[] { "prog: academic", "prog: general", "prog: vocation" }, outputNames);
+
+            Assert.AreEqual(new double[] { 35, 0, 0 }, inputsData[0]);
+            Assert.AreEqual(new double[] { 33, 1, 0 }, inputsData[1]);
+            Assert.AreEqual(new double[] { 39, 0, 1 }, inputsData[2]);
+
+            Assert.AreEqual(new double[] { 0, 0, 1 }, outputData[0]);
+            Assert.AreEqual(new double[] { 0, 1, 0 }, outputData[1]);
+            Assert.AreEqual(new double[] { 0, 0, 1 }, outputData[2]);
+            Assert.AreEqual(new double[] { 1, 0, 0 }, outputData[11]);
+        }
 #endif
 
         [Test]
@@ -383,7 +473,7 @@ namespace Accord.Tests.Statistics
 
             //string str = inputs.ToCSharp();
 
-            double[][] expected = 
+            double[][] expected =
             {
                 new double[] { Double.NaN, 0, 0, 0 },
                 new double[] { Double.NaN, Double.NaN, 0, 42 },
@@ -436,7 +526,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(new[] { 3, 8 }, features.GetLength());
 
             // string t = features.ToCSharp();
-            var expected = new double[][] 
+            var expected = new double[][]
             {
                 new double[] { 0.333333333333333, 0, 0, 0.333333333333333, 0, 0, 0.5, 0 },
                 new double[] { 0, 0.333333333333333, 0, 0, 0.333333333333333, 0, 0, 0.5 },

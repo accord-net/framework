@@ -238,7 +238,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual("0", codification.Columns[0].ColumnName);
             Assert.AreEqual(3, codification.Columns[0].NumberOfSymbols);
             Assert.AreEqual(1, codification.Columns[0].NumberOfInputs);
-            Assert.AreEqual(1, codification.Columns[0].NumberOfOutputs);
+            Assert.AreEqual(3, codification.Columns[0].NumberOfOutputs);
             Assert.AreEqual(3, codification.Columns[0].NumberOfClasses);
             Assert.AreEqual(CodificationVariable.Categorical, codification.Columns[0].VariableType);
             Assert.AreEqual("1", codification.Columns[1].ColumnName);

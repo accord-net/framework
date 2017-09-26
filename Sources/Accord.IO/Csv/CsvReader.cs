@@ -147,7 +147,7 @@ namespace Accord.IO
         ///   Initializes a new instance of the CsvReader class.
         /// </summary>
         /// 
-        /// <param name="path">The path for the CSV file.</param>
+        /// <param name="stream">A <see cref="T:Stream"/> pointing to the CSV file.</param>
         /// <param name="hasHeaders"><see langword="true"/> if field names are located on the first non commented line, otherwise, <see langword="false"/>.</param>
         /// 
         public CsvReader(Stream stream, bool hasHeaders)
@@ -249,10 +249,10 @@ namespace Accord.IO
         }
 
         /// <summary>
-        ///   Creates a new CsvReader to read from a string.
+        ///   Creates a new CsvReader to read from a Web URL.
         /// </summary>
         /// 
-        /// <param name="url">The url pointing to the file in .CSV format.</param>
+        /// <param name="url">The url pointing to the .csv file.</param>
         /// <param name="hasHeaders"><see langword="true"/> if field names are located on the first non commented line, otherwise, <see langword="false"/>.</param>
         /// 
         public static CsvReader FromUrl(string url, bool hasHeaders)

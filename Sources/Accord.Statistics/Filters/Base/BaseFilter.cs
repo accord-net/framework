@@ -80,6 +80,7 @@ namespace Accord.Statistics.Filters
         protected BaseFilter()
         {
             this.Columns = new ColumnOptionCollection<TOptions, TFilter>();
+            this.Columns.AddingNew += Columns_AddingNew;
             this.Active = true;
         }
 
@@ -220,6 +221,22 @@ namespace Accord.Statistics.Filters
         public void Add(TOptions options)
         {
             this.Columns.Add(options);
+        }
+
+        private void Columns_AddingNew(object sender, TOptions e)
+        {
+            OnAddingOptions(e);
+        }
+
+        /// <summary>
+        ///   Called when a new column options definition is being added.
+        ///   Can be used to validate or modify these options beforehand.
+        /// </summary>
+        /// 
+        /// <param name="options">The column options being added.</param>
+        /// 
+        protected virtual void OnAddingOptions(TOptions options)
+        {
         }
     }
 }
