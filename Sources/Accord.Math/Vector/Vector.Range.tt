@@ -41,10 +41,29 @@ namespace Accord.Math
 <# 
     string[] types = { "int", "float", "double", "short", "byte", "sbyte", "long", "decimal", "ulong", "ushort" };
 
+	Func<string, bool> isWhole = (s) =>
+	{
+		switch (s)
+		{
+			case "int":
+			case "short":
+			case "byte":
+			case "sbyte":
+			case "long":
+			case "ulong":
+			case "ushort":
+				return true;
+			case "float":
+			case "double":
+			case "decimal":
+				return false;
+		}
+
+		throw new Exception("Unexpected type.");
+	};
+
     foreach (string i in types)
-    {
-        var s = i == "int" ? "double" : i;
-        var c = i != "decimal" ? "double" : i;
+	{
 #>
 
         /// <summary>
@@ -66,7 +85,7 @@ namespace Accord.Math
         public static <#=i#>[] Range(<#=i#> a, <#=i#> b)
         {
             if (a == b)
-                return new [] { a };
+                return new <#=i#>[] { };
 
             <#=i#>[] r;
 
@@ -80,45 +99,11 @@ namespace Accord.Math
             {
                 r = new <#=i#>[(int)(a - b)];
                 for (int i = 0; i < r.Length; i++)
-                    r[i] = (<#=i#>)(a-- - 1);
+                    r[i] = (<#=i#>)(a--);
             }
 
             return r;
         }
-
-        /// <summary>
-        ///   Creates an interval vector.
-        /// </summary>
-        /// 
-        public static <#=i#>[] Range(<#=i#> a, <#=i#> b, <#=s#> stepSize)
-        {
-            if (a == b)
-                return new [] { a };
-
-            <#=i#>[] r;
-
-            if (b > a)
-            {
-                int steps = (int)System.Math.Ceiling((b - a) / (<#=c#>)stepSize);
-                r = new <#=i#>[steps];
-                for (uint i = 0; i < r.Length; i++)
-                    r[i] = (<#=i#>)(a +  i * stepSize);
-                r[steps - 1] = (<#=i#>)(b);
-            }
-            else
-            {
-                int steps = (int)System.Math.Ceiling((a - b) / (<#=c#>)stepSize);
-                r = new <#=i#>[steps];
-                for (uint i = 0; i < r.Length; i++)
-                    r[i] = (<#=i#>)(a - i * stepSize);
-                r[steps - 1] = (<#=i#>)(b);
-            }
-
-            return r;
-        }
-
-
-
 
 		/// <summary>
         ///   Creates a range enumeration (similar to NumPy's xrange).
@@ -137,7 +122,7 @@ namespace Accord.Math
         public static IEnumerable<<#=i#>> EnumerableRange(<#=i#> a, <#=i#> b)
         {
             if (a == b)
-                yield return a;
+                yield break;
 
             if (b > a)
             {
@@ -149,68 +134,243 @@ namespace Accord.Math
             {
                 int n = (int)(a - b);
                 for (int i = 0; i < n; i++)
-                    yield return (<#=i#>)(a-- - 1);
+                    yield return (<#=i#>)(a--);
             }
         }
 
-        /// <summary>
-        ///   Creates an interval enumeration (similar to NumPy's xrange).
-        /// </summary>
-        /// 
-        public static IEnumerable<<#=i#>> EnumerableRange(<#=i#> a, <#=i#> b, <#=s#> stepSize)
-        {
-            if (a == b)
-                yield return a;
-
-            if (b > a)
-            {
-                int steps = (int)System.Math.Ceiling((b - a) / (<#=c#>)stepSize);
-                for (uint i = 0; i < steps; i++)
-                    yield return (<#=i#>)(a +  i * stepSize);
-                yield return (<#=i#>)(b);
-            }
-            else
-            {
-                int steps = (int)System.Math.Ceiling((a - b) / (<#=c#>)stepSize);
-                for (uint i = 0; i < steps; i++)
-                    yield return (<#=i#>)(a - i * stepSize);
-                yield return (<#=i#>)(b);
-            }
-        }
 <#
-    }
+		foreach (string s in types)
+		{
+			string r = i;
+			if (isWhole(i) || !isWhole(s))
+				r = s;
+			else if (!isWhole(i) || isWhole(s))
+				r = i;
+			else if (i != s)
+				continue;
 
-    string[] ranges = { "DoubleRange", "Range", "ByteRange", "IntRange" };
-    string[] rtypes = { "double", "float", "byte", "int" }; 
+			if (i == "decimal" ^ s == "decimal")
+				continue;
+			if (isWhole(i) == isWhole(s) && i != s)
+				continue;
 
-    for (int i = 0; i < ranges.Length; i++)
-    {
-        var ri = ranges[i];
-        var ti = rtypes[i];
-
-        var s = ti == "int" ? "double" : ti;
-        var c = ti != "decimal" ? "double" : ti;
+			string c = "double";
+			if (isWhole(i) && !isWhole(s))
+			{
+				c = s;
+			}
+			else if (!isWhole(i) && isWhole(s))
+			{
+				c = i;
+			}
+			else if (isWhole(i) && isWhole(s))
+			{
+				if (i != s)
+					continue;
+				c = "double";
+			}
+			else if (!isWhole(i) && !isWhole(s))
+			{
+				if (i == "decimal" || s == "decimal")
+					c = "decimal";
+			}
 #>
 
         /// <summary>
         ///   Creates an interval vector.
         /// </summary>
         /// 
-        public static <#=ti#>[] Range(this <#=ri#> range)
+        public static <#=r#>[] Range(<#=i#> a, <#=i#> b, <#=s#> stepSize)
         {
-            return Range(range.Min, range.Max);
+            if (a == b)
+                return new <#=r#>[] { };
+
+			if (stepSize == 0)
+				throw new ArgumentOutOfRangeException("stepSize", "stepSize must be different from zero.");
+
+            <#=r#>[] r;
+
+<# 
+			if (s != "ushort" && s != "ulong" && s != "byte") 
+			{
+#>
+			if (a < b)
+			{
+				if (stepSize < 0)
+					throw new ArgumentOutOfRangeException("stepSize", "If a < b, stepSize must be positive.");
+			}
+			else
+			{
+				if (stepSize > 0)
+					stepSize = (<#=s#>)(-stepSize);
+			}
+
+			int steps = (int)System.Math.Ceiling(((<#=c#>)(b - a) / (<#=c#>)stepSize));
+            r = new <#=r#>[steps];
+            for (uint i = 0; i < r.Length; i++)
+                r[i] = (<#=r#>)(a +  i * stepSize);
+<#			
+			}
+			else
+			{
+#>
+			if (a < b)
+			{
+				int steps = (int)System.Math.Ceiling(((<#=c#>)(b - a) / (<#=c#>)stepSize));
+				r = new <#=r#>[steps];
+				for (uint i = 0; i < r.Length; i++)
+					r[i] = (<#=r#>)(a +  i * stepSize);
+			}
+			else
+			{
+				int steps = (int)System.Math.Ceiling(((<#=c#>)(a - b) / (<#=c#>)stepSize));
+				r = new <#=r#>[steps];
+				for (uint i = 0; i < r.Length; i++)
+					r[i] = (<#=r#>)(a -  i * stepSize);
+			}
+<#
+			}
+#>
+
+			if (a < b)
+			{
+				if (r[r.Length - 1] > b)
+					r[r.Length - 1] = b;
+			}
+			else
+			{
+				if (r[r.Length - 1] > a)
+					r[r.Length - 1] = a;
+			}
+
+            return r;
         }
+
+        /// <summary>
+        ///   Creates an interval enumeration (similar to NumPy's xrange).
+        /// </summary>
+        /// 
+        public static IEnumerable<<#=r#>> EnumerableRange(<#=i#> a, <#=i#> b, <#=s#> stepSize)
+        {
+            if (a == b)
+                yield break;
+
+			if (stepSize == 0)
+				throw new ArgumentOutOfRangeException("stepSize", "stepSize must be different from zero.");
+
+            <#=r#> last;
+
+<# 
+			if (s != "ushort" && s != "ulong" && s != "byte") 
+			{
+#>
+			if (a < b)
+			{
+				if (stepSize < 0)
+					throw new ArgumentOutOfRangeException("stepSize", "If a < b, stepSize must be positive.");
+			}
+			else
+			{
+				if (stepSize > 0)
+					stepSize = (<#=s#>)(-stepSize);
+			}
+
+			uint steps = (uint)System.Math.Ceiling(((<#=c#>)(b - a) / (<#=c#>)stepSize)) - 1;
+            for (uint i = 0; i < steps; i++)
+                yield return (<#=r#>)(a +  i * stepSize);
+			last = (<#=r#>)(a + steps * stepSize);
+<#			
+			}
+			else
+			{
+#>
+			if (a < b)
+			{
+				uint steps = (uint)System.Math.Ceiling(((<#=c#>)(b - a) / (<#=c#>)stepSize)) - 1;
+				for (uint i = 0; i < steps; i++)
+					yield return (<#=r#>)(a +  i * stepSize);
+				last = (<#=r#>)(a + steps * stepSize);
+			}
+			else
+			{
+				uint steps = (uint)System.Math.Ceiling(((<#=c#>)(a - b) / (<#=c#>)stepSize)) - 1;
+				for (uint i = 0; i < steps; i++)
+					yield return (<#=r#>)(a -  i * stepSize);
+				last = (<#=r#>)(a - steps * stepSize);
+			}
+<#
+			}
+#>
+
+			if (a < b)
+			{
+				yield return last > b ? b : last;
+			}
+			else
+			{
+				yield return last > a ? a : last;
+			}
+        }
+<#
+		}
+	}
+
+    string[] ranges = { "DoubleRange", "Range", "ByteRange", "IntRange" };
+    string[] rtypes = { "double", "float", "byte", "int" }; 
+
+    for (int k = 0; k < ranges.Length; k++)
+    {
+        string i = ranges[k];
+        string t = rtypes[k];
+#>
 
         /// <summary>
         ///   Creates an interval vector.
         /// </summary>
         /// 
-        public static <#=ti#>[] Range(this <#=ri#> range, <#=s#> stepSize)
+        public static <#=t#>[] Range(this <#=i#> range)
+        {
+            return Range(range.Min, range.Max);
+        }
+
+<#
+		for (int j = 0; j < ranges.Length; j++)
+		{
+			string s = rtypes[j];
+
+			string r = t;
+			if (isWhole(t) && !isWhole(s))
+			{
+				r = s;
+			}
+			else if (!isWhole(t) && isWhole(s))
+			{
+				r = t;
+			}
+			else if (isWhole(t) && isWhole(s))
+			{
+				if (t != s)
+					continue;
+			}
+			else if (!isWhole(t) && !isWhole(s))
+			{
+				if (t == "decimal" || s == "decimal")
+					r = "decimal";
+				if (t == "double" || s == "double")
+					r = "double";
+			}
+#>
+        /// <summary>
+        ///   Creates an interval vector.
+        /// </summary>
+        /// 
+        public static <#=r#>[] Range(this <#=i#> range, <#=s#> stepSize)
         {
             return Range(range.Min, range.Max, stepSize);
         }
 <#
-    }
+		}
+	}
 #>
     }
 }
