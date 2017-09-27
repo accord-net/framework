@@ -446,6 +446,12 @@ namespace Accord.Statistics
         ///   the given matrix.
         /// </returns>
         /// 
+        /// <example>
+        /// <para>
+        ///   The following example shows how to compute the EW mean.</para>
+        ///   
+        /// <code source="Unit Tests\Accord.Tests.Math\Accord.Statistics\MeasuresTest.cs" region="doc_example1" />
+        /// </example>
         public static double[] ExponentialWeightedMean(this double[][] matrix, double alpha = 0)
         {
             if (matrix == null)
@@ -474,6 +480,12 @@ namespace Accord.Statistics
         ///   the given matrix.
         /// </returns>
         /// 
+        /// <example>
+        /// <para>
+        ///   The following example shows how to compute the EW mean.</para>
+        ///   
+        /// <code source="Unit Tests\Accord.Tests.Math\Accord.Statistics\MeasuresTest.cs" region="doc_example1" />
+        /// </example>
         public static double[] ExponentialWeightedMean(this double[][] matrix, int window, double alpha = 0)
         {
             // Perform some basic error validation
@@ -516,6 +528,12 @@ namespace Accord.Statistics
         ///   the given matrix.
         /// </returns>
         /// 
+        /// <example>
+        /// <para>
+        ///   The following example shows how to compute the EW covariance matrix.</para>
+        ///   
+        /// <code source="Unit Tests\Accord.Tests.Math\Accord.Statistics\MeasuresTest.cs" region="doc_example2" />
+        /// </example>
         public static double[,] ExponentialWeightedCovariance(
             this double[][] matrix, double alpha = 0, bool bias = true)
         {
@@ -546,6 +564,12 @@ namespace Accord.Statistics
         ///   the given matrix.
         /// </returns>
         /// 
+        /// <example>
+        /// <para>
+        ///   The following example shows how to compute the EW covariance matrix.</para>
+        ///   
+        /// <code source="Unit Tests\Accord.Tests.Math\Accord.Statistics\MeasuresTest.cs" region="doc_example2" />
+        /// </example>
         public static double[,] ExponentialWeightedCovariance(
             this double[][] matrix, int window, double alpha = 0, bool bias = true)
         {

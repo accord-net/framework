@@ -46,6 +46,81 @@ namespace Accord.Tests.Statistics
         }
 
         [Test]
+        public void EwmaWindowTest()
+        {
+            #region doc_example1
+            /*
+            Suppose we have a time series of (possibly correlated) observations. Our 
+            sample has 14 observations in 2 variables (x and y). We wish to compute 
+            the mean of our series but would like to provide a heavier weighting to 
+            the more recent observations. First, arrange the observations in rows 
+            with the oldest data at the top and the newest data at the bottom. */
+            double[,] rawData =
+            {
+                { 2, 2, 1, 3, 5, 6, 4, 2, 7, 8, 9, 2, 3, 4, 5, 6, 7 },
+                { 1, 2, 5, 3, 8, 6, 4, 4, 3, 8, 9, 0, 9, 9, 1, 9, 2 }
+            };
+
+            // Transpose our raw data to get it into the required format.
+            double[][] timeSeries = rawData.Transpose().ToJagged();
+
+            // The window size determines how many observations to include in the 
+            // calculation. If no window is specified, the entire dataset is used. 
+            int window = 15;
+
+            // We set alpha to 20% meaning each previous observation's contribution 
+            // carries 20% less weight (relative to its immediate successor).  
+            double alpha = 0.2;
+
+            double[] ewm = timeSeries.ExponentialWeightedMean(window, alpha); // (5.47, 5.20)
+            #endregion
+
+            Assert.AreEqual(5.3708532126850983, ewm[0], Tolerance);
+            Assert.AreEqual(5.2012181301523794, ewm[1], Tolerance);
+        }
+
+        [Test]
+        public void EwmCovWindowTest()
+        {
+            #region doc_example2
+            /*
+            Suppose we have a time series of (possibly correlated) observations. Our 
+            sample has 14 observations in 2 variables (x and y). We wish to compute 
+            the covariance matrix for our series but would like to provide a heavier 
+            weighting to the more recent observations. First, arrange the observations 
+            in rows with the oldest data at the top and the newest data at the bottom. */
+            double[,] rawData =
+            {
+                { 2, 2, 1, 3, 5, 6, 4, 2, 7, 8, 9, 2, 3, 4, 5, 6, 7 },
+                { 1, 2, 5, 3, 8, 6, 4, 4, 3, 8, 9, 0, 9, 9, 1, 9, 2 }
+            };
+
+            // Transpose our raw data to get it into the required format.
+            double[][] timeSeries = rawData.Transpose().ToJagged();
+
+            // The window size determines how many observations to include in the 
+            // calculation. If no window is specified, the entire dataset is used. 
+            int window = 15;
+
+            // We set alpha to 20% meaning each previous observation's contribution 
+            // carries 20% less weight (relative to its immediate successor).  
+            double alpha = 0.2;
+
+            // Now we calculate the covariance matrix. The result should be:
+            //
+            //  { 3.80, 0.55 }
+            //  { 0.55, 13.0 }
+            //
+            double[,] ewmCov = timeSeries.ExponentialWeightedCovariance(window, alpha);
+            #endregion
+
+            Assert.AreEqual(3.796312193730190, ewmCov[0, 0], Tolerance);
+            Assert.AreEqual(0.550757446419597, ewmCov[1, 0], Tolerance);
+            Assert.AreEqual(0.550757446419597, ewmCov[0, 1], Tolerance);
+            Assert.AreEqual(12.99750453306480, ewmCov[1, 1], Tolerance);
+        }
+
+        [Test]
         [TestCase(0, 4.8, 16d / 3)]
         [TestCase(0.2, 5.3708532126850983, 5.2012181301523794)]
         [TestCase(0.5, 6.1216162602618489, 4.3349406414990694)]
