@@ -214,17 +214,17 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(Double.PositiveInfinity, target.Support.Max);
 
             expected = new double[] { 0, 0, 0.128807284216628, 0.0464472549459518, 0.0167486451184392, 0.0060394766844637, 0.00217780473371089, 0.000785305367661126, 0.000283177142069361, 0.000102112244602884, 3.68211587335158E-05 };
-            actual = Vector.Interval(-50, 1.0, steps: 10).Apply(target.ProbabilityDensityFunction);
+            actual = Vector.Interval(-50, 1.0, steps: 11).Apply(target.ProbabilityDensityFunction);
             str = actual.ToCSharp();
             Assert.IsTrue(expected.IsEqual(actual, 1e-10));
 
             expected = new double[] { 0, 0, 0.355963578916859, 0.767763725270241, 0.916256774407804, 0.969802616577682, 0.989110976331446, 0.996073473161694, 0.998584114289653, 0.999489438776986, 0.999815894206332 };
-            actual = Vector.Interval(-50.0, 1.0, steps: 10).Apply((x) => target.DistributionFunction(x));
+            actual = Vector.Interval(-50.0, 1.0, steps: 11).Apply((x) => target.DistributionFunction(x));
             str = actual.ToCSharp();
             Assert.IsTrue(expected.IsEqual(actual, 1e-10));
 
             expected = new double[] { -42, -41.4731974067983, -40.8842822434175, -40.2166252803068, -39.4458718811702, -38.534264076262, -37.4185463380999, -35.9801359783219, -33.9528104382541, -30.4870745323964, Double.PositiveInfinity };
-            actual = Vector.Interval(0.0, 1.0, steps: 10).Apply((x) => target.InverseDistributionFunction(x));
+            actual = Vector.Interval(0.0, 1.0, steps: 11).Apply((x) => target.InverseDistributionFunction(x));
             str = actual.ToCSharp();
             Assert.IsTrue(expected.IsEqual(actual, 1e-6));
         }
@@ -240,17 +240,17 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(-40.80952380952381, target.Support.Max);
 
             expected = new double[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.2, 0.302883303831534, 0.808006344307731, 0, 0 };
-            actual = Vector.Interval(-50.0, -40.0, steps: 20).Apply(target.ProbabilityDensityFunction);
+            actual = Vector.Interval(-50.0, -40.0, steps: 21).Apply(target.ProbabilityDensityFunction);
             str = actual.ToCSharp();
             Assert.IsTrue(expected.IsEqual(actual, 1e-10));
 
             expected = new double[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.121638418888552, 0.353594924553815, 1, 1 };
-            actual = Vector.Interval(-50.0, -40.0, steps: 20).Apply((x) => target.DistributionFunction(x));
+            actual = Vector.Interval(-50.0, -40.0, steps: 21).Apply((x) => target.DistributionFunction(x));
             str = actual.ToCSharp();
             Assert.IsTrue(expected.IsEqual(actual, 1e-10));
 
             expected = new double[] { -42, -41.5743086286744, -41.275859522191, -41.0756773630594, -40.9488253643646, -40.8742969157203, -40.8348968590133, -40.8171031247911, -40.8109043421369, -40.809599125212, -40.8095238095238 };
-            actual = Vector.Interval(0.0, 1.0, steps: 10).Apply((x) => target.InverseDistributionFunction(x));
+            actual = Vector.Interval(0.0, 1.0, steps: 11).Apply((x) => target.InverseDistributionFunction(x));
             str = actual.ToCSharp();
             Assert.IsTrue(expected.IsEqual(actual, 1e-6));
         }
@@ -266,17 +266,17 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(Double.PositiveInfinity, target.Support.Max);
 
             expected = new double[] { 0, 0, 0.0547351364089877, 0.0175660091778962, 0.00981130998772365, 0.0066129057162198, 0.00490525155264395, 0.00385679017970578, 0.0031536488437678, 0.00265243027038563, 0.00227879808261139 };
-            actual = Vector.Interval(-50, 1.0, steps: 10).Apply(target.ProbabilityDensityFunction);
+            actual = Vector.Interval(-50, 1.0, steps: 11).Apply(target.ProbabilityDensityFunction);
             str = actual.ToCSharp();
             Assert.IsTrue(expected.IsEqual(actual, 1e-10));
 
             expected = new double[] { 0, 0, 0.220571657536015, 0.373596112716222, 0.439970425900734, 0.480886901276745, 0.509867264859816, 0.532017079594501, 0.549785091063708, 0.564523998208087, 0.577055075867326 };
-            actual = Vector.Interval(-50.0, 1.0, steps: 10).Apply((x) => target.DistributionFunction(x));
+            actual = Vector.Interval(-50.0, 1.0, steps: 11).Apply((x) => target.DistributionFunction(x));
             str = actual.ToCSharp();
             Assert.IsTrue(expected.IsEqual(actual, 1e-10));
 
             expected = new double[] { -42, -41.3373620317749, -40.1513917163923, -37.8656069703902, -33.0166232588751, -21.3105075238593, 12.6653847611095, 143.796536677696, 983.394093115206, 18824.5856242939, Double.PositiveInfinity };
-            actual = Vector.Interval(0.0, 1.0, steps: 10).Apply((x) => target.InverseDistributionFunction(x));
+            actual = Vector.Interval(0.0, 1.0, steps: 11).Apply((x) => target.InverseDistributionFunction(x));
             str = actual.ToCSharp();
             Assert.IsTrue(expected.IsEqual(actual, 1e-6));
         }

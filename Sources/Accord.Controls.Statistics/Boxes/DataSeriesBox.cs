@@ -285,7 +285,7 @@ namespace Accord.Controls
             if (step == null)
                 step = (max - min) / npoints;
 
-            double[] input = Vector.Interval(min.Value, max.Value, step.Value);
+            double[] input = Vector.Range(min.Value, max.Value, step.Value);
             double[] output = Matrix.Apply(input, function);
 
             return show(title, input, new[] { output });

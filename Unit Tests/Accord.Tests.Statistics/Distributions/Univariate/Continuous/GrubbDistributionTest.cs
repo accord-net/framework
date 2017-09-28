@@ -72,7 +72,7 @@ namespace Accord.Tests.Statistics
         [Test]
         public void cdf()
         {
-            double[] x = Vector.Range(0.0, 1.0, stepSize: 1e-3);
+            double[] x = Vector.Interval(0.0, 1.0, stepSize: 1e-3);
 
             var target = new GrubbDistribution(7);
             double[] cdf = x.Apply(xi => target.InverseDistributionFunction(xi));

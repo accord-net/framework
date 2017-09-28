@@ -215,7 +215,7 @@ namespace Accord.Tests.Math
         {
             double from = 0;
             double to = 10;
-            int steps = 10;
+            int steps = 11;
             double[] expected = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
             double[] actual = Matrix.Interval(from, to, steps);
 
@@ -231,8 +231,8 @@ namespace Accord.Tests.Math
             Assert.AreEqual(0, actual[0]);
 
             actual = Matrix.Interval(0.0, 0.0, 5);
-            Assert.AreEqual(0, actual[0]);
-            Assert.AreEqual(actual.Length, 1);
+            Assert.IsTrue(actual.All(x => x == 0));
+            Assert.AreEqual(actual.Length, 5);
         }
 
         [Test]
@@ -253,7 +253,7 @@ namespace Accord.Tests.Math
         {
             double from = 10;
             double to = 0;
-            int steps = 10;
+            int steps = 11;
             double[] expected = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
             double[] actual = Matrix.Interval(from, to, steps);
 
@@ -3122,8 +3122,8 @@ namespace Accord.Tests.Math
             // We can create a grid as
             double[][] grid = Matrix.Mesh
             (
-                rowMin: 0, rowMax: 1, rowSteps: 10,
-                colMin: 0, colMax: 1, colSteps: 5
+                rowMin: 0, rowMax: 1, rowSteps: 11,
+                colMin: 0, colMax: 1, colSteps: 6
             );
 
             // Now we can plot the points on-screen
@@ -3642,7 +3642,7 @@ namespace Accord.Tests.Math
         {
             double[][] v = Jagged.Ones(0, 3);
             int[][] idx = v.GetIndices().ToArray();
-            Assert.AreEqual(idx.Length, 1);
+            Assert.AreEqual(idx.Length, 0);
         }
 
         [Test]

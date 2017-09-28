@@ -806,14 +806,14 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(1.0, distribution.InnerDistributionFunction(24));
             Assert.AreEqual(1.0, distribution.DistributionFunction(22));
 
-            double[] percentiles = Vector.Range(0.0, 1.0, stepSize: 0.1);
+            double[] percentiles = Vector.Interval(0.0, 1.0, stepSize: 0.1);
 
             for (int i = 0; i < percentiles.Length; i++)
             {
                 double p = percentiles[i];
                 double icdf = distribution.InverseDistributionFunction(p);
                 double cdf = distribution.DistributionFunction(icdf);
-                Assert.AreEqual(cdf, p, 0.09);
+                Assert.AreEqual(cdf, p, 0.1);
             }
         }
     }

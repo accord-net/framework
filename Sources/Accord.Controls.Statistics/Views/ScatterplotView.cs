@@ -389,7 +389,7 @@ namespace Accord.Controls
             }
             else
             {
-                double[] idx = Vector.Interval(0.0, values.Length - 1, 1.0);
+                double[] idx = Vector.Range(0.0, values.Length);
                 this.scatterplot.Compute(idx, values);
             }
 

@@ -144,7 +144,11 @@ namespace Accord.Math
 
 
 
-        /// <summary>Compares two objects for equality, performing an elementwise comparison if the elements are vectors or matrices.</summary>
+        /// <summary>
+        ///     Compares two objects for equality, performing an elementwise 
+        ///     comparison if the elements are vectors or matrices.
+        /// </summary>
+        /// 
         public static bool IsEqual(this object objA, object objB, decimal atol = 0, decimal rtol = 0)
         {
             if (Object.Equals(objA, objB))
@@ -175,10 +179,10 @@ namespace Accord.Math
             return false;
         }
 
-        //private static readonly Dictionary<Tuple<Type, Type>, MethodInfo> equalsCache =
-        //    new Dictionary<Tuple<Type, Type>, MethodInfo>();
-
-        /// <summary>Compares two matrices for equality.</summary>
+        /// <summary>
+        ///     Compares two matrices for equality.
+        /// </summary>
+        /// 
         public static bool IsEqual(this Array objA, Array objB, double atol = 0, double rtol = 0)
         {
             if (objA == objB)

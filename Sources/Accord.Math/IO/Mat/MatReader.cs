@@ -232,7 +232,8 @@ namespace Accord.IO
             char[] endian = reader.ReadChars(2);
 
             int terminator = Array.IndexOf(title, '\0');
-            if (terminator < 0) terminator = title.Length;
+            if (terminator < 0)
+                terminator = title.Length;
 
             Description = new String(title, 0, terminator).Trim();
             Version = version;

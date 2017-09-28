@@ -124,6 +124,29 @@ namespace Accord.Tests.Math
         }
 
         [Test]
+        public void numpy_comparison_tests()
+        {
+            Assert.AreEqual(new int[] { 1, 2 }, Vector.Range(1, 3, +1));
+            Assert.AreEqual(new int[] { 3, 2 }, Vector.Range(3, 1, -1));
+            Assert.AreEqual(new int[] { 1 }, Vector.Range(1, 3, +5));
+            Assert.AreEqual(new int[] { 3 }, Vector.Range(3, 1, -5));
+            Assert.IsTrue(new double[] { 0, 0.3, 0.6, 0.9 }.IsEqual(Vector.Range(0, 1, 0.3), 1e-10));
+            Assert.IsTrue(new double[] { 1, 0.7, 0.4, 0.1 }.IsEqual(Vector.Range(1, 0, 0.3), 1e-10));
+            Assert.IsTrue(new double[] { 0, 0.2, 0.4, 0.6, 0.8 }.IsEqual(Vector.Range(0, 1, 0.2), 1e-10));
+            Assert.IsTrue(new double[] { 1, 0.8, 0.6, 0.4, 0.2 }.IsEqual(Vector.Range(1, 0, -0.2), 1e-10));
+
+            // The framework's version differs when the intervals are inverted
+            // and the step is positive. In this case, the framework will still
+            // iterate over the range backwards because the third parameter is 
+            // considered a step <i>size</i>, instead of a step direction.
+            Assert.AreEqual(new int[] { 3, 2 }, Vector.Range(3, 1, +1));
+
+            // However, it is not allowed to specify a negative step size when
+            // a < b is not allowed since it would result in an infinite loop:
+            Assert.Throws<ArgumentOutOfRangeException>(() => Vector.Range(1, 3, -1));
+        }
+
+        [Test]
         public void range_step_test()
         {
             // Sanity checks
@@ -134,6 +157,9 @@ namespace Accord.Tests.Math
             Assert.AreEqual(new int[] { 1 }, Vector.Range(1, 3, +5));
             Assert.AreEqual(new int[] { 3 }, Vector.Range(3, 1, -5));
             Assert.IsTrue(new double[] { 0, 0.3, 0.6, 0.9 }.IsEqual(Vector.Range(0, 1, 0.3), 1e-10));
+            Assert.IsTrue(new double[] { 1, 0.7, 0.4, 0.1 }.IsEqual(Vector.Range(1, 0, 0.3), 1e-10));
+            Assert.IsTrue(new double[] { 0, 0.2, 0.4, 0.6, 0.8 }.IsEqual(Vector.Range(0, 1, 0.2), 1e-10));
+            Assert.IsTrue(new double[] { 1, 0.8, 0.6, 0.4, 0.2 }.IsEqual(Vector.Range(1, 0, -0.2), 1e-10));
 
             // Deep tests
             for (double step = -2; step < 2; step += 0.1)
@@ -164,6 +190,9 @@ namespace Accord.Tests.Math
             Assert.AreEqual(new int[] { 1 }, Vector.EnumerableRange(1, 3, +5));
             Assert.AreEqual(new int[] { 3 }, Vector.EnumerableRange(3, 1, -5));
             Assert.IsTrue(new double[] { 0, 0.3, 0.6, 0.9 }.IsEqual(Vector.EnumerableRange(0, 1, 0.3).ToArray(), 1e-10));
+            Assert.IsTrue(new double[] { 1, 0.7, 0.4, 0.1 }.IsEqual(Vector.EnumerableRange(1, 0, 0.3).ToArray(), 1e-10));
+            Assert.IsTrue(new double[] { 0, 0.2, 0.4, 0.6, 0.8 }.IsEqual(Vector.EnumerableRange(0, 1, 0.2).ToArray(), 1e-10));
+            Assert.IsTrue(new double[] { 1, 0.8, 0.6, 0.4, 0.2 }.IsEqual(Vector.EnumerableRange(1, 0, -0.2).ToArray(), 1e-10));
 
             // Deep tests
             for (double step = -2; step < 2; step += 0.1)
