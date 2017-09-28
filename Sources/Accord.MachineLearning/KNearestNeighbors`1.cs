@@ -58,22 +58,20 @@ namespace Accord.MachineLearning
     /// 
     /// <example>
     /// <para>
-    ///  The following example shows how to create and use a k-Nearest Neighbor algorithm to classify
-    ///   a set of numeric vectors.</para>
-    /// 
-    /// <code source = "Unit Tests\Accord.Tests.MachineLearning\KNearestNeighbors\KNearestNeighborTest.cs" region="doc_learn" />
+    ///   The first example shows how to create and use a k-Nearest Neighbor algorithm to classify
+    ///   a set of numeric vectors in a multi-class decision problem involving 3 classes. It also shows
+    ///   how to compute class decisions for a new sample and how to measure the performance of a classifier.</para>
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\KNearestNeighbors\KNearestNeighborsTest.cs" region="doc_learn" />
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\KNearestNeighbors\KNearestNeighborsTest.cs" region="doc_serialization" />
     /// 
     /// <para>
-    ///   The following example show how to use a different distance metric when computing k-NN:</para>
-    ///   
+    ///   The second example show how to use a different distance metric when computing k-NN:</para>
     ///   <code source = "Unit Tests\Accord.Tests.MachineLearning\KNearestNeighbors\KNearestNeighborTest.cs" region="doc_learn_distance" />
-    /// 
     /// 
     /// <para>
     ///   The k-Nearest neighbor algorithm implementation in the framework can also be used with any instance 
-    ///   data type. For such cases, the framework offers a generic version of the classifier, as shown in the 
-    ///   example below:</para>
-    /// 
+    ///   data type. For such cases, the framework offers a generic version of the classifier. The third example
+    ///   shows how to use the generic kNN classifier to perform the direct classification of actual text samples:</para>
     /// <code source = "Unit Tests\Accord.Tests.MachineLearning\KNearestNeighbors\KNearestNeighborTest.cs" region="doc_learn_text" />
     /// </example>
     /// 

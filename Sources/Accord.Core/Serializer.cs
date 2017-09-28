@@ -47,11 +47,19 @@ namespace Accord.IO
     /// </remarks>
     /// 
     /// <example>
-    /// <para>Basic usage:</para>
+    /// <para>
+    ///   The first example shows the simplest way to use the serializer to persist objects:</para>
     ///   <code source="Unit Tests\Accord.Tests.Core\SerializerTest.cs" region="doc_simple" />
     ///   
-    /// <para>Compression:</para>
+    /// <para>
+    ///   The second example shows the same, but using compression:</para>
     ///   <code source="Unit Tests\Accord.Tests.Core\SerializerTest.cs" region="doc_compression" />
+    ///   
+    /// <para>
+    ///   The third and last example shows a complete example on how to create, save and re-load
+    ///   a classifier from disk using serialization:</para>
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\KNearestNeighbors\KNearestNeighborsTest.cs" region="doc_learn" />
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\KNearestNeighbors\KNearestNeighborsTest.cs" region="doc_serialization" />
     /// </example>
     /// 
     public static class Serializer

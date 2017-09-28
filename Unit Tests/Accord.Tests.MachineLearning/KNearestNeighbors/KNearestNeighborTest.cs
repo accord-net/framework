@@ -28,6 +28,8 @@ namespace Accord.Tests.MachineLearning
     using Accord.Math;
     using Accord.Math.Distances;
     using Accord.Statistics.Analysis;
+    using Accord.IO;
+    using System.IO;
 
     [TestFixture]
     public class KNearestNeighborTest
@@ -140,9 +142,7 @@ namespace Accord.Tests.MachineLearning
 
 
             // After the algorithm has been created, we can classify a new instance:
-
             int answer = knn.Compute(new double[] { 11, 5, 4 }); // answer will be 2.
-
 
             Assert.AreEqual(2, answer);
         }
@@ -150,6 +150,8 @@ namespace Accord.Tests.MachineLearning
         [Test]
         public void learn_test1()
         {
+            string basePath = NUnit.Framework.TestContext.CurrentContext.TestDirectory;
+
             #region doc_learn
             // Create some sample learning data. In this data,
             // the first two instances belong to a class, the
@@ -192,9 +194,45 @@ namespace Accord.Tests.MachineLearning
 
             // After the algorithm has been created, we can classify a new instance:
             int answer = knn.Decide(new double[] { 11, 5, 4 }); // answer will be 2.
+
+            // Let's say we would like to compute the error matrix for the classifier:
+            var cm = GeneralConfusionMatrix.Estimate(knn, inputs, outputs);
+
+            // We can use it to estimate measures such as 
+            double error = cm.Error;  // should be 
+            double acc = cm.Accuracy; // should be 
+            double kappa = cm.Kappa;  // should be 
             #endregion
 
             Assert.AreEqual(2, answer);
+            Assert.AreEqual(0, error);
+            Assert.AreEqual(1, acc);
+            Assert.AreEqual(1, kappa);
+
+            #region doc_serialization
+            // After we have created and learned our model, let's say we would 
+            // like to save it to disk. For this, we can import the Accord.IO 
+            // namespace at the top of our source file namespace, and then use 
+            // Serializer's extension method Save:
+
+            // Save to a file called "knn.bin" in the basePath directory:
+            knn.Save(Path.Combine(basePath, "knn.bin"));
+
+            // To load it back from the disk, we might need to use the Serializer class directly:
+            var loaded_knn = Serializer.Load<KNearestNeighbors>(Path.Combine(basePath, "knn.bin"));
+
+            // At this point, knn and loaded_knn should be 
+            // two different instances of identical objects.
+            #endregion
+
+            Assert.AreEqual(knn.ClassCount , loaded_knn.ClassCount);
+            Assert.AreEqual(knn.Distance, loaded_knn.Distance);
+            Assert.AreEqual(knn.K, loaded_knn.K);
+            Assert.AreEqual(knn.NumberOfClasses, loaded_knn.NumberOfClasses);
+            Assert.AreEqual(knn.NumberOfInputs, loaded_knn.NumberOfInputs);
+            Assert.AreEqual(knn.NumberOfOutputs, loaded_knn.NumberOfOutputs);
+            Assert.AreEqual(knn.Outputs, loaded_knn.Outputs);
+            Assert.AreEqual(knn.Token, loaded_knn.Token);
         }
 
         [Test]
@@ -355,9 +393,20 @@ namespace Accord.Tests.MachineLearning
 
             // After the algorithm has been created, we can classify a new instance:
             int answer = knn.Decide(new double[] { 11, 5, 4 }); // answer will be 2.
+
+            // Let's say we would like to compute the error matrix for the classifier:
+            var cm = GeneralConfusionMatrix.Estimate(knn, inputs, outputs);
+
+            // We can use it to estimate measures such as 
+            double error = cm.Error;  // should be 0
+            double acc = cm.Accuracy; // should be 1
+            double kappa = cm.Kappa;  // should be 1
             #endregion
 
             Assert.AreEqual(2, answer);
+            Assert.AreEqual(0, error);
+            Assert.AreEqual(1, acc);
+            Assert.AreEqual(1, kappa);
         }
 
         [Test]
@@ -437,9 +486,20 @@ namespace Accord.Tests.MachineLearning
 
             // After the algorithm has been created, we can use it:
             int answer = knn.Decide("Chars"); // answer should be 1.
+
+            // Let's say we would like to compute the error matrix for the classifier:
+            var cm = ConfusionMatrix.Estimate(knn, inputs, outputs);
+
+            // We can use it to estimate measures such as 
+            double error = cm.Error;  // should be 0
+            double acc = cm.Accuracy; // should be 1
+            double kappa = cm.Kappa;  // should be 1
             #endregion
 
             Assert.AreEqual(1, answer);
+            Assert.AreEqual(0, error);
+            Assert.AreEqual(1, acc);
+            Assert.AreEqual(1, kappa);
         }
 
         [Test]
