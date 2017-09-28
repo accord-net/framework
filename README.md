@@ -31,22 +31,10 @@ The framework comes with a wide range of sample applications to help get you sta
 
 # Building
 
-#### With Visual Studio 2013
-
-Please download and install the following dependencies:
-
-- [T4 Toolbox for Visual Studio 2013](https://visualstudiogallery.msdn.microsoft.com/791817a4-eb9a-4000-9c85-972cc60fd5aa)
-- [Sandcastle Help File Builder (with VS2013 extension)](https://github.com/EWSoftware/SHFB/releases)
-- [NUnit 3 Test Adapter](https://marketplace.visualstudio.com/items?itemName=NUnitDevelopers.NUnit3TestAdapter)
-
-Then navigate to the Sources directory, and open the *Accord.NET.sln* solution file.
-
-
 #### With Visual Studio 2015
 
 Please download and install the following dependencies:
 
-- [VS2013 C++ platform toolset (for compiling some unit tests only)](https://www.microsoft.com/en-us/download/details.aspx?id=44914)
 - [T4 Toolbox for Visual Studio 2015](https://visualstudiogallery.msdn.microsoft.com/34b6d489-afbc-4d7b-82c3-dded2b726dbc)
 - [Sandcastle Help File Builder (with VS2015 extension)](https://github.com/EWSoftware/SHFB/releases)
 - [NUnit 3 Test Adapter](https://marketplace.visualstudio.com/items?itemName=NUnitDevelopers.NUnit3TestAdapter)
@@ -61,6 +49,7 @@ Please download and install the following dependencies:
 - [T4 Toolbox for Visual Studio 2017](https://github.com/hagronnestad/T4Toolbox/releases/tag/vs2017-b1)
 - [Sandcastle Help File Builder (with VS2017 extension)](https://github.com/EWSoftware/SHFB/releases)
 - [NUnit 3 Test Adapter](https://marketplace.visualstudio.com/items?itemName=NUnitDevelopers.NUnit3TestAdapter)
+- [Visual C++ Redistributable for Visual Studio 2015](https://www.microsoft.com/en-us/download/details.aspx?id=48145&751be11f-ede8-5a0c-058c-2ee190a24fa6) (both x64 and x86)
 
 Then navigate to the Sources directory, and open the *Accord.NET.sln* solution file.
 
