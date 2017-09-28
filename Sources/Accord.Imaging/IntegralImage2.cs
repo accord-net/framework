@@ -35,11 +35,26 @@ namespace Accord.Imaging
     /// </summary>
     /// 
     /// <remarks>
+    /// <para>
+    ///   This class provides a unified representation for both <see cref="IntegralImage">
+    ///   integral images</see>, squared integral images and tilted integral images under
+    ///   the same class. This class can be used to provide more efficient transformations
+    ///   whenever all those representations are required at the same time, such as when
+    ///   using the Viola-Jones (Haar Cascade) object detector.</para>
+    ///   
+    /// <para>
     ///   Using this representation, both structures can be created in a single pass
     ///   over the data. This is interesting for real time applications. This class
     ///   also accepts a channel parameter indicating the Integral Image should be
-    ///   computed using a specified color channel. This avoids costly conversions.
+    ///   computed using a specified color channel. This avoids costly conversions.</para>
     /// </remarks>
+    /// 
+    /// <example>
+    /// <code source="Unit Tests\Accord.Tests.Imaging\IntegralImage2Test.cs" region="doc_sum" />
+    /// <code source="Unit Tests\Accord.Tests.Imaging\IntegralImage2Test.cs" region="doc_image" />
+    /// </example>
+    /// 
+    /// <seealso cref="IntegralImage"/>
     /// 
     [SecurityCritical]
     public unsafe class IntegralImage2 : IDisposable

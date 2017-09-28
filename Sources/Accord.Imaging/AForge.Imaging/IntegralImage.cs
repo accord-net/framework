@@ -1,9 +1,30 @@
+// Accord Imaging Library
+// The Accord.NET Framework
+// http://accord-framework.net
+//
 // AForge Image Processing Library
 // AForge.NET framework
 // http://www.aforgenet.com/framework/
 //
 // Copyright © AForge.NET, 2005-2010
 // contacts@aforgenet.com
+//
+// Copyright © César Souza, 2009-2017
+// cesarsouza at gmail.com
+//
+//    This library is free software; you can redistribute it and/or
+//    modify it under the terms of the GNU Lesser General Public
+//    License as published by the Free Software Foundation; either
+//    version 2.1 of the License, or (at your option) any later version.
+//
+//    This library is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+//    Lesser General Public License for more details.
+//
+//    You should have received a copy of the GNU Lesser General Public
+//    License along with this library; if not, write to the Free Software
+//    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
 namespace Accord.Imaging
@@ -14,42 +35,59 @@ namespace Accord.Imaging
     using Accord.Math;
 
     /// <summary>
-    /// Integral image.
+    ///  Integral image.
     /// </summary>
     /// 
-    /// <remarks><para>The class implements integral image concept, which is described by
-    /// Viola and Jones in: <b>P. Viola and M. J. Jones, "Robust real-time face detection",
-    /// Int. Journal of Computer Vision 57(2), pp. 137–154, 2004</b>.</para>
-    /// 
-    /// <para><i>"An integral image <b>I</b> of an input image <b>G</b> is defined as the image in which the
-    /// intensity at a pixel position is equal to the sum of the intensities of all the pixels
-    /// above and to the left of that position in the original image."</i></para>
-    /// 
-    /// <para>The intensity at position (x, y) can be written as:</para>
-    /// <code>
-    ///           x    y
-    /// I(x,y) = SUM( SUM( G(i,j) ) )
-    ///          i=0  j=0
-    /// </code>
-    /// 
-    /// <para><note>The class uses 32-bit integers to represent integral image.</note></para>
-    /// 
-    /// <para><note>The class processes only grayscale (8 bpp indexed) images.</note></para>
-    /// 
+    /// <remarks>
+    /// <para>
+    ///   This class implements integral image concept, which is described by
+    ///   Viola and Jones in: <b>P. Viola and M. J. Jones, "Robust real-time face detection",
+    ///   Int. Journal of Computer Vision 57(2), pp. 137–154, 2004</b>.</para>
+    ///   
+    /// <para>
+    ///   <i>"An integral image <b>I</b> of an input image <b>G</b> is defined as the image in which the
+    ///   intensity at a pixel position is equal to the sum of the intensities of all the pixels
+    ///   above and to the left of that position in the original image."</i></para>
+    ///   
+    /// <para>
+    ///   The intensity at position (x, y) can be written as:</para>
+    ///   <code>
+    ///             x    y
+    ///   I(x,y) = SUM( SUM( G(i,j) ) )
+    ///            i=0  j=0
+    ///   </code>
+    ///   
+    /// <para>
+    ///   <note>The class uses 32-bit integers to represent integral image.</note></para>
+    ///   
+    /// <para>
+    ///   <note>The class processes only grayscale (8 bpp indexed) images.</note></para>
+    ///   
     /// <para><note>This class contains two versions of each method: safe and unsafe. Safe methods do
-    /// checks of provided coordinates and ensure that these coordinates belong to the image, what makes
-    /// these methods slower. Unsafe methods do not do coordinates' checks and rely that these
-    /// coordinates belong to the image, what makes these methods faster.</note></para>
+    ///   checks of provided coordinates and ensure that these coordinates belong to the image, what makes
+    ///   these methods slower. Unsafe methods do not do coordinates' checks and rely that these
+    ///   coordinates belong to the image, what makes these methods faster.</note></para>
+    ///   
+    /// <para>
+    ///   This class implements the simplest upright representation of an integral image. For an integral
+    ///   image that can represent squared integral images as well as tilted images at the same time, please 
+    ///   refer to <see cref="IntegralImage2"/>.</para>
+    /// </remarks>
     /// 
+    /// <example>
     /// <para>Sample usage:</para>
     /// <code>
     /// // create integral image
-    /// IntegralImage im = IntegralImage.FromBitmap( image );
-    /// // get pixels' mean value in the specified rectangle
-    /// float mean = im.GetRectangleMean( 10, 10, 20, 30 )
-    /// </code>
-    /// </remarks>
+    /// IntegralImage im = IntegralImage.FromBitmap(image);
     /// 
+    /// // get pixels' mean value in the specified rectangle
+    /// float mean = im.GetRectangleMean(10, 10, 20, 30)
+    /// </code>
+    /// </example>
+    /// 
+    /// <seealso cref="IntegralImage2"/>
+    /// 
+    [Serializable]
     public class IntegralImage : ICloneable
     {
         /// <summary>
