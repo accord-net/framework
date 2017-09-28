@@ -64,6 +64,7 @@ namespace Accord.Collections
     ///   Node for a Space-Partitioning Tree.
     /// </summary>
     /// 
+    [Serializable]
     public class SPTreeNode : TreeNode<SPTreeNode>
     {
         SPTree owner;

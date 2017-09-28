@@ -33,6 +33,7 @@ namespace Accord.Collections
     /// <typeparam name="TPoint">The type for the position vector (e.g. double[]).</typeparam>
     /// <typeparam name="TData">The type for the value stored at the node.</typeparam>
     /// 
+    [Serializable]
     public class VPTreeNode<TPoint, TData> : VPTreeNodeBase<TPoint, VPTreeNode<TPoint, TData>>
     {
         /// <summary>

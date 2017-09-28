@@ -48,6 +48,7 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
     /// <seealso cref="C45Learning"/>
     /// <seealso cref="ID3Learning"/>
     /// 
+    [Serializable]
     public class DecisionRule : ICloneable, IEnumerable<Antecedent>,
         IEquatable<DecisionRule>, IComparable<DecisionRule>
     {

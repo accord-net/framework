@@ -26,6 +26,7 @@ namespace Accord.Genetic
     /// programming tree may represent its sub tree or even entire tree.</para>
     /// </remarks>
     /// 
+    [Serializable]
     public class GPTreeNode : ICloneable
     {
         /// <summary>
