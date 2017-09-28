@@ -62,6 +62,7 @@
   </ItemGroup>
  -->
   <ItemGroup>
+    <Compile Include="HaarCascadeWriterTest.cs" />
     <Compile Include="HaarCascadeTest.cs" />
     <Compile Include="HaarDataParserTest.cs" />
     <Compile Include="Imaging\BagOfVisualWordsTest.cs" />
