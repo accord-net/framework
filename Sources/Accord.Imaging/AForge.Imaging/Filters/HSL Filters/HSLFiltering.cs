@@ -263,7 +263,7 @@ namespace Accord.Imaging.Filters
                     rgb.Blue = ptr[RGB.B];
 
                     // convert to HSL
-                    Accord.Imaging.HSL.FromRGB(rgb, hsl);
+                    Accord.Imaging.HSL.FromRGB(rgb, ref hsl);
 
                     // check HSL values
                     if (
@@ -299,7 +299,7 @@ namespace Accord.Imaging.Filters
                     if (updated)
                     {
                         // convert back to RGB
-                        Accord.Imaging.HSL.ToRGB(hsl, rgb);
+                        Accord.Imaging.HSL.ToRGB(hsl, ref rgb);
 
                         ptr[RGB.R] = rgb.Red;
                         ptr[RGB.G] = rgb.Green;

@@ -345,7 +345,7 @@ namespace Accord.Imaging
                         rgb.Blue = p[RGB.B];
 
                         // convert to HSL color space
-                        Accord.Imaging.HSL.FromRGB(rgb, hsl);
+                        Accord.Imaging.HSL.FromRGB(rgb, ref hsl);
 
                         s[(int)(hsl.Saturation * 255)]++;
                         l[(int)(hsl.Luminance * 255)]++;
@@ -377,7 +377,7 @@ namespace Accord.Imaging
                         rgb.Blue = p[RGB.B];
 
                         // convert to HSL color space
-                        Accord.Imaging.HSL.FromRGB(rgb, hsl);
+                        Accord.Imaging.HSL.FromRGB(rgb, ref hsl);
 
                         s[(int)(hsl.Saturation * 255)]++;
                         l[(int)(hsl.Luminance * 255)]++;

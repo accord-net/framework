@@ -655,7 +655,7 @@ namespace Accord.Vision.Tracking
                             rgb.Blue = (*(src + RGB.B));
 
                             // Transform into HSL
-                            Accord.Imaging.HSL.FromRGB(rgb, hsl);
+                            Accord.Imaging.HSL.FromRGB(rgb, ref hsl);
 
                             if ((hsl.Saturation >= hslSaturation.Min) && (hsl.Saturation <= hslSaturation.Max) &&
                                 (hsl.Luminance >= hslLuminance.Min) && (hsl.Luminance <= hslLuminance.Max))
@@ -681,7 +681,7 @@ namespace Accord.Vision.Tracking
                             rgb.Blue = (*(src + RGB.B));
 
                             // Transform into HSL
-                            Accord.Imaging.HSL.FromRGB(rgb, hsl);
+                            Accord.Imaging.HSL.FromRGB(rgb, ref hsl);
 
                             if ((hsl.Saturation >= hslSaturation.Min) && (hsl.Saturation <= hslSaturation.Max) &&
                                 (hsl.Luminance >= hslLuminance.Min) && (hsl.Luminance <= hslLuminance.Max))
@@ -745,7 +745,7 @@ namespace Accord.Vision.Tracking
                         rgb.Green = (*(src + RGB.G));
                         rgb.Blue = (*(src + RGB.B));
 
-                        Accord.Imaging.HSL.FromRGB(rgb, hsl);
+                        Accord.Imaging.HSL.FromRGB(rgb, ref hsl);
 
                         if ((hsl.Saturation >= hslSaturation.Min) && (hsl.Saturation <= hslSaturation.Max) &&
                             (hsl.Luminance >= hslLuminance.Min) && (hsl.Luminance <= hslLuminance.Max))
@@ -769,7 +769,7 @@ namespace Accord.Vision.Tracking
                         rgb.Green = (*(src + RGB.G));
                         rgb.Blue = (*(src + RGB.B));
 
-                        Accord.Imaging.HSL.FromRGB(rgb, hsl);
+                        Accord.Imaging.HSL.FromRGB(rgb, ref hsl);
 
                         if ((hsl.Saturation >= hslSaturation.Min) && (hsl.Saturation <= hslSaturation.Max) &&
                             (hsl.Luminance >= hslLuminance.Min) && (hsl.Luminance <= hslLuminance.Max))

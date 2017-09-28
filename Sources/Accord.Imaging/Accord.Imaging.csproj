@@ -60,6 +60,9 @@
     <Compile Include="AForge.Imaging\Filters\Convolution\FastBoxBlur.cs" />
     <Compile Include="AForge.Imaging\Filters\Other\ZhangSuenSkeletonization.cs" />
     <Compile Include="AForge.Imaging\Formats\PNMImageInfo.cs" />
+    <Compile Include="Colors\HSL.cs" />
+    <Compile Include="Colors\RGB.cs" />
+    <Compile Include="Colors\YCbCr.cs" />
     <Compile Include="Blob Processing\Blob.cs" />
     <Compile Include="Blob Processing\BlobCounter.cs" />
     <Compile Include="Blob Processing\BlobCounterBase.cs" />
@@ -76,7 +79,6 @@
     <Compile Include="AForge.Imaging\Color Reduction\OrderedColorDithering.cs" />
     <Compile Include="AForge.Imaging\Color Reduction\SierraColorDithering.cs" />
     <Compile Include="AForge.Imaging\Color Reduction\StuckiColorDithering.cs" />
-    <Compile Include="AForge.Imaging\ColorConverter.cs" />
     <Compile Include="AForge.Imaging\Complex Filters\FrequencyFilter.cs" />
     <Compile Include="AForge.Imaging\Complex Filters\IComplexFilter.cs" />
     <Compile Include="AForge.Imaging\ComplexImage.cs" />

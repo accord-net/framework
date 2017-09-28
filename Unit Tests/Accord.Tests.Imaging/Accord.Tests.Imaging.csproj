@@ -59,6 +59,7 @@
   </ItemGroup>
  -->
   <ItemGroup>
+    <Compile Include="Colors\ColorsTest.cs" />
     <Compile Include="Converters\ArrayToImageTest.cs" />
     <Compile Include="ConcatenateTest.cs" />
     <Compile Include="ConvexityDefectsTest.cs" />
