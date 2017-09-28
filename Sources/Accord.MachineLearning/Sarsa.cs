@@ -38,6 +38,18 @@ namespace Accord.MachineLearning
     /// on-policy Temporal Difference control.</remarks>
     /// 
     /// <example>
+    /// <para>
+    ///   The following example shows how to learn a model using reinforcement learning through the
+    ///   Sarsa algorithm. The following code has been inherited from the AForge.NET Framework,
+    ///   and has not been modified ever since. If you have better ideas on how to improve its 
+    ///   interface, please share it in the project's issue tracker at 
+    ///   <a href="https://github.com/accord-net/framework/issues">https://github.com/accord-net/framework/issues</a>.
+    ///   If you would like, and if your ideas are feasible and encouraging enough, you can be named an
+    ///   official contributor of the project. If you would like, you could opt to "inherit" the reinforcement learning 
+    ///   portion of the project such that you could be free to commit, modify and, more importantly, authorship
+    ///   those modules directly from your own GitHub account without having to wait for Pull Request approvals.
+    ///   You can be listed as an official author of the Accord.NET Framework, making it possible to list the
+    ///   creation or shared authorship of the reinforcement learning project in your CV.</para>
     /// <code source="Unit Tests\Accord.Tests.MachineLearning\SarsaTest.cs" region="doc_main" />
     /// </example>
     /// 

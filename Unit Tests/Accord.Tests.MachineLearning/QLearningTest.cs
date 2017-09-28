@@ -32,7 +32,7 @@ namespace Accord.Tests.MachineLearning
     using System.Collections.Generic;
 
     [TestFixture]
-    public class SarsaTest
+    public class QLearningTest
     {
 
         [Test]
@@ -42,10 +42,10 @@ namespace Accord.Tests.MachineLearning
             // Fix the random number generator
             Accord.Math.Random.Generator.Seed = 0;
 
-            // In this example, we will be using the Sarsa algorithm
-            // to make a robot learn how to navigate a map. The map
-            // is shown below, where a 1 denotes a wall and 0 denotes
-            // areas where the robot can navigate:
+            // In this example, we will be using the QLearning algorithm
+            // to make a robot learn how to navigate a map. The map is 
+            // shown below, where a 1 denotes a wall and 0 denotes areas 
+            // where the robot can navigate:
             //
             int[,] map =
             {
@@ -156,7 +156,7 @@ namespace Accord.Tests.MachineLearning
             // After defining all those functions, we create a new Sarsa algorithm:
             var explorationPolicy = new EpsilonGreedyExploration(explorationRate);
             var tabuPolicy = new TabuSearchExploration(4, explorationPolicy);
-            var sarsa = new Sarsa(256, 4, tabuPolicy);
+            var qLearning = new QLearning(256, 4, tabuPolicy);
 
             // curent coordinates of the agent
             int agentCurrentX = -1;
@@ -172,7 +172,7 @@ namespace Accord.Tests.MachineLearning
                 explorationPolicy.Epsilon = explorationRate - ((double)iteration / learningIterations) * explorationRate;
 
                 // set learning rate for this iteration
-                sarsa.LearningRate = learningRate - ((double)iteration / learningIterations) * learningRate;
+                qLearning.LearningRate = learningRate - ((double)iteration / learningIterations) * learningRate;
 
                 // clear tabu list
                 tabuPolicy.ResetTabuList();
@@ -181,12 +181,9 @@ namespace Accord.Tests.MachineLearning
                 agentCurrentX = agentStartX;
                 agentCurrentY = agentStartY;
 
-                // steps performed by agent to get to the goal
-                int steps = 1;
-
                 // previous state and action
                 int previousState = getState(agentCurrentX, agentCurrentY);
-                int previousAction = sarsa.GetAction(previousState);
+                int previousAction = qLearning.GetAction(previousState);
 
                 // update agent's current position and get his reward
                 var r = doAction(agentCurrentX, agentCurrentY, previousAction);
@@ -194,39 +191,52 @@ namespace Accord.Tests.MachineLearning
                 agentCurrentX = r.Item2;
                 agentCurrentY = r.Item3;
 
-                while ((!needToStop) && ((agentCurrentX != agentStopX) || (agentCurrentY != agentStopY)))
+                // loop
+                while ((!needToStop) && (iteration < learningIterations))
                 {
-                    steps++;
+                    // set exploration rate for this iteration
+                    explorationPolicy.Epsilon = explorationRate - ((double)iteration / learningIterations) * explorationRate;
+                    // set learning rate for this iteration
+                    qLearning.LearningRate = learningRate - ((double)iteration / learningIterations) * learningRate;
+                    // clear tabu list
+                    tabuPolicy.ResetTabuList();
 
-                    // set tabu action
-                    tabuPolicy.SetTabuAction((previousAction + 2) % 4, 1);
+                    // reset agent's coordinates to the starting position
+                    agentCurrentX = agentStartX;
+                    agentCurrentY = agentStartY;
 
-                    // get agent's next state
-                    int nextState = getState(agentCurrentX, agentCurrentY);
+                    // steps performed by agent to get to the goal
+                    int steps = 0;
 
-                    // get agent's next action
-                    int nextAction = sarsa.GetAction(nextState);
+                    while ((!needToStop) && ((agentCurrentX != agentStopX) || (agentCurrentY != agentStopY)))
+                    {
+                        steps++;
+                        // get agent's current state
+                        int currentState = getState(agentCurrentX, agentCurrentY);
 
-                    // do learning of the agent - update his Q-function
-                    sarsa.UpdateState(previousState, previousAction, reward, nextState, nextAction);
+                        // get the action for this state
+                        int action = qLearning.GetAction(currentState);
 
-                    // update agent's new position and get his reward
-                    r = doAction(agentCurrentX, agentCurrentY, nextAction);
-                    reward = r.Item1;
-                    agentCurrentX = r.Item2;
-                    agentCurrentY = r.Item3;
+                        // update agent's current position and get his reward
+                        r = doAction(agentCurrentX, agentCurrentY, action);
+                        reward = r.Item1;
+                        agentCurrentX = r.Item2;
+                        agentCurrentY = r.Item3;
 
-                    previousState = nextState;
-                    previousAction = nextAction;
+                        // get agent's next state
+                        int nextState = getState(agentCurrentX, agentCurrentY);
+
+                        // do learning of the agent - update his Q-function
+                        qLearning.UpdateState(currentState, action, reward, nextState);
+
+                        // set tabu action
+                        tabuPolicy.SetTabuAction((action + 2) % 4, 1);
+                    }
+
+                    System.Diagnostics.Debug.WriteLine(steps);
+
+                    iteration++;
                 }
-
-                if (!needToStop)
-                {
-                    // update Q-function if terminal state was reached
-                    sarsa.UpdateState(previousState, previousAction, reward);
-                }
-
-                iteration++;
             }
 
             // The end position for the robot will be (7, 4):
