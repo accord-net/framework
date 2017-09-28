@@ -138,6 +138,116 @@ namespace Accord.Tests.Statistics
         }
 
         [Test]
+        [TestCase(0.0)]
+        [TestCase(0.2)]
+        [TestCase(0.5)]
+        [TestCase(1.0)]
+        public void EwmaVecTest(double alpha)
+        {
+            /*
+             * We have verified the numbers in the case of the matrix and so
+             * it suffices to check consistency with the matrix calculations
+             * here.
+             */
+
+            // Arrange
+            double[] vec1 = this.series.GetColumn(0);
+            double[] vec2 = this.series.GetColumn(1);
+
+            // Act
+            double ewma1 = vec1.ExponentialWeightedMean(alpha);
+            double ewma2 = vec2.ExponentialWeightedMean(alpha);
+            double[] ewmas = this.series.ExponentialWeightedMean(alpha);
+
+            // Assert
+            Assert.AreEqual(ewmas[0], ewma1, Tolerance);
+            Assert.AreEqual(ewmas[1], ewma2, Tolerance);
+        }
+
+        [Test]
+        [TestCase(0.0)]
+        [TestCase(0.2)]
+        [TestCase(0.5)]
+        [TestCase(1.0)]
+        public void EwmaWindowVecTest(double alpha)
+        {
+            /*
+             * We have verified the numbers in the case of the matrix and so
+             * it suffices to check consistency with the matrix calculations
+             * here.
+             */
+
+            // Arrange
+            int window = 5;
+            double[] vec1 = this.series.GetColumn(0);
+            double[] vec2 = this.series.GetColumn(1);
+
+            // Act
+            double ewma1 = vec1.ExponentialWeightedMean(window, alpha);
+            double ewma2 = vec2.ExponentialWeightedMean(window, alpha);
+            double[] ewmas = this.series.ExponentialWeightedMean(window, alpha);
+
+            // Assert
+            Assert.AreEqual(ewmas[0], ewma1, Tolerance);
+            Assert.AreEqual(ewmas[1], ewma2, Tolerance);
+        }
+
+        [Test]
+        [TestCase(0.0)]
+        [TestCase(0.2)]
+        [TestCase(0.5)]
+        [TestCase(1.0)]
+        public void EwmBiasedVarianceTest(double alpha)
+        {
+            /*
+             * We have verified the numbers in the case of the matrix and so
+             * it suffices to check consistency with the matrix calculations
+             * here.
+             */
+
+            // Arrange
+            int window = 5;
+            double[] vec1 = this.series.GetColumn(0);
+            double[] vec2 = this.series.GetColumn(1);
+
+            // Act
+            double ewma1 = vec1.ExponentialWeightedVariance(window, alpha, unbiased: false);
+            double ewma2 = vec2.ExponentialWeightedVariance(window, alpha, unbiased: false);
+            double[,] ewmas = this.series.ExponentialWeightedCovariance(window, alpha, unbiased: false);
+
+            // Assert
+            Assert.AreEqual(ewmas[0, 0], ewma1, Tolerance);
+            Assert.AreEqual(ewmas[1, 1], ewma2, Tolerance);
+        }
+
+        [Test]
+        [TestCase(0.0)]
+        [TestCase(0.2)]
+        [TestCase(0.5)]
+        [TestCase(1.0)]
+        public void EwmVarianceUnbiasedTest(double alpha)
+        {
+            /*
+             * We have verified the numbers in the case of the matrix and so
+             * it suffices to check consistency with the matrix calculations
+             * here.
+             */
+
+            // Arrange
+            double[] vec1 = this.series.GetColumn(0);
+            double[] vec2 = this.series.GetColumn(1);
+
+            // Act
+            double ewma1 = vec1.ExponentialWeightedVariance(alpha, unbiased: true);
+            double ewma2 = vec2.ExponentialWeightedVariance(alpha, unbiased: true);
+            double[,] ewmas = this.series.ExponentialWeightedCovariance(alpha, unbiased: true);
+
+            // Assert
+            Assert.AreEqual(ewmas[0, 0], ewma1, Tolerance);
+            Assert.AreEqual(ewmas[1, 1], ewma2, Tolerance);
+        }
+
+        [Test]
         [TestCase(0, 5.6, 2.28571428571429, 10.0952380952381)]
         [TestCase(0.2, 4.31014623570092, 0.625302929087394, 14.7567276814633)]
         [TestCase(0.5, 2.2476817067779, -2.04530939646465, 18.1801422111128)]
@@ -152,7 +262,7 @@ namespace Accord.Tests.Statistics
             };
 
             // Act
-            double[,] ewmCov = this.series.ExponentialWeightedCovariance(alpha, bias: false);
+            double[,] ewmCov = this.series.ExponentialWeightedCovariance(alpha, unbiased: true);
 
             // Assert
             Assert.True(ewmCov.IsEqual(expected, Tolerance), "EWM Covariance does not agree with expected");
@@ -173,7 +283,7 @@ namespace Accord.Tests.Statistics
             };
 
             // Act
-            double[,] ewmCov = this.series.ExponentialWeightedCovariance(alpha, bias: true);
+            double[,] ewmCov = this.series.ExponentialWeightedCovariance(alpha, unbiased: false);
 
             // Assert
             Assert.True(ewmCov.IsEqual(expected, Tolerance), "EWM Covariance does not agree with expected");

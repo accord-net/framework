@@ -22,11 +22,152 @@
 
 namespace Accord.Statistics
 {
+    using Accord.Math;
     using System;
     using System.Collections.Generic;
 
     static partial class Measures
     {
+
+        /// <summary>
+        ///   Calculates the exponentially weighted mean.
+        /// </summary>
+        /// 
+        /// <param name="matrix">
+        ///   A vector of observations whose EW mean will be calculated. It is assumed that
+        ///   the vector is ordered with the most recent observations at the end of 
+        ///   the vector (and the oldest observations at the start).
+        /// </param>
+        /// <param name="alpha">
+        ///   The weighting to be applied to the calculation. A higher alpha discounts
+        ///   older observations faster. Alpha must be between 0 and 1 (inclusive).
+        /// </param>
+        /// 
+        /// <returns>
+        ///   Returns a <see cref="double"/> giving the exponentially weighted average of the
+        ///   vector.
+        /// </returns>
+        /// 
+        public static double ExponentialWeightedMean(this double[] values, double alpha = 0)
+        {
+            if (values == null)
+                throw new ArgumentNullException("values", "The vector cannot be null.");
+
+            return values.ExponentialWeightedMean(values.Length, alpha);
+        }
+
+        /// <summary>
+        ///   Calculates the exponentially weighted mean.
+        /// </summary>
+        /// 
+        /// <param name="matrix">
+        ///   A vector of observations whose EW mean will be calculated. It is assumed that
+        ///   the vector is ordered with the most recent observations at the end of 
+        ///   the vector (and the oldest observations at the start).
+        /// </param>
+        /// <param name="window">The number of samples to be used in the calculation.</param>
+        /// <param name="alpha">
+        ///   The weighting to be applied to the calculation. A higher alpha discounts
+        ///   older observations faster. Alpha must be between 0 and 1 (inclusive).
+        /// </param>
+        /// 
+        /// <returns>
+        ///   Returns a <see cref="double"/> giving the exponentially weighted average of the
+        ///   vector.
+        /// </returns>
+        /// 
+        public static double ExponentialWeightedMean(this double[] values, int window, double alpha = 0)
+        {
+            // Perform some basic error validation
+            Validate(values, window, alpha);
+
+            // Handle the trivial case
+            if (alpha == 1)
+                return values.Get(-1);
+
+            double[] truncatedSeries = window == values.Length
+                ? truncatedSeries = values
+                : truncatedSeries = values.Get(-window, 0);
+
+            if (alpha == 0)
+                return truncatedSeries.Mean();
+
+            // Now we create the weights
+            double[] decayWeights = GetDecayWeights(window, alpha);
+
+            return truncatedSeries.WeightedMean(decayWeights);
+        }
+
+
+        /// <summary>
+        ///   Calculates the exponentially weighted variance.
+        /// </summary>
+        /// 
+        /// <param name="values">
+        ///   A vector of observations whose EW variance will be calculated. It is assumed 
+        ///   that the vector is ordered with the most recent observations at the end of 
+        ///   the vector (and the oldest observations at the start).
+        /// </param>
+        /// <param name="alpha">
+        ///   The weighting to be applied to the calculation. A higher alpha discounts
+        ///   older observations faster. Alpha must be between 0 and 1 (inclusive).
+        /// </param>
+        /// <param name="unbiased">Use a standard estimation bias correction.</param>
+        /// 
+        /// <returns>
+        ///   Returns a <see cref="double"/> giving the exponentially weighted variance.
+        /// </returns>
+        /// 
+        public static double ExponentialWeightedVariance(
+            this double[] values, double alpha = 0, bool unbiased = false)
+        {
+            if (values == null)
+                throw new ArgumentNullException("values", "The vector cannot be null.");
+
+            return values.ExponentialWeightedVariance(values.Length, alpha, unbiased);
+        }
+
+        /// <summary>
+        ///   Calculates the exponentially weighted variance.
+        /// </summary>
+        /// 
+        /// <param name="values">
+        ///   A vector of observations whose EW variance will be calculated. It is assumed 
+        ///   that the vector is ordered with the most recent observations at the end of 
+        ///   the vector (and the oldest observations at the start).
+        /// </param>
+        /// <param name="window">The number of samples to be used in the calculation.</param>
+        /// <param name="alpha">
+        ///   The weighting to be applied to the calculation. A higher alpha discounts
+        ///   older observations faster. Alpha must be between 0 and 1 (inclusive).
+        /// </param>
+        /// <param name="unbiased">Use a standard estimation bias correction.</param>
+        /// 
+        /// <returns>
+        ///   Returns a <see cref="double"/> giving the exponentially weighted variance.
+        /// </returns>
+        /// 
+        public static double ExponentialWeightedVariance(
+            this double[] values, int window, double alpha = 0, bool unbiased = false)
+        {
+            // Perform some basic error validation
+            Validate(values, window, alpha);
+
+            int rows = values.Rows();
+
+            // Handle the trivial case
+            if (alpha == 1)
+                return 0;
+
+            double[] truncatedSeries = window == values.Length
+                ? truncatedSeries = values
+                : truncatedSeries = values.Get(-window, 0);
+
+            // Now we create the weights
+            double[] decayWeights = GetDecayWeights(window, alpha);
+
+            return truncatedSeries.WeightedVariance(decayWeights, unbiased);
+        }
 
         /// <summary>
         ///   Computes the Weighted Mean of the given values.
@@ -1214,6 +1355,32 @@ namespace Accord.Statistics
             return min;
         }
 
+        private static void Validate(double[] vector, int window, double alpha)
+        {
+            // Perform some basic error validation
+            if (vector == null)
+                throw new ArgumentNullException("vector", "The vector cannot be null.");
+
+            if (alpha < 0 || alpha > 1)
+            {
+                string message = string.Format(
+                    "Alpha must lie in the interval [0, 1] but was {0}", alpha);
+
+                throw new ArgumentOutOfRangeException("alpha", message);
+            }
+
+            int numSamples = vector.Length;
+
+            if (window <= 0 || window > numSamples)
+            {
+                string message = string.Format(
+                    "Window size ({0}) must be less than or equal to the total number of samples ({1})",
+                    window,
+                    numSamples);
+
+                throw new ArgumentOutOfRangeException("window", message);
+            }
+        }
     }
 }
 

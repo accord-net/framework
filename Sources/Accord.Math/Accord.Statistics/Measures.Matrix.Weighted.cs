@@ -521,7 +521,7 @@ namespace Accord.Statistics
         ///   The weighting to be applied to the calculation. A higher alpha discounts
         ///   older observations faster. Alpha must be between 0 and 1 (inclusive).
         /// </param>
-        /// <param name="bias">Use a standard estimation bias correction.</param>
+        /// <param name="unbiased">Use a standard estimation bias correction.</param>
         /// 
         /// <returns>
         ///   Returns a vector containing the exponentially weighted average of the columns of 
@@ -535,12 +535,12 @@ namespace Accord.Statistics
         /// <code source="Unit Tests\Accord.Tests.Math\Accord.Statistics\MeasuresTest.cs" region="doc_example2" />
         /// </example>
         public static double[,] ExponentialWeightedCovariance(
-            this double[][] matrix, double alpha = 0, bool bias = true)
+            this double[][] matrix, double alpha = 0, bool unbiased = false)
         {
             if (matrix == null)
                 throw new ArgumentNullException("matrix", "The matrix cannot be null.");
 
-            return matrix.ExponentialWeightedCovariance(matrix.Rows(), alpha, bias);
+            return matrix.ExponentialWeightedCovariance(matrix.Rows(), alpha, unbiased);
         }
 
         /// <summary>
@@ -557,7 +557,7 @@ namespace Accord.Statistics
         ///   The weighting to be applied to the calculation. A higher alpha discounts
         ///   older observations faster. Alpha must be between 0 and 1 (inclusive).
         /// </param>
-        /// <param name="bias">Use a standard estimation bias correction.</param>
+        /// <param name="unbiased">Use a standard estimation bias correction.</param>
         /// 
         /// <returns>
         ///   Returns a vector containing the exponentially weighted average of the columns of 
@@ -571,7 +571,7 @@ namespace Accord.Statistics
         /// <code source="Unit Tests\Accord.Tests.Math\Accord.Statistics\MeasuresTest.cs" region="doc_example2" />
         /// </example>
         public static double[,] ExponentialWeightedCovariance(
-            this double[][] matrix, int window, double alpha = 0, bool bias = true)
+            this double[][] matrix, int window, double alpha = 0, bool unbiased = false)
         {
             // Perform some basic error validation
             Validate(matrix, window, alpha);
@@ -590,16 +590,14 @@ namespace Accord.Statistics
                 ? truncatedSeries = matrix
                 : truncatedSeries = matrix.Get(-window, 0);
 
+            if (unbiased)
+                return truncatedSeries.WeightedCovariance(decayWeights);
+
             double[] weightedMeans = truncatedSeries.WeightedMean(decayWeights);
 
-            if (bias)
-            {
-                double effectiveNumObs = alpha == 0 ? window : ((1 - Math.Pow(1 - alpha, window)) / alpha);
+            double effectiveNumObs = alpha == 0 ? window : ((1 - Math.Pow(1 - alpha, window)) / alpha);
 
-                return truncatedSeries.WeightedScatter(decayWeights, weightedMeans, 1 / effectiveNumObs, 0);
-            }
-
-            return truncatedSeries.WeightedCovariance(decayWeights, weightedMeans);
+            return truncatedSeries.WeightedScatter(decayWeights, weightedMeans, 1 / effectiveNumObs, 0);
         }
 
         /// <summary>
@@ -1144,11 +1142,10 @@ namespace Accord.Statistics
                 string message = string.Format(
                     "Alpha must lie in the interval [0, 1] but was {0}", alpha);
 
-                throw new ArgumentOutOfRangeException("decay", message);
+                throw new ArgumentOutOfRangeException("alpha", message);
             }
 
             int rows = matrix.Rows();
-            int cols = matrix.Columns();
 
             if (window <= 0 || window > rows)
             {
