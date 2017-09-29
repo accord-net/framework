@@ -108,7 +108,7 @@ namespace Accord.MachineLearning
             /// <summary>
             /// Set of member point indices.
             /// </summary>
-            public HashSet<int> PointIndices { get; }
+            public HashSet<int> PointIndices { get; private set; }
 
             /// <summary>
             /// Initializes new ClusterInfo object.
