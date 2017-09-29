@@ -33,7 +33,7 @@ namespace Accord.Statistics
         ///   Calculates the exponentially weighted mean.
         /// </summary>
         /// 
-        /// <param name="matrix">
+        /// <param name="values">
         ///   A vector of observations whose EW mean will be calculated. It is assumed that
         ///   the vector is ordered with the most recent observations at the end of 
         ///   the vector (and the oldest observations at the start).
@@ -67,7 +67,7 @@ namespace Accord.Statistics
         ///   Calculates the exponentially weighted mean.
         /// </summary>
         /// 
-        /// <param name="matrix">
+        /// <param name="values">
         ///   A vector of observations whose EW mean will be calculated. It is assumed that
         ///   the vector is ordered with the most recent observations at the end of 
         ///   the vector (and the oldest observations at the start).
