@@ -134,7 +134,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accord.Namespaces", "Accord
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Accord.Tests.Math.Cpp", "..\Unit Tests\Accord.Tests.Math.Cpp\Accord.Tests.Math.Cpp.vcxproj", "{161BD953-537D-4325-8A00-22475FC9088E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accord.Math (Noncommercial)", "Extras\Accord.Math.NonCommercial\Accord.Math (Noncommercial).csproj", "{1A83AF16-1AC8-45E3-9E7E-FA7248C7CBCB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accord.Math (Noncommercial)", "Extras\Accord.Math.Noncommercial\Accord.Math (Noncommercial).csproj", "{1A83AF16-1AC8-45E3-9E7E-FA7248C7CBCB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Non-LGPL", "Non-LGPL", "{54EB52AC-52D0-4046-BDB6-276A5C7ED0F4}"
 EndProject
@@ -176,7 +176,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accord.Tests.Math.Interop",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accord.Math.Core", "Accord.Math.Core\Accord.Math.Core.csproj", "{ED3A336F-6DA2-4F34-87FE-1CCFFA029F8C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accord.Imaging (Noncommercial)", "Extras\Accord.Imaging.NonCommercial\Accord.Imaging (Noncommercial).csproj", "{44BB1934-5BFF-4A7B-8BF9-6F30043EB0D3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accord.Imaging (Noncommercial)", "Extras\Accord.Imaging.Noncommercial\Accord.Imaging (Noncommercial).csproj", "{44BB1934-5BFF-4A7B-8BF9-6F30043EB0D3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accord.Tests.Video.FFMPEG", "Extras\Accord.Tests.Video.FFMPEG\Accord.Tests.Video.FFMPEG.csproj", "{E688E7EB-64B0-41DA-A1A0-924B75727A4B}"
 EndProject
