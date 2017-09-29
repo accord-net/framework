@@ -75,7 +75,41 @@ int pixel_formats[] =
     libffmpeg::AV_PIX_FMT_YUV420P,  // libffmpeg::AV_CODEC_ID_THEORA,
     libffmpeg::AV_PIX_FMT_YUV420P,  // libffmpeg::AV_CODEC_ID_VP8,
     libffmpeg::AV_PIX_FMT_YUV420P,  // libffmpeg::AV_CODEC_ID_VP9,
-};                                  
-                                    
+};
+
 
 int CODECS_COUNT(sizeof(video_codecs) / sizeof(libffmpeg::AVCodecID));
+
+static class _init
+{
+public:
+    _init() {
+        String^ system32Path = Environment::GetFolderPath(Environment::SpecialFolder::SystemX86);
+        String^ system64Path = Environment::GetFolderPath(Environment::SpecialFolder::System);
+        String^ msvcDllName = "msvcp140.dll";
+
+        bool success = System::IO::File::Exists(System::IO::Path::Combine(system32Path, msvcDllName));
+
+        if (Environment::Is64BitProcess)
+        {
+            success &= System::IO::File::Exists(System::IO::Path::Combine(system64Path, msvcDllName));
+        }
+
+        if (!success)
+        {
+            if (Environment::Is64BitProcess)
+            {
+                throw gcnew InvalidOperationException("This application requires both the x64 and x86 versions of " +
+                    "the Visual C++ Redistributable for Visual Studio 2015 to be installed on this computer. Please " +
+                    "download and install them from https://www.microsoft.com/en-us/download/details.aspx?id=48145");
+            }
+            else
+            {
+                throw gcnew InvalidOperationException("This application requires the x86 version of " +
+                    "the Visual C++ Redistributable for Visual Studio 2015 to be installed on this computer. Please " +
+                    "download and install it from https://www.microsoft.com/en-us/download/details.aspx?id=48145");
+            }
+
+        }
+    }
+} _initializer;
