@@ -59,11 +59,16 @@ namespace Accord.Math.Transforms
     /// </summary>
     /// 
     /// <remarks>
-    ///   This fourier transform accepts arbitrary-length matrices and is not
-    ///   restricted only to matrices that have dimensions which are powers of
-    ///   two. It also provides results which are more equivalent with other
-    ///   mathematical packages, such as MATLAB and Octave.
+    /// <para>
+    ///   The transforms in this class accept arbitrary-length matrices and are not restricted to 
+    ///   only matrices that have dimensions which are powers of two. It also provides results which 
+    ///   are more equivalent with other mathematical packages, such as MATLAB and Octave.</para>
+    /// <para>
+    ///   This class had been created as an alternative to <see cref="FourierTransform">AForge.NET's 
+    ///   original FourierTransform class</see> that would provide more expected results.</para>
     /// </remarks>
+    /// 
+    /// <seealso cref="FourierTransform"/>
     /// 
     public static class FourierTransform2
     {
@@ -72,8 +77,10 @@ namespace Accord.Math.Transforms
         ///   1-D Discrete Fourier Transform.
         /// </summary>
         /// 
-        /// <param name="data">The data to transform..</param>
+        /// <param name="data">The data to transform.</param>
         /// <param name="direction">The transformation direction.</param>
+        /// 
+        /// <code source="Unit Tests\Accord.Tests.Math\FourierTransformTest.cs" region="doc_dft" />
         /// 
         public static void DFT(Complex[] data, FourierTransform.Direction direction)
         {
@@ -124,41 +131,61 @@ namespace Accord.Math.Transforms
         /// <param name="data">The data to transform.</param>
         /// <param name="direction">The transformation direction.</param>
         /// 
+        /// <code source="Unit Tests\Accord.Tests.Math\FourierTransformTest.cs" region="doc_dft2" />
+        /// 
         public static void DFT2(Complex[][] data, FourierTransform.Direction direction)
         {
-            int n = data.Rows();
             int m = data.Columns();
 
-            // process rows
-            var row = new Complex[m];
-            for (int i = 0; i < n; i++)
+            if (direction == FourierTransform.Direction.Forward)
             {
-                // copy row
-                for (int j = 0; j < row.Length; j++)
-                    row[j] = data[i][j];
+                // process rows
+                for (int i = 0; i < data.Length; i++)
+                {
+                    // transform it
+                    DFT(data[i], FourierTransform.Direction.Forward);
+                }
 
-                // transform it
-                DFT(row, direction);
+                // process columns
+                var col = new Complex[data.Length];
+                for (int j = 0; j < m; j++)
+                {
+                    // copy column
+                    for (int i = 0; i < col.Length; i++)
+                        col[i] = data[i][j];
 
-                // copy back
-                for (int j = 0; j < row.Length; j++)
-                    data[i][j] = row[j];
+                    // transform it
+                    DFT(col, FourierTransform.Direction.Forward);
+
+                    // copy back
+                    for (int i = 0; i < col.Length; i++)
+                        data[i][j] = col[i];
+                }
             }
-
-            // process columns
-            var col = new Complex[n];
-            for (int j = 0; j < m; j++)
+            else
             {
-                // copy column
-                for (int i = 0; i < col.Length; i++)
-                    col[i] = data[i][j];
+                // process columns
+                var col = new Complex[data.Length];
+                for (int j = 0; j < m; j++)
+                {
+                    // copy column
+                    for (int i = 0; i < col.Length; i++)
+                        col[i] = data[i][j];
 
-                // transform it
-                DFT(col, direction);
+                    // transform it
+                    DFT(col, FourierTransform.Direction.Backward);
 
-                // copy back
-                for (int i = 0; i < col.Length; i++)
-                    data[i][j] = col[i];
+                    // copy back
+                    for (int i = 0; i < col.Length; i++)
+                        data[i][j] = col[i];
+                }
+
+                // process rows
+                for (int i = 0; i < data.Length; i++)
+                {
+                    // transform it
+                    DFT(data[i], FourierTransform.Direction.Backward);
+                }
             }
         }
 
@@ -168,6 +195,8 @@ namespace Accord.Math.Transforms
         /// 
         /// <param name="data">The data to transform..</param>
         /// <param name="direction">The transformation direction.</param>
+        /// 
+        /// <code source="Unit Tests\Accord.Tests.Math\FourierTransformTest.cs" region="doc_fft" />
         /// 
         public static void FFT(Complex[] data, FourierTransform.Direction direction)
         {
@@ -212,6 +241,8 @@ namespace Accord.Math.Transforms
         /// <param name="imag">The imaginary part of the complex numbers to transform.</param>
         /// <param name="direction">The transformation direction.</param>
         /// 
+        /// <code source="Unit Tests\Accord.Tests.Math\FourierTransformTest.cs" region="doc_fft" />
+        /// 
         public static void FFT(double[] real, double[] imag, FourierTransform.Direction direction)
         {
             if (direction == FourierTransform.Direction.Forward)
@@ -237,8 +268,10 @@ namespace Accord.Math.Transforms
         ///   2-D Fast Fourier Transform.
         /// </summary>
         /// 
-        /// <param name="data">The data to transform..</param>
+        /// <param name="data">The data to transform.</param>
         /// <param name="direction">The Transformation direction.</param>
+        /// 
+        /// <code source="Unit Tests\Accord.Tests.Math\FourierTransformTest.cs" region="doc_fft2" />
         /// 
         public static void FFT2(Complex[][] data, FourierTransform.Direction direction)
         {
