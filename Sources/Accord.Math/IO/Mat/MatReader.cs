@@ -175,8 +175,8 @@ namespace Accord.IO
         ///   matrices that have explicitly been asked for will be loaded).</param>
         /// 
         public MatReader(string fileName, bool autoTranspose = true, bool lazy = true)
-            : this(new FileStream(fileName, FileMode.Open, FileAccess.Read), autoTranspose: autoTranspose, lazy: lazy)
         {
+            init(new BinaryReader(new FileStream(fileName, FileMode.Open, FileAccess.Read)), autoTranspose, lazy);
         }
 
         /// <summary>
@@ -190,8 +190,8 @@ namespace Accord.IO
         ///   matrices that have explicitly been asked for will be loaded).</param>
         /// 
         public MatReader(Stream input, bool autoTranspose = true, bool lazy = true)
-            : this(new BinaryReader(input), autoTranspose: autoTranspose, lazy: lazy)
         {
+            init(new BinaryReader(input), autoTranspose, lazy);
         }
 
         /// <summary>
@@ -205,8 +205,8 @@ namespace Accord.IO
         ///   matrices that have explicitly been asked for will be loaded).</param>
         /// 
         public MatReader(byte[] input, bool autoTranspose = true, bool lazy = true)
-            : this(new MemoryStream(input), autoTranspose: autoTranspose, lazy: lazy)
         {
+            init(new BinaryReader(new MemoryStream(input)), autoTranspose, lazy);
         }
 
         /// <summary>
@@ -220,6 +220,11 @@ namespace Accord.IO
         ///   matrices that have explicitly been asked for will be loaded).</param>
         /// 
         public MatReader(BinaryReader reader, bool autoTranspose = true, bool lazy = true)
+        {
+            init(reader, autoTranspose, lazy);
+        }
+
+        private void init(BinaryReader reader, bool autoTranspose, bool lazy)
         {
             this.autoTranspose = autoTranspose;
 

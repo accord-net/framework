@@ -159,20 +159,9 @@ namespace Accord.IO
         /// 
         public IdxReader(string path)
         {
-            init(new FileStream(path, FileMode.Open, FileAccess.Read), path.EndsWith(".gz", StringComparison.OrdinalIgnoreCase));
+            init(new FileStream(path, FileMode.Open, FileAccess.Read),
+                path.EndsWith(".gz", StringComparison.OrdinalIgnoreCase));
         }
-
-        /// <summary>
-        ///   Creates a new <see cref="IdxReader"/>.
-        /// </summary>
-        /// 
-        /// <param name="file">The byte array representing the contents of the IDX file.</param>
-        /// 
-        public IdxReader(byte[] file)
-        {
-            init(new MemoryStream(file), true);
-        }
-
 
         /// <summary>
         ///   Creates a new <see cref="IdxReader"/>.
@@ -183,7 +172,7 @@ namespace Accord.IO
         ///   Pass <c>true</c> if the stream contains 
         ///   a compressed (.gz) file. Default is true.</param>
         /// 
-        public IdxReader(string path, bool compressed)
+        public IdxReader(string path, bool compressed = true)
         {
             init(new FileStream(path, FileMode.Open, FileAccess.Read), compressed);
         }
@@ -192,11 +181,14 @@ namespace Accord.IO
         ///   Creates a new <see cref="IdxReader"/>.
         /// </summary>
         /// 
-        /// <param name="input">The input stream containing the IDX file.</param>
+        /// <param name="file">The byte array representing the contents of the IDX file.</param>
+        /// <param name="compressed">
+        ///   Pass <c>true</c> if the stream contains 
+        ///   a compressed (.gz) file. Default is true.</param>
         /// 
-        public IdxReader(Stream input)
+        public IdxReader(byte[] file, bool compressed = true)
         {
-            init(input, compressed: true);
+            init(new MemoryStream(file), compressed);
         }
 
         /// <summary>
@@ -208,7 +200,7 @@ namespace Accord.IO
         ///   Pass <c>true</c> if the stream contains 
         ///   a compressed (.gz) file. Default is true.</param>
         /// 
-        public IdxReader(Stream input, bool compressed)
+        public IdxReader(Stream input, bool compressed = true)
         {
             init(input, compressed);
         }

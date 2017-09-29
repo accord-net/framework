@@ -52,7 +52,7 @@ namespace Accord.IO
     /// 
     public partial class CsvReader :
 #if !NETSTANDARD1_4
-        IDataReader, 
+        IDataReader,
 #endif
         IEnumerable<string[]>, IDisposable
     {
@@ -139,8 +139,8 @@ namespace Accord.IO
         /// <param name="hasHeaders"><see langword="true"/> if field names are located on the first non commented line, otherwise, <see langword="false"/>.</param>
         /// 
         public CsvReader(string path, bool hasHeaders)
-            : this(new FileStream(path, FileMode.Open, FileAccess.Read), hasHeaders)
         {
+            init(new StreamReader(new FileStream(path, FileMode.Open, FileAccess.Read)), hasHeaders);
         }
 
         /// <summary>
@@ -151,8 +151,8 @@ namespace Accord.IO
         /// <param name="hasHeaders"><see langword="true"/> if field names are located on the first non commented line, otherwise, <see langword="false"/>.</param>
         /// 
         public CsvReader(Stream stream, bool hasHeaders)
-            : this(new StreamReader(stream), hasHeaders, DefaultDelimiter, DefaultBufferSize)
         {
+            init(new StreamReader(stream), hasHeaders);
         }
 
         /// <summary>
@@ -163,8 +163,8 @@ namespace Accord.IO
         /// <param name="hasHeaders"><see langword="true"/> if field names are located on the first non commented line, otherwise, <see langword="false"/>.</param>
         /// 
         public CsvReader(TextReader reader, bool hasHeaders)
-            : this(reader, hasHeaders, DefaultDelimiter, DefaultBufferSize)
         {
+            init(reader, hasHeaders);
         }
 
         /// <summary>
@@ -176,8 +176,8 @@ namespace Accord.IO
         /// <param name="bufferSize">The buffer size in bytes.</param>
         /// 
         public CsvReader(TextReader reader, bool hasHeaders, int bufferSize)
-            : this(reader, hasHeaders, DefaultDelimiter, bufferSize)
         {
+            init(reader, hasHeaders, bufferSize: bufferSize);
         }
 
         /// <summary>
@@ -190,8 +190,8 @@ namespace Accord.IO
         ///   delimiter will be detected from the file automatically. Default is '\0' (zero).</param>
         /// 
         public CsvReader(TextReader reader, bool hasHeaders, char delimiter)
-            : this(reader, hasHeaders, delimiter, DefaultBufferSize)
         {
+            init(reader, hasHeaders, delimiter);
         }
 
         /// <summary>
@@ -205,6 +205,11 @@ namespace Accord.IO
         /// <param name="bufferSize">The buffer size in bytes.</param>
         /// 
         public CsvReader(TextReader reader, bool hasHeaders, char delimiter, int bufferSize)
+        {
+            init(reader, hasHeaders, delimiter, bufferSize);
+        }
+
+        private void init(TextReader reader, bool hasHeaders, char delimiter = DefaultDelimiter, int bufferSize = DefaultBufferSize)
         {
 #if DEBUG && !NETSTANDARD1_4
             _allocStack = new System.Diagnostics.StackTrace();
