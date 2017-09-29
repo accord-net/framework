@@ -28,6 +28,7 @@ namespace Accord.Tests.Statistics
     using System.Diagnostics;
     using Accord.Statistics;
     using System;
+    using Accord.Math.Distances;
 
     [TestFixture]
     public class GaussianTest
@@ -160,7 +161,7 @@ namespace Accord.Tests.Statistics
         {
             Accord.Math.Random.Generator.Seed = 0;
 
-            double[][] data = 
+            double[][] data =
             {
                 new double[] { 5.1, 3.5, 1.4, 0.2 },
                 new double[] { 5.0, 3.6, 1.4, 0.2 },
@@ -185,7 +186,7 @@ namespace Accord.Tests.Statistics
         {
             // Tested against R's kernlab
 
-            double[][] data = 
+            double[][] data =
             {
                 new double[] { 5.1, 3.5, 1.4, 0.2 },
                 new double[] { 5.0, 3.6, 1.4, 0.2 },
@@ -242,13 +243,13 @@ namespace Accord.Tests.Statistics
         {
             // Suppose we have the following data 
             // 
-            double[][] data =  
-            { 
-                new double[] { 5.1, 3.5, 1.4, 0.2 }, 
-                new double[] { 5.0, 3.6, 1.4, 0.2 }, 
-                new double[] { 4.9, 3.0, 1.4, 0.2 }, 
-                new double[] { 5.8, 4.0, 1.2, 0.2 }, 
-                new double[] { 4.7, 3.2, 1.3, 0.2 }, 
+            double[][] data =
+            {
+                new double[] { 5.1, 3.5, 1.4, 0.2 },
+                new double[] { 5.0, 3.6, 1.4, 0.2 },
+                new double[] { 4.9, 3.0, 1.4, 0.2 },
+                new double[] { 5.8, 4.0, 1.2, 0.2 },
+                new double[] { 4.7, 3.2, 1.3, 0.2 },
             };
 
             // Estimate an appropriate sigma from data 
@@ -307,6 +308,63 @@ namespace Accord.Tests.Statistics
                 Assert.AreEqual(phi_d, d, 1e-3);
                 Assert.IsFalse(double.IsNaN(phi_d));
                 Assert.IsFalse(double.IsNaN(d));
+            }
+        }
+
+        [Test]
+        public void rbf_kernel()
+        {
+            #region doc_rbf
+            // Let's say we created a Gaussian RBF kernel:
+            IRadialBasisKernel rbf = new Gaussian(sigma: 3.6);
+
+            // Normally, kernel functions are always defined
+            // between two points. For example, if we were to
+            // compute the Gaussian kernel between points
+            double[] x = { 1, 3 };
+            double[] y = { 4, 2 };
+
+            // The most straightforward way would be to use
+            double k = rbf.Function(x, y); // should be 0.6799048146023815
+
+            // However, since this kernel is a RBF, it means we 
+            // can also compute its kernel function through the
+            // Euclidean distance between the two points:
+            double z = Distance.Euclidean(x, y);
+            double a = rbf.Function(z); // should also be 0.6799048146023815
+            #endregion
+
+            Assert.AreEqual(k, a);
+        }
+
+        static object[] rbf_source =
+        {
+            new Gaussian(sigma: 3.6),
+            new Accord.Statistics.Kernels.Circular(sigma: 4.2),
+            new Gaussian(sigma: 0.7),
+            new Log(degree: 2),
+            new Multiquadric(),
+            new Power(degree: 2),
+            new RationalQuadratic(constant: 4.2),
+            new Spherical(sigma: 4.2),
+            new SquaredSinc(gamma: 4.7),
+            new SymmetricTriangle(gamma: 2.1),
+            new TStudent(degree: 2),
+            new Wave(sigma: 0.36),
+        };
+
+        [Test]
+        [TestCaseSource("rbf_source")]
+        public void rbf_kernel_mass_test(IRadialBasisKernel rbf)
+        {
+            for (int i = 2; i < 5; i++)
+            {
+                double[] x = Vector.Random(i);
+                double[] y = Vector.Random(i);
+                double expected = rbf.Function(x, y);
+                double z = Distance.Euclidean(x, y);
+                double actual = rbf.Function(z);
+                Assert.AreEqual(expected, actual, 1e-8);
             }
         }
     }

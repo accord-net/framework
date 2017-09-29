@@ -91,7 +91,7 @@ namespace Accord.Statistics.Kernels
         /// 
         public double Function(double z)
         {
-            return 1.0 - (z / (z - constant));
+            return 1.0 - ((z * z) / ((z * z) - constant));
         }
 
         /// <summary>

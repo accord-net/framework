@@ -96,7 +96,7 @@ namespace Accord.Statistics.Kernels
                 norm += d * d;
             }
 
-            return -System.Math.Pow(norm, degree);
+            return -System.Math.Pow(norm, degree / 2.0);
         }
 
         /// <summary>
