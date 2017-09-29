@@ -37,6 +37,22 @@ namespace Accord.Statistics.Kernels
     ///   although other distance functions are also possible. </para>
     ///   
     /// <para>
+    ///   Examples of radial basis kernels include:</para>
+    /// <list type="bullet">  
+    ///   <description><see cref="Circular"/></description>  
+    ///   <description><see cref="Gaussian"/></description>  
+    ///   <description><see cref="Log"/></description>  
+    ///   <description><see cref="Multiquadric"/></description>  
+    ///   <description><see cref="Power "/></description>  
+    ///   <description><see cref="RationalQuadratic"/></description>  
+    ///   <description><see cref="Spherical"/></description>  
+    ///   <description><see cref="SquaredSinc"/></description>  
+    ///   <description><see cref="SymmetricTriangle"/></description>  
+    ///   <description><see cref="TStudent"/></description>  
+    ///   <description><see cref="Wave"/></description>  
+    /// </list>  
+    ///   
+    /// <para>
     ///   References:
     ///   <list type="bullet">
     ///     <item><description>
@@ -44,6 +60,8 @@ namespace Accord.Statistics.Kernels
     ///       https://en.wikipedia.org/wiki/Radial_basis_function </description></item>
     ///    </list></para>
     /// </remarks>
+    /// 
+    /// <code source="Unit Tests\Accord.Tests.Statistics\Kernels\GaussianTest.cs" region="doc_rbf" />
     /// 
     public interface IRadialBasisKernel : IKernel
     {
