@@ -48,6 +48,13 @@ namespace Accord.Statistics
         ///   vector.
         /// </returns>
         /// 
+        /// <example>
+        /// <para>
+        ///   The following example shows how to compute the EW mean.</para>
+        ///   
+        /// <code source="Unit Tests\Accord.Tests.Math\Accord.Statistics\MeasuresTest.cs" region="doc_example3" />
+        /// </example>
+        ///
         public static double ExponentialWeightedMean(this double[] values, double alpha = 0)
         {
             if (values == null)
@@ -76,6 +83,13 @@ namespace Accord.Statistics
         ///   vector.
         /// </returns>
         /// 
+        /// <example>
+        /// <para>
+        ///   The following example shows how to compute the EW mean.</para>
+        ///   
+        /// <code source="Unit Tests\Accord.Tests.Math\Accord.Statistics\MeasuresTest.cs" region="doc_example3" />
+        /// </example>
+        ///
         public static double ExponentialWeightedMean(this double[] values, int window, double alpha = 0)
         {
             // Perform some basic error validation
@@ -118,6 +132,13 @@ namespace Accord.Statistics
         ///   Returns a <see cref="double"/> giving the exponentially weighted variance.
         /// </returns>
         /// 
+        /// <example>
+        /// <para>
+        ///   The following example shows how to compute the EW variance.</para>
+        ///   
+        /// <code source="Unit Tests\Accord.Tests.Math\Accord.Statistics\MeasuresTest.cs" region="doc_example4" />
+        /// </example>
+        ///
         public static double ExponentialWeightedVariance(
             this double[] values, double alpha = 0, bool unbiased = false)
         {
@@ -147,6 +168,13 @@ namespace Accord.Statistics
         ///   Returns a <see cref="double"/> giving the exponentially weighted variance.
         /// </returns>
         /// 
+        /// <example>
+        /// <para>
+        ///   The following example shows how to compute the EW variance.</para>
+        ///   
+        /// <code source="Unit Tests\Accord.Tests.Math\Accord.Statistics\MeasuresTest.cs" region="doc_example4" />
+        /// </example>
+        ///
         public static double ExponentialWeightedVariance(
             this double[] values, int window, double alpha = 0, bool unbiased = false)
         {

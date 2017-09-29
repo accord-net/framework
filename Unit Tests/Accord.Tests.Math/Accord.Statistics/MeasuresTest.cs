@@ -42,7 +42,7 @@ namespace Accord.Tests.Statistics
                 { 5, 3, 8, 6, 4, 4, 3, 8, 9, 0, 9, 9, 1, 9, 2 },
             };
 
-            this.series = data.Transpose().ToJagged();
+            this.series = data.ToJagged(transpose: true);
         }
 
         [Test]
@@ -51,7 +51,7 @@ namespace Accord.Tests.Statistics
             #region doc_example1
             /*
             Suppose we have a time series of (possibly correlated) observations. Our 
-            sample has 14 observations in 2 variables (x and y). We wish to compute 
+            sample has 17 observations in 2 variables (x and y). We wish to compute 
             the mean of our series but would like to provide a heavier weighting to 
             the more recent observations. First, arrange the observations in rows 
             with the oldest data at the top and the newest data at the bottom. */
@@ -62,7 +62,7 @@ namespace Accord.Tests.Statistics
             };
 
             // Transpose our raw data to get it into the required format.
-            double[][] timeSeries = rawData.Transpose().ToJagged();
+            double[][] timeSeries = rawData.ToJagged(transpose: true);
 
             // The window size determines how many observations to include in the 
             // calculation. If no window is specified, the entire dataset is used. 
@@ -85,7 +85,7 @@ namespace Accord.Tests.Statistics
             #region doc_example2
             /*
             Suppose we have a time series of (possibly correlated) observations. Our 
-            sample has 14 observations in 2 variables (x and y). We wish to compute 
+            sample has 17 observations in 2 variables (x and y). We wish to compute 
             the covariance matrix for our series but would like to provide a heavier 
             weighting to the more recent observations. First, arrange the observations 
             in rows with the oldest data at the top and the newest data at the bottom. */
@@ -96,7 +96,7 @@ namespace Accord.Tests.Statistics
             };
 
             // Transpose our raw data to get it into the required format.
-            double[][] timeSeries = rawData.Transpose().ToJagged();
+            double[][] timeSeries = rawData.ToJagged(transpose: true);
 
             // The window size determines how many observations to include in the 
             // calculation. If no window is specified, the entire dataset is used. 
@@ -118,6 +118,66 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.550757446419597, ewmCov[1, 0], Tolerance);
             Assert.AreEqual(0.550757446419597, ewmCov[0, 1], Tolerance);
             Assert.AreEqual(12.99750453306480, ewmCov[1, 1], Tolerance);
+        }
+
+        [Test]
+        public void EwmWindowTest()
+        {
+            #region doc_example3
+            /*
+            Suppose we have a time series of observations. Our sample has 17 
+            observations. We wish to compute the mean for our series but would 
+            like to provide a heavier weighting to the more recent observations. 
+            First, create a vector with the oldest data at the start and the most
+            recent data at the end of the vector. */
+            double[] timeSeries =
+            {
+                2, 2, 1, 3, 5, 6, 4, 2, 7, 8, 9, 2, 3, 4, 5, 6, 7
+            };
+
+            // The window size determines how many observations to include in the 
+            // calculation. If no window is specified, the entire dataset is used. 
+            int window = 15;
+
+            // We set alpha to 20% meaning each previous observation's contribution 
+            // carries 20% less weight (relative to its immediate successor).  
+            double alpha = 0.2;
+
+            // Now we calculate the EW mean. The result should be 5.37
+            double ewm = timeSeries.ExponentialWeightedMean(window, alpha);
+            #endregion
+
+            Assert.AreEqual(5.3708532126850983, ewm, Tolerance);
+        }
+
+        [Test]
+        public void EwVarianceWindowTest()
+        {
+            #region doc_example4
+            /*
+            Suppose we have a time series of observations. Our sample has 17 
+            observations. We wish to compute the variance for our series but would 
+            like to provide a heavier weighting to the more recent observations. 
+            First, create a vector with the oldest data at the start and the most
+            recent data at the end of the vector. */
+            double[] timeSeries =
+            {
+                2, 2, 1, 3, 5, 6, 4, 2, 7, 8, 9, 2, 3, 4, 5, 6, 7
+            };
+
+            // The window size determines how many observations to include in the 
+            // calculation. If no window is specified, the entire dataset is used. 
+            int window = 15;
+
+            // We set alpha to 20% meaning each previous observation's contribution 
+            // carries 20% less weight (relative to its immediate successor).  
+            double alpha = 0.2;
+
+            // Now we calculate the EW variance. The result should be 3.80.
+            double ewVar = timeSeries.ExponentialWeightedVariance(window, alpha);
+            #endregion
+
+            Assert.AreEqual(3.796312193730190, ewVar, Tolerance);
         }
 
         [Test]
