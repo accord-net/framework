@@ -126,8 +126,8 @@ namespace Accord.Math.Transforms
         /// 
         public static void DFT2(Complex[][] data, FourierTransform.Direction direction)
         {
-            int n = data.Length;
-            int m = data[0].Length;
+            int n = data.Rows();
+            int m = data.Columns();
 
             // process rows
             var row = new Complex[m];
@@ -147,7 +147,7 @@ namespace Accord.Math.Transforms
 
             // process columns
             var col = new Complex[n];
-            for (int j = 0; j < n; j++)
+            for (int j = 0; j < m; j++)
             {
                 // copy column
                 for (int i = 0; i < col.Length; i++)

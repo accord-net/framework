@@ -35,6 +35,37 @@ namespace Accord.Tests.Math
     {
 
         [Test]
+        public void gh878()
+        {
+            // https://github.com/accord-net/framework/issues/878
+
+            // Should not throw (throws now):
+            Complex[][] input = new[]
+            {
+                new[] { Complex.Zero, Complex.Zero },
+                new[] { Complex.Zero, Complex.Zero },
+                new[] { Complex.Zero, Complex.Zero },
+            };
+
+            FourierTransform2.DFT2(input, FourierTransform.Direction.Forward);
+
+            Assert.AreEqual(3, input.Rows());
+            Assert.AreEqual(2, input.Columns());
+
+            // Also should not throw (symmetric check, doesn't throw now):
+            Complex[][] input2 = new[]
+            {
+                new[] { Complex.Zero, Complex.Zero, Complex.Zero },
+                new[] { Complex.Zero, Complex.Zero, Complex.Zero },
+            };
+
+            FourierTransform2.DFT2(input2, FourierTransform.Direction.Forward);
+
+            Assert.AreEqual(3, input.Rows());
+            Assert.AreEqual(2, input.Columns());
+        }
+
+        [Test]
         [Category("Slow")]
         public void FFTTest()
         {
