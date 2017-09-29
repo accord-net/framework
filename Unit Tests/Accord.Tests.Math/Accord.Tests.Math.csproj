@@ -59,6 +59,7 @@
   </ItemGroup>
  -->
   <ItemGroup>
+    <Compile Include="Accord.Statistics\MeasuresTest.cs" />
     <Compile Include="Accord.Statistics\QuantilesTest.cs" />
     <Compile Include="AForge\Geometry\ClosePointsMergingOptimizerTest.cs" />
     <Compile Include="AForge\Geometry\FlatAnglesOptimizerTest.cs" />
