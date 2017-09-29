@@ -69,6 +69,11 @@ namespace Accord.Math.Random
         public ZigguratNormalGenerator(int seed)
         {
             u = new ZigguratUniformOneGenerator(seed);
+
+            kn = new uint[128];
+            fn = new double[128];
+            wn = new double[128];
+            setup();
         }
 
         /// <summary>
@@ -78,10 +83,6 @@ namespace Accord.Math.Random
         public ZigguratNormalGenerator()
             : this(Generator.Random.Next())
         {
-            kn = new uint[128];
-            fn = new double[128];
-            wn = new double[128];
-            setup();
         }
 
         /// <summary>
