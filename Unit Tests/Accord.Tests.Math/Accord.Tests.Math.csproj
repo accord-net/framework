@@ -139,6 +139,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Random\ZigguratNormalGeneratorTest.cs" />
     <Compile Include="Random\GeneratorTest.cs" />
     <Compile Include="ReducedRowEchelonFormTest.cs" />
     <Compile Include="Wavelets\CDF97Test.cs" />
