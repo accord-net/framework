@@ -237,8 +237,8 @@ namespace Accord.DebuggerVisualizers
                 pMain.AutoScrollPosition = new System.Drawing.Point(-pMain.AutoScrollPosition.X - scrollOffset.X, -pMain.AutoScrollPosition.Y - scrollOffset.Y);
             }
 
-            tsslX.Text = $"X: {e.X}";
-            tsslY.Text = $"Y: {e.Y}";
+            tsslX.Text = $"X: {e.X / Zoom}";
+            tsslY.Text = $"Y: {e.Y / Zoom}";
         }
 
         private void pbPreview_MouseUp(object sender, MouseEventArgs e)
