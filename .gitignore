@@ -43,3 +43,5 @@ html
 /missing
 
 !Externals/NUnit/*/bin
+/Sources/UpgradeLog.htm
+/Sources/result.txt
