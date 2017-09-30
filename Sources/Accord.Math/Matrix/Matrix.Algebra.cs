@@ -245,462 +245,310 @@ namespace Accord.Math
         #region Matrix-Matrix Multiplication
 
         /// <summary>
-        ///   Computes the product <c>A*B</c> of two matrices <c>A</c> and <c>B</c>.
+        ///   Obsolete. Please use the <see cref="Dot(Double[,], Double[,])"/> method instead.
         /// </summary>
         /// 
-        /// <param name="a">The left matrix <c>A</c>.</param>
-        /// <param name="b">The right matrix <c>B</c>.</param>
-        /// <returns>The product <c>A*B</c> of the given matrices <c>A</c> and <c>B</c>.</returns>
-        /// 
-        [Obsolete("Please use Dot instead.")]
+        [Obsolete("Please use the Dot(a, b) method instead.")]
         public static double[,] Multiply(double[,] a, double[,] b)
         {
             return Dot(a, b);
         }
 
         /// <summary>
-        ///   Computes the product <c>A*B</c> of two matrices <c>A</c> and <c>B</c>.
+        ///   Obsolete. Please use the <see cref="Dot(Double[,], Double[,])"/> method instead.
         /// </summary>
         /// 
-        /// <param name="a">The left matrix <c>A</c>.</param>
-        /// <param name="b">The right matrix <c>B</c>.</param>
-        /// <returns>The product <c>A*B</c> of the given matrices <c>A</c> and <c>B</c>.</returns>
-        /// 
-        [Obsolete("Please use Dot instead.")]
+        [Obsolete("Please use the Dot(a, b) method instead.")]
         public static double[][] Multiply(double[][] a, double[][] b)
         {
             return Dot(a, b);
         }
 
         /// <summary>
-        ///   Computes the product <c>A*B</c> of two matrices <c>A</c> and <c>B</c>.
+        ///   Obsolete. Please use the <see cref="Dot(Double[,], Double[,])"/> method instead.
         /// </summary>
         /// 
-        /// <param name="a">The left matrix <c>A</c>.</param>
-        /// <param name="b">The right matrix <c>B</c>.</param>
-        /// <returns>The product <c>A*B</c> of the given matrices <c>A</c> and <c>B</c>.</returns>
-        /// 
-        [Obsolete("Please use Dot instead.")]
+        [Obsolete("Please use the Dot(a, b) method instead.")]
         public static float[][] Multiply(float[][] a, float[][] b)
         {
             return Dot(a, b);
         }
 
         /// <summary>
-        ///   Computes the product <c>A*B</c> of two matrices <c>A</c> and <c>B</c>.
+        ///   Obsolete. Please use the <see cref="Dot(Double[,], Double[,])"/> method instead.
         /// </summary>
         /// 
-        /// <param name="a">The left matrix <c>A</c>.</param>
-        /// <param name="b">The right matrix <c>B</c>.</param>
-        /// <returns>The product <c>A*B</c> of the given matrices <c>A</c> and <c>B</c>.</returns>
-        /// 
-        [Obsolete("Please use Dot instead.")]
+        [Obsolete("Please use the Dot(a, b) method instead.")]
         public static double[][] Multiply(float[][] a, double[][] b)
         {
             return Dot(a, b);
         }
 
-
         /// <summary>
-        ///   Computes the product <c>A*B</c> of two matrices <c>A</c> and <c>B</c>.
+        ///   Obsolete. Please use the <see cref="Dot(Double[,], Double[,])"/> method instead.
         /// </summary>
         /// 
-        /// <param name="a">The left matrix <c>A</c>.</param>
-        /// <param name="b">The right matrix <c>B</c>.</param>
-        /// <returns>The product <c>A*B</c> of the given matrices <c>A</c> and <c>B</c>.</returns>
-        /// 
-        [Obsolete("Please use Dot instead.")]
+        [Obsolete("Please use the Dot(a, b) method instead.")]
         public static float[,] Multiply(float[,] a, float[,] b)
         {
             return Dot(a, b);
         }
 
         /// <summary>
-        ///   Computes the product <c>R = A*B</c> of two matrices <c>A</c>
-        ///   and <c>B</c>, storing the result in matrix <c>R</c>.
+        ///   Obsolete. Please use the <see cref="Dot(Double[,], Double[,])"/> method instead.
         /// </summary>
         /// 
-        /// <param name="a">The left matrix <c>A</c>.</param>
-        /// <param name="b">The right matrix <c>B</c>.</param>
-        /// <param name="result">The matrix <c>R</c> to store the product <c>R = A*B</c>
-        ///   of the given matrices <c>A</c> and <c>B</c>.</param>
-        /// 
-        [Obsolete("Please use Dot instead.")]
+        [Obsolete("Please use the Dot(a, b) method instead.")]
         public static void Multiply(double[,] a, double[,] b, double[,] result)
         {
             Dot(a, b, result);
         }
 
         /// <summary>
-        ///   Computes the product <c>R = A*B</c> of two matrices <c>A</c>
-        ///   and <c>B</c>, storing the result in matrix <c>R</c>.
+        ///   Obsolete. Please use the <see cref="Dot(Double[,], Double[,])"/> method instead.
         /// </summary>
         /// 
-        /// <param name="a">The left matrix <c>A</c>.</param>
-        /// <param name="b">The right matrix <c>B</c>.</param>
-        /// <param name="result">The matrix <c>R</c> to store the product <c>R = A*B</c>
-        ///   of the given matrices <c>A</c> and <c>B</c>.</param>
-        /// 
-        [Obsolete("Please use Dot instead.")]
+        [Obsolete("Please use the Dot(a, b) method instead.")]
         public static void Multiply(double[][] a, double[][] b, double[][] result)
         {
             Dot(a, b, result);
         }
 
         /// <summary>
-        ///   Computes the product <c>R = A*B</c> of two matrices <c>A</c>
-        ///   and <c>B</c>, storing the result in matrix <c>R</c>.
+        ///   Obsolete. Please use the <see cref="Dot(Double[,], Double[,])"/> method instead.
         /// </summary>
         /// 
-        /// <param name="a">The left matrix <c>A</c>.</param>
-        /// <param name="b">The right matrix <c>B</c>.</param>
-        /// <param name="result">The matrix <c>R</c> to store the product <c>R = A*B</c>
-        ///   of the given matrices <c>A</c> and <c>B</c>.</param>
-        /// 
-        [Obsolete("Please use Dot instead.")]
+        [Obsolete("Please use the Dot(a, b) method instead.")]
         public static void Multiply(double[,] a, double[,] b, double[][] result)
         {
             Dot(a, b).CopyTo(result);
         }
 
         /// <summary>
-        ///   Computes the product <c>R = A*B</c> of two matrices <c>A</c>
-        ///   and <c>B</c>, storing the result in matrix <c>R</c>.
+        ///   Obsolete. Please use the <see cref="Dot(Double[,], Double[,])"/> method instead.
         /// </summary>
         /// 
-        /// <param name="a">The left matrix <c>A</c>.</param>
-        /// <param name="b">The right matrix <c>B</c>.</param>
-        /// <param name="result">The matrix <c>R</c> to store the product <c>R = A*B</c>
-        ///   of the given matrices <c>A</c> and <c>B</c>.</param>
-        /// 
-        [Obsolete("Please use Dot instead.")]
+        [Obsolete("Please use the Dot(a, b) method instead.")]
         public static void Multiply(float[][] a, float[][] b, float[][] result)
         {
             Dot(a, b, result);
         }
 
         /// <summary>
-        ///   Computes the product <c>R = A*B</c> of two matrices <c>A</c>
-        ///   and <c>B</c>, storing the result in matrix <c>R</c>.
+        ///   Obsolete. Please use the <see cref="Dot(Double[,], Double[,])"/> method instead.
         /// </summary>
         /// 
-        /// <param name="a">The left matrix <c>A</c>.</param>
-        /// <param name="b">The right matrix <c>B</c>.</param>
-        /// <param name="result">The matrix <c>R</c> to store the product <c>R = A*B</c>
-        ///   of the given matrices <c>A</c> and <c>B</c>.</param>
-        /// 
-        [Obsolete("Please use Dot instead.")]
+        [Obsolete("Please use the Dot(a, b) method instead.")]
         public static void Multiply(float[][] a, double[][] b, double[][] result)
         {
             Dot(a, b, result);
         }
 
         /// <summary>
-        ///   Computes the product <c>R = A*B</c> of two matrices <c>A</c>
-        ///   and <c>B</c>, storing the result in matrix <c>R</c>.
+        ///   Obsolete. Please use the <see cref="Dot(Double[,], Double[,])"/> method instead.
         /// </summary>
         /// 
-        /// <param name="a">The left matrix <c>A</c>.</param>
-        /// <param name="b">The right matrix <c>B</c>.</param>
-        /// <param name="result">The matrix <c>R</c> to store the product <c>R = A*B</c>
-        ///   of the given matrices <c>A</c> and <c>B</c>.</param>
-        /// 
-        [Obsolete("Please use Dot instead.")]
+        [Obsolete("Please use the Dot(a, b) method instead.")]
         public static void Multiply(float[,] a, float[,] b, float[,] result)
         {
             Dot(a, b, result);
         }
 
-
         /// <summary>
-        ///   Computes the product <c>A*B'</c> of matrix <c>A</c> and transpose of <c>B</c>.
+        ///   Obsolete. Please use the <see cref="DotWithTransposed(Double[,], Double[,])"/> method instead.
         /// </summary>
         /// 
-        /// <param name="a">The left matrix <c>A</c>.</param>
-        /// <param name="b">The transposed right matrix <c>B</c>.</param>
-        /// <returns>The product <c>A*B'</c> of the given matrices <c>A</c> and <c>B</c>.</returns>
-        /// 
-        [Obsolete("Please use DotWithTransposed instead.")]
+        [Obsolete("Please use the DotWithTranspose(a, b) method instead.")]
         public static double[,] MultiplyByTranspose(this double[,] a, double[,] b)
         {
             return DotWithTransposed(a, b);
         }
 
         /// <summary>
-        ///   Computes the product <c>A*B'</c> of matrix <c>A</c> and transpose of <c>B</c>.
+        ///   Obsolete. Please use the <see cref="DotWithTransposed(Double[,], Double[,])"/> method instead.
         /// </summary>
         /// 
-        /// <param name="a">The left matrix <c>A</c>.</param>
-        /// <param name="b">The transposed right matrix <c>B</c>.</param>
-        /// <returns>The product <c>A*B'</c> of the given matrices <c>A</c> and <c>B</c>.</returns>
-        /// 
-        [Obsolete("Please use DotWithTransposed instead.")]
+        [Obsolete("Please use the DotWithTranspose(a, b) method instead.")]
         public static float[,] MultiplyByTranspose(this float[,] a, float[,] b)
         {
             return DotWithTransposed(a, b);
         }
 
         /// <summary>
-        ///   Computes the product <c>A*B'</c> of matrix <c>A</c> and
-        ///   transpose of <c>B</c>, storing the result in matrix <c>R</c>.
+        ///   Obsolete. Please use the <see cref="DotWithTransposed(Double[,], Double[,])"/> method instead.
         /// </summary>
         /// 
-        /// <param name="a">The left matrix <c>A</c>.</param>
-        /// <param name="b">The transposed right matrix <c>B</c>.</param>
-        /// <param name="result">The matrix <c>R</c> to store the product <c>R = A*B'</c>
-        ///   of the given matrices <c>A</c> and <c>B</c>.</param>
-        ///    
-        [Obsolete("Please use DotWithTransposed instead.")]
+        [Obsolete("Please use the DotWithTranspose(a, b) method instead.")]
         public static void MultiplyByTranspose(this double[,] a, double[,] b, double[,] result)
         {
             DotWithTransposed(a, b, result);
         }
 
         /// <summary>
-        ///   Computes the product <c>A*B'</c> of matrix <c>A</c> and
-        ///   transpose of <c>B</c>, storing the result in matrix <c>R</c>.
+        ///   Obsolete. Please use the <see cref="DotWithTransposed(Double[,], Double[,])"/> method instead.
         /// </summary>
         /// 
-        /// <param name="a">The left matrix <c>A</c>.</param>
-        /// <param name="b">The transposed right matrix <c>B</c>.</param>
-        /// <param name="result">The matrix <c>R</c> to store the product <c>R = A*B'</c>
-        ///   of the given matrices <c>A</c> and <c>B</c>.</param>
-        ///    
-        [Obsolete("Please use DotWithTransposed instead.")]
+        [Obsolete("Please use the DotWithTranspose(a, b) method instead.")]
         public static void MultiplyByTranspose(this float[,] a, float[,] b, float[,] result)
         {
             DotWithTransposed(a, b, result);
         }
 
-
         /// <summary>
-        ///   Computes the product <c>A'*B</c> of matrix <c>A</c> transposed and matrix <c>B</c>.
+        ///   Obsolete. Please use the <see cref="TransposeAndDot(Double[,], Double[,])"/> method instead.
         /// </summary>
         /// 
-        /// <param name="a">The transposed left matrix <c>A</c>.</param>
-        /// <param name="b">The right matrix <c>B</c>.</param>
-        /// <returns>The product <c>A'*B</c> of the given matrices <c>A</c> and <c>B</c>.</returns>
-        /// 
-        [Obsolete("Please use TransposeAndDot instead.")]
+        [Obsolete("Please use the TransposeAndDot(a, b) method instead.")]
         public static double[,] TransposeAndMultiply(this double[,] a, double[,] b)
         {
             return TransposeAndDot(a, b);
         }
 
         /// <summary>
-        ///   Computes the product <c>A'*B</c> of matrix <c>A</c> transposed and matrix <c>B</c>.
+        ///   Obsolete. Please use the <see cref="TransposeAndDot(Double[,], Double[,])"/> method instead.
         /// </summary>
         /// 
-        /// <param name="a">The transposed left matrix <c>A</c>.</param>
-        /// <param name="b">The right matrix <c>B</c>.</param>
-        /// <returns>The product <c>A'*B</c> of the given matrices <c>A</c> and <c>B</c>.</returns>
-        /// 
-        [Obsolete("Please use TransposeAndDot instead.")]
+        [Obsolete("Please use the TransposeAndDot(a, b) method instead.")]
         public static double[][] TransposeAndMultiply(this double[][] a, double[][] b)
         {
             return TransposeAndDot(a, b);
         }
 
         /// <summary>
-        ///   Computes the product <c>A'*B</c> of matrix <c>A</c> transposed and matrix <c>B</c>.
+        ///   Obsolete. Please use the <see cref="TransposeAndDot(Double[,], Double[,])"/> method instead.
         /// </summary>
         /// 
-        /// <param name="a">The transposed left matrix <c>A</c>.</param>
-        /// <param name="b">The right matrix <c>B</c>.</param>
-        /// <param name="result">The matrix <c>R</c> to store the product <c>R = A'*B</c>
-        ///   of the given matrices <c>A</c> and <c>B</c>.</param>
-        /// 
-        [Obsolete("Please use TransposeAndDot instead.")]
+        [Obsolete("Please use the TransposeAndDot(a, b) method instead.")]
         public static void TransposeAndMultiply(this double[,] a, double[,] b, double[,] result)
         {
             TransposeAndDot(a, b, result);
         }
 
         /// <summary>
-        ///   Computes the product <c>A'*B</c> of matrix <c>A</c> transposed and matrix <c>B</c>.
+        ///   Obsolete. Please use the <see cref="TransposeAndDot(Double[,], Double[,])"/> method instead.
         /// </summary>
         /// 
-        /// <param name="a">The transposed left matrix <c>A</c>.</param>
-        /// <param name="b">The right matrix <c>B</c>.</param>
-        /// <param name="result">The matrix <c>R</c> to store the product <c>R = A'*B</c>
-        ///   of the given matrices <c>A</c> and <c>B</c>.</param>
-        /// 
-        [Obsolete("Please use TransposeAndDot instead.")]
+        [Obsolete("Please use the TransposeAndDot(a, b) method instead.")]
         public static void TransposeAndMultiply(this double[][] a, double[][] b, double[][] result)
         {
             TransposeAndDot(a, b, result);
         }
 
-
         /// <summary>
-        ///   Computes the product <c>A'*B</c> of matrix <c>A</c> transposed and vector <c>b</c>.
+        ///   Obsolete. Please use the <see cref="TransposeAndDot(Double[,], Double[,])"/> method instead.
         /// </summary>
         /// 
-        /// <param name="a">The transposed left matrix <c>A</c>.</param>
-        /// <param name="b">The right column vector <c>b</c>.</param>
-        /// <returns>The product <c>A'*b</c> of the given matrices <c>A</c> and vector <c>b</c>.</returns>
-        /// 
-        [Obsolete("Please use TransposeAndDot instead.")]
+        [Obsolete("Please use the TransposeAndDot(a, b) method instead.")]
         public static double[] TransposeAndMultiply(this double[,] a, double[] b)
         {
             return TransposeAndDot(a, b);
         }
 
         /// <summary>
-        ///   Computes the product <c>A'*b</c> of matrix <c>A</c> transposed and column vector <c>b</c>.
+        ///   Obsolete. Please use the <see cref="TransposeAndDot(Double[,], Double[,])"/> method instead.
         /// </summary>
         /// 
-        /// <param name="a">The transposed left matrix <c>A</c>.</param>
-        /// <param name="b">The right column vector <c>b</c>.</param>
-        /// <param name="result">The vector <c>r</c> to store the product <c>r = A'*b</c>
-        ///   of the given matrix <c>A</c> and vector <c>b</c>.</param>
-        /// 
-        [Obsolete("Please use TransposeAndDot instead.")]
+        [Obsolete("Please use the TransposeAndDot(a, b) method instead.")]
         public static void TransposeAndMultiply(this double[,] a, double[] b, double[] result)
         {
             TransposeAndDot(a, b, result);
         }
 
         /// <summary>
-        ///   Computes the product A'*B of matrix <c>A</c> and diagonal matrix <c>B</c>.
+        ///   Obsolete. Please use the <see cref="TransposeAndDotWithDiagonal(Double[,], Double[])"/> method instead.
         /// </summary>
         /// 
-        /// <param name="a">The left matrix <c>A</c>.</param>
-        /// <param name="b">The diagonal vector of right matrix <c>B</c>.</param>
-        /// <returns>The product <c>A*B</c> of the given matrices <c>A</c> and <c>B</c>.</returns>
-        /// 
-        [Obsolete("Please use TransposeAndDotWithDiagonal instead.")]
+        [Obsolete("Please use the TransposeAndDotWithDiagonal(a, b) method instead.")]
         public static double[,] TransposeAndMultiplyByDiagonal(this double[,] a, double[] b)
         {
             return TransposeAndDotWithDiagonal(a, b);
         }
 
         /// <summary>
-        ///   Computes the product A'*B of matrix <c>A</c> and diagonal matrix <c>B</c>.
+        ///   Obsolete. Please use the <see cref="TransposeAndDotWithDiagonal(Double[,], Double[])"/> method instead.
         /// </summary>
         /// 
-        /// <param name="a">The left matrix <c>A</c>.</param>
-        /// <param name="b">The diagonal vector of right matrix <c>B</c>.</param>
-        /// <param name="result">The matrix <c>R</c> to store the product <c>R = A*B</c>
-        ///   of the given matrices <c>A</c> and <c>B</c>.</param>
-        /// 
-        [Obsolete("Please use TransposeAndDotWithDiagonal instead.")]
+        [Obsolete("Please use the TransposeAndDotWithDiagonal(a, b) method instead.")]
         public static void TransposeAndMultiplyByDiagonal(this double[,] a, double[] b, double[,] result)
         {
             TransposeAndDotWithDiagonal(a, b, result);
         }
 
         /// <summary>
-        ///   Computes the product A*B of matrix <c>A</c> and diagonal matrix <c>B</c>.
+        ///   Obsolete. Please use the <see cref="DotWithDiagonal(Double[,], Double[])"/> method instead.
         /// </summary>
         /// 
-        /// <param name="a">The left matrix <c>A</c>.</param>
-        /// <param name="b">The diagonal vector of right matrix <c>B</c>.</param>
-        /// <returns>The product <c>A*B</c> of the given matrices <c>A</c> and <c>B</c>.</returns>
-        /// 
-        [Obsolete("Please use DotWithDiagonal instead.")]
+        [Obsolete("Please use the DotWithDiagonal(a, b) method instead.")]
         public static double[][] MultiplyByDiagonal(this double[][] a, double[] b)
         {
             return DotWithDiagonal(a, b);
         }
 
         /// <summary>
-        ///   Computes the product A*B of matrix <c>A</c> and diagonal matrix <c>B</c>.
+        ///   Obsolete. Please use the <see cref="DotWithDiagonal(Double[,], Double[])"/> method instead.
         /// </summary>
         /// 
-        /// <param name="a">The left matrix <c>A</c>.</param>
-        /// <param name="b">The diagonal vector of right matrix <c>B</c>.</param>
-        /// <returns>The product <c>A*B</c> of the given matrices <c>A</c> and <c>B</c>.</returns>
-        /// 
-        [Obsolete("Please use DotWithDiagonal instead.")]
+        [Obsolete("Please use the DotWithDiagonal(a, b) method instead.")]
         public static float[][] MultiplyByDiagonal(this float[][] a, float[] b)
         {
             return DotWithDiagonal(a, b);
         }
 
         /// <summary>
-        ///   Computes the product A*B of matrix <c>A</c> and diagonal matrix <c>B</c>.
+        ///   Obsolete. Please use the <see cref="DotWithDiagonal(Double[,], Double[])"/> method instead.
         /// </summary>
         /// 
-        /// <param name="a">The left matrix <c>A</c>.</param>
-        /// <param name="b">The diagonal vector of right matrix <c>B</c>.</param>
-        /// <returns>The product <c>A*B</c> of the given matrices <c>A</c> and <c>B</c>.</returns>
-        /// 
-        [Obsolete("Please use DotWithDiagonal instead.")]
+        [Obsolete("Please use the DotWithDiagonal(a, b) method instead.")]
         public static double[,] MultiplyByDiagonal(this double[,] a, double[] b)
         {
             return DotWithDiagonal(a, b);
         }
 
         /// <summary>
-        ///   Computes the product A*B of matrix <c>A</c> and diagonal matrix <c>B</c>.
+        ///   Obsolete. Please use the <see cref="DotWithDiagonal(Double[,], Double[])"/> method instead.
         /// </summary>
         /// 
-        /// <param name="a">The left matrix <c>A</c>.</param>
-        /// <param name="b">The diagonal vector of right matrix <c>B</c>.</param>
-        /// <param name="result">The matrix <c>R</c> to store the product <c>R = A*B</c>
-        ///   of the given matrices <c>A</c> and <c>B</c>.</param>
-        /// 
-        [Obsolete("Please use DotWithDiagonal instead.")]
+        [Obsolete("Please use the DotWithDiagonal(a, b) method instead.")]
         public static void MultiplyByDiagonal(this double[,] a, double[] b, double[,] result)
         {
             DotWithDiagonal(a, b, result);
         }
 
         /// <summary>
-        ///   Computes the product A*B of matrix <c>A</c> and diagonal matrix <c>B</c>.
+        ///   Obsolete. Please use the <see cref="DotWithDiagonal(Double[,], Double[])"/> method instead.
         /// </summary>
         /// 
-        /// <param name="a">The left matrix <c>A</c>.</param>
-        /// <param name="b">The diagonal vector of right matrix <c>B</c>.</param>
-        /// <param name="result">The matrix <c>R</c> to store the product <c>R = A*B</c>
-        ///   of the given matrices <c>A</c> and <c>B</c>.</param>
-        /// 
-        [Obsolete("Please use DotWithDiagonal instead.")]
+        [Obsolete("Please use the DotWithDiagonal(a, b) method instead.")]
         public static void MultiplyByDiagonal(this double[][] a, double[] b, double[][] result)
         {
             DotWithDiagonal(a, b, result);
         }
 
         /// <summary>
-        ///   Computes the product A*B of matrix <c>A</c> and diagonal matrix <c>B</c>.
+        ///   Obsolete. Please use the <see cref="DotWithDiagonal(Double[,], Double[])"/> method instead.
         /// </summary>
         /// 
-        /// <param name="a">The left matrix <c>A</c>.</param>
-        /// <param name="b">The diagonal vector of right matrix <c>B</c>.</param>
-        /// <param name="result">The matrix <c>R</c> to store the product <c>R = A*B</c>
-        ///   of the given matrices <c>A</c> and <c>B</c>.</param>
-        /// 
-        [Obsolete("Please use DotWithDiagonal instead.")]
+        [Obsolete("Please use the DotWithDiagonal(a, b) method instead.")]
         public static void MultiplyByDiagonal(this float[][] a, float[] b, float[][] result)
         {
             DotWithDiagonal(a, b, result);
         }
 
         /// <summary>
-        ///   Computes the product A*B of matrix <c>A</c> and diagonal matrix <c>B</c>.
+        ///   Obsolete. Please use the <see cref="DotWithDiagonal(Double[,], Double[])"/> method instead.
         /// </summary>
         /// 
-        /// <param name="a">The left matrix <c>A</c>.</param>
-        /// <param name="b">The diagonal vector of right matrix <c>B</c>.</param>
-        /// <returns>The product <c>A*B</c> of the given matrices <c>A</c> and <c>B</c>.</returns>
-        /// 
-        [Obsolete("Please use DotWithDiagonal instead.")]
+        [Obsolete("Please use the DotWithDiagonal(a, b) method instead.")]
         public static float[,] MultiplyByDiagonal(this float[,] a, float[] b)
         {
             return DotWithDiagonal(a, b);
         }
 
         /// <summary>
-        ///   Computes the product A*B of matrix <c>A</c> and diagonal matrix <c>B</c>.
+        ///   Obsolete. Please use the <see cref="DotWithDiagonal(Double[,], Double[])"/> method instead.
         /// </summary>
         /// 
-        /// <param name="a">The left matrix <c>A</c>.</param>
-        /// <param name="b">The diagonal vector of right matrix <c>B</c>.</param>
-        /// <param name="result">The matrix <c>R</c> to store the product <c>R = A*B</c>
-        ///   of the given matrices <c>A</c> and <c>B</c>.</param>
-        /// 
-        [Obsolete("Please use DotWithDiagonal instead.")]
+        [Obsolete("Please use the DotWithDiagonal(a, b) method instead.")]
         public static void MultiplyByDiagonal(this float[,] a, float[] b, float[,] result)
         {
             DotWithDiagonal(a, b, result);
@@ -712,96 +560,60 @@ namespace Accord.Math
         #region Matrix-Vector multiplication
 
         /// <summary>
-        ///   Multiplies a row vector <c>v</c> and a matrix <c>A</c>,
-        ///   giving the product <c>v'*A</c>.
+        ///   Obsolete. Please use the <see cref="Dot(Double[], Double[,])"/> method instead.
         /// </summary>
         /// 
-        /// <param name="rowVector">The row vector <c>v</c>.</param>
-        /// <param name="matrix">The matrix <c>A</c>.</param>
-        /// <returns>The product <c>v'*A</c>of the multiplication of the
-        ///   given row vector <c>v</c> and matrix <c>A</c>.</returns>
-        /// 
-        [Obsolete("Please use Dot instead.")]
+        [Obsolete("Please use the Dot(a, b) method instead.")]
         public static double[] Multiply(this double[] rowVector, double[,] matrix)
         {
             return Dot(rowVector, matrix);
         }
 
         /// <summary>
-        ///   Multiplies a row vector <c>v</c> and a matrix <c>A</c>,
-        ///   giving the product <c>v'*A</c>.
+        ///   Obsolete. Please use the <see cref="Dot(Double[], Double[,])"/> method instead.
         /// </summary>
         /// 
-        /// <param name="rowVector">The row vector <c>v</c>.</param>
-        /// <param name="matrix">The matrix <c>A</c>.</param>
-        /// <returns>The product <c>v'*A</c>of the multiplication of the
-        ///   given row vector <c>v</c> and matrix <c>A</c>.</returns>
-        /// 
-        [Obsolete("Please use Dot instead.")]
+        [Obsolete("Please use the Dot(a, b) method instead.")]
         public static float[] Multiply(this float[] rowVector, float[,] matrix)
         {
             return Dot(rowVector, matrix);
         }
 
         /// <summary>
-        ///   Multiplies a matrix <c>A</c> and a column vector <c>v</c>,
-        ///   giving the product <c>A*v</c>
+        ///   Obsolete. Please use the <see cref="Dot(Double[,], Double[])"/> method instead.
         /// </summary>
         /// 
-        /// <param name="matrix">The matrix <c>A</c>.</param>
-        /// <param name="columnVector">The column vector <c>v</c>.</param>
-        /// <returns>The product <c>A*v</c> of the multiplication of the
-        ///   given matrix <c>A</c> and column vector <c>v</c>.</returns>
-        /// 
-        [Obsolete("Please use Dot instead.")]
+        [Obsolete("Please use the Dot(a, b) method instead.")]
         public static double[] Multiply(this double[,] matrix, double[] columnVector)
         {
             return Dot(matrix, columnVector);
         }
 
         /// <summary>
-        ///   Multiplies a matrix <c>A</c> and a column vector <c>v</c>,
-        ///   giving the product <c>A*v</c>
+        ///   Obsolete. Please use the <see cref="Dot(Double[,], Double[])"/> method instead.
         /// </summary>
         /// 
-        /// <param name="matrix">The matrix <c>A</c>.</param>
-        /// <param name="columnVector">The column vector <c>v</c>.</param>
-        /// <returns>The product <c>A*v</c> of the multiplication of the
-        ///   given matrix <c>A</c> and column vector <c>v</c>.</returns>
-        /// 
-        [Obsolete("Please use Dot instead.")]
+        [Obsolete("Please use the Dot(a, b) method instead.")]
         public static float[] Multiply(this float[][] matrix, float[] columnVector)
         {
             return Dot(matrix, columnVector);
         }
 
         /// <summary>
-        ///   Multiplies a matrix <c>A</c> and a column vector <c>v</c>,
-        ///   giving the product <c>A*v</c>
+        ///   Obsolete. Please use the <see cref="Dot(Double[,], Double[])"/> method instead.
         /// </summary>
         /// 
-        /// <param name="matrix">The matrix <c>A</c>.</param>
-        /// <param name="columnVector">The column vector <c>v</c>.</param>
-        /// <returns>The product <c>A*v</c> of the multiplication of the
-        ///   given matrix <c>A</c> and column vector <c>v</c>.</returns>
-        /// 
-        [Obsolete("Please use Dot instead.")]
+        [Obsolete("Please use the Dot(a, b) method instead.")]
         public static double[] Multiply(this double[][] matrix, double[] columnVector)
         {
             return Dot(matrix, columnVector);
         }
 
         /// <summary>
-        ///   Multiplies a matrix <c>A</c> and a column vector <c>v</c>,
-        ///   giving the product <c>A*v</c>
+        ///   Obsolete. Please use the <see cref="Dot(Double[,], Double[])"/> method instead.
         /// </summary>
         /// 
-        /// <param name="matrix">The matrix <c>A</c>.</param>
-        /// <param name="columnVector">The column vector <c>v</c>.</param>
-        /// <returns>The product <c>A*v</c> of the multiplication of the
-        ///   given matrix <c>A</c> and column vector <c>v</c>.</returns>
-        /// 
-        [Obsolete("Please use Dot instead.")]
+        [Obsolete("Please use the Dot(a, b) method instead.")]
         public static float[] Multiply(this float[,] matrix, float[] columnVector)
         {
             return Dot(matrix, columnVector);
@@ -816,167 +628,100 @@ namespace Accord.Math
 
         #region Products
         /// <summary>
-        ///   Gets the inner product (scalar product) between two vectors (a'*b).
+        ///   Obsolete. Please use the <see cref="Dot(Double[], Double[])"/> method instead.
         /// </summary>
         /// 
-        /// <param name="a">A vector.</param>
-        /// <param name="b">A vector.</param>
-        /// 
-        /// <returns>The inner product of the multiplication of the vectors.</returns>
-        /// 
-        /// <remarks>
-        ///  <para>
-        ///    In mathematics, the dot product is an algebraic operation that takes two
-        ///    equal-length sequences of numbers (usually coordinate vectors) and returns
-        ///    a single number obtained by multiplying corresponding entries and adding up
-        ///    those products. The name is derived from the dot that is often used to designate
-        ///    this operation; the alternative name scalar product emphasizes the scalar
-        ///    (rather than vector) nature of the result.</para>
-        ///  <para>
-        ///    The principal use of this product is the inner product in a Euclidean vector space:
-        ///    when two vectors are expressed on an orthonormal basis, the dot product of their 
-        ///    coordinate vectors gives their inner product.</para>  
-        /// </remarks>
-        /// 
-        [Obsolete("Please use Dot instead.")]
+        [Obsolete("Please use the Dot(a, b) method instead.")]
         public static double InnerProduct(this double[] a, double[] b)
         {
             return Dot(a, b);
         }
 
         /// <summary>
-        ///   Gets the inner product (scalar product) between two vectors (a'*b).
+        ///   Obsolete. Please use the <see cref="Dot(Double[], Double[])"/> method instead.
         /// </summary>
         /// 
-        /// <param name="a">A vector.</param>
-        /// <param name="b">A vector.</param>
-        /// 
-        /// <returns>The inner product of the multiplication of the vectors.</returns>
-        /// 
-        /// <remarks>
-        ///  <para>
-        ///    In mathematics, the dot product is an algebraic operation that takes two
-        ///    equal-length sequences of numbers (usually coordinate vectors) and returns
-        ///    a single number obtained by multiplying corresponding entries and adding up
-        ///    those products. The name is derived from the dot that is often used to designate
-        ///    this operation; the alternative name scalar product emphasizes the scalar
-        ///    (rather than vector) nature of the result.</para>
-        ///  <para>
-        ///    The principal use of this product is the inner product in a Euclidean vector space:
-        ///    when two vectors are expressed on an orthonormal basis, the dot product of their 
-        ///    coordinate vectors gives their inner product.</para>  
-        /// </remarks>
-        /// 
-        [Obsolete("Please use Dot instead.")]
+        [Obsolete("Please use the Dot(a, b) method instead.")]
         public static float InnerProduct(this float[] a, float[] b)
         {
             return Dot(a, b);
         }
 
         /// <summary>
-        ///   Gets the outer product (matrix product) between two vectors (a*bT).
+        ///   Obsolete. Please use the <see cref="Outer(Double[], Double[])"/> method instead.
         /// </summary>
         /// 
-        /// <remarks>
-        ///   In linear algebra, the outer product typically refers to the tensor
-        ///   product of two vectors. The result of applying the outer product to
-        ///   a pair of vectors is a matrix. The name contrasts with the inner product,
-        ///   which takes as input a pair of vectors and produces a scalar.
-        /// </remarks>
-        /// 
-        [Obsolete("Please use Outer instead.")]
+        [Obsolete("Please use the Outer(a, b) method instead.")]
         public static double[,] OuterProduct(this double[] a, double[] b)
         {
             return Outer(a, b);
         }
 
         /// <summary>
-        ///   Vector product.
+        ///   Obsolete. Please use the <see cref="Cross(Double[], Double[])"/> method instead.
         /// </summary>
         /// 
-        /// <remarks>
-        ///   The cross product, vector product or Gibbs vector product is a binary operation
-        ///   on two vectors in three-dimensional space. It has a vector result, a vector which
-        ///   is always perpendicular to both of the vectors being multiplied and the plane
-        ///   containing them. It has many applications in mathematics, engineering and physics.
-        /// </remarks>
-        /// 
-        [Obsolete("Please use Cross instead.")]
+        [Obsolete("Please use the Cross(a, b) method instead.")]
         public static double[] VectorProduct(double[] a, double[] b)
         {
             return Matrix.Cross(a, b);
         }
 
         /// <summary>
-        ///   Vector product.
+        ///   Obsolete. Please use the <see cref="Cross(Double[], Double[])"/> method instead.
         /// </summary>
         /// 
-        [Obsolete("Please use Cross instead.")]
+        [Obsolete("Please use the Cross(a, b) method instead.")]
         public static float[] VectorProduct(float[] a, float[] b)
         {
             return Matrix.Cross(a, b);
         }
 
         /// <summary>
-        ///   Computes the Cartesian product of many sets.
+        ///   Obsolete. Please use the <see cref="Cartesian{T}(IEnumerable{IEnumerable{T}})"/> method instead.
         /// </summary>
         /// 
-        /// <remarks>
-        ///   References:
-        ///   - http://blogs.msdn.com/b/ericlippert/archive/2010/06/28/computing-a-Cartesian-product-with-linq.aspx 
-        /// </remarks>
-        /// 
-        [Obsolete("Please use Cartesian instead.")]
+        [Obsolete("Please use the Cartesian(sequences) method instead.")]
         public static IEnumerable<IEnumerable<T>> CartesianProduct<T>(this IEnumerable<IEnumerable<T>> sequences)
         {
             return Cartesian(sequences);
         }
 
         /// <summary>
-        ///   Computes the Cartesian product of many sets.
+        ///   Obsolete. Please use the <see cref="Cartesian{T}(T[][])"/> method instead.
         /// </summary>
         /// 
-        [Obsolete("Please use Cartesian instead.")]
+        [Obsolete("Please use the Cartesian(sequences) method instead.")]
         public static T[][] CartesianProduct<T>(params T[][] sequences)
         {
             return Cartesian(sequences);
         }
 
         /// <summary>
-        ///   Computes the Cartesian product of two sets.
+        ///   Obsolete. Please use the <see cref="Cartesian{T}(T[], T[])"/> method instead.
         /// </summary>
         /// 
-        [Obsolete("Please use Cartesian instead.")]
+        [Obsolete("Please use the Cartesian(a, b) method instead.")]
         public static T[][] CartesianProduct<T>(this T[] sequence1, T[] sequence2)
         {
             return Cartesian(new T[][] { sequence1, sequence2 });
         }
 
         /// <summary>
-        ///   Computes the Kronecker product between two matrices.
+        ///   Obsolete. Please use the <see cref="Kronecker(Double[,], Double[,])"/> method instead.
         /// </summary>
         /// 
-        /// <param name="a">The left matrix a.</param>
-        /// <param name="b">The right matrix b.</param>
-        /// 
-        /// <returns>The Kronecker product of the two matrices.</returns>
-        /// 
-        [Obsolete("Please use Kronecker instead.")]
+        [Obsolete("Please use the Konecker(a, b) method instead.")]
         public static double[,] KroneckerProduct(this double[,] a, double[,] b)
         {
             return Kronecker(a, b);
         }
 
         /// <summary>
-        ///   Computes the Kronecker product between two vectors.
+        ///   Obsolete. Please use the <see cref="Kronecker(Double[], Double[])"/> method instead.
         /// </summary>
         /// 
-        /// <param name="a">The left vector a.</param>
-        /// <param name="b">The right vector b.</param>
-        /// 
-        /// <returns>The Kronecker product of the two vectors.</returns>
-        /// 
-        [Obsolete("Please use Kronecker instead.")]
+        [Obsolete("Please use the Konecker(a, b) method instead.")]
         public static double[] KroneckerProduct(this double[] a, double[] b)
         {
             return Kronecker(a, b);
@@ -986,32 +731,20 @@ namespace Accord.Math
         #region Addition and Subtraction
 
         /// <summary>
-        ///   Adds a vector to a column or row of a matrix.
+        ///   Obsolete. Please use the <see cref="Elementwise.Add(Double[,], Double[], int)"/> method instead.
         /// </summary>
         /// 
-        /// <param name="matrix">A matrix.</param>
-        /// <param name="vector">A vector.</param>
-        /// <param name="dimension">
-        ///   Pass 0 if the vector should be added row-wise, 
-        ///   or 1 if the vector should be added column-wise.
-        /// </param>
-        /// 
-        [Obsolete("Please use the Elementwise class instead.")]
+        [Obsolete("Please use the Elementwise.Add(a, b) method instead.")]
         public static double[,] Add(double[,] matrix, double[] vector, int dimension)
         {
             return Elementwise.Add(matrix, vector, dimension);
         }
 
         /// <summary>
-        ///   Adds a scalar to the diagonal of a matrix.
+        ///   Obsolete. Please use the <see cref="Elementwise.AddToDiagonal(Double[,], Double)"/> method instead.
         /// </summary>
         /// 
-        /// <param name="matrix">A matrix.</param>
-        /// <param name="scalar">A scalar.</param>
-        /// <param name="inPlace">True to perform the operation in-place,
-        /// overwriting the original matrix; false to return a new matrix.</param>
-        /// 
-        [Obsolete("Please use the Elementwise class instead.")]
+        [Obsolete("Please use the Elementwise.AddToDiagonal(a, b) method instead.")]
         public static double[,] AddToDiagonal(double[,] matrix, double scalar, bool inPlace = false)
         {
             if (inPlace)
@@ -1020,15 +753,10 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Adds a scalar to the diagonal of a matrix.
+        ///   Obsolete. Please use the <see cref="Elementwise.AddToDiagonal(Double[,], Double)"/> method instead.
         /// </summary>
         /// 
-        /// <param name="matrix">A matrix.</param>
-        /// <param name="scalar">A scalar.</param>
-        /// <param name="inPlace">True to perform the operation in-place,
-        /// overwriting the original matrix; false to return a new matrix.</param>
-        /// 
-        [Obsolete("Please use the Elementwise class instead.")]
+        [Obsolete("Please use the Elementwise.AddToDiagonal(a, b) method instead.")]
         public static double[][] AddToDiagonal(double[][] matrix, double scalar, bool inPlace = false)
         {
             if (inPlace)
@@ -1037,15 +765,10 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Subtracts a scalar from the diagonal of a matrix.
+        ///   Obsolete. Please use the <see cref="Elementwise.SubtractFromDiagonal(Double[,], Double[])"/> method instead.
         /// </summary>
         /// 
-        /// <param name="matrix">A matrix.</param>
-        /// <param name="scalar">A scalar.</param>
-        /// <param name="inPlace">True to perform the operation in-place,
-        /// overwriting the original matrix; false to return a new matrix.</param>
-        /// 
-        [Obsolete("Please use the Elementwise class instead.")]
+        [Obsolete("Please use the Elementwise.SubtractFromDiagonal(a, b) method instead.")]
         public static double[][] SubtractFromDiagonal(double[][] matrix, double scalar, bool inPlace = false)
         {
             if (inPlace)
