@@ -170,6 +170,12 @@ namespace Accord.Statistics.Filters
     ///   in the example below:</para>
     ///   
     ///   <code source="Unit Tests\Accord.Tests.Statistics\Analysis\MultinomialLogisticRegressionAnalysisTest.cs" region="doc_learn_1" />
+    ///   
+    ///  <para>
+    ///   Another example of an advanced scneario where the source dataset contains both symbolic and discrete/continuous
+    ///   variables is shown below:</para>
+    ///   
+    /// <code source="Unit Tests\Accord.Tests.Statistics\Models\Regression\MultipleLinearRegressionTest.cs" region="doc_learn_2" />
     /// </example>
     /// 
     /// <seealso cref="Codification{T}"/>
