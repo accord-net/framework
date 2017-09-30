@@ -90,6 +90,14 @@ namespace Accord.Imaging
     ///   <code source="Unit Tests\Accord.Tests.Vision\Imaging\BagOfVisualWordsTest.cs" region="doc_classification_feature" />
     ///   
     /// <para>
+    ///   Or this also simple case using the <see cref="FastRetinaKeypointDetector">FREAK</see>
+    ///   detector and the <see cref="BinarySplit"/> clustering algorithm:</para>
+    ///   
+    ///   <code source="Unit Tests\Accord.Tests.Vision\Imaging\BagOfVisualWordsTest.cs" region="doc_feature_freak" />
+    ///   <code source="Unit Tests\Accord.Tests.Vision\Imaging\BagOfVisualWordsTest.cs" region="doc_classification_feature_freak" />
+    ///   
+    ///   
+    /// <para>
     ///   More advanced use cases are also supported. For example, some image patches
     ///   can be represented using different data representations, such as byte vectors.
     ///   In this case, it is still possible to use the BoW using an appropriate clustering

@@ -127,6 +127,7 @@ namespace Accord.Imaging
     [Serializable]
     public class FastRetinaKeypointDetector :
         IFeatureDetector<IFeatureDescriptor<byte[]>, byte[]>,
+        IFeatureDetector<IFeatureDescriptor<double[]>, double[]>,
         IFeatureDetector<FastRetinaKeypoint, byte[]>,
         IFeatureDetector<FastRetinaKeypoint, double[]>
     {
@@ -428,6 +429,21 @@ namespace Accord.Imaging
             return ProcessImage(image).ConvertAll(x => (IFeatureDescriptor<byte[]>)x);
         }
 
+        IEnumerable<IFeatureDescriptor<double[]>> IFeatureDetector<IFeatureDescriptor<double[]>, double[]>.ProcessImage(Bitmap image)
+        {
+            return ProcessImage(image).ConvertAll(x => (IFeatureDescriptor<double[]>)x);
+        }
+
+        IEnumerable<IFeatureDescriptor<double[]>> IFeatureDetector<IFeatureDescriptor<double[]>, double[]>.ProcessImage(BitmapData imageData)
+        {
+            return ProcessImage(imageData).ConvertAll(x => (IFeatureDescriptor<double[]>)x);
+        }
+
+        IEnumerable<IFeatureDescriptor<double[]>> IFeatureDetector<IFeatureDescriptor<double[]>, double[]>.ProcessImage(UnmanagedImage image)
+        {
+            return ProcessImage(image).ConvertAll(x => (IFeatureDescriptor<double[]>)x);
+        }
+
         /// <summary>
         ///   Creates a new object that is a copy of the current instance.
         /// </summary>
@@ -450,7 +466,7 @@ namespace Accord.Imaging
                 // clone.integral = (IntegralImage)integral.Clone();
                 // clone.pattern = (FastRetinaKeypointPattern)pattern.Clone();
             }
-            
+
             return clone;
         }
 

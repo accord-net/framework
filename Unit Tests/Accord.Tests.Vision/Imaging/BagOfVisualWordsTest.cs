@@ -776,6 +776,84 @@ namespace Accord.Tests.Imaging
         }
 
         [Test]
+        public void freak_binary_split()
+        {
+            #region doc_feature_freak
+            Accord.Math.Random.Generator.Seed = 0;
+
+            // The Bag-of-Visual-Words model converts images of arbitrary 
+            // size into fixed-length feature vectors. In this example, we
+            // will be setting the codebook size to 10. This means all feature
+            // vectors that will be generated will have the same length of 10.
+
+            // By default, the BoW object will use the sparse SURF as the 
+            // feature extractor and K-means as the clustering algorithm.
+            // In this example, we will use the FREAK feature extractor
+            // and the Binary-Split clustering algorithm instead.
+
+            // Create a new Bag-of-Visual-Words (BoW) model using FREAK binary features
+            var bow = BagOfVisualWords.Create(new FastRetinaKeypointDetector(), new BinarySplit(10));
+
+            // Get some training images
+            Bitmap[] images = GetImages();
+
+            // Compute the model
+            bow.Learn(images);
+
+            bow.ParallelOptions.MaxDegreeOfParallelism = 1;
+
+            // After this point, we will be able to translate
+            // images into double[] feature vectors using
+            double[][] features = bow.Transform(images);
+            #endregion
+
+            Assert.AreEqual(features.GetLength(), new[] { 6, 10 });
+
+            string str = features.ToCSharp();
+
+            double[][] expected = new double[][]
+            {
+                new double[] { 135, 69, 55, 131, 62, 64, 20, 29, 47, 68 },
+                new double[] { 299, 64, 174, 93, 32, 101, 163, 56, 17, 18 },
+                new double[] { 141, 70, 120, 128, 53, 52, 51, 58, 52, 26 },
+                new double[] { 150, 13, 200, 55, 4, 36, 58, 20, 0, 3 },
+                new double[] { 236, 31, 204, 72, 22, 78, 217, 53, 25, 8 },
+                new double[] { 208, 21, 193, 106, 8, 43, 52, 8, 4, 23 }
+            };
+
+            for (int i = 0; i < features.Length; i++)
+                for (int j = 0; j < features[i].Length; j++)
+                    Assert.IsTrue(expected[i].Contains(features[i][j]));
+
+            #region doc_classification_feature_freak
+
+            // Now, the features can be used to train any classification
+            // algorithm as if they were the images themselves. For example,
+            // let's assume the first three images belong to a class and
+            // the second three to another class. We can train an SVM using
+
+            int[] labels = { -1, -1, -1, +1, +1, +1 };
+
+            // Create the SMO algorithm to learn a Linear kernel SVM
+            var teacher = new SequentialMinimalOptimization<Linear>()
+            {
+                Complexity = 1000 // make a hard margin SVM
+            };
+
+            // Obtain a learned machine
+            var svm = teacher.Learn(features, labels);
+
+            // Use the machine to classify the features
+            bool[] output = svm.Decide(features);
+
+            // Compute the error between the expected and predicted labels
+            double error = new ZeroOneLoss(labels).Loss(output); // should be 0
+            #endregion
+
+            Assert.AreEqual(error, 0);
+        }
+
+        [Test]
         [Category("Random")]
 #if NET35
         [Ignore("Random behaviour differs in net35.")]
