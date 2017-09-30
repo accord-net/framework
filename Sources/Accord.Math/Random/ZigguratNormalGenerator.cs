@@ -130,7 +130,7 @@ namespace Accord.Math.Random
         {
             const double r = 3.442620;
 
-            int hz = (int)u.Next();
+            int hz = unchecked((int)u.Next());
             uint iz = (uint)(hz & 127);
 
             if (Math.Abs(hz) < kn[iz])
@@ -163,7 +163,7 @@ namespace Accord.Math.Random
                 if (fn[iz] + u.Generate() * (fn[iz - 1] - fn[iz]) < Math.Exp(-0.5 * x * x))
                     return x;
 
-                hz = (int)u.Next();
+                hz = unchecked((int)u.Next());
                 iz = (uint)(hz & 127);
 
                 if (Math.Abs(hz) < kn[iz])
