@@ -192,24 +192,24 @@ namespace Accord.Tests.Statistics
             // We can also investigate all parameters individually. For
             // example the coefficients values will be available at
 
-            double[] coef = cox.CoefficientValues;
-            double[] stde = cox.StandardErrors;
+            double[] coef = cox.CoefficientValues;     // should be { 0.37704239281490765 }
+            double[] stde = cox.StandardErrors;        // should be { 0.25415746361167235 }
 
             // We can also obtain the hazards ratios
-            double[] ratios = cox.HazardRatios;
+            double[] ratios = cox.HazardRatios;        // should be { 1.4579661153488215 }
 
             // And other information such as the partial
             // likelihood, the deviance and also make 
             // hypothesis tests on the parameters
 
-            double partial = cox.LogLikelihood;
-            double deviance = cox.Deviance;
-
-            // Chi-Square for whole model
-            ChiSquareTest chi = cox.ChiSquare;
+            double partialL = cox.LogLikelihood;       // should be -2.0252666205735466
+            double deviance = cox.Deviance;            // should be 4.0505332411470931
+                                                       
+            // Chi-Square for whole model              
+            ChiSquareTest chi = cox.ChiSquare;         // should be 7.3570 (p=0.0067)
 
             // Wald tests for individual parameters
-            WaldTest wald = cox.Coefficients[0].Wald;
+            WaldTest wald = cox.Coefficients[0].Wald;  // should be 1.4834 (p=0.1379)
 
 
             // Finally, we can also use the model to predict
@@ -268,13 +268,14 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.25415746361167235, stde[0]);
             Assert.AreEqual(1.4579661153488215, ratios[0]);
 
-            Assert.AreEqual(-2.0252666205735466, partial, 1e-6);
+            Assert.AreEqual(-2.0252666205735466, partialL, 1e-6);
             Assert.AreEqual(4.0505332411470931, deviance, 1e-6);
 
+            Assert.AreEqual(1.4834991955655938, wald.Statistic, 1e-4);
             Assert.AreEqual(0.13794183001851756, wald.PValue, 1e-4);
 
             Assert.AreEqual(1, chi.DegreesOfFreedom);
-            Assert.AreEqual(7.3570, chi.Statistic, 1e-4);
+            Assert.AreEqual(7.3570, chi.Statistic, 1e-4); 
             Assert.AreEqual(0.0067, chi.PValue, 1e-3);
         }
 

@@ -67,13 +67,15 @@ namespace Accord.Statistics.Analysis
     /// </remarks>
     /// 
     /// <example>
-    /// <code source="Unit Tests\Accord.Tests.Statistics\Analysis\ProportionalHazardsAnalysisTest.cs" region="doc_learn_part1" />
+    /// <code source="Unit Tests\Accord.Tests.Statistics\Analysis\ProportionalHazardsAnalysisTest.cs" region="doc_learn_part1" lang="cs"/>
+    /// <code source="Unit Tests\Accord.Tests.Statistics.VB\Analysis\ProportionalHazardsAnalysisTest.vb" region="doc_learn_part1" lang="vb"/>
     /// 
     /// <para>
     ///   The resulting table is shown below.</para>
     ///   <img src="..\images\cox-hazards.png" />
     /// 
     /// <code source="Unit Tests\Accord.Tests.Statistics\Analysis\ProportionalHazardsAnalysisTest.cs" region="doc_learn_part2" />
+    /// <code source="Unit Tests\Accord.Tests.Statistics.VB\Analysis\ProportionalHazardsAnalysisTest.vb" region="doc_learn_part2" lang="vb"/>
     /// </example>
     /// 
     /// <seealso cref="ProportionalHazards"/>
