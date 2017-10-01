@@ -59,14 +59,14 @@ public class MatrixOperationTemplate : Template
 
 namespace Accord.Math
 {
+#if DEBUG
+    #define CHECK
+#endif
+
     using System;
     using Accord.Math;
     using System.Runtime.CompilerServices;
 
-    /// <summary>
-    ///   Elementwise matrix and vector operations.
-    /// </summary>
-    ///
     public static partial class Elementwise
     {
 #pragma warning disable 1591
