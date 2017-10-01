@@ -27,14 +27,14 @@
 
 namespace Accord.Math
 {
+#if DEBUG
+    #define CHECK
+#endif
+
     using System;
     using Accord.Math;
     using System.Runtime.CompilerServices;
 
-    /// <summary>
-    ///   Elementwise matrix and vector operations.
-    /// </summary>
-    ///
     public static partial class Elementwise
     {
 #pragma warning disable 1591
@@ -193,10 +193,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
@@ -214,10 +215,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
@@ -503,10 +505,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
@@ -524,10 +527,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
@@ -813,10 +817,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
@@ -834,10 +839,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
@@ -1123,10 +1129,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
@@ -1144,10 +1151,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
@@ -1433,10 +1441,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
@@ -1454,10 +1463,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
@@ -1743,10 +1753,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
@@ -1764,10 +1775,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
@@ -2053,10 +2065,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
@@ -2074,10 +2087,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
@@ -2363,10 +2377,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
@@ -2384,10 +2399,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
@@ -2673,10 +2689,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
@@ -2694,10 +2711,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
@@ -2983,10 +3001,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
@@ -3004,10 +3023,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
@@ -3293,10 +3313,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
@@ -3314,10 +3335,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
@@ -3603,10 +3625,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
@@ -3624,10 +3647,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
@@ -3913,10 +3937,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
@@ -3934,10 +3959,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
@@ -4223,10 +4249,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
@@ -4244,10 +4271,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
@@ -4533,10 +4561,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
@@ -4554,10 +4583,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
@@ -4843,10 +4873,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
@@ -4864,10 +4895,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
@@ -5153,10 +5185,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
@@ -5174,10 +5207,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
@@ -5463,10 +5497,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
@@ -5484,10 +5519,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
@@ -5773,10 +5809,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
@@ -5794,10 +5831,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
@@ -6083,10 +6121,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
@@ -6104,10 +6143,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
@@ -6393,10 +6433,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
@@ -6414,10 +6455,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
@@ -6703,10 +6745,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
@@ -6724,10 +6767,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
@@ -7013,10 +7057,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
@@ -7034,10 +7079,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
@@ -7891,10 +7937,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -8837,10 +8884,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -9783,10 +9831,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -10729,10 +10778,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -11675,10 +11725,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -12621,10 +12672,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -13567,10 +13619,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -14513,10 +14566,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -15459,10 +15513,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -16405,10 +16460,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -17351,10 +17407,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -18297,10 +18354,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -19243,10 +19301,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -20189,10 +20248,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -21135,10 +21195,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -22081,10 +22142,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -23027,10 +23089,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -23973,10 +24036,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -24919,10 +24983,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -25865,10 +25930,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -26811,10 +26877,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -27757,10 +27824,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -28703,10 +28771,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -29649,10 +29718,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -30595,10 +30665,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -31541,10 +31612,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -32487,10 +32559,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -33433,10 +33506,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -34379,10 +34453,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -35325,10 +35400,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -36271,10 +36347,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -37217,10 +37294,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -38163,10 +38241,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -39109,10 +39188,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -40055,10 +40135,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -41001,10 +41082,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -41947,10 +42029,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -42893,10 +42976,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -43839,10 +43923,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -44785,10 +44870,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -45731,10 +45817,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -46677,10 +46764,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -47623,10 +47711,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -48569,10 +48658,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -49515,10 +49605,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -50461,10 +50552,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -51407,10 +51499,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -52353,10 +52446,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -53299,10 +53393,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -54245,10 +54340,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -55191,10 +55287,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -56137,10 +56234,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -57083,10 +57181,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -58029,10 +58128,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -58975,10 +59075,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -59921,10 +60022,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -60867,10 +60969,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -61813,10 +61916,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -62759,10 +62863,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -63705,10 +63810,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -64651,10 +64757,11 @@ namespace Accord.Math
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
         /// <param name="dimension">
-        ///   The dimension along which the means will be calculated. Pass
-        ///   0 to compute a row vector containing the mean of each column,
-        ///   or 1 to compute a column vector containing the mean of each row.
-        ///   Default value is 0.
+        ///   The dimension along which the operation will be carried. If set to
+        ///   0, then the vector <c>b</c> must have the same dimensions as rows
+        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
+        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
+        ///   operation will be carried at each row vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>

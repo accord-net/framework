@@ -5,10 +5,10 @@
 <#@ import namespace="System.Collections.Generic" #>
 <#@ include file="T4Toolbox.tt"#>
 <#
-	new MatrixOperationTemplate("Add", "Elementwise addition between", "and", "To", "+", true).RenderToFile("Matrix.Add.Generated.cs");
-	new MatrixOperationTemplate("Subtract", "Elementwise subtraction between", "and", "From", "-", true).RenderToFile("Matrix.Subtract.Generated.cs");
-	new MatrixOperationTemplate("Multiply", "Elementwise multiplication (note: this is not a dot or matrix product) between", "and", "With", "*", false).RenderToFile("Matrix.Multiply.Generated.cs");
-	new MatrixOperationTemplate("Divide", "Elementwise division between", "and", "By", "/", false).RenderToFile("Matrix.Divide.Generated.cs");
+    new MatrixOperationTemplate("Add", "Elementwise addition between", "and", "To", "+", true).RenderToFile("Matrix.Add.Generated.cs");
+    new MatrixOperationTemplate("Subtract", "Elementwise subtraction between", "and", "From", "-", true).RenderToFile("Matrix.Subtract.Generated.cs");
+    new MatrixOperationTemplate("Multiply", "Elementwise multiplication (note: this is not a dot or matrix product) between", "and", "With", "*", false).RenderToFile("Matrix.Multiply.Generated.cs");
+    new MatrixOperationTemplate("Divide", "Elementwise division between", "and", "By", "/", false).RenderToFile("Matrix.Divide.Generated.cs");
 #>
 <#+
 public class MatrixOperationTemplate : Template
@@ -20,17 +20,17 @@ public class MatrixOperationTemplate : Template
     public string op;
     public string ext;
 
-	public MatrixOperationTemplate(string name, string act, string com, string Com, string op, bool ext) 
+    public MatrixOperationTemplate(string name, string act, string com, string Com, string op, bool ext) 
     { 
         this.name = name;
         this.act  = act;
         this.com  = com;
-		this.Com = Com;
+        this.Com = Com;
         this.op   = op;
     }
 
-	public override string TransformText()
-	{
+    public override string TransformText()
+    {
         string[] types =
         { 
             "int", 
@@ -284,7 +284,7 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-		/// <param name="dimension">
+        /// <param name="dimension">
         ///   The dimension along which the operation will be carried. If set to
         ///   0, then the vector <c>b</c> must have the same dimensions as rows
         ///   of <c>A</c>, and the operation will be carried at each column vector. If 
@@ -1407,6 +1407,6 @@ namespace Accord.Math
 }
 <#+
         return this.GenerationEnvironment.ToString();
-	}
+    }
 }
 #>

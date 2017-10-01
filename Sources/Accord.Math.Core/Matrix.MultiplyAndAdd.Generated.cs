@@ -27,21 +27,21 @@
 
 namespace Accord.Math
 {
+#if DEBUG
+    #define CHECK
+#endif
+
     using System;
     using Accord.Math;
     using System.Runtime.CompilerServices;
 
-    /// <summary>
-    ///   Elementwise matrix and vector operations.
-    /// </summary>
-    ///
     public static partial class Elementwise
     {
 #pragma warning disable 1591
 
 
 
-#region Matrix matrix
+        #region Matrix matrix
 
         /// <summary>
         ///   Multiplies a matrix <c>A</c> with a scalar <c>b</c> and accumulates with <c>c</c>.
@@ -49,7 +49,7 @@ namespace Accord.Math
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The scalar <c>b</c>.</param>
-		/// <param name="c">The matrix <c>c</c>.</param>
+        /// <param name="c">The matrix <c>c</c>.</param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
@@ -71,7 +71,7 @@ namespace Accord.Math
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The scalar <c>b</c>.</param>
-		/// <param name="c">The matrix <c>c</c>.</param>
+        /// <param name="c">The matrix <c>c</c>.</param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
@@ -87,11 +87,11 @@ namespace Accord.Math
             return result;
         }
 
-#endregion
+        #endregion
 
 
 
-#region Matrix matrix
+        #region Matrix matrix
 
         /// <summary>
         ///   Multiplies a matrix <c>A</c> with a scalar <c>b</c> and accumulates with <c>c</c>.
@@ -99,7 +99,7 @@ namespace Accord.Math
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The scalar <c>b</c>.</param>
-		/// <param name="c">The matrix <c>c</c>.</param>
+        /// <param name="c">The matrix <c>c</c>.</param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
@@ -121,7 +121,7 @@ namespace Accord.Math
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The scalar <c>b</c>.</param>
-		/// <param name="c">The matrix <c>c</c>.</param>
+        /// <param name="c">The matrix <c>c</c>.</param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
@@ -137,11 +137,11 @@ namespace Accord.Math
             return result;
         }
 
-#endregion
+        #endregion
 
 
 
-#region Matrix matrix
+        #region Matrix matrix
 
         /// <summary>
         ///   Multiplies a matrix <c>A</c> with a scalar <c>b</c> and accumulates with <c>c</c>.
@@ -149,7 +149,7 @@ namespace Accord.Math
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The scalar <c>b</c>.</param>
-		/// <param name="c">The matrix <c>c</c>.</param>
+        /// <param name="c">The matrix <c>c</c>.</param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
@@ -171,7 +171,7 @@ namespace Accord.Math
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The scalar <c>b</c>.</param>
-		/// <param name="c">The matrix <c>c</c>.</param>
+        /// <param name="c">The matrix <c>c</c>.</param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
@@ -187,11 +187,11 @@ namespace Accord.Math
             return result;
         }
 
-#endregion
+        #endregion
 
 
 
-#region Matrix matrix
+        #region Matrix matrix
 
         /// <summary>
         ///   Multiplies a matrix <c>A</c> with a scalar <c>b</c> and accumulates with <c>c</c>.
@@ -199,7 +199,7 @@ namespace Accord.Math
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The scalar <c>b</c>.</param>
-		/// <param name="c">The matrix <c>c</c>.</param>
+        /// <param name="c">The matrix <c>c</c>.</param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
@@ -221,7 +221,7 @@ namespace Accord.Math
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The scalar <c>b</c>.</param>
-		/// <param name="c">The matrix <c>c</c>.</param>
+        /// <param name="c">The matrix <c>c</c>.</param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
@@ -237,11 +237,11 @@ namespace Accord.Math
             return result;
         }
 
-#endregion
+        #endregion
 
 
 
-#region Matrix matrix
+        #region Matrix matrix
 
         /// <summary>
         ///   Multiplies a matrix <c>A</c> with a scalar <c>b</c> and accumulates with <c>c</c>.
@@ -249,7 +249,7 @@ namespace Accord.Math
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The scalar <c>b</c>.</param>
-		/// <param name="c">The matrix <c>c</c>.</param>
+        /// <param name="c">The matrix <c>c</c>.</param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
@@ -271,7 +271,7 @@ namespace Accord.Math
         /// 
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The scalar <c>b</c>.</param>
-		/// <param name="c">The matrix <c>c</c>.</param>
+        /// <param name="c">The matrix <c>c</c>.</param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
         /// 
@@ -287,7 +287,7 @@ namespace Accord.Math
             return result;
         }
 
-#endregion
+        #endregion
 
 
 #pragma warning restore 1591

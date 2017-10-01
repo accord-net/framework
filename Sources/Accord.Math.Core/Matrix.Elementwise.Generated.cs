@@ -32,10 +32,14 @@ namespace Accord.Math
     using Accord.Math;
     using System.Runtime.CompilerServices;
 
-    [GeneratedCode("Accord.NET T4 Templates", "3.2")]
+    /// <summary>
+    ///   Elementwise matrix and vector operations.
+    /// </summary>
+    ///
+    [GeneratedCode("Accord.NET T4 Templates", "3.7")]
     public static partial class Elementwise
     {
-		private static TOutput[] VectorCreateAs<TInput, TOutput>(TInput[] vector)
+        private static TOutput[] VectorCreateAs<TInput, TOutput>(TInput[] vector)
         {
             return new TOutput[vector.Length];
         }
@@ -53,7 +57,7 @@ namespace Accord.Math
             return r;
         }
 
-		private static TOutput[,] MatrixCreateAs<TInput, TOutput>(TInput[][] matrix)
+        private static TOutput[,] MatrixCreateAs<TInput, TOutput>(TInput[][] matrix)
         {
             return new TOutput[matrix.Length, matrix[0].Length];
         }

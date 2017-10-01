@@ -32,7 +32,6 @@ namespace Accord.Math
     using Accord.Math;
     using System.Runtime.CompilerServices;
 
-    // [GeneratedCode("Accord.NET T4 Templates", "3.1")]
     public static partial class Elementwise
     {
         /// <summary>
@@ -115,7 +114,7 @@ bool[,] r = MatrixCreateAs<Int32,bool>(a);
             {
                 fixed (Int32* ptrA = a)
                 fixed (Int32* ptrB = b)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -465,7 +464,7 @@ bool[,] r = MatrixCreateAs<Int32,bool>(a);
             unsafe
             {
                 fixed (Int32* ptrA = a)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -726,7 +725,7 @@ bool[,] r = MatrixCreateAs<Int32,bool>(a);
             {
                 fixed (Int32* ptrA = a)
                 fixed (Int16* ptrB = b)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -1076,7 +1075,7 @@ bool[,] r = MatrixCreateAs<Int32,bool>(a);
             unsafe
             {
                 fixed (Int32* ptrA = a)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -1349,7 +1348,7 @@ bool[,] r = MatrixCreateAs<Int32,bool>(a);
             {
                 fixed (Int32* ptrA = a)
                 fixed (Single* ptrB = b)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -1759,7 +1758,7 @@ bool[,] r = MatrixCreateAs<Int32,bool>(a);
             unsafe
             {
                 fixed (Int32* ptrA = a)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -2056,7 +2055,7 @@ bool[,] r = MatrixCreateAs<Int32,bool>(a);
             {
                 fixed (Int32* ptrA = a)
                 fixed (Double* ptrB = b)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -2466,7 +2465,7 @@ bool[,] r = MatrixCreateAs<Int32,bool>(a);
             unsafe
             {
                 fixed (Int32* ptrA = a)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -2751,7 +2750,7 @@ bool[,] r = MatrixCreateAs<Int32,bool>(a);
             {
                 fixed (Int32* ptrA = a)
                 fixed (Int64* ptrB = b)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -3101,7 +3100,7 @@ bool[,] r = MatrixCreateAs<Int32,bool>(a);
             unsafe
             {
                 fixed (Int32* ptrA = a)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -3362,7 +3361,7 @@ bool[,] r = MatrixCreateAs<Int32,bool>(a);
             {
                 fixed (Int32* ptrA = a)
                 fixed (Decimal* ptrB = b)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -3712,7 +3711,7 @@ bool[,] r = MatrixCreateAs<Int32,bool>(a);
             unsafe
             {
                 fixed (Int32* ptrA = a)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -3973,7 +3972,7 @@ bool[,] r = MatrixCreateAs<Int32,bool>(a);
             {
                 fixed (Int32* ptrA = a)
                 fixed (Byte* ptrB = b)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -4323,7 +4322,7 @@ bool[,] r = MatrixCreateAs<Int32,bool>(a);
             unsafe
             {
                 fixed (Int32* ptrA = a)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -4584,7 +4583,7 @@ bool[,] r = MatrixCreateAs<Int32,bool>(a);
             {
                 fixed (Int32* ptrA = a)
                 fixed (sbyte* ptrB = b)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -4934,7 +4933,7 @@ bool[,] r = MatrixCreateAs<Int32,bool>(a);
             unsafe
             {
                 fixed (Int32* ptrA = a)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -5195,7 +5194,7 @@ bool[,] r = MatrixCreateAs<Int16,bool>(a);
             {
                 fixed (Int16* ptrA = a)
                 fixed (Int32* ptrB = b)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -5545,7 +5544,7 @@ bool[,] r = MatrixCreateAs<Int16,bool>(a);
             unsafe
             {
                 fixed (Int16* ptrA = a)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -5806,7 +5805,7 @@ bool[,] r = MatrixCreateAs<Int16,bool>(a);
             {
                 fixed (Int16* ptrA = a)
                 fixed (Int16* ptrB = b)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -6156,7 +6155,7 @@ bool[,] r = MatrixCreateAs<Int16,bool>(a);
             unsafe
             {
                 fixed (Int16* ptrA = a)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -6429,7 +6428,7 @@ bool[,] r = MatrixCreateAs<Int16,bool>(a);
             {
                 fixed (Int16* ptrA = a)
                 fixed (Single* ptrB = b)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -6839,7 +6838,7 @@ bool[,] r = MatrixCreateAs<Int16,bool>(a);
             unsafe
             {
                 fixed (Int16* ptrA = a)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -7136,7 +7135,7 @@ bool[,] r = MatrixCreateAs<Int16,bool>(a);
             {
                 fixed (Int16* ptrA = a)
                 fixed (Double* ptrB = b)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -7546,7 +7545,7 @@ bool[,] r = MatrixCreateAs<Int16,bool>(a);
             unsafe
             {
                 fixed (Int16* ptrA = a)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -7831,7 +7830,7 @@ bool[,] r = MatrixCreateAs<Int16,bool>(a);
             {
                 fixed (Int16* ptrA = a)
                 fixed (Int64* ptrB = b)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -8181,7 +8180,7 @@ bool[,] r = MatrixCreateAs<Int16,bool>(a);
             unsafe
             {
                 fixed (Int16* ptrA = a)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -8442,7 +8441,7 @@ bool[,] r = MatrixCreateAs<Int16,bool>(a);
             {
                 fixed (Int16* ptrA = a)
                 fixed (Decimal* ptrB = b)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -8792,7 +8791,7 @@ bool[,] r = MatrixCreateAs<Int16,bool>(a);
             unsafe
             {
                 fixed (Int16* ptrA = a)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -9053,7 +9052,7 @@ bool[,] r = MatrixCreateAs<Int16,bool>(a);
             {
                 fixed (Int16* ptrA = a)
                 fixed (Byte* ptrB = b)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -9403,7 +9402,7 @@ bool[,] r = MatrixCreateAs<Int16,bool>(a);
             unsafe
             {
                 fixed (Int16* ptrA = a)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -9664,7 +9663,7 @@ bool[,] r = MatrixCreateAs<Int16,bool>(a);
             {
                 fixed (Int16* ptrA = a)
                 fixed (sbyte* ptrB = b)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -10014,7 +10013,7 @@ bool[,] r = MatrixCreateAs<Int16,bool>(a);
             unsafe
             {
                 fixed (Int16* ptrA = a)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -10287,7 +10286,7 @@ bool[,] r = MatrixCreateAs<Single,bool>(a);
             {
                 fixed (Single* ptrA = a)
                 fixed (Int32* ptrB = b)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -10697,7 +10696,7 @@ bool[,] r = MatrixCreateAs<Single,bool>(a);
             unsafe
             {
                 fixed (Single* ptrA = a)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -10994,7 +10993,7 @@ bool[,] r = MatrixCreateAs<Single,bool>(a);
             {
                 fixed (Single* ptrA = a)
                 fixed (Int16* ptrB = b)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -11404,7 +11403,7 @@ bool[,] r = MatrixCreateAs<Single,bool>(a);
             unsafe
             {
                 fixed (Single* ptrA = a)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -11713,7 +11712,7 @@ bool[,] r = MatrixCreateAs<Single,bool>(a);
             {
                 fixed (Single* ptrA = a)
                 fixed (Single* ptrB = b)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -12183,7 +12182,7 @@ bool[,] r = MatrixCreateAs<Single,bool>(a);
             unsafe
             {
                 fixed (Single* ptrA = a)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -12516,7 +12515,7 @@ bool[,] r = MatrixCreateAs<Single,bool>(a);
             {
                 fixed (Single* ptrA = a)
                 fixed (Double* ptrB = b)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -12986,7 +12985,7 @@ bool[,] r = MatrixCreateAs<Single,bool>(a);
             unsafe
             {
                 fixed (Single* ptrA = a)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -13307,7 +13306,7 @@ bool[,] r = MatrixCreateAs<Single,bool>(a);
             {
                 fixed (Single* ptrA = a)
                 fixed (Int64* ptrB = b)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -13717,7 +13716,7 @@ bool[,] r = MatrixCreateAs<Single,bool>(a);
             unsafe
             {
                 fixed (Single* ptrA = a)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -14010,7 +14009,7 @@ bool[,] r = MatrixCreateAs<Single,bool>(a);
             {
                 fixed (Single* ptrA = a)
                 fixed (Decimal* ptrB = b)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -14400,7 +14399,7 @@ bool[,] r = MatrixCreateAs<Single,bool>(a);
             unsafe
             {
                 fixed (Single* ptrA = a)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -14689,7 +14688,7 @@ bool[,] r = MatrixCreateAs<Single,bool>(a);
             {
                 fixed (Single* ptrA = a)
                 fixed (Byte* ptrB = b)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -15099,7 +15098,7 @@ bool[,] r = MatrixCreateAs<Single,bool>(a);
             unsafe
             {
                 fixed (Single* ptrA = a)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -15396,7 +15395,7 @@ bool[,] r = MatrixCreateAs<Single,bool>(a);
             {
                 fixed (Single* ptrA = a)
                 fixed (sbyte* ptrB = b)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -15806,7 +15805,7 @@ bool[,] r = MatrixCreateAs<Single,bool>(a);
             unsafe
             {
                 fixed (Single* ptrA = a)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -16103,7 +16102,7 @@ bool[,] r = MatrixCreateAs<Double,bool>(a);
             {
                 fixed (Double* ptrA = a)
                 fixed (Int32* ptrB = b)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -16513,7 +16512,7 @@ bool[,] r = MatrixCreateAs<Double,bool>(a);
             unsafe
             {
                 fixed (Double* ptrA = a)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -16810,7 +16809,7 @@ bool[,] r = MatrixCreateAs<Double,bool>(a);
             {
                 fixed (Double* ptrA = a)
                 fixed (Int16* ptrB = b)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -17220,7 +17219,7 @@ bool[,] r = MatrixCreateAs<Double,bool>(a);
             unsafe
             {
                 fixed (Double* ptrA = a)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -17529,7 +17528,7 @@ bool[,] r = MatrixCreateAs<Double,bool>(a);
             {
                 fixed (Double* ptrA = a)
                 fixed (Single* ptrB = b)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -17999,7 +17998,7 @@ bool[,] r = MatrixCreateAs<Double,bool>(a);
             unsafe
             {
                 fixed (Double* ptrA = a)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -18332,7 +18331,7 @@ bool[,] r = MatrixCreateAs<Double,bool>(a);
             {
                 fixed (Double* ptrA = a)
                 fixed (Double* ptrB = b)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -18802,7 +18801,7 @@ bool[,] r = MatrixCreateAs<Double,bool>(a);
             unsafe
             {
                 fixed (Double* ptrA = a)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -19123,7 +19122,7 @@ bool[,] r = MatrixCreateAs<Double,bool>(a);
             {
                 fixed (Double* ptrA = a)
                 fixed (Int64* ptrB = b)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -19533,7 +19532,7 @@ bool[,] r = MatrixCreateAs<Double,bool>(a);
             unsafe
             {
                 fixed (Double* ptrA = a)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -19826,7 +19825,7 @@ bool[,] r = MatrixCreateAs<Double,bool>(a);
             {
                 fixed (Double* ptrA = a)
                 fixed (Decimal* ptrB = b)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -20216,7 +20215,7 @@ bool[,] r = MatrixCreateAs<Double,bool>(a);
             unsafe
             {
                 fixed (Double* ptrA = a)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -20505,7 +20504,7 @@ bool[,] r = MatrixCreateAs<Double,bool>(a);
             {
                 fixed (Double* ptrA = a)
                 fixed (Byte* ptrB = b)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -20915,7 +20914,7 @@ bool[,] r = MatrixCreateAs<Double,bool>(a);
             unsafe
             {
                 fixed (Double* ptrA = a)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -21212,7 +21211,7 @@ bool[,] r = MatrixCreateAs<Double,bool>(a);
             {
                 fixed (Double* ptrA = a)
                 fixed (sbyte* ptrB = b)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -21622,7 +21621,7 @@ bool[,] r = MatrixCreateAs<Double,bool>(a);
             unsafe
             {
                 fixed (Double* ptrA = a)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -21907,7 +21906,7 @@ bool[,] r = MatrixCreateAs<Int64,bool>(a);
             {
                 fixed (Int64* ptrA = a)
                 fixed (Int32* ptrB = b)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -22257,7 +22256,7 @@ bool[,] r = MatrixCreateAs<Int64,bool>(a);
             unsafe
             {
                 fixed (Int64* ptrA = a)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -22518,7 +22517,7 @@ bool[,] r = MatrixCreateAs<Int64,bool>(a);
             {
                 fixed (Int64* ptrA = a)
                 fixed (Int16* ptrB = b)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -22868,7 +22867,7 @@ bool[,] r = MatrixCreateAs<Int64,bool>(a);
             unsafe
             {
                 fixed (Int64* ptrA = a)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -23141,7 +23140,7 @@ bool[,] r = MatrixCreateAs<Int64,bool>(a);
             {
                 fixed (Int64* ptrA = a)
                 fixed (Single* ptrB = b)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -23551,7 +23550,7 @@ bool[,] r = MatrixCreateAs<Int64,bool>(a);
             unsafe
             {
                 fixed (Int64* ptrA = a)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -23848,7 +23847,7 @@ bool[,] r = MatrixCreateAs<Int64,bool>(a);
             {
                 fixed (Int64* ptrA = a)
                 fixed (Double* ptrB = b)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -24258,7 +24257,7 @@ bool[,] r = MatrixCreateAs<Int64,bool>(a);
             unsafe
             {
                 fixed (Int64* ptrA = a)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -24543,7 +24542,7 @@ bool[,] r = MatrixCreateAs<Int64,bool>(a);
             {
                 fixed (Int64* ptrA = a)
                 fixed (Int64* ptrB = b)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -24893,7 +24892,7 @@ bool[,] r = MatrixCreateAs<Int64,bool>(a);
             unsafe
             {
                 fixed (Int64* ptrA = a)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -25154,7 +25153,7 @@ bool[,] r = MatrixCreateAs<Int64,bool>(a);
             {
                 fixed (Int64* ptrA = a)
                 fixed (Decimal* ptrB = b)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -25504,7 +25503,7 @@ bool[,] r = MatrixCreateAs<Int64,bool>(a);
             unsafe
             {
                 fixed (Int64* ptrA = a)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -25765,7 +25764,7 @@ bool[,] r = MatrixCreateAs<Int64,bool>(a);
             {
                 fixed (Int64* ptrA = a)
                 fixed (Byte* ptrB = b)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -26115,7 +26114,7 @@ bool[,] r = MatrixCreateAs<Int64,bool>(a);
             unsafe
             {
                 fixed (Int64* ptrA = a)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -26376,7 +26375,7 @@ bool[,] r = MatrixCreateAs<Int64,bool>(a);
             {
                 fixed (Int64* ptrA = a)
                 fixed (sbyte* ptrB = b)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -26726,7 +26725,7 @@ bool[,] r = MatrixCreateAs<Int64,bool>(a);
             unsafe
             {
                 fixed (Int64* ptrA = a)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -26987,7 +26986,7 @@ bool[,] r = MatrixCreateAs<Decimal,bool>(a);
             {
                 fixed (Decimal* ptrA = a)
                 fixed (Int32* ptrB = b)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -27337,7 +27336,7 @@ bool[,] r = MatrixCreateAs<Decimal,bool>(a);
             unsafe
             {
                 fixed (Decimal* ptrA = a)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -27598,7 +27597,7 @@ bool[,] r = MatrixCreateAs<Decimal,bool>(a);
             {
                 fixed (Decimal* ptrA = a)
                 fixed (Int16* ptrB = b)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -27948,7 +27947,7 @@ bool[,] r = MatrixCreateAs<Decimal,bool>(a);
             unsafe
             {
                 fixed (Decimal* ptrA = a)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -28217,7 +28216,7 @@ bool[,] r = MatrixCreateAs<Decimal,bool>(a);
             {
                 fixed (Decimal* ptrA = a)
                 fixed (Single* ptrB = b)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -28607,7 +28606,7 @@ bool[,] r = MatrixCreateAs<Decimal,bool>(a);
             unsafe
             {
                 fixed (Decimal* ptrA = a)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -28892,7 +28891,7 @@ bool[,] r = MatrixCreateAs<Decimal,bool>(a);
             {
                 fixed (Decimal* ptrA = a)
                 fixed (Double* ptrB = b)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -29282,7 +29281,7 @@ bool[,] r = MatrixCreateAs<Decimal,bool>(a);
             unsafe
             {
                 fixed (Decimal* ptrA = a)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -29559,7 +29558,7 @@ bool[,] r = MatrixCreateAs<Decimal,bool>(a);
             {
                 fixed (Decimal* ptrA = a)
                 fixed (Int64* ptrB = b)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -29909,7 +29908,7 @@ bool[,] r = MatrixCreateAs<Decimal,bool>(a);
             unsafe
             {
                 fixed (Decimal* ptrA = a)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -30170,7 +30169,7 @@ bool[,] r = MatrixCreateAs<Decimal,bool>(a);
             {
                 fixed (Decimal* ptrA = a)
                 fixed (Decimal* ptrB = b)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -30520,7 +30519,7 @@ bool[,] r = MatrixCreateAs<Decimal,bool>(a);
             unsafe
             {
                 fixed (Decimal* ptrA = a)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -30781,7 +30780,7 @@ bool[,] r = MatrixCreateAs<Decimal,bool>(a);
             {
                 fixed (Decimal* ptrA = a)
                 fixed (Byte* ptrB = b)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -31131,7 +31130,7 @@ bool[,] r = MatrixCreateAs<Decimal,bool>(a);
             unsafe
             {
                 fixed (Decimal* ptrA = a)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -31392,7 +31391,7 @@ bool[,] r = MatrixCreateAs<Decimal,bool>(a);
             {
                 fixed (Decimal* ptrA = a)
                 fixed (sbyte* ptrB = b)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -31742,7 +31741,7 @@ bool[,] r = MatrixCreateAs<Decimal,bool>(a);
             unsafe
             {
                 fixed (Decimal* ptrA = a)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -32003,7 +32002,7 @@ bool[,] r = MatrixCreateAs<Byte,bool>(a);
             {
                 fixed (Byte* ptrA = a)
                 fixed (Int32* ptrB = b)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -32353,7 +32352,7 @@ bool[,] r = MatrixCreateAs<Byte,bool>(a);
             unsafe
             {
                 fixed (Byte* ptrA = a)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -32614,7 +32613,7 @@ bool[,] r = MatrixCreateAs<Byte,bool>(a);
             {
                 fixed (Byte* ptrA = a)
                 fixed (Int16* ptrB = b)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -32964,7 +32963,7 @@ bool[,] r = MatrixCreateAs<Byte,bool>(a);
             unsafe
             {
                 fixed (Byte* ptrA = a)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -33237,7 +33236,7 @@ bool[,] r = MatrixCreateAs<Byte,bool>(a);
             {
                 fixed (Byte* ptrA = a)
                 fixed (Single* ptrB = b)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -33647,7 +33646,7 @@ bool[,] r = MatrixCreateAs<Byte,bool>(a);
             unsafe
             {
                 fixed (Byte* ptrA = a)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -33944,7 +33943,7 @@ bool[,] r = MatrixCreateAs<Byte,bool>(a);
             {
                 fixed (Byte* ptrA = a)
                 fixed (Double* ptrB = b)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -34354,7 +34353,7 @@ bool[,] r = MatrixCreateAs<Byte,bool>(a);
             unsafe
             {
                 fixed (Byte* ptrA = a)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -34639,7 +34638,7 @@ bool[,] r = MatrixCreateAs<Byte,bool>(a);
             {
                 fixed (Byte* ptrA = a)
                 fixed (Int64* ptrB = b)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -34989,7 +34988,7 @@ bool[,] r = MatrixCreateAs<Byte,bool>(a);
             unsafe
             {
                 fixed (Byte* ptrA = a)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -35250,7 +35249,7 @@ bool[,] r = MatrixCreateAs<Byte,bool>(a);
             {
                 fixed (Byte* ptrA = a)
                 fixed (Decimal* ptrB = b)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -35600,7 +35599,7 @@ bool[,] r = MatrixCreateAs<Byte,bool>(a);
             unsafe
             {
                 fixed (Byte* ptrA = a)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -35861,7 +35860,7 @@ bool[,] r = MatrixCreateAs<Byte,bool>(a);
             {
                 fixed (Byte* ptrA = a)
                 fixed (Byte* ptrB = b)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -36211,7 +36210,7 @@ bool[,] r = MatrixCreateAs<Byte,bool>(a);
             unsafe
             {
                 fixed (Byte* ptrA = a)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -36472,7 +36471,7 @@ bool[,] r = MatrixCreateAs<Byte,bool>(a);
             {
                 fixed (Byte* ptrA = a)
                 fixed (sbyte* ptrB = b)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -36822,7 +36821,7 @@ bool[,] r = MatrixCreateAs<Byte,bool>(a);
             unsafe
             {
                 fixed (Byte* ptrA = a)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -37083,7 +37082,7 @@ bool[,] r = MatrixCreateAs<sbyte,bool>(a);
             {
                 fixed (sbyte* ptrA = a)
                 fixed (Int32* ptrB = b)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -37433,7 +37432,7 @@ bool[,] r = MatrixCreateAs<sbyte,bool>(a);
             unsafe
             {
                 fixed (sbyte* ptrA = a)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -37694,7 +37693,7 @@ bool[,] r = MatrixCreateAs<sbyte,bool>(a);
             {
                 fixed (sbyte* ptrA = a)
                 fixed (Int16* ptrB = b)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -38044,7 +38043,7 @@ bool[,] r = MatrixCreateAs<sbyte,bool>(a);
             unsafe
             {
                 fixed (sbyte* ptrA = a)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -38317,7 +38316,7 @@ bool[,] r = MatrixCreateAs<sbyte,bool>(a);
             {
                 fixed (sbyte* ptrA = a)
                 fixed (Single* ptrB = b)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -38727,7 +38726,7 @@ bool[,] r = MatrixCreateAs<sbyte,bool>(a);
             unsafe
             {
                 fixed (sbyte* ptrA = a)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -39024,7 +39023,7 @@ bool[,] r = MatrixCreateAs<sbyte,bool>(a);
             {
                 fixed (sbyte* ptrA = a)
                 fixed (Double* ptrB = b)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -39434,7 +39433,7 @@ bool[,] r = MatrixCreateAs<sbyte,bool>(a);
             unsafe
             {
                 fixed (sbyte* ptrA = a)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -39719,7 +39718,7 @@ bool[,] r = MatrixCreateAs<sbyte,bool>(a);
             {
                 fixed (sbyte* ptrA = a)
                 fixed (Int64* ptrB = b)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -40069,7 +40068,7 @@ bool[,] r = MatrixCreateAs<sbyte,bool>(a);
             unsafe
             {
                 fixed (sbyte* ptrA = a)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -40330,7 +40329,7 @@ bool[,] r = MatrixCreateAs<sbyte,bool>(a);
             {
                 fixed (sbyte* ptrA = a)
                 fixed (Decimal* ptrB = b)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -40680,7 +40679,7 @@ bool[,] r = MatrixCreateAs<sbyte,bool>(a);
             unsafe
             {
                 fixed (sbyte* ptrA = a)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -40941,7 +40940,7 @@ bool[,] r = MatrixCreateAs<sbyte,bool>(a);
             {
                 fixed (sbyte* ptrA = a)
                 fixed (Byte* ptrB = b)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -41291,7 +41290,7 @@ bool[,] r = MatrixCreateAs<sbyte,bool>(a);
             unsafe
             {
                 fixed (sbyte* ptrA = a)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -41552,7 +41551,7 @@ bool[,] r = MatrixCreateAs<sbyte,bool>(a);
             {
                 fixed (sbyte* ptrA = a)
                 fixed (sbyte* ptrB = b)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
@@ -41902,7 +41901,7 @@ bool[,] r = MatrixCreateAs<sbyte,bool>(a);
             unsafe
             {
                 fixed (sbyte* ptrA = a)
-				fixed (bool* ptrR = r)
+                fixed (bool* ptrR = r)
                 {
                     if (rtol > 0)
                     {
