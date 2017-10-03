@@ -80,24 +80,52 @@ int pixel_formats[] =
 
 int CODECS_COUNT(sizeof(video_codecs) / sizeof(libffmpeg::AVCodecID));
 
+
+using namespace System;
+using namespace System::IO;
+using namespace Accord::Compat;
+
 static class _init
 {
 public:
     _init() {
+#if NET35
+        bool is64bits = Accord::Compat::EnvironmentEx::Is64BitProcess;
+        String^ system32Path = Accord::Compat::EnvironmentEx::GetWindowsSystemDirectory32();
+        // String^ system64Path = Accord::Compat::EnvironmentEx::GetWindowsSystemDirectory64();
+
+        if (is64bits)
+        {
+            throw gcnew InvalidOperationException("This application cannot be run in 64-bits.");
+        }
+        else
+        {
+            bool success = File::Exists(Path::Combine(system32Path, "msvcp90.dll"));
+
+            if (!success)
+            {
+                throw gcnew InvalidOperationException("This application requires the x86 version of " +
+                    "the Microsoft Visual C++ 2008 SP1 Redistributable Package to be installed on this computer. Please " +
+                    "download and install it from https://www.microsoft.com/en-us/download/details.aspx?id=5582");
+            }
+        }
+#else
         String^ system32Path = Environment::GetFolderPath(Environment::SpecialFolder::SystemX86);
         String^ system64Path = Environment::GetFolderPath(Environment::SpecialFolder::System);
+        bool is64bits = Environment::Is64BitProcess;
+
         String^ msvcDllName = "msvcp140.dll";
 
-        bool success = System::IO::File::Exists(System::IO::Path::Combine(system32Path, msvcDllName));
+        bool success = File::Exists(Path::Combine(system32Path, msvcDllName));
 
-        if (Environment::Is64BitProcess)
+        if (is64bits)
         {
-            success &= System::IO::File::Exists(System::IO::Path::Combine(system64Path, msvcDllName));
+            success &= File::Exists(Path::Combine(system64Path, msvcDllName));
         }
 
         if (!success)
         {
-            if (Environment::Is64BitProcess)
+            if (is64bits)
             {
                 throw gcnew InvalidOperationException("This application requires both the x64 and x86 versions of " +
                     "the Visual C++ Redistributable for Visual Studio 2015 to be installed on this computer. Please " +
@@ -109,7 +137,8 @@ public:
                     "the Visual C++ Redistributable for Visual Studio 2015 to be installed on this computer. Please " +
                     "download and install it from https://www.microsoft.com/en-us/download/details.aspx?id=48145");
             }
-
         }
+#endif
     }
+
 } _initializer;

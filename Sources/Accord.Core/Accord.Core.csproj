@@ -65,6 +65,7 @@
     <Compile Include="Compatibility\Dummy.cs" />
     <Compile Include="Compatibility\EnumerableEx.cs" />
     <Compile Include="Compatibility\Stream.cs" />
+    <Compile Include="Compatibility\EnvironmentEx.cs" />
     <Compile Include="Compatibility\TypeExtensions.cs" />
     <Compile Include="Debug.cs" />
     <Compile Include="InterlockedEx.cs" />
