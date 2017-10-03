@@ -90,16 +90,15 @@ namespace Accord.Imaging
     /// 
     /// <example>
     /// <para>
-    ///   The first example shows how to extract HOG descriptors from a standard test image:</para>
+    ///   The first example shows how to extract SURF descriptors from a standard test image:</para>
     ///   <code source="Unit Tests\Accord.Tests.Imaging\SpeedUpRobustFeaturesDetectorTest.cs" region="doc_apply" />
     ///   
     /// <para>
-    ///   The second example shows how to use HOG descriptors as part of a BagOfVisualWords (BoW) pipeline 
+    ///   The second example shows how to use SURF descriptors as part of a BagOfVisualWords (BoW) pipeline 
     ///   for image classification:</para>
     ///   <code source="Unit Tests\Accord.Tests.Vision\Imaging\BagOfVisualWordsTest.cs" region="doc_learn" />
     ///   <code source="Unit Tests\Accord.Tests.Vision\Imaging\BagOfVisualWordsTest.cs" region="doc_classification" />
     /// </example>
-    /// 
     ///
     /// <seealso cref="SpeededUpRobustFeaturePoint"/>
     /// <seealso cref="SpeededUpRobustFeaturesDescriptor"/>
