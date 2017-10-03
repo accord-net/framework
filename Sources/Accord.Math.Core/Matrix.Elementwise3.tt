@@ -59,10 +59,6 @@ public class MatrixOperationTemplate : Template
 
 namespace Accord.Math
 {
-#if DEBUG
-    #define CHECK
-#endif
-
     using System;
     using Accord.Math;
     using System.Runtime.CompilerServices;
@@ -97,6 +93,7 @@ namespace Accord.Math
 #endif
         public static <#=r#>[][] MultiplyAndAdd(this <#=a#>[][] a, <#=b#> b, <#=c#>[][] c, <#=r#>[][] result)
         {
+            check<<#=a#>, <#=b#>, <#=c#>, <#=r#>>(a: a, b: b, c: c, result: result);
             for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
                     result[i][j] = (<#=r#>)((<#=r#>)(a[i][j]) * b + (<#=r#>)(c[i][j]));
@@ -119,6 +116,7 @@ namespace Accord.Math
 #endif
         public static <#=r#>[,] MultiplyAndAdd(this <#=a#>[,] a, <#=b#> b, <#=c#>[,] c, <#=r#>[,] result)
         {
+            check<<#=a#>, <#=b#>, <#=c#>, <#=r#>>(a: a, b: b, c: c, result: result);
             for (int i = 0; i < result.GetLength(0); i++)
                 for (int j = 0; j < result.GetLength(1); j++)
                     result[i, j] = (<#=r#>)((<#=r#>)(a[i, j]) * b + (<#=r#>)(c[i, j]));

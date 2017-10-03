@@ -27,10 +27,6 @@
 
 namespace Accord.Math
 {
-#if DEBUG
-    #define CHECK
-#endif
-
     using System;
     using Accord.Math;
     using System.Runtime.CompilerServices;
@@ -58,6 +54,7 @@ namespace Accord.Math
 #endif
         public static int[][] MultiplyAndAdd(this int[][] a, int b, int[][] c, int[][] result)
         {
+            check<int, int, int, int>(a: a, b: b, c: c, result: result);
             for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
                     result[i][j] = (int)((int)(a[i][j]) * b + (int)(c[i][j]));
@@ -80,6 +77,7 @@ namespace Accord.Math
 #endif
         public static int[,] MultiplyAndAdd(this int[,] a, int b, int[,] c, int[,] result)
         {
+            check<int, int, int, int>(a: a, b: b, c: c, result: result);
             for (int i = 0; i < result.GetLength(0); i++)
                 for (int j = 0; j < result.GetLength(1); j++)
                     result[i, j] = (int)((int)(a[i, j]) * b + (int)(c[i, j]));
@@ -108,6 +106,7 @@ namespace Accord.Math
 #endif
         public static float[][] MultiplyAndAdd(this float[][] a, float b, float[][] c, float[][] result)
         {
+            check<float, float, float, float>(a: a, b: b, c: c, result: result);
             for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
                     result[i][j] = (float)((float)(a[i][j]) * b + (float)(c[i][j]));
@@ -130,6 +129,7 @@ namespace Accord.Math
 #endif
         public static float[,] MultiplyAndAdd(this float[,] a, float b, float[,] c, float[,] result)
         {
+            check<float, float, float, float>(a: a, b: b, c: c, result: result);
             for (int i = 0; i < result.GetLength(0); i++)
                 for (int j = 0; j < result.GetLength(1); j++)
                     result[i, j] = (float)((float)(a[i, j]) * b + (float)(c[i, j]));
@@ -158,6 +158,7 @@ namespace Accord.Math
 #endif
         public static double[][] MultiplyAndAdd(this double[][] a, double b, double[][] c, double[][] result)
         {
+            check<double, double, double, double>(a: a, b: b, c: c, result: result);
             for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
                     result[i][j] = (double)((double)(a[i][j]) * b + (double)(c[i][j]));
@@ -180,6 +181,7 @@ namespace Accord.Math
 #endif
         public static double[,] MultiplyAndAdd(this double[,] a, double b, double[,] c, double[,] result)
         {
+            check<double, double, double, double>(a: a, b: b, c: c, result: result);
             for (int i = 0; i < result.GetLength(0); i++)
                 for (int j = 0; j < result.GetLength(1); j++)
                     result[i, j] = (double)((double)(a[i, j]) * b + (double)(c[i, j]));
@@ -208,6 +210,7 @@ namespace Accord.Math
 #endif
         public static byte[][] MultiplyAndAdd(this byte[][] a, byte b, byte[][] c, byte[][] result)
         {
+            check<byte, byte, byte, byte>(a: a, b: b, c: c, result: result);
             for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
                     result[i][j] = (byte)((byte)(a[i][j]) * b + (byte)(c[i][j]));
@@ -230,6 +233,7 @@ namespace Accord.Math
 #endif
         public static byte[,] MultiplyAndAdd(this byte[,] a, byte b, byte[,] c, byte[,] result)
         {
+            check<byte, byte, byte, byte>(a: a, b: b, c: c, result: result);
             for (int i = 0; i < result.GetLength(0); i++)
                 for (int j = 0; j < result.GetLength(1); j++)
                     result[i, j] = (byte)((byte)(a[i, j]) * b + (byte)(c[i, j]));
@@ -258,6 +262,7 @@ namespace Accord.Math
 #endif
         public static decimal[][] MultiplyAndAdd(this decimal[][] a, decimal b, decimal[][] c, decimal[][] result)
         {
+            check<decimal, decimal, decimal, decimal>(a: a, b: b, c: c, result: result);
             for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
                     result[i][j] = (decimal)((decimal)(a[i][j]) * b + (decimal)(c[i][j]));
@@ -280,6 +285,7 @@ namespace Accord.Math
 #endif
         public static decimal[,] MultiplyAndAdd(this decimal[,] a, decimal b, decimal[,] c, decimal[,] result)
         {
+            check<decimal, decimal, decimal, decimal>(a: a, b: b, c: c, result: result);
             for (int i = 0; i < result.GetLength(0); i++)
                 for (int j = 0; j < result.GetLength(1); j++)
                     result[i, j] = (decimal)((decimal)(a[i, j]) * b + (decimal)(c[i, j]));
