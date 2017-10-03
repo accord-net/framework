@@ -22,6 +22,7 @@
 
 namespace Accord.Tests.Imaging
 {
+    using Accord.DataSets;
     using Accord.Imaging;
     using Accord.Tests.Imaging.Properties;
     using AForge;
@@ -36,6 +37,29 @@ namespace Accord.Tests.Imaging
     public class FastCornersDetectorTest
     {
 
+        [Test]
+        public void doc_test()
+        {
+            string localPath = TestContext.CurrentContext.TestDirectory;
+
+            #region doc_apply
+            // Let's load an example image, such as Lena,
+            // from a standard dataset of example images:
+            var images = new TestImages(path: localPath);
+            Bitmap lena = images["lena.bmp"];
+
+            // Create FAST with the default parameter values:
+            var fast = new FastCornersDetector(threshold: 20);
+
+            // Use it to extract interest points from the Lena image:
+            List<IntPoint> descriptors = fast.ProcessImage(lena);
+
+            // Now those descriptors can be used to represent the image itself, such
+            // as for example, in the Bag-of-Visual-Words approach for classification.
+            #endregion
+
+            Assert.AreEqual(1144, descriptors.Count);
+        }
 
         [Test]
         public void ProcessImageTest()

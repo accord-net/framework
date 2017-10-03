@@ -104,7 +104,6 @@ namespace Accord.Imaging
     /// 
     /// <example>
     /// <code>
-    /// 
     ///   Bitmap image = ... // Lena's famous picture
     /// 
     ///   // Create a new FAST Corners Detector
@@ -132,6 +131,9 @@ namespace Accord.Imaging
     /// 
     ///   <img src="..\images\fast.png" />
     ///   
+    /// <para>
+    ///   The second example shows how to extract FAST descriptors from a standard test image:</para>
+    ///   <code source="Unit Tests\Accord.Tests.Imaging\FastCornersDetectorTest.cs" region="doc_apply" />
     /// </example>
     /// 
     /// <seealso cref="SpeededUpRobustFeaturesDetector"/>
@@ -147,15 +149,6 @@ namespace Accord.Imaging
         private int[] scores;
 
 
-        #region Constructors
-        /// <summary>
-        ///   Initializes a new instance of the <see cref="FastCornersDetector"/> class.
-        /// </summary>
-        /// 
-        public FastCornersDetector()
-        {
-        }
-
         /// <summary>
         ///   Initializes a new instance of the <see cref="FastCornersDetector"/> class.
         /// </summary>
@@ -163,14 +156,12 @@ namespace Accord.Imaging
         /// <param name="threshold">The suppression threshold. Decreasing this value
         ///   increases the number of points detected by the algorithm. Default is 20.</param>
         /// 
-        public FastCornersDetector(int threshold)
+        public FastCornersDetector(int threshold = 20)
         {
             this.threshold = threshold;
         }
-        #endregion
 
 
-        #region Properties
         /// <summary>
         ///   Gets or sets a value indicating whether non-maximum
         ///   points should be suppressed. Default is true.
@@ -209,7 +200,6 @@ namespace Accord.Imaging
         {
             get { return scores; }
         }
-        #endregion
 
 
         /// <summary>
