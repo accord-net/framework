@@ -64,7 +64,7 @@ namespace Accord.Imaging
     /// <para>
     ///   The second example shows how to use the LBP feature extractor as part of a
     ///   Bag-of-Words model in order to perform texture image classification:</para>
-    ///   <code source="Unit Tests\Accord.Tests.Vision\Imaging\BagOfVisualWodsTest.cs" region="doc_feature_lbp" />
+    ///   <code source="Unit Tests\Accord.Tests.Vision\Imaging\BagOfVisualWordsTest.cs" region="doc_feature_lbp" />
     /// </example>
     /// 
     public class LocalBinaryPattern : IFeatureDetector<FeatureDescriptor>,

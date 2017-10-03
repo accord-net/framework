@@ -39,8 +39,13 @@ namespace Accord.Imaging
     using Accord.Statistics.Distributions.Fitting;
 
     /// <summary>
-    ///   Base class for Bag of Visual Words implementations.
+    ///   Base class for <see cref="BagOfVisualWords">Bag of Visual Words</see> implementations.
     /// </summary>
+    /// 
+    /// <seealso cref="BagOfVisualWords"/>
+    /// <seealso cref="BagOfVisualWords{TPoint, TFeature, TClustering, TDetector}"/>
+    /// <seealso cref="BagOfVisualWords{TPoint, TFeature}"/>
+    /// <seealso cref="BagOfVisualWords{TPoint}"/>
     /// 
     [Serializable]
     public class BaseBagOfVisualWords<TModel, TPoint, TFeature, TClustering, TDetector> :

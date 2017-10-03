@@ -117,27 +117,6 @@ namespace Accord.Imaging
         ///   Initializes a new instance of the <see cref="SpeededUpRobustFeaturesDetector"/> class.
         /// </summary>
         /// 
-        public SpeededUpRobustFeaturesDetector()
-            : this(0.0002f)
-        {
-        }
-
-        /// <summary>
-        ///   Initializes a new instance of the <see cref="SpeededUpRobustFeaturesDetector"/> class.
-        /// </summary>
-        /// 
-        /// <param name="threshold">
-        ///   The non-maximum suppression threshold. Default is 0.0002f.</param>
-        ///   
-        public SpeededUpRobustFeaturesDetector(float threshold)
-            : this(threshold, 5, 2)
-        {
-        }
-
-        /// <summary>
-        ///   Initializes a new instance of the <see cref="SpeededUpRobustFeaturesDetector"/> class.
-        /// </summary>
-        /// 
         /// <param name="threshold">
         ///   The non-maximum suppression threshold. Default is 0.0002f.</param>
         /// <param name="octaves">
@@ -148,7 +127,7 @@ namespace Accord.Imaging
         ///   The initial step to use when building the <see cref="ResponseLayerCollection">
         ///   response filter</see>. Default is 2. </param>
         ///   
-        public SpeededUpRobustFeaturesDetector(double threshold, int octaves, int initial)
+        public SpeededUpRobustFeaturesDetector(double threshold = 0.0002f, int octaves = 5, int initial = 2)
         {
             this.threshold = threshold;
             this.octaves = octaves;

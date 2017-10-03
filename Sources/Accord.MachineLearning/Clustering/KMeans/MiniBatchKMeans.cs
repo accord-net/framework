@@ -79,11 +79,11 @@ namespace Accord.MachineLearning
     /// </remarks>
     /// 
     /// <example>
-    ///     <code source="Unit Tests\Accord.Tests.Math\DistanceTest.cs" region="doc_learn" />
+    ///     <code source="Unit Tests\Accord.Tests.MachineLearning\Clustering\MiniBatchKMeansTest.cs" region="doc_learn" />
     /// </example>
+    /// 
     /// <seealso cref="KMeans"/>
     ///
-
     public class MiniBatchKMeans: KMeans 
     {
         private int batchSize;

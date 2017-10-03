@@ -1124,7 +1124,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   the <see cref="Fit(double[], double[])"/> method. However, any other kind of 
         ///   distribution could be fit in the exactly same way. Please consider the code below
         ///   as an example only:</para>
-        /// <code source="Unit Tests\Accord.Tests.Statistics\Distributions\Univariate\Continuous\UnivariateContinuousDistribution.cs" region="doc_fit" />
+        /// <code source="Unit Tests\Accord.Tests.Statistics\Distributions\Univariate\Continuous\UnivariateContinuousDistributionTest.cs" region="doc_fit" />
         /// 
         /// <para>
         ///   If you would like futher examples, please take a look at the documentation page
@@ -1161,7 +1161,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   the <see cref="Fit(double[], double[])"/> method. However, any other kind of 
         ///   distribution could be fit in the exactly same way. Please consider the code below
         ///   as an example only:</para>
-        /// <code source="Unit Tests\Accord.Tests.Statistics\Distributions\Univariate\Continuous\UnivariateContinuousDistribution.cs" region="doc_fit" />
+        /// <code source="Unit Tests\Accord.Tests.Statistics\Distributions\Univariate\Continuous\UnivariateContinuousDistributionTest.cs" region="doc_fit" />
         /// 
         /// <para>
         ///   If you would like futher examples, please take a look at the documentation page
@@ -1198,7 +1198,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   the <see cref="Fit(double[], double[])"/> method. However, any other kind of 
         ///   distribution could be fit in the exactly same way. Please consider the code below
         ///   as an example only:</para>
-        /// <code source="Unit Tests\Accord.Tests.Statistics\Distributions\Univariate\Continuous\UnivariateContinuousDistribution.cs" region="doc_fit" />
+        /// <code source="Unit Tests\Accord.Tests.Statistics\Distributions\Univariate\Continuous\UnivariateContinuousDistributionTest.cs" region="doc_fit" />
         /// 
         /// <para>
         ///   If you would like futher examples, please take a look at the documentation page
@@ -1237,7 +1237,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   the <see cref="Fit(double[], double[])"/> method. However, any other kind of 
         ///   distribution could be fit in the exactly same way. Please consider the code below
         ///   as an example only:</para>
-        /// <code source="Unit Tests\Accord.Tests.Statistics\Distributions\Univariate\Continuous\UnivariateContinuousDistribution.cs" region="doc_fit" />
+        /// <code source="Unit Tests\Accord.Tests.Statistics\Distributions\Univariate\Continuous\UnivariateContinuousDistributionTest.cs" region="doc_fit" />
         /// 
         /// <para>
         ///   If you would like futher examples, please take a look at the documentation page
@@ -1278,7 +1278,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   the <see cref="Fit(double[], double[])"/> method. However, any other kind of 
         ///   distribution could be fit in the exactly same way. Please consider the code below
         ///   as an example only:</para>
-        /// <code source="Unit Tests\Accord.Tests.Statistics\Distributions\Univariate\Continuous\UnivariateContinuousDistribution.cs" region="doc_fit" />
+        /// <code source="Unit Tests\Accord.Tests.Statistics\Distributions\Univariate\Continuous\UnivariateContinuousDistributionTest.cs" region="doc_fit" />
         /// 
         /// <para>
         ///   If you would like futher examples, please take a look at the documentation page
@@ -1319,7 +1319,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   the <see cref="Fit(double[], double[])"/> method. However, any other kind of 
         ///   distribution could be fit in the exactly same way. Please consider the code below
         ///   as an example only:</para>
-        /// <code source="Unit Tests\Accord.Tests.Statistics\Distributions\Univariate\Continuous\UnivariateContinuousDistribution.cs" region="doc_fit" />
+        /// <code source="Unit Tests\Accord.Tests.Statistics\Distributions\Univariate\Continuous\UnivariateContinuousDistributionTest.cs" region="doc_fit" />
         /// 
         /// <para>
         ///   If you would like futher examples, please take a look at the documentation page

@@ -123,7 +123,7 @@
     <Compile Include="Kernels\DynamicTimeWarpingTest.cs" />
     <Compile Include="Clustering\KMeansTest.cs" />
     <Compile Include="Clustering\KModesTest.cs" />
-    <Compile Include="KNearestNeighbors\KNearestNeighborTest.cs" />
+    <Compile Include="KNearestNeighbors\KNearestNeighborsTest.cs" />
     <Compile Include="KNearestNeighbors\NaiveNearestNeighbors.cs" />
     <Compile Include="Structures\SPTreeTest.cs" />
     <Compile Include="Structures\VPTreeTest.cs" />

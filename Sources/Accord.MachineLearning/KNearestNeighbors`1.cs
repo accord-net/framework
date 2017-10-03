@@ -66,13 +66,13 @@ namespace Accord.MachineLearning
     /// 
     /// <para>
     ///   The second example show how to use a different distance metric when computing k-NN:</para>
-    ///   <code source = "Unit Tests\Accord.Tests.MachineLearning\KNearestNeighbors\KNearestNeighborTest.cs" region="doc_learn_distance" />
+    ///   <code source = "Unit Tests\Accord.Tests.MachineLearning\KNearestNeighbors\KNearestNeighborsTest.cs" region="doc_learn_distance" />
     /// 
     /// <para>
     ///   The k-Nearest neighbor algorithm implementation in the framework can also be used with any instance 
     ///   data type. For such cases, the framework offers a generic version of the classifier. The third example
     ///   shows how to use the generic kNN classifier to perform the direct classification of actual text samples:</para>
-    /// <code source = "Unit Tests\Accord.Tests.MachineLearning\KNearestNeighbors\KNearestNeighborTest.cs" region="doc_learn_text" />
+    /// <code source = "Unit Tests\Accord.Tests.MachineLearning\KNearestNeighbors\KNearestNeighborsTest.cs" region="doc_learn_text" />
     /// </example>
     /// 
     /// <seealso cref="KNearestNeighbors"/>

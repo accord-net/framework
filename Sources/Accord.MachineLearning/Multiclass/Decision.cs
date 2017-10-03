@@ -147,8 +147,8 @@ namespace Accord.MachineLearning
     ///   will extract the sequence of binary classification problems and their respective decisions when evaluating a 
     ///   multi-class SVM using the one-vs-one decision strategy for multi-class problems:</para>
     /// 
-    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MulticlassSupportVectorMachineTest.cs" region="doc_learn" />
-    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MulticlassSupportVectorMachineTest.cs" region="doc_learn_decision_path" />
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MulticlassSupportVectorLearningTest.cs" region="doc_learn" />
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MulticlassSupportVectorLearningTest.cs" region="doc_learn_decision_path" />
     /// </example>
     /// 
     /// <seealso cref="ClassPair"/>

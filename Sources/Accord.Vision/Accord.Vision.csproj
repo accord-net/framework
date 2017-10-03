@@ -60,8 +60,8 @@
     <Compile Include="Accord.Imaging\BaseBagOfVisualWords`5.cs" />
     <Compile Include="Accord.Imaging\BagOfVisualWords`4.cs" />
     <Compile Include="Accord.Imaging\BagOfVisualWords`2.cs" />
-    <Compile Include="Accord.Imaging\Matching\KNearestNeighborMatching.cs" />
-    <Compile Include="Accord.Imaging\Matching\KNearestNeighborMatching`1.cs" />
+    <Compile Include="Accord.Imaging\Matching\KNearestNeighborsMatching.cs" />
+    <Compile Include="Accord.Imaging\Matching\KNearestNeighborsMatching`1.cs" />
     <Compile Include="Accord.Imaging\RansacFundamentalEstimator.cs" />
     <Compile Include="Accord.Imaging\RansacHomographyEstimator.cs" />
     <Compile Include="GlobalSuppressions.cs" />

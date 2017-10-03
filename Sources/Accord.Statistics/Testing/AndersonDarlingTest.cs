@@ -34,8 +34,8 @@ namespace Accord.Statistics.Testing
     /// </summary>
     /// 
     /// <example>
-    /// <code source="Unit Tests\Accord.Tests.Statistics\Testing\AndersonDarlingTest.cs" region="doc_test_uniform" />
-    /// <code source="Unit Tests\Accord.Tests.Statistics\Testing\AndersonDarlingTest.cs" region="doc_test_normal" />
+    /// <code source="Unit Tests\Accord.Tests.Statistics\Testing\AndersonDarlingTestTest.cs" region="doc_test_uniform" />
+    /// <code source="Unit Tests\Accord.Tests.Statistics\Testing\AndersonDarlingTestTest.cs" region="doc_test_normal" />
     /// </example>
     /// 
     [Serializable]

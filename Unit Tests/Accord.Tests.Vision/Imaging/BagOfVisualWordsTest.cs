@@ -960,7 +960,7 @@ namespace Accord.Tests.Imaging
                 for (int j = 0; j < features[i].Length; j++)
                     Assert.IsTrue(expected[i].Contains(features[i][j]));
 
-            #region doc_classification
+            #region doc_classification_disk
 
             // Now, the features can be used to train any classification
             // algorithm as if they were the images themselves. For example,

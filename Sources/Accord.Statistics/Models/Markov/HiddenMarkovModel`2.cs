@@ -169,7 +169,7 @@ namespace Accord.Statistics.Models.Markov
     ///   with that state. This limits the applicability of this model to only very short-term predictions (i.e. most likely,
     ///   only the most immediate next observation).</para>
     ///   
-    /// <code source="Unit Tests\Accord.Tests.Statistics\Models\Markov\HiddenMarkovModelTest`2.cs" region="doc_predict"/>
+    /// <code source="Unit Tests\Accord.Tests.Statistics\Models\Markov\HiddenMarkovModel`2Test.cs" region="doc_predict"/>
     /// </example>
     /// 
     /// <seealso cref="BaumWelchLearning{T}">Baum-Welch, one of the most famous learning algorithms for Hidden Markov Models.</seealso>
@@ -764,7 +764,7 @@ namespace Accord.Statistics.Models.Markov
         /// </remarks>
         /// 
         /// <example>
-        ///   <code source="Unit Tests\Accord.Tests.Statistics\Models\Markov\HiddenMarkovModelTest`2.cs" region="doc_predict"/>
+        ///   <code source="Unit Tests\Accord.Tests.Statistics\Models\Markov\HiddenMarkovModel`2Test.cs" region="doc_predict"/>
         /// </example>
         /// 
         public TObservation Predict(TObservation[] observations)
@@ -795,7 +795,7 @@ namespace Accord.Statistics.Models.Markov
         /// </remarks>
         /// 
         /// <example>
-        ///   <code source="Unit Tests\Accord.Tests.Statistics\Models\Markov\HiddenMarkovModelTest`2.cs" region="doc_predict"/>
+        ///   <code source="Unit Tests\Accord.Tests.Statistics\Models\Markov\HiddenMarkovModel`2Test.cs" region="doc_predict"/>
         /// </example>
         /// 
         public TObservation Predict(TObservation[] observations, out double logLikelihood)
@@ -833,7 +833,7 @@ namespace Accord.Statistics.Models.Markov
         /// </remarks>
         /// 
         /// <example>
-        ///   <code source="Unit Tests\Accord.Tests.Statistics\Models\Markov\HiddenMarkovModelTest`2.cs" region="doc_predict"/>
+        ///   <code source="Unit Tests\Accord.Tests.Statistics\Models\Markov\HiddenMarkovModel`2Test.cs" region="doc_predict"/>
         /// </example>
         /// 
         public TObservation Predict<TMultivariate>(TObservation[] observations, out double logLikelihood, out MultivariateMixture<TMultivariate> probabilities)
@@ -862,7 +862,7 @@ namespace Accord.Statistics.Models.Markov
         /// </remarks>
         /// 
         /// <example>
-        ///   <code source="Unit Tests\Accord.Tests.Statistics\Models\Markov\HiddenMarkovModelTest`2.cs" region="doc_predict"/>
+        ///   <code source="Unit Tests\Accord.Tests.Statistics\Models\Markov\HiddenMarkovModel`2Test.cs" region="doc_predict"/>
         /// </example>
         /// 
         public TObservation Predict<TMultivariate>(TObservation[] observations, out MultivariateMixture<TMultivariate> probabilities)
@@ -894,7 +894,7 @@ namespace Accord.Statistics.Models.Markov
         /// </remarks>
         /// 
         /// <example>
-        ///   <code source="Unit Tests\Accord.Tests.Statistics\Models\Markov\HiddenMarkovModelTest`2.cs" region="doc_predict"/>
+        ///   <code source="Unit Tests\Accord.Tests.Statistics\Models\Markov\HiddenMarkovModel`2Test.cs" region="doc_predict"/>
         /// </example>
         /// 
         public TObservation Predict<TUnivariate>(TObservation[] observations, out Mixture<TUnivariate> probabilities)
@@ -928,7 +928,7 @@ namespace Accord.Statistics.Models.Markov
         /// </remarks>
         /// 
         /// <example>
-        ///   <code source="Unit Tests\Accord.Tests.Statistics\Models\Markov\HiddenMarkovModelTest`2.cs" region="doc_predict"/>
+        ///   <code source="Unit Tests\Accord.Tests.Statistics\Models\Markov\HiddenMarkovModel`2Test.cs" region="doc_predict"/>
         /// </example>
         /// 
         public TObservation Predict<TUnivariate>(TObservation[] observations, out double logLikelihood, out Mixture<TUnivariate> probabilities)
@@ -955,7 +955,7 @@ namespace Accord.Statistics.Models.Markov
         /// </remarks>
         /// 
         /// <example>
-        ///   <code source="Unit Tests\Accord.Tests.Statistics\Models\Markov\HiddenMarkovModelTest`2.cs" region="doc_predict"/>
+        ///   <code source="Unit Tests\Accord.Tests.Statistics\Models\Markov\HiddenMarkovModel`2Test.cs" region="doc_predict"/>
         /// </example>
         /// 
         public virtual TObservation[] Predict(TObservation[] observations, int next)
@@ -989,7 +989,7 @@ namespace Accord.Statistics.Models.Markov
         /// </remarks>
         /// 
         /// <example>
-        ///   <code source="Unit Tests\Accord.Tests.Statistics\Models\Markov\HiddenMarkovModelTest`2.cs" region="doc_predict"/>
+        ///   <code source="Unit Tests\Accord.Tests.Statistics\Models\Markov\HiddenMarkovModel`2Test.cs" region="doc_predict"/>
         /// </example>
         /// 
         public TObservation[] Predict(TObservation[] observations, int next, out double logLikelihood)

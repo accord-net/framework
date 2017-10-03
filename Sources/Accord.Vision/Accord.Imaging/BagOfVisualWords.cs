@@ -110,8 +110,8 @@ namespace Accord.Imaging
     ///   Other more specialized feature extractors can also be used, such as <see cref="Haralick"/>
     ///   texture feature extractors for performing texture classification.</para>
     ///   
-    ///   <code source="Unit Tests\Accord.Tests.Vision\Imaging\BagOfVisualWodsTest.cs" region="doc_feature_haralick" />
-    ///   <code source="Unit Tests\Accord.Tests.Vision\Imaging\BagOfVisualWodsTest.cs" region="doc_classification_haralick" />
+    ///   <code source="Unit Tests\Accord.Tests.Vision\Imaging\BagOfVisualWordsTest.cs" region="doc_feature_haralick" />
+    ///   <code source="Unit Tests\Accord.Tests.Vision\Imaging\BagOfVisualWordsTest.cs" region="doc_classification_feature_haralick" />
     ///   
     /// <para>
     ///   In some applications, learning a BoW with the default settings might need a large amount of memory to be
@@ -121,8 +121,8 @@ namespace Accord.Imaging
     ///   to avoid loading all images at once by feeding the algorithm with the image filenames instead of their Bitmap
     ///   representations:</para>
     ///   
-    ///   <code source="Unit Tests\Accord.Tests.Vision\Imaging\BagOfVisualWodsTest.cs" region="doc_learn_disk" />
-    ///   <code source="Unit Tests\Accord.Tests.Vision\Imaging\BagOfVisualWodsTest.cs" region="doc_classification_disk" />
+    ///   <code source="Unit Tests\Accord.Tests.Vision\Imaging\BagOfVisualWordsTest.cs" region="doc_learn_disk" />
+    ///   <code source="Unit Tests\Accord.Tests.Vision\Imaging\BagOfVisualWordsTest.cs" region="doc_classification_disk" />
     /// </example>
     /// 
     /// <seealso cref="BagOfVisualWords{TPoint}"/>

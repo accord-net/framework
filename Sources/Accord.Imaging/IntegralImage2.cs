@@ -51,7 +51,7 @@ namespace Accord.Imaging
     /// 
     /// <example>
     /// <code source="Unit Tests\Accord.Tests.Imaging\IntegralImage2Test.cs" region="doc_sum" />
-    /// <code source="Unit Tests\Accord.Tests.Imaging\IntegralImage2Test.cs" region="doc_image" />
+    /// <code source="Unit Tests\Accord.Tests.Imaging\IntegralImage2Test.cs" region="doc_lena" />
     /// </example>
     /// 
     /// <seealso cref="IntegralImage"/>
