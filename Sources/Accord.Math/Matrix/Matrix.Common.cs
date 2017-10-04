@@ -35,6 +35,8 @@ namespace Accord.Math
     ///   Special matrix types.
     /// </summary>
     /// 
+    /// <seealso cref="VectorType"/>
+    /// 
     [Flags]
     public enum MatrixType
     {

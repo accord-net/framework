@@ -101,9 +101,9 @@ namespace Accord.Statistics.Models.Regression
         public override double[][] Transform(double[][] input, double[][] result)
         {
             if (Means != null)
-                input = input.Subtract(Means, dimension: 0);
+                input = input.Subtract(Means, dimension: (VectorType)0);
             if (StandardDeviations != null)
-                input = input.Divide(StandardDeviations, dimension: 0);
+                input = input.Divide(StandardDeviations, dimension: (VectorType)0);
 
             // Create the Kernel matrix
             var newK = Kernel.ToJagged2(x: input, y: BasisVectors);

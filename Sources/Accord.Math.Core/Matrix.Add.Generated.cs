@@ -167,24 +167,32 @@ namespace Accord.Math
             return Add(a, b, new int[b.Length]);
         }
 
+
+
+
+
+
+
+        
+
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
-        /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[,] Add(this int[,] a,  int[] b, int dimension)
+        public static int[,] Add(this int[,] a, int[] b, VectorType dimension)
         {
             return Add(a, b, dimension, MatrixCreateAs<int, int>(a));
         }
@@ -195,21 +203,113 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
-        /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Add(this int[][] a,  int[] b, int dimension)
+        public static int[][] Add(this int[][] a, int[] b, VectorType dimension)
         {
             return Add(a, b, dimension, JaggedCreateAs<int, int>(a));
         }
+
+                /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,] Add(this int[] a, int[,] b, VectorType dimension)
+        {
+            return Add(a, b, dimension, MatrixCreateAs<int, int>(b));
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][] Add(this int[] a, int[][] b, VectorType dimension)
+        {
+            return Add(a, b, dimension, JaggedCreateAs<int, int>(b));
+        }
+
+
+
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static int[,] Add(this int[,] a, int[] b, int dimension)
+        {
+            return Add(a, b, dimension, MatrixCreateAs<int, int>(a));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static int[][] Add(this int[][] a, int[] b, int dimension)
+        {
+            return Add(a, b, dimension, JaggedCreateAs<int, int>(a));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static int[,] Add(this int[] a, int[,] b, int dimension)
+        {
+            return Add(a, b, dimension, MatrixCreateAs<int, int>(b));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static int[][] Add(this int[] a, int[][] b, int dimension)
+        {
+            return Add(a, b, dimension, JaggedCreateAs<int, int>(b));
+        }
+
+
+
+
+
 
         /// <summary>
         ///   Elementwise addition between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
@@ -464,24 +564,32 @@ namespace Accord.Math
             return Add(a, b, new float[b.Length]);
         }
 
+
+
+
+
+
+
+        
+
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
-        /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[,] Add(this int[,] a,  float[] b, int dimension)
+        public static float[,] Add(this int[,] a, float[] b, VectorType dimension)
         {
             return Add(a, b, dimension, MatrixCreateAs<int, float>(a));
         }
@@ -492,21 +600,113 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
-        /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Add(this int[][] a,  float[] b, int dimension)
+        public static float[][] Add(this int[][] a, float[] b, VectorType dimension)
         {
             return Add(a, b, dimension, JaggedCreateAs<int, float>(a));
         }
+
+                /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,] Add(this int[] a, float[,] b, VectorType dimension)
+        {
+            return Add(a, b, dimension, MatrixCreateAs<float, float>(b));
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][] Add(this int[] a, float[][] b, VectorType dimension)
+        {
+            return Add(a, b, dimension, JaggedCreateAs<float, float>(b));
+        }
+
+
+
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static float[,] Add(this int[,] a, float[] b, int dimension)
+        {
+            return Add(a, b, dimension, MatrixCreateAs<int, float>(a));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static float[][] Add(this int[][] a, float[] b, int dimension)
+        {
+            return Add(a, b, dimension, JaggedCreateAs<int, float>(a));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static float[,] Add(this int[] a, float[,] b, int dimension)
+        {
+            return Add(a, b, dimension, MatrixCreateAs<float, float>(b));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static float[][] Add(this int[] a, float[][] b, int dimension)
+        {
+            return Add(a, b, dimension, JaggedCreateAs<float, float>(b));
+        }
+
+
+
+
+
 
         /// <summary>
         ///   Elementwise addition between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
@@ -761,24 +961,32 @@ namespace Accord.Math
             return Add(a, b, new double[b.Length]);
         }
 
+
+
+
+
+
+
+        
+
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
-        /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Add(this int[,] a,  double[] b, int dimension)
+        public static double[,] Add(this int[,] a, double[] b, VectorType dimension)
         {
             return Add(a, b, dimension, MatrixCreateAs<int, double>(a));
         }
@@ -789,21 +997,113 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
-        /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Add(this int[][] a,  double[] b, int dimension)
+        public static double[][] Add(this int[][] a, double[] b, VectorType dimension)
         {
             return Add(a, b, dimension, JaggedCreateAs<int, double>(a));
         }
+
+                /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Add(this int[] a, double[,] b, VectorType dimension)
+        {
+            return Add(a, b, dimension, MatrixCreateAs<double, double>(b));
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Add(this int[] a, double[][] b, VectorType dimension)
+        {
+            return Add(a, b, dimension, JaggedCreateAs<double, double>(b));
+        }
+
+
+
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Add(this int[,] a, double[] b, int dimension)
+        {
+            return Add(a, b, dimension, MatrixCreateAs<int, double>(a));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Add(this int[][] a, double[] b, int dimension)
+        {
+            return Add(a, b, dimension, JaggedCreateAs<int, double>(a));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Add(this int[] a, double[,] b, int dimension)
+        {
+            return Add(a, b, dimension, MatrixCreateAs<double, double>(b));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Add(this int[] a, double[][] b, int dimension)
+        {
+            return Add(a, b, dimension, JaggedCreateAs<double, double>(b));
+        }
+
+
+
+
+
 
         /// <summary>
         ///   Elementwise addition between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
@@ -1058,24 +1358,32 @@ namespace Accord.Math
             return Add(a, b, new int[b.Length]);
         }
 
+
+
+
+
+
+
+        
+
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
-        /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[,] Add(this int[,] a,  byte[] b, int dimension)
+        public static int[,] Add(this int[,] a, byte[] b, VectorType dimension)
         {
             return Add(a, b, dimension, MatrixCreateAs<int, int>(a));
         }
@@ -1086,21 +1394,113 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
-        /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Add(this int[][] a,  byte[] b, int dimension)
+        public static int[][] Add(this int[][] a, byte[] b, VectorType dimension)
         {
             return Add(a, b, dimension, JaggedCreateAs<int, int>(a));
         }
+
+                /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,] Add(this int[] a, byte[,] b, VectorType dimension)
+        {
+            return Add(a, b, dimension, MatrixCreateAs<byte, int>(b));
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][] Add(this int[] a, byte[][] b, VectorType dimension)
+        {
+            return Add(a, b, dimension, JaggedCreateAs<byte, int>(b));
+        }
+
+
+
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static int[,] Add(this int[,] a, byte[] b, int dimension)
+        {
+            return Add(a, b, dimension, MatrixCreateAs<int, int>(a));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static int[][] Add(this int[][] a, byte[] b, int dimension)
+        {
+            return Add(a, b, dimension, JaggedCreateAs<int, int>(a));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static int[,] Add(this int[] a, byte[,] b, int dimension)
+        {
+            return Add(a, b, dimension, MatrixCreateAs<byte, int>(b));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static int[][] Add(this int[] a, byte[][] b, int dimension)
+        {
+            return Add(a, b, dimension, JaggedCreateAs<byte, int>(b));
+        }
+
+
+
+
+
 
         /// <summary>
         ///   Elementwise addition between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
@@ -1355,24 +1755,32 @@ namespace Accord.Math
             return Add(a, b, new int[b.Length]);
         }
 
+
+
+
+
+
+
+        
+
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
-        /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[,] Add(this int[,] a,  decimal[] b, int dimension)
+        public static int[,] Add(this int[,] a, decimal[] b, VectorType dimension)
         {
             return Add(a, b, dimension, MatrixCreateAs<int, int>(a));
         }
@@ -1383,21 +1791,113 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
-        /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Add(this int[][] a,  decimal[] b, int dimension)
+        public static int[][] Add(this int[][] a, decimal[] b, VectorType dimension)
         {
             return Add(a, b, dimension, JaggedCreateAs<int, int>(a));
         }
+
+                /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,] Add(this int[] a, decimal[,] b, VectorType dimension)
+        {
+            return Add(a, b, dimension, MatrixCreateAs<decimal, int>(b));
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][] Add(this int[] a, decimal[][] b, VectorType dimension)
+        {
+            return Add(a, b, dimension, JaggedCreateAs<decimal, int>(b));
+        }
+
+
+
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static int[,] Add(this int[,] a, decimal[] b, int dimension)
+        {
+            return Add(a, b, dimension, MatrixCreateAs<int, int>(a));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static int[][] Add(this int[][] a, decimal[] b, int dimension)
+        {
+            return Add(a, b, dimension, JaggedCreateAs<int, int>(a));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static int[,] Add(this int[] a, decimal[,] b, int dimension)
+        {
+            return Add(a, b, dimension, MatrixCreateAs<decimal, int>(b));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static int[][] Add(this int[] a, decimal[][] b, int dimension)
+        {
+            return Add(a, b, dimension, JaggedCreateAs<decimal, int>(b));
+        }
+
+
+
+
+
 
         /// <summary>
         ///   Elementwise addition between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
@@ -1652,24 +2152,32 @@ namespace Accord.Math
             return Add(a, b, new float[b.Length]);
         }
 
+
+
+
+
+
+
+        
+
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
-        /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[,] Add(this float[,] a,  int[] b, int dimension)
+        public static float[,] Add(this float[,] a, int[] b, VectorType dimension)
         {
             return Add(a, b, dimension, MatrixCreateAs<float, float>(a));
         }
@@ -1680,21 +2188,113 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
-        /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Add(this float[][] a,  int[] b, int dimension)
+        public static float[][] Add(this float[][] a, int[] b, VectorType dimension)
         {
             return Add(a, b, dimension, JaggedCreateAs<float, float>(a));
         }
+
+                /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,] Add(this float[] a, int[,] b, VectorType dimension)
+        {
+            return Add(a, b, dimension, MatrixCreateAs<int, float>(b));
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][] Add(this float[] a, int[][] b, VectorType dimension)
+        {
+            return Add(a, b, dimension, JaggedCreateAs<int, float>(b));
+        }
+
+
+
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static float[,] Add(this float[,] a, int[] b, int dimension)
+        {
+            return Add(a, b, dimension, MatrixCreateAs<float, float>(a));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static float[][] Add(this float[][] a, int[] b, int dimension)
+        {
+            return Add(a, b, dimension, JaggedCreateAs<float, float>(a));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static float[,] Add(this float[] a, int[,] b, int dimension)
+        {
+            return Add(a, b, dimension, MatrixCreateAs<int, float>(b));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static float[][] Add(this float[] a, int[][] b, int dimension)
+        {
+            return Add(a, b, dimension, JaggedCreateAs<int, float>(b));
+        }
+
+
+
+
+
 
         /// <summary>
         ///   Elementwise addition between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
@@ -1949,24 +2549,32 @@ namespace Accord.Math
             return Add(a, b, new float[b.Length]);
         }
 
+
+
+
+
+
+
+        
+
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
-        /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[,] Add(this float[,] a,  float[] b, int dimension)
+        public static float[,] Add(this float[,] a, float[] b, VectorType dimension)
         {
             return Add(a, b, dimension, MatrixCreateAs<float, float>(a));
         }
@@ -1977,21 +2585,113 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
-        /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Add(this float[][] a,  float[] b, int dimension)
+        public static float[][] Add(this float[][] a, float[] b, VectorType dimension)
         {
             return Add(a, b, dimension, JaggedCreateAs<float, float>(a));
         }
+
+                /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,] Add(this float[] a, float[,] b, VectorType dimension)
+        {
+            return Add(a, b, dimension, MatrixCreateAs<float, float>(b));
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][] Add(this float[] a, float[][] b, VectorType dimension)
+        {
+            return Add(a, b, dimension, JaggedCreateAs<float, float>(b));
+        }
+
+
+
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static float[,] Add(this float[,] a, float[] b, int dimension)
+        {
+            return Add(a, b, dimension, MatrixCreateAs<float, float>(a));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static float[][] Add(this float[][] a, float[] b, int dimension)
+        {
+            return Add(a, b, dimension, JaggedCreateAs<float, float>(a));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static float[,] Add(this float[] a, float[,] b, int dimension)
+        {
+            return Add(a, b, dimension, MatrixCreateAs<float, float>(b));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static float[][] Add(this float[] a, float[][] b, int dimension)
+        {
+            return Add(a, b, dimension, JaggedCreateAs<float, float>(b));
+        }
+
+
+
+
+
 
         /// <summary>
         ///   Elementwise addition between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
@@ -2246,24 +2946,32 @@ namespace Accord.Math
             return Add(a, b, new double[b.Length]);
         }
 
+
+
+
+
+
+
+        
+
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
-        /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Add(this float[,] a,  double[] b, int dimension)
+        public static double[,] Add(this float[,] a, double[] b, VectorType dimension)
         {
             return Add(a, b, dimension, MatrixCreateAs<float, double>(a));
         }
@@ -2274,21 +2982,113 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
-        /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Add(this float[][] a,  double[] b, int dimension)
+        public static double[][] Add(this float[][] a, double[] b, VectorType dimension)
         {
             return Add(a, b, dimension, JaggedCreateAs<float, double>(a));
         }
+
+                /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Add(this float[] a, double[,] b, VectorType dimension)
+        {
+            return Add(a, b, dimension, MatrixCreateAs<double, double>(b));
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Add(this float[] a, double[][] b, VectorType dimension)
+        {
+            return Add(a, b, dimension, JaggedCreateAs<double, double>(b));
+        }
+
+
+
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Add(this float[,] a, double[] b, int dimension)
+        {
+            return Add(a, b, dimension, MatrixCreateAs<float, double>(a));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Add(this float[][] a, double[] b, int dimension)
+        {
+            return Add(a, b, dimension, JaggedCreateAs<float, double>(a));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Add(this float[] a, double[,] b, int dimension)
+        {
+            return Add(a, b, dimension, MatrixCreateAs<double, double>(b));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Add(this float[] a, double[][] b, int dimension)
+        {
+            return Add(a, b, dimension, JaggedCreateAs<double, double>(b));
+        }
+
+
+
+
+
 
         /// <summary>
         ///   Elementwise addition between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
@@ -2543,24 +3343,32 @@ namespace Accord.Math
             return Add(a, b, new float[b.Length]);
         }
 
+
+
+
+
+
+
+        
+
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
-        /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[,] Add(this float[,] a,  byte[] b, int dimension)
+        public static float[,] Add(this float[,] a, byte[] b, VectorType dimension)
         {
             return Add(a, b, dimension, MatrixCreateAs<float, float>(a));
         }
@@ -2571,21 +3379,113 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
-        /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Add(this float[][] a,  byte[] b, int dimension)
+        public static float[][] Add(this float[][] a, byte[] b, VectorType dimension)
         {
             return Add(a, b, dimension, JaggedCreateAs<float, float>(a));
         }
+
+                /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,] Add(this float[] a, byte[,] b, VectorType dimension)
+        {
+            return Add(a, b, dimension, MatrixCreateAs<byte, float>(b));
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][] Add(this float[] a, byte[][] b, VectorType dimension)
+        {
+            return Add(a, b, dimension, JaggedCreateAs<byte, float>(b));
+        }
+
+
+
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static float[,] Add(this float[,] a, byte[] b, int dimension)
+        {
+            return Add(a, b, dimension, MatrixCreateAs<float, float>(a));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static float[][] Add(this float[][] a, byte[] b, int dimension)
+        {
+            return Add(a, b, dimension, JaggedCreateAs<float, float>(a));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static float[,] Add(this float[] a, byte[,] b, int dimension)
+        {
+            return Add(a, b, dimension, MatrixCreateAs<byte, float>(b));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static float[][] Add(this float[] a, byte[][] b, int dimension)
+        {
+            return Add(a, b, dimension, JaggedCreateAs<byte, float>(b));
+        }
+
+
+
+
+
 
         /// <summary>
         ///   Elementwise addition between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
@@ -2840,24 +3740,32 @@ namespace Accord.Math
             return Add(a, b, new float[b.Length]);
         }
 
+
+
+
+
+
+
+        
+
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
-        /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[,] Add(this float[,] a,  decimal[] b, int dimension)
+        public static float[,] Add(this float[,] a, decimal[] b, VectorType dimension)
         {
             return Add(a, b, dimension, MatrixCreateAs<float, float>(a));
         }
@@ -2868,21 +3776,113 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
-        /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Add(this float[][] a,  decimal[] b, int dimension)
+        public static float[][] Add(this float[][] a, decimal[] b, VectorType dimension)
         {
             return Add(a, b, dimension, JaggedCreateAs<float, float>(a));
         }
+
+                /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,] Add(this float[] a, decimal[,] b, VectorType dimension)
+        {
+            return Add(a, b, dimension, MatrixCreateAs<decimal, float>(b));
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][] Add(this float[] a, decimal[][] b, VectorType dimension)
+        {
+            return Add(a, b, dimension, JaggedCreateAs<decimal, float>(b));
+        }
+
+
+
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static float[,] Add(this float[,] a, decimal[] b, int dimension)
+        {
+            return Add(a, b, dimension, MatrixCreateAs<float, float>(a));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static float[][] Add(this float[][] a, decimal[] b, int dimension)
+        {
+            return Add(a, b, dimension, JaggedCreateAs<float, float>(a));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static float[,] Add(this float[] a, decimal[,] b, int dimension)
+        {
+            return Add(a, b, dimension, MatrixCreateAs<decimal, float>(b));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static float[][] Add(this float[] a, decimal[][] b, int dimension)
+        {
+            return Add(a, b, dimension, JaggedCreateAs<decimal, float>(b));
+        }
+
+
+
+
+
 
         /// <summary>
         ///   Elementwise addition between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
@@ -3137,24 +4137,32 @@ namespace Accord.Math
             return Add(a, b, new double[b.Length]);
         }
 
+
+
+
+
+
+
+        
+
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
-        /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Add(this double[,] a,  int[] b, int dimension)
+        public static double[,] Add(this double[,] a, int[] b, VectorType dimension)
         {
             return Add(a, b, dimension, MatrixCreateAs<double, double>(a));
         }
@@ -3165,21 +4173,113 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
-        /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Add(this double[][] a,  int[] b, int dimension)
+        public static double[][] Add(this double[][] a, int[] b, VectorType dimension)
         {
             return Add(a, b, dimension, JaggedCreateAs<double, double>(a));
         }
+
+                /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Add(this double[] a, int[,] b, VectorType dimension)
+        {
+            return Add(a, b, dimension, MatrixCreateAs<int, double>(b));
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Add(this double[] a, int[][] b, VectorType dimension)
+        {
+            return Add(a, b, dimension, JaggedCreateAs<int, double>(b));
+        }
+
+
+
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Add(this double[,] a, int[] b, int dimension)
+        {
+            return Add(a, b, dimension, MatrixCreateAs<double, double>(a));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Add(this double[][] a, int[] b, int dimension)
+        {
+            return Add(a, b, dimension, JaggedCreateAs<double, double>(a));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Add(this double[] a, int[,] b, int dimension)
+        {
+            return Add(a, b, dimension, MatrixCreateAs<int, double>(b));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Add(this double[] a, int[][] b, int dimension)
+        {
+            return Add(a, b, dimension, JaggedCreateAs<int, double>(b));
+        }
+
+
+
+
+
 
         /// <summary>
         ///   Elementwise addition between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
@@ -3434,24 +4534,32 @@ namespace Accord.Math
             return Add(a, b, new double[b.Length]);
         }
 
+
+
+
+
+
+
+        
+
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
-        /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Add(this double[,] a,  float[] b, int dimension)
+        public static double[,] Add(this double[,] a, float[] b, VectorType dimension)
         {
             return Add(a, b, dimension, MatrixCreateAs<double, double>(a));
         }
@@ -3462,21 +4570,113 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
-        /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Add(this double[][] a,  float[] b, int dimension)
+        public static double[][] Add(this double[][] a, float[] b, VectorType dimension)
         {
             return Add(a, b, dimension, JaggedCreateAs<double, double>(a));
         }
+
+                /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Add(this double[] a, float[,] b, VectorType dimension)
+        {
+            return Add(a, b, dimension, MatrixCreateAs<float, double>(b));
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Add(this double[] a, float[][] b, VectorType dimension)
+        {
+            return Add(a, b, dimension, JaggedCreateAs<float, double>(b));
+        }
+
+
+
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Add(this double[,] a, float[] b, int dimension)
+        {
+            return Add(a, b, dimension, MatrixCreateAs<double, double>(a));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Add(this double[][] a, float[] b, int dimension)
+        {
+            return Add(a, b, dimension, JaggedCreateAs<double, double>(a));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Add(this double[] a, float[,] b, int dimension)
+        {
+            return Add(a, b, dimension, MatrixCreateAs<float, double>(b));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Add(this double[] a, float[][] b, int dimension)
+        {
+            return Add(a, b, dimension, JaggedCreateAs<float, double>(b));
+        }
+
+
+
+
+
 
         /// <summary>
         ///   Elementwise addition between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
@@ -3731,24 +4931,32 @@ namespace Accord.Math
             return Add(a, b, new double[b.Length]);
         }
 
+
+
+
+
+
+
+        
+
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
-        /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Add(this double[,] a,  double[] b, int dimension)
+        public static double[,] Add(this double[,] a, double[] b, VectorType dimension)
         {
             return Add(a, b, dimension, MatrixCreateAs<double, double>(a));
         }
@@ -3759,21 +4967,113 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
-        /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Add(this double[][] a,  double[] b, int dimension)
+        public static double[][] Add(this double[][] a, double[] b, VectorType dimension)
         {
             return Add(a, b, dimension, JaggedCreateAs<double, double>(a));
         }
+
+                /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Add(this double[] a, double[,] b, VectorType dimension)
+        {
+            return Add(a, b, dimension, MatrixCreateAs<double, double>(b));
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Add(this double[] a, double[][] b, VectorType dimension)
+        {
+            return Add(a, b, dimension, JaggedCreateAs<double, double>(b));
+        }
+
+
+
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Add(this double[,] a, double[] b, int dimension)
+        {
+            return Add(a, b, dimension, MatrixCreateAs<double, double>(a));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Add(this double[][] a, double[] b, int dimension)
+        {
+            return Add(a, b, dimension, JaggedCreateAs<double, double>(a));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Add(this double[] a, double[,] b, int dimension)
+        {
+            return Add(a, b, dimension, MatrixCreateAs<double, double>(b));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Add(this double[] a, double[][] b, int dimension)
+        {
+            return Add(a, b, dimension, JaggedCreateAs<double, double>(b));
+        }
+
+
+
+
+
 
         /// <summary>
         ///   Elementwise addition between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
@@ -4028,24 +5328,32 @@ namespace Accord.Math
             return Add(a, b, new double[b.Length]);
         }
 
+
+
+
+
+
+
+        
+
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
-        /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Add(this double[,] a,  byte[] b, int dimension)
+        public static double[,] Add(this double[,] a, byte[] b, VectorType dimension)
         {
             return Add(a, b, dimension, MatrixCreateAs<double, double>(a));
         }
@@ -4056,21 +5364,113 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
-        /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Add(this double[][] a,  byte[] b, int dimension)
+        public static double[][] Add(this double[][] a, byte[] b, VectorType dimension)
         {
             return Add(a, b, dimension, JaggedCreateAs<double, double>(a));
         }
+
+                /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Add(this double[] a, byte[,] b, VectorType dimension)
+        {
+            return Add(a, b, dimension, MatrixCreateAs<byte, double>(b));
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Add(this double[] a, byte[][] b, VectorType dimension)
+        {
+            return Add(a, b, dimension, JaggedCreateAs<byte, double>(b));
+        }
+
+
+
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Add(this double[,] a, byte[] b, int dimension)
+        {
+            return Add(a, b, dimension, MatrixCreateAs<double, double>(a));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Add(this double[][] a, byte[] b, int dimension)
+        {
+            return Add(a, b, dimension, JaggedCreateAs<double, double>(a));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Add(this double[] a, byte[,] b, int dimension)
+        {
+            return Add(a, b, dimension, MatrixCreateAs<byte, double>(b));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Add(this double[] a, byte[][] b, int dimension)
+        {
+            return Add(a, b, dimension, JaggedCreateAs<byte, double>(b));
+        }
+
+
+
+
+
 
         /// <summary>
         ///   Elementwise addition between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
@@ -4325,24 +5725,32 @@ namespace Accord.Math
             return Add(a, b, new double[b.Length]);
         }
 
+
+
+
+
+
+
+        
+
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
-        /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Add(this double[,] a,  decimal[] b, int dimension)
+        public static double[,] Add(this double[,] a, decimal[] b, VectorType dimension)
         {
             return Add(a, b, dimension, MatrixCreateAs<double, double>(a));
         }
@@ -4353,21 +5761,113 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
-        /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Add(this double[][] a,  decimal[] b, int dimension)
+        public static double[][] Add(this double[][] a, decimal[] b, VectorType dimension)
         {
             return Add(a, b, dimension, JaggedCreateAs<double, double>(a));
         }
+
+                /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Add(this double[] a, decimal[,] b, VectorType dimension)
+        {
+            return Add(a, b, dimension, MatrixCreateAs<decimal, double>(b));
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Add(this double[] a, decimal[][] b, VectorType dimension)
+        {
+            return Add(a, b, dimension, JaggedCreateAs<decimal, double>(b));
+        }
+
+
+
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Add(this double[,] a, decimal[] b, int dimension)
+        {
+            return Add(a, b, dimension, MatrixCreateAs<double, double>(a));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Add(this double[][] a, decimal[] b, int dimension)
+        {
+            return Add(a, b, dimension, JaggedCreateAs<double, double>(a));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Add(this double[] a, decimal[,] b, int dimension)
+        {
+            return Add(a, b, dimension, MatrixCreateAs<decimal, double>(b));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Add(this double[] a, decimal[][] b, int dimension)
+        {
+            return Add(a, b, dimension, JaggedCreateAs<decimal, double>(b));
+        }
+
+
+
+
+
 
         /// <summary>
         ///   Elementwise addition between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
@@ -4622,24 +6122,32 @@ namespace Accord.Math
             return Add(a, b, new int[b.Length]);
         }
 
+
+
+
+
+
+
+        
+
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
-        /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[,] Add(this byte[,] a,  int[] b, int dimension)
+        public static int[,] Add(this byte[,] a, int[] b, VectorType dimension)
         {
             return Add(a, b, dimension, MatrixCreateAs<byte, int>(a));
         }
@@ -4650,21 +6158,113 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
-        /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Add(this byte[][] a,  int[] b, int dimension)
+        public static int[][] Add(this byte[][] a, int[] b, VectorType dimension)
         {
             return Add(a, b, dimension, JaggedCreateAs<byte, int>(a));
         }
+
+                /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,] Add(this byte[] a, int[,] b, VectorType dimension)
+        {
+            return Add(a, b, dimension, MatrixCreateAs<int, int>(b));
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][] Add(this byte[] a, int[][] b, VectorType dimension)
+        {
+            return Add(a, b, dimension, JaggedCreateAs<int, int>(b));
+        }
+
+
+
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static int[,] Add(this byte[,] a, int[] b, int dimension)
+        {
+            return Add(a, b, dimension, MatrixCreateAs<byte, int>(a));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static int[][] Add(this byte[][] a, int[] b, int dimension)
+        {
+            return Add(a, b, dimension, JaggedCreateAs<byte, int>(a));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static int[,] Add(this byte[] a, int[,] b, int dimension)
+        {
+            return Add(a, b, dimension, MatrixCreateAs<int, int>(b));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static int[][] Add(this byte[] a, int[][] b, int dimension)
+        {
+            return Add(a, b, dimension, JaggedCreateAs<int, int>(b));
+        }
+
+
+
+
+
 
         /// <summary>
         ///   Elementwise addition between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
@@ -4919,24 +6519,32 @@ namespace Accord.Math
             return Add(a, b, new float[b.Length]);
         }
 
+
+
+
+
+
+
+        
+
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
-        /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[,] Add(this byte[,] a,  float[] b, int dimension)
+        public static float[,] Add(this byte[,] a, float[] b, VectorType dimension)
         {
             return Add(a, b, dimension, MatrixCreateAs<byte, float>(a));
         }
@@ -4947,21 +6555,113 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
-        /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Add(this byte[][] a,  float[] b, int dimension)
+        public static float[][] Add(this byte[][] a, float[] b, VectorType dimension)
         {
             return Add(a, b, dimension, JaggedCreateAs<byte, float>(a));
         }
+
+                /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,] Add(this byte[] a, float[,] b, VectorType dimension)
+        {
+            return Add(a, b, dimension, MatrixCreateAs<float, float>(b));
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][] Add(this byte[] a, float[][] b, VectorType dimension)
+        {
+            return Add(a, b, dimension, JaggedCreateAs<float, float>(b));
+        }
+
+
+
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static float[,] Add(this byte[,] a, float[] b, int dimension)
+        {
+            return Add(a, b, dimension, MatrixCreateAs<byte, float>(a));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static float[][] Add(this byte[][] a, float[] b, int dimension)
+        {
+            return Add(a, b, dimension, JaggedCreateAs<byte, float>(a));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static float[,] Add(this byte[] a, float[,] b, int dimension)
+        {
+            return Add(a, b, dimension, MatrixCreateAs<float, float>(b));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static float[][] Add(this byte[] a, float[][] b, int dimension)
+        {
+            return Add(a, b, dimension, JaggedCreateAs<float, float>(b));
+        }
+
+
+
+
+
 
         /// <summary>
         ///   Elementwise addition between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
@@ -5216,24 +6916,32 @@ namespace Accord.Math
             return Add(a, b, new double[b.Length]);
         }
 
+
+
+
+
+
+
+        
+
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
-        /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Add(this byte[,] a,  double[] b, int dimension)
+        public static double[,] Add(this byte[,] a, double[] b, VectorType dimension)
         {
             return Add(a, b, dimension, MatrixCreateAs<byte, double>(a));
         }
@@ -5244,21 +6952,113 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
-        /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Add(this byte[][] a,  double[] b, int dimension)
+        public static double[][] Add(this byte[][] a, double[] b, VectorType dimension)
         {
             return Add(a, b, dimension, JaggedCreateAs<byte, double>(a));
         }
+
+                /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Add(this byte[] a, double[,] b, VectorType dimension)
+        {
+            return Add(a, b, dimension, MatrixCreateAs<double, double>(b));
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Add(this byte[] a, double[][] b, VectorType dimension)
+        {
+            return Add(a, b, dimension, JaggedCreateAs<double, double>(b));
+        }
+
+
+
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Add(this byte[,] a, double[] b, int dimension)
+        {
+            return Add(a, b, dimension, MatrixCreateAs<byte, double>(a));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Add(this byte[][] a, double[] b, int dimension)
+        {
+            return Add(a, b, dimension, JaggedCreateAs<byte, double>(a));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Add(this byte[] a, double[,] b, int dimension)
+        {
+            return Add(a, b, dimension, MatrixCreateAs<double, double>(b));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Add(this byte[] a, double[][] b, int dimension)
+        {
+            return Add(a, b, dimension, JaggedCreateAs<double, double>(b));
+        }
+
+
+
+
+
 
         /// <summary>
         ///   Elementwise addition between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
@@ -5513,24 +7313,32 @@ namespace Accord.Math
             return Add(a, b, new byte[b.Length]);
         }
 
+
+
+
+
+
+
+        
+
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
-        /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[,] Add(this byte[,] a,  byte[] b, int dimension)
+        public static byte[,] Add(this byte[,] a, byte[] b, VectorType dimension)
         {
             return Add(a, b, dimension, MatrixCreateAs<byte, byte>(a));
         }
@@ -5541,21 +7349,113 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
-        /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[][] Add(this byte[][] a,  byte[] b, int dimension)
+        public static byte[][] Add(this byte[][] a, byte[] b, VectorType dimension)
         {
             return Add(a, b, dimension, JaggedCreateAs<byte, byte>(a));
         }
+
+                /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[,] Add(this byte[] a, byte[,] b, VectorType dimension)
+        {
+            return Add(a, b, dimension, MatrixCreateAs<byte, byte>(b));
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[][] Add(this byte[] a, byte[][] b, VectorType dimension)
+        {
+            return Add(a, b, dimension, JaggedCreateAs<byte, byte>(b));
+        }
+
+
+
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static byte[,] Add(this byte[,] a, byte[] b, int dimension)
+        {
+            return Add(a, b, dimension, MatrixCreateAs<byte, byte>(a));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static byte[][] Add(this byte[][] a, byte[] b, int dimension)
+        {
+            return Add(a, b, dimension, JaggedCreateAs<byte, byte>(a));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static byte[,] Add(this byte[] a, byte[,] b, int dimension)
+        {
+            return Add(a, b, dimension, MatrixCreateAs<byte, byte>(b));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static byte[][] Add(this byte[] a, byte[][] b, int dimension)
+        {
+            return Add(a, b, dimension, JaggedCreateAs<byte, byte>(b));
+        }
+
+
+
+
+
 
         /// <summary>
         ///   Elementwise addition between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
@@ -5810,24 +7710,32 @@ namespace Accord.Math
             return Add(a, b, new int[b.Length]);
         }
 
+
+
+
+
+
+
+        
+
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
-        /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[,] Add(this decimal[,] a,  int[] b, int dimension)
+        public static int[,] Add(this decimal[,] a, int[] b, VectorType dimension)
         {
             return Add(a, b, dimension, MatrixCreateAs<decimal, int>(a));
         }
@@ -5838,21 +7746,113 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
-        /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Add(this decimal[][] a,  int[] b, int dimension)
+        public static int[][] Add(this decimal[][] a, int[] b, VectorType dimension)
         {
             return Add(a, b, dimension, JaggedCreateAs<decimal, int>(a));
         }
+
+                /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,] Add(this decimal[] a, int[,] b, VectorType dimension)
+        {
+            return Add(a, b, dimension, MatrixCreateAs<int, int>(b));
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][] Add(this decimal[] a, int[][] b, VectorType dimension)
+        {
+            return Add(a, b, dimension, JaggedCreateAs<int, int>(b));
+        }
+
+
+
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static int[,] Add(this decimal[,] a, int[] b, int dimension)
+        {
+            return Add(a, b, dimension, MatrixCreateAs<decimal, int>(a));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static int[][] Add(this decimal[][] a, int[] b, int dimension)
+        {
+            return Add(a, b, dimension, JaggedCreateAs<decimal, int>(a));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static int[,] Add(this decimal[] a, int[,] b, int dimension)
+        {
+            return Add(a, b, dimension, MatrixCreateAs<int, int>(b));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static int[][] Add(this decimal[] a, int[][] b, int dimension)
+        {
+            return Add(a, b, dimension, JaggedCreateAs<int, int>(b));
+        }
+
+
+
+
+
 
         /// <summary>
         ///   Elementwise addition between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
@@ -6107,24 +8107,32 @@ namespace Accord.Math
             return Add(a, b, new float[b.Length]);
         }
 
+
+
+
+
+
+
+        
+
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
-        /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[,] Add(this decimal[,] a,  float[] b, int dimension)
+        public static float[,] Add(this decimal[,] a, float[] b, VectorType dimension)
         {
             return Add(a, b, dimension, MatrixCreateAs<decimal, float>(a));
         }
@@ -6135,21 +8143,113 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
-        /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Add(this decimal[][] a,  float[] b, int dimension)
+        public static float[][] Add(this decimal[][] a, float[] b, VectorType dimension)
         {
             return Add(a, b, dimension, JaggedCreateAs<decimal, float>(a));
         }
+
+                /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,] Add(this decimal[] a, float[,] b, VectorType dimension)
+        {
+            return Add(a, b, dimension, MatrixCreateAs<float, float>(b));
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][] Add(this decimal[] a, float[][] b, VectorType dimension)
+        {
+            return Add(a, b, dimension, JaggedCreateAs<float, float>(b));
+        }
+
+
+
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static float[,] Add(this decimal[,] a, float[] b, int dimension)
+        {
+            return Add(a, b, dimension, MatrixCreateAs<decimal, float>(a));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static float[][] Add(this decimal[][] a, float[] b, int dimension)
+        {
+            return Add(a, b, dimension, JaggedCreateAs<decimal, float>(a));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static float[,] Add(this decimal[] a, float[,] b, int dimension)
+        {
+            return Add(a, b, dimension, MatrixCreateAs<float, float>(b));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static float[][] Add(this decimal[] a, float[][] b, int dimension)
+        {
+            return Add(a, b, dimension, JaggedCreateAs<float, float>(b));
+        }
+
+
+
+
+
 
         /// <summary>
         ///   Elementwise addition between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
@@ -6404,24 +8504,32 @@ namespace Accord.Math
             return Add(a, b, new double[b.Length]);
         }
 
+
+
+
+
+
+
+        
+
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
-        /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Add(this decimal[,] a,  double[] b, int dimension)
+        public static double[,] Add(this decimal[,] a, double[] b, VectorType dimension)
         {
             return Add(a, b, dimension, MatrixCreateAs<decimal, double>(a));
         }
@@ -6432,21 +8540,113 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
-        /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Add(this decimal[][] a,  double[] b, int dimension)
+        public static double[][] Add(this decimal[][] a, double[] b, VectorType dimension)
         {
             return Add(a, b, dimension, JaggedCreateAs<decimal, double>(a));
         }
+
+                /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Add(this decimal[] a, double[,] b, VectorType dimension)
+        {
+            return Add(a, b, dimension, MatrixCreateAs<double, double>(b));
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Add(this decimal[] a, double[][] b, VectorType dimension)
+        {
+            return Add(a, b, dimension, JaggedCreateAs<double, double>(b));
+        }
+
+
+
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Add(this decimal[,] a, double[] b, int dimension)
+        {
+            return Add(a, b, dimension, MatrixCreateAs<decimal, double>(a));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Add(this decimal[][] a, double[] b, int dimension)
+        {
+            return Add(a, b, dimension, JaggedCreateAs<decimal, double>(a));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Add(this decimal[] a, double[,] b, int dimension)
+        {
+            return Add(a, b, dimension, MatrixCreateAs<double, double>(b));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Add(this decimal[] a, double[][] b, int dimension)
+        {
+            return Add(a, b, dimension, JaggedCreateAs<double, double>(b));
+        }
+
+
+
+
+
 
         /// <summary>
         ///   Elementwise addition between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
@@ -6701,24 +8901,32 @@ namespace Accord.Math
             return Add(a, b, new decimal[b.Length]);
         }
 
+
+
+
+
+
+
+        
+
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
-        /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[,] Add(this decimal[,] a,  decimal[] b, int dimension)
+        public static decimal[,] Add(this decimal[,] a, decimal[] b, VectorType dimension)
         {
             return Add(a, b, dimension, MatrixCreateAs<decimal, decimal>(a));
         }
@@ -6729,21 +8937,113 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
-        /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[][] Add(this decimal[][] a,  decimal[] b, int dimension)
+        public static decimal[][] Add(this decimal[][] a, decimal[] b, VectorType dimension)
         {
             return Add(a, b, dimension, JaggedCreateAs<decimal, decimal>(a));
         }
+
+                /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[,] Add(this decimal[] a, decimal[,] b, VectorType dimension)
+        {
+            return Add(a, b, dimension, MatrixCreateAs<decimal, decimal>(b));
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[][] Add(this decimal[] a, decimal[][] b, VectorType dimension)
+        {
+            return Add(a, b, dimension, JaggedCreateAs<decimal, decimal>(b));
+        }
+
+
+
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static decimal[,] Add(this decimal[,] a, decimal[] b, int dimension)
+        {
+            return Add(a, b, dimension, MatrixCreateAs<decimal, decimal>(a));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static decimal[][] Add(this decimal[][] a, decimal[] b, int dimension)
+        {
+            return Add(a, b, dimension, JaggedCreateAs<decimal, decimal>(a));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static decimal[,] Add(this decimal[] a, decimal[,] b, int dimension)
+        {
+            return Add(a, b, dimension, MatrixCreateAs<decimal, decimal>(b));
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static decimal[][] Add(this decimal[] a, decimal[][] b, int dimension)
+        {
+            return Add(a, b, dimension, JaggedCreateAs<decimal, decimal>(b));
+        }
+
+
+
+
+
 
         /// <summary>
         ///   Elementwise addition between a scalar <c>a</c> and to the main diagonal of matrix <c>B</c>.
@@ -6866,7 +9166,7 @@ namespace Accord.Math
         }
  
 
-		#region Matrix matrix
+        #region Matrix matrix
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a matrix <c>B</c>.
@@ -6948,7 +9248,7 @@ namespace Accord.Math
 
 
 
-		#region Matrix with scalar
+        #region Matrix with scalar
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a scalar <c>b</c>.
@@ -7051,7 +9351,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -7076,7 +9376,7 @@ namespace Accord.Math
 
 
 
-		#region vector vector
+        #region vector vector
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a vector<c>b</c>.
@@ -7097,14 +9397,14 @@ namespace Accord.Math
                 result[i] = (int)((int)a[i] + (int)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
-		#region Vector with scalar
+        #region Vector with scalar
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a scalar <c>b</c>.
@@ -7145,27 +9445,72 @@ namespace Accord.Math
                 result[i] = (int)((int)a + (int)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static int[,] Add(this int[] a, int[,] b, int dimension, int[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
 
-		#region Matrix vector
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static int[][] Add(this int[] a, int[][] b, int dimension, int[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static int[,] Add(this int[,] a, int[] b, int dimension, int[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static int[][] Add(this int[][] a, int[] b, int dimension, int[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
-        /// <param name="a">The matrix <c>A</c>.</param>
-        /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -7173,7 +9518,57 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[,] Add(this int[,] a,  int[] b, int dimension, int[,] result)
+        public static int[,] Add(this int[] a, int[,] b, VectorType dimension, int[,] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][] Add(this int[] a, int[][] b, VectorType dimension, int[][] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,] Add(this int[,] a, int[] b, VectorType dimension, int[,] result)
         {
             check<int, int, int>(d: dimension, a: a, b: b, result: result);
             int rows = a.GetLength(0);
@@ -7201,12 +9596,13 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -7214,7 +9610,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Add(this int[][] a,  int[] b, int dimension, int[][] result)
+        public static int[][] Add(this int[][] a, int[] b, VectorType dimension, int[][] result)
         {
             check<int, int, int>(d: dimension, a: a, b: b, result: result);
             if (dimension == 0)
@@ -7232,7 +9628,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -7243,20 +9639,7 @@ namespace Accord.Math
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-		#region Diagonal
+        #region Diagonal
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
@@ -7393,10 +9776,10 @@ namespace Accord.Math
             return result;
         }
  
-		#endregion
+        #endregion
      
 
-		#region Matrix matrix
+        #region Matrix matrix
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a matrix <c>B</c>.
@@ -7478,7 +9861,7 @@ namespace Accord.Math
 
 
 
-		#region Matrix with scalar
+        #region Matrix with scalar
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a scalar <c>b</c>.
@@ -7581,7 +9964,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -7606,7 +9989,7 @@ namespace Accord.Math
 
 
 
-		#region vector vector
+        #region vector vector
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a vector<c>b</c>.
@@ -7627,14 +10010,14 @@ namespace Accord.Math
                 result[i] = (double)((double)a[i] + (double)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
-		#region Vector with scalar
+        #region Vector with scalar
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a scalar <c>b</c>.
@@ -7675,27 +10058,72 @@ namespace Accord.Math
                 result[i] = (double)((double)a + (double)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Add(this int[] a, int[,] b, int dimension, double[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
 
-		#region Matrix vector
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Add(this int[] a, int[][] b, int dimension, double[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Add(this int[,] a, int[] b, int dimension, double[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Add(this int[][] a, int[] b, int dimension, double[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
-        /// <param name="a">The matrix <c>A</c>.</param>
-        /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -7703,7 +10131,57 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Add(this int[,] a,  int[] b, int dimension, double[,] result)
+        public static double[,] Add(this int[] a, int[,] b, VectorType dimension, double[,] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Add(this int[] a, int[][] b, VectorType dimension, double[][] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Add(this int[,] a, int[] b, VectorType dimension, double[,] result)
         {
             check<int, int, double>(d: dimension, a: a, b: b, result: result);
             int rows = a.GetLength(0);
@@ -7731,12 +10209,13 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -7744,7 +10223,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Add(this int[][] a,  int[] b, int dimension, double[][] result)
+        public static double[][] Add(this int[][] a, int[] b, VectorType dimension, double[][] result)
         {
             check<int, int, double>(d: dimension, a: a, b: b, result: result);
             if (dimension == 0)
@@ -7762,7 +10241,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -7773,20 +10252,7 @@ namespace Accord.Math
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-		#region Diagonal
+        #region Diagonal
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
@@ -7923,10 +10389,10 @@ namespace Accord.Math
             return result;
         }
  
-		#endregion
+        #endregion
      
 
-		#region Matrix matrix
+        #region Matrix matrix
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a matrix <c>B</c>.
@@ -8008,7 +10474,7 @@ namespace Accord.Math
 
 
 
-		#region Matrix with scalar
+        #region Matrix with scalar
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a scalar <c>b</c>.
@@ -8111,7 +10577,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -8136,7 +10602,7 @@ namespace Accord.Math
 
 
 
-		#region vector vector
+        #region vector vector
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a vector<c>b</c>.
@@ -8157,14 +10623,14 @@ namespace Accord.Math
                 result[i] = (int)((int)a[i] + (int)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
-		#region Vector with scalar
+        #region Vector with scalar
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a scalar <c>b</c>.
@@ -8205,27 +10671,72 @@ namespace Accord.Math
                 result[i] = (int)((int)a + (int)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static int[,] Add(this int[] a, float[,] b, int dimension, int[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
 
-		#region Matrix vector
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static int[][] Add(this int[] a, float[][] b, int dimension, int[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static int[,] Add(this int[,] a, float[] b, int dimension, int[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static int[][] Add(this int[][] a, float[] b, int dimension, int[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
-        /// <param name="a">The matrix <c>A</c>.</param>
-        /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -8233,7 +10744,57 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[,] Add(this int[,] a,  float[] b, int dimension, int[,] result)
+        public static int[,] Add(this int[] a, float[,] b, VectorType dimension, int[,] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][] Add(this int[] a, float[][] b, VectorType dimension, int[][] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,] Add(this int[,] a, float[] b, VectorType dimension, int[,] result)
         {
             check<int, float, int>(d: dimension, a: a, b: b, result: result);
             int rows = a.GetLength(0);
@@ -8261,12 +10822,13 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -8274,7 +10836,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Add(this int[][] a,  float[] b, int dimension, int[][] result)
+        public static int[][] Add(this int[][] a, float[] b, VectorType dimension, int[][] result)
         {
             check<int, float, int>(d: dimension, a: a, b: b, result: result);
             if (dimension == 0)
@@ -8292,7 +10854,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -8303,20 +10865,7 @@ namespace Accord.Math
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-		#region Diagonal
+        #region Diagonal
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
@@ -8453,10 +11002,10 @@ namespace Accord.Math
             return result;
         }
  
-		#endregion
+        #endregion
      
 
-		#region Matrix matrix
+        #region Matrix matrix
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a matrix <c>B</c>.
@@ -8538,7 +11087,7 @@ namespace Accord.Math
 
 
 
-		#region Matrix with scalar
+        #region Matrix with scalar
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a scalar <c>b</c>.
@@ -8641,7 +11190,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -8666,7 +11215,7 @@ namespace Accord.Math
 
 
 
-		#region vector vector
+        #region vector vector
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a vector<c>b</c>.
@@ -8687,14 +11236,14 @@ namespace Accord.Math
                 result[i] = (float)((float)a[i] + (float)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
-		#region Vector with scalar
+        #region Vector with scalar
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a scalar <c>b</c>.
@@ -8735,27 +11284,72 @@ namespace Accord.Math
                 result[i] = (float)((float)a + (float)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static float[,] Add(this int[] a, float[,] b, int dimension, float[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
 
-		#region Matrix vector
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static float[][] Add(this int[] a, float[][] b, int dimension, float[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static float[,] Add(this int[,] a, float[] b, int dimension, float[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static float[][] Add(this int[][] a, float[] b, int dimension, float[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
-        /// <param name="a">The matrix <c>A</c>.</param>
-        /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -8763,7 +11357,57 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[,] Add(this int[,] a,  float[] b, int dimension, float[,] result)
+        public static float[,] Add(this int[] a, float[,] b, VectorType dimension, float[,] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][] Add(this int[] a, float[][] b, VectorType dimension, float[][] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,] Add(this int[,] a, float[] b, VectorType dimension, float[,] result)
         {
             check<int, float, float>(d: dimension, a: a, b: b, result: result);
             int rows = a.GetLength(0);
@@ -8791,12 +11435,13 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -8804,7 +11449,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Add(this int[][] a,  float[] b, int dimension, float[][] result)
+        public static float[][] Add(this int[][] a, float[] b, VectorType dimension, float[][] result)
         {
             check<int, float, float>(d: dimension, a: a, b: b, result: result);
             if (dimension == 0)
@@ -8822,7 +11467,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -8833,20 +11478,7 @@ namespace Accord.Math
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-		#region Diagonal
+        #region Diagonal
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
@@ -8983,10 +11615,10 @@ namespace Accord.Math
             return result;
         }
  
-		#endregion
+        #endregion
      
 
-		#region Matrix matrix
+        #region Matrix matrix
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a matrix <c>B</c>.
@@ -9068,7 +11700,7 @@ namespace Accord.Math
 
 
 
-		#region Matrix with scalar
+        #region Matrix with scalar
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a scalar <c>b</c>.
@@ -9171,7 +11803,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -9196,7 +11828,7 @@ namespace Accord.Math
 
 
 
-		#region vector vector
+        #region vector vector
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a vector<c>b</c>.
@@ -9217,14 +11849,14 @@ namespace Accord.Math
                 result[i] = (double)((double)a[i] + (double)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
-		#region Vector with scalar
+        #region Vector with scalar
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a scalar <c>b</c>.
@@ -9265,27 +11897,72 @@ namespace Accord.Math
                 result[i] = (double)((double)a + (double)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Add(this int[] a, float[,] b, int dimension, double[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
 
-		#region Matrix vector
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Add(this int[] a, float[][] b, int dimension, double[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Add(this int[,] a, float[] b, int dimension, double[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Add(this int[][] a, float[] b, int dimension, double[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
-        /// <param name="a">The matrix <c>A</c>.</param>
-        /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -9293,7 +11970,57 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Add(this int[,] a,  float[] b, int dimension, double[,] result)
+        public static double[,] Add(this int[] a, float[,] b, VectorType dimension, double[,] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Add(this int[] a, float[][] b, VectorType dimension, double[][] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Add(this int[,] a, float[] b, VectorType dimension, double[,] result)
         {
             check<int, float, double>(d: dimension, a: a, b: b, result: result);
             int rows = a.GetLength(0);
@@ -9321,12 +12048,13 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -9334,7 +12062,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Add(this int[][] a,  float[] b, int dimension, double[][] result)
+        public static double[][] Add(this int[][] a, float[] b, VectorType dimension, double[][] result)
         {
             check<int, float, double>(d: dimension, a: a, b: b, result: result);
             if (dimension == 0)
@@ -9352,7 +12080,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -9363,20 +12091,7 @@ namespace Accord.Math
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-		#region Diagonal
+        #region Diagonal
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
@@ -9513,10 +12228,10 @@ namespace Accord.Math
             return result;
         }
  
-		#endregion
+        #endregion
      
 
-		#region Matrix matrix
+        #region Matrix matrix
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a matrix <c>B</c>.
@@ -9598,7 +12313,7 @@ namespace Accord.Math
 
 
 
-		#region Matrix with scalar
+        #region Matrix with scalar
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a scalar <c>b</c>.
@@ -9701,7 +12416,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -9726,7 +12441,7 @@ namespace Accord.Math
 
 
 
-		#region vector vector
+        #region vector vector
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a vector<c>b</c>.
@@ -9747,14 +12462,14 @@ namespace Accord.Math
                 result[i] = (int)((int)a[i] + (int)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
-		#region Vector with scalar
+        #region Vector with scalar
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a scalar <c>b</c>.
@@ -9795,27 +12510,72 @@ namespace Accord.Math
                 result[i] = (int)((int)a + (int)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static int[,] Add(this int[] a, double[,] b, int dimension, int[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
 
-		#region Matrix vector
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static int[][] Add(this int[] a, double[][] b, int dimension, int[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static int[,] Add(this int[,] a, double[] b, int dimension, int[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static int[][] Add(this int[][] a, double[] b, int dimension, int[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
-        /// <param name="a">The matrix <c>A</c>.</param>
-        /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -9823,7 +12583,57 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[,] Add(this int[,] a,  double[] b, int dimension, int[,] result)
+        public static int[,] Add(this int[] a, double[,] b, VectorType dimension, int[,] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][] Add(this int[] a, double[][] b, VectorType dimension, int[][] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,] Add(this int[,] a, double[] b, VectorType dimension, int[,] result)
         {
             check<int, double, int>(d: dimension, a: a, b: b, result: result);
             int rows = a.GetLength(0);
@@ -9851,12 +12661,13 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -9864,7 +12675,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Add(this int[][] a,  double[] b, int dimension, int[][] result)
+        public static int[][] Add(this int[][] a, double[] b, VectorType dimension, int[][] result)
         {
             check<int, double, int>(d: dimension, a: a, b: b, result: result);
             if (dimension == 0)
@@ -9882,7 +12693,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -9893,20 +12704,7 @@ namespace Accord.Math
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-		#region Diagonal
+        #region Diagonal
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
@@ -10043,10 +12841,10 @@ namespace Accord.Math
             return result;
         }
  
-		#endregion
+        #endregion
      
 
-		#region Matrix matrix
+        #region Matrix matrix
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a matrix <c>B</c>.
@@ -10128,7 +12926,7 @@ namespace Accord.Math
 
 
 
-		#region Matrix with scalar
+        #region Matrix with scalar
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a scalar <c>b</c>.
@@ -10231,7 +13029,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -10256,7 +13054,7 @@ namespace Accord.Math
 
 
 
-		#region vector vector
+        #region vector vector
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a vector<c>b</c>.
@@ -10277,14 +13075,14 @@ namespace Accord.Math
                 result[i] = (double)((double)a[i] + (double)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
-		#region Vector with scalar
+        #region Vector with scalar
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a scalar <c>b</c>.
@@ -10325,27 +13123,72 @@ namespace Accord.Math
                 result[i] = (double)((double)a + (double)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Add(this int[] a, double[,] b, int dimension, double[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
 
-		#region Matrix vector
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Add(this int[] a, double[][] b, int dimension, double[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Add(this int[,] a, double[] b, int dimension, double[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Add(this int[][] a, double[] b, int dimension, double[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
-        /// <param name="a">The matrix <c>A</c>.</param>
-        /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -10353,7 +13196,57 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Add(this int[,] a,  double[] b, int dimension, double[,] result)
+        public static double[,] Add(this int[] a, double[,] b, VectorType dimension, double[,] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Add(this int[] a, double[][] b, VectorType dimension, double[][] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Add(this int[,] a, double[] b, VectorType dimension, double[,] result)
         {
             check<int, double, double>(d: dimension, a: a, b: b, result: result);
             int rows = a.GetLength(0);
@@ -10381,12 +13274,13 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -10394,7 +13288,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Add(this int[][] a,  double[] b, int dimension, double[][] result)
+        public static double[][] Add(this int[][] a, double[] b, VectorType dimension, double[][] result)
         {
             check<int, double, double>(d: dimension, a: a, b: b, result: result);
             if (dimension == 0)
@@ -10412,7 +13306,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -10423,20 +13317,7 @@ namespace Accord.Math
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-		#region Diagonal
+        #region Diagonal
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
@@ -10573,10 +13454,10 @@ namespace Accord.Math
             return result;
         }
  
-		#endregion
+        #endregion
      
 
-		#region Matrix matrix
+        #region Matrix matrix
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a matrix <c>B</c>.
@@ -10658,7 +13539,7 @@ namespace Accord.Math
 
 
 
-		#region Matrix with scalar
+        #region Matrix with scalar
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a scalar <c>b</c>.
@@ -10761,7 +13642,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -10786,7 +13667,7 @@ namespace Accord.Math
 
 
 
-		#region vector vector
+        #region vector vector
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a vector<c>b</c>.
@@ -10807,14 +13688,14 @@ namespace Accord.Math
                 result[i] = (int)((int)a[i] + (int)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
-		#region Vector with scalar
+        #region Vector with scalar
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a scalar <c>b</c>.
@@ -10855,27 +13736,72 @@ namespace Accord.Math
                 result[i] = (int)((int)a + (int)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static int[,] Add(this int[] a, byte[,] b, int dimension, int[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
 
-		#region Matrix vector
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static int[][] Add(this int[] a, byte[][] b, int dimension, int[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static int[,] Add(this int[,] a, byte[] b, int dimension, int[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static int[][] Add(this int[][] a, byte[] b, int dimension, int[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
-        /// <param name="a">The matrix <c>A</c>.</param>
-        /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -10883,7 +13809,57 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[,] Add(this int[,] a,  byte[] b, int dimension, int[,] result)
+        public static int[,] Add(this int[] a, byte[,] b, VectorType dimension, int[,] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][] Add(this int[] a, byte[][] b, VectorType dimension, int[][] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,] Add(this int[,] a, byte[] b, VectorType dimension, int[,] result)
         {
             check<int, byte, int>(d: dimension, a: a, b: b, result: result);
             int rows = a.GetLength(0);
@@ -10911,12 +13887,13 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -10924,7 +13901,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Add(this int[][] a,  byte[] b, int dimension, int[][] result)
+        public static int[][] Add(this int[][] a, byte[] b, VectorType dimension, int[][] result)
         {
             check<int, byte, int>(d: dimension, a: a, b: b, result: result);
             if (dimension == 0)
@@ -10942,7 +13919,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -10953,20 +13930,7 @@ namespace Accord.Math
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-		#region Diagonal
+        #region Diagonal
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
@@ -11103,10 +14067,10 @@ namespace Accord.Math
             return result;
         }
  
-		#endregion
+        #endregion
      
 
-		#region Matrix matrix
+        #region Matrix matrix
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a matrix <c>B</c>.
@@ -11188,7 +14152,7 @@ namespace Accord.Math
 
 
 
-		#region Matrix with scalar
+        #region Matrix with scalar
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a scalar <c>b</c>.
@@ -11291,7 +14255,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -11316,7 +14280,7 @@ namespace Accord.Math
 
 
 
-		#region vector vector
+        #region vector vector
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a vector<c>b</c>.
@@ -11337,14 +14301,14 @@ namespace Accord.Math
                 result[i] = (byte)((byte)a[i] + (byte)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
-		#region Vector with scalar
+        #region Vector with scalar
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a scalar <c>b</c>.
@@ -11385,27 +14349,72 @@ namespace Accord.Math
                 result[i] = (byte)((byte)a + (byte)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static byte[,] Add(this int[] a, byte[,] b, int dimension, byte[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
 
-		#region Matrix vector
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static byte[][] Add(this int[] a, byte[][] b, int dimension, byte[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static byte[,] Add(this int[,] a, byte[] b, int dimension, byte[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static byte[][] Add(this int[][] a, byte[] b, int dimension, byte[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
-        /// <param name="a">The matrix <c>A</c>.</param>
-        /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -11413,7 +14422,57 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[,] Add(this int[,] a,  byte[] b, int dimension, byte[,] result)
+        public static byte[,] Add(this int[] a, byte[,] b, VectorType dimension, byte[,] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[][] Add(this int[] a, byte[][] b, VectorType dimension, byte[][] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[,] Add(this int[,] a, byte[] b, VectorType dimension, byte[,] result)
         {
             check<int, byte, byte>(d: dimension, a: a, b: b, result: result);
             int rows = a.GetLength(0);
@@ -11441,12 +14500,13 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -11454,7 +14514,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[][] Add(this int[][] a,  byte[] b, int dimension, byte[][] result)
+        public static byte[][] Add(this int[][] a, byte[] b, VectorType dimension, byte[][] result)
         {
             check<int, byte, byte>(d: dimension, a: a, b: b, result: result);
             if (dimension == 0)
@@ -11472,7 +14532,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -11483,20 +14543,7 @@ namespace Accord.Math
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-		#region Diagonal
+        #region Diagonal
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
@@ -11633,10 +14680,10 @@ namespace Accord.Math
             return result;
         }
  
-		#endregion
+        #endregion
      
 
-		#region Matrix matrix
+        #region Matrix matrix
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a matrix <c>B</c>.
@@ -11718,7 +14765,7 @@ namespace Accord.Math
 
 
 
-		#region Matrix with scalar
+        #region Matrix with scalar
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a scalar <c>b</c>.
@@ -11821,7 +14868,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -11846,7 +14893,7 @@ namespace Accord.Math
 
 
 
-		#region vector vector
+        #region vector vector
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a vector<c>b</c>.
@@ -11867,14 +14914,14 @@ namespace Accord.Math
                 result[i] = (double)((double)a[i] + (double)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
-		#region Vector with scalar
+        #region Vector with scalar
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a scalar <c>b</c>.
@@ -11915,27 +14962,72 @@ namespace Accord.Math
                 result[i] = (double)((double)a + (double)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Add(this int[] a, byte[,] b, int dimension, double[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
 
-		#region Matrix vector
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Add(this int[] a, byte[][] b, int dimension, double[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Add(this int[,] a, byte[] b, int dimension, double[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Add(this int[][] a, byte[] b, int dimension, double[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
-        /// <param name="a">The matrix <c>A</c>.</param>
-        /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -11943,7 +15035,57 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Add(this int[,] a,  byte[] b, int dimension, double[,] result)
+        public static double[,] Add(this int[] a, byte[,] b, VectorType dimension, double[,] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Add(this int[] a, byte[][] b, VectorType dimension, double[][] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Add(this int[,] a, byte[] b, VectorType dimension, double[,] result)
         {
             check<int, byte, double>(d: dimension, a: a, b: b, result: result);
             int rows = a.GetLength(0);
@@ -11971,12 +15113,13 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -11984,7 +15127,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Add(this int[][] a,  byte[] b, int dimension, double[][] result)
+        public static double[][] Add(this int[][] a, byte[] b, VectorType dimension, double[][] result)
         {
             check<int, byte, double>(d: dimension, a: a, b: b, result: result);
             if (dimension == 0)
@@ -12002,7 +15145,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -12013,20 +15156,7 @@ namespace Accord.Math
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-		#region Diagonal
+        #region Diagonal
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
@@ -12163,10 +15293,10 @@ namespace Accord.Math
             return result;
         }
  
-		#endregion
+        #endregion
      
 
-		#region Matrix matrix
+        #region Matrix matrix
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a matrix <c>B</c>.
@@ -12248,7 +15378,7 @@ namespace Accord.Math
 
 
 
-		#region Matrix with scalar
+        #region Matrix with scalar
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a scalar <c>b</c>.
@@ -12351,7 +15481,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -12376,7 +15506,7 @@ namespace Accord.Math
 
 
 
-		#region vector vector
+        #region vector vector
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a vector<c>b</c>.
@@ -12397,14 +15527,14 @@ namespace Accord.Math
                 result[i] = (int)((int)a[i] + (int)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
-		#region Vector with scalar
+        #region Vector with scalar
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a scalar <c>b</c>.
@@ -12445,27 +15575,72 @@ namespace Accord.Math
                 result[i] = (int)((int)a + (int)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static int[,] Add(this int[] a, decimal[,] b, int dimension, int[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
 
-		#region Matrix vector
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static int[][] Add(this int[] a, decimal[][] b, int dimension, int[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static int[,] Add(this int[,] a, decimal[] b, int dimension, int[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static int[][] Add(this int[][] a, decimal[] b, int dimension, int[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
-        /// <param name="a">The matrix <c>A</c>.</param>
-        /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -12473,7 +15648,57 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[,] Add(this int[,] a,  decimal[] b, int dimension, int[,] result)
+        public static int[,] Add(this int[] a, decimal[,] b, VectorType dimension, int[,] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][] Add(this int[] a, decimal[][] b, VectorType dimension, int[][] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,] Add(this int[,] a, decimal[] b, VectorType dimension, int[,] result)
         {
             check<int, decimal, int>(d: dimension, a: a, b: b, result: result);
             int rows = a.GetLength(0);
@@ -12501,12 +15726,13 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -12514,7 +15740,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Add(this int[][] a,  decimal[] b, int dimension, int[][] result)
+        public static int[][] Add(this int[][] a, decimal[] b, VectorType dimension, int[][] result)
         {
             check<int, decimal, int>(d: dimension, a: a, b: b, result: result);
             if (dimension == 0)
@@ -12532,7 +15758,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -12543,20 +15769,7 @@ namespace Accord.Math
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-		#region Diagonal
+        #region Diagonal
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
@@ -12693,10 +15906,10 @@ namespace Accord.Math
             return result;
         }
  
-		#endregion
+        #endregion
      
 
-		#region Matrix matrix
+        #region Matrix matrix
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a matrix <c>B</c>.
@@ -12778,7 +15991,7 @@ namespace Accord.Math
 
 
 
-		#region Matrix with scalar
+        #region Matrix with scalar
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a scalar <c>b</c>.
@@ -12881,7 +16094,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -12906,7 +16119,7 @@ namespace Accord.Math
 
 
 
-		#region vector vector
+        #region vector vector
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a vector<c>b</c>.
@@ -12927,14 +16140,14 @@ namespace Accord.Math
                 result[i] = (decimal)((decimal)a[i] + (decimal)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
-		#region Vector with scalar
+        #region Vector with scalar
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a scalar <c>b</c>.
@@ -12975,27 +16188,72 @@ namespace Accord.Math
                 result[i] = (decimal)((decimal)a + (decimal)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static decimal[,] Add(this int[] a, decimal[,] b, int dimension, decimal[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
 
-		#region Matrix vector
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static decimal[][] Add(this int[] a, decimal[][] b, int dimension, decimal[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static decimal[,] Add(this int[,] a, decimal[] b, int dimension, decimal[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static decimal[][] Add(this int[][] a, decimal[] b, int dimension, decimal[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
-        /// <param name="a">The matrix <c>A</c>.</param>
-        /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -13003,7 +16261,57 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[,] Add(this int[,] a,  decimal[] b, int dimension, decimal[,] result)
+        public static decimal[,] Add(this int[] a, decimal[,] b, VectorType dimension, decimal[,] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[][] Add(this int[] a, decimal[][] b, VectorType dimension, decimal[][] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[,] Add(this int[,] a, decimal[] b, VectorType dimension, decimal[,] result)
         {
             check<int, decimal, decimal>(d: dimension, a: a, b: b, result: result);
             int rows = a.GetLength(0);
@@ -13031,12 +16339,13 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -13044,7 +16353,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[][] Add(this int[][] a,  decimal[] b, int dimension, decimal[][] result)
+        public static decimal[][] Add(this int[][] a, decimal[] b, VectorType dimension, decimal[][] result)
         {
             check<int, decimal, decimal>(d: dimension, a: a, b: b, result: result);
             if (dimension == 0)
@@ -13062,7 +16371,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -13073,20 +16382,7 @@ namespace Accord.Math
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-		#region Diagonal
+        #region Diagonal
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
@@ -13223,10 +16519,10 @@ namespace Accord.Math
             return result;
         }
  
-		#endregion
+        #endregion
      
 
-		#region Matrix matrix
+        #region Matrix matrix
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a matrix <c>B</c>.
@@ -13308,7 +16604,7 @@ namespace Accord.Math
 
 
 
-		#region Matrix with scalar
+        #region Matrix with scalar
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a scalar <c>b</c>.
@@ -13411,7 +16707,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -13436,7 +16732,7 @@ namespace Accord.Math
 
 
 
-		#region vector vector
+        #region vector vector
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a vector<c>b</c>.
@@ -13457,14 +16753,14 @@ namespace Accord.Math
                 result[i] = (double)((double)a[i] + (double)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
-		#region Vector with scalar
+        #region Vector with scalar
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a scalar <c>b</c>.
@@ -13505,27 +16801,72 @@ namespace Accord.Math
                 result[i] = (double)((double)a + (double)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Add(this int[] a, decimal[,] b, int dimension, double[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
 
-		#region Matrix vector
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Add(this int[] a, decimal[][] b, int dimension, double[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Add(this int[,] a, decimal[] b, int dimension, double[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Add(this int[][] a, decimal[] b, int dimension, double[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
-        /// <param name="a">The matrix <c>A</c>.</param>
-        /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -13533,7 +16874,57 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Add(this int[,] a,  decimal[] b, int dimension, double[,] result)
+        public static double[,] Add(this int[] a, decimal[,] b, VectorType dimension, double[,] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Add(this int[] a, decimal[][] b, VectorType dimension, double[][] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Add(this int[,] a, decimal[] b, VectorType dimension, double[,] result)
         {
             check<int, decimal, double>(d: dimension, a: a, b: b, result: result);
             int rows = a.GetLength(0);
@@ -13561,12 +16952,13 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -13574,7 +16966,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Add(this int[][] a,  decimal[] b, int dimension, double[][] result)
+        public static double[][] Add(this int[][] a, decimal[] b, VectorType dimension, double[][] result)
         {
             check<int, decimal, double>(d: dimension, a: a, b: b, result: result);
             if (dimension == 0)
@@ -13592,7 +16984,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -13603,20 +16995,7 @@ namespace Accord.Math
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-		#region Diagonal
+        #region Diagonal
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
@@ -13753,10 +17132,10 @@ namespace Accord.Math
             return result;
         }
  
-		#endregion
+        #endregion
      
 
-		#region Matrix matrix
+        #region Matrix matrix
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a matrix <c>B</c>.
@@ -13838,7 +17217,7 @@ namespace Accord.Math
 
 
 
-		#region Matrix with scalar
+        #region Matrix with scalar
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a scalar <c>b</c>.
@@ -13941,7 +17320,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -13966,7 +17345,7 @@ namespace Accord.Math
 
 
 
-		#region vector vector
+        #region vector vector
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a vector<c>b</c>.
@@ -13987,14 +17366,14 @@ namespace Accord.Math
                 result[i] = (float)((float)a[i] + (float)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
-		#region Vector with scalar
+        #region Vector with scalar
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a scalar <c>b</c>.
@@ -14035,27 +17414,72 @@ namespace Accord.Math
                 result[i] = (float)((float)a + (float)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static float[,] Add(this float[] a, int[,] b, int dimension, float[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
 
-		#region Matrix vector
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static float[][] Add(this float[] a, int[][] b, int dimension, float[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static float[,] Add(this float[,] a, int[] b, int dimension, float[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static float[][] Add(this float[][] a, int[] b, int dimension, float[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
-        /// <param name="a">The matrix <c>A</c>.</param>
-        /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -14063,7 +17487,57 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[,] Add(this float[,] a,  int[] b, int dimension, float[,] result)
+        public static float[,] Add(this float[] a, int[,] b, VectorType dimension, float[,] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][] Add(this float[] a, int[][] b, VectorType dimension, float[][] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,] Add(this float[,] a, int[] b, VectorType dimension, float[,] result)
         {
             check<float, int, float>(d: dimension, a: a, b: b, result: result);
             int rows = a.GetLength(0);
@@ -14091,12 +17565,13 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -14104,7 +17579,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Add(this float[][] a,  int[] b, int dimension, float[][] result)
+        public static float[][] Add(this float[][] a, int[] b, VectorType dimension, float[][] result)
         {
             check<float, int, float>(d: dimension, a: a, b: b, result: result);
             if (dimension == 0)
@@ -14122,7 +17597,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -14133,20 +17608,7 @@ namespace Accord.Math
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-		#region Diagonal
+        #region Diagonal
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
@@ -14283,10 +17745,10 @@ namespace Accord.Math
             return result;
         }
  
-		#endregion
+        #endregion
      
 
-		#region Matrix matrix
+        #region Matrix matrix
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a matrix <c>B</c>.
@@ -14368,7 +17830,7 @@ namespace Accord.Math
 
 
 
-		#region Matrix with scalar
+        #region Matrix with scalar
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a scalar <c>b</c>.
@@ -14471,7 +17933,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -14496,7 +17958,7 @@ namespace Accord.Math
 
 
 
-		#region vector vector
+        #region vector vector
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a vector<c>b</c>.
@@ -14517,14 +17979,14 @@ namespace Accord.Math
                 result[i] = (int)((int)a[i] + (int)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
-		#region Vector with scalar
+        #region Vector with scalar
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a scalar <c>b</c>.
@@ -14565,27 +18027,72 @@ namespace Accord.Math
                 result[i] = (int)((int)a + (int)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static int[,] Add(this float[] a, int[,] b, int dimension, int[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
 
-		#region Matrix vector
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static int[][] Add(this float[] a, int[][] b, int dimension, int[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static int[,] Add(this float[,] a, int[] b, int dimension, int[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static int[][] Add(this float[][] a, int[] b, int dimension, int[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
-        /// <param name="a">The matrix <c>A</c>.</param>
-        /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -14593,7 +18100,57 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[,] Add(this float[,] a,  int[] b, int dimension, int[,] result)
+        public static int[,] Add(this float[] a, int[,] b, VectorType dimension, int[,] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][] Add(this float[] a, int[][] b, VectorType dimension, int[][] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,] Add(this float[,] a, int[] b, VectorType dimension, int[,] result)
         {
             check<float, int, int>(d: dimension, a: a, b: b, result: result);
             int rows = a.GetLength(0);
@@ -14621,12 +18178,13 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -14634,7 +18192,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Add(this float[][] a,  int[] b, int dimension, int[][] result)
+        public static int[][] Add(this float[][] a, int[] b, VectorType dimension, int[][] result)
         {
             check<float, int, int>(d: dimension, a: a, b: b, result: result);
             if (dimension == 0)
@@ -14652,7 +18210,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -14663,20 +18221,7 @@ namespace Accord.Math
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-		#region Diagonal
+        #region Diagonal
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
@@ -14813,10 +18358,10 @@ namespace Accord.Math
             return result;
         }
  
-		#endregion
+        #endregion
      
 
-		#region Matrix matrix
+        #region Matrix matrix
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a matrix <c>B</c>.
@@ -14898,7 +18443,7 @@ namespace Accord.Math
 
 
 
-		#region Matrix with scalar
+        #region Matrix with scalar
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a scalar <c>b</c>.
@@ -15001,7 +18546,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -15026,7 +18571,7 @@ namespace Accord.Math
 
 
 
-		#region vector vector
+        #region vector vector
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a vector<c>b</c>.
@@ -15047,14 +18592,14 @@ namespace Accord.Math
                 result[i] = (double)((double)a[i] + (double)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
-		#region Vector with scalar
+        #region Vector with scalar
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a scalar <c>b</c>.
@@ -15095,27 +18640,72 @@ namespace Accord.Math
                 result[i] = (double)((double)a + (double)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Add(this float[] a, int[,] b, int dimension, double[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
 
-		#region Matrix vector
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Add(this float[] a, int[][] b, int dimension, double[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Add(this float[,] a, int[] b, int dimension, double[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Add(this float[][] a, int[] b, int dimension, double[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
-        /// <param name="a">The matrix <c>A</c>.</param>
-        /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -15123,7 +18713,57 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Add(this float[,] a,  int[] b, int dimension, double[,] result)
+        public static double[,] Add(this float[] a, int[,] b, VectorType dimension, double[,] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Add(this float[] a, int[][] b, VectorType dimension, double[][] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Add(this float[,] a, int[] b, VectorType dimension, double[,] result)
         {
             check<float, int, double>(d: dimension, a: a, b: b, result: result);
             int rows = a.GetLength(0);
@@ -15151,12 +18791,13 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -15164,7 +18805,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Add(this float[][] a,  int[] b, int dimension, double[][] result)
+        public static double[][] Add(this float[][] a, int[] b, VectorType dimension, double[][] result)
         {
             check<float, int, double>(d: dimension, a: a, b: b, result: result);
             if (dimension == 0)
@@ -15182,7 +18823,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -15193,20 +18834,7 @@ namespace Accord.Math
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-		#region Diagonal
+        #region Diagonal
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
@@ -15343,10 +18971,10 @@ namespace Accord.Math
             return result;
         }
  
-		#endregion
+        #endregion
      
 
-		#region Matrix matrix
+        #region Matrix matrix
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a matrix <c>B</c>.
@@ -15428,7 +19056,7 @@ namespace Accord.Math
 
 
 
-		#region Matrix with scalar
+        #region Matrix with scalar
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a scalar <c>b</c>.
@@ -15531,7 +19159,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -15556,7 +19184,7 @@ namespace Accord.Math
 
 
 
-		#region vector vector
+        #region vector vector
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a vector<c>b</c>.
@@ -15577,14 +19205,14 @@ namespace Accord.Math
                 result[i] = (float)((float)a[i] + (float)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
-		#region Vector with scalar
+        #region Vector with scalar
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a scalar <c>b</c>.
@@ -15625,27 +19253,72 @@ namespace Accord.Math
                 result[i] = (float)((float)a + (float)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static float[,] Add(this float[] a, float[,] b, int dimension, float[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
 
-		#region Matrix vector
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static float[][] Add(this float[] a, float[][] b, int dimension, float[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static float[,] Add(this float[,] a, float[] b, int dimension, float[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static float[][] Add(this float[][] a, float[] b, int dimension, float[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
-        /// <param name="a">The matrix <c>A</c>.</param>
-        /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -15653,7 +19326,57 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[,] Add(this float[,] a,  float[] b, int dimension, float[,] result)
+        public static float[,] Add(this float[] a, float[,] b, VectorType dimension, float[,] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][] Add(this float[] a, float[][] b, VectorType dimension, float[][] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,] Add(this float[,] a, float[] b, VectorType dimension, float[,] result)
         {
             check<float, float, float>(d: dimension, a: a, b: b, result: result);
             int rows = a.GetLength(0);
@@ -15681,12 +19404,13 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -15694,7 +19418,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Add(this float[][] a,  float[] b, int dimension, float[][] result)
+        public static float[][] Add(this float[][] a, float[] b, VectorType dimension, float[][] result)
         {
             check<float, float, float>(d: dimension, a: a, b: b, result: result);
             if (dimension == 0)
@@ -15712,7 +19436,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -15723,20 +19447,7 @@ namespace Accord.Math
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-		#region Diagonal
+        #region Diagonal
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
@@ -15873,10 +19584,10 @@ namespace Accord.Math
             return result;
         }
  
-		#endregion
+        #endregion
      
 
-		#region Matrix matrix
+        #region Matrix matrix
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a matrix <c>B</c>.
@@ -15958,7 +19669,7 @@ namespace Accord.Math
 
 
 
-		#region Matrix with scalar
+        #region Matrix with scalar
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a scalar <c>b</c>.
@@ -16061,7 +19772,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -16086,7 +19797,7 @@ namespace Accord.Math
 
 
 
-		#region vector vector
+        #region vector vector
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a vector<c>b</c>.
@@ -16107,14 +19818,14 @@ namespace Accord.Math
                 result[i] = (double)((double)a[i] + (double)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
-		#region Vector with scalar
+        #region Vector with scalar
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a scalar <c>b</c>.
@@ -16155,27 +19866,72 @@ namespace Accord.Math
                 result[i] = (double)((double)a + (double)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Add(this float[] a, float[,] b, int dimension, double[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
 
-		#region Matrix vector
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Add(this float[] a, float[][] b, int dimension, double[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Add(this float[,] a, float[] b, int dimension, double[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Add(this float[][] a, float[] b, int dimension, double[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
-        /// <param name="a">The matrix <c>A</c>.</param>
-        /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -16183,7 +19939,57 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Add(this float[,] a,  float[] b, int dimension, double[,] result)
+        public static double[,] Add(this float[] a, float[,] b, VectorType dimension, double[,] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Add(this float[] a, float[][] b, VectorType dimension, double[][] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Add(this float[,] a, float[] b, VectorType dimension, double[,] result)
         {
             check<float, float, double>(d: dimension, a: a, b: b, result: result);
             int rows = a.GetLength(0);
@@ -16211,12 +20017,13 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -16224,7 +20031,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Add(this float[][] a,  float[] b, int dimension, double[][] result)
+        public static double[][] Add(this float[][] a, float[] b, VectorType dimension, double[][] result)
         {
             check<float, float, double>(d: dimension, a: a, b: b, result: result);
             if (dimension == 0)
@@ -16242,7 +20049,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -16253,20 +20060,7 @@ namespace Accord.Math
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-		#region Diagonal
+        #region Diagonal
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
@@ -16403,10 +20197,10 @@ namespace Accord.Math
             return result;
         }
  
-		#endregion
+        #endregion
      
 
-		#region Matrix matrix
+        #region Matrix matrix
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a matrix <c>B</c>.
@@ -16488,7 +20282,7 @@ namespace Accord.Math
 
 
 
-		#region Matrix with scalar
+        #region Matrix with scalar
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a scalar <c>b</c>.
@@ -16591,7 +20385,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -16616,7 +20410,7 @@ namespace Accord.Math
 
 
 
-		#region vector vector
+        #region vector vector
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a vector<c>b</c>.
@@ -16637,14 +20431,14 @@ namespace Accord.Math
                 result[i] = (float)((float)a[i] + (float)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
-		#region Vector with scalar
+        #region Vector with scalar
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a scalar <c>b</c>.
@@ -16685,27 +20479,72 @@ namespace Accord.Math
                 result[i] = (float)((float)a + (float)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static float[,] Add(this float[] a, double[,] b, int dimension, float[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
 
-		#region Matrix vector
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static float[][] Add(this float[] a, double[][] b, int dimension, float[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static float[,] Add(this float[,] a, double[] b, int dimension, float[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static float[][] Add(this float[][] a, double[] b, int dimension, float[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
-        /// <param name="a">The matrix <c>A</c>.</param>
-        /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -16713,7 +20552,57 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[,] Add(this float[,] a,  double[] b, int dimension, float[,] result)
+        public static float[,] Add(this float[] a, double[,] b, VectorType dimension, float[,] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][] Add(this float[] a, double[][] b, VectorType dimension, float[][] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,] Add(this float[,] a, double[] b, VectorType dimension, float[,] result)
         {
             check<float, double, float>(d: dimension, a: a, b: b, result: result);
             int rows = a.GetLength(0);
@@ -16741,12 +20630,13 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -16754,7 +20644,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Add(this float[][] a,  double[] b, int dimension, float[][] result)
+        public static float[][] Add(this float[][] a, double[] b, VectorType dimension, float[][] result)
         {
             check<float, double, float>(d: dimension, a: a, b: b, result: result);
             if (dimension == 0)
@@ -16772,7 +20662,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -16783,20 +20673,7 @@ namespace Accord.Math
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-		#region Diagonal
+        #region Diagonal
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
@@ -16933,10 +20810,10 @@ namespace Accord.Math
             return result;
         }
  
-		#endregion
+        #endregion
      
 
-		#region Matrix matrix
+        #region Matrix matrix
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a matrix <c>B</c>.
@@ -17018,7 +20895,7 @@ namespace Accord.Math
 
 
 
-		#region Matrix with scalar
+        #region Matrix with scalar
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a scalar <c>b</c>.
@@ -17121,7 +20998,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -17146,7 +21023,7 @@ namespace Accord.Math
 
 
 
-		#region vector vector
+        #region vector vector
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a vector<c>b</c>.
@@ -17167,14 +21044,14 @@ namespace Accord.Math
                 result[i] = (double)((double)a[i] + (double)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
-		#region Vector with scalar
+        #region Vector with scalar
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a scalar <c>b</c>.
@@ -17215,27 +21092,72 @@ namespace Accord.Math
                 result[i] = (double)((double)a + (double)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Add(this float[] a, double[,] b, int dimension, double[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
 
-		#region Matrix vector
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Add(this float[] a, double[][] b, int dimension, double[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Add(this float[,] a, double[] b, int dimension, double[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Add(this float[][] a, double[] b, int dimension, double[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
-        /// <param name="a">The matrix <c>A</c>.</param>
-        /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -17243,7 +21165,57 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Add(this float[,] a,  double[] b, int dimension, double[,] result)
+        public static double[,] Add(this float[] a, double[,] b, VectorType dimension, double[,] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Add(this float[] a, double[][] b, VectorType dimension, double[][] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Add(this float[,] a, double[] b, VectorType dimension, double[,] result)
         {
             check<float, double, double>(d: dimension, a: a, b: b, result: result);
             int rows = a.GetLength(0);
@@ -17271,12 +21243,13 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -17284,7 +21257,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Add(this float[][] a,  double[] b, int dimension, double[][] result)
+        public static double[][] Add(this float[][] a, double[] b, VectorType dimension, double[][] result)
         {
             check<float, double, double>(d: dimension, a: a, b: b, result: result);
             if (dimension == 0)
@@ -17302,7 +21275,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -17313,20 +21286,7 @@ namespace Accord.Math
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-		#region Diagonal
+        #region Diagonal
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
@@ -17463,10 +21423,10 @@ namespace Accord.Math
             return result;
         }
  
-		#endregion
+        #endregion
      
 
-		#region Matrix matrix
+        #region Matrix matrix
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a matrix <c>B</c>.
@@ -17548,7 +21508,7 @@ namespace Accord.Math
 
 
 
-		#region Matrix with scalar
+        #region Matrix with scalar
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a scalar <c>b</c>.
@@ -17651,7 +21611,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -17676,7 +21636,7 @@ namespace Accord.Math
 
 
 
-		#region vector vector
+        #region vector vector
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a vector<c>b</c>.
@@ -17697,14 +21657,14 @@ namespace Accord.Math
                 result[i] = (float)((float)a[i] + (float)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
-		#region Vector with scalar
+        #region Vector with scalar
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a scalar <c>b</c>.
@@ -17745,27 +21705,72 @@ namespace Accord.Math
                 result[i] = (float)((float)a + (float)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static float[,] Add(this float[] a, byte[,] b, int dimension, float[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
 
-		#region Matrix vector
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static float[][] Add(this float[] a, byte[][] b, int dimension, float[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static float[,] Add(this float[,] a, byte[] b, int dimension, float[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static float[][] Add(this float[][] a, byte[] b, int dimension, float[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
-        /// <param name="a">The matrix <c>A</c>.</param>
-        /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -17773,7 +21778,57 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[,] Add(this float[,] a,  byte[] b, int dimension, float[,] result)
+        public static float[,] Add(this float[] a, byte[,] b, VectorType dimension, float[,] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][] Add(this float[] a, byte[][] b, VectorType dimension, float[][] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,] Add(this float[,] a, byte[] b, VectorType dimension, float[,] result)
         {
             check<float, byte, float>(d: dimension, a: a, b: b, result: result);
             int rows = a.GetLength(0);
@@ -17801,12 +21856,13 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -17814,7 +21870,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Add(this float[][] a,  byte[] b, int dimension, float[][] result)
+        public static float[][] Add(this float[][] a, byte[] b, VectorType dimension, float[][] result)
         {
             check<float, byte, float>(d: dimension, a: a, b: b, result: result);
             if (dimension == 0)
@@ -17832,7 +21888,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -17843,20 +21899,7 @@ namespace Accord.Math
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-		#region Diagonal
+        #region Diagonal
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
@@ -17993,10 +22036,10 @@ namespace Accord.Math
             return result;
         }
  
-		#endregion
+        #endregion
      
 
-		#region Matrix matrix
+        #region Matrix matrix
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a matrix <c>B</c>.
@@ -18078,7 +22121,7 @@ namespace Accord.Math
 
 
 
-		#region Matrix with scalar
+        #region Matrix with scalar
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a scalar <c>b</c>.
@@ -18181,7 +22224,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -18206,7 +22249,7 @@ namespace Accord.Math
 
 
 
-		#region vector vector
+        #region vector vector
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a vector<c>b</c>.
@@ -18227,14 +22270,14 @@ namespace Accord.Math
                 result[i] = (byte)((byte)a[i] + (byte)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
-		#region Vector with scalar
+        #region Vector with scalar
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a scalar <c>b</c>.
@@ -18275,27 +22318,72 @@ namespace Accord.Math
                 result[i] = (byte)((byte)a + (byte)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static byte[,] Add(this float[] a, byte[,] b, int dimension, byte[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
 
-		#region Matrix vector
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static byte[][] Add(this float[] a, byte[][] b, int dimension, byte[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static byte[,] Add(this float[,] a, byte[] b, int dimension, byte[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static byte[][] Add(this float[][] a, byte[] b, int dimension, byte[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
-        /// <param name="a">The matrix <c>A</c>.</param>
-        /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -18303,7 +22391,57 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[,] Add(this float[,] a,  byte[] b, int dimension, byte[,] result)
+        public static byte[,] Add(this float[] a, byte[,] b, VectorType dimension, byte[,] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[][] Add(this float[] a, byte[][] b, VectorType dimension, byte[][] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[,] Add(this float[,] a, byte[] b, VectorType dimension, byte[,] result)
         {
             check<float, byte, byte>(d: dimension, a: a, b: b, result: result);
             int rows = a.GetLength(0);
@@ -18331,12 +22469,13 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -18344,7 +22483,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[][] Add(this float[][] a,  byte[] b, int dimension, byte[][] result)
+        public static byte[][] Add(this float[][] a, byte[] b, VectorType dimension, byte[][] result)
         {
             check<float, byte, byte>(d: dimension, a: a, b: b, result: result);
             if (dimension == 0)
@@ -18362,7 +22501,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -18373,20 +22512,7 @@ namespace Accord.Math
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-		#region Diagonal
+        #region Diagonal
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
@@ -18523,10 +22649,10 @@ namespace Accord.Math
             return result;
         }
  
-		#endregion
+        #endregion
      
 
-		#region Matrix matrix
+        #region Matrix matrix
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a matrix <c>B</c>.
@@ -18608,7 +22734,7 @@ namespace Accord.Math
 
 
 
-		#region Matrix with scalar
+        #region Matrix with scalar
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a scalar <c>b</c>.
@@ -18711,7 +22837,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -18736,7 +22862,7 @@ namespace Accord.Math
 
 
 
-		#region vector vector
+        #region vector vector
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a vector<c>b</c>.
@@ -18757,14 +22883,14 @@ namespace Accord.Math
                 result[i] = (double)((double)a[i] + (double)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
-		#region Vector with scalar
+        #region Vector with scalar
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a scalar <c>b</c>.
@@ -18805,27 +22931,72 @@ namespace Accord.Math
                 result[i] = (double)((double)a + (double)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Add(this float[] a, byte[,] b, int dimension, double[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
 
-		#region Matrix vector
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Add(this float[] a, byte[][] b, int dimension, double[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Add(this float[,] a, byte[] b, int dimension, double[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Add(this float[][] a, byte[] b, int dimension, double[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
-        /// <param name="a">The matrix <c>A</c>.</param>
-        /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -18833,7 +23004,57 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Add(this float[,] a,  byte[] b, int dimension, double[,] result)
+        public static double[,] Add(this float[] a, byte[,] b, VectorType dimension, double[,] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Add(this float[] a, byte[][] b, VectorType dimension, double[][] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Add(this float[,] a, byte[] b, VectorType dimension, double[,] result)
         {
             check<float, byte, double>(d: dimension, a: a, b: b, result: result);
             int rows = a.GetLength(0);
@@ -18861,12 +23082,13 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -18874,7 +23096,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Add(this float[][] a,  byte[] b, int dimension, double[][] result)
+        public static double[][] Add(this float[][] a, byte[] b, VectorType dimension, double[][] result)
         {
             check<float, byte, double>(d: dimension, a: a, b: b, result: result);
             if (dimension == 0)
@@ -18892,7 +23114,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -18903,20 +23125,7 @@ namespace Accord.Math
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-		#region Diagonal
+        #region Diagonal
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
@@ -19053,10 +23262,10 @@ namespace Accord.Math
             return result;
         }
  
-		#endregion
+        #endregion
      
 
-		#region Matrix matrix
+        #region Matrix matrix
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a matrix <c>B</c>.
@@ -19138,7 +23347,7 @@ namespace Accord.Math
 
 
 
-		#region Matrix with scalar
+        #region Matrix with scalar
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a scalar <c>b</c>.
@@ -19241,7 +23450,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -19266,7 +23475,7 @@ namespace Accord.Math
 
 
 
-		#region vector vector
+        #region vector vector
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a vector<c>b</c>.
@@ -19287,14 +23496,14 @@ namespace Accord.Math
                 result[i] = (float)((float)a[i] + (float)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
-		#region Vector with scalar
+        #region Vector with scalar
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a scalar <c>b</c>.
@@ -19335,27 +23544,72 @@ namespace Accord.Math
                 result[i] = (float)((float)a + (float)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static float[,] Add(this float[] a, decimal[,] b, int dimension, float[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
 
-		#region Matrix vector
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static float[][] Add(this float[] a, decimal[][] b, int dimension, float[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static float[,] Add(this float[,] a, decimal[] b, int dimension, float[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static float[][] Add(this float[][] a, decimal[] b, int dimension, float[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
-        /// <param name="a">The matrix <c>A</c>.</param>
-        /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -19363,7 +23617,57 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[,] Add(this float[,] a,  decimal[] b, int dimension, float[,] result)
+        public static float[,] Add(this float[] a, decimal[,] b, VectorType dimension, float[,] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][] Add(this float[] a, decimal[][] b, VectorType dimension, float[][] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,] Add(this float[,] a, decimal[] b, VectorType dimension, float[,] result)
         {
             check<float, decimal, float>(d: dimension, a: a, b: b, result: result);
             int rows = a.GetLength(0);
@@ -19391,12 +23695,13 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -19404,7 +23709,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Add(this float[][] a,  decimal[] b, int dimension, float[][] result)
+        public static float[][] Add(this float[][] a, decimal[] b, VectorType dimension, float[][] result)
         {
             check<float, decimal, float>(d: dimension, a: a, b: b, result: result);
             if (dimension == 0)
@@ -19422,7 +23727,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -19433,20 +23738,7 @@ namespace Accord.Math
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-		#region Diagonal
+        #region Diagonal
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
@@ -19583,10 +23875,10 @@ namespace Accord.Math
             return result;
         }
  
-		#endregion
+        #endregion
      
 
-		#region Matrix matrix
+        #region Matrix matrix
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a matrix <c>B</c>.
@@ -19668,7 +23960,7 @@ namespace Accord.Math
 
 
 
-		#region Matrix with scalar
+        #region Matrix with scalar
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a scalar <c>b</c>.
@@ -19771,7 +24063,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -19796,7 +24088,7 @@ namespace Accord.Math
 
 
 
-		#region vector vector
+        #region vector vector
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a vector<c>b</c>.
@@ -19817,14 +24109,14 @@ namespace Accord.Math
                 result[i] = (decimal)((decimal)a[i] + (decimal)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
-		#region Vector with scalar
+        #region Vector with scalar
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a scalar <c>b</c>.
@@ -19865,27 +24157,72 @@ namespace Accord.Math
                 result[i] = (decimal)((decimal)a + (decimal)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static decimal[,] Add(this float[] a, decimal[,] b, int dimension, decimal[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
 
-		#region Matrix vector
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static decimal[][] Add(this float[] a, decimal[][] b, int dimension, decimal[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static decimal[,] Add(this float[,] a, decimal[] b, int dimension, decimal[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static decimal[][] Add(this float[][] a, decimal[] b, int dimension, decimal[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
-        /// <param name="a">The matrix <c>A</c>.</param>
-        /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -19893,7 +24230,57 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[,] Add(this float[,] a,  decimal[] b, int dimension, decimal[,] result)
+        public static decimal[,] Add(this float[] a, decimal[,] b, VectorType dimension, decimal[,] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[][] Add(this float[] a, decimal[][] b, VectorType dimension, decimal[][] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[,] Add(this float[,] a, decimal[] b, VectorType dimension, decimal[,] result)
         {
             check<float, decimal, decimal>(d: dimension, a: a, b: b, result: result);
             int rows = a.GetLength(0);
@@ -19921,12 +24308,13 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -19934,7 +24322,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[][] Add(this float[][] a,  decimal[] b, int dimension, decimal[][] result)
+        public static decimal[][] Add(this float[][] a, decimal[] b, VectorType dimension, decimal[][] result)
         {
             check<float, decimal, decimal>(d: dimension, a: a, b: b, result: result);
             if (dimension == 0)
@@ -19952,7 +24340,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -19963,20 +24351,7 @@ namespace Accord.Math
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-		#region Diagonal
+        #region Diagonal
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
@@ -20113,10 +24488,10 @@ namespace Accord.Math
             return result;
         }
  
-		#endregion
+        #endregion
      
 
-		#region Matrix matrix
+        #region Matrix matrix
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a matrix <c>B</c>.
@@ -20198,7 +24573,7 @@ namespace Accord.Math
 
 
 
-		#region Matrix with scalar
+        #region Matrix with scalar
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a scalar <c>b</c>.
@@ -20301,7 +24676,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -20326,7 +24701,7 @@ namespace Accord.Math
 
 
 
-		#region vector vector
+        #region vector vector
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a vector<c>b</c>.
@@ -20347,14 +24722,14 @@ namespace Accord.Math
                 result[i] = (double)((double)a[i] + (double)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
-		#region Vector with scalar
+        #region Vector with scalar
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a scalar <c>b</c>.
@@ -20395,27 +24770,72 @@ namespace Accord.Math
                 result[i] = (double)((double)a + (double)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Add(this float[] a, decimal[,] b, int dimension, double[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
 
-		#region Matrix vector
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Add(this float[] a, decimal[][] b, int dimension, double[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Add(this float[,] a, decimal[] b, int dimension, double[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Add(this float[][] a, decimal[] b, int dimension, double[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
-        /// <param name="a">The matrix <c>A</c>.</param>
-        /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -20423,7 +24843,57 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Add(this float[,] a,  decimal[] b, int dimension, double[,] result)
+        public static double[,] Add(this float[] a, decimal[,] b, VectorType dimension, double[,] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Add(this float[] a, decimal[][] b, VectorType dimension, double[][] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Add(this float[,] a, decimal[] b, VectorType dimension, double[,] result)
         {
             check<float, decimal, double>(d: dimension, a: a, b: b, result: result);
             int rows = a.GetLength(0);
@@ -20451,12 +24921,13 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -20464,7 +24935,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Add(this float[][] a,  decimal[] b, int dimension, double[][] result)
+        public static double[][] Add(this float[][] a, decimal[] b, VectorType dimension, double[][] result)
         {
             check<float, decimal, double>(d: dimension, a: a, b: b, result: result);
             if (dimension == 0)
@@ -20482,7 +24953,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -20493,20 +24964,7 @@ namespace Accord.Math
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-		#region Diagonal
+        #region Diagonal
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
@@ -20643,10 +25101,10 @@ namespace Accord.Math
             return result;
         }
  
-		#endregion
+        #endregion
      
 
-		#region Matrix matrix
+        #region Matrix matrix
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a matrix <c>B</c>.
@@ -20728,7 +25186,7 @@ namespace Accord.Math
 
 
 
-		#region Matrix with scalar
+        #region Matrix with scalar
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a scalar <c>b</c>.
@@ -20831,7 +25289,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -20856,7 +25314,7 @@ namespace Accord.Math
 
 
 
-		#region vector vector
+        #region vector vector
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a vector<c>b</c>.
@@ -20877,14 +25335,14 @@ namespace Accord.Math
                 result[i] = (double)((double)a[i] + (double)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
-		#region Vector with scalar
+        #region Vector with scalar
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a scalar <c>b</c>.
@@ -20925,27 +25383,72 @@ namespace Accord.Math
                 result[i] = (double)((double)a + (double)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Add(this double[] a, int[,] b, int dimension, double[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
 
-		#region Matrix vector
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Add(this double[] a, int[][] b, int dimension, double[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Add(this double[,] a, int[] b, int dimension, double[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Add(this double[][] a, int[] b, int dimension, double[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
-        /// <param name="a">The matrix <c>A</c>.</param>
-        /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -20953,7 +25456,57 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Add(this double[,] a,  int[] b, int dimension, double[,] result)
+        public static double[,] Add(this double[] a, int[,] b, VectorType dimension, double[,] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Add(this double[] a, int[][] b, VectorType dimension, double[][] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Add(this double[,] a, int[] b, VectorType dimension, double[,] result)
         {
             check<double, int, double>(d: dimension, a: a, b: b, result: result);
             int rows = a.GetLength(0);
@@ -20981,12 +25534,13 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -20994,7 +25548,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Add(this double[][] a,  int[] b, int dimension, double[][] result)
+        public static double[][] Add(this double[][] a, int[] b, VectorType dimension, double[][] result)
         {
             check<double, int, double>(d: dimension, a: a, b: b, result: result);
             if (dimension == 0)
@@ -21012,7 +25566,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -21023,20 +25577,7 @@ namespace Accord.Math
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-		#region Diagonal
+        #region Diagonal
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
@@ -21173,10 +25714,10 @@ namespace Accord.Math
             return result;
         }
  
-		#endregion
+        #endregion
      
 
-		#region Matrix matrix
+        #region Matrix matrix
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a matrix <c>B</c>.
@@ -21258,7 +25799,7 @@ namespace Accord.Math
 
 
 
-		#region Matrix with scalar
+        #region Matrix with scalar
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a scalar <c>b</c>.
@@ -21361,7 +25902,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -21386,7 +25927,7 @@ namespace Accord.Math
 
 
 
-		#region vector vector
+        #region vector vector
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a vector<c>b</c>.
@@ -21407,14 +25948,14 @@ namespace Accord.Math
                 result[i] = (int)((int)a[i] + (int)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
-		#region Vector with scalar
+        #region Vector with scalar
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a scalar <c>b</c>.
@@ -21455,27 +25996,72 @@ namespace Accord.Math
                 result[i] = (int)((int)a + (int)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static int[,] Add(this double[] a, int[,] b, int dimension, int[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
 
-		#region Matrix vector
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static int[][] Add(this double[] a, int[][] b, int dimension, int[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static int[,] Add(this double[,] a, int[] b, int dimension, int[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static int[][] Add(this double[][] a, int[] b, int dimension, int[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
-        /// <param name="a">The matrix <c>A</c>.</param>
-        /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -21483,7 +26069,57 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[,] Add(this double[,] a,  int[] b, int dimension, int[,] result)
+        public static int[,] Add(this double[] a, int[,] b, VectorType dimension, int[,] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][] Add(this double[] a, int[][] b, VectorType dimension, int[][] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,] Add(this double[,] a, int[] b, VectorType dimension, int[,] result)
         {
             check<double, int, int>(d: dimension, a: a, b: b, result: result);
             int rows = a.GetLength(0);
@@ -21511,12 +26147,13 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -21524,7 +26161,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Add(this double[][] a,  int[] b, int dimension, int[][] result)
+        public static int[][] Add(this double[][] a, int[] b, VectorType dimension, int[][] result)
         {
             check<double, int, int>(d: dimension, a: a, b: b, result: result);
             if (dimension == 0)
@@ -21542,7 +26179,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -21553,20 +26190,7 @@ namespace Accord.Math
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-		#region Diagonal
+        #region Diagonal
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
@@ -21703,10 +26327,10 @@ namespace Accord.Math
             return result;
         }
  
-		#endregion
+        #endregion
      
 
-		#region Matrix matrix
+        #region Matrix matrix
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a matrix <c>B</c>.
@@ -21788,7 +26412,7 @@ namespace Accord.Math
 
 
 
-		#region Matrix with scalar
+        #region Matrix with scalar
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a scalar <c>b</c>.
@@ -21891,7 +26515,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -21916,7 +26540,7 @@ namespace Accord.Math
 
 
 
-		#region vector vector
+        #region vector vector
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a vector<c>b</c>.
@@ -21937,14 +26561,14 @@ namespace Accord.Math
                 result[i] = (double)((double)a[i] + (double)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
-		#region Vector with scalar
+        #region Vector with scalar
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a scalar <c>b</c>.
@@ -21985,27 +26609,72 @@ namespace Accord.Math
                 result[i] = (double)((double)a + (double)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Add(this double[] a, float[,] b, int dimension, double[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
 
-		#region Matrix vector
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Add(this double[] a, float[][] b, int dimension, double[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Add(this double[,] a, float[] b, int dimension, double[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Add(this double[][] a, float[] b, int dimension, double[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
-        /// <param name="a">The matrix <c>A</c>.</param>
-        /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -22013,7 +26682,57 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Add(this double[,] a,  float[] b, int dimension, double[,] result)
+        public static double[,] Add(this double[] a, float[,] b, VectorType dimension, double[,] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Add(this double[] a, float[][] b, VectorType dimension, double[][] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Add(this double[,] a, float[] b, VectorType dimension, double[,] result)
         {
             check<double, float, double>(d: dimension, a: a, b: b, result: result);
             int rows = a.GetLength(0);
@@ -22041,12 +26760,13 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -22054,7 +26774,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Add(this double[][] a,  float[] b, int dimension, double[][] result)
+        public static double[][] Add(this double[][] a, float[] b, VectorType dimension, double[][] result)
         {
             check<double, float, double>(d: dimension, a: a, b: b, result: result);
             if (dimension == 0)
@@ -22072,7 +26792,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -22083,20 +26803,7 @@ namespace Accord.Math
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-		#region Diagonal
+        #region Diagonal
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
@@ -22233,10 +26940,10 @@ namespace Accord.Math
             return result;
         }
  
-		#endregion
+        #endregion
      
 
-		#region Matrix matrix
+        #region Matrix matrix
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a matrix <c>B</c>.
@@ -22318,7 +27025,7 @@ namespace Accord.Math
 
 
 
-		#region Matrix with scalar
+        #region Matrix with scalar
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a scalar <c>b</c>.
@@ -22421,7 +27128,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -22446,7 +27153,7 @@ namespace Accord.Math
 
 
 
-		#region vector vector
+        #region vector vector
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a vector<c>b</c>.
@@ -22467,14 +27174,14 @@ namespace Accord.Math
                 result[i] = (float)((float)a[i] + (float)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
-		#region Vector with scalar
+        #region Vector with scalar
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a scalar <c>b</c>.
@@ -22515,27 +27222,72 @@ namespace Accord.Math
                 result[i] = (float)((float)a + (float)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static float[,] Add(this double[] a, float[,] b, int dimension, float[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
 
-		#region Matrix vector
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static float[][] Add(this double[] a, float[][] b, int dimension, float[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static float[,] Add(this double[,] a, float[] b, int dimension, float[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static float[][] Add(this double[][] a, float[] b, int dimension, float[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
-        /// <param name="a">The matrix <c>A</c>.</param>
-        /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -22543,7 +27295,57 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[,] Add(this double[,] a,  float[] b, int dimension, float[,] result)
+        public static float[,] Add(this double[] a, float[,] b, VectorType dimension, float[,] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][] Add(this double[] a, float[][] b, VectorType dimension, float[][] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,] Add(this double[,] a, float[] b, VectorType dimension, float[,] result)
         {
             check<double, float, float>(d: dimension, a: a, b: b, result: result);
             int rows = a.GetLength(0);
@@ -22571,12 +27373,13 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -22584,7 +27387,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Add(this double[][] a,  float[] b, int dimension, float[][] result)
+        public static float[][] Add(this double[][] a, float[] b, VectorType dimension, float[][] result)
         {
             check<double, float, float>(d: dimension, a: a, b: b, result: result);
             if (dimension == 0)
@@ -22602,7 +27405,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -22613,20 +27416,7 @@ namespace Accord.Math
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-		#region Diagonal
+        #region Diagonal
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
@@ -22763,10 +27553,10 @@ namespace Accord.Math
             return result;
         }
  
-		#endregion
+        #endregion
      
 
-		#region Matrix matrix
+        #region Matrix matrix
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a matrix <c>B</c>.
@@ -22848,7 +27638,7 @@ namespace Accord.Math
 
 
 
-		#region Matrix with scalar
+        #region Matrix with scalar
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a scalar <c>b</c>.
@@ -22951,7 +27741,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -22976,7 +27766,7 @@ namespace Accord.Math
 
 
 
-		#region vector vector
+        #region vector vector
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a vector<c>b</c>.
@@ -22997,14 +27787,14 @@ namespace Accord.Math
                 result[i] = (double)((double)a[i] + (double)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
-		#region Vector with scalar
+        #region Vector with scalar
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a scalar <c>b</c>.
@@ -23045,27 +27835,72 @@ namespace Accord.Math
                 result[i] = (double)((double)a + (double)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Add(this double[] a, double[,] b, int dimension, double[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
 
-		#region Matrix vector
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Add(this double[] a, double[][] b, int dimension, double[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Add(this double[,] a, double[] b, int dimension, double[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Add(this double[][] a, double[] b, int dimension, double[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
-        /// <param name="a">The matrix <c>A</c>.</param>
-        /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -23073,7 +27908,57 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Add(this double[,] a,  double[] b, int dimension, double[,] result)
+        public static double[,] Add(this double[] a, double[,] b, VectorType dimension, double[,] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Add(this double[] a, double[][] b, VectorType dimension, double[][] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Add(this double[,] a, double[] b, VectorType dimension, double[,] result)
         {
             check<double, double, double>(d: dimension, a: a, b: b, result: result);
             int rows = a.GetLength(0);
@@ -23101,12 +27986,13 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -23114,7 +28000,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Add(this double[][] a,  double[] b, int dimension, double[][] result)
+        public static double[][] Add(this double[][] a, double[] b, VectorType dimension, double[][] result)
         {
             check<double, double, double>(d: dimension, a: a, b: b, result: result);
             if (dimension == 0)
@@ -23132,7 +28018,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -23143,20 +28029,7 @@ namespace Accord.Math
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-		#region Diagonal
+        #region Diagonal
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
@@ -23293,10 +28166,10 @@ namespace Accord.Math
             return result;
         }
  
-		#endregion
+        #endregion
      
 
-		#region Matrix matrix
+        #region Matrix matrix
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a matrix <c>B</c>.
@@ -23378,7 +28251,7 @@ namespace Accord.Math
 
 
 
-		#region Matrix with scalar
+        #region Matrix with scalar
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a scalar <c>b</c>.
@@ -23481,7 +28354,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -23506,7 +28379,7 @@ namespace Accord.Math
 
 
 
-		#region vector vector
+        #region vector vector
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a vector<c>b</c>.
@@ -23527,14 +28400,14 @@ namespace Accord.Math
                 result[i] = (double)((double)a[i] + (double)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
-		#region Vector with scalar
+        #region Vector with scalar
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a scalar <c>b</c>.
@@ -23575,27 +28448,72 @@ namespace Accord.Math
                 result[i] = (double)((double)a + (double)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Add(this double[] a, byte[,] b, int dimension, double[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
 
-		#region Matrix vector
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Add(this double[] a, byte[][] b, int dimension, double[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Add(this double[,] a, byte[] b, int dimension, double[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Add(this double[][] a, byte[] b, int dimension, double[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
-        /// <param name="a">The matrix <c>A</c>.</param>
-        /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -23603,7 +28521,57 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Add(this double[,] a,  byte[] b, int dimension, double[,] result)
+        public static double[,] Add(this double[] a, byte[,] b, VectorType dimension, double[,] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Add(this double[] a, byte[][] b, VectorType dimension, double[][] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Add(this double[,] a, byte[] b, VectorType dimension, double[,] result)
         {
             check<double, byte, double>(d: dimension, a: a, b: b, result: result);
             int rows = a.GetLength(0);
@@ -23631,12 +28599,13 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -23644,7 +28613,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Add(this double[][] a,  byte[] b, int dimension, double[][] result)
+        public static double[][] Add(this double[][] a, byte[] b, VectorType dimension, double[][] result)
         {
             check<double, byte, double>(d: dimension, a: a, b: b, result: result);
             if (dimension == 0)
@@ -23662,7 +28631,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -23673,20 +28642,7 @@ namespace Accord.Math
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-		#region Diagonal
+        #region Diagonal
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
@@ -23823,10 +28779,10 @@ namespace Accord.Math
             return result;
         }
  
-		#endregion
+        #endregion
      
 
-		#region Matrix matrix
+        #region Matrix matrix
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a matrix <c>B</c>.
@@ -23908,7 +28864,7 @@ namespace Accord.Math
 
 
 
-		#region Matrix with scalar
+        #region Matrix with scalar
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a scalar <c>b</c>.
@@ -24011,7 +28967,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -24036,7 +28992,7 @@ namespace Accord.Math
 
 
 
-		#region vector vector
+        #region vector vector
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a vector<c>b</c>.
@@ -24057,14 +29013,14 @@ namespace Accord.Math
                 result[i] = (byte)((byte)a[i] + (byte)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
-		#region Vector with scalar
+        #region Vector with scalar
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a scalar <c>b</c>.
@@ -24105,27 +29061,72 @@ namespace Accord.Math
                 result[i] = (byte)((byte)a + (byte)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static byte[,] Add(this double[] a, byte[,] b, int dimension, byte[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
 
-		#region Matrix vector
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static byte[][] Add(this double[] a, byte[][] b, int dimension, byte[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static byte[,] Add(this double[,] a, byte[] b, int dimension, byte[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static byte[][] Add(this double[][] a, byte[] b, int dimension, byte[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
-        /// <param name="a">The matrix <c>A</c>.</param>
-        /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -24133,7 +29134,57 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[,] Add(this double[,] a,  byte[] b, int dimension, byte[,] result)
+        public static byte[,] Add(this double[] a, byte[,] b, VectorType dimension, byte[,] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[][] Add(this double[] a, byte[][] b, VectorType dimension, byte[][] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[,] Add(this double[,] a, byte[] b, VectorType dimension, byte[,] result)
         {
             check<double, byte, byte>(d: dimension, a: a, b: b, result: result);
             int rows = a.GetLength(0);
@@ -24161,12 +29212,13 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -24174,7 +29226,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[][] Add(this double[][] a,  byte[] b, int dimension, byte[][] result)
+        public static byte[][] Add(this double[][] a, byte[] b, VectorType dimension, byte[][] result)
         {
             check<double, byte, byte>(d: dimension, a: a, b: b, result: result);
             if (dimension == 0)
@@ -24192,7 +29244,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -24203,20 +29255,7 @@ namespace Accord.Math
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-		#region Diagonal
+        #region Diagonal
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
@@ -24353,10 +29392,10 @@ namespace Accord.Math
             return result;
         }
  
-		#endregion
+        #endregion
      
 
-		#region Matrix matrix
+        #region Matrix matrix
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a matrix <c>B</c>.
@@ -24438,7 +29477,7 @@ namespace Accord.Math
 
 
 
-		#region Matrix with scalar
+        #region Matrix with scalar
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a scalar <c>b</c>.
@@ -24541,7 +29580,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -24566,7 +29605,7 @@ namespace Accord.Math
 
 
 
-		#region vector vector
+        #region vector vector
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a vector<c>b</c>.
@@ -24587,14 +29626,14 @@ namespace Accord.Math
                 result[i] = (double)((double)a[i] + (double)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
-		#region Vector with scalar
+        #region Vector with scalar
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a scalar <c>b</c>.
@@ -24635,27 +29674,72 @@ namespace Accord.Math
                 result[i] = (double)((double)a + (double)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Add(this double[] a, decimal[,] b, int dimension, double[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
 
-		#region Matrix vector
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Add(this double[] a, decimal[][] b, int dimension, double[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Add(this double[,] a, decimal[] b, int dimension, double[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Add(this double[][] a, decimal[] b, int dimension, double[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
-        /// <param name="a">The matrix <c>A</c>.</param>
-        /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -24663,7 +29747,57 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Add(this double[,] a,  decimal[] b, int dimension, double[,] result)
+        public static double[,] Add(this double[] a, decimal[,] b, VectorType dimension, double[,] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Add(this double[] a, decimal[][] b, VectorType dimension, double[][] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Add(this double[,] a, decimal[] b, VectorType dimension, double[,] result)
         {
             check<double, decimal, double>(d: dimension, a: a, b: b, result: result);
             int rows = a.GetLength(0);
@@ -24691,12 +29825,13 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -24704,7 +29839,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Add(this double[][] a,  decimal[] b, int dimension, double[][] result)
+        public static double[][] Add(this double[][] a, decimal[] b, VectorType dimension, double[][] result)
         {
             check<double, decimal, double>(d: dimension, a: a, b: b, result: result);
             if (dimension == 0)
@@ -24722,7 +29857,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -24733,20 +29868,7 @@ namespace Accord.Math
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-		#region Diagonal
+        #region Diagonal
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
@@ -24883,10 +30005,10 @@ namespace Accord.Math
             return result;
         }
  
-		#endregion
+        #endregion
      
 
-		#region Matrix matrix
+        #region Matrix matrix
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a matrix <c>B</c>.
@@ -24968,7 +30090,7 @@ namespace Accord.Math
 
 
 
-		#region Matrix with scalar
+        #region Matrix with scalar
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a scalar <c>b</c>.
@@ -25071,7 +30193,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -25096,7 +30218,7 @@ namespace Accord.Math
 
 
 
-		#region vector vector
+        #region vector vector
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a vector<c>b</c>.
@@ -25117,14 +30239,14 @@ namespace Accord.Math
                 result[i] = (decimal)((decimal)a[i] + (decimal)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
-		#region Vector with scalar
+        #region Vector with scalar
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a scalar <c>b</c>.
@@ -25165,27 +30287,72 @@ namespace Accord.Math
                 result[i] = (decimal)((decimal)a + (decimal)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static decimal[,] Add(this double[] a, decimal[,] b, int dimension, decimal[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
 
-		#region Matrix vector
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static decimal[][] Add(this double[] a, decimal[][] b, int dimension, decimal[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static decimal[,] Add(this double[,] a, decimal[] b, int dimension, decimal[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static decimal[][] Add(this double[][] a, decimal[] b, int dimension, decimal[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
-        /// <param name="a">The matrix <c>A</c>.</param>
-        /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -25193,7 +30360,57 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[,] Add(this double[,] a,  decimal[] b, int dimension, decimal[,] result)
+        public static decimal[,] Add(this double[] a, decimal[,] b, VectorType dimension, decimal[,] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[][] Add(this double[] a, decimal[][] b, VectorType dimension, decimal[][] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[,] Add(this double[,] a, decimal[] b, VectorType dimension, decimal[,] result)
         {
             check<double, decimal, decimal>(d: dimension, a: a, b: b, result: result);
             int rows = a.GetLength(0);
@@ -25221,12 +30438,13 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -25234,7 +30452,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[][] Add(this double[][] a,  decimal[] b, int dimension, decimal[][] result)
+        public static decimal[][] Add(this double[][] a, decimal[] b, VectorType dimension, decimal[][] result)
         {
             check<double, decimal, decimal>(d: dimension, a: a, b: b, result: result);
             if (dimension == 0)
@@ -25252,7 +30470,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -25263,20 +30481,7 @@ namespace Accord.Math
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-		#region Diagonal
+        #region Diagonal
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
@@ -25413,10 +30618,10 @@ namespace Accord.Math
             return result;
         }
  
-		#endregion
+        #endregion
      
 
-		#region Matrix matrix
+        #region Matrix matrix
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a matrix <c>B</c>.
@@ -25498,7 +30703,7 @@ namespace Accord.Math
 
 
 
-		#region Matrix with scalar
+        #region Matrix with scalar
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a scalar <c>b</c>.
@@ -25601,7 +30806,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -25626,7 +30831,7 @@ namespace Accord.Math
 
 
 
-		#region vector vector
+        #region vector vector
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a vector<c>b</c>.
@@ -25647,14 +30852,14 @@ namespace Accord.Math
                 result[i] = (byte)((byte)a[i] + (byte)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
-		#region Vector with scalar
+        #region Vector with scalar
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a scalar <c>b</c>.
@@ -25695,27 +30900,72 @@ namespace Accord.Math
                 result[i] = (byte)((byte)a + (byte)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static byte[,] Add(this byte[] a, int[,] b, int dimension, byte[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
 
-		#region Matrix vector
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static byte[][] Add(this byte[] a, int[][] b, int dimension, byte[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static byte[,] Add(this byte[,] a, int[] b, int dimension, byte[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static byte[][] Add(this byte[][] a, int[] b, int dimension, byte[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
-        /// <param name="a">The matrix <c>A</c>.</param>
-        /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -25723,7 +30973,57 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[,] Add(this byte[,] a,  int[] b, int dimension, byte[,] result)
+        public static byte[,] Add(this byte[] a, int[,] b, VectorType dimension, byte[,] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[][] Add(this byte[] a, int[][] b, VectorType dimension, byte[][] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[,] Add(this byte[,] a, int[] b, VectorType dimension, byte[,] result)
         {
             check<byte, int, byte>(d: dimension, a: a, b: b, result: result);
             int rows = a.GetLength(0);
@@ -25751,12 +31051,13 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -25764,7 +31065,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[][] Add(this byte[][] a,  int[] b, int dimension, byte[][] result)
+        public static byte[][] Add(this byte[][] a, int[] b, VectorType dimension, byte[][] result)
         {
             check<byte, int, byte>(d: dimension, a: a, b: b, result: result);
             if (dimension == 0)
@@ -25782,7 +31083,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -25793,20 +31094,7 @@ namespace Accord.Math
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-		#region Diagonal
+        #region Diagonal
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
@@ -25943,10 +31231,10 @@ namespace Accord.Math
             return result;
         }
  
-		#endregion
+        #endregion
      
 
-		#region Matrix matrix
+        #region Matrix matrix
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a matrix <c>B</c>.
@@ -26028,7 +31316,7 @@ namespace Accord.Math
 
 
 
-		#region Matrix with scalar
+        #region Matrix with scalar
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a scalar <c>b</c>.
@@ -26131,7 +31419,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -26156,7 +31444,7 @@ namespace Accord.Math
 
 
 
-		#region vector vector
+        #region vector vector
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a vector<c>b</c>.
@@ -26177,14 +31465,14 @@ namespace Accord.Math
                 result[i] = (int)((int)a[i] + (int)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
-		#region Vector with scalar
+        #region Vector with scalar
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a scalar <c>b</c>.
@@ -26225,27 +31513,72 @@ namespace Accord.Math
                 result[i] = (int)((int)a + (int)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static int[,] Add(this byte[] a, int[,] b, int dimension, int[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
 
-		#region Matrix vector
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static int[][] Add(this byte[] a, int[][] b, int dimension, int[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static int[,] Add(this byte[,] a, int[] b, int dimension, int[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static int[][] Add(this byte[][] a, int[] b, int dimension, int[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
-        /// <param name="a">The matrix <c>A</c>.</param>
-        /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -26253,7 +31586,57 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[,] Add(this byte[,] a,  int[] b, int dimension, int[,] result)
+        public static int[,] Add(this byte[] a, int[,] b, VectorType dimension, int[,] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][] Add(this byte[] a, int[][] b, VectorType dimension, int[][] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,] Add(this byte[,] a, int[] b, VectorType dimension, int[,] result)
         {
             check<byte, int, int>(d: dimension, a: a, b: b, result: result);
             int rows = a.GetLength(0);
@@ -26281,12 +31664,13 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -26294,7 +31678,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Add(this byte[][] a,  int[] b, int dimension, int[][] result)
+        public static int[][] Add(this byte[][] a, int[] b, VectorType dimension, int[][] result)
         {
             check<byte, int, int>(d: dimension, a: a, b: b, result: result);
             if (dimension == 0)
@@ -26312,7 +31696,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -26323,20 +31707,7 @@ namespace Accord.Math
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-		#region Diagonal
+        #region Diagonal
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
@@ -26473,10 +31844,10 @@ namespace Accord.Math
             return result;
         }
  
-		#endregion
+        #endregion
      
 
-		#region Matrix matrix
+        #region Matrix matrix
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a matrix <c>B</c>.
@@ -26558,7 +31929,7 @@ namespace Accord.Math
 
 
 
-		#region Matrix with scalar
+        #region Matrix with scalar
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a scalar <c>b</c>.
@@ -26661,7 +32032,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -26686,7 +32057,7 @@ namespace Accord.Math
 
 
 
-		#region vector vector
+        #region vector vector
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a vector<c>b</c>.
@@ -26707,14 +32078,14 @@ namespace Accord.Math
                 result[i] = (double)((double)a[i] + (double)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
-		#region Vector with scalar
+        #region Vector with scalar
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a scalar <c>b</c>.
@@ -26755,27 +32126,72 @@ namespace Accord.Math
                 result[i] = (double)((double)a + (double)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Add(this byte[] a, int[,] b, int dimension, double[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
 
-		#region Matrix vector
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Add(this byte[] a, int[][] b, int dimension, double[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Add(this byte[,] a, int[] b, int dimension, double[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Add(this byte[][] a, int[] b, int dimension, double[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
-        /// <param name="a">The matrix <c>A</c>.</param>
-        /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -26783,7 +32199,57 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Add(this byte[,] a,  int[] b, int dimension, double[,] result)
+        public static double[,] Add(this byte[] a, int[,] b, VectorType dimension, double[,] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Add(this byte[] a, int[][] b, VectorType dimension, double[][] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Add(this byte[,] a, int[] b, VectorType dimension, double[,] result)
         {
             check<byte, int, double>(d: dimension, a: a, b: b, result: result);
             int rows = a.GetLength(0);
@@ -26811,12 +32277,13 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -26824,7 +32291,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Add(this byte[][] a,  int[] b, int dimension, double[][] result)
+        public static double[][] Add(this byte[][] a, int[] b, VectorType dimension, double[][] result)
         {
             check<byte, int, double>(d: dimension, a: a, b: b, result: result);
             if (dimension == 0)
@@ -26842,7 +32309,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -26853,20 +32320,7 @@ namespace Accord.Math
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-		#region Diagonal
+        #region Diagonal
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
@@ -27003,10 +32457,10 @@ namespace Accord.Math
             return result;
         }
  
-		#endregion
+        #endregion
      
 
-		#region Matrix matrix
+        #region Matrix matrix
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a matrix <c>B</c>.
@@ -27088,7 +32542,7 @@ namespace Accord.Math
 
 
 
-		#region Matrix with scalar
+        #region Matrix with scalar
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a scalar <c>b</c>.
@@ -27191,7 +32645,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -27216,7 +32670,7 @@ namespace Accord.Math
 
 
 
-		#region vector vector
+        #region vector vector
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a vector<c>b</c>.
@@ -27237,14 +32691,14 @@ namespace Accord.Math
                 result[i] = (byte)((byte)a[i] + (byte)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
-		#region Vector with scalar
+        #region Vector with scalar
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a scalar <c>b</c>.
@@ -27285,27 +32739,72 @@ namespace Accord.Math
                 result[i] = (byte)((byte)a + (byte)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static byte[,] Add(this byte[] a, float[,] b, int dimension, byte[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
 
-		#region Matrix vector
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static byte[][] Add(this byte[] a, float[][] b, int dimension, byte[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static byte[,] Add(this byte[,] a, float[] b, int dimension, byte[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static byte[][] Add(this byte[][] a, float[] b, int dimension, byte[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
-        /// <param name="a">The matrix <c>A</c>.</param>
-        /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -27313,7 +32812,57 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[,] Add(this byte[,] a,  float[] b, int dimension, byte[,] result)
+        public static byte[,] Add(this byte[] a, float[,] b, VectorType dimension, byte[,] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[][] Add(this byte[] a, float[][] b, VectorType dimension, byte[][] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[,] Add(this byte[,] a, float[] b, VectorType dimension, byte[,] result)
         {
             check<byte, float, byte>(d: dimension, a: a, b: b, result: result);
             int rows = a.GetLength(0);
@@ -27341,12 +32890,13 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -27354,7 +32904,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[][] Add(this byte[][] a,  float[] b, int dimension, byte[][] result)
+        public static byte[][] Add(this byte[][] a, float[] b, VectorType dimension, byte[][] result)
         {
             check<byte, float, byte>(d: dimension, a: a, b: b, result: result);
             if (dimension == 0)
@@ -27372,7 +32922,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -27383,20 +32933,7 @@ namespace Accord.Math
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-		#region Diagonal
+        #region Diagonal
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
@@ -27533,10 +33070,10 @@ namespace Accord.Math
             return result;
         }
  
-		#endregion
+        #endregion
      
 
-		#region Matrix matrix
+        #region Matrix matrix
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a matrix <c>B</c>.
@@ -27618,7 +33155,7 @@ namespace Accord.Math
 
 
 
-		#region Matrix with scalar
+        #region Matrix with scalar
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a scalar <c>b</c>.
@@ -27721,7 +33258,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -27746,7 +33283,7 @@ namespace Accord.Math
 
 
 
-		#region vector vector
+        #region vector vector
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a vector<c>b</c>.
@@ -27767,14 +33304,14 @@ namespace Accord.Math
                 result[i] = (float)((float)a[i] + (float)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
-		#region Vector with scalar
+        #region Vector with scalar
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a scalar <c>b</c>.
@@ -27815,27 +33352,72 @@ namespace Accord.Math
                 result[i] = (float)((float)a + (float)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static float[,] Add(this byte[] a, float[,] b, int dimension, float[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
 
-		#region Matrix vector
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static float[][] Add(this byte[] a, float[][] b, int dimension, float[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static float[,] Add(this byte[,] a, float[] b, int dimension, float[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static float[][] Add(this byte[][] a, float[] b, int dimension, float[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
-        /// <param name="a">The matrix <c>A</c>.</param>
-        /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -27843,7 +33425,57 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[,] Add(this byte[,] a,  float[] b, int dimension, float[,] result)
+        public static float[,] Add(this byte[] a, float[,] b, VectorType dimension, float[,] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][] Add(this byte[] a, float[][] b, VectorType dimension, float[][] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,] Add(this byte[,] a, float[] b, VectorType dimension, float[,] result)
         {
             check<byte, float, float>(d: dimension, a: a, b: b, result: result);
             int rows = a.GetLength(0);
@@ -27871,12 +33503,13 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -27884,7 +33517,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Add(this byte[][] a,  float[] b, int dimension, float[][] result)
+        public static float[][] Add(this byte[][] a, float[] b, VectorType dimension, float[][] result)
         {
             check<byte, float, float>(d: dimension, a: a, b: b, result: result);
             if (dimension == 0)
@@ -27902,7 +33535,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -27913,20 +33546,7 @@ namespace Accord.Math
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-		#region Diagonal
+        #region Diagonal
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
@@ -28063,10 +33683,10 @@ namespace Accord.Math
             return result;
         }
  
-		#endregion
+        #endregion
      
 
-		#region Matrix matrix
+        #region Matrix matrix
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a matrix <c>B</c>.
@@ -28148,7 +33768,7 @@ namespace Accord.Math
 
 
 
-		#region Matrix with scalar
+        #region Matrix with scalar
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a scalar <c>b</c>.
@@ -28251,7 +33871,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -28276,7 +33896,7 @@ namespace Accord.Math
 
 
 
-		#region vector vector
+        #region vector vector
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a vector<c>b</c>.
@@ -28297,14 +33917,14 @@ namespace Accord.Math
                 result[i] = (double)((double)a[i] + (double)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
-		#region Vector with scalar
+        #region Vector with scalar
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a scalar <c>b</c>.
@@ -28345,27 +33965,72 @@ namespace Accord.Math
                 result[i] = (double)((double)a + (double)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Add(this byte[] a, float[,] b, int dimension, double[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
 
-		#region Matrix vector
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Add(this byte[] a, float[][] b, int dimension, double[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Add(this byte[,] a, float[] b, int dimension, double[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Add(this byte[][] a, float[] b, int dimension, double[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
-        /// <param name="a">The matrix <c>A</c>.</param>
-        /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -28373,7 +34038,57 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Add(this byte[,] a,  float[] b, int dimension, double[,] result)
+        public static double[,] Add(this byte[] a, float[,] b, VectorType dimension, double[,] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Add(this byte[] a, float[][] b, VectorType dimension, double[][] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Add(this byte[,] a, float[] b, VectorType dimension, double[,] result)
         {
             check<byte, float, double>(d: dimension, a: a, b: b, result: result);
             int rows = a.GetLength(0);
@@ -28401,12 +34116,13 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -28414,7 +34130,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Add(this byte[][] a,  float[] b, int dimension, double[][] result)
+        public static double[][] Add(this byte[][] a, float[] b, VectorType dimension, double[][] result)
         {
             check<byte, float, double>(d: dimension, a: a, b: b, result: result);
             if (dimension == 0)
@@ -28432,7 +34148,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -28443,20 +34159,7 @@ namespace Accord.Math
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-		#region Diagonal
+        #region Diagonal
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
@@ -28593,10 +34296,10 @@ namespace Accord.Math
             return result;
         }
  
-		#endregion
+        #endregion
      
 
-		#region Matrix matrix
+        #region Matrix matrix
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a matrix <c>B</c>.
@@ -28678,7 +34381,7 @@ namespace Accord.Math
 
 
 
-		#region Matrix with scalar
+        #region Matrix with scalar
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a scalar <c>b</c>.
@@ -28781,7 +34484,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -28806,7 +34509,7 @@ namespace Accord.Math
 
 
 
-		#region vector vector
+        #region vector vector
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a vector<c>b</c>.
@@ -28827,14 +34530,14 @@ namespace Accord.Math
                 result[i] = (byte)((byte)a[i] + (byte)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
-		#region Vector with scalar
+        #region Vector with scalar
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a scalar <c>b</c>.
@@ -28875,27 +34578,72 @@ namespace Accord.Math
                 result[i] = (byte)((byte)a + (byte)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static byte[,] Add(this byte[] a, double[,] b, int dimension, byte[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
 
-		#region Matrix vector
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static byte[][] Add(this byte[] a, double[][] b, int dimension, byte[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static byte[,] Add(this byte[,] a, double[] b, int dimension, byte[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static byte[][] Add(this byte[][] a, double[] b, int dimension, byte[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
-        /// <param name="a">The matrix <c>A</c>.</param>
-        /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -28903,7 +34651,57 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[,] Add(this byte[,] a,  double[] b, int dimension, byte[,] result)
+        public static byte[,] Add(this byte[] a, double[,] b, VectorType dimension, byte[,] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[][] Add(this byte[] a, double[][] b, VectorType dimension, byte[][] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[,] Add(this byte[,] a, double[] b, VectorType dimension, byte[,] result)
         {
             check<byte, double, byte>(d: dimension, a: a, b: b, result: result);
             int rows = a.GetLength(0);
@@ -28931,12 +34729,13 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -28944,7 +34743,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[][] Add(this byte[][] a,  double[] b, int dimension, byte[][] result)
+        public static byte[][] Add(this byte[][] a, double[] b, VectorType dimension, byte[][] result)
         {
             check<byte, double, byte>(d: dimension, a: a, b: b, result: result);
             if (dimension == 0)
@@ -28962,7 +34761,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -28973,20 +34772,7 @@ namespace Accord.Math
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-		#region Diagonal
+        #region Diagonal
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
@@ -29123,10 +34909,10 @@ namespace Accord.Math
             return result;
         }
  
-		#endregion
+        #endregion
      
 
-		#region Matrix matrix
+        #region Matrix matrix
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a matrix <c>B</c>.
@@ -29208,7 +34994,7 @@ namespace Accord.Math
 
 
 
-		#region Matrix with scalar
+        #region Matrix with scalar
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a scalar <c>b</c>.
@@ -29311,7 +35097,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -29336,7 +35122,7 @@ namespace Accord.Math
 
 
 
-		#region vector vector
+        #region vector vector
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a vector<c>b</c>.
@@ -29357,14 +35143,14 @@ namespace Accord.Math
                 result[i] = (double)((double)a[i] + (double)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
-		#region Vector with scalar
+        #region Vector with scalar
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a scalar <c>b</c>.
@@ -29405,27 +35191,72 @@ namespace Accord.Math
                 result[i] = (double)((double)a + (double)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Add(this byte[] a, double[,] b, int dimension, double[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
 
-		#region Matrix vector
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Add(this byte[] a, double[][] b, int dimension, double[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Add(this byte[,] a, double[] b, int dimension, double[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Add(this byte[][] a, double[] b, int dimension, double[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
-        /// <param name="a">The matrix <c>A</c>.</param>
-        /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -29433,7 +35264,57 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Add(this byte[,] a,  double[] b, int dimension, double[,] result)
+        public static double[,] Add(this byte[] a, double[,] b, VectorType dimension, double[,] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Add(this byte[] a, double[][] b, VectorType dimension, double[][] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Add(this byte[,] a, double[] b, VectorType dimension, double[,] result)
         {
             check<byte, double, double>(d: dimension, a: a, b: b, result: result);
             int rows = a.GetLength(0);
@@ -29461,12 +35342,13 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -29474,7 +35356,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Add(this byte[][] a,  double[] b, int dimension, double[][] result)
+        public static double[][] Add(this byte[][] a, double[] b, VectorType dimension, double[][] result)
         {
             check<byte, double, double>(d: dimension, a: a, b: b, result: result);
             if (dimension == 0)
@@ -29492,7 +35374,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -29503,20 +35385,7 @@ namespace Accord.Math
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-		#region Diagonal
+        #region Diagonal
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
@@ -29653,10 +35522,10 @@ namespace Accord.Math
             return result;
         }
  
-		#endregion
+        #endregion
      
 
-		#region Matrix matrix
+        #region Matrix matrix
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a matrix <c>B</c>.
@@ -29738,7 +35607,7 @@ namespace Accord.Math
 
 
 
-		#region Matrix with scalar
+        #region Matrix with scalar
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a scalar <c>b</c>.
@@ -29841,7 +35710,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -29866,7 +35735,7 @@ namespace Accord.Math
 
 
 
-		#region vector vector
+        #region vector vector
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a vector<c>b</c>.
@@ -29887,14 +35756,14 @@ namespace Accord.Math
                 result[i] = (byte)((byte)a[i] + (byte)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
-		#region Vector with scalar
+        #region Vector with scalar
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a scalar <c>b</c>.
@@ -29935,27 +35804,72 @@ namespace Accord.Math
                 result[i] = (byte)((byte)a + (byte)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static byte[,] Add(this byte[] a, byte[,] b, int dimension, byte[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
 
-		#region Matrix vector
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static byte[][] Add(this byte[] a, byte[][] b, int dimension, byte[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static byte[,] Add(this byte[,] a, byte[] b, int dimension, byte[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static byte[][] Add(this byte[][] a, byte[] b, int dimension, byte[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
-        /// <param name="a">The matrix <c>A</c>.</param>
-        /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -29963,7 +35877,57 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[,] Add(this byte[,] a,  byte[] b, int dimension, byte[,] result)
+        public static byte[,] Add(this byte[] a, byte[,] b, VectorType dimension, byte[,] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[][] Add(this byte[] a, byte[][] b, VectorType dimension, byte[][] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[,] Add(this byte[,] a, byte[] b, VectorType dimension, byte[,] result)
         {
             check<byte, byte, byte>(d: dimension, a: a, b: b, result: result);
             int rows = a.GetLength(0);
@@ -29991,12 +35955,13 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -30004,7 +35969,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[][] Add(this byte[][] a,  byte[] b, int dimension, byte[][] result)
+        public static byte[][] Add(this byte[][] a, byte[] b, VectorType dimension, byte[][] result)
         {
             check<byte, byte, byte>(d: dimension, a: a, b: b, result: result);
             if (dimension == 0)
@@ -30022,7 +35987,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -30033,20 +35998,7 @@ namespace Accord.Math
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-		#region Diagonal
+        #region Diagonal
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
@@ -30183,10 +36135,10 @@ namespace Accord.Math
             return result;
         }
  
-		#endregion
+        #endregion
      
 
-		#region Matrix matrix
+        #region Matrix matrix
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a matrix <c>B</c>.
@@ -30268,7 +36220,7 @@ namespace Accord.Math
 
 
 
-		#region Matrix with scalar
+        #region Matrix with scalar
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a scalar <c>b</c>.
@@ -30371,7 +36323,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -30396,7 +36348,7 @@ namespace Accord.Math
 
 
 
-		#region vector vector
+        #region vector vector
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a vector<c>b</c>.
@@ -30417,14 +36369,14 @@ namespace Accord.Math
                 result[i] = (double)((double)a[i] + (double)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
-		#region Vector with scalar
+        #region Vector with scalar
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a scalar <c>b</c>.
@@ -30465,27 +36417,72 @@ namespace Accord.Math
                 result[i] = (double)((double)a + (double)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Add(this byte[] a, byte[,] b, int dimension, double[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
 
-		#region Matrix vector
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Add(this byte[] a, byte[][] b, int dimension, double[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Add(this byte[,] a, byte[] b, int dimension, double[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Add(this byte[][] a, byte[] b, int dimension, double[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
-        /// <param name="a">The matrix <c>A</c>.</param>
-        /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -30493,7 +36490,57 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Add(this byte[,] a,  byte[] b, int dimension, double[,] result)
+        public static double[,] Add(this byte[] a, byte[,] b, VectorType dimension, double[,] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Add(this byte[] a, byte[][] b, VectorType dimension, double[][] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Add(this byte[,] a, byte[] b, VectorType dimension, double[,] result)
         {
             check<byte, byte, double>(d: dimension, a: a, b: b, result: result);
             int rows = a.GetLength(0);
@@ -30521,12 +36568,13 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -30534,7 +36582,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Add(this byte[][] a,  byte[] b, int dimension, double[][] result)
+        public static double[][] Add(this byte[][] a, byte[] b, VectorType dimension, double[][] result)
         {
             check<byte, byte, double>(d: dimension, a: a, b: b, result: result);
             if (dimension == 0)
@@ -30552,7 +36600,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -30563,20 +36611,7 @@ namespace Accord.Math
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-		#region Diagonal
+        #region Diagonal
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
@@ -30713,10 +36748,10 @@ namespace Accord.Math
             return result;
         }
  
-		#endregion
+        #endregion
      
 
-		#region Matrix matrix
+        #region Matrix matrix
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a matrix <c>B</c>.
@@ -30798,7 +36833,7 @@ namespace Accord.Math
 
 
 
-		#region Matrix with scalar
+        #region Matrix with scalar
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a scalar <c>b</c>.
@@ -30901,7 +36936,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -30926,7 +36961,7 @@ namespace Accord.Math
 
 
 
-		#region vector vector
+        #region vector vector
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a vector<c>b</c>.
@@ -30947,14 +36982,14 @@ namespace Accord.Math
                 result[i] = (byte)((byte)a[i] + (byte)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
-		#region Vector with scalar
+        #region Vector with scalar
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a scalar <c>b</c>.
@@ -30995,27 +37030,72 @@ namespace Accord.Math
                 result[i] = (byte)((byte)a + (byte)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static byte[,] Add(this byte[] a, decimal[,] b, int dimension, byte[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
 
-		#region Matrix vector
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static byte[][] Add(this byte[] a, decimal[][] b, int dimension, byte[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static byte[,] Add(this byte[,] a, decimal[] b, int dimension, byte[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static byte[][] Add(this byte[][] a, decimal[] b, int dimension, byte[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
-        /// <param name="a">The matrix <c>A</c>.</param>
-        /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -31023,7 +37103,57 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[,] Add(this byte[,] a,  decimal[] b, int dimension, byte[,] result)
+        public static byte[,] Add(this byte[] a, decimal[,] b, VectorType dimension, byte[,] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[][] Add(this byte[] a, decimal[][] b, VectorType dimension, byte[][] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[,] Add(this byte[,] a, decimal[] b, VectorType dimension, byte[,] result)
         {
             check<byte, decimal, byte>(d: dimension, a: a, b: b, result: result);
             int rows = a.GetLength(0);
@@ -31051,12 +37181,13 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -31064,7 +37195,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[][] Add(this byte[][] a,  decimal[] b, int dimension, byte[][] result)
+        public static byte[][] Add(this byte[][] a, decimal[] b, VectorType dimension, byte[][] result)
         {
             check<byte, decimal, byte>(d: dimension, a: a, b: b, result: result);
             if (dimension == 0)
@@ -31082,7 +37213,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -31093,20 +37224,7 @@ namespace Accord.Math
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-		#region Diagonal
+        #region Diagonal
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
@@ -31243,10 +37361,10 @@ namespace Accord.Math
             return result;
         }
  
-		#endregion
+        #endregion
      
 
-		#region Matrix matrix
+        #region Matrix matrix
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a matrix <c>B</c>.
@@ -31328,7 +37446,7 @@ namespace Accord.Math
 
 
 
-		#region Matrix with scalar
+        #region Matrix with scalar
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a scalar <c>b</c>.
@@ -31431,7 +37549,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -31456,7 +37574,7 @@ namespace Accord.Math
 
 
 
-		#region vector vector
+        #region vector vector
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a vector<c>b</c>.
@@ -31477,14 +37595,14 @@ namespace Accord.Math
                 result[i] = (decimal)((decimal)a[i] + (decimal)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
-		#region Vector with scalar
+        #region Vector with scalar
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a scalar <c>b</c>.
@@ -31525,27 +37643,72 @@ namespace Accord.Math
                 result[i] = (decimal)((decimal)a + (decimal)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static decimal[,] Add(this byte[] a, decimal[,] b, int dimension, decimal[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
 
-		#region Matrix vector
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static decimal[][] Add(this byte[] a, decimal[][] b, int dimension, decimal[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static decimal[,] Add(this byte[,] a, decimal[] b, int dimension, decimal[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static decimal[][] Add(this byte[][] a, decimal[] b, int dimension, decimal[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
-        /// <param name="a">The matrix <c>A</c>.</param>
-        /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -31553,7 +37716,57 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[,] Add(this byte[,] a,  decimal[] b, int dimension, decimal[,] result)
+        public static decimal[,] Add(this byte[] a, decimal[,] b, VectorType dimension, decimal[,] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[][] Add(this byte[] a, decimal[][] b, VectorType dimension, decimal[][] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[,] Add(this byte[,] a, decimal[] b, VectorType dimension, decimal[,] result)
         {
             check<byte, decimal, decimal>(d: dimension, a: a, b: b, result: result);
             int rows = a.GetLength(0);
@@ -31581,12 +37794,13 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -31594,7 +37808,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[][] Add(this byte[][] a,  decimal[] b, int dimension, decimal[][] result)
+        public static decimal[][] Add(this byte[][] a, decimal[] b, VectorType dimension, decimal[][] result)
         {
             check<byte, decimal, decimal>(d: dimension, a: a, b: b, result: result);
             if (dimension == 0)
@@ -31612,7 +37826,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -31623,20 +37837,7 @@ namespace Accord.Math
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-		#region Diagonal
+        #region Diagonal
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
@@ -31773,10 +37974,10 @@ namespace Accord.Math
             return result;
         }
  
-		#endregion
+        #endregion
      
 
-		#region Matrix matrix
+        #region Matrix matrix
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a matrix <c>B</c>.
@@ -31858,7 +38059,7 @@ namespace Accord.Math
 
 
 
-		#region Matrix with scalar
+        #region Matrix with scalar
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a scalar <c>b</c>.
@@ -31961,7 +38162,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -31986,7 +38187,7 @@ namespace Accord.Math
 
 
 
-		#region vector vector
+        #region vector vector
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a vector<c>b</c>.
@@ -32007,14 +38208,14 @@ namespace Accord.Math
                 result[i] = (double)((double)a[i] + (double)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
-		#region Vector with scalar
+        #region Vector with scalar
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a scalar <c>b</c>.
@@ -32055,27 +38256,72 @@ namespace Accord.Math
                 result[i] = (double)((double)a + (double)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Add(this byte[] a, decimal[,] b, int dimension, double[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
 
-		#region Matrix vector
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Add(this byte[] a, decimal[][] b, int dimension, double[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Add(this byte[,] a, decimal[] b, int dimension, double[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Add(this byte[][] a, decimal[] b, int dimension, double[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
-        /// <param name="a">The matrix <c>A</c>.</param>
-        /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -32083,7 +38329,57 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Add(this byte[,] a,  decimal[] b, int dimension, double[,] result)
+        public static double[,] Add(this byte[] a, decimal[,] b, VectorType dimension, double[,] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Add(this byte[] a, decimal[][] b, VectorType dimension, double[][] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Add(this byte[,] a, decimal[] b, VectorType dimension, double[,] result)
         {
             check<byte, decimal, double>(d: dimension, a: a, b: b, result: result);
             int rows = a.GetLength(0);
@@ -32111,12 +38407,13 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -32124,7 +38421,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Add(this byte[][] a,  decimal[] b, int dimension, double[][] result)
+        public static double[][] Add(this byte[][] a, decimal[] b, VectorType dimension, double[][] result)
         {
             check<byte, decimal, double>(d: dimension, a: a, b: b, result: result);
             if (dimension == 0)
@@ -32142,7 +38439,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -32153,20 +38450,7 @@ namespace Accord.Math
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-		#region Diagonal
+        #region Diagonal
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
@@ -32303,10 +38587,10 @@ namespace Accord.Math
             return result;
         }
  
-		#endregion
+        #endregion
      
 
-		#region Matrix matrix
+        #region Matrix matrix
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a matrix <c>B</c>.
@@ -32388,7 +38672,7 @@ namespace Accord.Math
 
 
 
-		#region Matrix with scalar
+        #region Matrix with scalar
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a scalar <c>b</c>.
@@ -32491,7 +38775,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -32516,7 +38800,7 @@ namespace Accord.Math
 
 
 
-		#region vector vector
+        #region vector vector
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a vector<c>b</c>.
@@ -32537,14 +38821,14 @@ namespace Accord.Math
                 result[i] = (decimal)((decimal)a[i] + (decimal)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
-		#region Vector with scalar
+        #region Vector with scalar
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a scalar <c>b</c>.
@@ -32585,27 +38869,72 @@ namespace Accord.Math
                 result[i] = (decimal)((decimal)a + (decimal)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static decimal[,] Add(this decimal[] a, int[,] b, int dimension, decimal[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
 
-		#region Matrix vector
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static decimal[][] Add(this decimal[] a, int[][] b, int dimension, decimal[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static decimal[,] Add(this decimal[,] a, int[] b, int dimension, decimal[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static decimal[][] Add(this decimal[][] a, int[] b, int dimension, decimal[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
-        /// <param name="a">The matrix <c>A</c>.</param>
-        /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -32613,7 +38942,57 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[,] Add(this decimal[,] a,  int[] b, int dimension, decimal[,] result)
+        public static decimal[,] Add(this decimal[] a, int[,] b, VectorType dimension, decimal[,] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[][] Add(this decimal[] a, int[][] b, VectorType dimension, decimal[][] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[,] Add(this decimal[,] a, int[] b, VectorType dimension, decimal[,] result)
         {
             check<decimal, int, decimal>(d: dimension, a: a, b: b, result: result);
             int rows = a.GetLength(0);
@@ -32641,12 +39020,13 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -32654,7 +39034,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[][] Add(this decimal[][] a,  int[] b, int dimension, decimal[][] result)
+        public static decimal[][] Add(this decimal[][] a, int[] b, VectorType dimension, decimal[][] result)
         {
             check<decimal, int, decimal>(d: dimension, a: a, b: b, result: result);
             if (dimension == 0)
@@ -32672,7 +39052,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -32683,20 +39063,7 @@ namespace Accord.Math
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-		#region Diagonal
+        #region Diagonal
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
@@ -32833,10 +39200,10 @@ namespace Accord.Math
             return result;
         }
  
-		#endregion
+        #endregion
      
 
-		#region Matrix matrix
+        #region Matrix matrix
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a matrix <c>B</c>.
@@ -32918,7 +39285,7 @@ namespace Accord.Math
 
 
 
-		#region Matrix with scalar
+        #region Matrix with scalar
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a scalar <c>b</c>.
@@ -33021,7 +39388,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -33046,7 +39413,7 @@ namespace Accord.Math
 
 
 
-		#region vector vector
+        #region vector vector
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a vector<c>b</c>.
@@ -33067,14 +39434,14 @@ namespace Accord.Math
                 result[i] = (int)((int)a[i] + (int)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
-		#region Vector with scalar
+        #region Vector with scalar
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a scalar <c>b</c>.
@@ -33115,27 +39482,72 @@ namespace Accord.Math
                 result[i] = (int)((int)a + (int)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static int[,] Add(this decimal[] a, int[,] b, int dimension, int[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
 
-		#region Matrix vector
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static int[][] Add(this decimal[] a, int[][] b, int dimension, int[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static int[,] Add(this decimal[,] a, int[] b, int dimension, int[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static int[][] Add(this decimal[][] a, int[] b, int dimension, int[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
-        /// <param name="a">The matrix <c>A</c>.</param>
-        /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -33143,7 +39555,57 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[,] Add(this decimal[,] a,  int[] b, int dimension, int[,] result)
+        public static int[,] Add(this decimal[] a, int[,] b, VectorType dimension, int[,] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[][] Add(this decimal[] a, int[][] b, VectorType dimension, int[][] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int[,] Add(this decimal[,] a, int[] b, VectorType dimension, int[,] result)
         {
             check<decimal, int, int>(d: dimension, a: a, b: b, result: result);
             int rows = a.GetLength(0);
@@ -33171,12 +39633,13 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -33184,7 +39647,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static int[][] Add(this decimal[][] a,  int[] b, int dimension, int[][] result)
+        public static int[][] Add(this decimal[][] a, int[] b, VectorType dimension, int[][] result)
         {
             check<decimal, int, int>(d: dimension, a: a, b: b, result: result);
             if (dimension == 0)
@@ -33202,7 +39665,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -33213,20 +39676,7 @@ namespace Accord.Math
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-		#region Diagonal
+        #region Diagonal
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
@@ -33363,10 +39813,10 @@ namespace Accord.Math
             return result;
         }
  
-		#endregion
+        #endregion
      
 
-		#region Matrix matrix
+        #region Matrix matrix
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a matrix <c>B</c>.
@@ -33448,7 +39898,7 @@ namespace Accord.Math
 
 
 
-		#region Matrix with scalar
+        #region Matrix with scalar
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a scalar <c>b</c>.
@@ -33551,7 +40001,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -33576,7 +40026,7 @@ namespace Accord.Math
 
 
 
-		#region vector vector
+        #region vector vector
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a vector<c>b</c>.
@@ -33597,14 +40047,14 @@ namespace Accord.Math
                 result[i] = (double)((double)a[i] + (double)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
-		#region Vector with scalar
+        #region Vector with scalar
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a scalar <c>b</c>.
@@ -33645,27 +40095,72 @@ namespace Accord.Math
                 result[i] = (double)((double)a + (double)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Add(this decimal[] a, int[,] b, int dimension, double[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
 
-		#region Matrix vector
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Add(this decimal[] a, int[][] b, int dimension, double[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Add(this decimal[,] a, int[] b, int dimension, double[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Add(this decimal[][] a, int[] b, int dimension, double[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
-        /// <param name="a">The matrix <c>A</c>.</param>
-        /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -33673,7 +40168,57 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Add(this decimal[,] a,  int[] b, int dimension, double[,] result)
+        public static double[,] Add(this decimal[] a, int[,] b, VectorType dimension, double[,] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Add(this decimal[] a, int[][] b, VectorType dimension, double[][] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Add(this decimal[,] a, int[] b, VectorType dimension, double[,] result)
         {
             check<decimal, int, double>(d: dimension, a: a, b: b, result: result);
             int rows = a.GetLength(0);
@@ -33701,12 +40246,13 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -33714,7 +40260,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Add(this decimal[][] a,  int[] b, int dimension, double[][] result)
+        public static double[][] Add(this decimal[][] a, int[] b, VectorType dimension, double[][] result)
         {
             check<decimal, int, double>(d: dimension, a: a, b: b, result: result);
             if (dimension == 0)
@@ -33732,7 +40278,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -33743,20 +40289,7 @@ namespace Accord.Math
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-		#region Diagonal
+        #region Diagonal
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
@@ -33893,10 +40426,10 @@ namespace Accord.Math
             return result;
         }
  
-		#endregion
+        #endregion
      
 
-		#region Matrix matrix
+        #region Matrix matrix
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a matrix <c>B</c>.
@@ -33978,7 +40511,7 @@ namespace Accord.Math
 
 
 
-		#region Matrix with scalar
+        #region Matrix with scalar
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a scalar <c>b</c>.
@@ -34081,7 +40614,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -34106,7 +40639,7 @@ namespace Accord.Math
 
 
 
-		#region vector vector
+        #region vector vector
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a vector<c>b</c>.
@@ -34127,14 +40660,14 @@ namespace Accord.Math
                 result[i] = (decimal)((decimal)a[i] + (decimal)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
-		#region Vector with scalar
+        #region Vector with scalar
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a scalar <c>b</c>.
@@ -34175,27 +40708,72 @@ namespace Accord.Math
                 result[i] = (decimal)((decimal)a + (decimal)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static decimal[,] Add(this decimal[] a, float[,] b, int dimension, decimal[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
 
-		#region Matrix vector
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static decimal[][] Add(this decimal[] a, float[][] b, int dimension, decimal[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static decimal[,] Add(this decimal[,] a, float[] b, int dimension, decimal[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static decimal[][] Add(this decimal[][] a, float[] b, int dimension, decimal[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
-        /// <param name="a">The matrix <c>A</c>.</param>
-        /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -34203,7 +40781,57 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[,] Add(this decimal[,] a,  float[] b, int dimension, decimal[,] result)
+        public static decimal[,] Add(this decimal[] a, float[,] b, VectorType dimension, decimal[,] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[][] Add(this decimal[] a, float[][] b, VectorType dimension, decimal[][] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[,] Add(this decimal[,] a, float[] b, VectorType dimension, decimal[,] result)
         {
             check<decimal, float, decimal>(d: dimension, a: a, b: b, result: result);
             int rows = a.GetLength(0);
@@ -34231,12 +40859,13 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -34244,7 +40873,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[][] Add(this decimal[][] a,  float[] b, int dimension, decimal[][] result)
+        public static decimal[][] Add(this decimal[][] a, float[] b, VectorType dimension, decimal[][] result)
         {
             check<decimal, float, decimal>(d: dimension, a: a, b: b, result: result);
             if (dimension == 0)
@@ -34262,7 +40891,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -34273,20 +40902,7 @@ namespace Accord.Math
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-		#region Diagonal
+        #region Diagonal
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
@@ -34423,10 +41039,10 @@ namespace Accord.Math
             return result;
         }
  
-		#endregion
+        #endregion
      
 
-		#region Matrix matrix
+        #region Matrix matrix
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a matrix <c>B</c>.
@@ -34508,7 +41124,7 @@ namespace Accord.Math
 
 
 
-		#region Matrix with scalar
+        #region Matrix with scalar
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a scalar <c>b</c>.
@@ -34611,7 +41227,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -34636,7 +41252,7 @@ namespace Accord.Math
 
 
 
-		#region vector vector
+        #region vector vector
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a vector<c>b</c>.
@@ -34657,14 +41273,14 @@ namespace Accord.Math
                 result[i] = (float)((float)a[i] + (float)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
-		#region Vector with scalar
+        #region Vector with scalar
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a scalar <c>b</c>.
@@ -34705,27 +41321,72 @@ namespace Accord.Math
                 result[i] = (float)((float)a + (float)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static float[,] Add(this decimal[] a, float[,] b, int dimension, float[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
 
-		#region Matrix vector
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static float[][] Add(this decimal[] a, float[][] b, int dimension, float[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static float[,] Add(this decimal[,] a, float[] b, int dimension, float[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static float[][] Add(this decimal[][] a, float[] b, int dimension, float[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
-        /// <param name="a">The matrix <c>A</c>.</param>
-        /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -34733,7 +41394,57 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[,] Add(this decimal[,] a,  float[] b, int dimension, float[,] result)
+        public static float[,] Add(this decimal[] a, float[,] b, VectorType dimension, float[,] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[][] Add(this decimal[] a, float[][] b, VectorType dimension, float[][] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float[,] Add(this decimal[,] a, float[] b, VectorType dimension, float[,] result)
         {
             check<decimal, float, float>(d: dimension, a: a, b: b, result: result);
             int rows = a.GetLength(0);
@@ -34761,12 +41472,13 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -34774,7 +41486,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float[][] Add(this decimal[][] a,  float[] b, int dimension, float[][] result)
+        public static float[][] Add(this decimal[][] a, float[] b, VectorType dimension, float[][] result)
         {
             check<decimal, float, float>(d: dimension, a: a, b: b, result: result);
             if (dimension == 0)
@@ -34792,7 +41504,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -34803,20 +41515,7 @@ namespace Accord.Math
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-		#region Diagonal
+        #region Diagonal
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
@@ -34953,10 +41652,10 @@ namespace Accord.Math
             return result;
         }
  
-		#endregion
+        #endregion
      
 
-		#region Matrix matrix
+        #region Matrix matrix
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a matrix <c>B</c>.
@@ -35038,7 +41737,7 @@ namespace Accord.Math
 
 
 
-		#region Matrix with scalar
+        #region Matrix with scalar
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a scalar <c>b</c>.
@@ -35141,7 +41840,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -35166,7 +41865,7 @@ namespace Accord.Math
 
 
 
-		#region vector vector
+        #region vector vector
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a vector<c>b</c>.
@@ -35187,14 +41886,14 @@ namespace Accord.Math
                 result[i] = (double)((double)a[i] + (double)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
-		#region Vector with scalar
+        #region Vector with scalar
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a scalar <c>b</c>.
@@ -35235,27 +41934,72 @@ namespace Accord.Math
                 result[i] = (double)((double)a + (double)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Add(this decimal[] a, float[,] b, int dimension, double[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
 
-		#region Matrix vector
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Add(this decimal[] a, float[][] b, int dimension, double[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Add(this decimal[,] a, float[] b, int dimension, double[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Add(this decimal[][] a, float[] b, int dimension, double[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
-        /// <param name="a">The matrix <c>A</c>.</param>
-        /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -35263,7 +42007,57 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Add(this decimal[,] a,  float[] b, int dimension, double[,] result)
+        public static double[,] Add(this decimal[] a, float[,] b, VectorType dimension, double[,] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Add(this decimal[] a, float[][] b, VectorType dimension, double[][] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Add(this decimal[,] a, float[] b, VectorType dimension, double[,] result)
         {
             check<decimal, float, double>(d: dimension, a: a, b: b, result: result);
             int rows = a.GetLength(0);
@@ -35291,12 +42085,13 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -35304,7 +42099,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Add(this decimal[][] a,  float[] b, int dimension, double[][] result)
+        public static double[][] Add(this decimal[][] a, float[] b, VectorType dimension, double[][] result)
         {
             check<decimal, float, double>(d: dimension, a: a, b: b, result: result);
             if (dimension == 0)
@@ -35322,7 +42117,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -35333,20 +42128,7 @@ namespace Accord.Math
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-		#region Diagonal
+        #region Diagonal
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
@@ -35483,10 +42265,10 @@ namespace Accord.Math
             return result;
         }
  
-		#endregion
+        #endregion
      
 
-		#region Matrix matrix
+        #region Matrix matrix
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a matrix <c>B</c>.
@@ -35568,7 +42350,7 @@ namespace Accord.Math
 
 
 
-		#region Matrix with scalar
+        #region Matrix with scalar
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a scalar <c>b</c>.
@@ -35671,7 +42453,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -35696,7 +42478,7 @@ namespace Accord.Math
 
 
 
-		#region vector vector
+        #region vector vector
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a vector<c>b</c>.
@@ -35717,14 +42499,14 @@ namespace Accord.Math
                 result[i] = (decimal)((decimal)a[i] + (decimal)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
-		#region Vector with scalar
+        #region Vector with scalar
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a scalar <c>b</c>.
@@ -35765,27 +42547,72 @@ namespace Accord.Math
                 result[i] = (decimal)((decimal)a + (decimal)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static decimal[,] Add(this decimal[] a, double[,] b, int dimension, decimal[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
 
-		#region Matrix vector
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static decimal[][] Add(this decimal[] a, double[][] b, int dimension, decimal[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static decimal[,] Add(this decimal[,] a, double[] b, int dimension, decimal[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static decimal[][] Add(this decimal[][] a, double[] b, int dimension, decimal[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
-        /// <param name="a">The matrix <c>A</c>.</param>
-        /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -35793,7 +42620,57 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[,] Add(this decimal[,] a,  double[] b, int dimension, decimal[,] result)
+        public static decimal[,] Add(this decimal[] a, double[,] b, VectorType dimension, decimal[,] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[][] Add(this decimal[] a, double[][] b, VectorType dimension, decimal[][] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[,] Add(this decimal[,] a, double[] b, VectorType dimension, decimal[,] result)
         {
             check<decimal, double, decimal>(d: dimension, a: a, b: b, result: result);
             int rows = a.GetLength(0);
@@ -35821,12 +42698,13 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -35834,7 +42712,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[][] Add(this decimal[][] a,  double[] b, int dimension, decimal[][] result)
+        public static decimal[][] Add(this decimal[][] a, double[] b, VectorType dimension, decimal[][] result)
         {
             check<decimal, double, decimal>(d: dimension, a: a, b: b, result: result);
             if (dimension == 0)
@@ -35852,7 +42730,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -35863,20 +42741,7 @@ namespace Accord.Math
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-		#region Diagonal
+        #region Diagonal
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
@@ -36013,10 +42878,10 @@ namespace Accord.Math
             return result;
         }
  
-		#endregion
+        #endregion
      
 
-		#region Matrix matrix
+        #region Matrix matrix
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a matrix <c>B</c>.
@@ -36098,7 +42963,7 @@ namespace Accord.Math
 
 
 
-		#region Matrix with scalar
+        #region Matrix with scalar
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a scalar <c>b</c>.
@@ -36201,7 +43066,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -36226,7 +43091,7 @@ namespace Accord.Math
 
 
 
-		#region vector vector
+        #region vector vector
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a vector<c>b</c>.
@@ -36247,14 +43112,14 @@ namespace Accord.Math
                 result[i] = (double)((double)a[i] + (double)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
-		#region Vector with scalar
+        #region Vector with scalar
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a scalar <c>b</c>.
@@ -36295,27 +43160,72 @@ namespace Accord.Math
                 result[i] = (double)((double)a + (double)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Add(this decimal[] a, double[,] b, int dimension, double[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
 
-		#region Matrix vector
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Add(this decimal[] a, double[][] b, int dimension, double[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Add(this decimal[,] a, double[] b, int dimension, double[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Add(this decimal[][] a, double[] b, int dimension, double[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
-        /// <param name="a">The matrix <c>A</c>.</param>
-        /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -36323,7 +43233,57 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Add(this decimal[,] a,  double[] b, int dimension, double[,] result)
+        public static double[,] Add(this decimal[] a, double[,] b, VectorType dimension, double[,] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Add(this decimal[] a, double[][] b, VectorType dimension, double[][] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Add(this decimal[,] a, double[] b, VectorType dimension, double[,] result)
         {
             check<decimal, double, double>(d: dimension, a: a, b: b, result: result);
             int rows = a.GetLength(0);
@@ -36351,12 +43311,13 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -36364,7 +43325,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Add(this decimal[][] a,  double[] b, int dimension, double[][] result)
+        public static double[][] Add(this decimal[][] a, double[] b, VectorType dimension, double[][] result)
         {
             check<decimal, double, double>(d: dimension, a: a, b: b, result: result);
             if (dimension == 0)
@@ -36382,7 +43343,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -36393,20 +43354,7 @@ namespace Accord.Math
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-		#region Diagonal
+        #region Diagonal
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
@@ -36543,10 +43491,10 @@ namespace Accord.Math
             return result;
         }
  
-		#endregion
+        #endregion
      
 
-		#region Matrix matrix
+        #region Matrix matrix
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a matrix <c>B</c>.
@@ -36628,7 +43576,7 @@ namespace Accord.Math
 
 
 
-		#region Matrix with scalar
+        #region Matrix with scalar
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a scalar <c>b</c>.
@@ -36731,7 +43679,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -36756,7 +43704,7 @@ namespace Accord.Math
 
 
 
-		#region vector vector
+        #region vector vector
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a vector<c>b</c>.
@@ -36777,14 +43725,14 @@ namespace Accord.Math
                 result[i] = (decimal)((decimal)a[i] + (decimal)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
-		#region Vector with scalar
+        #region Vector with scalar
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a scalar <c>b</c>.
@@ -36825,27 +43773,72 @@ namespace Accord.Math
                 result[i] = (decimal)((decimal)a + (decimal)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static decimal[,] Add(this decimal[] a, byte[,] b, int dimension, decimal[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
 
-		#region Matrix vector
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static decimal[][] Add(this decimal[] a, byte[][] b, int dimension, decimal[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static decimal[,] Add(this decimal[,] a, byte[] b, int dimension, decimal[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static decimal[][] Add(this decimal[][] a, byte[] b, int dimension, decimal[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
-        /// <param name="a">The matrix <c>A</c>.</param>
-        /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -36853,7 +43846,57 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[,] Add(this decimal[,] a,  byte[] b, int dimension, decimal[,] result)
+        public static decimal[,] Add(this decimal[] a, byte[,] b, VectorType dimension, decimal[,] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[][] Add(this decimal[] a, byte[][] b, VectorType dimension, decimal[][] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[,] Add(this decimal[,] a, byte[] b, VectorType dimension, decimal[,] result)
         {
             check<decimal, byte, decimal>(d: dimension, a: a, b: b, result: result);
             int rows = a.GetLength(0);
@@ -36881,12 +43924,13 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -36894,7 +43938,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[][] Add(this decimal[][] a,  byte[] b, int dimension, decimal[][] result)
+        public static decimal[][] Add(this decimal[][] a, byte[] b, VectorType dimension, decimal[][] result)
         {
             check<decimal, byte, decimal>(d: dimension, a: a, b: b, result: result);
             if (dimension == 0)
@@ -36912,7 +43956,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -36923,20 +43967,7 @@ namespace Accord.Math
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-		#region Diagonal
+        #region Diagonal
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
@@ -37073,10 +44104,10 @@ namespace Accord.Math
             return result;
         }
  
-		#endregion
+        #endregion
      
 
-		#region Matrix matrix
+        #region Matrix matrix
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a matrix <c>B</c>.
@@ -37158,7 +44189,7 @@ namespace Accord.Math
 
 
 
-		#region Matrix with scalar
+        #region Matrix with scalar
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a scalar <c>b</c>.
@@ -37261,7 +44292,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -37286,7 +44317,7 @@ namespace Accord.Math
 
 
 
-		#region vector vector
+        #region vector vector
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a vector<c>b</c>.
@@ -37307,14 +44338,14 @@ namespace Accord.Math
                 result[i] = (byte)((byte)a[i] + (byte)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
-		#region Vector with scalar
+        #region Vector with scalar
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a scalar <c>b</c>.
@@ -37355,27 +44386,72 @@ namespace Accord.Math
                 result[i] = (byte)((byte)a + (byte)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static byte[,] Add(this decimal[] a, byte[,] b, int dimension, byte[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
 
-		#region Matrix vector
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static byte[][] Add(this decimal[] a, byte[][] b, int dimension, byte[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static byte[,] Add(this decimal[,] a, byte[] b, int dimension, byte[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static byte[][] Add(this decimal[][] a, byte[] b, int dimension, byte[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
-        /// <param name="a">The matrix <c>A</c>.</param>
-        /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -37383,7 +44459,57 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[,] Add(this decimal[,] a,  byte[] b, int dimension, byte[,] result)
+        public static byte[,] Add(this decimal[] a, byte[,] b, VectorType dimension, byte[,] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[][] Add(this decimal[] a, byte[][] b, VectorType dimension, byte[][] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static byte[,] Add(this decimal[,] a, byte[] b, VectorType dimension, byte[,] result)
         {
             check<decimal, byte, byte>(d: dimension, a: a, b: b, result: result);
             int rows = a.GetLength(0);
@@ -37411,12 +44537,13 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -37424,7 +44551,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static byte[][] Add(this decimal[][] a,  byte[] b, int dimension, byte[][] result)
+        public static byte[][] Add(this decimal[][] a, byte[] b, VectorType dimension, byte[][] result)
         {
             check<decimal, byte, byte>(d: dimension, a: a, b: b, result: result);
             if (dimension == 0)
@@ -37442,7 +44569,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -37453,20 +44580,7 @@ namespace Accord.Math
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-		#region Diagonal
+        #region Diagonal
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
@@ -37603,10 +44717,10 @@ namespace Accord.Math
             return result;
         }
  
-		#endregion
+        #endregion
      
 
-		#region Matrix matrix
+        #region Matrix matrix
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a matrix <c>B</c>.
@@ -37688,7 +44802,7 @@ namespace Accord.Math
 
 
 
-		#region Matrix with scalar
+        #region Matrix with scalar
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a scalar <c>b</c>.
@@ -37791,7 +44905,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -37816,7 +44930,7 @@ namespace Accord.Math
 
 
 
-		#region vector vector
+        #region vector vector
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a vector<c>b</c>.
@@ -37837,14 +44951,14 @@ namespace Accord.Math
                 result[i] = (double)((double)a[i] + (double)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
-		#region Vector with scalar
+        #region Vector with scalar
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a scalar <c>b</c>.
@@ -37885,27 +44999,72 @@ namespace Accord.Math
                 result[i] = (double)((double)a + (double)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Add(this decimal[] a, byte[,] b, int dimension, double[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
 
-		#region Matrix vector
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Add(this decimal[] a, byte[][] b, int dimension, double[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Add(this decimal[,] a, byte[] b, int dimension, double[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Add(this decimal[][] a, byte[] b, int dimension, double[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
-        /// <param name="a">The matrix <c>A</c>.</param>
-        /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -37913,7 +45072,57 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Add(this decimal[,] a,  byte[] b, int dimension, double[,] result)
+        public static double[,] Add(this decimal[] a, byte[,] b, VectorType dimension, double[,] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Add(this decimal[] a, byte[][] b, VectorType dimension, double[][] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Add(this decimal[,] a, byte[] b, VectorType dimension, double[,] result)
         {
             check<decimal, byte, double>(d: dimension, a: a, b: b, result: result);
             int rows = a.GetLength(0);
@@ -37941,12 +45150,13 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -37954,7 +45164,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Add(this decimal[][] a,  byte[] b, int dimension, double[][] result)
+        public static double[][] Add(this decimal[][] a, byte[] b, VectorType dimension, double[][] result)
         {
             check<decimal, byte, double>(d: dimension, a: a, b: b, result: result);
             if (dimension == 0)
@@ -37972,7 +45182,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -37983,20 +45193,7 @@ namespace Accord.Math
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-		#region Diagonal
+        #region Diagonal
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
@@ -38133,10 +45330,10 @@ namespace Accord.Math
             return result;
         }
  
-		#endregion
+        #endregion
      
 
-		#region Matrix matrix
+        #region Matrix matrix
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a matrix <c>B</c>.
@@ -38218,7 +45415,7 @@ namespace Accord.Math
 
 
 
-		#region Matrix with scalar
+        #region Matrix with scalar
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a scalar <c>b</c>.
@@ -38321,7 +45518,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -38346,7 +45543,7 @@ namespace Accord.Math
 
 
 
-		#region vector vector
+        #region vector vector
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a vector<c>b</c>.
@@ -38367,14 +45564,14 @@ namespace Accord.Math
                 result[i] = (decimal)((decimal)a[i] + (decimal)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
-		#region Vector with scalar
+        #region Vector with scalar
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a scalar <c>b</c>.
@@ -38415,27 +45612,72 @@ namespace Accord.Math
                 result[i] = (decimal)((decimal)a + (decimal)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static decimal[,] Add(this decimal[] a, decimal[,] b, int dimension, decimal[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
 
-		#region Matrix vector
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static decimal[][] Add(this decimal[] a, decimal[][] b, int dimension, decimal[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static decimal[,] Add(this decimal[,] a, decimal[] b, int dimension, decimal[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static decimal[][] Add(this decimal[][] a, decimal[] b, int dimension, decimal[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
-        /// <param name="a">The matrix <c>A</c>.</param>
-        /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -38443,7 +45685,57 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[,] Add(this decimal[,] a,  decimal[] b, int dimension, decimal[,] result)
+        public static decimal[,] Add(this decimal[] a, decimal[,] b, VectorType dimension, decimal[,] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[][] Add(this decimal[] a, decimal[][] b, VectorType dimension, decimal[][] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static decimal[,] Add(this decimal[,] a, decimal[] b, VectorType dimension, decimal[,] result)
         {
             check<decimal, decimal, decimal>(d: dimension, a: a, b: b, result: result);
             int rows = a.GetLength(0);
@@ -38471,12 +45763,13 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -38484,7 +45777,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static decimal[][] Add(this decimal[][] a,  decimal[] b, int dimension, decimal[][] result)
+        public static decimal[][] Add(this decimal[][] a, decimal[] b, VectorType dimension, decimal[][] result)
         {
             check<decimal, decimal, decimal>(d: dimension, a: a, b: b, result: result);
             if (dimension == 0)
@@ -38502,7 +45795,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -38513,20 +45806,7 @@ namespace Accord.Math
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-		#region Diagonal
+        #region Diagonal
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
@@ -38663,10 +45943,10 @@ namespace Accord.Math
             return result;
         }
  
-		#endregion
+        #endregion
      
 
-		#region Matrix matrix
+        #region Matrix matrix
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a matrix <c>B</c>.
@@ -38748,7 +46028,7 @@ namespace Accord.Math
 
 
 
-		#region Matrix with scalar
+        #region Matrix with scalar
 
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a scalar <c>b</c>.
@@ -38851,7 +46131,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -38876,7 +46156,7 @@ namespace Accord.Math
 
 
 
-		#region vector vector
+        #region vector vector
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a vector<c>b</c>.
@@ -38897,14 +46177,14 @@ namespace Accord.Math
                 result[i] = (double)((double)a[i] + (double)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
-		#region Vector with scalar
+        #region Vector with scalar
 
         /// <summary>
         ///   Elementwise addition between a vector <c>a</c> and a scalar <c>b</c>.
@@ -38945,27 +46225,72 @@ namespace Accord.Math
                 result[i] = (double)((double)a + (double)b[i]);
             return result;
         }
-		#endregion
+        #endregion
 
 
 
 
 
 
+        #region Matrix vector (dimension)
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Add(this decimal[] a, decimal[,] b, int dimension, double[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
 
-		#region Matrix vector
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Add(this decimal[] a, decimal[][] b, int dimension, double[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[,] Add(this decimal[,] a, decimal[] b, int dimension, double[,] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify a <see cref="VectorType"/> in place of an integer in the dimension argument.
+        /// </summary>
+        ///
+        [Obsolete("Please specify a VectorType instead of an integer for the dimension argument")]
+        public static double[][] Add(this decimal[][] a, decimal[] b, int dimension, double[][] result)
+        {
+            return Add(a, b, (VectorType)dimension, result);
+        }
+        #endregion
+
+
+
+
+        #region Matrix vector (enumeration)
         /// <summary>
         ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
         /// </summary>
         ///
-        /// <param name="a">The matrix <c>A</c>.</param>
-        /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -38973,7 +46298,57 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[,] Add(this decimal[,] a,  decimal[] b, int dimension, double[,] result)
+        public static double[,] Add(this decimal[] a, decimal[,] b, VectorType dimension, double[,] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The vector <c>a</c>.</param>
+        /// <param name="b">The matrix <c>B</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][] Add(this decimal[] a, decimal[][] b, VectorType dimension, double[][] result)
+        {
+            return Add(b, a, dimension, result);
+        }
+
+        /// <summary>
+        ///   Elementwise addition between a matrix <c>A</c> and a vector<c>b</c>.
+        /// </summary>
+        ///
+        /// <param name="a">The matrix <c>A</c>.</param>
+        /// <param name="b">The vector <c>b</c>.</param>
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
+        /// </param>
+        /// <param name="result">The matrix where the result should be stored. Pass the same
+        ///   matrix as one of the arguments to perform the operation in place.</param>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[,] Add(this decimal[,] a, decimal[] b, VectorType dimension, double[,] result)
         {
             check<decimal, decimal, double>(d: dimension, a: a, b: b, result: result);
             int rows = a.GetLength(0);
@@ -39001,12 +46376,13 @@ namespace Accord.Math
         ///
         /// <param name="a">The matrix <c>A</c>.</param>
         /// <param name="b">The vector <c>b</c>.</param>
-        /// <param name="dimension">
-        ///   The dimension along which the operation will be carried. If set to
-        ///   0, then the vector <c>b</c> must have the same dimensions as rows
-        ///   of <c>A</c>, and the operation will be carried at each column vector. If 
-        ///   1, then it must have the same dimensions as columns in <c>A</c>, and the
-        ///   operation will be carried at each row vector.
+		/// <param name="dimension">
+        ///   The type of the vector being passed to the function. If the vector
+        ///   is a <see href="VectorType.RowVector"/>, then the operation will
+        ///   be applied between each row of the matrix and the given vector. If
+        ///   the vector is a <see href="VectorType.ColumnVector"/>, then the 
+        ///   operation will be applied between each column of the matrix and the
+        ///   given vector.
         /// </param>
         /// <param name="result">The matrix where the result should be stored. Pass the same
         ///   matrix as one of the arguments to perform the operation in place.</param>
@@ -39014,7 +46390,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double[][] Add(this decimal[][] a,  decimal[] b, int dimension, double[][] result)
+        public static double[][] Add(this decimal[][] a, decimal[] b, VectorType dimension, double[][] result)
         {
             check<decimal, decimal, double>(d: dimension, a: a, b: b, result: result);
             if (dimension == 0)
@@ -39032,7 +46408,7 @@ namespace Accord.Math
 
             return result;
         }
-		#endregion
+        #endregion
 
 
 
@@ -39043,20 +46419,7 @@ namespace Accord.Math
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-		#region Diagonal
+        #region Diagonal
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
@@ -39193,7 +46556,7 @@ namespace Accord.Math
             return result;
         }
  
-		#endregion
+        #endregion
      
 #pragma warning restore 1591
     }

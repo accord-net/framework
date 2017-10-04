@@ -456,7 +456,7 @@ namespace Accord.Statistics.Models.Regression.Linear
         {
             input.Dot(Weights, result: result);
             if (intercepts != null)
-                result.Add(intercepts, dimension: 0, result: result);
+                result.Add(intercepts, dimension: (VectorType)0, result: result);
             return result;
         }
 

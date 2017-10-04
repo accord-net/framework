@@ -776,6 +776,33 @@ namespace Accord.Tests.Math
             double[,] actual = Matrix.Sqrt(value);
             Assert.IsTrue(expected.IsEqual(actual, 0.0001));
         }
+
+
+        [Test]
+        public void gh_927()
+        {
+            // https://github.com/accord-net/framework/issues/927
+            int rows = 100;
+            double[,] matrix = Matrix.Zeros(rows: rows, columns: 3);
+            double[] vec = { 1, 2, 3 }; // this is a row-vector with the same length as the number of columns
+
+            double[,] broadcasted1 = matrix.Add(vec, dimension: 0);
+            double[,] broadcasted2 = matrix.Add(vec, dimension: VectorType.RowVector);
+
+#if DEBUG
+            Assert.Throws<DimensionMismatchException>(() => matrix.Add(vec, dimension: 1));
+            Assert.Throws<DimensionMismatchException>(() => matrix.Add(vec, dimension: VectorType.ColumnVector));
+#else
+            Assert.Throws<IndexOutOfRangeException>(() => matrix.Add(vec, dimension: 1));
+            Assert.Throws<IndexOutOfRangeException>(() => matrix.Add(vec, dimension: VectorType.ColumnVector));
+#endif
+
+            for (int i = 0; i < rows; i++)
+            {
+                Assert.AreEqual(vec, broadcasted1.GetRow(i));
+                Assert.AreEqual(vec, broadcasted2.GetRow(i));
+            }
+        }
         #endregion
 
         #region Conversions
