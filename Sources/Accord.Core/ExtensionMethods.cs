@@ -37,6 +37,7 @@ namespace Accord
     using Accord.IO;
     using System.Data;
     using Accord.Collections;
+    using System.Runtime.CompilerServices;
 
     /// <summary>
     ///   Static class for utility extension methods.
@@ -346,13 +347,27 @@ namespace Accord
         /// 
         public static T To<T>(this object value)
         {
+            return (T)To(value, typeof(T));
+        }
+
+        /// <summary>
+        ///   Converts an object into another type, irrespective of whether
+        ///   the conversion can be done at compile time or not. This can be
+        ///   used to convert generic types to numeric types during runtime.
+        /// </summary>
+        /// 
+        /// <param name="value">The value to be converted.</param>
+        /// <param name="type">The type that the value should be converted to.</param>
+        /// 
+        /// <returns>The result of the conversion.</returns>
+        /// 
+        public static object To(this object value, Type type)
+        {
             if (value == null)
-                return (T)System.Convert.ChangeType(null, typeof(T));
+                return System.Convert.ChangeType(null, type);
 
             if (value is IConvertible)
-                return (T)System.Convert.ChangeType(value, typeof(T));
-
-            Type type = value.GetType();
+                return System.Convert.ChangeType(value, type);
 
 #if !NETSTANDARD1_4
             MethodInfo[] methods = type.GetMethods(BindingFlags.Public | BindingFlags.Static);
@@ -364,12 +379,12 @@ namespace Accord
             {
                 if (m.IsPublic && m.IsStatic)
                 {
-                    if ((m.Name == "op_Implicit" || m.Name == "op_Explicit") && m.ReturnType == typeof(T))
-                        return (T)m.Invoke(null, new[] { value });
+                    if ((m.Name == "op_Implicit" || m.Name == "op_Explicit") && m.ReturnType == type)
+                        return m.Invoke(null, new[] { value });
                 }
             }
 
-            return (T)System.Convert.ChangeType(value, typeof(T));
+            return System.Convert.ChangeType(value, type);
         }
 
         /// <summary>
@@ -545,5 +560,40 @@ namespace Accord
             return null;
         }
 #endif
+
+        /// <summary>
+        ///   Retrieves the memory address of a generic value type.
+        /// </summary>
+        /// 
+        /// <typeparam name="T">The type of the object whose address needs to be retrieved.</typeparam>
+        /// <param name="t">The object those address needs to be retrieved.</param>
+        /// 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public  static System.IntPtr AddressOf<T>(this T t)
+        {
+            unsafe
+            {
+                System.TypedReference reference = __makeref(t);
+                return *(System.IntPtr*)(&reference);
+            }
+        }
+
+        /// <summary>
+        ///   Retrieves the memory address of a generic reference type.
+        /// </summary>
+        /// 
+        /// <typeparam name="T">The type of the object whose address needs to be retrieved.</typeparam>
+        /// <param name="t">The object those address needs to be retrieved.</param>
+        /// 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        static System.IntPtr AddressOfRef<T>(ref T t)
+        {
+            unsafe
+            {
+                System.TypedReference reference = __makeref(t);
+                System.TypedReference* pRef = &reference;
+                return (System.IntPtr)pRef; //(&pRef)
+            }
+        }
     }
 }
