@@ -1,34 +1,72 @@
-Accord.NET Framework 3.7.2-alpha release notes
+Accord.NET Framework 3.7.3-alpha release notes
 -----------------------------------------
-24.09.2017.
+08.10.2017.
 
 Version updates and fixes:
   - GH-82: Add support for weighted PCA;
   - GH-127: Fast KMeans (Request);
   - GH-145: MovingNormalStatistics;
+  - GH-157: Issue in Survival analysis using VB.NET;
+  - GH-184: Add an Example for Graylevel coocurrences;
   - GH-211: Any samples on how to use Boosted Decision Trees;
+  - GH-257: DFT functions in AForge.Math.FourierTransform and Accord.Math.Transforms;
   - GH-262: C45Learning Discrete vs Real;
+  - GH-374: Dictionary of video capabilities doesn't take into account the video framerate;
   - GH-377: Add an Example for LevenbergMarquardt Class;
   - GH-415: Add an Example for AdaBoost(TModel);
   - GH-422: Add an Example for DecisionStump.Learn Method;
   - GH-424: Add an Example for AdaBoost(TModel) Class;
+  - GH-430: Add an Example for GeneralConfusionMatrix Constructor (Int32, Int32[], Int32[]);
   - GH-441: Add Mel Frequency Cepstral Coefficients (MFCC);
+  - GH-466: Add an Example for Distance.Mahalanobis Method (Double[], Double[]);
   - GH-467: Add an Example for Spline Class;
   - GH-473: Add an Example for IParallel.ParallelOptions Property;
+  - GH-476: Add an Example for TwoWayAnova Constructor (Double[][][], TwoWayAnovaModel);
+  - GH-483: Add an Example for Haralick Class;
+  - GH-486: Add an Example for LibSvmModel.Save Method (String);
+  - GH-498: Add an Example for QLearning Class;
+  - GH-500: Add an Example for FourierTransform2.FFT Method (Complex[], FourierTransform.Direction);
+  - GH-505: Add an Example for ConfusionMatrix Constructor (Int32[], Int32[], Int32, Int32);
   - GH-517: Add an Example for Sarsa Class;
+  - GH-519: Add an Example for NelderMead Class;
   - GH-530: Add an Example for Matrix.Inverse Method (Double[][]);
   - GH-532: Add an Example for GaussNewton Class;
-  - GH-576: RandomForestLearning : Examples can't run with SampleRatio not equal 1.0;
+  - GH-547: Add an Example for HaralickDescriptor Class;
+  - GH-557: Add an Example for Matrix.Sort(TKey, TValue) Method (TKey[], TValue[,], IComparer(TKey));
+  - GH-560: Add an Example for FourierTransform2.FFT Method (Double[], Double[], FourierTransform.Direction);
+  - GH-566: Add an Example for Distance.GetDistance(T) Method;
+  - GH-569: Add an Example for Distance.Euclidean Method (Double, Double, Double, Double);
+  - GH-575: Add an Example for LuDecomposition Class;
+  - GH-576: RandomForestLearning: Examples can't run with SampleRatio not equal 1.0;
+  - GH-582: Add an Example for Matrix.Multiply Method (Double[], Double[,]);
+  - GH-610: Add an Example for UnivariateContinuousDistribution.Fit Method (Double[]);
   - GH-616: Add an Example for LevenbergMarquardt Class;
   - GH-618: Add an Example for Apriori Class;
   - GH-629: Add an Example for AdaBoost(TModel) Class;
+  - GH-636: Add an Example for Measures.Correlation Method (Double[][]);
+  - GH-640: Add an Example for GaussianKernel Class;
   - GH-642: Add an Example for Matrix.PseudoInverse Method (Decimal[,]);
+  - GH-653: Add an Example for HistogramsOfOrientedGradients Class;
+  - GH-656: Add an Example for MatReader.Read Method (String);
+  - GH-660: Add an Example for LogLikelihoodLoss Class;
+  - GH-665: Add an Example for FourierTransform.FFT Method;
+  - GH-687: Add an Example for ShapiroWilkTest Class;
+  - GH-695: Add an Example for TFIDF.Transform Method (String[][]);
   - GH-703: Add an Example for Imputation Class;
   - GH-717: Possible issue with DynamicTimeWarp kernel class;
+  - GH-718: Add an Example for Cosine.Distance Method;
   - GH-723: Procrustes analysis is giving weird/wrong results;
+  - GH-727: Add an Example for IRadialBasisKernel Interface;
+  - GH-730: Binary-Split with normalized FREAK;
+  - GH-739: Add an Example for MultipleLinearRegression.CoefficientOfDetermination Method;
+  - GH-756: Add an Example for ProportionalHazardsAnalysis.LogLikelihood Property;
   - GH-764: Add an Example for AndersonDarlingTest Class;
+  - GH-769: Issue using visual bag of words with large images;
+  - GH-783: Add an Example for LocalBinaryPattern Class;
   - GH-785: Add an Example for Tools.RandomGroups Method (Int32, Double);
+  - GH-787: Add an Example for HiddenMarkovModel(TDistribution, TObservation).Predict Method (TObservation[]);
   - GH-789: Add support for OS X;
+  - GH-792: Add an Example for FisherExactTest Class;
   - GH-798: System.AccessViolationException in FastBoxBlur;
   - GH-800: Missing dependency for Accord.Neuro in NuGet;
   - GH-802: Index outside of the bounds of the array in Naive Bayes;
@@ -38,6 +76,8 @@ Version updates and fixes:
   - GH-809: The Codification filter should honor the value of DefaultMissingValueReplacement unless overriden;
   - GH-811: Naive Bayes should provide better argument checking for negative symbols;
   - GH-812: ZhangSuenSkeletonization filter not exist to use;
+  - GH-814: Add an Example for MulticlassSupportVectorMachine(TKernel, TInput) Class;
+  - GH-819: Quadratic Objective Function to support basic vector operations;
   - GH-824: Improve number of class inference in ZeroOneLoss;
   - GH-825: Replace multi-dimentional with jagged arrays in IntegralImage.cs;
   - GH-828: Accord.Neuro under .Net Standard 2.0;
@@ -47,34 +87,81 @@ Version updates and fixes:
   - GH-845: Add an Example for Decision Structure;
   - GH-848: Wilcoxon Signed Rank Test for PAIRED samples: TwoSampleWilcoxonSignedRankTest;
   - GH-849: TwoSampleWilcoxonSignedRankTest crashing when sample vectors are exactly the same values;
+  - GH-852: Add an Example for DecisionSet Class;
   - GH-853: Access to last Hessian in BoundedBroydenFletcherGoldfarbShanno;
   - GH-856: Add an overload to IsSymmetric that accepts a tolerance;
   - GH-857: Mann-Whitney-U Test producing strange results;
   - GH-862: Accord.Math -> Vector -> T[] Sample<T>(T[] values, int size) incorrect;
   - GH-865: Measures.Quartiles: value for Q1 (lower quartile) wrong in QuantileMethod.R;
   - GH-873: Add an Example for DecisionRule Class;
+  - GH-876: Allow the maximum frame rate possible in DirectShow for VideoCaptureDevice;
+  - GH-877: Add an Example for HaarCascadeWriter Class;
+  - GH-878: Accord.Math.Transforms.FourierTransform2.DFT2 Is bugged;
+  - GH-882: Adding lazy evaluation to matrix decompositions;
+  - GH-890: Add an Example for MultinomialLogisticRegressionAnalysis Class;
+  - GH-897: Wrong status text in ImageView from DebugVisualizer;
+  - GH-898: The Range method is producing some unexpected results;
+  - GH-899: Add an Example for IntegralImage2 Class;
+  - GH-900: Add an Example for ExhaustiveTemplateMatching Class;
+  - GH-901: Add an Example for HSL Class;
+  - GH-911: Character case of folder name;
+  - GH-913: KNearestNeighbors can not be serialized;
+  - GH-917: Two C++ projects require "Platform toolset v141" which is only available on VS2017;
+  - GH-919: Build failed for Samples.sln on VS 2015;
+  - GH-921: Fix for the normal random number generator when a seed is specified;
+  - GH-924, GH-925: Fixing the seeded exponential generator;
+  - GH-927: Broadcasting dimension seems counter-intuitive;
+  - GH-929: Add an Example for SpeededUpRobustFeaturesDescriptor Class;
+  - GH-930: Add an Example for FastCornersDetector Class;
+  - GH-937: Add an Example for LogisticRegression Class;
 
 * General
   - The libsonly script is now in RAR4 format instead of RAR5 so they 
     will not be listed as corrupted files by Linux/MacOSX decompressors;
+
+* Video.FFMPEG
+  - Standardizing the C++ projects to depend on VS2015 runtime instead of VS2017 to keep compatibility with VS2015;
+  - Adding a static constructor in the FFMPEG project to check whether the system has those dependencies installed;
 
 * Audio
   - Adding the initial version for a MFCC audio feature extractor;
 
 * Imaging
   - Adding support for decoding PNM files in format P2 and P3 (besides the already supported P5 and P6);
+  - Updating Haralick's to use the same normalization method as HOG and LBP;
+  - Updating the color classes (RGB, HSL, YCbCr) to be structs;
+  - Adding conversion operators between different color classes;
+  - Integrating AForge.NET's texture generation classes: Adding a base class for texture
+    generation methods, updating them to use the framework-wide random number generator,
+	and deprecating their Reset method;
 
 * DataSets:
   - Adding the Yin-Yang dataset as an example of a non-linear 2D binary classification problem;
+  - Adding the Servo dataset as an example of a mixed discrete/continuous dataset for regression;
 
 * Math
-  - Adding a method for calculating the Hessian in the FiniteDifferences class;
+  - Adding a methods for the numerical calculation of the Hessian in the FiniteDifferences class;
+  - Updating Vector.Interval and Vector.Range to behave similar to NumPy's linspance and arange functions;
+  - Adding new overloads in element-wise operations that accept a VectorType enumeration instead 
+    of a integer for specifying to which dimension the element-wise operation should be performed;
 
 * MachineLearning
   - Updating the AdaBoost classes to implement the more recent classification framelet;
   - Adding a Error property in ConfusionMatrix and GeneralConfusionMatrix (1.0 - Accuracy);
   - Adding named constructors to ConfusionMatrix to create matrices 
     directly from classifiers, their inputs and expected outputs;
+  - Adding a new IsColor8bpp extension method to detect whether an 8-bpp image is a color image (non-grayscale);
+  - Adding a new ConvertColor8bppToGrayscale8bpp extension methods to convert these into grayscale 8-bpp images;
+  - Fixing Codification filter transformation for DataTables when only some columns should be converted;
+  - NumberOfOutputs and NumberOfSymbols should have different implementations depending on the variable type;
+  - Enforcing alphabetical/default sorted order for symbols in Codification filter (this is a breaking change);
+  - Codification filter should now transform columns in the same order as specified by the user;
+
+* Statistics
+  - Adding exponentially weighted moving average (ewma) methods in Statistics.Measures partial classes;
+
+ * Sample applications
+  - Adding a new sample application demonstrating how to use the framework in Unity 3D.
 
 
 
