@@ -56,7 +56,7 @@ namespace Accord.Tests.Statistics
             codification["prog"].Remap("academic", 0);
             codification["prog"].Remap("general", 1);
 
-            var inputs = codification.Apply(table, "ses", "write");
+            var inputs = codification.Apply(table, "write", "ses");
             var output = codification.Apply(table, "prog");
 
 
@@ -252,7 +252,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.61, acc, 1e-10);
             Assert.AreEqual(0.2993487536492252, kappa, 1e-10);
             Assert.AreEqual(1.06300120956871E-08, chiSquare.PValue, 1e-8);
-            Assert.AreEqual(-179.98172637136295, logLikelihood);
+            Assert.AreEqual(-179.98172637136295, logLikelihood, 1e-8);
 
             testmlr(analysis);
         }
@@ -682,7 +682,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.94666666666666666, acc, 1e-10);
             Assert.AreEqual(0.91999999999999982, kappa, 1e-10);
             Assert.AreEqual(7.8271969268290043E-54, chiSquare.PValue, 1e-8);
-            Assert.AreEqual(-29.558338705646587, logLikelihood);
+            Assert.AreEqual(-29.558338705646587, logLikelihood, 1e-8);
         }
     }
 }

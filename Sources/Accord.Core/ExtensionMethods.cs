@@ -366,23 +366,34 @@ namespace Accord
             if (value == null)
                 return System.Convert.ChangeType(null, type);
 
-            if (value is IConvertible)
-                return System.Convert.ChangeType(value, type);
+            if (type.IsInstanceOfType(value))
+                return value;
 
+            Type inputType = value.GetType();
+
+            var methods = new List<MethodInfo>();
 #if !NETSTANDARD1_4
-            MethodInfo[] methods = type.GetMethods(BindingFlags.Public | BindingFlags.Static);
+            methods.AddRange(inputType.GetMethods(BindingFlags.Public | BindingFlags.Static));
+            methods.AddRange(type.GetMethods(BindingFlags.Public | BindingFlags.Static));
 #else
-            MethodInfo[] methods = type.GetTypeInfo().DeclaredMethods.ToArray();
+            methods.AddRange(inputType.GetTypeInfo().DeclaredMethods.ToArray());
+            methods.AddRange(type.GetTypeInfo().DeclaredMethods.ToArray());
 #endif
-
             foreach (MethodInfo m in methods)
             {
                 if (m.IsPublic && m.IsStatic)
                 {
                     if ((m.Name == "op_Implicit" || m.Name == "op_Explicit") && m.ReturnType == type)
-                        return m.Invoke(null, new[] { value });
+                    {
+                        ParameterInfo[] p = m.GetParameters();
+                        if (p.Length == 1 && p[0].ParameterType.IsInstanceOfType(value))
+                            return m.Invoke(null, new[] { value });
+                    }
                 }
             }
+
+            //if (value is IConvertible)
+            //    return System.Convert.ChangeType(value, type);
 
             return System.Convert.ChangeType(value, type);
         }
