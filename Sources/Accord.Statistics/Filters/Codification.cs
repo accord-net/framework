@@ -172,10 +172,11 @@ namespace Accord.Statistics.Filters
     ///   <code source="Unit Tests\Accord.Tests.Statistics\Analysis\MultinomialLogisticRegressionAnalysisTest.cs" region="doc_learn_1" />
     ///   
     ///  <para>
-    ///   Another example of an advanced scneario where the source dataset contains both symbolic and discrete/continuous
-    ///   variables is shown below:</para>
+    ///   Another examples of an advanced scenario where the source dataset contains both symbolic and discrete/continuous
+    ///   variables are shown below:</para>
     ///   
     /// <code source="Unit Tests\Accord.Tests.Statistics\Models\Regression\MultipleLinearRegressionTest.cs" region="doc_learn_2" />
+    /// <code source="Unit Tests\Accord.Tests.Statistics\Analysis\MultipleLinearRegressionAnalysisTest.cs" region="doc_learn_database" />
     /// </example>
     /// 
     /// <seealso cref="Codification{T}"/>
