@@ -776,6 +776,10 @@ namespace Accord.Tests.Imaging
         }
 
         [Test]
+        [Category("Random")]
+#if NET35
+        [Ignore("Random behaviour differs in net35.")]
+#endif
         public void freak_binary_split()
         {
             #region doc_feature_freak
@@ -937,7 +941,7 @@ namespace Accord.Tests.Imaging
             Assert.AreEqual(10, kmeans.Clusters.NumberOfClasses);
 
             string str = kmeans.Clusters.Proportions.ToCSharp();
-            double[] expectedProportions = new double[] { 0.076, 0.092, 0.061, 0.095, 0.069, 0.069, 0.104, 0.152, 0.112, 0.17 };
+            double[] expectedProportions = new double[] { 0.029, 0.167, 0.143, 0.129, 0.079, 0.104, 0.068, 0.09, 0.094, 0.097 };
 
             Assert.IsTrue(kmeans.Clusters.Proportions.IsEqual(expectedProportions, 1e-10));
             Assert.IsTrue(kmeans.Clusters.Covariances.All(x => x == null));
@@ -948,12 +952,12 @@ namespace Accord.Tests.Imaging
 
             double[][] expected = new double[][]
             {
-                new double[] { 29, 42, 34, 30, 31, 28, 4, 56, 46, 109 },
-                new double[] { 92, 18, 33, 107, 64, 79, 95, 64, 74, 101 },
-                new double[] { 28, 57, 19, 47, 39, 34, 47, 92, 53, 136 },
-                new double[] { 46, 60, 54, 62, 39, 16, 32, 56, 33, 62 },
-                new double[] { 31, 88, 1, 23, 26, 46, 155, 180, 86, 83 },
-                new double[] { 78, 65, 34, 120, 80, 113, 196, 147, 151, 281 }
+                new double[] { 6, 104, 59, 68, 41, 7, 45, 25, 26, 28 },
+                new double[] { 13, 102, 61, 39, 51, 114, 69, 108, 115, 55 },
+                new double[] { 10, 138, 91, 78, 27, 46, 28, 39, 52, 43 },
+                new double[] { 4, 66, 51, 84, 59, 32, 25, 54, 61, 24 },
+                new double[] { 88, 85, 161, 94, 5, 119, 13, 35, 22, 97 },
+                new double[] { 57, 269, 134, 81, 53, 214, 59, 111, 139, 148 }
             };
 
             for (int i = 0; i < features.Length; i++)
