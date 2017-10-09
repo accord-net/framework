@@ -103,6 +103,7 @@ namespace Accord.Tests.Statistics
             double[] values = Vector.Range(2.0, 5.0, 0.1);
 
             int windowSize = values.Length;
+            Assert.AreEqual(30, windowSize);
 
             var target = new MovingCircularStatistics(windowSize);
 
@@ -112,22 +113,22 @@ namespace Accord.Tests.Statistics
             double actualMean = target.Mean;
             double expectedMean = Circular.Mean(values);
             double wrongMean = values.Mean();
-            Assert.AreEqual(actualMean, -2.8328292495480087, 1e-10);
-            Assert.AreEqual(wrongMean, 3.4533333333333331, 1e-10);
+            Assert.AreEqual(actualMean, -2.8331853071795865, 1e-10);
+            Assert.AreEqual(wrongMean, 3.45, 1e-10);
             Assert.AreEqual(expectedMean, actualMean, 1e-10);
 
             double actualVariance = target.Variance;
             double expectedVariance = Circular.Variance(values);
             double wrongVar = values.Variance();
-            Assert.AreEqual(actualVariance, 0.33804973557846185);
-            Assert.AreEqual(wrongVar, 0.78533333333333344);
+            Assert.AreEqual(actualVariance, 0.33472617948636552);
+            Assert.AreEqual(wrongVar, 0.77500000000000013);
             Assert.AreEqual(expectedVariance, actualVariance);
 
             double actualStdDev = target.StandardDeviation;
             double expectedStdDev = Circular.StandardDeviation(values);
             double wrongStdDev = values.StandardDeviation();
-            Assert.AreEqual(actualStdDev, 0.90836650658209);
-            Assert.AreEqual(wrongStdDev, 0.88619034825105913);
+            Assert.AreEqual(actualStdDev, 0.90283615668111072);
+            Assert.AreEqual(wrongStdDev, 0.88034084308295057);
             Assert.AreEqual(expectedStdDev, actualStdDev);
         }
 

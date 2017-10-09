@@ -27,6 +27,7 @@ namespace Accord.Statistics.Analysis
     using Accord.Math;
     using Accord.Statistics.Testing;
     using Accord.Compat;
+    using Accord.MachineLearning;
 
     /* 
     // TODO: Implement arbitrary orientation for confusion matrices
@@ -41,7 +42,8 @@ namespace Accord.Statistics.Analysis
     */
 
     /// <summary>
-    ///   General confusion matrix for multi-class decision problems.
+    ///   General confusion matrix for multi-class decision problems. For
+    ///   binary problems, please see <see cref="ConfusionMatrix"/>.
     /// </summary>
     /// 
     /// <remarks>
@@ -60,6 +62,31 @@ namespace Accord.Statistics.Analysis
     ///     </list></para>  
     /// </remarks>
     /// 
+    /// <example>
+    /// <para>
+    ///   The first example shows how a confusion matrix can be constructed from a vector of expected (ground-truth)
+    ///   values and their associated predictions (as done by a test, procedure or machine learning classifier):</para>
+    ///   <code source="Unit Tests\Accord.Tests.Statistics\Analysis\GeneralConfusionMatrixTest.cs" region="doc_ctor_values" />
+    /// 
+    /// <para>
+    ///   The second example shows how to construct a general confusion matrix directly from a integer matrix with
+    ///   the class assignments:</para>
+    ///   <code source="Unit Tests\Accord.Tests.Statistics\Analysis\GeneralConfusionMatrixTest.cs" region="doc_ctor_matrix" />
+    /// 
+    /// <para>
+    ///   The third example shows how to construct a general confusion matrix directly from a classifier and a dataset:</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MulticlassSupportVectorLearningTest.cs" region="doc_learn_iris_confusion_matrix" />
+    /// 
+    /// <para>
+    ///   The next examples reproduce the results shown in various papers, with special attention to the multiple
+    ///   ways of computing the <see cref="Variance"/> for the <see cref="Kappa"/> statistic:</para>
+    ///   <code source="Unit Tests\Accord.Tests.Statistics\Analysis\GeneralConfusionMatrixTest.cs" region="doc_congalton" />
+    ///   <code source="Unit Tests\Accord.Tests.Statistics\Analysis\GeneralConfusionMatrixTest.cs" region="doc_ientilucci" />
+    ///   <code source="Unit Tests\Accord.Tests.Statistics\Analysis\GeneralConfusionMatrixTest.cs" region="doc_fleiss" />
+    /// </example>
+    /// 
+    /// <see cref="ConfusionMatrix"/>
+    /// 
     [Serializable]
     public class GeneralConfusionMatrix
     {
@@ -69,10 +96,17 @@ namespace Accord.Statistics.Analysis
 
         // Association measures
         private double? kappa;
+
         private double? kappaVariance;
         private double? kappaStdError;
+
+        private double? kappaVarianceDeltaMethod;
+        private double? kappaStdErrorDeltaMethod;
+
         private double? kappaVariance0;
         private double? kappaStdError0;
+
+        
 
         private double? tau;
         private double? chiSquare;
@@ -96,7 +130,7 @@ namespace Accord.Statistics.Analysis
         private double[] recall;
 
         private ConfusionMatrix[] matrices;
-
+        
         /// <summary>
         ///   Gets or sets the title that ought be displayed on top of the columns of 
         ///   this <see cref="GeneralConfusionMatrix"/>. Default is "Expected (Ground-truth)".
@@ -127,7 +161,7 @@ namespace Accord.Statistics.Analysis
         /// </summary>
         /// 
         [DisplayName("Number of samples")]
-        public int Samples // TODO: Deprecate and rename to NumberOfSamples
+        public int NumberOfSamples
         {
             get { return samples; }
         }
@@ -137,9 +171,31 @@ namespace Accord.Statistics.Analysis
         /// </summary>
         /// 
         [DisplayName("Number of classes")]
-        public int Classes // TODO: Deprecate and rename to NumberOfClasses
+        public int NumberOfClasses 
         {
             get { return classes; }
+        }
+
+        /// <summary>
+        ///   Obsolete. Please use <see cref="NumberOfSamples"/> instead.
+        /// </summary>
+        /// 
+        [DisplayName("Number of samples")]
+        [Obsolete("Please use NumberOfSamples instead.")]
+        public int Samples 
+        {
+            get { return NumberOfSamples; }
+        }
+
+        /// <summary>
+        ///   Obsolete. Please use <see cref="NumberOfClasses"/> instead.
+        /// </summary>
+        /// 
+        [DisplayName("Number of classes")]
+        [Obsolete("Please use NumberOfClasses instead.")]
+        public int Classes 
+        {
+            get { return NumberOfClasses; }
         }
 
         /// <summary>
@@ -149,7 +205,7 @@ namespace Accord.Statistics.Analysis
         public GeneralConfusionMatrix(double[,] matrix, int samples)
         {
             this.matrix = matrix.Multiply(samples).ToInt32();
-            this.classes = matrix.GetLength(0);
+            this.classes = matrix.Rows();
             this.samples = samples;
             this.proportions = matrix;
         }
@@ -161,7 +217,7 @@ namespace Accord.Statistics.Analysis
         public GeneralConfusionMatrix(int[,] matrix)
         {
             this.matrix = matrix;
-            this.classes = matrix.GetLength(0);
+            this.classes = matrix.Rows();
             this.samples = matrix.Sum();
         }
 
@@ -189,6 +245,12 @@ namespace Accord.Statistics.Analysis
             if (expected.Length != predicted.Length)
                 throw new DimensionMismatchException("predicted",
                     "The number of expected and predicted observations must match.");
+
+            if (classes == 2)
+            {
+                expected = Accord.Statistics.Classes.ToZeroOne(expected);
+                predicted = Accord.Statistics.Classes.ToZeroOne(predicted);
+            }
 
             for (int i = 0; i < expected.Length; i++)
             {
@@ -333,7 +395,7 @@ namespace Accord.Statistics.Analysis
                 {
                     var diagonal = Diagonal;
                     var totals = ColumnTotals;
-                    precision = new double[Classes];
+                    precision = new double[NumberOfClasses];
                     for (int i = 0; i < precision.Length; i++)
                         precision[i] = diagonal[i] == 0 ? 0 : diagonal[i] / (double)totals[i];
                 }
@@ -354,7 +416,7 @@ namespace Accord.Statistics.Analysis
                 {
                     var diagonal = Diagonal;
                     var totals = RowTotals;
-                    recall = new double[Classes];
+                    recall = new double[NumberOfClasses];
                     for (int i = 0; i < recall.Length; i++)
                         recall[i] = diagonal[i] == 0 ? 0 : diagonal[i] / (double)totals[i];
                 }
@@ -419,7 +481,7 @@ namespace Accord.Statistics.Analysis
             get
             {
                 if (proportions == null)
-                    proportions = matrix.ToDouble().Divide(Samples);
+                    proportions = matrix.ToDouble().Divide(NumberOfSamples);
                 return proportions;
             }
         }
@@ -484,6 +546,28 @@ namespace Accord.Statistics.Analysis
                 }
 
                 return kappaVariance.Value;
+            }
+        }
+
+
+        /// <summary>
+        ///   Gets the variance of the <see cref="Kappa"/>
+        ///   coefficient of performance using Congalton's delta method. 
+        /// </summary>
+        /// 
+        [DisplayName("Kappa (κ) Variance (delta method)")]
+        public double VarianceDeltaMethod
+        {
+            get
+            {
+                if (kappaVarianceDeltaMethod == null)
+                {
+                    double se;
+                    kappaVarianceDeltaMethod = KappaTest.DeltaMethodKappaVariance(this, out se);
+                    kappaStdErrorDeltaMethod = se;
+                }
+
+                return kappaVarianceDeltaMethod.Value;
             }
         }
 
@@ -618,14 +702,16 @@ namespace Accord.Statistics.Analysis
                     var colTotals = ColumnTotals;
 
                     double x = 0;
-                    for (int i = 0; i < Classes; i++)
+                    for (int i = 0; i < NumberOfClasses; i++)
                     {
-                        for (int j = 0; j < Classes; j++)
+                        for (int j = 0; j < NumberOfClasses; j++)
                         {
                             double e = (rowTotals[i] * colTotals[j]) / (double)samples;
                             double o = matrix[i, j];
 
-                            x += ((o - e) * (o - e)) / e;
+                            double num = (o - e) * (o - e);
+                            if (num != 0)
+                                x += num / e;
                         }
                     }
 
@@ -751,6 +837,18 @@ namespace Accord.Statistics.Analysis
         }
 
         /// <summary>
+        ///   Error. This is the same value as 1.0 - <see cref="OverallAgreement"/>.
+        /// </summary>
+        /// 
+        /// <value>The average error, or 1.0 - <see cref="OverallAgreement"/>.</value>
+        /// 
+        [DisplayName("Error")]
+        public double Error
+        {
+            get { return 1.0 - OverallAgreement; }
+        }
+
+        /// <summary>
         ///   Geometric agreement.
         /// </summary>
         /// 
@@ -802,11 +900,11 @@ namespace Accord.Statistics.Analysis
                 var row = RowTotals;
                 var col = ColumnTotals;
 
-                var expected = new double[Classes, Classes];
+                var expected = new double[NumberOfClasses, NumberOfClasses];
 
                 for (int i = 0; i < row.Length; i++)
                     for (int j = 0; j < col.Length; j++)
-                        expected[i, j] = col[j] * row[j] / (double)Samples;
+                        expected[i, j] = col[j] * row[j] / (double)NumberOfSamples;
 
                 return expected;
             }
@@ -860,12 +958,12 @@ namespace Accord.Statistics.Analysis
             if (matrices.Length == 0)
                 throw new ArgumentException("At least one confusion matrix is required.", "matrices");
 
-            int classes = matrices[0].Classes;
+            int classes = matrices[0].NumberOfClasses;
             int[,] total = new int[classes, classes];
 
             foreach (var matrix in matrices)
             {
-                if (matrix.Classes != classes)
+                if (matrix.NumberOfClasses != classes)
                     throw new ArgumentException("The number of classes in one of the matrices differs.");
 
                 for (int j = 0; j < classes; j++)
@@ -874,6 +972,43 @@ namespace Accord.Statistics.Analysis
             }
 
             return new GeneralConfusionMatrix(total);
+        }
+
+        /// <summary>
+        ///   Estimates a <see cref="GeneralConfusionMatrix"/> directly from a classifier, a set of inputs and its expected outputs.
+        /// </summary>
+        /// 
+        /// <typeparam name="TInput">The type of the inputs accepted by the classifier.</typeparam>
+        /// 
+        /// <param name="classifier">The classifier.</param>
+        /// <param name="inputs">The input vectors.</param>
+        /// <param name="expected">The expected outputs associated with each input vector.</param>
+        /// 
+        /// <returns>A <see cref="GeneralConfusionMatrix"/> capturing the performance of the classifier when
+        ///   trying to predict the outputs <paramref name="expected"/> from the <paramref name="inputs"/>.</returns>
+        ///   
+        public static GeneralConfusionMatrix Estimate<TInput>(IClassifier<TInput, int> classifier, TInput[] inputs, int[] expected)
+        {
+            return new GeneralConfusionMatrix(expected: expected, predicted: classifier.Decide(inputs));
+        }
+
+        /// <summary>
+        ///   Estimates a <see cref="GeneralConfusionMatrix"/> directly from a classifier, a set of inputs and its expected outputs.
+        /// </summary>
+        /// 
+        /// <typeparam name="TInput">The type of the inputs accepted by the classifier.</typeparam>
+        /// 
+        /// <param name="classifier">The classifier.</param>
+        /// <param name="inputs">The input vectors.</param>
+        /// <param name="expected">The expected outputs associated with each input vector.</param>
+        /// 
+        /// <returns>A <see cref="GeneralConfusionMatrix"/> capturing the performance of the classifier when
+        ///   trying to predict the outputs <paramref name="expected"/> from the <paramref name="inputs"/>.</returns>
+        ///   
+        public static GeneralConfusionMatrix Estimate<TInput>(IClassifier<TInput, bool> classifier, TInput[] inputs, bool[] expected)
+        {
+            return new GeneralConfusionMatrix(expected: Accord.Statistics.Classes.ToZeroOne(expected),
+                predicted: Accord.Statistics.Classes.ToZeroOne(classifier.Decide(inputs)));
         }
     }
 }

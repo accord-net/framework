@@ -31,6 +31,10 @@ namespace Accord.Math.Distances
     ///   Mahalanobis distance.
     /// </summary>
     /// 
+    /// <example>
+    ///   <code source="Unit Tests\Accord.Tests.Math\DistanceTest.cs" region="doc_mahalanobis_3" />
+    /// </example>
+    /// 
     [Serializable]
     public struct Mahalanobis : IMetric<double[]>
     {
@@ -43,6 +47,10 @@ namespace Accord.Math.Distances
         /// </summary>
         /// 
         /// <param name="chol">A Cholesky decomposition of the covariance matrix.</param>
+        /// 
+        /// <example>
+        ///   <code source="Unit Tests\Accord.Tests.Math\DistanceTest.cs" region="doc_mahalanobis_3" />
+        /// </example>
         /// 
         public Mahalanobis(CholeskyDecomposition chol)
         {
@@ -57,6 +65,10 @@ namespace Accord.Math.Distances
         /// 
         /// <param name="svd">A Singular Value decomposition of the covariance matrix.</param>
         /// 
+        /// <example>
+        ///   <code source="Unit Tests\Accord.Tests.Math\DistanceTest.cs" region="doc_mahalanobis_3" />
+        /// </example>
+        /// 
         public Mahalanobis(SingularValueDecomposition svd)
         {
             this.chol = null;
@@ -69,6 +81,10 @@ namespace Accord.Math.Distances
         /// </summary>
         /// 
         /// <param name="precision">The precision matrix (the inverse of the covariance matrix).</param>
+        /// 
+        /// <example>
+        ///   <code source="Unit Tests\Accord.Tests.Math\DistanceTest.cs" region="doc_mahalanobis_3" />
+        /// </example>
         /// 
         public Mahalanobis(double[,] precision)
         {
@@ -90,6 +106,10 @@ namespace Accord.Math.Distances
         ///   between <paramref name="x"/> and <paramref name="y"/> according 
         ///   to the distance function implemented by this class.
         /// </returns>
+        /// 
+        /// <example>
+        ///   <code source="Unit Tests\Accord.Tests.Math\DistanceTest.cs" region="doc_mahalanobis_3" />
+        /// </example>
         /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -125,9 +145,13 @@ namespace Accord.Math.Distances
         ///   of the given covariance matrix.
         /// </returns>
         /// 
-        public static SquareMahalanobis FromCovarianceMatrix(double[,] covariance)
+        /// <example>
+        ///   <code source="Unit Tests\Accord.Tests.Math\DistanceTest.cs" region="doc_mahalanobis_3" />
+        /// </example>
+        /// 
+        public static Mahalanobis FromCovarianceMatrix(double[,] covariance)
         {
-            return new SquareMahalanobis(new CholeskyDecomposition(covariance));
+            return new Mahalanobis(new CholeskyDecomposition(covariance));
         }
 
         /// <summary>
@@ -140,9 +164,13 @@ namespace Accord.Math.Distances
         ///   A Mahalanobis distance using the given precision matrix.
         /// </returns>
         /// 
-        public static SquareMahalanobis FromPrecisionMatrix(double[,] precision)
+        /// <example>
+        ///   <code source="Unit Tests\Accord.Tests.Math\DistanceTest.cs" region="doc_mahalanobis_3" />
+        /// </example>
+        /// 
+        public static Mahalanobis FromPrecisionMatrix(double[,] precision)
         {
-            return new SquareMahalanobis(precision);
+            return new Mahalanobis(precision);
         }
 
     }

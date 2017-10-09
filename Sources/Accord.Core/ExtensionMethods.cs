@@ -36,6 +36,8 @@ namespace Accord
     using Accord.Compat;
     using Accord.IO;
     using System.Data;
+    using Accord.Collections;
+    using System.Runtime.CompilerServices;
 
     /// <summary>
     ///   Static class for utility extension methods.
@@ -67,6 +69,35 @@ namespace Accord
         {
             for (int i = 0; i < columnNames.Length; i++)
                 collection.Add(columnNames[i]);
+        }
+
+        /// <summary>
+        ///   Creates and adds multiple <see cref="System.Data.DataColumn"/>
+        ///   objects with the given names at once.
+        /// </summary>
+        /// 
+        /// <param name="collection">The <see cref="System.Data.DataColumnCollection"/>
+        ///   to add in.</param>
+        /// <param name="columns">The names of the <see cref="System.Data.DataColumn"/>s to
+        ///   be created and added, alongside with their types.</param>
+        /// 
+        /// <example>
+        ///   <code>
+        ///   DataTable table = new DataTable();
+        ///   
+        ///   // Add multiple columns at once:
+        ///   table.Columns.Add(new OrderedDictionary&gt;String, Type&lt;()
+        ///   {
+        ///       { "columnName1", typeof(int)    },
+        ///       { "columnName2", typeof(double) },
+        ///   });
+        ///   </code>
+        /// </example>
+        /// 
+        public static void Add(this DataColumnCollection collection, OrderedDictionary<string, Type> columns)
+        {
+            foreach (var pair in columns)
+                collection.Add(pair.Key, pair.Value);
         }
 #endif
 
@@ -316,30 +347,55 @@ namespace Accord
         /// 
         public static T To<T>(this object value)
         {
+            return (T)To(value, typeof(T));
+        }
+
+        /// <summary>
+        ///   Converts an object into another type, irrespective of whether
+        ///   the conversion can be done at compile time or not. This can be
+        ///   used to convert generic types to numeric types during runtime.
+        /// </summary>
+        /// 
+        /// <param name="value">The value to be converted.</param>
+        /// <param name="type">The type that the value should be converted to.</param>
+        /// 
+        /// <returns>The result of the conversion.</returns>
+        /// 
+        public static object To(this object value, Type type)
+        {
             if (value == null)
-                return (T)System.Convert.ChangeType(null, typeof(T));
+                return System.Convert.ChangeType(null, type);
 
-            if (value is IConvertible)
-                return (T)System.Convert.ChangeType(value, typeof(T));
+            if (type.IsInstanceOfType(value))
+                return value;
 
-            Type type = value.GetType();
+            Type inputType = value.GetType();
 
+            var methods = new List<MethodInfo>();
 #if !NETSTANDARD1_4
-            MethodInfo[] methods = type.GetMethods(BindingFlags.Public | BindingFlags.Static);
+            methods.AddRange(inputType.GetMethods(BindingFlags.Public | BindingFlags.Static));
+            methods.AddRange(type.GetMethods(BindingFlags.Public | BindingFlags.Static));
 #else
-            MethodInfo[] methods = type.GetTypeInfo().DeclaredMethods.ToArray();
+            methods.AddRange(inputType.GetTypeInfo().DeclaredMethods.ToArray());
+            methods.AddRange(type.GetTypeInfo().DeclaredMethods.ToArray());
 #endif
-
             foreach (MethodInfo m in methods)
             {
                 if (m.IsPublic && m.IsStatic)
                 {
-                    if ((m.Name == "op_Implicit" || m.Name == "op_Explicit") && m.ReturnType == typeof(T))
-                        return (T)m.Invoke(null, new[] { value });
+                    if ((m.Name == "op_Implicit" || m.Name == "op_Explicit") && m.ReturnType == type)
+                    {
+                        ParameterInfo[] p = m.GetParameters();
+                        if (p.Length == 1 && p[0].ParameterType.IsInstanceOfType(value))
+                            return m.Invoke(null, new[] { value });
+                    }
                 }
             }
 
-            return (T)System.Convert.ChangeType(value, typeof(T));
+            //if (value is IConvertible)
+            //    return System.Convert.ChangeType(value, type);
+
+            return System.Convert.ChangeType(value, type);
         }
 
         /// <summary>
@@ -494,6 +550,61 @@ namespace Accord
             where T : IComparable
         {
             return a.CompareTo(b) <= 0;
+        }
+
+#if !NETSTANDARD1_4
+        /// <summary>
+        ///   Gets the default value for a type. This method should serve as
+        ///   a programmatic equivalent to <c>default(T)</c>.
+        /// </summary>
+        /// 
+        /// <param name="type">The type whose default value should be retrieved.</param>
+        /// 
+        public static object GetDefaultValue(this Type type)
+        {
+#if NETSTANDARD2_0
+            if (type.GetTypeInfo().IsValueType)
+#else
+            if (type.IsValueType)
+#endif
+                return Activator.CreateInstance(type);
+            return null;
+        }
+#endif
+
+        /// <summary>
+        ///   Retrieves the memory address of a generic value type.
+        /// </summary>
+        /// 
+        /// <typeparam name="T">The type of the object whose address needs to be retrieved.</typeparam>
+        /// <param name="t">The object those address needs to be retrieved.</param>
+        /// 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public  static System.IntPtr AddressOf<T>(this T t)
+        {
+            unsafe
+            {
+                System.TypedReference reference = __makeref(t);
+                return *(System.IntPtr*)(&reference);
+            }
+        }
+
+        /// <summary>
+        ///   Retrieves the memory address of a generic reference type.
+        /// </summary>
+        /// 
+        /// <typeparam name="T">The type of the object whose address needs to be retrieved.</typeparam>
+        /// <param name="t">The object those address needs to be retrieved.</param>
+        /// 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        static System.IntPtr AddressOfRef<T>(ref T t)
+        {
+            unsafe
+            {
+                System.TypedReference reference = __makeref(t);
+                System.TypedReference* pRef = &reference;
+                return (System.IntPtr)pRef; //(&pRef)
+            }
         }
     }
 }

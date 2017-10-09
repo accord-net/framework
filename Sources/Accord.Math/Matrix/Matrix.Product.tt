@@ -8,6 +8,9 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
+// Copyright © Alex Cross, 2017
+// Alexjcross90 at gmail.com
+//
 // Copyright © César Souza, 2009-2017
 // cesarsouza at gmail.com
 //
@@ -854,7 +857,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static unsafe <#=t#> DotAndDot(this <#=a#>[] rowVector, <#=b#>[,] matrix, <#=c#>[] columnVector)
+        public static <#=t#> DotAndDot(this <#=a#>[] rowVector, <#=b#>[,] matrix, <#=c#>[] columnVector)
         {
             int cols = matrix.Columns();
             int rows = matrix.Rows();
@@ -864,48 +867,51 @@ namespace Accord.Math
 #endif
             <#=t#> result = 0;
 
-            fixed (<#=a#>* r = rowVector)
-            fixed (<#=b#>* a = matrix)
-            fixed (<#=c#>* c = columnVector)
-            {
-                <#=b#>* pa1 = a;
-                <#=b#>* pa2 = a + cols;
-                <#=a#>* pr = r;
+			unsafe
+			{
+				fixed (<#=a#>* r = rowVector)
+				fixed (<#=b#>* a = matrix)
+				fixed (<#=c#>* c = columnVector)
+				{
+					<#=b#>* pa1 = a;
+					<#=b#>* pa2 = a + cols;
+					<#=a#>* pr = r;
 
-                // Process rows two at a time
-                for (int i = 0; i < rows / 2; i++)
-                {
-                    <#=t#> sum1 = 0, sum2 = 0;
-                    <#=c#>* pc = c;
+					// Process rows two at a time
+					for (int i = 0; i < rows / 2; i++)
+					{
+						<#=t#> sum1 = 0, sum2 = 0;
+						<#=c#>* pc = c;
 
-                    for (int j = 0; j < cols; j++)
-                    {
-                        sum1 += (<#=t#>)((<#=t#>)(*pa1++) * (<#=t#>)(*pc));
-                        sum2 += (<#=t#>)((<#=t#>)(*pa2++) * (<#=t#>)(*pc));
-                        pc++;
-                    }
+						for (int j = 0; j < cols; j++)
+						{
+							sum1 += (<#=t#>)((<#=t#>)(*pa1++) * (<#=t#>)(*pc));
+							sum2 += (<#=t#>)((<#=t#>)(*pa2++) * (<#=t#>)(*pc));
+							pc++;
+						}
 
-                    result += (<#=t#>)((<#=t#>)(*pr++) * sum1);
-                    result += (<#=t#>)((<#=t#>)(*pr++) * sum2);
+						result += (<#=t#>)((<#=t#>)(*pr++) * sum1);
+						result += (<#=t#>)((<#=t#>)(*pr++) * sum2);
 
-                    // Now we skip a row
-                    pa1 = pa2;
-                    pa2 += cols;
-                }
+						// Now we skip a row
+						pa1 = pa2;
+						pa2 += cols;
+					}
 
-                // Process the remainder
-                for (int i = 0; i < rows % 2; i++)
-                {
-                    <#=t#> sum = 0;
-                    <#=c#>* pc = c;
+					// Process the remainder
+					for (int i = 0; i < rows % 2; i++)
+					{
+						<#=t#> sum = 0;
+						<#=c#>* pc = c;
 
-                    for (int j = 0; j < cols; j++)
-                        sum += (<#=t#>)((<#=t#>)(*pa1++) * (<#=t#>)(*pc++));
+						for (int j = 0; j < cols; j++)
+							sum += (<#=t#>)((<#=t#>)(*pa1++) * (<#=t#>)(*pc++));
 
-                    result += (<#=t#>)((<#=t#>)(*pr++) * sum);
-                }
-            }
-
+						result += (<#=t#>)((<#=t#>)(*pr++) * sum);
+					}
+				}
+			}
+            
             return result; 
         }
 
@@ -1112,7 +1118,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static unsafe <#=r#>[][] Dot(this <#=a#>[,] a, <#=b#>[][] b, <#=r#>[][] result)
+        public static <#=r#>[][] Dot(this <#=a#>[,] a, <#=b#>[][] b, <#=r#>[][] result)
         {
 #if DEBUG
             if (a.Columns() != b.Length || result.Length > a.Length || result.Columns() > b.Columns())
@@ -1126,21 +1132,24 @@ namespace Accord.Math
 
             var t = new <#=b#>[K];
 
-			fixed (<#=a#>* A = a)
-            for (int j = 0; j < M; j++)
-            {
-                for (int k = 0; k < t.Length; k++)
-                    t[k] = b[k][j];
+			unsafe
+			{
+				fixed (<#=a#>* A = a)
+				for (int j = 0; j < M; j++)
+				{
+					for (int k = 0; k < t.Length; k++)
+						t[k] = b[k][j];
 
-				<#=a#>* pa = A;
-                for (int i = 0; i < N; i++)
-                {
-                    <#=t#> s = (<#=t#>)0;
-                    for (int k = 0; k < t.Length; k++)
-                        s += (<#=t#>)((<#=t#>)(*pa++) * (<#=t#>)t[k]);
-                    result[i][j] = (<#=r#>)s;
-                }
-            }
+					<#=a#>* pa = A;
+					for (int i = 0; i < N; i++)
+					{
+						<#=t#> s = (<#=t#>)0;
+						for (int k = 0; k < t.Length; k++)
+							s += (<#=t#>)((<#=t#>)(*pa++) * (<#=t#>)t[k]);
+						result[i][j] = (<#=r#>)s;
+					}
+				}
+			}
 #if DEBUG
             if (!Matrix.IsEqual(C, result.ToMatrix().To<double[,]>(), 1e-4))
                 throw new Exception();
@@ -1219,7 +1228,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static unsafe <#=r#>[] Dot(this <#=a#>[,] matrix, <#=b#>[] columnVector, <#=r#>[] result)
+        public static <#=r#>[] Dot(this <#=a#>[,] matrix, <#=b#>[] columnVector, <#=r#>[] result)
         {
             int cols = matrix.Columns();
             int rows = matrix.Rows();
@@ -1228,54 +1237,53 @@ namespace Accord.Math
             if (cols != columnVector.Length || result.Length > rows)
                 throw new DimensionMismatchException();
 #endif
+			unsafe
+			{
+				fixed (<#=a#>* a = matrix)
+				fixed (<#=b#>* x = columnVector)
+				fixed (<#=r#>* r = result)
+				{
+					<#=a#>* pa1 = a;
+					<#=a#>* pa2 = a + cols;
+					<#=r#>* pr = r;
 
-            fixed (<#=a#>* a = matrix)
-            fixed (<#=b#>* x = columnVector)
-            fixed (<#=r#>* r = result)
-            {
-                <#=a#>* pa1 = a;
-                <#=a#>* pa2 = a + cols;
-                <#=r#>* pr = r;
+					// Process rows two at a time
+					for (int i = 0; i < rows / 2; i++)
+					{
+						<#=t#> sum1 = 0, sum2 = 0;
+						<#=b#>* px = x;
 
-                // Process rows two at a time
-                for (int i = 0; i < rows / 2; i++)
-                {
-                    <#=t#> sum1 = 0, sum2 = 0;
-                    <#=b#>* px = x;
+						for (int j = 0; j < cols; j++)
+						{
+							sum1 += (<#=t#>)((<#=t#>)(*pa1++) * (<#=t#>)(*px));
+							sum2 += (<#=t#>)((<#=t#>)(*pa2++) * (<#=t#>)(*px));
+							px++;
+						}
 
-                    for (int j = 0; j < cols; j++)
-                    {
-                        sum1 += (<#=t#>)((<#=t#>)(*pa1++) * (<#=t#>)(*px));
-                        sum2 += (<#=t#>)((<#=t#>)(*pa2++) * (<#=t#>)(*px));
-                        px++;
-                    }
-
-                    *pr++ = (<#=r#>)sum1;
-                    *pr++ = (<#=r#>)sum2;
+						*pr++ = (<#=r#>)sum1;
+						*pr++ = (<#=r#>)sum2;
                     
-                    // Now we skip a row
-                    pa1 = pa2;
-                    pa2 += cols;
-                }
+						// Now we skip a row
+						pa1 = pa2;
+						pa2 += cols;
+					}
 
-                // Process the remainder
-                for (int i = 0; i < rows % 2; i++)
-                {
-                    <#=t#> sum = 0;
-                    <#=b#>* px = x;
+					// Process the remainder
+					for (int i = 0; i < rows % 2; i++)
+					{
+						<#=t#> sum = 0;
+						<#=b#>* px = x;
 
-                    for (int j = 0; j < cols; j++)
-                        sum += (<#=t#>)((<#=t#>)(*pa1++) * (<#=t#>)(*px++));
+						for (int j = 0; j < cols; j++)
+							sum += (<#=t#>)((<#=t#>)(*pa1++) * (<#=t#>)(*px++));
 
-                    *pr = (<#=r#>)sum;
-                }
-            }
+						*pr = (<#=r#>)sum;
+					}
+				}
+			}
 
             return result;
         }
-
-
-
 
         /// <summary>
         ///   Computes the product <c>R = A*B</c> of two matrices <c>A</c>
@@ -1382,7 +1390,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static unsafe <#=r#>[][] DotWithTransposed(this <#=a#>[][] a, <#=b#>[,] b, <#=r#>[][] result)
+        public static <#=r#>[][] DotWithTransposed(this <#=a#>[][] a, <#=b#>[,] b, <#=r#>[][] result)
         {
 #if DEBUG
             if (a.Columns() != b.Columns() || result.Rows() > a.Rows() || result.Columns() > b.Rows())
@@ -1392,19 +1400,22 @@ namespace Accord.Math
 #endif
             int n = b.Rows();
 
-            fixed (<#=b#>* B = b)
-            for (int i = 0; i < a.Length; i++)
-            {
-                <#=b#>* pb = B;
-                <#=a#>[] arow = a[i];
-                for (int j = 0; j < n; j++)
-                {
-                    <#=t#> sum = 0;
-                    for (int k = 0; k < arow.Length; k++)
-                        sum += (<#=t#>)((<#=t#>)arow[k] * (<#=t#>)(*pb++));
-                    result[i][j] = (<#=r#>)sum;
-                }
-            }
+			unsafe
+			{
+				fixed (<#=b#>* B = b)
+				for (int i = 0; i < a.Length; i++)
+				{
+					<#=b#>* pb = B;
+					<#=a#>[] arow = a[i];
+					for (int j = 0; j < n; j++)
+					{
+						<#=t#> sum = 0;
+						for (int k = 0; k < arow.Length; k++)
+							sum += (<#=t#>)((<#=t#>)arow[k] * (<#=t#>)(*pb++));
+						result[i][j] = (<#=r#>)sum;
+					}
+				}
+			}
 #if DEBUG
             if (!Matrix.IsEqual(C, result.To<double[,]>(), 1e-4))
                 throw new Exception();
@@ -1426,7 +1437,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif 
-        public static unsafe <#=r#>[][] DotWithTransposed(this <#=a#>[,] a, <#=b#>[][] b, <#=r#>[][] result)
+        public static <#=r#>[][] DotWithTransposed(this <#=a#>[,] a, <#=b#>[][] b, <#=r#>[][] result)
         {
 #if DEBUG
             if (a.Columns() != b.Columns() || result.Rows() > a.Rows() || result.Columns() > b.Rows())
@@ -1436,20 +1447,22 @@ namespace Accord.Math
 #endif
             int n = a.Rows();
 
-            fixed (<#=a#>* A = a) 
-            for (int j = 0; j < b.Length; j++)
-            {
-                <#=a#>* pa = A;
-                for (int i = 0; i < n; i++)
-                {
-                    <#=t#> sum = 0;
-                    <#=b#>[] brow = b[j];
-                    for (int k = 0; k < brow.Length; k++)
-                        sum += (<#=t#>)((<#=t#>)(*pa++) * (<#=t#>)brow[k]);
-                    result[i][j] = (<#=r#>)sum;
-                }
-            }
-
+			unsafe
+			{
+				fixed (<#=a#>* A = a) 
+				for (int j = 0; j < b.Length; j++)
+				{
+					<#=a#>* pa = A;
+					for (int i = 0; i < n; i++)
+					{
+						<#=t#> sum = 0;
+						<#=b#>[] brow = b[j];
+						for (int k = 0; k < brow.Length; k++)
+							sum += (<#=t#>)((<#=t#>)(*pa++) * (<#=t#>)brow[k]);
+						result[i][j] = (<#=r#>)sum;
+					}
+				}
+			}
 #if DEBUG
             if (!Matrix.IsEqual(C, result.To<double[,]>(), 1e-4))
                 throw new Exception();
@@ -1599,7 +1612,7 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static unsafe <#=r#>[,] TransposeAndDot(this <#=a#>[,] a, <#=b#>[,] b, <#=r#>[,] result)
+        public static <#=r#>[,] TransposeAndDot(this <#=a#>[,] a, <#=b#>[,] b, <#=r#>[,] result)
         {
             int n = a.Rows();
             int m = a.Columns();
@@ -1610,35 +1623,37 @@ namespace Accord.Math
                 throw new DimensionMismatchException();
             var C = a.Transpose().To<double[,]>().Dot(b.To<double[,]>());
 #endif
+			unsafe
+			{
+				fixed (<#=r#>* R = result)
+				fixed (<#=b#>* B = b)
+				fixed (<#=t#>* ptemp = new <#=t#>[p])
+				{
+					<#=r#>* pr = R;
 
-            fixed (<#=r#>* R = result)
-            fixed (<#=b#>* B = b)
-            fixed (<#=t#>* ptemp = new <#=t#>[p])
-            {
-                <#=r#>* pr = R;
+					for (int i = 0; i < m; i++)
+					{
+						<#=t#>* pt = ptemp;
+						<#=b#>* pb = B;
 
-                for (int i = 0; i < m; i++)
-                {
-                    <#=t#>* pt = ptemp;
-                    <#=b#>* pb = B;
+						for (int k = 0; k < n; k++)
+						{
+							<#=a#> aval = a[k, i];
+							for (int j = 0; j < p; j++)
+								*pt++ += (<#=t#>)((<#=t#>)aval * (<#=t#>)(*pb++));
+							pt = ptemp;
+						}
 
-                    for (int k = 0; k < n; k++)
-                    {
-                        <#=a#> aval = a[k, i];
-                        for (int j = 0; j < p; j++)
-                            *pt++ += (<#=t#>)((<#=t#>)aval * (<#=t#>)(*pb++));
-                        pt = ptemp;
-                    }
-
-                    // Update the results row and clear the cache
-                    for (int j = 0; j < p; j++)
-                    {
-                        *pr++ = (<#=r#>)*pt;
-                        *pt++ = 0;
-                    }
-                }
-            }
-
+						// Update the results row and clear the cache
+						for (int j = 0; j < p; j++)
+						{
+							*pr++ = (<#=r#>)*pt;
+							*pt++ = 0;
+						}
+					}
+				}
+			}
+            
 #if DEBUG
             if (!C.IsEqual(result.To<double[,]>(), 1e-4))
                 throw new Exception();
@@ -2037,18 +2052,22 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static unsafe <#=r#>[,] Outer(this <#=a#>[] a, <#=b#>[] b, <#=r#>[,] result)
+        public static <#=r#>[,] Outer(this <#=a#>[] a, <#=b#>[] b, <#=r#>[,] result)
         {
-            fixed (<#=r#>* R = result)
-            {
-                <#=r#>* pr = R;
-                for (int i = 0; i < a.Length; i++)
-                {
-                    <#=t#> x = (<#=t#>)a[i];
-                    for (int j = 0; j < b.Length; j++)
-                        *pr++ = (<#=r#>)(x * (<#=t#>)b[j]);
-                }
-            }
+			unsafe
+			{
+				fixed (<#=r#>* R = result)
+				{
+					<#=r#>* pr = R;
+					for (int i = 0; i < a.Length; i++)
+					{
+						<#=t#> x = (<#=t#>)a[i];
+						for (int j = 0; j < b.Length; j++)
+							*pr++ = (<#=r#>)(x * (<#=t#>)b[j]);
+					}
+				}
+			}
+            
             return result;
         }
 
@@ -2211,25 +2230,28 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static unsafe <#=r#>[][] Kronecker(this <#=a#>[][] a, <#=b#>[,] b, <#=r#>[][] result)
+        public static <#=r#>[][] Kronecker(this <#=a#>[][] a, <#=b#>[,] b, <#=r#>[][] result)
         {
             int arows = a.Rows();
             int acols = a.Columns();
             int brows = b.Rows();
             int bcols = b.Columns();
 
-			fixed (<#=b#>* B = b)
-            for (int i = 0; i < arows; i++)
-                for (int j = 0; j < acols; j++)
-				{
-					<#=t#> aval = (<#=t#>)a[i][j];
-					<#=b#>* pb = B;
+			unsafe
+			{
+				fixed (<#=b#>* B = b)
+				for (int i = 0; i < arows; i++)
+					for (int j = 0; j < acols; j++)
+					{
+						<#=t#> aval = (<#=t#>)a[i][j];
+						<#=b#>* pb = B;
 
-				    for (int k = 0; k < brows; k++)
-                        for (int l = 0; l < bcols; l++)
-                            result[i * brows + k][j * bcols + l] = (<#=r#>)(aval * (<#=t#>)(*pb++));
-				}
-                
+						for (int k = 0; k < brows; k++)
+							for (int l = 0; l < bcols; l++)
+								result[i * brows + k][j * bcols + l] = (<#=r#>)(aval * (<#=t#>)(*pb++));
+					}
+			}
+			    
             return result;
         }
 
@@ -2283,18 +2305,22 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-		public static unsafe <#=r#>[] Kronecker(this <#=a#>[] a, <#=b#>[] b, <#=r#>[] result)
+		public static <#=r#>[] Kronecker(this <#=a#>[] a, <#=b#>[] b, <#=r#>[] result)
 		{
-            fixed (<#=r#>* R = result)
-            {
-                <#=r#>* pr = R;
-                for (int i = 0; i < a.Length; i++)
-                {
-                    <#=t#> x = (<#=t#>)a[i];
-                    for (int j = 0; j < b.Length; j++)
-                        *pr++ = (<#=r#>)(x * (<#=t#>)b[j]);
-                }
-            }
+			unsafe
+			{
+				fixed (<#=r#>* R = result)
+				{
+					<#=r#>* pr = R;
+					for (int i = 0; i < a.Length; i++)
+					{
+						<#=t#> x = (<#=t#>)a[i];
+						for (int j = 0; j < b.Length; j++)
+							*pr++ = (<#=r#>)(x * (<#=t#>)b[j]);
+					}
+				}
+			}
+            
             return result;
         }
 

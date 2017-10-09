@@ -67,6 +67,7 @@ namespace Accord.Video.DirectShow
         // video and snapshot resolutions to set
         private VideoCapabilities videoResolution = null;
         private VideoCapabilities snapshotResolution = null;
+        private int averageTimePerFrame = 0;
 
         // provide snapshots or not
         private bool provideSnapshots = false;
@@ -375,6 +376,31 @@ namespace Accord.Video.DirectShow
         {
             get { return 0; }
             set { }
+        }
+
+        /// <summary>
+        ///   The desired average display time of the video frames, in 100-nanosecond units.
+        ///   There is no guarantee that the device will actually respect this setting, however
+        ///   some devices will not work unless this property is set. See remarks for details.
+        /// </summary>
+        /// 
+        /// <remarks>
+        /// <para>
+        ///   This property controls the initialization of the AvgTimePerFrame member of the 
+        ///   <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/dd407325(v=vs.85).aspx">
+        ///   DirectShow's VideoInfoHeader structure</a>. In normal situations this property
+        ///   does not need to be set, but some combinations of hardware and DirectShow filters
+        ///   might require this property to be set to 0 to achieve a good frame rate. If this
+        ///   property is set to -1, the AvgTimePerFrame member will not be initialized at all.</para>  
+        ///   
+        /// <para>
+        ///   The default value for this property is 0 (AvgTimePerFrame will be initialized with 0).</para>
+        /// </remarks>
+        /// 
+        public int DesiredAverageTimePerFrame
+        {
+            get { return averageTimePerFrame; }
+            set { averageTimePerFrame = value; }
         }
 
         /// <summary>
@@ -1332,13 +1358,8 @@ namespace Accord.Video.DirectShow
         }
 
         // Set resolution for the specified stream configuration
-        private void SetResolution(IAMStreamConfig streamConfig, VideoCapabilities resolution)
+        private void SetResolution(IAMStreamConfig streamConfig, VideoCapabilities resolution = null)
         {
-            if (resolution == null)
-            {
-                return;
-            }
-
             // iterate through device's capabilities to find mediaType for desired resolution
             int capabilitiesCount = 0, capabilitySize = 0;
             AMMediaType newMediaType = null;
@@ -1352,7 +1373,7 @@ namespace Accord.Video.DirectShow
                 {
                     VideoCapabilities vc = new VideoCapabilities(streamConfig, i);
 
-                    if (resolution == vc)
+                    if (resolution == vc || resolution == null)
                     {
                         if (streamConfig.GetStreamCaps(i, out newMediaType, caps) == 0)
                         {
@@ -1368,6 +1389,15 @@ namespace Accord.Video.DirectShow
             // set the new format
             if (newMediaType != null)
             {
+                if (averageTimePerFrame >= 0)
+                {
+                    unsafe
+                    {
+                        VideoInfoHeader* vih = (VideoInfoHeader*)newMediaType.FormatPtr;
+                        vih->AverageTimePerFrame = averageTimePerFrame;
+                    }
+                }
+
                 streamConfig.SetFormat(newMediaType);
                 newMediaType.Dispose();
             }
@@ -1406,11 +1436,9 @@ namespace Accord.Video.DirectShow
                         }
                     }
 
-                    // check if it is required to change capture settings
-                    if (resolutionToSet != null)
-                    {
-                        SetResolution(streamConfig, resolutionToSet);
-                    }
+                    // Call the SetResolution method even with a null resolution, 
+                    // so that the first video mode will be used.
+                    SetResolution(streamConfig, resolutionToSet);
                 }
 
                 Marshal.ReleaseComObject(streamConfigObject);

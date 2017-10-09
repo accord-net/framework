@@ -75,7 +75,7 @@ namespace Accord.Statistics.Testing
             }
 
             this.Hypothesis = alternate;
-            base.Compute(signs, diffs, (DistributionTail)alternate, exact, adjustForTies);
+            base.Compute(signs, diffs, (DistributionTail)alternate, exact, adjustForTies: adjustForTies);
         }
 
     }

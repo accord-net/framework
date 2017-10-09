@@ -59,6 +59,7 @@
   </ItemGroup>
  -->
   <ItemGroup>
+    <Compile Include="Accord.Statistics\MeasuresTest.cs" />
     <Compile Include="Accord.Statistics\QuantilesTest.cs" />
     <Compile Include="AForge\Geometry\ClosePointsMergingOptimizerTest.cs" />
     <Compile Include="AForge\Geometry\FlatAnglesOptimizerTest.cs" />
@@ -91,13 +92,16 @@
     <Compile Include="CombinatoricsTest.cs" />
     <Compile Include="Decompositions\JaggedSingularValueDecompositionTest.cs" />
     <Compile Include="IO\MatReaderTest.cs" />
-    <Compile Include="Losses\LossesTest.cs" />
     <Compile Include="Matrix\Matrix.Set.cs" />
     <Compile Include="Matrix\Matrix.Selection.cs" />
     <Compile Include="Matrix\Matrix.Construction.cs" />
     <Compile Include="Matrix\Matrix.Common.cs" />
     <Compile Include="Matrix\Matrix.Algebra.cs" />
+    <Compile Include="Matrix\Vector.Interval.cs" />
+    <Compile Include="Matrix\Vector.Range.cs" />
     <Compile Include="Matrix\VectorTest.cs" />
+    <Compile Include="Optimization\Losses\LossesTest.cs" />
+    <Compile Include="Optimization\Losses\ZeroOneLossTest.cs" />
     <Compile Include="Optimization\Munkres.cs" />
     <Compile Include="Optimization\MunkresTest.cs" />
     <Compile Include="Optimization\BinarySearchTest.cs" />
@@ -136,6 +140,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Random\ZigguratNormalGeneratorTest.cs" />
     <Compile Include="Random\GeneratorTest.cs" />
     <Compile Include="ReducedRowEchelonFormTest.cs" />
     <Compile Include="Wavelets\CDF97Test.cs" />

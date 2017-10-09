@@ -3,7 +3,7 @@
   <PropertyGroup>
     <RootNamespace>Accord.Tests.Video</RootNamespace>
     <AssemblyName>Accord.Tests.Video</AssemblyName>
-    <TargetFrameworks>netcoreapp2.0</TargetFrameworks>
+    <TargetFrameworks>netcoreapp2.0<!--;net462--></TargetFrameworks>
   </PropertyGroup>
 
   <Import Project="$(SolutionDir)../Unit Tests/Accord.Tests (NETStandard).targets" />
@@ -14,6 +14,12 @@
     <ProjectReference Include="..\..\Sources\Accord.Math.Core\Accord.Math.Core (NETStandard).csproj" />
     <ProjectReference Include="..\..\Sources\Accord.Math\Accord.Math (NETStandard).csproj" />
     <ProjectReference Include="..\..\Sources\Accord.Vision\Accord.Vision (NETStandard).csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="Microsoft.NET.Test.Sdk" Version="15.3.0" />
+    <PackageReference Update="NUnit" Version="3.8.1" />
+    <PackageReference Update="NUnit.Console" Version="3.7.0" />
   </ItemGroup>
 
 </Project>

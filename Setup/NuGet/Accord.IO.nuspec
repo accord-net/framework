@@ -15,12 +15,25 @@
       Contains File and data parsers to load and save data from different file formats. This package is part of the Accord.NET Framework.
     </description>
     <summary>Read and write CSV files with automatic delimiter detection, Excel XLS and XLSX files, IDX datasets (MNIST), Sparse samples (LibSVM), MATLAB/Octave .MAT files and others.</summary>
-    <tags>accord.net aforge.net framework statistics mnist libsvm excel mat-file matlab octave matrix</tags>
+    <tags>accord.net aforge.net framework statistics mnist libsvm excel mat-file matlab octave matrix unity3d unity</tags>
     <dependencies>
       <dependency id="Accord"      version="$version$" />
+      <dependency id="SharpZipLib "   version="0.86.0" />
     </dependencies>
   </metadata>
   <files>
+    <file src="..\..\Release\net35\Accord.IO.dll" target="lib\net35-unity full v3.5\Accord.IO.dll" />
+    <file src="..\..\Release\net35\Accord.IO.xml" target="lib\net35-unity full v3.5\Accord.IO.xml" />
+
+    <file src="..\..\Release\net35\Accord.IO.dll" target="lib\net35-unity subset v3.5\Accord.IO.dll" />
+    <file src="..\..\Release\net35\Accord.IO.xml" target="lib\net35-unity subset v3.5\Accord.IO.xml" />
+
+    <file src="..\..\Release\net35\Accord.IO.dll" target="lib\net35-unity web v3.5\Accord.IO.dll" />
+    <file src="..\..\Release\net35\Accord.IO.xml" target="lib\net35-unity web v3.5\Accord.IO.xml" />
+
+    <file src="..\..\Release\net35\Accord.IO.dll" target="lib\net35-unity micro v3.5\Accord.IO.dll" />
+    <file src="..\..\Release\net35\Accord.IO.xml" target="lib\net35-unity micro v3.5\Accord.IO.xml" />
+
     <file src="..\..\Release\net35\Accord.IO.dll" target="lib\net35\Accord.IO.dll" />
     <file src="..\..\Release\net35\Accord.IO.xml" target="lib\net35\Accord.IO.xml" />
 

@@ -41,17 +41,24 @@ namespace Accord.Tests.Statistics
         [Test]
         public void GeneralConfusionMatrixConstructorTest()
         {
-            int classes = 3;
-
+            #region doc_ctor_values
+            // Let's say we have a decision problem involving 3 classes. In a typical
+            // machine learning problem, have a set of expected, ground truth values:
+            //
             int[] expected = { 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2 };
+
+            // And we have a set of values that have been predicted by a machine model:
+            //
             int[] predicted = { 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1 };
 
-            GeneralConfusionMatrix target = new GeneralConfusionMatrix(classes, expected, predicted);
+            // We can get different performance measures to assess how good our model was at 
+            // predicting the true, expected, ground-truth labels for the decision problem:
+            var cm = new GeneralConfusionMatrix(classes: 3, expected: expected, predicted: predicted);
 
+            // We can obtain the proper confusion matrix using:
+            int[,] matrix = cm.Matrix;
 
-            Assert.AreEqual(3, target.Classes);
-            Assert.AreEqual(12, target.Samples);
-
+            // The values of this matrix should be the same as:
             int[,] expectedMatrix =
             {
                 //              expected
@@ -60,11 +67,42 @@ namespace Accord.Tests.Statistics
                               { 0, 0, 0 },
             };
 
-            int[,] actualMatrix = target.Matrix;
 
-            Assert.IsTrue(expectedMatrix.IsEqual(actualMatrix));
+            // We can get more information about our problem as well:
+            int classes = cm.NumberOfClasses; // should be 3
+            int samples = cm.NumberOfSamples; // should be 12
+
+            // And multiple performance measures:
+            double accuracy = cm.Accuracy;                      // should be 0.66666666666666663
+            double error = cm.Error;                            // should be 0.33333333333333337
+            double chanceAgreement = cm.ChanceAgreement;        // should be 0.33333333333333331
+            double geommetricAgreement = cm.GeometricAgreement; // should be 0 (the classifier completely missed one class)
+            double pearson = cm.Pearson;                        // should be 0.70710678118654757
+            double kappa = cm.Kappa;                            // should be 0.49999999999999994
+            double tau = cm.Tau;                                // should be 0.49999999999999994
+            double chiSquare = cm.ChiSquare;                    // should be 12
+
+            // and some of their standard errors:
+            double kappaStdErr = cm.StandardError;              // should be 0.15590239111558091
+            double kappaStdErr0 = cm.StandardErrorUnderNull;    // should be 0.16666666666666663
+            #endregion
+
+            Assert.AreEqual(3, classes);
+            Assert.AreEqual(12, samples);
+
+            Assert.IsTrue(expectedMatrix.IsEqual(matrix));
+
+            Assert.AreEqual(0.66666666666666663, accuracy);
+            Assert.AreEqual(0.33333333333333337, error);
+            Assert.AreEqual(0.33333333333333331, chanceAgreement);
+            Assert.AreEqual(0.70710678118654757, pearson);
+            Assert.AreEqual(0.49999999999999994, kappa);
+            Assert.AreEqual(0.49999999999999994, tau);
+            Assert.AreEqual(12, chiSquare);
+
+            Assert.AreEqual(0.15590239111558091, kappaStdErr);
+            Assert.AreEqual(0.16666666666666663, kappaStdErr0);
         }
-
 
         [Test]
         public void class_confusion_matrices()
@@ -149,8 +187,7 @@ namespace Accord.Tests.Statistics
                 { 0, 0, 0 },
             };
 
-            GeneralConfusionMatrix target = new GeneralConfusionMatrix(matrix);
-
+            var target = new GeneralConfusionMatrix(matrix);
 
             Assert.AreEqual(3, target.Classes);
             Assert.AreEqual(12, target.Samples);
@@ -161,6 +198,8 @@ namespace Accord.Tests.Statistics
         [Test]
         public void KappaTest()
         {
+            #region doc_ctor_matrix
+            // Let's say we have the following matrix
             int[,] matrix =
             {
                 { 29,  6,  5 },
@@ -168,14 +207,29 @@ namespace Accord.Tests.Statistics
                 {  1,  2, 22 },
             };
 
-            GeneralConfusionMatrix target = new GeneralConfusionMatrix(matrix);
+            // Create a new multi-class Confusion Matrix
+            var cm = new GeneralConfusionMatrix(matrix);
 
+            // Now we can use it to obtain info such as
+            int classes = cm.NumberOfClasses; // should be 3
+            int samples = cm.NumberOfSamples; // should be 100
 
-            Assert.AreEqual(3, target.Classes);
-            Assert.AreEqual(100, target.Samples);
+            double acc = cm.Accuracy;          // should be 0.71
+            double err = cm.Error;             // should be 0.29
+            double ca = cm.ChanceAgreement;    // should be 0.335
+            double ga = cm.GeometricAgreement; // should be 23.37
+            double kappa = cm.Kappa;           // should be 0.563
+            #endregion
 
-            Assert.AreEqual(0.563, target.Kappa, 1e-3);
-            Assert.AreEqual(23.367749664961245, target.GeometricAgreement);
+            Assert.AreEqual(3, classes);
+            Assert.AreEqual(100, samples);
+
+            Assert.AreEqual(0.563, kappa, 1e-3);
+            Assert.AreEqual(23.367749664961245, ga);
+
+            Assert.AreEqual(0.71, acc, 1e-8);
+            Assert.AreEqual(0.29, err, 1e-8);
+            Assert.AreEqual(0.335, ca, 1e-8);
         }
 
         [Test]
@@ -187,7 +241,7 @@ namespace Accord.Tests.Statistics
                 {  8, 24 },
             };
 
-            GeneralConfusionMatrix target = new GeneralConfusionMatrix(matrix);
+            var target = new GeneralConfusionMatrix(matrix);
 
 
             Assert.AreEqual(2, target.Classes);
@@ -211,7 +265,9 @@ namespace Accord.Tests.Statistics
         [Test]
         public void KappaTest4()
         {
-            // Example from Congalton
+            #region doc_congalton
+            // Example from R. Congalton's book, "Assesssing 
+            // the accuracy of remotely sensed data", 1999.
 
             int[,] table = // Analyst #1 (page 108)
             {
@@ -221,26 +277,27 @@ namespace Accord.Tests.Statistics
                 {  4,  7,  3, 90 },
             };
 
-            GeneralConfusionMatrix target = new GeneralConfusionMatrix(table);
+            // Create a new multi-class confusion matrix
+            var cm = new GeneralConfusionMatrix(table);
 
-            Assert.AreEqual(target.RowTotals[0], 115);
-            Assert.AreEqual(target.RowTotals[1], 100);
-            Assert.AreEqual(target.RowTotals[2], 115);
-            Assert.AreEqual(target.RowTotals[3], 104);
+            int[] rowTotals = cm.RowTotals;     // should be { 115, 100, 115, 104 }
+            int[] colTotals = cm.ColumnTotals;  // should be { 115, 100, 115, 104 }
 
-            Assert.AreEqual(target.ColumnTotals[0], 75);
-            Assert.AreEqual(target.ColumnTotals[1], 103);
-            Assert.AreEqual(target.ColumnTotals[2], 115);
-            Assert.AreEqual(target.ColumnTotals[3], 141);
+            double kappa = cm.Kappa;            // should be 0.65
+            double var = cm.Variance;           // should be 0.00076995084473426684
+            double var0 = cm.VarianceUnderNull; // should be 0.00074886435981842887
+            double varD = Accord.Statistics.Testing.KappaTest.DeltaMethodKappaVariance(cm); // should be 0.0007778
+            #endregion
+
+            int[] expectedRowTotals = new[] { 115, 100, 115, 104 };
+            int[] expectedColTotals = new[] { 75, 103, 115, 141 };
+
+            Assert.AreEqual(rowTotals, expectedRowTotals);
+            Assert.AreEqual(colTotals, expectedColTotals);
 
 
-            Assert.AreEqual(0.65, target.Kappa, 1e-2);
-            Assert.IsFalse(Double.IsNaN(target.Kappa));
-
-
-            double var = target.Variance;
-            double var0 = target.VarianceUnderNull;
-            double varD = Accord.Statistics.Testing.KappaTest.DeltaMethodKappaVariance(target);
+            Assert.AreEqual(0.65, cm.Kappa, 1e-2);
+            Assert.IsFalse(Double.IsNaN(cm.Kappa));
 
             Assert.AreEqual(0.0007778, varD, 1e-7);
             Assert.AreEqual(0.00076995084473426684, var, 1e-10);
@@ -281,12 +338,15 @@ namespace Accord.Tests.Statistics
         [Test]
         public void KappaVarianceTest1()
         {
-            // Example from Ientilucci, Emmett (2006). "On Using and Computing the Kappa Statistic".
-            // Available on: http://www.cis.rit.edu/~ejipci/Reports/On_Using_and_Computing_the_Kappa_Statistic.pdf 
-
-            // Note: Congalton's method uses the Delta Method for approximating the Kappa variance.
-
             {
+                #region doc_ientilucci
+                // Example from Ientilucci, Emmett (2006). "On Using and Computing the Kappa Statistic".
+                // Available on: http://www.cis.rit.edu/~ejipci/Reports/On_Using_and_Computing_the_Kappa_Statistic.pdf 
+
+                // Note: Congalton's method uses the Delta Method for approximating the Kappa variance,
+                // but the framework uses the corrected methods by Cohen and Fleiss. For more information, see:
+                // https://stats.stackexchange.com/questions/30604/computing-cohens-kappa-variance-and-standard-errors
+
                 int[,] matrix = // Matrix A (page 1)
                 {
                     { 317,  23,  0,  0 },
@@ -295,9 +355,36 @@ namespace Accord.Tests.Statistics
                     {  35,  29,  0,  8 },
                 };
 
-                GeneralConfusionMatrix a = new GeneralConfusionMatrix(matrix);
+                // Create the multi-class confusion matrix
+                var a = new GeneralConfusionMatrix(matrix);
 
                 // Method A row totals (page 2)
+                int[] rowTotals = a.RowTotals;       // should be { 340, 181, 66, 72 }
+
+                // Method A col totals (page 2)
+                int[] colTotals = a.ColumnTotals;    // should be { 415, 176, 60, 8 }
+
+                // Number of samples for A (page 2)
+                int samples = a.NumberOfSamples;     // should be 659
+                int classes = a.NumberOfClasses;     // should be 4
+
+                // Po for A (page 2)
+                double po = a.OverallAgreement;      // should be 0.7663
+                
+                // Pc for A (page 2)
+                double ca = a.ChanceAgreement;       // should be 0.4087
+
+                // Kappa value k_hat for A (page 3)
+                double kappa = a.Kappa;              // should be 0.605
+
+                // Variance value var_k for A (page 4)
+                double varD = a.VarianceDeltaMethod; // should be 0.00073735
+
+                // Other variance values according to Fleiss and Cohen
+                double var = a.Variance;             // should be 0.00071760415564207924
+                double var0 = a.VarianceUnderNull;   // should be 0.00070251065008366978
+                #endregion
+
                 Assert.AreEqual(340, a.RowTotals[0]);
                 Assert.AreEqual(181, a.RowTotals[1]);
                 Assert.AreEqual(66, a.RowTotals[2]);
@@ -314,26 +401,19 @@ namespace Accord.Tests.Statistics
                 Assert.AreEqual(4, a.Classes);
 
                 // Po for A (page 2)
-                Assert.AreEqual(0.7663, a.OverallAgreement, 1e-4);
-                Assert.IsFalse(double.IsNaN(a.OverallAgreement));
+                Assert.AreEqual(0.7663, po, 1e-4);
+                Assert.IsFalse(double.IsNaN(po));
 
                 // Pc for A (page 3)
-                Assert.AreEqual(0.4087, a.ChanceAgreement, 1e-5);
-                Assert.IsFalse(double.IsNaN(a.ChanceAgreement));
-
-
+                Assert.AreEqual(0.4087, ca, 1e-5);
+                Assert.IsFalse(double.IsNaN(ca));
 
                 // Kappa value k_hat for A (page 3)
-                Assert.AreEqual(0.605, a.Kappa, 1e-3);
-                Assert.IsFalse(double.IsNaN(a.Kappa));
-
-                double var = a.Variance;
-                double var0 = a.VarianceUnderNull;
-                double varD = Accord.Statistics.Testing.KappaTest.DeltaMethodKappaVariance(a);
+                Assert.AreEqual(0.605, kappa, 1e-3);
+                Assert.IsFalse(double.IsNaN(kappa));
 
                 // Variance value var_k for A (page 4)
                 Assert.AreEqual(0.00073735, varD, 1e-8);
-
 
                 Assert.AreEqual(0.00071760415564207924, var, 1e-10);
                 Assert.AreEqual(0.00070251065008366978, var0, 1e-10);
@@ -451,13 +531,13 @@ namespace Accord.Tests.Statistics
         [Test]
         public void KappaVarianceTest3()
         {
+            #region doc_fleiss
             // Example from J. L. Fleiss, J. Cohen, B. S. Everitt, "Large sample
             //  standard errors of kappa and weighted kappa" Psychological Bulletin (1969)
             //  Volume: 72, Issue: 5, American Psychological Association, Pages: 323-327
 
             // This was the paper which presented the finally correct
             // large sample variance for Kappa after so many attempts.
-
 
             double[,] matrix =
             {
@@ -466,24 +546,31 @@ namespace Accord.Tests.Statistics
                 { 0.01,  0.06,  0.03 },
             };
 
-            GeneralConfusionMatrix a = new GeneralConfusionMatrix(matrix, 200);
+            // Create a new multi-class confusion matrix:
+            var a = new GeneralConfusionMatrix(matrix, 200);
 
-            Assert.AreEqual(a.RowProportions[0], .60, 1e-10);
-            Assert.AreEqual(a.RowProportions[1], .30, 1e-10);
-            Assert.AreEqual(a.RowProportions[2], .10, 1e-10);
+            double[] rowProportions = a.RowProportions;    // should be { 0.6, 0.3, 0.1 }
+            double[] colProportions = a.ColumnProportions; // should be { 0.65, 0.25, 0.10 }
 
-            Assert.AreEqual(a.ColumnProportions[0], .65, 1e-10);
-            Assert.AreEqual(a.ColumnProportions[1], .25, 1e-10);
-            Assert.AreEqual(a.ColumnProportions[2], .10, 1e-10);
+            double kappa = a.Kappa;                        // should be 0.429
+            double var = a.Variance;                       // should be 0.002885
+            double var0 = a.VarianceUnderNull;             // should be 0.003082
+            #endregion
+
+            Assert.AreEqual(rowProportions[0], .60, 1e-10);
+            Assert.AreEqual(rowProportions[1], .30, 1e-10);
+            Assert.AreEqual(rowProportions[2], .10, 1e-10);
+
+            Assert.AreEqual(colProportions[0], .65, 1e-10);
+            Assert.AreEqual(colProportions[1], .25, 1e-10);
+            Assert.AreEqual(colProportions[2], .10, 1e-10);
 
 
-            Assert.AreEqual(0.429, a.Kappa, 1e-3);
+            Assert.AreEqual(0.429, kappa, 1e-3);
             Assert.IsFalse(double.IsNaN(a.Kappa));
-
 
             Assert.AreEqual(0.002885, a.Variance, 1e-6);
             Assert.AreEqual(0.003082, a.VarianceUnderNull, 1e-6);
-
 
             Assert.IsFalse(double.IsNaN(a.Variance));
             Assert.IsFalse(double.IsNaN(a.VarianceUnderNull));
@@ -584,13 +671,14 @@ namespace Accord.Tests.Statistics
                 {   0, 1, 13, 0, 5, 0, 0, 0, 0, 0, 0, 0, 1, 0, 3, 0, 0, 0, 3, 1, 1, 0, 0, 0, 0, 0, 272 },
             };
 
-            GeneralConfusionMatrix target = new GeneralConfusionMatrix(matrix);
+            var target = new GeneralConfusionMatrix(matrix);
 
             double actual = target.ChiSquare;
-            Assert.IsTrue(Double.IsNaN(actual));
+            Assert.AreEqual(142057.46532326791, actual);
 
             Assert.AreEqual(0, target.GeometricAgreement);
-            Assert.AreEqual(matrix.Diagonal().Sum() / (double)target.Samples, target.OverallAgreement);
+            Assert.AreEqual(0.814320987654321, target.OverallAgreement);
+            Assert.AreEqual(0.814320987654321, matrix.Diagonal().Sum() / (double)target.Samples);
         }
 
 

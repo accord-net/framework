@@ -71,6 +71,11 @@ namespace Accord.Math.Random
         public ZigguratExponentialGenerator(int seed)
         {
             u = new ZigguratUniformOneGenerator(seed);
+
+            ke = new uint[256];
+            fe = new double[256];
+            we = new double[256];
+            setup();
         }
 
         /// <summary>
@@ -80,10 +85,6 @@ namespace Accord.Math.Random
         public ZigguratExponentialGenerator()
             : this(Generator.Random.Next())
         {
-            ke = new uint[256];
-            fe = new double[256];
-            we = new double[256];
-            setup();
         }
 
         /// <summary>

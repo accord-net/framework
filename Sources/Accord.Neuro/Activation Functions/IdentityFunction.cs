@@ -24,6 +24,7 @@ namespace Accord.Neuro
 {
     using System;
     using AForge;
+    using Accord.Compat;
 
     /// <summary>
     ///   Identity activation function.

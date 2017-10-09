@@ -87,15 +87,15 @@ namespace Accord.Statistics
             int tieSize = 0;
             hasTies = false;
 
-            int start = 0;
-            while (samples[start] == 0)
-                start++;
+            if (samples.Length == 0)
+                return new double[0];
 
-            ranks[start] = 1;
+            ranks[0] = 1;
+
             if (adjustForTies)
             {
                 int r = 1;
-                for (int i = start + 1; i < ranks.Length; i++)
+                for (int i = 1; i < ranks.Length; i++)
                 {
                     // Check if we have a tie
                     if (samples[i] != samples[i - 1])
@@ -143,8 +143,13 @@ namespace Accord.Statistics
             else
             {
                 // No need to adjust for ties
-                for (int i = start + 1, r = 1; i < ranks.Length; i++)
+                for (int i = 1, r = 1; i < ranks.Length; i++)
+                {
+                    if (samples[i] == samples[i - 1])
+                        hasTies = true;
+
                     ranks[i] = ++r;
+                }
             }
 
             if (!alreadySorted)
@@ -159,7 +164,17 @@ namespace Accord.Statistics
         /// 
         public static int[] Ties(this double[] ranks)
         {
-            var counts = new Dictionary<double, int>();
+            SortedDictionary<double, int> ties;
+            return Ties(ranks, out ties);
+        }
+
+        /// <summary>
+        ///   Gets the number of ties and distinct elements in a rank vector.
+        /// </summary>
+        /// 
+        public static int[] Ties(this double[] ranks, out SortedDictionary<double, int> counts)
+        {
+            counts = new SortedDictionary<double, int>();
             for (int i = 0; i < ranks.Length; i++)
             {
                 double r = ranks[i];

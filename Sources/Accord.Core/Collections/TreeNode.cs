@@ -31,6 +31,7 @@ namespace Accord.Collections
     /// 
     /// <typeparam name="TNode">The class type for the nodes of the tree.</typeparam>
     /// 
+    [Serializable]
     public class TreeNode<TNode>
         where TNode : TreeNode<TNode>
     {

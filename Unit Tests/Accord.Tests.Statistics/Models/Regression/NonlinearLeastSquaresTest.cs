@@ -108,9 +108,9 @@ namespace Accord.Tests.Statistics
                 // Derivative in respect to the weights:
                 Gradient = (w, x, r) =>
                 {
-                    r[0] = 2 * w[0]; // w.r.t a: 2a  
-                    r[1] = w[1];     // w.r.t b: b
-                    r[2] = w[2];     // w.r.t c: 0
+                    r[0] = w[0]* w[0]; // w.r.t a: a²  // https://www.wolframalpha.com/input/?i=diff+ax²+%2B+bx+%2B+c+w.r.t.+a
+                    r[1] = w[0];       // w.r.t b: b   // https://www.wolframalpha.com/input/?i=diff+ax²+%2B+bx+%2B+c+w.r.t.+b
+                    r[2] = 1;          // w.r.t c: 1   // https://www.wolframalpha.com/input/?i=diff+ax²+%2B+bx+%2B+c+w.r.t.+c
                 },
 
                 Algorithm = new LevenbergMarquardt()
@@ -134,16 +134,16 @@ namespace Accord.Tests.Statistics
                 Mean = false
             }.Loss(predict) / 2.0;
 
-            Assert.AreEqual(1318374605.8436923d, error);
+            Assert.AreEqual(1323157065.612951, error);
 
-            Assert.AreEqual(-12.025250289329851, regression.Coefficients[0], 1e-3);
-            Assert.AreEqual(-0.082208180694676766, regression.Coefficients[1], 1e-3);
-            Assert.AreEqual(-0.27402726898225627, regression.Coefficients[2], 1e-3);
+            Assert.AreEqual(-11.762225559121427, regression.Coefficients[0], 1e-3);
+            Assert.AreEqual(-3.8757457457050744, regression.Coefficients[1], 1e-3);
+            Assert.AreEqual(0.035457104325563406, regression.Coefficients[2], 1e-3);
 
-            Assert.AreEqual(-19237.386162968953, predict[0]);
-            Assert.AreEqual(-10820.533042245008, predict[1]);
-            Assert.AreEqual(-4808.7299793870288, predict[2]);
-            Assert.AreEqual(-1203.6211380089139, predict[5]);
+            Assert.AreEqual(-18664.495607661756, predict[0]);
+            Assert.AreEqual(-10469.695173733808, predict[1]);
+            Assert.AreEqual(-4627.339851630144, predict[2]);
+            Assert.AreEqual(-1214.944556264868, predict[5]);
         }
 
         [Test]

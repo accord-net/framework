@@ -30,6 +30,7 @@ namespace Accord.Statistics.Distributions.Univariate
     using System.Diagnostics;
     using Accord.Compat;
     using System.Threading.Tasks;
+    using Accord.Math.Optimization;
 
     /// <summary>
     ///   Continuity correction to be used when aproximating
@@ -590,7 +591,51 @@ namespace Accord.Statistics.Distributions.Univariate
         protected internal override double InnerInverseDistributionFunction(double p)
         {
             if (this.exact)
+            {
+                if (n1 > n2)
+                {
+                    Trace.TraceWarning("Warning: Using a MannWhitneyDistribution where the first sample is larger than the second.");
+                    double lower = 0;
+                    double upper = 0;
+
+                    double f = DistributionFunction(0);
+
+                    if (f > p)
+                    {
+                        while (f > p && !double.IsInfinity(lower))
+                        {
+                            lower = upper;
+                            upper = 2 * upper + 1;
+                            f = DistributionFunction(upper);
+                        }
+                    }
+                    else if (f < p)
+                    {
+                        while (f < p && !double.IsInfinity(upper))
+                        {
+                            upper = lower;
+                            lower = 2 * lower - 1;
+                            f = DistributionFunction(lower);
+                        }
+                    }
+                    else
+                    {
+                        return 0;
+                    }
+
+                    if (double.IsNegativeInfinity(lower))
+                        lower = double.MinValue;
+
+                    if (double.IsPositiveInfinity(upper))
+                        upper = double.MaxValue;
+
+                    double value = BrentSearch.Find(DistributionFunction, p, lower, upper);
+
+                    return value;
+                }
+
                 return base.InnerInverseDistributionFunction(p);
+            }
 
             return approximation.InverseDistributionFunction(p);
         }

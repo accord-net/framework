@@ -182,7 +182,7 @@ namespace Accord.Statistics.Kernels
             if (sigma == gamma)
                 Sigma = 1.0; // TODO: Remove if using VS 2015/C# 6
 
-            return Math.Exp(-gamma * z);
+            return Math.Exp(-gamma * z * z);
         }
 
         /// <summary>

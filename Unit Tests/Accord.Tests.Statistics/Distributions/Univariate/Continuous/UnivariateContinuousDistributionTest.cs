@@ -146,21 +146,36 @@ namespace Accord.Tests.Statistics
         }
 
 
-
         [Test]
-        public void FitTest7()
+        public void fit_example()
         {
-            UnivariateContinuousDistribution target = CreateUnivariateContinuousDistribution();
+            #region doc_fit
+            // Let's say we have a UnivariateContinuousDistribution that we have
+            // built somehow, either using a constructor for a common distribution
+            // or that we have received as the output of a method we have called:
+            UnivariateContinuousDistribution dist = new NormalDistribution();
 
+            // Let's say we have a set of observations, and some optional weights:
             double[] observations = { 0.12, 2, 0.52 };
-            double[] weights = { 0.25, 0.25, 0.50 };
 
-            target.Fit(observations, weights);
+            // Note: the weights are optional. You do not need to have different weights 
+            // for the different observations you would like to fit, but we will use them 
+            // as an example to show that it is also possible to specify them if we would 
+            // like to, but we could also set them to null in case we do not need them:
+            double[] weights = { 0.25, 0.25, 0.50 }; // could also be null
 
-            double expected = 0.79;
-            double actual = target.Mean;
+            // Now, we can finally fit the distribution to the observations that we have:
+            dist.Fit(observations, weights); // changes 'dist' to become the dist we need
 
-            Assert.AreEqual(expected, actual);
+            // Now we can verify that the distribution has been updated:
+            double mean = dist.Mean;                // should be 0.79
+            double var = dist.Variance;             // should be 0.82352
+            double stdDev = dist.StandardDeviation; // should be 0.90748002732842559
+            #endregion
+
+            Assert.AreEqual(0.79, mean);
+            Assert.AreEqual(0.82352, var);
+            Assert.AreEqual(0.90748002732842559, stdDev);
         }
 
         [Test]

@@ -58,6 +58,16 @@ namespace Accord.DataSets
     ///    </list></para>
     /// </remarks>
     /// 
+    /// <example>
+    /// <para>
+    ///   The following example shows how to download and train a classifier (SVM) in the Iris dataset:</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MulticlassSupportVectorLearningTest.cs" region="doc_learn_iris_confusion_matrix" />
+    ///   
+    /// <para>
+    ///   The next example shows how to learn a mini-batch classifier for the Iris dataset:</para>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\AveragedStochasticGradientDescentTest.cs" region="doc_learn_multiclass" />
+    /// </example>
+    /// 
     /// <seealso cref="Accord.DataSets.SparseIris" />
     /// 
     public class Iris

@@ -288,7 +288,7 @@ namespace Accord.Statistics.Distributions.Multivariate
             double N = samples;
             double min_thresh = 1.0 / (5.0 * N);
 
-            double[] xx = Vector.Interval(-1.0, 1.0, 0.000001);
+            double[] xx = Vector.Range(-1.0, 1.0, 0.000001);
             double[] yy = xx.Apply(density);
             double[] cumyy = yy.CumulativeSum().Multiply(xx[1] - xx[0]);
 

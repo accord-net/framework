@@ -557,6 +557,62 @@ namespace Accord.Tests.Statistics
 
 
         [Test]
+        public void learn_predict()
+        {
+            #region doc_predict
+            // We will try to create a Hidden Markov Model which
+            // can recognize (and predict) the following sequences:
+            int[][] sequences =
+            {
+                new[] { 1, 3, 5, 7, 9, 11, 13 },
+                new[] { 1, 3, 5, 7, 9, 11 },
+                new[] { 1, 3, 5, 7, 9, 11, 13 },
+                new[] { 1, 3, 3, 7, 7, 9, 11, 11, 13, 13 },
+                new[] { 1, 3, 7, 9, 11, 13 },
+            };
+
+            // Create a Baum-Welch HMM algorithm:
+            var teacher = new BaumWelchLearning()
+            {
+                // Let's creates a left-to-right (forward)
+                // Hidden Markov Model with 7 hidden states
+                Topology = new Forward(7),
+
+                // We'll try to fit the model to the data until the difference in
+                // the average log-likelihood changes only by as little as 0.0001
+                Tolerance = 0.0001,
+                Iterations = 0 // do not impose a limit on the number of iterations
+            };
+
+            // Use the algorithm to learn a new Markov model:
+            HiddenMarkovModel hmm = teacher.Learn(sequences);
+            
+            // Now, we will try to predict the next 1 observation in a base symbol sequence
+            int[] prediction = hmm.Predict(observations: new[] { 1, 3, 5, 7, 9 }, next: 1);
+
+            // At this point, prediction should be int[] { 11 }
+            int nextSymbol = prediction[0]; // should be 11.
+
+            // We can try to predict further, but this might not work very 
+            // well due the Markov assumption between the transition states:
+            int[] nextSymbols = hmm.Predict(observations: new[] { 1, 3, 5, 7 }, next: 2);
+
+            // At this point, nextSymbols should be int[] { 9, 11 }
+            int nextSymbol1 = nextSymbols[0]; // 9
+            int nextSymbol2 = nextSymbols[1]; // 11
+            #endregion
+
+            Assert.AreEqual(9, nextSymbol1);
+            Assert.AreEqual(11, nextSymbol2);
+
+            Assert.AreEqual(prediction.Length, 1);
+            Assert.AreEqual(11, prediction[0]);
+
+            Assert.AreEqual(2, nextSymbols.Length);
+            Assert.AreEqual(new[] { 9, 11 }, nextSymbols);
+        }
+
+        [Test]
         public void GenerateTest()
         {
             // Example taken from http://en.wikipedia.org/wiki/Viterbi_algorithm

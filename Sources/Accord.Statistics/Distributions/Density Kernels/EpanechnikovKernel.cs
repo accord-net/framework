@@ -25,6 +25,7 @@ namespace Accord.Statistics.Distributions.DensityKernels
     using System;
     using Accord.Math;
     using Accord.Compat;
+    using Accord.Statistics.Distributions.Multivariate;
 
     /// <summary>
     ///   Epanechnikov density kernel.
@@ -49,7 +50,17 @@ namespace Accord.Statistics.Distributions.DensityKernels
     ///   </list></para>
     /// </remarks>
     /// 
+    /// <example>
+    /// <para>
+    ///   The following example shows how to fit a <see cref="MultivariateEmpiricalDistribution"/> 
+    ///   using <see cref="EpanechnikovKernel">Epanechnikov kernels</see>.</para>
+    ///   <code source="Unit Tests\Accord.Tests.Statistics\Distributions\Multivariate\Continuous\MultivariateEmpiricalDistributionTest.cs" region="doc_fit_epanechnikov" />
+    /// </example>
+    /// 
     /// <seealso cref="Accord.Statistics.Distributions.Univariate.EmpiricalDistribution"/>
+    /// 
+    /// <seealso cref="GaussianKernel"/>
+    /// <seealso cref="UniformKernel"/>
     /// 
     [Serializable]
     public class EpanechnikovKernel : IRadiallySymmetricKernel

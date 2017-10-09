@@ -30,6 +30,10 @@ namespace Accord.Math.Distances
     ///   Euclidean distance metric.
     /// </summary>
     /// 
+    /// <example>
+    ///   <code source="Unit Tests\Accord.Tests.Math\DistanceTest.cs" region="doc_euclidean_4" />
+    /// </example>
+    /// 
     /// <seealso cref="SquareEuclidean"/>
     /// <seealso cref="WeightedSquareEuclidean"/>
     /// <seealso cref="WeightedEuclidean"/>
@@ -77,6 +81,10 @@ namespace Accord.Math.Distances
         ///   to the distance function implemented by this class.
         /// </returns>
         /// 
+        /// <example>
+        ///   <code source="Unit Tests\Accord.Tests.Math\DistanceTest.cs" region="doc_euclidean_4" />
+        /// </example>
+        /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
@@ -104,6 +112,10 @@ namespace Accord.Math.Distances
         /// <param name="vector2y">The second coordinate of second point in space.</param>
         /// 
         /// <returns>The Euclidean distance between x and y.</returns>
+        /// 
+        /// <example>
+        ///   <code source="Unit Tests\Accord.Tests.Math\DistanceTest.cs" region="doc_euclidean_4" />
+        /// </example>
         /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

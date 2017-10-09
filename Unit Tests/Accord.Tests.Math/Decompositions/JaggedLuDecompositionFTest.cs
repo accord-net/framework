@@ -246,46 +246,69 @@ namespace Accord.Tests.Math
         [Test]
         public void LuDecompositionConstructorTest()
         {
-            float[][] value =
+            #region doc_ctor
+            // Let's say we would like to compute the
+            // LU decomposition of the following matrix:
+            double[][] matrix =
             {
-               new float[] {  2, -1,  0 },
-               new float[] { -1,  2, -1 },
-               new float[] {  0, -1,  2 }
+               new double[] {  2, -1,  0 },
+               new double[] { -1,  2, -1 },
+               new double[] {  0, -1,  2 }
+            };
+
+            // Compute the LU decomposition with:
+            var lu = new JaggedLuDecomposition(matrix);
+
+
+            // Retrieve the lower triangular factor L:
+            double[][] L = lu.LowerTriangularFactor;
+
+            // Should be equal to
+            double[][] expectedL =
+            {
+                new double[] {  1.0000,         0,         0 },
+                new double[] { -0.5000,    1.0000,         0 },
+                new double[] {       0,   -0.6667,    1.0000 },
             };
 
 
-            float[][] expectedL =
-            {
-                new float[] {  1.0000f,         0f,         0f },
-                new float[] { -0.5000f,    1.0000f,         0f },
-                new float[] {       0f,   -0.6667f,    1.0000f },
-            };
+            // Retrieve the upper triangular factor U:
+            double[][] U = lu.UpperTriangularFactor;
 
-
-            float[][] expectedU =
+            // Should be equal to
+            double[][] expectedU =
             {
-                new float[] { 2.0000f,   -1.0000f,         0f },
-                new float[] {      0f,    1.5000f,   -1.0000f },
-                new float[] {      0f,         0f,    1.3333f },
+                new double[] { 2.0000,   -1.0000,         0 },
+                new double[] {      0,    1.5000,   -1.0000 },
+                new double[] {      0,         0,    1.3333 },
              };
 
 
-            JaggedLuDecompositionF target = new JaggedLuDecompositionF(value);
+            // Certify that the decomposition has worked as expected by
+            // trying to reconstruct the original matrix with R = L * U:
+            double[][] reconstruction = L.Dot(U);
 
-            float[][] actualL = target.LowerTriangularFactor;
-            float[][] actualU = target.UpperTriangularFactor;
+            // reconstruction should be equal to
+            // {
+            //     {  2, -1,  0 },
+            //     { -1,  2, -1 },
+            //     {  0, -1,  2 }
+            // };
+            #endregion
 
-            Assert.IsTrue(Matrix.IsEqual(expectedL, actualL, 0.001f));
-            Assert.IsTrue(Matrix.IsEqual(expectedU, actualU, 0.001f));
+
+            Assert.IsTrue(Matrix.IsEqual(matrix, reconstruction, 1e-4));
+            Assert.IsTrue(Matrix.IsEqual(expectedL, L, 1e-4));
+            Assert.IsTrue(Matrix.IsEqual(expectedU, U, 1e-4));
 
 
-            target = new JaggedLuDecompositionF(value.Transpose(), true);
+            lu = new JaggedLuDecomposition(matrix.Transpose(), true);
 
-            actualL = target.LowerTriangularFactor;
-            actualU = target.UpperTriangularFactor;
+            L = lu.LowerTriangularFactor;
+            U = lu.UpperTriangularFactor;
 
-            Assert.IsTrue(Matrix.IsEqual(expectedL, actualL, 0.001f));
-            Assert.IsTrue(Matrix.IsEqual(expectedU, actualU, 0.001f));
+            Assert.IsTrue(Matrix.IsEqual(expectedL, L, 0.001));
+            Assert.IsTrue(Matrix.IsEqual(expectedU, U, 0.001));
         }
 
         [Test]

@@ -814,6 +814,14 @@ namespace Accord.Math
 
             return true;
         }
+
+
+
+
+
+
+
+
         /// <summary>
         ///   Determines whether two vectors contain the same values.
         /// </summary>
@@ -1587,6 +1595,14 @@ namespace Accord.Math
 
             return true;
         }
+
+
+
+
+
+
+
+
         /// <summary>
         ///   Determines whether two vectors contain the same values.
         /// </summary>
@@ -2468,6 +2484,14 @@ namespace Accord.Math
 
             return true;
         }
+
+
+
+
+
+
+
+
         /// <summary>
         ///   Determines whether two vectors contain the same values.
         /// </summary>
@@ -3349,6 +3373,14 @@ namespace Accord.Math
 
             return true;
         }
+
+
+
+
+
+
+
+
         /// <summary>
         ///   Determines whether two vectors contain the same values.
         /// </summary>
@@ -4122,6 +4154,14 @@ namespace Accord.Math
 
             return true;
         }
+
+
+
+
+
+
+
+
         /// <summary>
         ///   Determines whether two vectors contain the same values.
         /// </summary>
@@ -4895,6 +4935,14 @@ namespace Accord.Math
 
             return true;
         }
+
+
+
+
+
+
+
+
         /// <summary>
         ///   Determines whether two vectors contain the same values.
         /// </summary>
@@ -5668,6 +5716,14 @@ namespace Accord.Math
 
             return true;
         }
+
+
+
+
+
+
+
+
         /// <summary>
         ///   Determines whether two vectors contain the same values.
         /// </summary>
@@ -6441,6 +6497,14 @@ namespace Accord.Math
 
             return true;
         }
+
+
+
+
+
+
+
+
         /// <summary>
         ///   Determines whether two vectors contain the same values.
         /// </summary>
@@ -7214,6 +7278,14 @@ namespace Accord.Math
 
             return true;
         }
+
+
+
+
+
+
+
+
         /// <summary>
         ///   Determines whether two vectors contain the same values.
         /// </summary>
@@ -7993,6 +8065,14 @@ namespace Accord.Math
 
             return true;
         }
+
+
+
+
+
+
+
+
         /// <summary>
         ///   Determines whether two vectors contain the same values.
         /// </summary>
@@ -8874,6 +8954,14 @@ namespace Accord.Math
 
             return true;
         }
+
+
+
+
+
+
+
+
         /// <summary>
         ///   Determines whether two vectors contain the same values.
         /// </summary>
@@ -9755,6 +9843,14 @@ namespace Accord.Math
 
             return true;
         }
+
+
+
+
+
+
+
+
         /// <summary>
         ///   Determines whether two vectors contain the same values.
         /// </summary>
@@ -10528,6 +10624,14 @@ namespace Accord.Math
 
             return true;
         }
+
+
+
+
+
+
+
+
         /// <summary>
         ///   Determines whether two vectors contain the same values.
         /// </summary>
@@ -11301,6 +11405,14 @@ namespace Accord.Math
 
             return true;
         }
+
+
+
+
+
+
+
+
         /// <summary>
         ///   Determines whether two vectors contain the same values.
         /// </summary>
@@ -12074,6 +12186,14 @@ namespace Accord.Math
 
             return true;
         }
+
+
+
+
+
+
+
+
         /// <summary>
         ///   Determines whether two vectors contain the same values.
         /// </summary>
@@ -12847,6 +12967,14 @@ namespace Accord.Math
 
             return true;
         }
+
+
+
+
+
+
+
+
         /// <summary>
         ///   Determines whether two vectors contain the same values.
         /// </summary>
@@ -13728,6 +13856,14 @@ namespace Accord.Math
 
             return true;
         }
+
+
+
+
+
+
+
+
         /// <summary>
         ///   Determines whether two vectors contain the same values.
         /// </summary>
@@ -14609,6 +14745,14 @@ namespace Accord.Math
 
             return true;
         }
+
+
+
+
+
+
+
+
         /// <summary>
         ///   Determines whether two vectors contain the same values.
         /// </summary>
@@ -15604,6 +15748,14 @@ namespace Accord.Math
 
             return true;
         }
+
+
+
+
+
+
+
+
         /// <summary>
         ///   Determines whether two vectors contain the same values.
         /// </summary>
@@ -16593,6 +16745,14 @@ namespace Accord.Math
 
             return true;
         }
+
+
+
+
+
+
+
+
         /// <summary>
         ///   Determines whether two vectors contain the same values.
         /// </summary>
@@ -17474,6 +17634,14 @@ namespace Accord.Math
 
             return true;
         }
+
+
+
+
+
+
+
+
         /// <summary>
         ///   Determines whether two vectors contain the same values.
         /// </summary>
@@ -18319,6 +18487,14 @@ namespace Accord.Math
 
             return true;
         }
+
+
+
+
+
+
+
+
         /// <summary>
         ///   Determines whether two vectors contain the same values.
         /// </summary>
@@ -19200,6 +19376,14 @@ namespace Accord.Math
 
             return true;
         }
+
+
+
+
+
+
+
+
         /// <summary>
         ///   Determines whether two vectors contain the same values.
         /// </summary>
@@ -20081,6 +20265,14 @@ namespace Accord.Math
 
             return true;
         }
+
+
+
+
+
+
+
+
         /// <summary>
         ///   Determines whether two vectors contain the same values.
         /// </summary>
@@ -20962,6 +21154,14 @@ namespace Accord.Math
 
             return true;
         }
+
+
+
+
+
+
+
+
         /// <summary>
         ///   Determines whether two vectors contain the same values.
         /// </summary>
@@ -21843,6 +22043,14 @@ namespace Accord.Math
 
             return true;
         }
+
+
+
+
+
+
+
+
         /// <summary>
         ///   Determines whether two vectors contain the same values.
         /// </summary>
@@ -22832,6 +23040,14 @@ namespace Accord.Math
 
             return true;
         }
+
+
+
+
+
+
+
+
         /// <summary>
         ///   Determines whether two vectors contain the same values.
         /// </summary>
@@ -23827,6 +24043,14 @@ namespace Accord.Math
 
             return true;
         }
+
+
+
+
+
+
+
+
         /// <summary>
         ///   Determines whether two vectors contain the same values.
         /// </summary>
@@ -24708,6 +24932,14 @@ namespace Accord.Math
 
             return true;
         }
+
+
+
+
+
+
+
+
         /// <summary>
         ///   Determines whether two vectors contain the same values.
         /// </summary>
@@ -25553,6 +25785,14 @@ namespace Accord.Math
 
             return true;
         }
+
+
+
+
+
+
+
+
         /// <summary>
         ///   Determines whether two vectors contain the same values.
         /// </summary>
@@ -26434,6 +26674,14 @@ namespace Accord.Math
 
             return true;
         }
+
+
+
+
+
+
+
+
         /// <summary>
         ///   Determines whether two vectors contain the same values.
         /// </summary>
@@ -27315,6 +27563,14 @@ namespace Accord.Math
 
             return true;
         }
+
+
+
+
+
+
+
+
         /// <summary>
         ///   Determines whether two vectors contain the same values.
         /// </summary>
@@ -28088,6 +28344,14 @@ namespace Accord.Math
 
             return true;
         }
+
+
+
+
+
+
+
+
         /// <summary>
         ///   Determines whether two vectors contain the same values.
         /// </summary>
@@ -28861,6 +29125,14 @@ namespace Accord.Math
 
             return true;
         }
+
+
+
+
+
+
+
+
         /// <summary>
         ///   Determines whether two vectors contain the same values.
         /// </summary>
@@ -29742,6 +30014,14 @@ namespace Accord.Math
 
             return true;
         }
+
+
+
+
+
+
+
+
         /// <summary>
         ///   Determines whether two vectors contain the same values.
         /// </summary>
@@ -30623,6 +30903,14 @@ namespace Accord.Math
 
             return true;
         }
+
+
+
+
+
+
+
+
         /// <summary>
         ///   Determines whether two vectors contain the same values.
         /// </summary>
@@ -31402,6 +31690,14 @@ namespace Accord.Math
 
             return true;
         }
+
+
+
+
+
+
+
+
         /// <summary>
         ///   Determines whether two vectors contain the same values.
         /// </summary>
@@ -32175,6 +32471,14 @@ namespace Accord.Math
 
             return true;
         }
+
+
+
+
+
+
+
+
         /// <summary>
         ///   Determines whether two vectors contain the same values.
         /// </summary>
@@ -32948,6 +33252,14 @@ namespace Accord.Math
 
             return true;
         }
+
+
+
+
+
+
+
+
         /// <summary>
         ///   Determines whether two vectors contain the same values.
         /// </summary>
@@ -33721,6 +34033,14 @@ namespace Accord.Math
 
             return true;
         }
+
+
+
+
+
+
+
+
         /// <summary>
         ///   Determines whether two vectors contain the same values.
         /// </summary>
@@ -34494,6 +34814,14 @@ namespace Accord.Math
 
             return true;
         }
+
+
+
+
+
+
+
+
         /// <summary>
         ///   Determines whether two vectors contain the same values.
         /// </summary>
@@ -35267,6 +35595,14 @@ namespace Accord.Math
 
             return true;
         }
+
+
+
+
+
+
+
+
         /// <summary>
         ///   Determines whether two vectors contain the same values.
         /// </summary>
@@ -36112,6 +36448,14 @@ namespace Accord.Math
 
             return true;
         }
+
+
+
+
+
+
+
+
         /// <summary>
         ///   Determines whether two vectors contain the same values.
         /// </summary>
@@ -36957,6 +37301,14 @@ namespace Accord.Math
 
             return true;
         }
+
+
+
+
+
+
+
+
         /// <summary>
         ///   Determines whether two vectors contain the same values.
         /// </summary>
@@ -37730,6 +38082,14 @@ namespace Accord.Math
 
             return true;
         }
+
+
+
+
+
+
+
+
         /// <summary>
         ///   Determines whether two vectors contain the same values.
         /// </summary>
@@ -38509,6 +38869,14 @@ namespace Accord.Math
 
             return true;
         }
+
+
+
+
+
+
+
+
         /// <summary>
         ///   Determines whether two vectors contain the same values.
         /// </summary>
@@ -39282,6 +39650,14 @@ namespace Accord.Math
 
             return true;
         }
+
+
+
+
+
+
+
+
         /// <summary>
         ///   Determines whether two vectors contain the same values.
         /// </summary>
@@ -40055,6 +40431,14 @@ namespace Accord.Math
 
             return true;
         }
+
+
+
+
+
+
+
+
         /// <summary>
         ///   Determines whether two vectors contain the same values.
         /// </summary>
@@ -40828,6 +41212,14 @@ namespace Accord.Math
 
             return true;
         }
+
+
+
+
+
+
+
+
         /// <summary>
         ///   Determines whether two vectors contain the same values.
         /// </summary>
@@ -41601,6 +41993,14 @@ namespace Accord.Math
 
             return true;
         }
+
+
+
+
+
+
+
+
         /// <summary>
         ///   Determines whether two vectors contain the same values.
         /// </summary>
@@ -42482,6 +42882,14 @@ namespace Accord.Math
 
             return true;
         }
+
+
+
+
+
+
+
+
         /// <summary>
         ///   Determines whether two vectors contain the same values.
         /// </summary>
@@ -43363,6 +43771,14 @@ namespace Accord.Math
 
             return true;
         }
+
+
+
+
+
+
+
+
         /// <summary>
         ///   Determines whether two vectors contain the same values.
         /// </summary>
@@ -44136,6 +44552,14 @@ namespace Accord.Math
 
             return true;
         }
+
+
+
+
+
+
+
+
         /// <summary>
         ///   Determines whether two vectors contain the same values.
         /// </summary>
@@ -44909,6 +45333,14 @@ namespace Accord.Math
 
             return true;
         }
+
+
+
+
+
+
+
+
         /// <summary>
         ///   Determines whether two vectors contain the same values.
         /// </summary>
@@ -45688,6 +46120,14 @@ namespace Accord.Math
 
             return true;
         }
+
+
+
+
+
+
+
+
         /// <summary>
         ///   Determines whether two vectors contain the same values.
         /// </summary>
@@ -46461,6 +46901,14 @@ namespace Accord.Math
 
             return true;
         }
+
+
+
+
+
+
+
+
         /// <summary>
         ///   Determines whether two vectors contain the same values.
         /// </summary>
@@ -47234,6 +47682,14 @@ namespace Accord.Math
 
             return true;
         }
+
+
+
+
+
+
+
+
         /// <summary>
         ///   Determines whether two vectors contain the same values.
         /// </summary>
@@ -48007,6 +48463,14 @@ namespace Accord.Math
 
             return true;
         }
+
+
+
+
+
+
+
+
         /// <summary>
         ///   Determines whether two vectors contain the same values.
         /// </summary>
@@ -48888,6 +49352,14 @@ namespace Accord.Math
 
             return true;
         }
+
+
+
+
+
+
+
+
         /// <summary>
         ///   Determines whether two vectors contain the same values.
         /// </summary>
@@ -49769,6 +50241,14 @@ namespace Accord.Math
 
             return true;
         }
+
+
+
+
+
+
+
+
         /// <summary>
         ///   Determines whether two vectors contain the same values.
         /// </summary>
@@ -50542,6 +51022,14 @@ namespace Accord.Math
 
             return true;
         }
+
+
+
+
+
+
+
+
         /// <summary>
         ///   Determines whether two vectors contain the same values.
         /// </summary>
@@ -51315,6 +51803,14 @@ namespace Accord.Math
 
             return true;
         }
+
+
+
+
+
+
+
+
         /// <summary>
         ///   Determines whether two vectors contain the same values.
         /// </summary>
@@ -52088,6 +52584,14 @@ namespace Accord.Math
 
             return true;
         }
+
+
+
+
+
+
+
+
         /// <summary>
         ///   Determines whether two vectors contain the same values.
         /// </summary>
@@ -52867,5 +53371,1317 @@ namespace Accord.Math
 
             return true;
         }
+
+
+
+
+
+
+
+
+
+		/// <summary>
+        ///   Determines a matrix is symmetric.
+        /// </summary>
+        ///
+#if NET45 || NET46 || NET462 || NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool IsSymmetric(this Int32[][] a, Int32 atol = 0, Double rtol = 0)
+        {
+    if (!a.IsSquare())
+        return false;
+
+            if (rtol > 0)
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+{
+    var A = a[i][j];
+    var B = a[j][i];
+    if (A == B)
+        continue;
+    var C = A;
+    var D = B;
+    var delta = Math.Abs(C - D);
+    if (C == 0)
+    {
+        if (delta <= rtol)
+            continue;
+    }
+    else if (D == 0)
+    {
+        if (delta <= rtol)
+            continue;
+    }
+
+    if (delta <= Math.Abs(C) * rtol)
+        continue;
+    return false;
+}
+
+            }
+            else if (atol > 0)
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+{
+    var A = a[i][j];
+    var B = a[j][i];
+    if (A == B)
+        continue;
+    var C = A;
+    var D = B;
+    if (Math.Abs(C - D) <= atol)
+        continue;
+    return false;
+}
+
+            }
+            else
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+{
+    var A = a[i][j];
+    var B = a[j][i];
+    if (A != B)
+        return false;
+}
+
+            }
+
+            return true;
+        }
+
+		/// <summary>
+        ///   Determines a matrix is symmetric.
+        /// </summary>
+        ///
+#if NET45 || NET46 || NET462 || NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool IsSymmetric(this Int32[,] a, Int32 atol = 0, Double rtol = 0)
+        {
+    if (!a.IsSquare())
+        return false;
+
+            if (rtol > 0)
+            {
+                for (int i = 0; i < a.Rows(); i++)
+                    for (int j = 0; j < i; j++)
+{
+    var A = a[i, j];
+    var B = a[j, i];
+    if (A == B)
+        continue;
+    var C = A;
+    var D = B;
+    var delta = Math.Abs(C - D);
+    if (C == 0)
+    {
+        if (delta <= rtol)
+            continue;
+    }
+    else if (D == 0)
+    {
+        if (delta <= rtol)
+            continue;
+    }
+
+    if (delta <= Math.Abs(C) * rtol)
+        continue;
+    return false;
+}
+
+            }
+            else if (atol > 0)
+            {
+                for (int i = 0; i < a.Rows(); i++)
+                    for (int j = 0; j < i; j++)
+{
+    var A = a[i, j];
+    var B = a[j, i];
+    if (A == B)
+        continue;
+    var C = A;
+    var D = B;
+    if (Math.Abs(C - D) <= atol)
+        continue;
+    return false;
+}
+
+            }
+            else
+            {
+                for (int i = 0; i < a.Rows(); i++)
+                    for (int j = 0; j < i; j++)
+{
+    var A = a[i, j];
+    var B = a[j, i];
+    if (A != B)
+        return false;
+}
+
+            }
+
+            return true;
+        }
+
+
+
+
+		/// <summary>
+        ///   Determines a matrix is symmetric.
+        /// </summary>
+        ///
+#if NET45 || NET46 || NET462 || NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool IsSymmetric(this Int16[][] a, Int16 atol = 0, Double rtol = 0)
+        {
+    if (!a.IsSquare())
+        return false;
+
+            if (rtol > 0)
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+{
+    var A = a[i][j];
+    var B = a[j][i];
+    if (A == B)
+        continue;
+    var C = A;
+    var D = B;
+    var delta = Math.Abs(C - D);
+    if (C == 0)
+    {
+        if (delta <= rtol)
+            continue;
+    }
+    else if (D == 0)
+    {
+        if (delta <= rtol)
+            continue;
+    }
+
+    if (delta <= Math.Abs(C) * rtol)
+        continue;
+    return false;
+}
+
+            }
+            else if (atol > 0)
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+{
+    var A = a[i][j];
+    var B = a[j][i];
+    if (A == B)
+        continue;
+    var C = A;
+    var D = B;
+    if (Math.Abs(C - D) <= atol)
+        continue;
+    return false;
+}
+
+            }
+            else
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+{
+    var A = a[i][j];
+    var B = a[j][i];
+    if (A != B)
+        return false;
+}
+
+            }
+
+            return true;
+        }
+
+		/// <summary>
+        ///   Determines a matrix is symmetric.
+        /// </summary>
+        ///
+#if NET45 || NET46 || NET462 || NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool IsSymmetric(this Int16[,] a, Int16 atol = 0, Double rtol = 0)
+        {
+    if (!a.IsSquare())
+        return false;
+
+            if (rtol > 0)
+            {
+                for (int i = 0; i < a.Rows(); i++)
+                    for (int j = 0; j < i; j++)
+{
+    var A = a[i, j];
+    var B = a[j, i];
+    if (A == B)
+        continue;
+    var C = A;
+    var D = B;
+    var delta = Math.Abs(C - D);
+    if (C == 0)
+    {
+        if (delta <= rtol)
+            continue;
+    }
+    else if (D == 0)
+    {
+        if (delta <= rtol)
+            continue;
+    }
+
+    if (delta <= Math.Abs(C) * rtol)
+        continue;
+    return false;
+}
+
+            }
+            else if (atol > 0)
+            {
+                for (int i = 0; i < a.Rows(); i++)
+                    for (int j = 0; j < i; j++)
+{
+    var A = a[i, j];
+    var B = a[j, i];
+    if (A == B)
+        continue;
+    var C = A;
+    var D = B;
+    if (Math.Abs(C - D) <= atol)
+        continue;
+    return false;
+}
+
+            }
+            else
+            {
+                for (int i = 0; i < a.Rows(); i++)
+                    for (int j = 0; j < i; j++)
+{
+    var A = a[i, j];
+    var B = a[j, i];
+    if (A != B)
+        return false;
+}
+
+            }
+
+            return true;
+        }
+
+
+
+
+		/// <summary>
+        ///   Determines a matrix is symmetric.
+        /// </summary>
+        ///
+#if NET45 || NET46 || NET462 || NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool IsSymmetric(this Single[][] a, Single atol = 0, Double rtol = 0)
+        {
+    if (!a.IsSquare())
+        return false;
+
+            if (rtol > 0)
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+{
+    var A = a[i][j];
+    var B = a[j][i];
+    if (A == B)
+        continue;
+    if (Single.IsNaN(A) && Single.IsNaN(B))
+        continue;
+    if (Single.IsNaN(A) ^ Single.IsNaN(B))
+        return false;
+    if (Single.IsPositiveInfinity(A) ^ Single.IsPositiveInfinity(B))
+        return false;
+    if (Single.IsNegativeInfinity(A) ^ Single.IsNegativeInfinity(B))
+        return false;
+    var C = A;
+    var D = B;
+    var delta = Math.Abs(C - D);
+    if (C == 0)
+    {
+        if (delta <= rtol)
+            continue;
+    }
+    else if (D == 0)
+    {
+        if (delta <= rtol)
+            continue;
+    }
+
+    if (delta <= Math.Abs(C) * rtol)
+        continue;
+    return false;
+}
+
+            }
+            else if (atol > 0)
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+{
+    var A = a[i][j];
+    var B = a[j][i];
+    if (A == B)
+        continue;
+    if (Single.IsNaN(A) && Single.IsNaN(B))
+        continue;
+    if (Single.IsNaN(A) ^ Single.IsNaN(B))
+        return false;
+    if (Single.IsPositiveInfinity(A) ^ Single.IsPositiveInfinity(B))
+        return false;
+    if (Single.IsNegativeInfinity(A) ^ Single.IsNegativeInfinity(B))
+        return false;
+    var C = A;
+    var D = B;
+    if (Math.Abs(C - D) <= atol)
+        continue;
+    return false;
+}
+
+            }
+            else
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+{
+    var A = a[i][j];
+    var B = a[j][i];
+    if (Single.IsNaN(A) && Single.IsNaN(B))
+        continue;
+    if (Single.IsNaN(A) ^ Single.IsNaN(B))
+        return false;
+    if (Single.IsPositiveInfinity(A) ^ Single.IsPositiveInfinity(B))
+        return false;
+    if (Single.IsNegativeInfinity(A) ^ Single.IsNegativeInfinity(B))
+        return false;
+    if (A != B)
+        return false;
+}
+
+            }
+
+            return true;
+        }
+
+		/// <summary>
+        ///   Determines a matrix is symmetric.
+        /// </summary>
+        ///
+#if NET45 || NET46 || NET462 || NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool IsSymmetric(this Single[,] a, Single atol = 0, Double rtol = 0)
+        {
+    if (!a.IsSquare())
+        return false;
+
+            if (rtol > 0)
+            {
+                for (int i = 0; i < a.Rows(); i++)
+                    for (int j = 0; j < i; j++)
+{
+    var A = a[i, j];
+    var B = a[j, i];
+    if (A == B)
+        continue;
+    if (Single.IsNaN(A) && Single.IsNaN(B))
+        continue;
+    if (Single.IsNaN(A) ^ Single.IsNaN(B))
+        return false;
+    if (Single.IsPositiveInfinity(A) ^ Single.IsPositiveInfinity(B))
+        return false;
+    if (Single.IsNegativeInfinity(A) ^ Single.IsNegativeInfinity(B))
+        return false;
+    var C = A;
+    var D = B;
+    var delta = Math.Abs(C - D);
+    if (C == 0)
+    {
+        if (delta <= rtol)
+            continue;
+    }
+    else if (D == 0)
+    {
+        if (delta <= rtol)
+            continue;
+    }
+
+    if (delta <= Math.Abs(C) * rtol)
+        continue;
+    return false;
+}
+
+            }
+            else if (atol > 0)
+            {
+                for (int i = 0; i < a.Rows(); i++)
+                    for (int j = 0; j < i; j++)
+{
+    var A = a[i, j];
+    var B = a[j, i];
+    if (A == B)
+        continue;
+    if (Single.IsNaN(A) && Single.IsNaN(B))
+        continue;
+    if (Single.IsNaN(A) ^ Single.IsNaN(B))
+        return false;
+    if (Single.IsPositiveInfinity(A) ^ Single.IsPositiveInfinity(B))
+        return false;
+    if (Single.IsNegativeInfinity(A) ^ Single.IsNegativeInfinity(B))
+        return false;
+    var C = A;
+    var D = B;
+    if (Math.Abs(C - D) <= atol)
+        continue;
+    return false;
+}
+
+            }
+            else
+            {
+                for (int i = 0; i < a.Rows(); i++)
+                    for (int j = 0; j < i; j++)
+{
+    var A = a[i, j];
+    var B = a[j, i];
+    if (Single.IsNaN(A) && Single.IsNaN(B))
+        continue;
+    if (Single.IsNaN(A) ^ Single.IsNaN(B))
+        return false;
+    if (Single.IsPositiveInfinity(A) ^ Single.IsPositiveInfinity(B))
+        return false;
+    if (Single.IsNegativeInfinity(A) ^ Single.IsNegativeInfinity(B))
+        return false;
+    if (A != B)
+        return false;
+}
+
+            }
+
+            return true;
+        }
+
+
+
+
+		/// <summary>
+        ///   Determines a matrix is symmetric.
+        /// </summary>
+        ///
+#if NET45 || NET46 || NET462 || NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool IsSymmetric(this Double[][] a, Double atol = 0, Double rtol = 0)
+        {
+    if (!a.IsSquare())
+        return false;
+
+            if (rtol > 0)
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+{
+    var A = a[i][j];
+    var B = a[j][i];
+    if (A == B)
+        continue;
+    if (Double.IsNaN(A) && Double.IsNaN(B))
+        continue;
+    if (Double.IsNaN(A) ^ Double.IsNaN(B))
+        return false;
+    if (Double.IsPositiveInfinity(A) ^ Double.IsPositiveInfinity(B))
+        return false;
+    if (Double.IsNegativeInfinity(A) ^ Double.IsNegativeInfinity(B))
+        return false;
+    var C = A;
+    var D = B;
+    var delta = Math.Abs(C - D);
+    if (C == 0)
+    {
+        if (delta <= rtol)
+            continue;
+    }
+    else if (D == 0)
+    {
+        if (delta <= rtol)
+            continue;
+    }
+
+    if (delta <= Math.Abs(C) * rtol)
+        continue;
+    return false;
+}
+
+            }
+            else if (atol > 0)
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+{
+    var A = a[i][j];
+    var B = a[j][i];
+    if (A == B)
+        continue;
+    if (Double.IsNaN(A) && Double.IsNaN(B))
+        continue;
+    if (Double.IsNaN(A) ^ Double.IsNaN(B))
+        return false;
+    if (Double.IsPositiveInfinity(A) ^ Double.IsPositiveInfinity(B))
+        return false;
+    if (Double.IsNegativeInfinity(A) ^ Double.IsNegativeInfinity(B))
+        return false;
+    var C = A;
+    var D = B;
+    if (Math.Abs(C - D) <= atol)
+        continue;
+    return false;
+}
+
+            }
+            else
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+{
+    var A = a[i][j];
+    var B = a[j][i];
+    if (Double.IsNaN(A) && Double.IsNaN(B))
+        continue;
+    if (Double.IsNaN(A) ^ Double.IsNaN(B))
+        return false;
+    if (Double.IsPositiveInfinity(A) ^ Double.IsPositiveInfinity(B))
+        return false;
+    if (Double.IsNegativeInfinity(A) ^ Double.IsNegativeInfinity(B))
+        return false;
+    if (A != B)
+        return false;
+}
+
+            }
+
+            return true;
+        }
+
+		/// <summary>
+        ///   Determines a matrix is symmetric.
+        /// </summary>
+        ///
+#if NET45 || NET46 || NET462 || NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool IsSymmetric(this Double[,] a, Double atol = 0, Double rtol = 0)
+        {
+    if (!a.IsSquare())
+        return false;
+
+            if (rtol > 0)
+            {
+                for (int i = 0; i < a.Rows(); i++)
+                    for (int j = 0; j < i; j++)
+{
+    var A = a[i, j];
+    var B = a[j, i];
+    if (A == B)
+        continue;
+    if (Double.IsNaN(A) && Double.IsNaN(B))
+        continue;
+    if (Double.IsNaN(A) ^ Double.IsNaN(B))
+        return false;
+    if (Double.IsPositiveInfinity(A) ^ Double.IsPositiveInfinity(B))
+        return false;
+    if (Double.IsNegativeInfinity(A) ^ Double.IsNegativeInfinity(B))
+        return false;
+    var C = A;
+    var D = B;
+    var delta = Math.Abs(C - D);
+    if (C == 0)
+    {
+        if (delta <= rtol)
+            continue;
+    }
+    else if (D == 0)
+    {
+        if (delta <= rtol)
+            continue;
+    }
+
+    if (delta <= Math.Abs(C) * rtol)
+        continue;
+    return false;
+}
+
+            }
+            else if (atol > 0)
+            {
+                for (int i = 0; i < a.Rows(); i++)
+                    for (int j = 0; j < i; j++)
+{
+    var A = a[i, j];
+    var B = a[j, i];
+    if (A == B)
+        continue;
+    if (Double.IsNaN(A) && Double.IsNaN(B))
+        continue;
+    if (Double.IsNaN(A) ^ Double.IsNaN(B))
+        return false;
+    if (Double.IsPositiveInfinity(A) ^ Double.IsPositiveInfinity(B))
+        return false;
+    if (Double.IsNegativeInfinity(A) ^ Double.IsNegativeInfinity(B))
+        return false;
+    var C = A;
+    var D = B;
+    if (Math.Abs(C - D) <= atol)
+        continue;
+    return false;
+}
+
+            }
+            else
+            {
+                for (int i = 0; i < a.Rows(); i++)
+                    for (int j = 0; j < i; j++)
+{
+    var A = a[i, j];
+    var B = a[j, i];
+    if (Double.IsNaN(A) && Double.IsNaN(B))
+        continue;
+    if (Double.IsNaN(A) ^ Double.IsNaN(B))
+        return false;
+    if (Double.IsPositiveInfinity(A) ^ Double.IsPositiveInfinity(B))
+        return false;
+    if (Double.IsNegativeInfinity(A) ^ Double.IsNegativeInfinity(B))
+        return false;
+    if (A != B)
+        return false;
+}
+
+            }
+
+            return true;
+        }
+
+
+
+
+		/// <summary>
+        ///   Determines a matrix is symmetric.
+        /// </summary>
+        ///
+#if NET45 || NET46 || NET462 || NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool IsSymmetric(this Int64[][] a, Int64 atol = 0, Double rtol = 0)
+        {
+    if (!a.IsSquare())
+        return false;
+
+            if (rtol > 0)
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+{
+    var A = a[i][j];
+    var B = a[j][i];
+    if (A == B)
+        continue;
+    var C = A;
+    var D = B;
+    var delta = Math.Abs(C - D);
+    if (C == 0)
+    {
+        if (delta <= rtol)
+            continue;
+    }
+    else if (D == 0)
+    {
+        if (delta <= rtol)
+            continue;
+    }
+
+    if (delta <= Math.Abs(C) * rtol)
+        continue;
+    return false;
+}
+
+            }
+            else if (atol > 0)
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+{
+    var A = a[i][j];
+    var B = a[j][i];
+    if (A == B)
+        continue;
+    var C = A;
+    var D = B;
+    if (Math.Abs(C - D) <= atol)
+        continue;
+    return false;
+}
+
+            }
+            else
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+{
+    var A = a[i][j];
+    var B = a[j][i];
+    if (A != B)
+        return false;
+}
+
+            }
+
+            return true;
+        }
+
+		/// <summary>
+        ///   Determines a matrix is symmetric.
+        /// </summary>
+        ///
+#if NET45 || NET46 || NET462 || NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool IsSymmetric(this Int64[,] a, Int64 atol = 0, Double rtol = 0)
+        {
+    if (!a.IsSquare())
+        return false;
+
+            if (rtol > 0)
+            {
+                for (int i = 0; i < a.Rows(); i++)
+                    for (int j = 0; j < i; j++)
+{
+    var A = a[i, j];
+    var B = a[j, i];
+    if (A == B)
+        continue;
+    var C = A;
+    var D = B;
+    var delta = Math.Abs(C - D);
+    if (C == 0)
+    {
+        if (delta <= rtol)
+            continue;
+    }
+    else if (D == 0)
+    {
+        if (delta <= rtol)
+            continue;
+    }
+
+    if (delta <= Math.Abs(C) * rtol)
+        continue;
+    return false;
+}
+
+            }
+            else if (atol > 0)
+            {
+                for (int i = 0; i < a.Rows(); i++)
+                    for (int j = 0; j < i; j++)
+{
+    var A = a[i, j];
+    var B = a[j, i];
+    if (A == B)
+        continue;
+    var C = A;
+    var D = B;
+    if (Math.Abs(C - D) <= atol)
+        continue;
+    return false;
+}
+
+            }
+            else
+            {
+                for (int i = 0; i < a.Rows(); i++)
+                    for (int j = 0; j < i; j++)
+{
+    var A = a[i, j];
+    var B = a[j, i];
+    if (A != B)
+        return false;
+}
+
+            }
+
+            return true;
+        }
+
+
+
+
+		/// <summary>
+        ///   Determines a matrix is symmetric.
+        /// </summary>
+        ///
+#if NET45 || NET46 || NET462 || NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool IsSymmetric(this Decimal[][] a, Decimal atol = 0, Decimal rtol = 0)
+        {
+    if (!a.IsSquare())
+        return false;
+
+            if (rtol > 0)
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+{
+    var A = a[i][j];
+    var B = a[j][i];
+    decimal C = (decimal)A;
+    decimal D = (decimal)B;
+    if (C == D)
+        continue;
+    var delta = Math.Abs(C - D);
+    if (C == 0)
+    {
+        if (delta <= rtol)
+            continue;
+    }
+    else if (D == 0)
+    {
+        if (delta <= rtol)
+            continue;
+    }
+
+    if (delta <= Math.Abs(C) * rtol)
+        continue;
+    return false;
+}
+
+            }
+            else if (atol > 0)
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+{
+    var A = a[i][j];
+    var B = a[j][i];
+    decimal C = (decimal)A;
+    decimal D = (decimal)B;
+    if (C == D)
+        continue;
+    if (Math.Abs(C - D) <= atol)
+        continue;
+    return false;
+}
+
+            }
+            else
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+{
+    var A = (decimal)a[i][j];
+    var B = (decimal)a[j][i];
+    if (A != B)
+        return false;
+}
+
+            }
+
+            return true;
+        }
+
+		/// <summary>
+        ///   Determines a matrix is symmetric.
+        /// </summary>
+        ///
+#if NET45 || NET46 || NET462 || NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool IsSymmetric(this Decimal[,] a, Decimal atol = 0, Decimal rtol = 0)
+        {
+    if (!a.IsSquare())
+        return false;
+
+            if (rtol > 0)
+            {
+                for (int i = 0; i < a.Rows(); i++)
+                    for (int j = 0; j < i; j++)
+{
+    var A = a[i, j];
+    var B = a[j, i];
+    decimal C = (decimal)A;
+    decimal D = (decimal)B;
+    if (C == D)
+        continue;
+    var delta = Math.Abs(C - D);
+    if (C == 0)
+    {
+        if (delta <= rtol)
+            continue;
+    }
+    else if (D == 0)
+    {
+        if (delta <= rtol)
+            continue;
+    }
+
+    if (delta <= Math.Abs(C) * rtol)
+        continue;
+    return false;
+}
+
+            }
+            else if (atol > 0)
+            {
+                for (int i = 0; i < a.Rows(); i++)
+                    for (int j = 0; j < i; j++)
+{
+    var A = a[i, j];
+    var B = a[j, i];
+    decimal C = (decimal)A;
+    decimal D = (decimal)B;
+    if (C == D)
+        continue;
+    if (Math.Abs(C - D) <= atol)
+        continue;
+    return false;
+}
+
+            }
+            else
+            {
+                for (int i = 0; i < a.Rows(); i++)
+                    for (int j = 0; j < i; j++)
+{
+    var A = (decimal)a[i, j];
+    var B = (decimal)a[j, i];
+    if (A != B)
+        return false;
+}
+
+            }
+
+            return true;
+        }
+
+
+
+
+		/// <summary>
+        ///   Determines a matrix is symmetric.
+        /// </summary>
+        ///
+#if NET45 || NET46 || NET462 || NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool IsSymmetric(this Byte[][] a, Byte atol = 0, Double rtol = 0)
+        {
+    if (!a.IsSquare())
+        return false;
+
+            if (rtol > 0)
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+{
+    var A = a[i][j];
+    var B = a[j][i];
+    if (A == B)
+        continue;
+    var C = A;
+    var D = B;
+    var delta = Math.Abs(C - D);
+    if (C == 0)
+    {
+        if (delta <= rtol)
+            continue;
+    }
+    else if (D == 0)
+    {
+        if (delta <= rtol)
+            continue;
+    }
+
+    if (delta <= Math.Abs(C) * rtol)
+        continue;
+    return false;
+}
+
+            }
+            else if (atol > 0)
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+{
+    var A = a[i][j];
+    var B = a[j][i];
+    if (A == B)
+        continue;
+    var C = A;
+    var D = B;
+    if (Math.Abs(C - D) <= atol)
+        continue;
+    return false;
+}
+
+            }
+            else
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+{
+    var A = a[i][j];
+    var B = a[j][i];
+    if (A != B)
+        return false;
+}
+
+            }
+
+            return true;
+        }
+
+		/// <summary>
+        ///   Determines a matrix is symmetric.
+        /// </summary>
+        ///
+#if NET45 || NET46 || NET462 || NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool IsSymmetric(this Byte[,] a, Byte atol = 0, Double rtol = 0)
+        {
+    if (!a.IsSquare())
+        return false;
+
+            if (rtol > 0)
+            {
+                for (int i = 0; i < a.Rows(); i++)
+                    for (int j = 0; j < i; j++)
+{
+    var A = a[i, j];
+    var B = a[j, i];
+    if (A == B)
+        continue;
+    var C = A;
+    var D = B;
+    var delta = Math.Abs(C - D);
+    if (C == 0)
+    {
+        if (delta <= rtol)
+            continue;
+    }
+    else if (D == 0)
+    {
+        if (delta <= rtol)
+            continue;
+    }
+
+    if (delta <= Math.Abs(C) * rtol)
+        continue;
+    return false;
+}
+
+            }
+            else if (atol > 0)
+            {
+                for (int i = 0; i < a.Rows(); i++)
+                    for (int j = 0; j < i; j++)
+{
+    var A = a[i, j];
+    var B = a[j, i];
+    if (A == B)
+        continue;
+    var C = A;
+    var D = B;
+    if (Math.Abs(C - D) <= atol)
+        continue;
+    return false;
+}
+
+            }
+            else
+            {
+                for (int i = 0; i < a.Rows(); i++)
+                    for (int j = 0; j < i; j++)
+{
+    var A = a[i, j];
+    var B = a[j, i];
+    if (A != B)
+        return false;
+}
+
+            }
+
+            return true;
+        }
+
+
+
+
+		/// <summary>
+        ///   Determines a matrix is symmetric.
+        /// </summary>
+        ///
+#if NET45 || NET46 || NET462 || NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool IsSymmetric(this sbyte[][] a, byte atol = 0, Double rtol = 0)
+        {
+    if (!a.IsSquare())
+        return false;
+
+            if (rtol > 0)
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+{
+    var A = a[i][j];
+    var B = a[j][i];
+    if (A == B)
+        continue;
+    var C = A;
+    var D = B;
+    var delta = Math.Abs(C - D);
+    if (C == 0)
+    {
+        if (delta <= rtol)
+            continue;
+    }
+    else if (D == 0)
+    {
+        if (delta <= rtol)
+            continue;
+    }
+
+    if (delta <= Math.Abs(C) * rtol)
+        continue;
+    return false;
+}
+
+            }
+            else if (atol > 0)
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+{
+    var A = a[i][j];
+    var B = a[j][i];
+    if (A == B)
+        continue;
+    var C = A;
+    var D = B;
+    if (Math.Abs(C - D) <= atol)
+        continue;
+    return false;
+}
+
+            }
+            else
+            {
+                for (int i = 0; i < a.Length; i++)
+                    for (int j = 0; j < a[i].Length; j++)
+{
+    var A = a[i][j];
+    var B = a[j][i];
+    if (A != B)
+        return false;
+}
+
+            }
+
+            return true;
+        }
+
+		/// <summary>
+        ///   Determines a matrix is symmetric.
+        /// </summary>
+        ///
+#if NET45 || NET46 || NET462 || NETSTANDARD
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool IsSymmetric(this sbyte[,] a, byte atol = 0, Double rtol = 0)
+        {
+    if (!a.IsSquare())
+        return false;
+
+            if (rtol > 0)
+            {
+                for (int i = 0; i < a.Rows(); i++)
+                    for (int j = 0; j < i; j++)
+{
+    var A = a[i, j];
+    var B = a[j, i];
+    if (A == B)
+        continue;
+    var C = A;
+    var D = B;
+    var delta = Math.Abs(C - D);
+    if (C == 0)
+    {
+        if (delta <= rtol)
+            continue;
+    }
+    else if (D == 0)
+    {
+        if (delta <= rtol)
+            continue;
+    }
+
+    if (delta <= Math.Abs(C) * rtol)
+        continue;
+    return false;
+}
+
+            }
+            else if (atol > 0)
+            {
+                for (int i = 0; i < a.Rows(); i++)
+                    for (int j = 0; j < i; j++)
+{
+    var A = a[i, j];
+    var B = a[j, i];
+    if (A == B)
+        continue;
+    var C = A;
+    var D = B;
+    if (Math.Abs(C - D) <= atol)
+        continue;
+    return false;
+}
+
+            }
+            else
+            {
+                for (int i = 0; i < a.Rows(); i++)
+                    for (int j = 0; j < i; j++)
+{
+    var A = a[i, j];
+    var B = a[j, i];
+    if (A != B)
+        return false;
+}
+
+            }
+
+            return true;
+        }
+
+
+
     }
 }

@@ -46,10 +46,10 @@ namespace Accord.Imaging.Filters
     /// 
     public class HSLLinear : BaseInPlacePartialFilter
     {
-        private Range inLuminance   = new Range( 0.0f, 1.0f );
-        private Range inSaturation  = new Range( 0.0f, 1.0f );
-        private Range outLuminance  = new Range( 0.0f, 1.0f );
-        private Range outSaturation = new Range( 0.0f, 1.0f );
+        private Range inLuminance = new Range(0.0f, 1.0f);
+        private Range inSaturation = new Range(0.0f, 1.0f);
+        private Range outLuminance = new Range(0.0f, 1.0f);
+        private Range outSaturation = new Range(0.0f, 1.0f);
 
         // format translation dictionary
         private Dictionary<PixelFormat, PixelFormat> formatTranslations = new Dictionary<PixelFormat, PixelFormat>();
@@ -104,7 +104,7 @@ namespace Accord.Imaging.Filters
         }
 
 
-     
+
         /// <summary>
         /// Format translations dictionary.
         /// </summary>
@@ -117,10 +117,10 @@ namespace Accord.Imaging.Filters
         /// Initializes a new instance of the <see cref="HSLLinear"/> class.
         /// </summary>
         /// 
-        public HSLLinear( )
+        public HSLLinear()
         {
-            formatTranslations[PixelFormat.Format24bppRgb]  = PixelFormat.Format24bppRgb;
-            formatTranslations[PixelFormat.Format32bppRgb]  = PixelFormat.Format32bppRgb;
+            formatTranslations[PixelFormat.Format24bppRgb] = PixelFormat.Format24bppRgb;
+            formatTranslations[PixelFormat.Format32bppRgb] = PixelFormat.Format32bppRgb;
             formatTranslations[PixelFormat.Format32bppArgb] = PixelFormat.Format32bppArgb;
         }
 
@@ -131,72 +131,72 @@ namespace Accord.Imaging.Filters
         /// <param name="image">Source image data.</param>
         /// <param name="rect">Image rectangle for processing by the filter.</param>
         ///
-        protected override unsafe void ProcessFilter( UnmanagedImage image, Rectangle rect )
+        protected override unsafe void ProcessFilter(UnmanagedImage image, Rectangle rect)
         {
-            int pixelSize = Image.GetPixelFormatSize( image.PixelFormat ) / 8;
+            int pixelSize = Image.GetPixelFormatSize(image.PixelFormat) / 8;
 
-            int startX  = rect.Left;
-            int startY  = rect.Top;
-            int stopX   = startX + rect.Width;
-            int stopY   = startY + rect.Height;
-            int offset  = image.Stride - rect.Width * pixelSize;
+            int startX = rect.Left;
+            int startY = rect.Top;
+            int stopX = startX + rect.Width;
+            int stopY = startY + rect.Height;
+            int offset = image.Stride - rect.Width * pixelSize;
 
-            RGB rgb = new RGB( );
-            HSL hsl = new HSL( );
+            RGB rgb = new RGB();
+            HSL hsl = new HSL();
 
             float kl = 0, bl = 0;
             float ks = 0, bs = 0;
 
             // luminance line parameters
-            if ( inLuminance.Max != inLuminance.Min )
+            if (inLuminance.Max != inLuminance.Min)
             {
-                kl = ( outLuminance.Max - outLuminance.Min ) / ( inLuminance.Max - inLuminance.Min );
+                kl = (outLuminance.Max - outLuminance.Min) / (inLuminance.Max - inLuminance.Min);
                 bl = outLuminance.Min - kl * inLuminance.Min;
             }
             // saturation line parameters
-            if ( inSaturation.Max != inSaturation.Min )
+            if (inSaturation.Max != inSaturation.Min)
             {
-                ks = ( outSaturation.Max - outSaturation.Min ) / ( inSaturation.Max - inSaturation.Min );
+                ks = (outSaturation.Max - outSaturation.Min) / (inSaturation.Max - inSaturation.Min);
                 bs = outSaturation.Min - ks * inSaturation.Min;
             }
 
             // do the job
-            byte* ptr = (byte*) image.ImageData.ToPointer( );
+            byte* ptr = (byte*)image.ImageData.ToPointer();
 
             // allign pointer to the first pixel to process
-            ptr += ( startY * image.Stride + startX * pixelSize );
+            ptr += (startY * image.Stride + startX * pixelSize);
 
             // for each row
-            for ( int y = startY; y < stopY; y++ )
+            for (int y = startY; y < stopY; y++)
             {
                 // for each pixel
-                for ( int x = startX; x < stopX; x++, ptr += pixelSize )
+                for (int x = startX; x < stopX; x++, ptr += pixelSize)
                 {
-                    rgb.Red   = ptr[RGB.R];
+                    rgb.Red = ptr[RGB.R];
                     rgb.Green = ptr[RGB.G];
-                    rgb.Blue  = ptr[RGB.B];
+                    rgb.Blue = ptr[RGB.B];
 
                     // convert to HSL
-                    Accord.Imaging.HSL.FromRGB(rgb, hsl);
+                    Accord.Imaging.HSL.FromRGB(rgb, ref hsl);
 
                     // do luminance correction
-                    if ( hsl.Luminance >= inLuminance.Max )
+                    if (hsl.Luminance >= inLuminance.Max)
                         hsl.Luminance = outLuminance.Max;
-                    else if ( hsl.Luminance <= inLuminance.Min )
+                    else if (hsl.Luminance <= inLuminance.Min)
                         hsl.Luminance = outLuminance.Min;
                     else
                         hsl.Luminance = kl * hsl.Luminance + bl;
 
                     // do saturation correct correction
-                    if ( hsl.Saturation >= inSaturation.Max )
+                    if (hsl.Saturation >= inSaturation.Max)
                         hsl.Saturation = outSaturation.Max;
-                    else if ( hsl.Saturation <= inSaturation.Min )
+                    else if (hsl.Saturation <= inSaturation.Min)
                         hsl.Saturation = outSaturation.Min;
                     else
                         hsl.Saturation = ks * hsl.Saturation + bs;
 
                     // convert back to RGB
-                    Accord.Imaging.HSL.ToRGB( hsl, rgb );
+                    Accord.Imaging.HSL.ToRGB(hsl, ref rgb);
 
                     ptr[RGB.R] = rgb.Red;
                     ptr[RGB.G] = rgb.Green;

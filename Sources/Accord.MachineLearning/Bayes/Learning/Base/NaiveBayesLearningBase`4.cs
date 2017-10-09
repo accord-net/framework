@@ -146,7 +146,7 @@ namespace Accord.MachineLearning.Bayes
             Accord.MachineLearning.Tools.CheckArgs(x, y, weight, () =>
             {
                 if (Model == null)
-                    Model = Create(x, y.DistinctCount());
+                    Model = Create(x, y.Max() + 1);
                 return Model;
             });
 

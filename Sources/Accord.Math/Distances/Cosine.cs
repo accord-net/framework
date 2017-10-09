@@ -32,6 +32,10 @@ namespace Accord.Math.Distances
     /// 
     /// <seealso cref="Angular"/>
     /// 
+    /// <example>
+    ///   <code source="Unit Tests\Accord.Tests.Math\DistanceTest.cs" region="doc_cosine_2" />
+    /// </example>
+    /// 
     [Serializable]
     public struct Cosine : IDistance<double[]>, ISimilarity<double[]>
     {
@@ -48,6 +52,10 @@ namespace Accord.Math.Distances
         ///   between <paramref name="x"/> and <paramref name="y"/> according 
         ///   to the distance function implemented by this class.
         /// </returns>
+        /// 
+        /// <example>
+        ///   <code source="Unit Tests\Accord.Tests.Math\DistanceTest.cs" region="doc_cosine_2" />
+        /// </example>
         /// 
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

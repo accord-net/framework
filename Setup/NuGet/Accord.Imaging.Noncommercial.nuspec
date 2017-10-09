@@ -15,13 +15,26 @@
       Contains image processing algorithms which can only be used for educational applications, and cannot be used in commercial products without express permission of its authors. Currently contains the Fast Guided Filter. This package is part of the Accord.NET Framework.
     </description>
     <summary>Extra image processing algorithms that are not available under the GPL or LGPL. Contains the Fast Guided Filter.</summary>
-    <tags>accord.net aforge.net framework image processing computer vision blur Gaussian integral</tags>
+    <tags>accord.net aforge.net framework image processing computer vision blur Gaussian integral unity3d unity</tags>
     <dependencies>
       <dependency id="Accord"                 version="$version$" />
       <dependency id="Accord.Math"            version="$version$" />
+      <dependency id="Accord.Imaging"         version="$version$" />
     </dependencies>
   </metadata>
   <files>
+    <file src="..\..\Release\net35\Noncommercial\Accord.Imaging.Noncommercial.dll" target="lib\net35-unity full v3.5\Accord.Imaging.Noncommercial.dll" />
+    <file src="..\..\Release\net35\Noncommercial\Accord.Imaging.Noncommercial.xml" target="lib\net35-unity full v3.5\Accord.Imaging.Noncommercial.xml" />
+
+    <file src="..\..\Release\net35\Noncommercial\Accord.Imaging.Noncommercial.dll" target="lib\net35-unity subset v3.5\Accord.Imaging.Noncommercial.dll" />
+    <file src="..\..\Release\net35\Noncommercial\Accord.Imaging.Noncommercial.xml" target="lib\net35-unity subset v3.5\Accord.Imaging.Noncommercial.xml" />
+
+    <file src="..\..\Release\net35\Noncommercial\Accord.Imaging.Noncommercial.dll" target="lib\net35-unity web v3.5\Accord.Imaging.Noncommercial.dll" />
+    <file src="..\..\Release\net35\Noncommercial\Accord.Imaging.Noncommercial.xml" target="lib\net35-unity web v3.5\Accord.Imaging.Noncommercial.xml" />
+
+    <file src="..\..\Release\net35\Noncommercial\Accord.Imaging.Noncommercial.dll" target="lib\net35-unity micro v3.5\Accord.Imaging.Noncommercial.dll" />
+    <file src="..\..\Release\net35\Noncommercial\Accord.Imaging.Noncommercial.xml" target="lib\net35-unity micro v3.5\Accord.Imaging.Noncommercial.xml" />
+
     <file src="..\..\Release\net35\Noncommercial\Accord.Imaging.Noncommercial.dll" target="lib\net35\Accord.Imaging.Noncommercial.dll" />
     <file src="..\..\Release\net35\Noncommercial\Accord.Imaging.Noncommercial.xml" target="lib\net35\Accord.Imaging.Noncommercial.xml" />
 

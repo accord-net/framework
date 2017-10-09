@@ -39,7 +39,7 @@ namespace Accord.Statistics.Filters
     /// </remarks>
     /// 
     [Serializable]
-    public class Windowing : BaseFilter<Windowing.Options>
+    public class Windowing : BaseFilter<Windowing.Options, Windowing>
     {
 
         /// <summary>
@@ -190,7 +190,7 @@ namespace Accord.Statistics.Filters
         /// </summary>
         ///
         [Serializable]
-        public class Options : ColumnOptionsBase
+        public class Options : ColumnOptionsBase<Windowing>
         {
 
             /// <summary>

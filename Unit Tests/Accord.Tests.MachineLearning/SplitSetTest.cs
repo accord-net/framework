@@ -95,8 +95,8 @@ namespace Accord.Tests.MachineLearning
             var result = splitset.Learn(data, xor);
 
             // Finally, access the measured performance.
-            double trainingErrors = result.Training.Value;
-            double validationErrors = result.Validation.Value;
+            double trainingErrors = result.Training.Value; // should be 0.53846153846153844 (+/- var. 0)
+            double validationErrors = result.Validation.Value; // should be 0.33333333333333331 (+/- var. 0)
             #endregion
 
             Assert.AreEqual(0.2, splitset.ValidationSetProportion, 1e-10);
@@ -104,8 +104,8 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(0.2, splitset.ValidationSetProportion, 1e-6);
             Assert.AreEqual(0.8, splitset.TrainingSetProportion, 1e-6);
 
-            Assert.AreEqual(0.5, result.Training.Value, 1e-10);
-            Assert.AreEqual(0.5, result.Validation.Value, 1e-10);
+            Assert.AreEqual(0.53846153846153844, result.Training.Value, 1e-10);
+            Assert.AreEqual(0.33333333333333331, result.Validation.Value, 1e-10);
 
             Assert.AreEqual(0, result.Training.Variance, 1e-10);
             Assert.AreEqual(0, result.Validation.Variance, 1e-10);
@@ -113,8 +113,8 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(0, result.Training.StandardDeviation, 1e-10);
             Assert.AreEqual(0, result.Validation.StandardDeviation, 1e-10);
 
-            Assert.AreEqual(0.75, result.Training.Proportion);
-            Assert.AreEqual(0.25, result.Validation.Proportion);
+            Assert.AreEqual(0.8125, result.Training.Proportion);
+            Assert.AreEqual(0.1875, result.Validation.Proportion);
 
             Assert.AreEqual(16, result.NumberOfSamples);
             Assert.AreEqual(8, result.AverageNumberOfSamples);

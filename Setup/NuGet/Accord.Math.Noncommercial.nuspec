@@ -15,12 +15,24 @@
       Contains mathematical algorithms which can only be used for educational applications, and cannot be used in commercial products without express permission of its authors. Currently contains the non-linear Conjugate Gradient algorithm for non-linear optimization. This package is part of the Accord.NET Framework.
     </description>
     <summary>Extra math algorithms that are not available under the GPL or LGPL. Contains the non-linear Conjugate Gradient for non-linear optimization.</summary>
-    <tags>accord.net aforge.net non-linear conjugate gradient fmincg</tags>
+    <tags>accord.net aforge.net non-linear conjugate gradient fmincg unity3d unity</tags>
     <dependencies>
       <dependency id="Accord.Math"      version="$version$" />
     </dependencies>
   </metadata>
   <files>
+    <file src="..\..\Release\net35\Noncommercial\Accord.Math.Noncommercial.dll" target="lib\net35-unity full v3.5\Accord.Math.Noncommercial.dll" />
+    <file src="..\..\Release\net35\Noncommercial\Accord.Math.Noncommercial.xml" target="lib\net35-unity full v3.5\Accord.Math.Noncommercial.xml" />
+
+    <file src="..\..\Release\net35\Noncommercial\Accord.Math.Noncommercial.dll" target="lib\net35-unity subset v3.5\Accord.Math.Noncommercial.dll" />
+    <file src="..\..\Release\net35\Noncommercial\Accord.Math.Noncommercial.xml" target="lib\net35-unity subset v3.5\Accord.Math.Noncommercial.xml" />
+
+    <file src="..\..\Release\net35\Noncommercial\Accord.Math.Noncommercial.dll" target="lib\net35-unity web v3.5\Accord.Math.Noncommercial.dll" />
+    <file src="..\..\Release\net35\Noncommercial\Accord.Math.Noncommercial.xml" target="lib\net35-unity web v3.5\Accord.Math.Noncommercial.xml" />
+
+    <file src="..\..\Release\net35\Noncommercial\Accord.Math.Noncommercial.dll" target="lib\net35-unity micro v3.5\Accord.Math.Noncommercial.dll" />
+    <file src="..\..\Release\net35\Noncommercial\Accord.Math.Noncommercial.xml" target="lib\net35-unity micro v3.5\Accord.Math.Noncommercial.xml" />
+
     <file src="..\..\Release\net35\Noncommercial\Accord.Math.Noncommercial.dll" target="lib\net35\Accord.Math.Noncommercial.dll" />
     <file src="..\..\Release\net35\Noncommercial\Accord.Math.Noncommercial.xml" target="lib\net35\Accord.Math.Noncommercial.xml" />
 

@@ -28,6 +28,8 @@ namespace Accord.MachineLearning
     using System.Threading;
     using Accord.Compat;
     using System.Threading.Tasks;
+    using System.Data;
+    using Accord.Diagnostics;
 
     /// <summary>
     ///   Base class for Bag of Visual Words implementations.
@@ -70,7 +72,6 @@ namespace Accord.MachineLearning
         public int NumberOfInputs
         {
             get { return -1; }
-            set { throw new InvalidOperationException("This property is read-only."); }
         }
 
         /// <summary>
@@ -80,7 +81,18 @@ namespace Accord.MachineLearning
         public int NumberOfOutputs
         {
             get { return NumberOfWords; }
-            set { throw new InvalidOperationException("This property is read-only."); }
+        }
+
+        int ITransform.NumberOfInputs
+        {
+            get { return NumberOfInputs; }
+            set { throw new ReadOnlyException("This property is read-only."); }
+        }
+
+        int ITransform.NumberOfOutputs
+        {
+            get { return NumberOfOutputs; }
+            set { throw new ReadOnlyException("This property is read-only."); }
         }
 
         /// <summary>
@@ -148,11 +160,22 @@ namespace Accord.MachineLearning
         public double[] Transform(TInput[] input, double[] result)
         {
             // Detect all activation centroids
-            Parallel.For(0, input.Length, ParallelOptions, i =>
+            if (ParallelOptions.MaxDegreeOfParallelism == 1)
             {
-                int j = classifier.Decide(input[i]);
-                InterlockedEx.Increment(ref result[j]);
-            });
+                for (int i = 0; i < input.Length; i++)
+                {
+                    int j = classifier.Decide(input[i]);
+                    result[j]++;
+                };
+            }
+            else
+            {
+                Parallel.For(0, input.Length, ParallelOptions, i =>
+                {
+                    int j = classifier.Decide(input[i]);
+                    InterlockedEx.Increment(ref result[j]);
+                });
+            }
 
             return result;
         }
@@ -172,6 +195,9 @@ namespace Accord.MachineLearning
         /// given the input data <paramref name="inputs" />.</returns>
         public TModel Learn(TInput[][] inputs, double[] weights = null)
         {
+            if (weights != null)
+                throw new ArgumentException(Accord.Properties.Resources.NotSupportedWeights, "weights");
+
             if (inputs.Length <= NumberOfWords)
             {
                 throw new InvalidOperationException("Not enough data points to cluster. Please try "
@@ -195,6 +221,8 @@ namespace Accord.MachineLearning
             }
 
             this.classifier = this.Clustering.Learn(allSamples, allWeights);
+
+            Debug.Assert(classifier.NumberOfClasses == NumberOfWords);
 
             return (TModel)this;
         }

@@ -259,19 +259,22 @@ namespace Accord.Tests.MachineLearning
             var result = crossvalidation.Learn(data, xor);
 
             // Finally, access the measured performance.
-            double trainingErrors = result.Training.Mean;
-            double validationErrors = result.Validation.Mean;
+            double trainingErrors = result.Training.Mean; // 0.30606060606060609 (+/- var. 0.083498622589531682)
+            double validationErrors = result.Validation.Mean; // 0.3666666666666667 (+/- var. 0.023333333333333334)
+
+            // If desired, compute an aggregate confusion matrix for the validation sets:
+            GeneralConfusionMatrix gcm = result.ToConfusionMatrix(data, xor);
             #endregion
 
             Assert.AreEqual(3, crossvalidation.K);
-            Assert.AreEqual(0.37575757575757579, result.Training.Mean, 1e-10);
-            Assert.AreEqual(0.75555555555555554, result.Validation.Mean, 1e-10);
+            Assert.AreEqual(0.30606060606060609, result.Training.Mean, 1e-10);
+            Assert.AreEqual(0.3666666666666667, result.Validation.Mean, 1e-10);
 
-            Assert.AreEqual(0.00044077134986225924, result.Training.Variance, 1e-10);
-            Assert.AreEqual(0.0059259259259259334, result.Validation.Variance, 1e-10);
+            Assert.AreEqual(0.083498622589531682, result.Training.Variance, 1e-10);
+            Assert.AreEqual(0.023333333333333334, result.Validation.Variance, 1e-10);
 
-            Assert.AreEqual(0.020994555243259126, result.Training.StandardDeviation, 1e-10);
-            Assert.AreEqual(0.076980035891950155, result.Validation.StandardDeviation, 1e-10);
+            Assert.AreEqual(0.28896128216342704, result.Training.StandardDeviation, 1e-10);
+            Assert.AreEqual(0.15275252316519467, result.Validation.StandardDeviation, 1e-10);
 
             Assert.AreEqual(0, result.Training.PooledStandardDeviation);
             Assert.AreEqual(0, result.Validation.PooledStandardDeviation);
@@ -343,19 +346,29 @@ namespace Accord.Tests.MachineLearning
             var result = crossvalidation.Learn(data, xor);
 
             // Finally, access the measured performance.
-            double trainingErrors = result.Training.Mean;
-            double validationErrors = result.Validation.Mean;
+            double trainingErrors = result.Training.Mean; // should be 0.30606060606060609 (+/- var. 0.083498622589531682)
+            double validationErrors = result.Validation.Mean; // should be 0.3666666666666667 (+/- var. 0.023333333333333334)
+
+            // If desired, compute an aggregate confusion matrix for the validation sets:
+            GeneralConfusionMatrix gcm = result.ToConfusionMatrix(data, xor);
+            double accuracy = gcm.Accuracy; // should be 0.625
+            double error = gcm.Error; // should be 0.375
             #endregion
 
+            Assert.AreEqual(16, gcm.Samples);
+            Assert.AreEqual(0.625, accuracy);
+            Assert.AreEqual(0.375, error);
+            Assert.AreEqual(2, gcm.Classes);
+
             Assert.AreEqual(3, crossvalidation.K);
-            Assert.AreEqual(0.37575757575757579, result.Training.Mean, 1e-10);
-            Assert.AreEqual(0.75555555555555554, result.Validation.Mean, 1e-10);
+            Assert.AreEqual(0.30606060606060609, result.Training.Mean, 1e-10);
+            Assert.AreEqual(0.3666666666666667, result.Validation.Mean, 1e-10);
 
-            Assert.AreEqual(0.00044077134986225924, result.Training.Variance, 1e-10);
-            Assert.AreEqual(0.0059259259259259334, result.Validation.Variance, 1e-10);
+            Assert.AreEqual(0.083498622589531682, result.Training.Variance, 1e-10);
+            Assert.AreEqual(0.023333333333333334, result.Validation.Variance, 1e-10);
 
-            Assert.AreEqual(0.020994555243259126, result.Training.StandardDeviation, 1e-10);
-            Assert.AreEqual(0.076980035891950155, result.Validation.StandardDeviation, 1e-10);
+            Assert.AreEqual(0.28896128216342704, result.Training.StandardDeviation, 1e-10);
+            Assert.AreEqual(0.15275252316519467, result.Validation.StandardDeviation, 1e-10);
 
             Assert.AreEqual(0, result.Training.PooledStandardDeviation);
             Assert.AreEqual(0, result.Validation.PooledStandardDeviation);
@@ -430,6 +443,9 @@ namespace Accord.Tests.MachineLearning
 
             // Compute the cross-validation
             var result = crossvalidation.Learn(inputs, outputs);
+
+            // If desired, compute an aggregate confusion matrix for the validation sets:
+            GeneralConfusionMatrix gcm = result.ToConfusionMatrix(inputs, outputs);
 
             // Finally, access the measured performance.
             double trainingErrors = result.Training.Mean;

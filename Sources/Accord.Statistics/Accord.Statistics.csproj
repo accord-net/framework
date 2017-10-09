@@ -492,6 +492,7 @@
     <Compile Include="Testing\Contingency\FisherExactTest.cs" />
     <Compile Include="Testing\AndersonDarlingTest.cs" />
     <Compile Include="Testing\LillieforsTest.cs" />
+    <Compile Include="Testing\Multiple Samples\TwoWayAnovaVariationSources.cs" />
     <Compile Include="Testing\ShapiroWilkTest.cs" />
     <Compile Include="Testing\MultinomialTest.cs" />
     <Compile Include="Testing\Multiple Samples\BartlettTest.cs" />

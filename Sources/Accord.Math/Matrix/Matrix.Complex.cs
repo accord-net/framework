@@ -57,7 +57,8 @@ namespace Accord.Math
         /// 
         public static Complex Sum(this Complex[] x)
         {
-            if (x == null) throw new ArgumentNullException("x");
+            if (x == null)
+                throw new ArgumentNullException("x");
 
             Complex r = Complex.Zero;
             for (int i = 0; i < x.Length; i++)
@@ -71,8 +72,10 @@ namespace Accord.Math
         /// 
         public static Complex[] Multiply(this Complex[] a, Complex[] b)
         {
-            if (a == null) throw new ArgumentNullException("a");
-            if (b == null) throw new ArgumentNullException("b");
+            if (a == null)
+                throw new ArgumentNullException("a");
+            if (b == null)
+                throw new ArgumentNullException("b");
 
             Complex[] r = new Complex[a.Length];
             for (int i = 0; i < a.Length; i++)
@@ -88,14 +91,7 @@ namespace Accord.Math
         /// 
         public static double[] Magnitude(this Complex[] c)
         {
-            if (c == null) 
-                throw new ArgumentNullException("c");
-
-            double[] magnitudes = new double[c.Length];
-            for (int i = 0; i < c.Length; i++)
-                magnitudes[i] = c[i].Magnitude;
-
-            return magnitudes;
+            return c.Apply((x, i) => x.Magnitude);
         }
 
         /// <summary>
@@ -104,17 +100,16 @@ namespace Accord.Math
         /// 
         public static double[,] Magnitude(this Complex[,] c)
         {
-            if (c == null) throw new ArgumentNullException("c");
+            return c.Apply((x, i, j) => x.Magnitude);
+        }
 
-            int rows = c.GetLength(0);
-            int cols = c.GetLength(1);
-
-            double[,] magnitudes = new double[rows, cols];
-            for (int i = 0; i < rows; i++)
-                for (int j = 0; j < cols; j++)
-                    magnitudes[i, j] = c[i, j].Magnitude;
-
-            return magnitudes;
+        /// <summary>
+        ///   Gets the magnitude of every complex number in a matrix.
+        /// </summary>
+        /// 
+        public static double[][] Magnitude(this Complex[][] c)
+        {
+            return c.Apply((x, i, j) => x.Magnitude);
         }
 
         /// <summary>
@@ -123,13 +118,25 @@ namespace Accord.Math
         /// 
         public static double[] Phase(this Complex[] c)
         {
-            if (c == null) throw new ArgumentNullException("c");
+            return c.Apply((x, i) => x.Phase);
+        }
 
-            double[] phases = new double[c.Length];
-            for (int i = 0; i < c.Length; i++)
-                phases[i] = c[i].Phase;
+        /// <summary>
+        ///   Gets the phase of every complex number in a matrix.
+        /// </summary>
+        /// 
+        public static double[,] Phase(this Complex[,] c)
+        {
+            return c.Apply((x, i, j) => x.Phase);
+        }
 
-            return phases;
+        /// <summary>
+        ///   Gets the phase of every complex number in a matrix.
+        /// </summary>
+        /// 
+        public static double[][] Phase(this Complex[][] c)
+        {
+            return c.Apply((x, i, j) => x.Phase);
         }
 
         /// <summary>
@@ -142,13 +149,7 @@ namespace Accord.Math
         /// 
         public static double[] Re(this Complex[] c)
         {
-            if (c == null) throw new ArgumentNullException("c");
-
-            double[] re = new double[c.Length];
-            for (int i = 0; i < c.Length; i++)
-                re[i] = c[i].Real;
-
-            return re;
+            return c.Apply((x, i) => x.Real);
         }
 
         /// <summary>
@@ -161,18 +162,20 @@ namespace Accord.Math
         /// 
         public static double[,] Re(this Complex[,] c)
         {
-            if (c == null)
-                throw new ArgumentNullException("c");
+            return c.Apply((x, i, j) => x.Real);
+        }
 
-            int rows = c.GetLength(0);
-            int cols = c.GetLength(1);
-
-            var re = new double[rows, cols];
-            for (int i = 0; i < rows; i++)
-                for (int j = 0; j < cols; j++)
-                    re[i, j] = c[i, j].Real;
-
-            return re;
+        /// <summary>
+        ///   Returns the real matrix part of the complex matrix c.
+        /// </summary>
+        /// 
+        /// <param name="c">A matrix of complex numbers.</param>
+        /// 
+        /// <returns>A matrix of scalars with the real part of the complex numbers.</returns>
+        /// 
+        public static double[][] Re(this Complex[][] c)
+        {
+            return c.Apply((x, i, j) => x.Real);
         }
 
         /// <summary>
@@ -186,14 +189,7 @@ namespace Accord.Math
         // TODO: Rename to Imaginary
         public static double[] Im(this Complex[] c)
         {
-            if (c == null)
-                throw new ArgumentNullException("c");
-
-            double[] im = new double[c.Length];
-            for (int i = 0; i < c.Length; i++)
-                im[i] = c[i].Imaginary;
-
-            return im;
+            return c.Apply((x, i) => x.Imaginary);
         }
 
         /// <summary>
@@ -203,18 +199,17 @@ namespace Accord.Math
         /// <returns>A matrix of scalars with the imaginary part of the complex numbers.</returns>
         public static double[,] Im(this Complex[,] c)
         {
-            if (c == null)
-                throw new ArgumentNullException("c");
+            return c.Apply((x, i, j) => x.Imaginary);
+        }
 
-            int rows = c.GetLength(0);
-            int cols = c.GetLength(1);
-
-            var im = new double[rows, cols];
-            for (int i = 0; i < rows; i++)
-                for (int j = 0; j < cols; j++)
-                    im[i, j] = c[i, j].Imaginary;
-
-            return im;
+        /// <summary>
+        /// Returns the imaginary matrix part of the complex matrix c.
+        /// </summary>
+        /// <param name="c">A matrix of complex numbers.</param>
+        /// <returns>A matrix of scalars with the imaginary part of the complex numbers.</returns>
+        public static double[][] Im(this Complex[][] c)
+        {
+            return c.Apply((x, i, j) => x.Imaginary);
         }
 
         /// <summary>

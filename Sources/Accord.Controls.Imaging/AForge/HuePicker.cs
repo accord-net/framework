@@ -231,7 +231,7 @@ namespace Accord.Controls
                 {
                     hsl.Hue = i;
                     // convert from HSL to RGB
-                    Accord.Imaging.HSL.ToRGB(hsl, rgb);
+                    Accord.Imaging.HSL.ToRGB(hsl, ref rgb);
                     // create brush
                     brush = new SolidBrush(rgb.Color);
                     // draw one hue value
@@ -251,7 +251,7 @@ namespace Accord.Controls
                     {
                         hsl.Hue = i;
                         // convert from HSL to RGB
-                        Accord.Imaging.HSL.ToRGB(hsl, rgb);
+                        Accord.Imaging.HSL.ToRGB(hsl, ref rgb);
                         // create brush
                         brush = new SolidBrush(rgb.Color);
                     }

@@ -75,6 +75,7 @@ namespace Accord.Tests.MachineLearning
         }
 
         [Test]
+        [Category("Slow")]
         public void test_s2()
         {
             var train = prepare(2);

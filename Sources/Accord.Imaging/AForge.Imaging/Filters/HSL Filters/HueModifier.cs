@@ -42,7 +42,7 @@ namespace Accord.Imaging.Filters
         private int hue = 0;
 
         // private format translation dictionary
-        private Dictionary<PixelFormat, PixelFormat> formatTranslations = new Dictionary<PixelFormat, PixelFormat>( );
+        private Dictionary<PixelFormat, PixelFormat> formatTranslations = new Dictionary<PixelFormat, PixelFormat>();
 
         /// <summary>
         /// Format translations dictionary.
@@ -51,7 +51,7 @@ namespace Accord.Imaging.Filters
         {
             get { return formatTranslations; }
         }
-        
+
         /// <summary>
         /// Hue value to set, [0, 359].
         /// </summary>
@@ -61,18 +61,18 @@ namespace Accord.Imaging.Filters
         public int Hue
         {
             get { return hue; }
-            set { hue = Math.Max( 0, Math.Min( 359, value ) ); }
+            set { hue = Math.Max(0, Math.Min(359, value)); }
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="HueModifier"/> class.
         /// </summary>
         /// 
-        public HueModifier( )
+        public HueModifier()
         {
-            formatTranslations[PixelFormat.Format24bppRgb]   = PixelFormat.Format24bppRgb;
-            formatTranslations[PixelFormat.Format32bppRgb]   = PixelFormat.Format32bppRgb;
-            formatTranslations[PixelFormat.Format32bppArgb]  = PixelFormat.Format32bppArgb;
+            formatTranslations[PixelFormat.Format24bppRgb] = PixelFormat.Format24bppRgb;
+            formatTranslations[PixelFormat.Format32bppRgb] = PixelFormat.Format32bppRgb;
+            formatTranslations[PixelFormat.Format32bppArgb] = PixelFormat.Format32bppArgb;
             formatTranslations[PixelFormat.Format32bppPArgb] = PixelFormat.Format32bppPArgb;
         }
 
@@ -82,7 +82,7 @@ namespace Accord.Imaging.Filters
         /// 
         /// <param name="hue">Hue value to set.</param>
         /// 
-        public HueModifier( int hue ) : this( )
+        public HueModifier(int hue) : this()
         {
             this.hue = hue;
         }
@@ -94,43 +94,43 @@ namespace Accord.Imaging.Filters
         /// <param name="image">Source image data.</param>
         /// <param name="rect">Image rectangle for processing by the filter.</param>
         ///
-        protected override unsafe void ProcessFilter( UnmanagedImage image, Rectangle rect )
+        protected override unsafe void ProcessFilter(UnmanagedImage image, Rectangle rect)
         {
-            int pixelSize = Bitmap.GetPixelFormatSize( image.PixelFormat ) / 8;
+            int pixelSize = Bitmap.GetPixelFormatSize(image.PixelFormat) / 8;
 
-            int startX  = rect.Left;
-            int startY  = rect.Top;
-            int stopX   = startX + rect.Width;
-            int stopY   = startY + rect.Height;
-            int offset  = image.Stride - rect.Width * pixelSize;
+            int startX = rect.Left;
+            int startY = rect.Top;
+            int stopX = startX + rect.Width;
+            int stopY = startY + rect.Height;
+            int offset = image.Stride - rect.Width * pixelSize;
 
-            RGB rgb = new RGB( );
-            HSL hsl = new HSL( );
+            RGB rgb = new RGB();
+            HSL hsl = new HSL();
 
             // do the job
-            byte* ptr = (byte*) image.ImageData.ToPointer( );
+            byte* ptr = (byte*)image.ImageData.ToPointer();
 
             // allign pointer to the first pixel to process
-            ptr += ( startY * image.Stride + startX * pixelSize );
+            ptr += (startY * image.Stride + startX * pixelSize);
 
             // for each row
-            for ( int y = startY; y < stopY; y++ )
+            for (int y = startY; y < stopY; y++)
             {
                 // for each pixel
-                for ( int x = startX; x < stopX; x++, ptr += pixelSize )
+                for (int x = startX; x < stopX; x++, ptr += pixelSize)
                 {
-                    rgb.Red     = ptr[RGB.R];
-                    rgb.Green   = ptr[RGB.G];
-                    rgb.Blue    = ptr[RGB.B];
+                    rgb.Red = ptr[RGB.R];
+                    rgb.Green = ptr[RGB.G];
+                    rgb.Blue = ptr[RGB.B];
 
                     // convert to HSL
-                    Accord.Imaging.HSL.FromRGB( rgb, hsl );
+                    Accord.Imaging.HSL.FromRGB(rgb, ref hsl);
 
                     // modify hue value
                     hsl.Hue = hue;
 
                     // convert back to RGB
-                    Accord.Imaging.HSL.ToRGB(hsl, rgb);
+                    Accord.Imaging.HSL.ToRGB(hsl, ref rgb);
 
                     ptr[RGB.R] = rgb.Red;
                     ptr[RGB.G] = rgb.Green;

@@ -25,6 +25,7 @@ namespace Accord.IO
     using System;
     using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
 
     /// <summary>
     ///   Reader for .mat files (such as the ones created by Matlab and Octave).
@@ -44,36 +45,32 @@ namespace Accord.IO
     /// </remarks>
     /// 
     /// <example>
-    /// <code>
-    /// // Create a new MAT file reader
-    /// var reader = new MatReader(file);
+    /// <para>
+    ///   All the examples below involve loading files from the following URL: 
+    ///   https://github.com/accord-net/framework/blob/development/Unit%20Tests/Accord.Tests.Math/Resources/mat/ </para>
+    /// <para>
+    ///   The first example shows how to read a simple .MAT file containing a single matrix of 
+    ///   integer numbers. It also shows how to discover the names of the variables stored in
+    ///   the file and how to discover their types:</para>
+    /// <code source="Unit Tests\Accord.Tests.Math\IO\MatReaderTest.cs" region="doc_matrix_int32" />
     /// 
-    /// // Extract some basic information about the file:
-    /// string description = reader.Description; // "MATLAB 5.0 MAT-file, Platform: PCWIN"
-    /// int    version     = reader.Version;     // 256
-    /// bool   bigEndian   = reader.BigEndian;   // false
+    /// <para>
+    ///   The second example shows how to read a simple .MAT file containing a single matrix of 
+    ///   8-bpp integer values (signed bytes):</para>
+    /// <code source="Unit Tests\Accord.Tests.Math\IO\MatReaderTest.cs" region="doc_matrix_byte" />
     /// 
+    /// <para>
+    ///   The third example shows how to read a more complex .MAT file containing a structure. Structures
+    ///   can hold complex types such as collections of matrices, lists, and strings in a nested hierarchy:</para>
+    /// <code source="Unit Tests\Accord.Tests.Math\IO\MatReaderTest.cs" region="doc_structure" />
     /// 
-    /// // Enumerate the fields in the file
-    /// foreach (var field in reader.Fields)
-    ///   Console.WriteLine(field.Key); // "structure"
-    /// 
-    /// // We have the single following field
-    /// var structure = reader["structure"];
-    /// 
-    /// // Enumerate the fields in the structure
-    /// foreach (var field in structure.Fields)
-    ///   Console.WriteLine(field.Key); // "a", "string"
-    /// 
-    /// // Check the type for the field "a"
-    /// var aType = structure["a"].Type; // byte[,]
-    /// 
-    /// // Retrieve the field "a" from the file
-    /// var a = structure["a"].GetValue&lt;byte[,]>();
-    /// 
-    /// // We can also do directly if we know the type in advance
-    /// var s = reader["structure"]["string"].GetValue&lt;string>();
-    /// </code>
+    /// <para>
+    ///   The <see cref="MatReader"/> class can also read the more complex cell array structures. However, 
+    ///   there is no example of this functionality right now, 
+    ///   <a href="https://github.com/accord-net/framework/blob/4b41bcdd96daf5c428081e579f37b995e600c18a/Unit%20Tests/Accord.Tests.Math/IO/MatReaderTest.cs#L355">
+    ///   except for those unit tests currently in the project repository</a>. If you would like examples for this 
+    ///   feature, please open a new issue at the <a href="https://github.com/accord-net/framework/issues">project's
+    ///   issue tracker</a>.</para>
     /// </example>
     /// 
     public class MatReader : IDisposable
@@ -82,6 +79,17 @@ namespace Accord.IO
         private bool autoTranspose;
 
         private Dictionary<string, MatNode> contents;
+
+        /// <summary>
+        ///   Gets the name of the variables contained in this file. Those
+        ///   can be used as keys to the <see cref="Fields"/> property to
+        ///   retrieve a variable or navigate the variable hierarchy.
+        /// </summary>
+        /// 
+        public string[] FieldNames
+        {
+            get { return contents.Keys.OrderBy(x => x).ToArray(); }
+        }
 
         /// <summary>
         ///   Gets the child nodes contained in this file.
@@ -160,6 +168,21 @@ namespace Accord.IO
         ///   Creates a new <see cref="MatReader"/>.
         /// </summary>
         /// 
+        /// <param name="fileName">A relative or absolute path for the .MAT file.</param>
+        /// <param name="autoTranspose">Pass <c>true</c> to automatically transpose matrices if they 
+        ///   have been stored differently from .NET's default row-major order. Default is <c>true</c>.</param>
+        /// <param name="lazy">Whether matrices should be read lazily (if set to true, only
+        ///   matrices that have explicitly been asked for will be loaded).</param>
+        /// 
+        public MatReader(string fileName, bool autoTranspose = true, bool lazy = true)
+        {
+            init(new BinaryReader(new FileStream(fileName, FileMode.Open, FileAccess.Read)), autoTranspose, lazy);
+        }
+
+        /// <summary>
+        ///   Creates a new <see cref="MatReader"/>.
+        /// </summary>
+        /// 
         /// <param name="input">The input stream containing the MAT file.</param>
         /// <param name="autoTranspose">Pass <c>true</c> to automatically transpose matrices if they 
         ///   have been stored differently from .NET's default row-major order. Default is <c>true</c>.</param>
@@ -167,8 +190,8 @@ namespace Accord.IO
         ///   matrices that have explicitly been asked for will be loaded).</param>
         /// 
         public MatReader(Stream input, bool autoTranspose = true, bool lazy = true)
-            : this(new BinaryReader(input), autoTranspose: autoTranspose, lazy: lazy)
         {
+            init(new BinaryReader(input), autoTranspose, lazy);
         }
 
         /// <summary>
@@ -182,8 +205,8 @@ namespace Accord.IO
         ///   matrices that have explicitly been asked for will be loaded).</param>
         /// 
         public MatReader(byte[] input, bool autoTranspose = true, bool lazy = true)
-            : this(new MemoryStream(input), autoTranspose: autoTranspose, lazy: lazy)
         {
+            init(new BinaryReader(new MemoryStream(input)), autoTranspose, lazy);
         }
 
         /// <summary>
@@ -198,6 +221,11 @@ namespace Accord.IO
         /// 
         public MatReader(BinaryReader reader, bool autoTranspose = true, bool lazy = true)
         {
+            init(reader, autoTranspose, lazy);
+        }
+
+        private void init(BinaryReader reader, bool autoTranspose, bool lazy)
+        {
             this.autoTranspose = autoTranspose;
 
             long startOffset = reader.BaseStream.Position;
@@ -209,7 +237,8 @@ namespace Accord.IO
             char[] endian = reader.ReadChars(2);
 
             int terminator = Array.IndexOf(title, '\0');
-            if (terminator < 0) terminator = title.Length;
+            if (terminator < 0)
+                terminator = title.Length;
 
             Description = new String(title, 0, terminator).Trim();
             Version = version;
@@ -337,7 +366,7 @@ namespace Accord.IO
         {
             Dispose(false);
         }
-#endregion
+        #endregion
 
     }
 }

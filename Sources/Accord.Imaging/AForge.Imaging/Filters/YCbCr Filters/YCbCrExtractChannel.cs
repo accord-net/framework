@@ -133,7 +133,7 @@ namespace Accord.Imaging.Filters
                     rgb.Blue = src[RGB.B];
 
                     // convert to YCbCr
-                    Accord.Imaging.YCbCr.FromRGB(rgb, ycbcr);
+                    Accord.Imaging.YCbCr.FromRGB(rgb, ref ycbcr);
 
                     switch (channel)
                     {

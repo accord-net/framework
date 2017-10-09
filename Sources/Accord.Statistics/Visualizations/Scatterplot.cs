@@ -210,7 +210,7 @@ namespace Accord.Statistics.Visualizations
             if (values == null)
                 throw new ArgumentNullException("values");
 
-            double[] idx = Vector.Interval(0.0, values.Length - 1, 1.0);
+            double[] idx = Vector.Range(0.0, values.Length);
 
             initialize(idx, values, null);
         }

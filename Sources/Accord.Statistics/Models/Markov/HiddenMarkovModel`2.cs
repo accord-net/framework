@@ -33,6 +33,7 @@ namespace Accord.Statistics.Models.Markov
     using Accord.Statistics.Models.Markov.Topology;
     using Accord.MachineLearning;
     using Accord.Compat;
+    using Accord.Math.Optimization;
 
     /// <summary>
     ///   Algorithms for solving <see cref="HiddenMarkovModel"/>-related
@@ -160,11 +161,18 @@ namespace Accord.Statistics.Models.Markov
     /// 
     /// <para>
     ///   Where the transform function is defined as:</para>
-    /// <code source="Unit Tests\Accord.Tests.Statistics\Models\Markov\MaximumLikelihoodLearning`1Test.cs" region="doc_learn_fraud_transform"/>
+    ///   <code source="Unit Tests\Accord.Tests.Statistics\Models\Markov\MaximumLikelihoodLearning`1Test.cs" region="doc_learn_fraud_transform"/>
+    ///   
+    /// <para>Hidden Markov Models can also be used to predict the next observation in a sequence. This can be done by
+    ///   inspecting the forward matrix of probabilities for the sequence and checking which would be the most likely 
+    ///   state after the current one. Then, it returns the most likely value (the mode) for the distribution associated 
+    ///   with that state. This limits the applicability of this model to only very short-term predictions (i.e. most likely,
+    ///   only the most immediate next observation).</para>
+    ///   
+    /// <code source="Unit Tests\Accord.Tests.Statistics\Models\Markov\HiddenMarkovModel`2Test.cs" region="doc_predict"/>
     /// </example>
     /// 
-    /// <seealso cref="BaumWelchLearning{T}">Baum-Welch, one of the most famous 
-    ///   learning algorithms for Hidden Markov Models.</seealso>
+    /// <seealso cref="BaumWelchLearning{T}">Baum-Welch, one of the most famous learning algorithms for Hidden Markov Models.</seealso>
     /// <seealso cref="HiddenMarkovModel">Discrete-density Hidden Markov Model</seealso>
     /// <seealso cref="Accord.Statistics.Models.Markov.Learning"/>
     /// 
@@ -747,6 +755,18 @@ namespace Accord.Statistics.Models.Markov
         /// <param name="observations">A sequence of observations. Predictions will be made regarding 
         ///   the next observations that should be coming after the last observation in this sequence.</param>
         /// 
+        /// <remarks>
+        ///   This method works by inspecting the forward matrix of probabilities for the sequence and 
+        ///   checking which would be the most likely state after the current one. Then, it returns the 
+        ///   most likely value (the mode) for the distribution associated with that state. This limits 
+        ///   the applicability of this model to only very short-term predictions (i.e. most likely, only
+        ///   the most immediate next observation).
+        /// </remarks>
+        /// 
+        /// <example>
+        ///   <code source="Unit Tests\Accord.Tests.Statistics\Models\Markov\HiddenMarkovModel`2Test.cs" region="doc_predict"/>
+        /// </example>
+        /// 
         public TObservation Predict(TObservation[] observations)
         {
             if (observations == null)
@@ -765,6 +785,18 @@ namespace Accord.Statistics.Models.Markov
         /// <param name="logLikelihood">The log-likelihood of the given sequence, plus the predicted
         ///   next observation. Exponentiate this value (use the System.Math.Exp function) to obtain
         ///   a <c>likelihood</c> value.</param>
+        /// 
+        /// <remarks>
+        ///   This method works by inspecting the forward matrix of probabilities for the sequence and 
+        ///   checking which would be the most likely state after the current one. Then, it returns the 
+        ///   most likely value (the mode) for the distribution associated with that state. This limits 
+        ///   the applicability of this model to only very short-term predictions (i.e. most likely, only
+        ///   the most immediate next observation).
+        /// </remarks>
+        /// 
+        /// <example>
+        ///   <code source="Unit Tests\Accord.Tests.Statistics\Models\Markov\HiddenMarkovModel`2Test.cs" region="doc_predict"/>
+        /// </example>
         /// 
         public TObservation Predict(TObservation[] observations, out double logLikelihood)
         {
@@ -792,6 +824,18 @@ namespace Accord.Statistics.Models.Markov
         ///   that are likely to be generated. Taking the mode of this distribution might give the most likely
         ///   next value in the observed sequence.</param>
         /// 
+        /// <remarks>
+        ///   This method works by inspecting the forward matrix of probabilities for the sequence and 
+        ///   checking which would be the most likely state after the current one. Then, it returns the 
+        ///   most likely value (the mode) for the distribution associated with that state. This limits 
+        ///   the applicability of this model to only very short-term predictions (i.e. most likely, only
+        ///   the most immediate next observation).
+        /// </remarks>
+        /// 
+        /// <example>
+        ///   <code source="Unit Tests\Accord.Tests.Statistics\Models\Markov\HiddenMarkovModel`2Test.cs" region="doc_predict"/>
+        /// </example>
+        /// 
         public TObservation Predict<TMultivariate>(TObservation[] observations, out double logLikelihood, out MultivariateMixture<TMultivariate> probabilities)
             where TMultivariate : DistributionBase, TDistribution, IMultivariateDistribution<double[]>
         {
@@ -808,6 +852,18 @@ namespace Accord.Statistics.Models.Markov
         /// <param name="probabilities">The continuous probability distribution describing the next observations
         ///   that are likely to be generated. Taking the mode of this distribution might give the most likely
         ///   next value in the observed sequence.</param>
+        /// 
+        /// <remarks>
+        ///   This method works by inspecting the forward matrix of probabilities for the sequence and 
+        ///   checking which would be the most likely state after the current one. Then, it returns the 
+        ///   most likely value (the mode) for the distribution associated with that state. This limits 
+        ///   the applicability of this model to only very short-term predictions (i.e. most likely, only
+        ///   the most immediate next observation).
+        /// </remarks>
+        /// 
+        /// <example>
+        ///   <code source="Unit Tests\Accord.Tests.Statistics\Models\Markov\HiddenMarkovModel`2Test.cs" region="doc_predict"/>
+        /// </example>
         /// 
         public TObservation Predict<TMultivariate>(TObservation[] observations, out MultivariateMixture<TMultivariate> probabilities)
             where TMultivariate : DistributionBase, TDistribution, IMultivariateDistribution<double[]>
@@ -828,6 +884,18 @@ namespace Accord.Statistics.Models.Markov
         /// <param name="probabilities">The continuous probability distribution describing the next observations
         ///   that are likely to be generated. Taking the mode of this distribution might give the most likely
         ///   next value in the observed sequence.</param>
+        /// 
+        /// <remarks>
+        ///   This method works by inspecting the forward matrix of probabilities for the sequence and 
+        ///   checking which would be the most likely state after the current one. Then, it returns the 
+        ///   most likely value (the mode) for the distribution associated with that state. This limits 
+        ///   the applicability of this model to only very short-term predictions (i.e. most likely, only
+        ///   the most immediate next observation).
+        /// </remarks>
+        /// 
+        /// <example>
+        ///   <code source="Unit Tests\Accord.Tests.Statistics\Models\Markov\HiddenMarkovModel`2Test.cs" region="doc_predict"/>
+        /// </example>
         /// 
         public TObservation Predict<TUnivariate>(TObservation[] observations, out Mixture<TUnivariate> probabilities)
             where TUnivariate : DistributionBase, TDistribution, IUnivariateDistribution<double>
@@ -851,6 +919,18 @@ namespace Accord.Statistics.Models.Markov
         ///   that are likely to be generated. Taking the mode of this distribution might give the most likely
         ///   next value in the observed sequence.</param>
         /// 
+        /// <remarks>
+        ///   This method works by inspecting the forward matrix of probabilities for the sequence and 
+        ///   checking which would be the most likely state after the current one. Then, it returns the 
+        ///   most likely value (the mode) for the distribution associated with that state. This limits 
+        ///   the applicability of this model to only very short-term predictions (i.e. most likely, only
+        ///   the most immediate next observation).
+        /// </remarks>
+        /// 
+        /// <example>
+        ///   <code source="Unit Tests\Accord.Tests.Statistics\Models\Markov\HiddenMarkovModel`2Test.cs" region="doc_predict"/>
+        /// </example>
+        /// 
         public TObservation Predict<TUnivariate>(TObservation[] observations, out double logLikelihood, out Mixture<TUnivariate> probabilities)
             where TUnivariate : DistributionBase, TDistribution, IUnivariateDistribution<double>
         {
@@ -865,9 +945,52 @@ namespace Accord.Statistics.Models.Markov
         /// <param name="observations">A sequence of observations. Predictions will be made regarding 
         ///   the next observations that should be coming after the last observation in this sequence.</param>
         /// <param name="next">The number of observations to be predicted. Default is 1.</param>
+        /// 
+        /// <remarks>
+        ///   This method works by inspecting the forward matrix of probabilities for the sequence and 
+        ///   checking which would be the most likely state after the current one. Then, it returns the 
+        ///   most likely value (the mode) for the distribution associated with that state. This limits 
+        ///   the applicability of this model to only very short-term predictions (i.e. most likely, only
+        ///   the most immediate next observation).
+        /// </remarks>
+        /// 
+        /// <example>
+        ///   <code source="Unit Tests\Accord.Tests.Statistics\Models\Markov\HiddenMarkovModel`2Test.cs" region="doc_predict"/>
+        /// </example>
+        /// 
+        public virtual TObservation[] Predict(TObservation[] observations, int next)
+        {
+            // Matrix to store the probabilities in assuming the next
+            // observations (prediction) will belong to each state.
+            double[][] weights;
+            double logLikelihood;
+
+            // Compute the next observations
+            return predict(observations, next, out logLikelihood, out weights);
+        }
+
+        /// <summary>
+        ///   Predicts the next observations occurring after a given observation sequence.
+        /// </summary>
+        /// 
+        /// <param name="observations">A sequence of observations. Predictions will be made regarding 
+        ///   the next observations that should be coming after the last observation in this sequence.</param>
+        /// <param name="next">The number of observations to be predicted. Default is 1.</param>
         /// <param name="logLikelihood">The log-likelihood of the given sequence, plus the predicted
         ///   next observation. Exponentiate this value (use the System.Math.Exp function) to obtain
         ///   a <c>likelihood</c> value.</param>
+        ///   
+        /// <remarks>
+        ///   This method works by inspecting the forward matrix of probabilities for the sequence and 
+        ///   checking which would be the most likely state after the current one. Then, it returns the 
+        ///   most likely value (the mode) for the distribution associated with that state. This limits 
+        ///   the applicability of this model to only very short-term predictions (i.e. most likely, only
+        ///   the most immediate next observation).
+        /// </remarks>
+        /// 
+        /// <example>
+        ///   <code source="Unit Tests\Accord.Tests.Statistics\Models\Markov\HiddenMarkovModel`2Test.cs" region="doc_predict"/>
+        /// </example>
         /// 
         public TObservation[] Predict(TObservation[] observations, int next, out double logLikelihood)
         {
@@ -1067,7 +1190,11 @@ namespace Accord.Statistics.Models.Markov
         {
             var uni = dist as IUnivariateDistribution<TObservation>;
             if (uni != null)
-                return uni.InverseDistributionFunction(1.0);
+            {
+                // TODO: Add support for proper mode calculation 
+                // (with correct type) in IUnivariateDistribution
+                return uni.Mode.To<TObservation>();
+            }
 
             throw new NotSupportedException();
         }

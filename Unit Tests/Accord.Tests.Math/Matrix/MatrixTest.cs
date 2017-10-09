@@ -215,7 +215,7 @@ namespace Accord.Tests.Math
         {
             double from = 0;
             double to = 10;
-            int steps = 10;
+            int steps = 11;
             double[] expected = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
             double[] actual = Matrix.Interval(from, to, steps);
 
@@ -231,8 +231,8 @@ namespace Accord.Tests.Math
             Assert.AreEqual(0, actual[0]);
 
             actual = Matrix.Interval(0.0, 0.0, 5);
-            Assert.AreEqual(0, actual[0]);
-            Assert.AreEqual(actual.Length, 1);
+            Assert.IsTrue(actual.All(x => x == 0));
+            Assert.AreEqual(actual.Length, 5);
         }
 
         [Test]
@@ -253,7 +253,7 @@ namespace Accord.Tests.Math
         {
             double from = 10;
             double to = 0;
-            int steps = 10;
+            int steps = 11;
             double[] expected = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
             double[] actual = Matrix.Interval(from, to, steps);
 
@@ -775,6 +775,33 @@ namespace Accord.Tests.Math
 
             double[,] actual = Matrix.Sqrt(value);
             Assert.IsTrue(expected.IsEqual(actual, 0.0001));
+        }
+
+
+        [Test]
+        public void gh_927()
+        {
+            // https://github.com/accord-net/framework/issues/927
+            int rows = 100;
+            double[,] matrix = Matrix.Zeros(rows: rows, columns: 3);
+            double[] vec = { 1, 2, 3 }; // this is a row-vector with the same length as the number of columns
+
+            double[,] broadcasted1 = matrix.Add(vec, dimension: 0);
+            double[,] broadcasted2 = matrix.Add(vec, dimension: VectorType.RowVector);
+
+#if DEBUG
+            Assert.Throws<DimensionMismatchException>(() => matrix.Add(vec, dimension: 1));
+            Assert.Throws<DimensionMismatchException>(() => matrix.Add(vec, dimension: VectorType.ColumnVector));
+#else
+            Assert.Throws<IndexOutOfRangeException>(() => matrix.Add(vec, dimension: 1));
+            Assert.Throws<IndexOutOfRangeException>(() => matrix.Add(vec, dimension: VectorType.ColumnVector));
+#endif
+
+            for (int i = 0; i < rows; i++)
+            {
+                Assert.AreEqual(vec, broadcasted1.GetRow(i));
+                Assert.AreEqual(vec, broadcasted2.GetRow(i));
+            }
         }
         #endregion
 
@@ -1387,7 +1414,7 @@ namespace Accord.Tests.Math
         }
 
         [Test]
-        public void InverseTest3x3()
+        public void InverseTest3x3_svd()
         {
             double[,] value =
             {
@@ -1403,6 +1430,104 @@ namespace Accord.Tests.Math
             double[,] actual = Matrix.Inverse(value);
 
             Assert.IsTrue(Matrix.IsEqual(expected, actual, 1e-6));
+        }
+
+        [Test]
+        public void doc_inverse()
+        {
+            #region doc_inverse
+            // Declare a matrix as
+            double[,] matrix =
+            {
+                { 6.0, 1.0, 2.0 },
+                { 0.0, 8.0, 1.0 },
+                { 2.0, 4.0, 5.0 }
+            };
+
+            // Compute the inverse using
+            double[,] inv = matrix.Inverse();
+
+            // We can write the result with
+            string strInv = inv.ToCSharp();
+
+            // The result should be:
+            // new double[,] 
+            // {
+            //     { 0.193548387096774, 0.0161290322580645, -0.0806451612903226 },
+            //     { 0.010752688172043, 0.139784946236559, -0.032258064516129 },
+            //     { -0.0860215053763441, -0.118279569892473, 0.258064516129032 }
+            // };
+
+            // We can confirm this is indeed the inverse by
+            // checking whether "inv(matrix) * matrix" and
+            // "matrix * inv(matrix)" equals I (identity):
+            double[,] a = inv.Dot(matrix);
+            double[,] b = matrix.Dot(inv);
+
+            // Again we write the result:
+            string strA = a.ToCSharp();
+            string strB = b.ToCSharp();
+
+            // The result should be:
+            // new double[,] 
+            // {
+            //     { 1, 0, 0 },
+            //     { 0, 1, 0 },
+            //     { 0, 0, 1 }
+            // };
+            #endregion
+
+            Assert.IsTrue(Matrix.IsEqual(a, Matrix.Identity(3), 1e-6));
+            Assert.IsTrue(Matrix.IsEqual(b, Matrix.Identity(3), 1e-6));
+        }
+
+        [Test]
+        public void doc_pseudo_inverse()
+        {
+            #region doc_pseudoinverse
+            // Declare a non-invertible matrix as
+            double[,] matrix =
+            {
+                { 6.0, 1.0, 2.0 },
+                { 0.0, 8.0, 1.0 },
+            };
+
+            // Let's check that this matrix really cannot be
+            // inverted using standard matrix inversion:
+            bool isSingular = matrix.IsSingular(); // should be true
+
+            // Compute the pseudo-inverse using
+            double[,] pinv = matrix.PseudoInverse();
+
+            // We can write the result with
+            string strInv = pinv.ToCSharp();
+
+            // The result should be:
+            // new double[,] 
+            // {
+            //     { 0.193548387096774, 0.0161290322580645, -0.0806451612903226 },
+            //     { 0.010752688172043, 0.139784946236559, -0.032258064516129 },
+            //     { -0.0860215053763441, -0.118279569892473, 0.258064516129032 }
+            // };
+
+            // We can confirm this is indeed the pseudo-inverse 
+            // by checking whether "matrix * pinv(matrix) * matrix"
+            // equals the original matrix:
+            double[,] r = matrix.Dot(pinv.Dot(matrix));
+
+            // Again we write the result:
+            string strA = r.ToCSharp();
+
+            // The result should be:
+            // new double[,] 
+            // {
+            //  { 6.0, 1.0, 2.0 },
+            //  { 0.0, 8.0, 1.0 },
+            // };
+            #endregion
+
+            Assert.IsTrue(isSingular);
+            Assert.IsTrue(Matrix.IsEqual(r, matrix, 1e-6));
         }
 
         [Test]
@@ -1919,8 +2044,33 @@ namespace Accord.Tests.Math
             expected = true;
             actual = Matrix.IsSymmetric(matrix2);
             Assert.AreEqual(expected, actual);
+        }
 
 
+        [Test]
+        public void IsSymmetricTest_multidimensional()
+        {
+            double[,] matrix =
+            {
+                { 1, 2.0000004 },
+                { 2.0000002, 4 }
+            };
+
+            Assert.IsFalse(Matrix.IsSymmetric(matrix, atol: 1e-10));
+            Assert.IsTrue(Matrix.IsSymmetric(matrix, atol: 1e-3));
+        }
+
+        [Test]
+        public void IsSymmetricTest_jagged()
+        {
+            double[][] matrix =
+            {
+                new[] { 1, 2.00000005 },
+                new[] { 2.0000003, 4 }
+            };
+
+            Assert.IsFalse(Matrix.IsSymmetric(matrix, atol: 1e-10));
+            Assert.IsTrue(Matrix.IsSymmetric(matrix, atol: 1e-3));
         }
 
         [Test]
@@ -2999,8 +3149,8 @@ namespace Accord.Tests.Math
             // We can create a grid as
             double[][] grid = Matrix.Mesh
             (
-                rowMin: 0, rowMax: 1, rowSteps: 10,
-                colMin: 0, colMax: 1, colSteps: 5
+                rowMin: 0, rowMax: 1, rowSteps: 11,
+                colMin: 0, colMax: 1, colSteps: 6
             );
 
             // Now we can plot the points on-screen
@@ -3519,7 +3669,7 @@ namespace Accord.Tests.Math
         {
             double[][] v = Jagged.Ones(0, 3);
             int[][] idx = v.GetIndices().ToArray();
-            Assert.AreEqual(idx.Length, 1);
+            Assert.AreEqual(idx.Length, 0);
         }
 
         [Test]

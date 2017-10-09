@@ -28,6 +28,7 @@ namespace Accord.Neuro.ActivationFunctions
     using Accord.Neuro.Networks;
     using Accord.Statistics.Distributions.Univariate;
     using Accord.Math.Random;
+    using Accord.Compat;
 
     /// <summary>
     ///   Bernoulli stochastic activation function.

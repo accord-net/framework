@@ -31,27 +31,15 @@ The framework comes with a wide range of sample applications to help get you sta
 
 # Building
 
-#### With Visual Studio 2013
-
-Please download and install the following dependencies:
-
-- [T4 Toolbox for Visual Studio 2013](https://visualstudiogallery.msdn.microsoft.com/791817a4-eb9a-4000-9c85-972cc60fd5aa)
-- [Sandcastle Help File Builder (with VS2013 extension)](https://github.com/EWSoftware/SHFB/releases)
-- [NUnit 3 Test Adapter](https://marketplace.visualstudio.com/items?itemName=NUnitDevelopers.NUnit3TestAdapter)
-
-Then navigate to the Sources directory, and open the *Accord.NET.sln* solution file.
-
-
 #### With Visual Studio 2015
 
 Please download and install the following dependencies:
 
-- [VS2013 C++ platform toolset (for compiling some unit tests only)](https://www.microsoft.com/en-us/download/details.aspx?id=44914)
 - [T4 Toolbox for Visual Studio 2015](https://visualstudiogallery.msdn.microsoft.com/34b6d489-afbc-4d7b-82c3-dded2b726dbc)
 - [Sandcastle Help File Builder (with VS2015 extension)](https://github.com/EWSoftware/SHFB/releases)
 - [NUnit 3 Test Adapter](https://marketplace.visualstudio.com/items?itemName=NUnitDevelopers.NUnit3TestAdapter)
 
-Then navigate to the Sources directory, and open the *Accord.NET.sln* solution file.
+Then navigate to the Sources directory, and open the *Accord.NET.sln* solution file. Note: the solution includes F# unit test projects that can be disabled/unloaded from the solution in case you do not have support for F# tools in your version of Visual Studio.
 
 
 #### With Visual Studio 2017
@@ -61,10 +49,12 @@ Please download and install the following dependencies:
 - [T4 Toolbox for Visual Studio 2017](https://github.com/hagronnestad/T4Toolbox/releases/tag/vs2017-b1)
 - [Sandcastle Help File Builder (with VS2017 extension)](https://github.com/EWSoftware/SHFB/releases)
 - [NUnit 3 Test Adapter](https://marketplace.visualstudio.com/items?itemName=NUnitDevelopers.NUnit3TestAdapter)
+- [Visual C++ Redistributable for Visual Studio 2015](https://www.microsoft.com/en-us/download/details.aspx?id=48145&751be11f-ede8-5a0c-058c-2ee190a24fa6) (both x64 and x86)
 
-Then navigate to the Sources directory, and open the *Accord.NET.sln* solution file.
+Then navigate to the Sources directory, and open the *Accord.NET.sln* solution file. Note: the solution includes F# unit test projects that can be disabled/unloaded from the solution in case you do not have support for F# tools in your version of Visual Studio.
 
-#### With Mono (Linux/xbuild)
+
+#### With Mono in Linux
 
     # Install Mono
     sudo apt-get install mono-complete monodevelop monodevelop-nunit git autoconf make
@@ -80,10 +70,41 @@ Then navigate to the Sources directory, and open the *Accord.NET.sln* solution f
     make build
     make samples
     make test
+
+
+#### With Mono in OS X
+
+    # Install Mono
+    brew update
+    brew cask install mono-mdk pkg-config automake
+
+    # Clone the repository
+    git clone https://github.com/accord-net/framework.git
+
+    # Enter the directory
+    cd framework
     
+    # Set some environment variables with OSX-specific paths
+    export PKG_CONFIG_PATH=/Library/Frameworks/Mono.framework/Versions/Current/lib/pkgconfig/
+    export MONO=/Library/Frameworks/Mono.framework/Versions/Current/bin/mono
+    export XBUILD=/Library/Frameworks/Mono.framework/Versions/Current/bin/xbuild
+    
+    # Build the framework solution using Mono
+    ./autogen.sh
+    make build
+    make samples
+    make test
+
 
 # Contributing
 
-If you would like to contribute, please do so by helping us update the [project's Wiki pages](https://github.com/accord-net/framework/wiki). While you could also make a donation through PayPal [![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=N4Q6YQSPWN8BG) or Flattr [![Flattr this git repo](http://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=cesarsouza&url=https://github.com/accord-net/framework&title=Accord.NET&language=&tags=github&category=software), fill-in bug reports and contribute code in the form of pull requests, the most precious donation we could receive would be a bit of your time - [please take some minutes to submit us more documentation examples to our Wiki pages](https://github.com/accord-net/framework/wiki) :wink: 
+If you would like to contribute, please do so by helping us update the [project's Wiki pages](https://github.com/accord-net/framework/wiki). While you could also make a donation through PayPal [![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=N4Q6YQSPWN8BG), Flattr [![Flattr this git repo](http://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=cesarsouza&url=https://github.com/accord-net/framework&title=Accord.NET&language=&tags=github&category=software), or any of the cryptocurrencies shown below, as well as fill-in bug reports and contribute code in the form of pull requests, the most precious donation we could receive would be a bit of your time - [please take some minutes to submit us more documentation examples to our Wiki pages](https://github.com/accord-net/framework/wiki) :wink: 
 
-Join the chat at https://gitter.im/accord-net/framework
+Donate using cryptocurrencties:
+- ```BTC: 16EUrG7AqbhrAbgVA1J3m4udFm3XFUntDE```
+- ```ETH: 0xc152EA8c985984C34C08b54201a632E98AE98e8F```
+- ```LTC: LPkWpq1ChUXXxpHZwvKFicVeWSXKPtnaYC```
+
+Note: all donations are 100% invested towards improving the framework, including, but not limited to, the hiring of extra developers to work on issues currently present at the project's issue tracker. If you would like to donate resources towards the development of a particular issue, please let us know!
+
+Join the chat at https://gitter.im/accord-net/framework - but to have issues and questions answered, [post it as an issue](https://github.com/accord-net/framework/issues).

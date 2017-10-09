@@ -46,7 +46,12 @@ namespace Accord.Statistics.Kernels
         public double Constant
         {
             get { return constant; }
-            set { constant = value; }
+            set
+            {
+                if (value < 0)
+                    throw new ArgumentOutOfRangeException("value", "Constant must be positive.");
+                constant = value;
+            }
         }
 
         /// <summary>
@@ -57,14 +62,17 @@ namespace Accord.Statistics.Kernels
         /// 
         public Multiquadric(double constant)
         {
-            this.constant = constant;
+            this.Constant = constant;
         }
 
         /// <summary>
         ///   Constructs a new Multiquadric Kernel.
         /// </summary>
         /// 
-        public Multiquadric() : this(1) { }
+        public Multiquadric()
+            : this(1)
+        {
+        }
 
         /// <summary>
         ///   Multiquadric Kernel function.
@@ -84,7 +92,7 @@ namespace Accord.Statistics.Kernels
                 norm += d * d;
             }
 
-            return -(norm + constant * constant);
+            return Math.Sqrt(norm + constant);
         }
 
         /// <summary>
@@ -97,7 +105,7 @@ namespace Accord.Statistics.Kernels
         /// 
         public double Function(double z)
         {
-            return -(z + constant * constant);
+            return Math.Sqrt(z * z + constant);
         }
 
         /// <summary>

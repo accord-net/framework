@@ -1,3 +1,7 @@
+// Accord Imaging Library
+// The Accord.NET Framework
+// http://accord-framework.net
+//
 // AForge Image Processing Library
 // AForge.NET framework
 // http://www.aforgenet.com/framework/
@@ -5,59 +9,102 @@
 // Copyright © AForge.NET, 2005-2010
 // contacts@aforgenet.com
 //
+// Copyright © César Souza, 2009-2017
+// cesarsouza at gmail.com
+//
+//    This library is free software; you can redistribute it and/or
+//    modify it under the terms of the GNU Lesser General Public
+//    License as published by the Free Software Foundation; either
+//    version 2.1 of the License, or (at your option) any later version.
+//
+//    This library is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+//    Lesser General Public License for more details.
+//
+//    You should have received a copy of the GNU Lesser General Public
+//    License along with this library; if not, write to the Free Software
+//    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+//
 
 namespace Accord.Imaging
 {
     using System;
     using System.Drawing;
     using System.Drawing.Imaging;
+    using Accord.Math;
 
     /// <summary>
-    /// Integral image.
+    ///  Integral image.
     /// </summary>
     /// 
-    /// <remarks><para>The class implements integral image concept, which is described by
-    /// Viola and Jones in: <b>P. Viola and M. J. Jones, "Robust real-time face detection",
-    /// Int. Journal of Computer Vision 57(2), pp. 137–154, 2004</b>.</para>
-    /// 
-    /// <para><i>"An integral image <b>I</b> of an input image <b>G</b> is defined as the image in which the
-    /// intensity at a pixel position is equal to the sum of the intensities of all the pixels
-    /// above and to the left of that position in the original image."</i></para>
-    /// 
-    /// <para>The intensity at position (x, y) can be written as:</para>
-    /// <code>
-    ///           x    y
-    /// I(x,y) = SUM( SUM( G(i,j) ) )
-    ///          i=0  j=0
-    /// </code>
-    /// 
-    /// <para><note>The class uses 32-bit integers to represent integral image.</note></para>
-    /// 
-    /// <para><note>The class processes only grayscale (8 bpp indexed) images.</note></para>
-    /// 
+    /// <remarks>
+    /// <para>
+    ///   This class implements integral image concept, which is described by
+    ///   Viola and Jones in: <b>P. Viola and M. J. Jones, "Robust real-time face detection",
+    ///   Int. Journal of Computer Vision 57(2), pp. 137–154, 2004</b>.</para>
+    ///   
+    /// <para>
+    ///   <i>"An integral image <b>I</b> of an input image <b>G</b> is defined as the image in which the
+    ///   intensity at a pixel position is equal to the sum of the intensities of all the pixels
+    ///   above and to the left of that position in the original image."</i></para>
+    ///   
+    /// <para>
+    ///   The intensity at position (x, y) can be written as:</para>
+    ///   <code>
+    ///             x    y
+    ///   I(x,y) = SUM( SUM( G(i,j) ) )
+    ///            i=0  j=0
+    ///   </code>
+    ///   
+    /// <para>
+    ///   <note>The class uses 32-bit integers to represent integral image.</note></para>
+    ///   
+    /// <para>
+    ///   <note>The class processes only grayscale (8 bpp indexed) images.</note></para>
+    ///   
     /// <para><note>This class contains two versions of each method: safe and unsafe. Safe methods do
-    /// checks of provided coordinates and ensure that these coordinates belong to the image, what makes
-    /// these methods slower. Unsafe methods do not do coordinates' checks and rely that these
-    /// coordinates belong to the image, what makes these methods faster.</note></para>
+    ///   checks of provided coordinates and ensure that these coordinates belong to the image, what makes
+    ///   these methods slower. Unsafe methods do not do coordinates' checks and rely that these
+    ///   coordinates belong to the image, what makes these methods faster.</note></para>
+    ///   
+    /// <para>
+    ///   This class implements the simplest upright representation of an integral image. For an integral
+    ///   image that can represent squared integral images as well as tilted images at the same time, please 
+    ///   refer to <see cref="IntegralImage2"/>.</para>
+    /// </remarks>
     /// 
+    /// <example>
     /// <para>Sample usage:</para>
     /// <code>
     /// // create integral image
-    /// IntegralImage im = IntegralImage.FromBitmap( image );
-    /// // get pixels' mean value in the specified rectangle
-    /// float mean = im.GetRectangleMean( 10, 10, 20, 30 )
-    /// </code>
-    /// </remarks>
+    /// IntegralImage im = IntegralImage.FromBitmap(image);
     /// 
+    /// // get pixels' mean value in the specified rectangle
+    /// float mean = im.GetRectangleMean(10, 10, 20, 30)
+    /// </code>
+    /// </example>
+    /// 
+    /// <seealso cref="IntegralImage2"/>
+    /// 
+    [Serializable]
     public class IntegralImage : ICloneable
     {
         /// <summary>
-        /// Intergral image's array.
+        /// Integral image's array.
+        /// </summary>
+        /// 
+        /// <remarks>See remarks to <see cref="Matrix"/> property.</remarks>
+        /// 
+        protected readonly uint[][] matrix = null;
+
+        /// <summary>
+        /// Integral image's array.
         /// </summary>
         /// 
         /// <remarks>See remarks to <see cref="InternalData"/> property.</remarks>
         /// 
-        protected readonly uint[,] integralImage = null;
+        protected uint[,] integralImage = null;
 
         // image's width and height
         private readonly int width;
@@ -84,6 +131,23 @@ namespace Accord.Imaging
         /// </summary>
         /// 
         /// <remarks>
+        /// <para><note>The array should be accessed by [y][x] indexing.</note></para>
+        /// 
+        /// <para><note>The array's size is [<see cref="Height"/>+1, <see cref="Width"/>+1]. The first
+        /// row and column are filled with zeros, what is done for more efficient calculation of
+        /// rectangles' sums.</note></para>
+        /// </remarks>
+        /// 
+        public uint[][] Matrix
+        {
+            get { return matrix; }
+        }
+
+        /// <summary>
+        /// Provides access to internal array keeping integral image data.
+        /// </summary>
+        /// 
+        /// <remarks>
         /// <para><note>The array should be accessed by [y, x] indexing.</note></para>
         /// 
         /// <para><note>The array's size is [<see cref="Height"/>+1, <see cref="Width"/>+1]. The first
@@ -91,9 +155,25 @@ namespace Accord.Imaging
         /// rectangles' sums.</note></para>
         /// </remarks>
         /// 
+        [Obsolete("Please use Matrix property instead.")]
         public uint[,] InternalData
         {
-            get { return integralImage; }
+            get
+            {
+                if (integralImage == null)
+                {
+                    integralImage = new uint[height + 1, width + 1];
+                    for (int y = 0; y <= height; y++)
+                    {
+                        for (int x = 0; x <= width; x++)
+                        {
+                            integralImage[y, x] = matrix[y][x];
+                        }
+                    }
+                }
+
+                return integralImage;
+            }
         }
 
         /// <summary>
@@ -103,7 +183,7 @@ namespace Accord.Imaging
         /// <param name="width">Image width.</param>
         /// <param name="height">Image height.</param>
         /// 
-        /// <remarks>The constractor is protected, what makes it imposible to instantiate this
+        /// <remarks>The constructor is protected, what makes it impossible to instantiate this
         /// class directly. To create an instance of this class <see cref="FromBitmap(Bitmap)"/> or
         /// <see cref="FromBitmap(BitmapData)"/> method should be used.</remarks>
         ///
@@ -111,7 +191,7 @@ namespace Accord.Imaging
         {
             this.width = width;
             this.height = height;
-            integralImage = new uint[height + 1, width + 1];
+            this.matrix = Jagged.Zeros<uint>(height + 1, width + 1);
         }
 
         /// <summary>
@@ -129,7 +209,7 @@ namespace Accord.Imaging
             // check image format
             if (image.PixelFormat != PixelFormat.Format8bppIndexed)
             {
-                throw new UnsupportedImageFormatException("Source image can be graysclae (8 bpp indexed) image only.");
+                throw new UnsupportedImageFormatException("Source image can be grayscale (8 bpp indexed) image only.");
             }
 
             // lock source image
@@ -174,7 +254,7 @@ namespace Accord.Imaging
             // check image format
             if (image.PixelFormat != PixelFormat.Format8bppIndexed)
             {
-                throw new ArgumentException("Source image can be graysclae (8 bpp indexed) image only.");
+                throw new ArgumentException("Source image can be grayscale (8 bpp indexed) image only.");
             }
 
             // get source image size
@@ -184,7 +264,7 @@ namespace Accord.Imaging
 
             // create integral image
             var im = new IntegralImage(width, height);
-            uint[,] integralImage = im.integralImage;
+            uint[][] matrix = im.matrix;
 
             // do the job
             unsafe
@@ -203,7 +283,7 @@ namespace Accord.Imaging
 
                         rowSum += *src;
 
-                        integralImage[y, x] = rowSum + integralImage[y - 1, x];
+                        matrix[y][x] = rowSum + matrix[y - 1][x];
                     }
                     src += offset;
                 }
@@ -240,7 +320,7 @@ namespace Accord.Imaging
             if (x2 > width) x2 = width;
             if (y2 > height) y2 = height;
 
-            return integralImage[y2, x2] + integralImage[y1, x1] - integralImage[y2, x1] - integralImage[y1, x2];
+            return matrix[y2][x2] + matrix[y1][x1] - matrix[y2][x1] - matrix[y1][x2];
         }
 
         /// <summary>
@@ -256,7 +336,7 @@ namespace Accord.Imaging
         /// <remarks><para>The method calculates horizontal wavelet, which is a difference
         /// of two horizontally adjacent boxes' sums, i.e. <b>A-B</b>. A is the sum of rectangle with coordinates
         /// (x, y-radius, x+radius-1, y+radius-1). B is the sum of rectangle with coordinates
-        /// (x-radius, y-radius, x-1, y+radiys-1).</para></remarks>
+        /// (x-radius, y-radius, x-1, y+radius-1).</para></remarks>
         ///
         public int GetHaarXWavelet(int x, int y, int radius)
         {
@@ -313,7 +393,7 @@ namespace Accord.Imaging
             x2++;
             y2++;
 
-            return integralImage[y2, x2] + integralImage[y1, x1] - integralImage[y2, x1] - integralImage[y1, x2];
+            return matrix[y2][x2] + matrix[y1][x1] - matrix[y2][x1] - matrix[y1][x2];
         }
 
         /// <summary>
@@ -385,7 +465,7 @@ namespace Accord.Imaging
             if (y2 > height) y2 = height;
 
             // return sum divided by actual rectangles size
-            return (float)((double)(integralImage[y2, x2] + integralImage[y1, x1] - integralImage[y2, x1] - integralImage[y1, x2]) /
+            return (float)((double)(matrix[y2][x2] + matrix[y1][x1] - matrix[y2][x1] - matrix[y1][x2]) /
                 (double)((x2 - x1) * (y2 - y1)));
         }
 
@@ -408,7 +488,7 @@ namespace Accord.Imaging
             y2++;
 
             // return sum divided by actual rectangles size
-            return (float)((double)(integralImage[y2, x2] + integralImage[y1, x1] - integralImage[y2, x1] - integralImage[y1, x2]) /
+            return (float)((double)(matrix[y2][x2] + matrix[y1][x1] - matrix[y2][x1] - matrix[y1][x2]) /
                 (double)((x2 - x1) * (y2 - y1)));
         }
 

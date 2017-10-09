@@ -373,7 +373,7 @@ namespace Accord.Imaging
                         rgb.Blue = p[RGB.B];
 
                         // convert to YCbCr color space
-                        Accord.Imaging.YCbCr.FromRGB(rgb, ycbcr);
+                        Accord.Imaging.YCbCr.FromRGB(rgb, ref ycbcr);
 
                         yhisto[(int)(ycbcr.Y * 255)]++;
                         cbhisto[(int)((ycbcr.Cb + 0.5) * 255)]++;
@@ -409,7 +409,7 @@ namespace Accord.Imaging
                         rgb.Blue = p[RGB.B];
 
                         // convert to YCbCr color space
-                        Accord.Imaging.YCbCr.FromRGB(rgb, ycbcr);
+                        Accord.Imaging.YCbCr.FromRGB(rgb, ref ycbcr);
 
                         yhisto[(int)(ycbcr.Y * 255)]++;
                         cbhisto[(int)((ycbcr.Cb + 0.5) * 255)]++;

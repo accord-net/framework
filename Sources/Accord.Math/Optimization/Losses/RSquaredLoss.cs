@@ -20,7 +20,6 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-
 namespace Accord.Math.Optimization.Losses
 {
     using System;
@@ -43,7 +42,27 @@ namespace Accord.Math.Optimization.Losses
     ///    The R² coefficient of determination is a statistical measure of how well the
     ///    regression line approximates the real data points. An R² of 1.0 indicates
     ///    that the regression line perfectly fits the data.</para> 
+    ///    
+    /// <para>
+    ///   References:
+    ///   <list type="bullet">
+    ///     <item><description><a href="https://en.wikipedia.org/wiki/Coefficient_of_determination">
+    ///       Wikipedia contributors. Coefficient of determination. Wikipedia, The Free Encyclopedia.
+    ///       September 6, 2017, 19:48 UTC. Available at: https://en.wikipedia.org/wiki/Coefficient_of_determination. </a>
+    ///       </description></item>
+    ///    </list></para>
     /// </remarks>
+    /// 
+    /// <example>
+    ///  <para>
+    ///   This example shows how to fit a multiple linear regression model and compute
+    ///   adjusted and non-adjusted versions of the R² coefficient of determination at
+    ///   the end:</para>
+    ///   
+    /// <code source="Unit Tests\Accord.Tests.Statistics\Models\Regression\MultipleLinearRegressionTest.cs" region="doc_learn_2" />
+    /// </example>
+    /// 
+    /// <seealso cref="SquareLoss"/>
     /// 
     [Serializable]
     public class RSquaredLoss : LossBase<double[][], double[][], double[]>, ILoss<double[]>

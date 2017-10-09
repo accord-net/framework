@@ -77,10 +77,16 @@
     <Compile Include="..\..\Samples\MachineLearning\Liblinear %28SVMs%29\Train.cs">
       <Link>VectorMachines\Liblinear\Train.cs</Link>
     </Compile>
+    <Compile Include="Boosting\DecisionStumpTest.cs" />
     <Compile Include="Clustering\KMedoidsPAMTest.cs" />
     <Compile Include="Clustering\KMedoidsVITest.cs" />
+    <Compile Include="Clustering\MiniBatchKMeansTest.cs" />
     <Compile Include="DecisionTrees\DecisionTreeWriterTest.cs" />
+    <Compile Include="IO\SerializationTest.cs" />
+    <Compile Include="Kernels\SplineTest.cs" />
     <Compile Include="POSTest.cs" />
+    <Compile Include="QLearningTest.cs" />
+    <Compile Include="SarsaTest.cs" />
     <Compile Include="TFIDFTest.cs" />
     <Compile Include="BagOfWordsTest.cs" />
     <Compile Include="Boosting\AdaBoostTest.cs" />
@@ -117,7 +123,7 @@
     <Compile Include="Kernels\DynamicTimeWarpingTest.cs" />
     <Compile Include="Clustering\KMeansTest.cs" />
     <Compile Include="Clustering\KModesTest.cs" />
-    <Compile Include="KNearestNeighbors\KNearestNeighborTest.cs" />
+    <Compile Include="KNearestNeighbors\KNearestNeighborsTest.cs" />
     <Compile Include="KNearestNeighbors\NaiveNearestNeighbors.cs" />
     <Compile Include="Structures\SPTreeTest.cs" />
     <Compile Include="Structures\VPTreeTest.cs" />

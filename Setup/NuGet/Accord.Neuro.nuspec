@@ -18,13 +18,26 @@
       Neural networks and related non-linear optimization methods, supporting rectified linear units (ReLU),
       Nguyen-Widrow initialization and others.
     </summary>
-    <tags>accord.net aforge.net framework artificial neural networks levenberg-marquardt nguyen-widrow deep-learning ann neuron</tags>
+    <tags>accord.net aforge.net framework artificial neural networks levenberg-marquardt nguyen-widrow deep-learning ann neuron unity3d unity</tags>
     <dependencies>
-      <dependency id="Accord"       version="$version$" />
-      <dependency id="Accord.Math"  version="$version$" />
+      <dependency id="Accord"         version="$version$" />
+      <dependency id="Accord.Math"    version="$version$" />
+      <dependency id="Accord.Genetic" version="$version$" />
     </dependencies>
   </metadata>
   <files>
+    <file src="..\..\Release\net35\Accord.Neuro.dll" target="lib\net35-unity full v3.5\Accord.Neuro.dll" />
+    <file src="..\..\Release\net35\Accord.Neuro.xml" target="lib\net35-unity full v3.5\Accord.Neuro.xml" />
+
+    <file src="..\..\Release\net35\Accord.Neuro.dll" target="lib\net35-unity subset v3.5\Accord.Neuro.dll" />
+    <file src="..\..\Release\net35\Accord.Neuro.xml" target="lib\net35-unity subset v3.5\Accord.Neuro.xml" />
+
+    <file src="..\..\Release\net35\Accord.Neuro.dll" target="lib\net35-unity web v3.5\Accord.Neuro.dll" />
+    <file src="..\..\Release\net35\Accord.Neuro.xml" target="lib\net35-unity web v3.5\Accord.Neuro.xml" />
+
+    <file src="..\..\Release\net35\Accord.Neuro.dll" target="lib\net35-unity micro v3.5\Accord.Neuro.dll" />
+    <file src="..\..\Release\net35\Accord.Neuro.xml" target="lib\net35-unity micro v3.5\Accord.Neuro.xml" />
+
     <file src="..\..\Release\net35\Accord.Neuro.dll" target="lib\net35\Accord.Neuro.dll" />
     <file src="..\..\Release\net35\Accord.Neuro.xml" target="lib\net35\Accord.Neuro.xml" />
 
@@ -40,7 +53,7 @@
     <file src="..\..\Release\net462\Accord.Neuro.dll" target="lib\net462\Accord.Neuro.dll" />
     <file src="..\..\Release\net462\Accord.Neuro.xml" target="lib\net462\Accord.Neuro.xml" />
 
-    <!-- <file src="..\..\Release\netstandard2.0\Accord.Neuro.xml" target="lib\netstandard2.0\Accord.Neuro.xml" /> -->
-    <!-- <file src="..\..\Release\netstandard2.0\Accord.Neuro.dll" target="lib\netstandard2.0\Accord.Neuro.dll" /> -->
+    <file src="..\..\Release\netstandard2.0\Accord.Neuro.xml" target="lib\netstandard2.0\Accord.Neuro.xml" />
+    <file src="..\..\Release\netstandard2.0\Accord.Neuro.dll" target="lib\netstandard2.0\Accord.Neuro.dll" />
   </files>
 </package>

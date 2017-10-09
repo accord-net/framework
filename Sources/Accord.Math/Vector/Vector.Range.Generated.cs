@@ -29,16 +29,31 @@
 namespace Accord.Math
 {
     using System;
-	using System.Collections.Generic;
+    using System.Collections.Generic;
     using Accord.Math;
 
     public static partial class Vector
     {
 
         /// <summary>
-        ///   Creates a range vector.
+        ///   Creates a range vector (like NumPy's arange function).
         /// </summary>
         /// 
+        /// <param name="n">The exclusive upper bound of the range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
         public static int[] Range(int n)
         {
             int[] r = new int[(int)n]; 
@@ -48,13 +63,29 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Creates a range vector.
+        ///   Creates a range vector (like NumPy's arange function).
         /// </summary>
-        /// 
+        ///
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
         public static int[] Range(int a, int b)
         {
             if (a == b)
-                return new [] { a };
+                return new int[] { };
 
             int[] r;
 
@@ -68,50 +99,31 @@ namespace Accord.Math
             {
                 r = new int[(int)(a - b)];
                 for (int i = 0; i < r.Length; i++)
-                    r[i] = (int)(a-- - 1);
+                    r[i] = (int)(a--);
             }
 
             return r;
         }
 
         /// <summary>
-        ///   Creates an interval vector.
+        ///   Enumerates through a range (like Python's xrange function).
         /// </summary>
         /// 
-        public static int[] Range(int a, int b, double stepSize)
-        {
-            if (a == b)
-                return new [] { a };
-
-            int[] r;
-
-            if (b > a)
-            {
-                int steps = (int)System.Math.Ceiling((b - a) / (double)stepSize);
-                r = new int[steps];
-                for (uint i = 0; i < r.Length; i++)
-                    r[i] = (int)(a +  i * stepSize);
-                r[steps - 1] = (int)(b);
-            }
-            else
-            {
-                int steps = (int)System.Math.Ceiling((a - b) / (double)stepSize);
-                r = new int[steps];
-                for (uint i = 0; i < r.Length; i++)
-                    r[i] = (int)(a - i * stepSize);
-                r[steps - 1] = (int)(b);
-            }
-
-            return r;
-        }
-
-
-
-
-		/// <summary>
-        ///   Creates a range enumeration (similar to NumPy's xrange).
-        /// </summary>
-        /// 
+        /// <param name="n">The exclusive upper bound of the range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
         public static IEnumerable<int> EnumerableRange(int n)
         {
             for (int i = 0; i < n; i++)
@@ -119,13 +131,29 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Creates a range enumeration (similar to NumPy's xrange).
+        ///   Enumerates through a range (like Python's xrange).
         /// </summary>
         /// 
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
         public static IEnumerable<int> EnumerableRange(int a, int b)
         {
             if (a == b)
-                yield return a;
+                yield break;
 
             if (b > a)
             {
@@ -137,39 +165,465 @@ namespace Accord.Math
             {
                 int n = (int)(a - b);
                 for (int i = 0; i < n; i++)
-                    yield return (int)(a-- - 1);
+                    yield return (int)(a--);
             }
         }
 
+
         /// <summary>
-        ///   Creates an interval enumeration (similar to NumPy's xrange).
+        ///   Creates a range vector (like NumPy's arange function).
         /// </summary>
         /// 
-        public static IEnumerable<int> EnumerableRange(int a, int b, double stepSize)
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+        /// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static int[] Range(int a, int b, int stepSize)
         {
             if (a == b)
-                yield return a;
+                return new int[] { };
 
-            if (b > a)
+            if (stepSize == 0)
+                throw new ArgumentOutOfRangeException("stepSize", "stepSize must be different from zero.");
+
+            int[] r;
+
+            if (a < b)
             {
-                int steps = (int)System.Math.Ceiling((b - a) / (double)stepSize);
-                for (uint i = 0; i < steps; i++)
-                    yield return (int)(a +  i * stepSize);
-                yield return (int)(b);
+                if (stepSize < 0)
+                    throw new ArgumentOutOfRangeException("stepSize", "If a < b, stepSize must be positive.");
+
+                uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize));
+
+                r = new int[steps];
+                for (uint i = 0; i < r.Length; i++)
+                    r[i] = (int)(a +  i * stepSize);
             }
             else
             {
-                int steps = (int)System.Math.Ceiling((a - b) / (double)stepSize);
+                if (stepSize > 0)
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(a - b) / (double)stepSize));
+                    r = new int[steps];
+                    for (uint i = 0; i < r.Length; i++)
+                        r[i] = (int)(a - i * stepSize);
+                }
+                else
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize));
+                    r = new int[steps];
+                    for (uint i = 0; i < r.Length; i++)
+                        r[i] = (int)(a + i * stepSize);
+                }
+            }
+
+            if (a < b)
+            {
+                if (r[r.Length - 1] > b)
+                    r[r.Length - 1] = b;
+            }
+            else
+            {
+                if (r[r.Length - 1] > a)
+                    r[r.Length - 1] = a;
+            }
+
+            return r;
+        }
+
+        /// <summary>
+        ///   Enumerates through a range (like Python's xrange function).
+        /// </summary>
+        /// 
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+        /// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static IEnumerable<int> EnumerableRange(int a, int b, int stepSize)
+        {
+            if (a == b)
+                yield break;
+
+            if (stepSize == 0)
+                throw new ArgumentOutOfRangeException("stepSize", "stepSize must be different from zero.");
+
+            int last;
+
+            if (a < b)
+            {
+                if (stepSize < 0)
+                    throw new ArgumentOutOfRangeException("stepSize", "If a < b, stepSize must be positive.");
+
+                uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize)) - 1;
                 for (uint i = 0; i < steps; i++)
-                    yield return (int)(a - i * stepSize);
-                yield return (int)(b);
+                    yield return (int)(a +  i * stepSize);
+                last = (int)(a +  steps * stepSize);
+            }
+            else
+            {
+                if (stepSize > 0)
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(a - b) / (double)stepSize)) - 1;
+                    for (uint i = 0; i < steps; i++)
+                        yield return (int)(a - i * stepSize);
+                    last = (int)(a - steps * stepSize);
+                }
+                else
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize)) - 1;
+                    for (uint i = 0; i < steps; i++)
+                        yield return (int)(a + i * stepSize);
+                    last = (int)(a + steps * stepSize);
+                }
+            }
+
+            if (a < b)
+            {
+                yield return last > b ? b : last;
+            }
+            else
+            {
+                yield return last > a ? a : last;
             }
         }
 
         /// <summary>
-        ///   Creates a range vector.
+        ///   Creates a range vector (like NumPy's arange function).
         /// </summary>
         /// 
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+        /// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static float[] Range(int a, int b, float stepSize)
+        {
+            if (a == b)
+                return new float[] { };
+
+            if (stepSize == 0)
+                throw new ArgumentOutOfRangeException("stepSize", "stepSize must be different from zero.");
+
+            float[] r;
+
+            if (a < b)
+            {
+                if (stepSize < 0)
+                    throw new ArgumentOutOfRangeException("stepSize", "If a < b, stepSize must be positive.");
+
+                uint steps = (uint)System.Math.Ceiling(((float)(b - a) / (float)stepSize));
+
+                r = new float[steps];
+                for (uint i = 0; i < r.Length; i++)
+                    r[i] = (float)(a +  i * stepSize);
+            }
+            else
+            {
+                if (stepSize > 0)
+                {
+                    uint steps = (uint)System.Math.Ceiling(((float)(a - b) / (float)stepSize));
+                    r = new float[steps];
+                    for (uint i = 0; i < r.Length; i++)
+                        r[i] = (float)(a - i * stepSize);
+                }
+                else
+                {
+                    uint steps = (uint)System.Math.Ceiling(((float)(b - a) / (float)stepSize));
+                    r = new float[steps];
+                    for (uint i = 0; i < r.Length; i++)
+                        r[i] = (float)(a + i * stepSize);
+                }
+            }
+
+            if (a < b)
+            {
+                if (r[r.Length - 1] > b)
+                    r[r.Length - 1] = b;
+            }
+            else
+            {
+                if (r[r.Length - 1] > a)
+                    r[r.Length - 1] = a;
+            }
+
+            return r;
+        }
+
+        /// <summary>
+        ///   Enumerates through a range (like Python's xrange function).
+        /// </summary>
+        /// 
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+        /// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static IEnumerable<float> EnumerableRange(int a, int b, float stepSize)
+        {
+            if (a == b)
+                yield break;
+
+            if (stepSize == 0)
+                throw new ArgumentOutOfRangeException("stepSize", "stepSize must be different from zero.");
+
+            float last;
+
+            if (a < b)
+            {
+                if (stepSize < 0)
+                    throw new ArgumentOutOfRangeException("stepSize", "If a < b, stepSize must be positive.");
+
+                uint steps = (uint)System.Math.Ceiling(((float)(b - a) / (float)stepSize)) - 1;
+                for (uint i = 0; i < steps; i++)
+                    yield return (float)(a +  i * stepSize);
+                last = (float)(a +  steps * stepSize);
+            }
+            else
+            {
+                if (stepSize > 0)
+                {
+                    uint steps = (uint)System.Math.Ceiling(((float)(a - b) / (float)stepSize)) - 1;
+                    for (uint i = 0; i < steps; i++)
+                        yield return (float)(a - i * stepSize);
+                    last = (float)(a - steps * stepSize);
+                }
+                else
+                {
+                    uint steps = (uint)System.Math.Ceiling(((float)(b - a) / (float)stepSize)) - 1;
+                    for (uint i = 0; i < steps; i++)
+                        yield return (float)(a + i * stepSize);
+                    last = (float)(a + steps * stepSize);
+                }
+            }
+
+            if (a < b)
+            {
+                yield return last > b ? b : last;
+            }
+            else
+            {
+                yield return last > a ? a : last;
+            }
+        }
+
+        /// <summary>
+        ///   Creates a range vector (like NumPy's arange function).
+        /// </summary>
+        /// 
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+        /// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static double[] Range(int a, int b, double stepSize)
+        {
+            if (a == b)
+                return new double[] { };
+
+            if (stepSize == 0)
+                throw new ArgumentOutOfRangeException("stepSize", "stepSize must be different from zero.");
+
+            double[] r;
+
+            if (a < b)
+            {
+                if (stepSize < 0)
+                    throw new ArgumentOutOfRangeException("stepSize", "If a < b, stepSize must be positive.");
+
+                uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize));
+
+                r = new double[steps];
+                for (uint i = 0; i < r.Length; i++)
+                    r[i] = (double)(a +  i * stepSize);
+            }
+            else
+            {
+                if (stepSize > 0)
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(a - b) / (double)stepSize));
+                    r = new double[steps];
+                    for (uint i = 0; i < r.Length; i++)
+                        r[i] = (double)(a - i * stepSize);
+                }
+                else
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize));
+                    r = new double[steps];
+                    for (uint i = 0; i < r.Length; i++)
+                        r[i] = (double)(a + i * stepSize);
+                }
+            }
+
+            if (a < b)
+            {
+                if (r[r.Length - 1] > b)
+                    r[r.Length - 1] = b;
+            }
+            else
+            {
+                if (r[r.Length - 1] > a)
+                    r[r.Length - 1] = a;
+            }
+
+            return r;
+        }
+
+        /// <summary>
+        ///   Enumerates through a range (like Python's xrange function).
+        /// </summary>
+        /// 
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+        /// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static IEnumerable<double> EnumerableRange(int a, int b, double stepSize)
+        {
+            if (a == b)
+                yield break;
+
+            if (stepSize == 0)
+                throw new ArgumentOutOfRangeException("stepSize", "stepSize must be different from zero.");
+
+            double last;
+
+            if (a < b)
+            {
+                if (stepSize < 0)
+                    throw new ArgumentOutOfRangeException("stepSize", "If a < b, stepSize must be positive.");
+
+                uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize)) - 1;
+                for (uint i = 0; i < steps; i++)
+                    yield return (double)(a +  i * stepSize);
+                last = (double)(a +  steps * stepSize);
+            }
+            else
+            {
+                if (stepSize > 0)
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(a - b) / (double)stepSize)) - 1;
+                    for (uint i = 0; i < steps; i++)
+                        yield return (double)(a - i * stepSize);
+                    last = (double)(a - steps * stepSize);
+                }
+                else
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize)) - 1;
+                    for (uint i = 0; i < steps; i++)
+                        yield return (double)(a + i * stepSize);
+                    last = (double)(a + steps * stepSize);
+                }
+            }
+
+            if (a < b)
+            {
+                yield return last > b ? b : last;
+            }
+            else
+            {
+                yield return last > a ? a : last;
+            }
+        }
+
+        /// <summary>
+        ///   Creates a range vector (like NumPy's arange function).
+        /// </summary>
+        /// 
+        /// <param name="n">The exclusive upper bound of the range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
         public static float[] Range(float n)
         {
             float[] r = new float[(int)n]; 
@@ -179,13 +633,29 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Creates a range vector.
+        ///   Creates a range vector (like NumPy's arange function).
         /// </summary>
-        /// 
+        ///
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
         public static float[] Range(float a, float b)
         {
             if (a == b)
-                return new [] { a };
+                return new float[] { };
 
             float[] r;
 
@@ -199,50 +669,31 @@ namespace Accord.Math
             {
                 r = new float[(int)(a - b)];
                 for (int i = 0; i < r.Length; i++)
-                    r[i] = (float)(a-- - 1);
+                    r[i] = (float)(a--);
             }
 
             return r;
         }
 
         /// <summary>
-        ///   Creates an interval vector.
+        ///   Enumerates through a range (like Python's xrange function).
         /// </summary>
         /// 
-        public static float[] Range(float a, float b, float stepSize)
-        {
-            if (a == b)
-                return new [] { a };
-
-            float[] r;
-
-            if (b > a)
-            {
-                int steps = (int)System.Math.Ceiling((b - a) / (double)stepSize);
-                r = new float[steps];
-                for (uint i = 0; i < r.Length; i++)
-                    r[i] = (float)(a +  i * stepSize);
-                r[steps - 1] = (float)(b);
-            }
-            else
-            {
-                int steps = (int)System.Math.Ceiling((a - b) / (double)stepSize);
-                r = new float[steps];
-                for (uint i = 0; i < r.Length; i++)
-                    r[i] = (float)(a - i * stepSize);
-                r[steps - 1] = (float)(b);
-            }
-
-            return r;
-        }
-
-
-
-
-		/// <summary>
-        ///   Creates a range enumeration (similar to NumPy's xrange).
-        /// </summary>
-        /// 
+        /// <param name="n">The exclusive upper bound of the range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
         public static IEnumerable<float> EnumerableRange(float n)
         {
             for (float i = 0; i < n; i++)
@@ -250,13 +701,29 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Creates a range enumeration (similar to NumPy's xrange).
+        ///   Enumerates through a range (like Python's xrange).
         /// </summary>
         /// 
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
         public static IEnumerable<float> EnumerableRange(float a, float b)
         {
             if (a == b)
-                yield return a;
+                yield break;
 
             if (b > a)
             {
@@ -268,39 +735,1190 @@ namespace Accord.Math
             {
                 int n = (int)(a - b);
                 for (int i = 0; i < n; i++)
-                    yield return (float)(a-- - 1);
+                    yield return (float)(a--);
             }
         }
 
+
         /// <summary>
-        ///   Creates an interval enumeration (similar to NumPy's xrange).
+        ///   Creates a range vector (like NumPy's arange function).
         /// </summary>
         /// 
-        public static IEnumerable<float> EnumerableRange(float a, float b, float stepSize)
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+        /// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static float[] Range(float a, float b, int stepSize)
         {
             if (a == b)
-                yield return a;
+                return new float[] { };
 
-            if (b > a)
+            if (stepSize == 0)
+                throw new ArgumentOutOfRangeException("stepSize", "stepSize must be different from zero.");
+
+            float[] r;
+
+            if (a < b)
             {
-                int steps = (int)System.Math.Ceiling((b - a) / (double)stepSize);
-                for (uint i = 0; i < steps; i++)
-                    yield return (float)(a +  i * stepSize);
-                yield return (float)(b);
+                if (stepSize < 0)
+                    throw new ArgumentOutOfRangeException("stepSize", "If a < b, stepSize must be positive.");
+
+                uint steps = (uint)System.Math.Ceiling(((float)(b - a) / (float)stepSize));
+
+                r = new float[steps];
+                for (uint i = 0; i < r.Length; i++)
+                    r[i] = (float)(a +  i * stepSize);
             }
             else
             {
-                int steps = (int)System.Math.Ceiling((a - b) / (double)stepSize);
+                if (stepSize > 0)
+                {
+                    uint steps = (uint)System.Math.Ceiling(((float)(a - b) / (float)stepSize));
+                    r = new float[steps];
+                    for (uint i = 0; i < r.Length; i++)
+                        r[i] = (float)(a - i * stepSize);
+                }
+                else
+                {
+                    uint steps = (uint)System.Math.Ceiling(((float)(b - a) / (float)stepSize));
+                    r = new float[steps];
+                    for (uint i = 0; i < r.Length; i++)
+                        r[i] = (float)(a + i * stepSize);
+                }
+            }
+
+            if (a < b)
+            {
+                if (r[r.Length - 1] > b)
+                    r[r.Length - 1] = b;
+            }
+            else
+            {
+                if (r[r.Length - 1] > a)
+                    r[r.Length - 1] = a;
+            }
+
+            return r;
+        }
+
+        /// <summary>
+        ///   Enumerates through a range (like Python's xrange function).
+        /// </summary>
+        /// 
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+        /// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static IEnumerable<float> EnumerableRange(float a, float b, int stepSize)
+        {
+            if (a == b)
+                yield break;
+
+            if (stepSize == 0)
+                throw new ArgumentOutOfRangeException("stepSize", "stepSize must be different from zero.");
+
+            float last;
+
+            if (a < b)
+            {
+                if (stepSize < 0)
+                    throw new ArgumentOutOfRangeException("stepSize", "If a < b, stepSize must be positive.");
+
+                uint steps = (uint)System.Math.Ceiling(((float)(b - a) / (float)stepSize)) - 1;
                 for (uint i = 0; i < steps; i++)
-                    yield return (float)(a - i * stepSize);
-                yield return (float)(b);
+                    yield return (float)(a +  i * stepSize);
+                last = (float)(a +  steps * stepSize);
+            }
+            else
+            {
+                if (stepSize > 0)
+                {
+                    uint steps = (uint)System.Math.Ceiling(((float)(a - b) / (float)stepSize)) - 1;
+                    for (uint i = 0; i < steps; i++)
+                        yield return (float)(a - i * stepSize);
+                    last = (float)(a - steps * stepSize);
+                }
+                else
+                {
+                    uint steps = (uint)System.Math.Ceiling(((float)(b - a) / (float)stepSize)) - 1;
+                    for (uint i = 0; i < steps; i++)
+                        yield return (float)(a + i * stepSize);
+                    last = (float)(a + steps * stepSize);
+                }
+            }
+
+            if (a < b)
+            {
+                yield return last > b ? b : last;
+            }
+            else
+            {
+                yield return last > a ? a : last;
             }
         }
 
         /// <summary>
-        ///   Creates a range vector.
+        ///   Creates a range vector (like NumPy's arange function).
         /// </summary>
         /// 
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+        /// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static float[] Range(float a, float b, float stepSize)
+        {
+            if (a == b)
+                return new float[] { };
+
+            if (stepSize == 0)
+                throw new ArgumentOutOfRangeException("stepSize", "stepSize must be different from zero.");
+
+            float[] r;
+
+            if (a < b)
+            {
+                if (stepSize < 0)
+                    throw new ArgumentOutOfRangeException("stepSize", "If a < b, stepSize must be positive.");
+
+                uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize));
+
+                r = new float[steps];
+                for (uint i = 0; i < r.Length; i++)
+                    r[i] = (float)(a +  i * stepSize);
+            }
+            else
+            {
+                if (stepSize > 0)
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(a - b) / (double)stepSize));
+                    r = new float[steps];
+                    for (uint i = 0; i < r.Length; i++)
+                        r[i] = (float)(a - i * stepSize);
+                }
+                else
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize));
+                    r = new float[steps];
+                    for (uint i = 0; i < r.Length; i++)
+                        r[i] = (float)(a + i * stepSize);
+                }
+            }
+
+            if (a < b)
+            {
+                if (r[r.Length - 1] > b)
+                    r[r.Length - 1] = b;
+            }
+            else
+            {
+                if (r[r.Length - 1] > a)
+                    r[r.Length - 1] = a;
+            }
+
+            return r;
+        }
+
+        /// <summary>
+        ///   Enumerates through a range (like Python's xrange function).
+        /// </summary>
+        /// 
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+        /// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static IEnumerable<float> EnumerableRange(float a, float b, float stepSize)
+        {
+            if (a == b)
+                yield break;
+
+            if (stepSize == 0)
+                throw new ArgumentOutOfRangeException("stepSize", "stepSize must be different from zero.");
+
+            float last;
+
+            if (a < b)
+            {
+                if (stepSize < 0)
+                    throw new ArgumentOutOfRangeException("stepSize", "If a < b, stepSize must be positive.");
+
+                uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize)) - 1;
+                for (uint i = 0; i < steps; i++)
+                    yield return (float)(a +  i * stepSize);
+                last = (float)(a +  steps * stepSize);
+            }
+            else
+            {
+                if (stepSize > 0)
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(a - b) / (double)stepSize)) - 1;
+                    for (uint i = 0; i < steps; i++)
+                        yield return (float)(a - i * stepSize);
+                    last = (float)(a - steps * stepSize);
+                }
+                else
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize)) - 1;
+                    for (uint i = 0; i < steps; i++)
+                        yield return (float)(a + i * stepSize);
+                    last = (float)(a + steps * stepSize);
+                }
+            }
+
+            if (a < b)
+            {
+                yield return last > b ? b : last;
+            }
+            else
+            {
+                yield return last > a ? a : last;
+            }
+        }
+
+        /// <summary>
+        ///   Creates a range vector (like NumPy's arange function).
+        /// </summary>
+        /// 
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+        /// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static float[] Range(float a, float b, short stepSize)
+        {
+            if (a == b)
+                return new float[] { };
+
+            if (stepSize == 0)
+                throw new ArgumentOutOfRangeException("stepSize", "stepSize must be different from zero.");
+
+            float[] r;
+
+            if (a < b)
+            {
+                if (stepSize < 0)
+                    throw new ArgumentOutOfRangeException("stepSize", "If a < b, stepSize must be positive.");
+
+                uint steps = (uint)System.Math.Ceiling(((float)(b - a) / (float)stepSize));
+
+                r = new float[steps];
+                for (uint i = 0; i < r.Length; i++)
+                    r[i] = (float)(a +  i * stepSize);
+            }
+            else
+            {
+                if (stepSize > 0)
+                {
+                    uint steps = (uint)System.Math.Ceiling(((float)(a - b) / (float)stepSize));
+                    r = new float[steps];
+                    for (uint i = 0; i < r.Length; i++)
+                        r[i] = (float)(a - i * stepSize);
+                }
+                else
+                {
+                    uint steps = (uint)System.Math.Ceiling(((float)(b - a) / (float)stepSize));
+                    r = new float[steps];
+                    for (uint i = 0; i < r.Length; i++)
+                        r[i] = (float)(a + i * stepSize);
+                }
+            }
+
+            if (a < b)
+            {
+                if (r[r.Length - 1] > b)
+                    r[r.Length - 1] = b;
+            }
+            else
+            {
+                if (r[r.Length - 1] > a)
+                    r[r.Length - 1] = a;
+            }
+
+            return r;
+        }
+
+        /// <summary>
+        ///   Enumerates through a range (like Python's xrange function).
+        /// </summary>
+        /// 
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+        /// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static IEnumerable<float> EnumerableRange(float a, float b, short stepSize)
+        {
+            if (a == b)
+                yield break;
+
+            if (stepSize == 0)
+                throw new ArgumentOutOfRangeException("stepSize", "stepSize must be different from zero.");
+
+            float last;
+
+            if (a < b)
+            {
+                if (stepSize < 0)
+                    throw new ArgumentOutOfRangeException("stepSize", "If a < b, stepSize must be positive.");
+
+                uint steps = (uint)System.Math.Ceiling(((float)(b - a) / (float)stepSize)) - 1;
+                for (uint i = 0; i < steps; i++)
+                    yield return (float)(a +  i * stepSize);
+                last = (float)(a +  steps * stepSize);
+            }
+            else
+            {
+                if (stepSize > 0)
+                {
+                    uint steps = (uint)System.Math.Ceiling(((float)(a - b) / (float)stepSize)) - 1;
+                    for (uint i = 0; i < steps; i++)
+                        yield return (float)(a - i * stepSize);
+                    last = (float)(a - steps * stepSize);
+                }
+                else
+                {
+                    uint steps = (uint)System.Math.Ceiling(((float)(b - a) / (float)stepSize)) - 1;
+                    for (uint i = 0; i < steps; i++)
+                        yield return (float)(a + i * stepSize);
+                    last = (float)(a + steps * stepSize);
+                }
+            }
+
+            if (a < b)
+            {
+                yield return last > b ? b : last;
+            }
+            else
+            {
+                yield return last > a ? a : last;
+            }
+        }
+
+        /// <summary>
+        ///   Creates a range vector (like NumPy's arange function).
+        /// </summary>
+        /// 
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+        /// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static float[] Range(float a, float b, byte stepSize)
+        {
+            if (a == b)
+                return new float[] { };
+
+            if (stepSize == 0)
+                throw new ArgumentOutOfRangeException("stepSize", "stepSize must be different from zero.");
+
+            float[] r;
+
+            if (a < b)
+            {
+                if (stepSize < 0)
+                    throw new ArgumentOutOfRangeException("stepSize", "If a < b, stepSize must be positive.");
+
+                uint steps = (uint)System.Math.Ceiling(((float)(b - a) / (float)stepSize));
+
+                r = new float[steps];
+                for (uint i = 0; i < r.Length; i++)
+                    r[i] = (float)(a +  i * stepSize);
+            }
+            else
+            {
+                if (stepSize > 0)
+                {
+                    uint steps = (uint)System.Math.Ceiling(((float)(a - b) / (float)stepSize));
+                    r = new float[steps];
+                    for (uint i = 0; i < r.Length; i++)
+                        r[i] = (float)(a - i * stepSize);
+                }
+                else
+                {
+                    uint steps = (uint)System.Math.Ceiling(((float)(b - a) / (float)stepSize));
+                    r = new float[steps];
+                    for (uint i = 0; i < r.Length; i++)
+                        r[i] = (float)(a + i * stepSize);
+                }
+            }
+
+            if (a < b)
+            {
+                if (r[r.Length - 1] > b)
+                    r[r.Length - 1] = b;
+            }
+            else
+            {
+                if (r[r.Length - 1] > a)
+                    r[r.Length - 1] = a;
+            }
+
+            return r;
+        }
+
+        /// <summary>
+        ///   Enumerates through a range (like Python's xrange function).
+        /// </summary>
+        /// 
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+        /// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static IEnumerable<float> EnumerableRange(float a, float b, byte stepSize)
+        {
+            if (a == b)
+                yield break;
+
+            if (stepSize == 0)
+                throw new ArgumentOutOfRangeException("stepSize", "stepSize must be different from zero.");
+
+            float last;
+
+            if (a < b)
+            {
+                if (stepSize < 0)
+                    throw new ArgumentOutOfRangeException("stepSize", "If a < b, stepSize must be positive.");
+
+                uint steps = (uint)System.Math.Ceiling(((float)(b - a) / (float)stepSize)) - 1;
+                for (uint i = 0; i < steps; i++)
+                    yield return (float)(a +  i * stepSize);
+                last = (float)(a +  steps * stepSize);
+            }
+            else
+            {
+                if (stepSize > 0)
+                {
+                    uint steps = (uint)System.Math.Ceiling(((float)(a - b) / (float)stepSize)) - 1;
+                    for (uint i = 0; i < steps; i++)
+                        yield return (float)(a - i * stepSize);
+                    last = (float)(a - steps * stepSize);
+                }
+                else
+                {
+                    uint steps = (uint)System.Math.Ceiling(((float)(b - a) / (float)stepSize)) - 1;
+                    for (uint i = 0; i < steps; i++)
+                        yield return (float)(a + i * stepSize);
+                    last = (float)(a + steps * stepSize);
+                }
+            }
+
+            if (a < b)
+            {
+                yield return last > b ? b : last;
+            }
+            else
+            {
+                yield return last > a ? a : last;
+            }
+        }
+
+        /// <summary>
+        ///   Creates a range vector (like NumPy's arange function).
+        /// </summary>
+        /// 
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+        /// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static float[] Range(float a, float b, sbyte stepSize)
+        {
+            if (a == b)
+                return new float[] { };
+
+            if (stepSize == 0)
+                throw new ArgumentOutOfRangeException("stepSize", "stepSize must be different from zero.");
+
+            float[] r;
+
+            if (a < b)
+            {
+                if (stepSize < 0)
+                    throw new ArgumentOutOfRangeException("stepSize", "If a < b, stepSize must be positive.");
+
+                uint steps = (uint)System.Math.Ceiling(((float)(b - a) / (float)stepSize));
+
+                r = new float[steps];
+                for (uint i = 0; i < r.Length; i++)
+                    r[i] = (float)(a +  i * stepSize);
+            }
+            else
+            {
+                if (stepSize > 0)
+                {
+                    uint steps = (uint)System.Math.Ceiling(((float)(a - b) / (float)stepSize));
+                    r = new float[steps];
+                    for (uint i = 0; i < r.Length; i++)
+                        r[i] = (float)(a - i * stepSize);
+                }
+                else
+                {
+                    uint steps = (uint)System.Math.Ceiling(((float)(b - a) / (float)stepSize));
+                    r = new float[steps];
+                    for (uint i = 0; i < r.Length; i++)
+                        r[i] = (float)(a + i * stepSize);
+                }
+            }
+
+            if (a < b)
+            {
+                if (r[r.Length - 1] > b)
+                    r[r.Length - 1] = b;
+            }
+            else
+            {
+                if (r[r.Length - 1] > a)
+                    r[r.Length - 1] = a;
+            }
+
+            return r;
+        }
+
+        /// <summary>
+        ///   Enumerates through a range (like Python's xrange function).
+        /// </summary>
+        /// 
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+        /// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static IEnumerable<float> EnumerableRange(float a, float b, sbyte stepSize)
+        {
+            if (a == b)
+                yield break;
+
+            if (stepSize == 0)
+                throw new ArgumentOutOfRangeException("stepSize", "stepSize must be different from zero.");
+
+            float last;
+
+            if (a < b)
+            {
+                if (stepSize < 0)
+                    throw new ArgumentOutOfRangeException("stepSize", "If a < b, stepSize must be positive.");
+
+                uint steps = (uint)System.Math.Ceiling(((float)(b - a) / (float)stepSize)) - 1;
+                for (uint i = 0; i < steps; i++)
+                    yield return (float)(a +  i * stepSize);
+                last = (float)(a +  steps * stepSize);
+            }
+            else
+            {
+                if (stepSize > 0)
+                {
+                    uint steps = (uint)System.Math.Ceiling(((float)(a - b) / (float)stepSize)) - 1;
+                    for (uint i = 0; i < steps; i++)
+                        yield return (float)(a - i * stepSize);
+                    last = (float)(a - steps * stepSize);
+                }
+                else
+                {
+                    uint steps = (uint)System.Math.Ceiling(((float)(b - a) / (float)stepSize)) - 1;
+                    for (uint i = 0; i < steps; i++)
+                        yield return (float)(a + i * stepSize);
+                    last = (float)(a + steps * stepSize);
+                }
+            }
+
+            if (a < b)
+            {
+                yield return last > b ? b : last;
+            }
+            else
+            {
+                yield return last > a ? a : last;
+            }
+        }
+
+        /// <summary>
+        ///   Creates a range vector (like NumPy's arange function).
+        /// </summary>
+        /// 
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+        /// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static float[] Range(float a, float b, long stepSize)
+        {
+            if (a == b)
+                return new float[] { };
+
+            if (stepSize == 0)
+                throw new ArgumentOutOfRangeException("stepSize", "stepSize must be different from zero.");
+
+            float[] r;
+
+            if (a < b)
+            {
+                if (stepSize < 0)
+                    throw new ArgumentOutOfRangeException("stepSize", "If a < b, stepSize must be positive.");
+
+                uint steps = (uint)System.Math.Ceiling(((float)(b - a) / (float)stepSize));
+
+                r = new float[steps];
+                for (uint i = 0; i < r.Length; i++)
+                    r[i] = (float)(a +  i * stepSize);
+            }
+            else
+            {
+                if (stepSize > 0)
+                {
+                    uint steps = (uint)System.Math.Ceiling(((float)(a - b) / (float)stepSize));
+                    r = new float[steps];
+                    for (uint i = 0; i < r.Length; i++)
+                        r[i] = (float)(a - i * stepSize);
+                }
+                else
+                {
+                    uint steps = (uint)System.Math.Ceiling(((float)(b - a) / (float)stepSize));
+                    r = new float[steps];
+                    for (uint i = 0; i < r.Length; i++)
+                        r[i] = (float)(a + i * stepSize);
+                }
+            }
+
+            if (a < b)
+            {
+                if (r[r.Length - 1] > b)
+                    r[r.Length - 1] = b;
+            }
+            else
+            {
+                if (r[r.Length - 1] > a)
+                    r[r.Length - 1] = a;
+            }
+
+            return r;
+        }
+
+        /// <summary>
+        ///   Enumerates through a range (like Python's xrange function).
+        /// </summary>
+        /// 
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+        /// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static IEnumerable<float> EnumerableRange(float a, float b, long stepSize)
+        {
+            if (a == b)
+                yield break;
+
+            if (stepSize == 0)
+                throw new ArgumentOutOfRangeException("stepSize", "stepSize must be different from zero.");
+
+            float last;
+
+            if (a < b)
+            {
+                if (stepSize < 0)
+                    throw new ArgumentOutOfRangeException("stepSize", "If a < b, stepSize must be positive.");
+
+                uint steps = (uint)System.Math.Ceiling(((float)(b - a) / (float)stepSize)) - 1;
+                for (uint i = 0; i < steps; i++)
+                    yield return (float)(a +  i * stepSize);
+                last = (float)(a +  steps * stepSize);
+            }
+            else
+            {
+                if (stepSize > 0)
+                {
+                    uint steps = (uint)System.Math.Ceiling(((float)(a - b) / (float)stepSize)) - 1;
+                    for (uint i = 0; i < steps; i++)
+                        yield return (float)(a - i * stepSize);
+                    last = (float)(a - steps * stepSize);
+                }
+                else
+                {
+                    uint steps = (uint)System.Math.Ceiling(((float)(b - a) / (float)stepSize)) - 1;
+                    for (uint i = 0; i < steps; i++)
+                        yield return (float)(a + i * stepSize);
+                    last = (float)(a + steps * stepSize);
+                }
+            }
+
+            if (a < b)
+            {
+                yield return last > b ? b : last;
+            }
+            else
+            {
+                yield return last > a ? a : last;
+            }
+        }
+
+        /// <summary>
+        ///   Creates a range vector (like NumPy's arange function).
+        /// </summary>
+        /// 
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+        /// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static float[] Range(float a, float b, ulong stepSize)
+        {
+            if (a == b)
+                return new float[] { };
+
+            if (stepSize == 0)
+                throw new ArgumentOutOfRangeException("stepSize", "stepSize must be different from zero.");
+
+            float[] r;
+
+            if (a < b)
+            {
+                if (stepSize < 0)
+                    throw new ArgumentOutOfRangeException("stepSize", "If a < b, stepSize must be positive.");
+
+                uint steps = (uint)System.Math.Ceiling(((float)(b - a) / (float)stepSize));
+
+                r = new float[steps];
+                for (uint i = 0; i < r.Length; i++)
+                    r[i] = (float)(a +  i * stepSize);
+            }
+            else
+            {
+                if (stepSize > 0)
+                {
+                    uint steps = (uint)System.Math.Ceiling(((float)(a - b) / (float)stepSize));
+                    r = new float[steps];
+                    for (uint i = 0; i < r.Length; i++)
+                        r[i] = (float)(a - i * stepSize);
+                }
+                else
+                {
+                    uint steps = (uint)System.Math.Ceiling(((float)(b - a) / (float)stepSize));
+                    r = new float[steps];
+                    for (uint i = 0; i < r.Length; i++)
+                        r[i] = (float)(a + i * stepSize);
+                }
+            }
+
+            if (a < b)
+            {
+                if (r[r.Length - 1] > b)
+                    r[r.Length - 1] = b;
+            }
+            else
+            {
+                if (r[r.Length - 1] > a)
+                    r[r.Length - 1] = a;
+            }
+
+            return r;
+        }
+
+        /// <summary>
+        ///   Enumerates through a range (like Python's xrange function).
+        /// </summary>
+        /// 
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+        /// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static IEnumerable<float> EnumerableRange(float a, float b, ulong stepSize)
+        {
+            if (a == b)
+                yield break;
+
+            if (stepSize == 0)
+                throw new ArgumentOutOfRangeException("stepSize", "stepSize must be different from zero.");
+
+            float last;
+
+            if (a < b)
+            {
+                if (stepSize < 0)
+                    throw new ArgumentOutOfRangeException("stepSize", "If a < b, stepSize must be positive.");
+
+                uint steps = (uint)System.Math.Ceiling(((float)(b - a) / (float)stepSize)) - 1;
+                for (uint i = 0; i < steps; i++)
+                    yield return (float)(a +  i * stepSize);
+                last = (float)(a +  steps * stepSize);
+            }
+            else
+            {
+                if (stepSize > 0)
+                {
+                    uint steps = (uint)System.Math.Ceiling(((float)(a - b) / (float)stepSize)) - 1;
+                    for (uint i = 0; i < steps; i++)
+                        yield return (float)(a - i * stepSize);
+                    last = (float)(a - steps * stepSize);
+                }
+                else
+                {
+                    uint steps = (uint)System.Math.Ceiling(((float)(b - a) / (float)stepSize)) - 1;
+                    for (uint i = 0; i < steps; i++)
+                        yield return (float)(a + i * stepSize);
+                    last = (float)(a + steps * stepSize);
+                }
+            }
+
+            if (a < b)
+            {
+                yield return last > b ? b : last;
+            }
+            else
+            {
+                yield return last > a ? a : last;
+            }
+        }
+
+        /// <summary>
+        ///   Creates a range vector (like NumPy's arange function).
+        /// </summary>
+        /// 
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+        /// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static float[] Range(float a, float b, ushort stepSize)
+        {
+            if (a == b)
+                return new float[] { };
+
+            if (stepSize == 0)
+                throw new ArgumentOutOfRangeException("stepSize", "stepSize must be different from zero.");
+
+            float[] r;
+
+            if (a < b)
+            {
+                if (stepSize < 0)
+                    throw new ArgumentOutOfRangeException("stepSize", "If a < b, stepSize must be positive.");
+
+                uint steps = (uint)System.Math.Ceiling(((float)(b - a) / (float)stepSize));
+
+                r = new float[steps];
+                for (uint i = 0; i < r.Length; i++)
+                    r[i] = (float)(a +  i * stepSize);
+            }
+            else
+            {
+                if (stepSize > 0)
+                {
+                    uint steps = (uint)System.Math.Ceiling(((float)(a - b) / (float)stepSize));
+                    r = new float[steps];
+                    for (uint i = 0; i < r.Length; i++)
+                        r[i] = (float)(a - i * stepSize);
+                }
+                else
+                {
+                    uint steps = (uint)System.Math.Ceiling(((float)(b - a) / (float)stepSize));
+                    r = new float[steps];
+                    for (uint i = 0; i < r.Length; i++)
+                        r[i] = (float)(a + i * stepSize);
+                }
+            }
+
+            if (a < b)
+            {
+                if (r[r.Length - 1] > b)
+                    r[r.Length - 1] = b;
+            }
+            else
+            {
+                if (r[r.Length - 1] > a)
+                    r[r.Length - 1] = a;
+            }
+
+            return r;
+        }
+
+        /// <summary>
+        ///   Enumerates through a range (like Python's xrange function).
+        /// </summary>
+        /// 
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+        /// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static IEnumerable<float> EnumerableRange(float a, float b, ushort stepSize)
+        {
+            if (a == b)
+                yield break;
+
+            if (stepSize == 0)
+                throw new ArgumentOutOfRangeException("stepSize", "stepSize must be different from zero.");
+
+            float last;
+
+            if (a < b)
+            {
+                if (stepSize < 0)
+                    throw new ArgumentOutOfRangeException("stepSize", "If a < b, stepSize must be positive.");
+
+                uint steps = (uint)System.Math.Ceiling(((float)(b - a) / (float)stepSize)) - 1;
+                for (uint i = 0; i < steps; i++)
+                    yield return (float)(a +  i * stepSize);
+                last = (float)(a +  steps * stepSize);
+            }
+            else
+            {
+                if (stepSize > 0)
+                {
+                    uint steps = (uint)System.Math.Ceiling(((float)(a - b) / (float)stepSize)) - 1;
+                    for (uint i = 0; i < steps; i++)
+                        yield return (float)(a - i * stepSize);
+                    last = (float)(a - steps * stepSize);
+                }
+                else
+                {
+                    uint steps = (uint)System.Math.Ceiling(((float)(b - a) / (float)stepSize)) - 1;
+                    for (uint i = 0; i < steps; i++)
+                        yield return (float)(a + i * stepSize);
+                    last = (float)(a + steps * stepSize);
+                }
+            }
+
+            if (a < b)
+            {
+                yield return last > b ? b : last;
+            }
+            else
+            {
+                yield return last > a ? a : last;
+            }
+        }
+
+        /// <summary>
+        ///   Creates a range vector (like NumPy's arange function).
+        /// </summary>
+        /// 
+        /// <param name="n">The exclusive upper bound of the range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
         public static double[] Range(double n)
         {
             double[] r = new double[(int)n]; 
@@ -310,13 +1928,29 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Creates a range vector.
+        ///   Creates a range vector (like NumPy's arange function).
         /// </summary>
-        /// 
+        ///
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
         public static double[] Range(double a, double b)
         {
             if (a == b)
-                return new [] { a };
+                return new double[] { };
 
             double[] r;
 
@@ -330,50 +1964,31 @@ namespace Accord.Math
             {
                 r = new double[(int)(a - b)];
                 for (int i = 0; i < r.Length; i++)
-                    r[i] = (double)(a-- - 1);
+                    r[i] = (double)(a--);
             }
 
             return r;
         }
 
         /// <summary>
-        ///   Creates an interval vector.
+        ///   Enumerates through a range (like Python's xrange function).
         /// </summary>
         /// 
-        public static double[] Range(double a, double b, double stepSize)
-        {
-            if (a == b)
-                return new [] { a };
-
-            double[] r;
-
-            if (b > a)
-            {
-                int steps = (int)System.Math.Ceiling((b - a) / (double)stepSize);
-                r = new double[steps];
-                for (uint i = 0; i < r.Length; i++)
-                    r[i] = (double)(a +  i * stepSize);
-                r[steps - 1] = (double)(b);
-            }
-            else
-            {
-                int steps = (int)System.Math.Ceiling((a - b) / (double)stepSize);
-                r = new double[steps];
-                for (uint i = 0; i < r.Length; i++)
-                    r[i] = (double)(a - i * stepSize);
-                r[steps - 1] = (double)(b);
-            }
-
-            return r;
-        }
-
-
-
-
-		/// <summary>
-        ///   Creates a range enumeration (similar to NumPy's xrange).
-        /// </summary>
-        /// 
+        /// <param name="n">The exclusive upper bound of the range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
         public static IEnumerable<double> EnumerableRange(double n)
         {
             for (double i = 0; i < n; i++)
@@ -381,13 +1996,29 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Creates a range enumeration (similar to NumPy's xrange).
+        ///   Enumerates through a range (like Python's xrange).
         /// </summary>
         /// 
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
         public static IEnumerable<double> EnumerableRange(double a, double b)
         {
             if (a == b)
-                yield return a;
+                yield break;
 
             if (b > a)
             {
@@ -399,39 +2030,1190 @@ namespace Accord.Math
             {
                 int n = (int)(a - b);
                 for (int i = 0; i < n; i++)
-                    yield return (double)(a-- - 1);
+                    yield return (double)(a--);
             }
         }
 
+
         /// <summary>
-        ///   Creates an interval enumeration (similar to NumPy's xrange).
+        ///   Creates a range vector (like NumPy's arange function).
         /// </summary>
         /// 
-        public static IEnumerable<double> EnumerableRange(double a, double b, double stepSize)
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+        /// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static double[] Range(double a, double b, int stepSize)
         {
             if (a == b)
-                yield return a;
+                return new double[] { };
 
-            if (b > a)
+            if (stepSize == 0)
+                throw new ArgumentOutOfRangeException("stepSize", "stepSize must be different from zero.");
+
+            double[] r;
+
+            if (a < b)
             {
-                int steps = (int)System.Math.Ceiling((b - a) / (double)stepSize);
-                for (uint i = 0; i < steps; i++)
-                    yield return (double)(a +  i * stepSize);
-                yield return (double)(b);
+                if (stepSize < 0)
+                    throw new ArgumentOutOfRangeException("stepSize", "If a < b, stepSize must be positive.");
+
+                uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize));
+
+                r = new double[steps];
+                for (uint i = 0; i < r.Length; i++)
+                    r[i] = (double)(a +  i * stepSize);
             }
             else
             {
-                int steps = (int)System.Math.Ceiling((a - b) / (double)stepSize);
+                if (stepSize > 0)
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(a - b) / (double)stepSize));
+                    r = new double[steps];
+                    for (uint i = 0; i < r.Length; i++)
+                        r[i] = (double)(a - i * stepSize);
+                }
+                else
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize));
+                    r = new double[steps];
+                    for (uint i = 0; i < r.Length; i++)
+                        r[i] = (double)(a + i * stepSize);
+                }
+            }
+
+            if (a < b)
+            {
+                if (r[r.Length - 1] > b)
+                    r[r.Length - 1] = b;
+            }
+            else
+            {
+                if (r[r.Length - 1] > a)
+                    r[r.Length - 1] = a;
+            }
+
+            return r;
+        }
+
+        /// <summary>
+        ///   Enumerates through a range (like Python's xrange function).
+        /// </summary>
+        /// 
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+        /// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static IEnumerable<double> EnumerableRange(double a, double b, int stepSize)
+        {
+            if (a == b)
+                yield break;
+
+            if (stepSize == 0)
+                throw new ArgumentOutOfRangeException("stepSize", "stepSize must be different from zero.");
+
+            double last;
+
+            if (a < b)
+            {
+                if (stepSize < 0)
+                    throw new ArgumentOutOfRangeException("stepSize", "If a < b, stepSize must be positive.");
+
+                uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize)) - 1;
                 for (uint i = 0; i < steps; i++)
-                    yield return (double)(a - i * stepSize);
-                yield return (double)(b);
+                    yield return (double)(a +  i * stepSize);
+                last = (double)(a +  steps * stepSize);
+            }
+            else
+            {
+                if (stepSize > 0)
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(a - b) / (double)stepSize)) - 1;
+                    for (uint i = 0; i < steps; i++)
+                        yield return (double)(a - i * stepSize);
+                    last = (double)(a - steps * stepSize);
+                }
+                else
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize)) - 1;
+                    for (uint i = 0; i < steps; i++)
+                        yield return (double)(a + i * stepSize);
+                    last = (double)(a + steps * stepSize);
+                }
+            }
+
+            if (a < b)
+            {
+                yield return last > b ? b : last;
+            }
+            else
+            {
+                yield return last > a ? a : last;
             }
         }
 
         /// <summary>
-        ///   Creates a range vector.
+        ///   Creates a range vector (like NumPy's arange function).
         /// </summary>
         /// 
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+        /// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static double[] Range(double a, double b, double stepSize)
+        {
+            if (a == b)
+                return new double[] { };
+
+            if (stepSize == 0)
+                throw new ArgumentOutOfRangeException("stepSize", "stepSize must be different from zero.");
+
+            double[] r;
+
+            if (a < b)
+            {
+                if (stepSize < 0)
+                    throw new ArgumentOutOfRangeException("stepSize", "If a < b, stepSize must be positive.");
+
+                uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize));
+
+                r = new double[steps];
+                for (uint i = 0; i < r.Length; i++)
+                    r[i] = (double)(a +  i * stepSize);
+            }
+            else
+            {
+                if (stepSize > 0)
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(a - b) / (double)stepSize));
+                    r = new double[steps];
+                    for (uint i = 0; i < r.Length; i++)
+                        r[i] = (double)(a - i * stepSize);
+                }
+                else
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize));
+                    r = new double[steps];
+                    for (uint i = 0; i < r.Length; i++)
+                        r[i] = (double)(a + i * stepSize);
+                }
+            }
+
+            if (a < b)
+            {
+                if (r[r.Length - 1] > b)
+                    r[r.Length - 1] = b;
+            }
+            else
+            {
+                if (r[r.Length - 1] > a)
+                    r[r.Length - 1] = a;
+            }
+
+            return r;
+        }
+
+        /// <summary>
+        ///   Enumerates through a range (like Python's xrange function).
+        /// </summary>
+        /// 
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+        /// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static IEnumerable<double> EnumerableRange(double a, double b, double stepSize)
+        {
+            if (a == b)
+                yield break;
+
+            if (stepSize == 0)
+                throw new ArgumentOutOfRangeException("stepSize", "stepSize must be different from zero.");
+
+            double last;
+
+            if (a < b)
+            {
+                if (stepSize < 0)
+                    throw new ArgumentOutOfRangeException("stepSize", "If a < b, stepSize must be positive.");
+
+                uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize)) - 1;
+                for (uint i = 0; i < steps; i++)
+                    yield return (double)(a +  i * stepSize);
+                last = (double)(a +  steps * stepSize);
+            }
+            else
+            {
+                if (stepSize > 0)
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(a - b) / (double)stepSize)) - 1;
+                    for (uint i = 0; i < steps; i++)
+                        yield return (double)(a - i * stepSize);
+                    last = (double)(a - steps * stepSize);
+                }
+                else
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize)) - 1;
+                    for (uint i = 0; i < steps; i++)
+                        yield return (double)(a + i * stepSize);
+                    last = (double)(a + steps * stepSize);
+                }
+            }
+
+            if (a < b)
+            {
+                yield return last > b ? b : last;
+            }
+            else
+            {
+                yield return last > a ? a : last;
+            }
+        }
+
+        /// <summary>
+        ///   Creates a range vector (like NumPy's arange function).
+        /// </summary>
+        /// 
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+        /// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static double[] Range(double a, double b, short stepSize)
+        {
+            if (a == b)
+                return new double[] { };
+
+            if (stepSize == 0)
+                throw new ArgumentOutOfRangeException("stepSize", "stepSize must be different from zero.");
+
+            double[] r;
+
+            if (a < b)
+            {
+                if (stepSize < 0)
+                    throw new ArgumentOutOfRangeException("stepSize", "If a < b, stepSize must be positive.");
+
+                uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize));
+
+                r = new double[steps];
+                for (uint i = 0; i < r.Length; i++)
+                    r[i] = (double)(a +  i * stepSize);
+            }
+            else
+            {
+                if (stepSize > 0)
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(a - b) / (double)stepSize));
+                    r = new double[steps];
+                    for (uint i = 0; i < r.Length; i++)
+                        r[i] = (double)(a - i * stepSize);
+                }
+                else
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize));
+                    r = new double[steps];
+                    for (uint i = 0; i < r.Length; i++)
+                        r[i] = (double)(a + i * stepSize);
+                }
+            }
+
+            if (a < b)
+            {
+                if (r[r.Length - 1] > b)
+                    r[r.Length - 1] = b;
+            }
+            else
+            {
+                if (r[r.Length - 1] > a)
+                    r[r.Length - 1] = a;
+            }
+
+            return r;
+        }
+
+        /// <summary>
+        ///   Enumerates through a range (like Python's xrange function).
+        /// </summary>
+        /// 
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+        /// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static IEnumerable<double> EnumerableRange(double a, double b, short stepSize)
+        {
+            if (a == b)
+                yield break;
+
+            if (stepSize == 0)
+                throw new ArgumentOutOfRangeException("stepSize", "stepSize must be different from zero.");
+
+            double last;
+
+            if (a < b)
+            {
+                if (stepSize < 0)
+                    throw new ArgumentOutOfRangeException("stepSize", "If a < b, stepSize must be positive.");
+
+                uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize)) - 1;
+                for (uint i = 0; i < steps; i++)
+                    yield return (double)(a +  i * stepSize);
+                last = (double)(a +  steps * stepSize);
+            }
+            else
+            {
+                if (stepSize > 0)
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(a - b) / (double)stepSize)) - 1;
+                    for (uint i = 0; i < steps; i++)
+                        yield return (double)(a - i * stepSize);
+                    last = (double)(a - steps * stepSize);
+                }
+                else
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize)) - 1;
+                    for (uint i = 0; i < steps; i++)
+                        yield return (double)(a + i * stepSize);
+                    last = (double)(a + steps * stepSize);
+                }
+            }
+
+            if (a < b)
+            {
+                yield return last > b ? b : last;
+            }
+            else
+            {
+                yield return last > a ? a : last;
+            }
+        }
+
+        /// <summary>
+        ///   Creates a range vector (like NumPy's arange function).
+        /// </summary>
+        /// 
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+        /// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static double[] Range(double a, double b, byte stepSize)
+        {
+            if (a == b)
+                return new double[] { };
+
+            if (stepSize == 0)
+                throw new ArgumentOutOfRangeException("stepSize", "stepSize must be different from zero.");
+
+            double[] r;
+
+            if (a < b)
+            {
+                if (stepSize < 0)
+                    throw new ArgumentOutOfRangeException("stepSize", "If a < b, stepSize must be positive.");
+
+                uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize));
+
+                r = new double[steps];
+                for (uint i = 0; i < r.Length; i++)
+                    r[i] = (double)(a +  i * stepSize);
+            }
+            else
+            {
+                if (stepSize > 0)
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(a - b) / (double)stepSize));
+                    r = new double[steps];
+                    for (uint i = 0; i < r.Length; i++)
+                        r[i] = (double)(a - i * stepSize);
+                }
+                else
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize));
+                    r = new double[steps];
+                    for (uint i = 0; i < r.Length; i++)
+                        r[i] = (double)(a + i * stepSize);
+                }
+            }
+
+            if (a < b)
+            {
+                if (r[r.Length - 1] > b)
+                    r[r.Length - 1] = b;
+            }
+            else
+            {
+                if (r[r.Length - 1] > a)
+                    r[r.Length - 1] = a;
+            }
+
+            return r;
+        }
+
+        /// <summary>
+        ///   Enumerates through a range (like Python's xrange function).
+        /// </summary>
+        /// 
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+        /// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static IEnumerable<double> EnumerableRange(double a, double b, byte stepSize)
+        {
+            if (a == b)
+                yield break;
+
+            if (stepSize == 0)
+                throw new ArgumentOutOfRangeException("stepSize", "stepSize must be different from zero.");
+
+            double last;
+
+            if (a < b)
+            {
+                if (stepSize < 0)
+                    throw new ArgumentOutOfRangeException("stepSize", "If a < b, stepSize must be positive.");
+
+                uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize)) - 1;
+                for (uint i = 0; i < steps; i++)
+                    yield return (double)(a +  i * stepSize);
+                last = (double)(a +  steps * stepSize);
+            }
+            else
+            {
+                if (stepSize > 0)
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(a - b) / (double)stepSize)) - 1;
+                    for (uint i = 0; i < steps; i++)
+                        yield return (double)(a - i * stepSize);
+                    last = (double)(a - steps * stepSize);
+                }
+                else
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize)) - 1;
+                    for (uint i = 0; i < steps; i++)
+                        yield return (double)(a + i * stepSize);
+                    last = (double)(a + steps * stepSize);
+                }
+            }
+
+            if (a < b)
+            {
+                yield return last > b ? b : last;
+            }
+            else
+            {
+                yield return last > a ? a : last;
+            }
+        }
+
+        /// <summary>
+        ///   Creates a range vector (like NumPy's arange function).
+        /// </summary>
+        /// 
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+        /// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static double[] Range(double a, double b, sbyte stepSize)
+        {
+            if (a == b)
+                return new double[] { };
+
+            if (stepSize == 0)
+                throw new ArgumentOutOfRangeException("stepSize", "stepSize must be different from zero.");
+
+            double[] r;
+
+            if (a < b)
+            {
+                if (stepSize < 0)
+                    throw new ArgumentOutOfRangeException("stepSize", "If a < b, stepSize must be positive.");
+
+                uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize));
+
+                r = new double[steps];
+                for (uint i = 0; i < r.Length; i++)
+                    r[i] = (double)(a +  i * stepSize);
+            }
+            else
+            {
+                if (stepSize > 0)
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(a - b) / (double)stepSize));
+                    r = new double[steps];
+                    for (uint i = 0; i < r.Length; i++)
+                        r[i] = (double)(a - i * stepSize);
+                }
+                else
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize));
+                    r = new double[steps];
+                    for (uint i = 0; i < r.Length; i++)
+                        r[i] = (double)(a + i * stepSize);
+                }
+            }
+
+            if (a < b)
+            {
+                if (r[r.Length - 1] > b)
+                    r[r.Length - 1] = b;
+            }
+            else
+            {
+                if (r[r.Length - 1] > a)
+                    r[r.Length - 1] = a;
+            }
+
+            return r;
+        }
+
+        /// <summary>
+        ///   Enumerates through a range (like Python's xrange function).
+        /// </summary>
+        /// 
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+        /// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static IEnumerable<double> EnumerableRange(double a, double b, sbyte stepSize)
+        {
+            if (a == b)
+                yield break;
+
+            if (stepSize == 0)
+                throw new ArgumentOutOfRangeException("stepSize", "stepSize must be different from zero.");
+
+            double last;
+
+            if (a < b)
+            {
+                if (stepSize < 0)
+                    throw new ArgumentOutOfRangeException("stepSize", "If a < b, stepSize must be positive.");
+
+                uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize)) - 1;
+                for (uint i = 0; i < steps; i++)
+                    yield return (double)(a +  i * stepSize);
+                last = (double)(a +  steps * stepSize);
+            }
+            else
+            {
+                if (stepSize > 0)
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(a - b) / (double)stepSize)) - 1;
+                    for (uint i = 0; i < steps; i++)
+                        yield return (double)(a - i * stepSize);
+                    last = (double)(a - steps * stepSize);
+                }
+                else
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize)) - 1;
+                    for (uint i = 0; i < steps; i++)
+                        yield return (double)(a + i * stepSize);
+                    last = (double)(a + steps * stepSize);
+                }
+            }
+
+            if (a < b)
+            {
+                yield return last > b ? b : last;
+            }
+            else
+            {
+                yield return last > a ? a : last;
+            }
+        }
+
+        /// <summary>
+        ///   Creates a range vector (like NumPy's arange function).
+        /// </summary>
+        /// 
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+        /// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static double[] Range(double a, double b, long stepSize)
+        {
+            if (a == b)
+                return new double[] { };
+
+            if (stepSize == 0)
+                throw new ArgumentOutOfRangeException("stepSize", "stepSize must be different from zero.");
+
+            double[] r;
+
+            if (a < b)
+            {
+                if (stepSize < 0)
+                    throw new ArgumentOutOfRangeException("stepSize", "If a < b, stepSize must be positive.");
+
+                uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize));
+
+                r = new double[steps];
+                for (uint i = 0; i < r.Length; i++)
+                    r[i] = (double)(a +  i * stepSize);
+            }
+            else
+            {
+                if (stepSize > 0)
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(a - b) / (double)stepSize));
+                    r = new double[steps];
+                    for (uint i = 0; i < r.Length; i++)
+                        r[i] = (double)(a - i * stepSize);
+                }
+                else
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize));
+                    r = new double[steps];
+                    for (uint i = 0; i < r.Length; i++)
+                        r[i] = (double)(a + i * stepSize);
+                }
+            }
+
+            if (a < b)
+            {
+                if (r[r.Length - 1] > b)
+                    r[r.Length - 1] = b;
+            }
+            else
+            {
+                if (r[r.Length - 1] > a)
+                    r[r.Length - 1] = a;
+            }
+
+            return r;
+        }
+
+        /// <summary>
+        ///   Enumerates through a range (like Python's xrange function).
+        /// </summary>
+        /// 
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+        /// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static IEnumerable<double> EnumerableRange(double a, double b, long stepSize)
+        {
+            if (a == b)
+                yield break;
+
+            if (stepSize == 0)
+                throw new ArgumentOutOfRangeException("stepSize", "stepSize must be different from zero.");
+
+            double last;
+
+            if (a < b)
+            {
+                if (stepSize < 0)
+                    throw new ArgumentOutOfRangeException("stepSize", "If a < b, stepSize must be positive.");
+
+                uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize)) - 1;
+                for (uint i = 0; i < steps; i++)
+                    yield return (double)(a +  i * stepSize);
+                last = (double)(a +  steps * stepSize);
+            }
+            else
+            {
+                if (stepSize > 0)
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(a - b) / (double)stepSize)) - 1;
+                    for (uint i = 0; i < steps; i++)
+                        yield return (double)(a - i * stepSize);
+                    last = (double)(a - steps * stepSize);
+                }
+                else
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize)) - 1;
+                    for (uint i = 0; i < steps; i++)
+                        yield return (double)(a + i * stepSize);
+                    last = (double)(a + steps * stepSize);
+                }
+            }
+
+            if (a < b)
+            {
+                yield return last > b ? b : last;
+            }
+            else
+            {
+                yield return last > a ? a : last;
+            }
+        }
+
+        /// <summary>
+        ///   Creates a range vector (like NumPy's arange function).
+        /// </summary>
+        /// 
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+        /// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static double[] Range(double a, double b, ulong stepSize)
+        {
+            if (a == b)
+                return new double[] { };
+
+            if (stepSize == 0)
+                throw new ArgumentOutOfRangeException("stepSize", "stepSize must be different from zero.");
+
+            double[] r;
+
+            if (a < b)
+            {
+                if (stepSize < 0)
+                    throw new ArgumentOutOfRangeException("stepSize", "If a < b, stepSize must be positive.");
+
+                uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize));
+
+                r = new double[steps];
+                for (uint i = 0; i < r.Length; i++)
+                    r[i] = (double)(a +  i * stepSize);
+            }
+            else
+            {
+                if (stepSize > 0)
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(a - b) / (double)stepSize));
+                    r = new double[steps];
+                    for (uint i = 0; i < r.Length; i++)
+                        r[i] = (double)(a - i * stepSize);
+                }
+                else
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize));
+                    r = new double[steps];
+                    for (uint i = 0; i < r.Length; i++)
+                        r[i] = (double)(a + i * stepSize);
+                }
+            }
+
+            if (a < b)
+            {
+                if (r[r.Length - 1] > b)
+                    r[r.Length - 1] = b;
+            }
+            else
+            {
+                if (r[r.Length - 1] > a)
+                    r[r.Length - 1] = a;
+            }
+
+            return r;
+        }
+
+        /// <summary>
+        ///   Enumerates through a range (like Python's xrange function).
+        /// </summary>
+        /// 
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+        /// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static IEnumerable<double> EnumerableRange(double a, double b, ulong stepSize)
+        {
+            if (a == b)
+                yield break;
+
+            if (stepSize == 0)
+                throw new ArgumentOutOfRangeException("stepSize", "stepSize must be different from zero.");
+
+            double last;
+
+            if (a < b)
+            {
+                if (stepSize < 0)
+                    throw new ArgumentOutOfRangeException("stepSize", "If a < b, stepSize must be positive.");
+
+                uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize)) - 1;
+                for (uint i = 0; i < steps; i++)
+                    yield return (double)(a +  i * stepSize);
+                last = (double)(a +  steps * stepSize);
+            }
+            else
+            {
+                if (stepSize > 0)
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(a - b) / (double)stepSize)) - 1;
+                    for (uint i = 0; i < steps; i++)
+                        yield return (double)(a - i * stepSize);
+                    last = (double)(a - steps * stepSize);
+                }
+                else
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize)) - 1;
+                    for (uint i = 0; i < steps; i++)
+                        yield return (double)(a + i * stepSize);
+                    last = (double)(a + steps * stepSize);
+                }
+            }
+
+            if (a < b)
+            {
+                yield return last > b ? b : last;
+            }
+            else
+            {
+                yield return last > a ? a : last;
+            }
+        }
+
+        /// <summary>
+        ///   Creates a range vector (like NumPy's arange function).
+        /// </summary>
+        /// 
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+        /// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static double[] Range(double a, double b, ushort stepSize)
+        {
+            if (a == b)
+                return new double[] { };
+
+            if (stepSize == 0)
+                throw new ArgumentOutOfRangeException("stepSize", "stepSize must be different from zero.");
+
+            double[] r;
+
+            if (a < b)
+            {
+                if (stepSize < 0)
+                    throw new ArgumentOutOfRangeException("stepSize", "If a < b, stepSize must be positive.");
+
+                uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize));
+
+                r = new double[steps];
+                for (uint i = 0; i < r.Length; i++)
+                    r[i] = (double)(a +  i * stepSize);
+            }
+            else
+            {
+                if (stepSize > 0)
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(a - b) / (double)stepSize));
+                    r = new double[steps];
+                    for (uint i = 0; i < r.Length; i++)
+                        r[i] = (double)(a - i * stepSize);
+                }
+                else
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize));
+                    r = new double[steps];
+                    for (uint i = 0; i < r.Length; i++)
+                        r[i] = (double)(a + i * stepSize);
+                }
+            }
+
+            if (a < b)
+            {
+                if (r[r.Length - 1] > b)
+                    r[r.Length - 1] = b;
+            }
+            else
+            {
+                if (r[r.Length - 1] > a)
+                    r[r.Length - 1] = a;
+            }
+
+            return r;
+        }
+
+        /// <summary>
+        ///   Enumerates through a range (like Python's xrange function).
+        /// </summary>
+        /// 
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+        /// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static IEnumerable<double> EnumerableRange(double a, double b, ushort stepSize)
+        {
+            if (a == b)
+                yield break;
+
+            if (stepSize == 0)
+                throw new ArgumentOutOfRangeException("stepSize", "stepSize must be different from zero.");
+
+            double last;
+
+            if (a < b)
+            {
+                if (stepSize < 0)
+                    throw new ArgumentOutOfRangeException("stepSize", "If a < b, stepSize must be positive.");
+
+                uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize)) - 1;
+                for (uint i = 0; i < steps; i++)
+                    yield return (double)(a +  i * stepSize);
+                last = (double)(a +  steps * stepSize);
+            }
+            else
+            {
+                if (stepSize > 0)
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(a - b) / (double)stepSize)) - 1;
+                    for (uint i = 0; i < steps; i++)
+                        yield return (double)(a - i * stepSize);
+                    last = (double)(a - steps * stepSize);
+                }
+                else
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize)) - 1;
+                    for (uint i = 0; i < steps; i++)
+                        yield return (double)(a + i * stepSize);
+                    last = (double)(a + steps * stepSize);
+                }
+            }
+
+            if (a < b)
+            {
+                yield return last > b ? b : last;
+            }
+            else
+            {
+                yield return last > a ? a : last;
+            }
+        }
+
+        /// <summary>
+        ///   Creates a range vector (like NumPy's arange function).
+        /// </summary>
+        /// 
+        /// <param name="n">The exclusive upper bound of the range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
         public static short[] Range(short n)
         {
             short[] r = new short[(int)n]; 
@@ -441,13 +3223,29 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Creates a range vector.
+        ///   Creates a range vector (like NumPy's arange function).
         /// </summary>
-        /// 
+        ///
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
         public static short[] Range(short a, short b)
         {
             if (a == b)
-                return new [] { a };
+                return new short[] { };
 
             short[] r;
 
@@ -461,50 +3259,31 @@ namespace Accord.Math
             {
                 r = new short[(int)(a - b)];
                 for (int i = 0; i < r.Length; i++)
-                    r[i] = (short)(a-- - 1);
+                    r[i] = (short)(a--);
             }
 
             return r;
         }
 
         /// <summary>
-        ///   Creates an interval vector.
+        ///   Enumerates through a range (like Python's xrange function).
         /// </summary>
         /// 
-        public static short[] Range(short a, short b, short stepSize)
-        {
-            if (a == b)
-                return new [] { a };
-
-            short[] r;
-
-            if (b > a)
-            {
-                int steps = (int)System.Math.Ceiling((b - a) / (double)stepSize);
-                r = new short[steps];
-                for (uint i = 0; i < r.Length; i++)
-                    r[i] = (short)(a +  i * stepSize);
-                r[steps - 1] = (short)(b);
-            }
-            else
-            {
-                int steps = (int)System.Math.Ceiling((a - b) / (double)stepSize);
-                r = new short[steps];
-                for (uint i = 0; i < r.Length; i++)
-                    r[i] = (short)(a - i * stepSize);
-                r[steps - 1] = (short)(b);
-            }
-
-            return r;
-        }
-
-
-
-
-		/// <summary>
-        ///   Creates a range enumeration (similar to NumPy's xrange).
-        /// </summary>
-        /// 
+        /// <param name="n">The exclusive upper bound of the range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
         public static IEnumerable<short> EnumerableRange(short n)
         {
             for (short i = 0; i < n; i++)
@@ -512,13 +3291,29 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Creates a range enumeration (similar to NumPy's xrange).
+        ///   Enumerates through a range (like Python's xrange).
         /// </summary>
         /// 
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
         public static IEnumerable<short> EnumerableRange(short a, short b)
         {
             if (a == b)
-                yield return a;
+                yield break;
 
             if (b > a)
             {
@@ -530,39 +3325,465 @@ namespace Accord.Math
             {
                 int n = (int)(a - b);
                 for (int i = 0; i < n; i++)
-                    yield return (short)(a-- - 1);
+                    yield return (short)(a--);
             }
         }
 
+
         /// <summary>
-        ///   Creates an interval enumeration (similar to NumPy's xrange).
+        ///   Creates a range vector (like NumPy's arange function).
         /// </summary>
         /// 
-        public static IEnumerable<short> EnumerableRange(short a, short b, short stepSize)
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+        /// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static float[] Range(short a, short b, float stepSize)
         {
             if (a == b)
-                yield return a;
+                return new float[] { };
 
-            if (b > a)
+            if (stepSize == 0)
+                throw new ArgumentOutOfRangeException("stepSize", "stepSize must be different from zero.");
+
+            float[] r;
+
+            if (a < b)
             {
-                int steps = (int)System.Math.Ceiling((b - a) / (double)stepSize);
-                for (uint i = 0; i < steps; i++)
-                    yield return (short)(a +  i * stepSize);
-                yield return (short)(b);
+                if (stepSize < 0)
+                    throw new ArgumentOutOfRangeException("stepSize", "If a < b, stepSize must be positive.");
+
+                uint steps = (uint)System.Math.Ceiling(((float)(b - a) / (float)stepSize));
+
+                r = new float[steps];
+                for (uint i = 0; i < r.Length; i++)
+                    r[i] = (float)(a +  i * stepSize);
             }
             else
             {
-                int steps = (int)System.Math.Ceiling((a - b) / (double)stepSize);
+                if (stepSize > 0)
+                {
+                    uint steps = (uint)System.Math.Ceiling(((float)(a - b) / (float)stepSize));
+                    r = new float[steps];
+                    for (uint i = 0; i < r.Length; i++)
+                        r[i] = (float)(a - i * stepSize);
+                }
+                else
+                {
+                    uint steps = (uint)System.Math.Ceiling(((float)(b - a) / (float)stepSize));
+                    r = new float[steps];
+                    for (uint i = 0; i < r.Length; i++)
+                        r[i] = (float)(a + i * stepSize);
+                }
+            }
+
+            if (a < b)
+            {
+                if (r[r.Length - 1] > b)
+                    r[r.Length - 1] = b;
+            }
+            else
+            {
+                if (r[r.Length - 1] > a)
+                    r[r.Length - 1] = a;
+            }
+
+            return r;
+        }
+
+        /// <summary>
+        ///   Enumerates through a range (like Python's xrange function).
+        /// </summary>
+        /// 
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+        /// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static IEnumerable<float> EnumerableRange(short a, short b, float stepSize)
+        {
+            if (a == b)
+                yield break;
+
+            if (stepSize == 0)
+                throw new ArgumentOutOfRangeException("stepSize", "stepSize must be different from zero.");
+
+            float last;
+
+            if (a < b)
+            {
+                if (stepSize < 0)
+                    throw new ArgumentOutOfRangeException("stepSize", "If a < b, stepSize must be positive.");
+
+                uint steps = (uint)System.Math.Ceiling(((float)(b - a) / (float)stepSize)) - 1;
                 for (uint i = 0; i < steps; i++)
-                    yield return (short)(a - i * stepSize);
-                yield return (short)(b);
+                    yield return (float)(a +  i * stepSize);
+                last = (float)(a +  steps * stepSize);
+            }
+            else
+            {
+                if (stepSize > 0)
+                {
+                    uint steps = (uint)System.Math.Ceiling(((float)(a - b) / (float)stepSize)) - 1;
+                    for (uint i = 0; i < steps; i++)
+                        yield return (float)(a - i * stepSize);
+                    last = (float)(a - steps * stepSize);
+                }
+                else
+                {
+                    uint steps = (uint)System.Math.Ceiling(((float)(b - a) / (float)stepSize)) - 1;
+                    for (uint i = 0; i < steps; i++)
+                        yield return (float)(a + i * stepSize);
+                    last = (float)(a + steps * stepSize);
+                }
+            }
+
+            if (a < b)
+            {
+                yield return last > b ? b : last;
+            }
+            else
+            {
+                yield return last > a ? a : last;
             }
         }
 
         /// <summary>
-        ///   Creates a range vector.
+        ///   Creates a range vector (like NumPy's arange function).
         /// </summary>
         /// 
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+        /// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static double[] Range(short a, short b, double stepSize)
+        {
+            if (a == b)
+                return new double[] { };
+
+            if (stepSize == 0)
+                throw new ArgumentOutOfRangeException("stepSize", "stepSize must be different from zero.");
+
+            double[] r;
+
+            if (a < b)
+            {
+                if (stepSize < 0)
+                    throw new ArgumentOutOfRangeException("stepSize", "If a < b, stepSize must be positive.");
+
+                uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize));
+
+                r = new double[steps];
+                for (uint i = 0; i < r.Length; i++)
+                    r[i] = (double)(a +  i * stepSize);
+            }
+            else
+            {
+                if (stepSize > 0)
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(a - b) / (double)stepSize));
+                    r = new double[steps];
+                    for (uint i = 0; i < r.Length; i++)
+                        r[i] = (double)(a - i * stepSize);
+                }
+                else
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize));
+                    r = new double[steps];
+                    for (uint i = 0; i < r.Length; i++)
+                        r[i] = (double)(a + i * stepSize);
+                }
+            }
+
+            if (a < b)
+            {
+                if (r[r.Length - 1] > b)
+                    r[r.Length - 1] = b;
+            }
+            else
+            {
+                if (r[r.Length - 1] > a)
+                    r[r.Length - 1] = a;
+            }
+
+            return r;
+        }
+
+        /// <summary>
+        ///   Enumerates through a range (like Python's xrange function).
+        /// </summary>
+        /// 
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+        /// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static IEnumerable<double> EnumerableRange(short a, short b, double stepSize)
+        {
+            if (a == b)
+                yield break;
+
+            if (stepSize == 0)
+                throw new ArgumentOutOfRangeException("stepSize", "stepSize must be different from zero.");
+
+            double last;
+
+            if (a < b)
+            {
+                if (stepSize < 0)
+                    throw new ArgumentOutOfRangeException("stepSize", "If a < b, stepSize must be positive.");
+
+                uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize)) - 1;
+                for (uint i = 0; i < steps; i++)
+                    yield return (double)(a +  i * stepSize);
+                last = (double)(a +  steps * stepSize);
+            }
+            else
+            {
+                if (stepSize > 0)
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(a - b) / (double)stepSize)) - 1;
+                    for (uint i = 0; i < steps; i++)
+                        yield return (double)(a - i * stepSize);
+                    last = (double)(a - steps * stepSize);
+                }
+                else
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize)) - 1;
+                    for (uint i = 0; i < steps; i++)
+                        yield return (double)(a + i * stepSize);
+                    last = (double)(a + steps * stepSize);
+                }
+            }
+
+            if (a < b)
+            {
+                yield return last > b ? b : last;
+            }
+            else
+            {
+                yield return last > a ? a : last;
+            }
+        }
+
+        /// <summary>
+        ///   Creates a range vector (like NumPy's arange function).
+        /// </summary>
+        /// 
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+        /// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static short[] Range(short a, short b, short stepSize)
+        {
+            if (a == b)
+                return new short[] { };
+
+            if (stepSize == 0)
+                throw new ArgumentOutOfRangeException("stepSize", "stepSize must be different from zero.");
+
+            short[] r;
+
+            if (a < b)
+            {
+                if (stepSize < 0)
+                    throw new ArgumentOutOfRangeException("stepSize", "If a < b, stepSize must be positive.");
+
+                uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize));
+
+                r = new short[steps];
+                for (uint i = 0; i < r.Length; i++)
+                    r[i] = (short)(a +  i * stepSize);
+            }
+            else
+            {
+                if (stepSize > 0)
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(a - b) / (double)stepSize));
+                    r = new short[steps];
+                    for (uint i = 0; i < r.Length; i++)
+                        r[i] = (short)(a - i * stepSize);
+                }
+                else
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize));
+                    r = new short[steps];
+                    for (uint i = 0; i < r.Length; i++)
+                        r[i] = (short)(a + i * stepSize);
+                }
+            }
+
+            if (a < b)
+            {
+                if (r[r.Length - 1] > b)
+                    r[r.Length - 1] = b;
+            }
+            else
+            {
+                if (r[r.Length - 1] > a)
+                    r[r.Length - 1] = a;
+            }
+
+            return r;
+        }
+
+        /// <summary>
+        ///   Enumerates through a range (like Python's xrange function).
+        /// </summary>
+        /// 
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+        /// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static IEnumerable<short> EnumerableRange(short a, short b, short stepSize)
+        {
+            if (a == b)
+                yield break;
+
+            if (stepSize == 0)
+                throw new ArgumentOutOfRangeException("stepSize", "stepSize must be different from zero.");
+
+            short last;
+
+            if (a < b)
+            {
+                if (stepSize < 0)
+                    throw new ArgumentOutOfRangeException("stepSize", "If a < b, stepSize must be positive.");
+
+                uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize)) - 1;
+                for (uint i = 0; i < steps; i++)
+                    yield return (short)(a +  i * stepSize);
+                last = (short)(a +  steps * stepSize);
+            }
+            else
+            {
+                if (stepSize > 0)
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(a - b) / (double)stepSize)) - 1;
+                    for (uint i = 0; i < steps; i++)
+                        yield return (short)(a - i * stepSize);
+                    last = (short)(a - steps * stepSize);
+                }
+                else
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize)) - 1;
+                    for (uint i = 0; i < steps; i++)
+                        yield return (short)(a + i * stepSize);
+                    last = (short)(a + steps * stepSize);
+                }
+            }
+
+            if (a < b)
+            {
+                yield return last > b ? b : last;
+            }
+            else
+            {
+                yield return last > a ? a : last;
+            }
+        }
+
+        /// <summary>
+        ///   Creates a range vector (like NumPy's arange function).
+        /// </summary>
+        /// 
+        /// <param name="n">The exclusive upper bound of the range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
         public static byte[] Range(byte n)
         {
             byte[] r = new byte[(int)n]; 
@@ -572,13 +3793,29 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Creates a range vector.
+        ///   Creates a range vector (like NumPy's arange function).
         /// </summary>
-        /// 
+        ///
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
         public static byte[] Range(byte a, byte b)
         {
             if (a == b)
-                return new [] { a };
+                return new byte[] { };
 
             byte[] r;
 
@@ -592,50 +3829,31 @@ namespace Accord.Math
             {
                 r = new byte[(int)(a - b)];
                 for (int i = 0; i < r.Length; i++)
-                    r[i] = (byte)(a-- - 1);
+                    r[i] = (byte)(a--);
             }
 
             return r;
         }
 
         /// <summary>
-        ///   Creates an interval vector.
+        ///   Enumerates through a range (like Python's xrange function).
         /// </summary>
         /// 
-        public static byte[] Range(byte a, byte b, byte stepSize)
-        {
-            if (a == b)
-                return new [] { a };
-
-            byte[] r;
-
-            if (b > a)
-            {
-                int steps = (int)System.Math.Ceiling((b - a) / (double)stepSize);
-                r = new byte[steps];
-                for (uint i = 0; i < r.Length; i++)
-                    r[i] = (byte)(a +  i * stepSize);
-                r[steps - 1] = (byte)(b);
-            }
-            else
-            {
-                int steps = (int)System.Math.Ceiling((a - b) / (double)stepSize);
-                r = new byte[steps];
-                for (uint i = 0; i < r.Length; i++)
-                    r[i] = (byte)(a - i * stepSize);
-                r[steps - 1] = (byte)(b);
-            }
-
-            return r;
-        }
-
-
-
-
-		/// <summary>
-        ///   Creates a range enumeration (similar to NumPy's xrange).
-        /// </summary>
-        /// 
+        /// <param name="n">The exclusive upper bound of the range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
         public static IEnumerable<byte> EnumerableRange(byte n)
         {
             for (byte i = 0; i < n; i++)
@@ -643,13 +3861,29 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Creates a range enumeration (similar to NumPy's xrange).
+        ///   Enumerates through a range (like Python's xrange).
         /// </summary>
         /// 
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
         public static IEnumerable<byte> EnumerableRange(byte a, byte b)
         {
             if (a == b)
-                yield return a;
+                yield break;
 
             if (b > a)
             {
@@ -661,39 +3895,465 @@ namespace Accord.Math
             {
                 int n = (int)(a - b);
                 for (int i = 0; i < n; i++)
-                    yield return (byte)(a-- - 1);
+                    yield return (byte)(a--);
             }
         }
 
+
         /// <summary>
-        ///   Creates an interval enumeration (similar to NumPy's xrange).
+        ///   Creates a range vector (like NumPy's arange function).
         /// </summary>
         /// 
-        public static IEnumerable<byte> EnumerableRange(byte a, byte b, byte stepSize)
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+        /// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static float[] Range(byte a, byte b, float stepSize)
         {
             if (a == b)
-                yield return a;
+                return new float[] { };
 
-            if (b > a)
+            if (stepSize == 0)
+                throw new ArgumentOutOfRangeException("stepSize", "stepSize must be different from zero.");
+
+            float[] r;
+
+            if (a < b)
             {
-                int steps = (int)System.Math.Ceiling((b - a) / (double)stepSize);
-                for (uint i = 0; i < steps; i++)
-                    yield return (byte)(a +  i * stepSize);
-                yield return (byte)(b);
+                if (stepSize < 0)
+                    throw new ArgumentOutOfRangeException("stepSize", "If a < b, stepSize must be positive.");
+
+                uint steps = (uint)System.Math.Ceiling(((float)(b - a) / (float)stepSize));
+
+                r = new float[steps];
+                for (uint i = 0; i < r.Length; i++)
+                    r[i] = (float)(a +  i * stepSize);
             }
             else
             {
-                int steps = (int)System.Math.Ceiling((a - b) / (double)stepSize);
+                if (stepSize > 0)
+                {
+                    uint steps = (uint)System.Math.Ceiling(((float)(a - b) / (float)stepSize));
+                    r = new float[steps];
+                    for (uint i = 0; i < r.Length; i++)
+                        r[i] = (float)(a - i * stepSize);
+                }
+                else
+                {
+                    uint steps = (uint)System.Math.Ceiling(((float)(b - a) / (float)stepSize));
+                    r = new float[steps];
+                    for (uint i = 0; i < r.Length; i++)
+                        r[i] = (float)(a + i * stepSize);
+                }
+            }
+
+            if (a < b)
+            {
+                if (r[r.Length - 1] > b)
+                    r[r.Length - 1] = b;
+            }
+            else
+            {
+                if (r[r.Length - 1] > a)
+                    r[r.Length - 1] = a;
+            }
+
+            return r;
+        }
+
+        /// <summary>
+        ///   Enumerates through a range (like Python's xrange function).
+        /// </summary>
+        /// 
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+        /// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static IEnumerable<float> EnumerableRange(byte a, byte b, float stepSize)
+        {
+            if (a == b)
+                yield break;
+
+            if (stepSize == 0)
+                throw new ArgumentOutOfRangeException("stepSize", "stepSize must be different from zero.");
+
+            float last;
+
+            if (a < b)
+            {
+                if (stepSize < 0)
+                    throw new ArgumentOutOfRangeException("stepSize", "If a < b, stepSize must be positive.");
+
+                uint steps = (uint)System.Math.Ceiling(((float)(b - a) / (float)stepSize)) - 1;
                 for (uint i = 0; i < steps; i++)
-                    yield return (byte)(a - i * stepSize);
-                yield return (byte)(b);
+                    yield return (float)(a +  i * stepSize);
+                last = (float)(a +  steps * stepSize);
+            }
+            else
+            {
+                if (stepSize > 0)
+                {
+                    uint steps = (uint)System.Math.Ceiling(((float)(a - b) / (float)stepSize)) - 1;
+                    for (uint i = 0; i < steps; i++)
+                        yield return (float)(a - i * stepSize);
+                    last = (float)(a - steps * stepSize);
+                }
+                else
+                {
+                    uint steps = (uint)System.Math.Ceiling(((float)(b - a) / (float)stepSize)) - 1;
+                    for (uint i = 0; i < steps; i++)
+                        yield return (float)(a + i * stepSize);
+                    last = (float)(a + steps * stepSize);
+                }
+            }
+
+            if (a < b)
+            {
+                yield return last > b ? b : last;
+            }
+            else
+            {
+                yield return last > a ? a : last;
             }
         }
 
         /// <summary>
-        ///   Creates a range vector.
+        ///   Creates a range vector (like NumPy's arange function).
         /// </summary>
         /// 
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+        /// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static double[] Range(byte a, byte b, double stepSize)
+        {
+            if (a == b)
+                return new double[] { };
+
+            if (stepSize == 0)
+                throw new ArgumentOutOfRangeException("stepSize", "stepSize must be different from zero.");
+
+            double[] r;
+
+            if (a < b)
+            {
+                if (stepSize < 0)
+                    throw new ArgumentOutOfRangeException("stepSize", "If a < b, stepSize must be positive.");
+
+                uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize));
+
+                r = new double[steps];
+                for (uint i = 0; i < r.Length; i++)
+                    r[i] = (double)(a +  i * stepSize);
+            }
+            else
+            {
+                if (stepSize > 0)
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(a - b) / (double)stepSize));
+                    r = new double[steps];
+                    for (uint i = 0; i < r.Length; i++)
+                        r[i] = (double)(a - i * stepSize);
+                }
+                else
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize));
+                    r = new double[steps];
+                    for (uint i = 0; i < r.Length; i++)
+                        r[i] = (double)(a + i * stepSize);
+                }
+            }
+
+            if (a < b)
+            {
+                if (r[r.Length - 1] > b)
+                    r[r.Length - 1] = b;
+            }
+            else
+            {
+                if (r[r.Length - 1] > a)
+                    r[r.Length - 1] = a;
+            }
+
+            return r;
+        }
+
+        /// <summary>
+        ///   Enumerates through a range (like Python's xrange function).
+        /// </summary>
+        /// 
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+        /// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static IEnumerable<double> EnumerableRange(byte a, byte b, double stepSize)
+        {
+            if (a == b)
+                yield break;
+
+            if (stepSize == 0)
+                throw new ArgumentOutOfRangeException("stepSize", "stepSize must be different from zero.");
+
+            double last;
+
+            if (a < b)
+            {
+                if (stepSize < 0)
+                    throw new ArgumentOutOfRangeException("stepSize", "If a < b, stepSize must be positive.");
+
+                uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize)) - 1;
+                for (uint i = 0; i < steps; i++)
+                    yield return (double)(a +  i * stepSize);
+                last = (double)(a +  steps * stepSize);
+            }
+            else
+            {
+                if (stepSize > 0)
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(a - b) / (double)stepSize)) - 1;
+                    for (uint i = 0; i < steps; i++)
+                        yield return (double)(a - i * stepSize);
+                    last = (double)(a - steps * stepSize);
+                }
+                else
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize)) - 1;
+                    for (uint i = 0; i < steps; i++)
+                        yield return (double)(a + i * stepSize);
+                    last = (double)(a + steps * stepSize);
+                }
+            }
+
+            if (a < b)
+            {
+                yield return last > b ? b : last;
+            }
+            else
+            {
+                yield return last > a ? a : last;
+            }
+        }
+
+        /// <summary>
+        ///   Creates a range vector (like NumPy's arange function).
+        /// </summary>
+        /// 
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+        /// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static byte[] Range(byte a, byte b, byte stepSize)
+        {
+            if (a == b)
+                return new byte[] { };
+
+            if (stepSize == 0)
+                throw new ArgumentOutOfRangeException("stepSize", "stepSize must be different from zero.");
+
+            byte[] r;
+
+            if (a < b)
+            {
+                if (stepSize < 0)
+                    throw new ArgumentOutOfRangeException("stepSize", "If a < b, stepSize must be positive.");
+
+                uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize));
+
+                r = new byte[steps];
+                for (uint i = 0; i < r.Length; i++)
+                    r[i] = (byte)(a +  i * stepSize);
+            }
+            else
+            {
+                if (stepSize > 0)
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(a - b) / (double)stepSize));
+                    r = new byte[steps];
+                    for (uint i = 0; i < r.Length; i++)
+                        r[i] = (byte)(a - i * stepSize);
+                }
+                else
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize));
+                    r = new byte[steps];
+                    for (uint i = 0; i < r.Length; i++)
+                        r[i] = (byte)(a + i * stepSize);
+                }
+            }
+
+            if (a < b)
+            {
+                if (r[r.Length - 1] > b)
+                    r[r.Length - 1] = b;
+            }
+            else
+            {
+                if (r[r.Length - 1] > a)
+                    r[r.Length - 1] = a;
+            }
+
+            return r;
+        }
+
+        /// <summary>
+        ///   Enumerates through a range (like Python's xrange function).
+        /// </summary>
+        /// 
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+        /// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static IEnumerable<byte> EnumerableRange(byte a, byte b, byte stepSize)
+        {
+            if (a == b)
+                yield break;
+
+            if (stepSize == 0)
+                throw new ArgumentOutOfRangeException("stepSize", "stepSize must be different from zero.");
+
+            byte last;
+
+            if (a < b)
+            {
+                if (stepSize < 0)
+                    throw new ArgumentOutOfRangeException("stepSize", "If a < b, stepSize must be positive.");
+
+                uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize)) - 1;
+                for (uint i = 0; i < steps; i++)
+                    yield return (byte)(a +  i * stepSize);
+                last = (byte)(a +  steps * stepSize);
+            }
+            else
+            {
+                if (stepSize > 0)
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(a - b) / (double)stepSize)) - 1;
+                    for (uint i = 0; i < steps; i++)
+                        yield return (byte)(a - i * stepSize);
+                    last = (byte)(a - steps * stepSize);
+                }
+                else
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize)) - 1;
+                    for (uint i = 0; i < steps; i++)
+                        yield return (byte)(a + i * stepSize);
+                    last = (byte)(a + steps * stepSize);
+                }
+            }
+
+            if (a < b)
+            {
+                yield return last > b ? b : last;
+            }
+            else
+            {
+                yield return last > a ? a : last;
+            }
+        }
+
+        /// <summary>
+        ///   Creates a range vector (like NumPy's arange function).
+        /// </summary>
+        /// 
+        /// <param name="n">The exclusive upper bound of the range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
         public static sbyte[] Range(sbyte n)
         {
             sbyte[] r = new sbyte[(int)n]; 
@@ -703,13 +4363,29 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Creates a range vector.
+        ///   Creates a range vector (like NumPy's arange function).
         /// </summary>
-        /// 
+        ///
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
         public static sbyte[] Range(sbyte a, sbyte b)
         {
             if (a == b)
-                return new [] { a };
+                return new sbyte[] { };
 
             sbyte[] r;
 
@@ -723,50 +4399,31 @@ namespace Accord.Math
             {
                 r = new sbyte[(int)(a - b)];
                 for (int i = 0; i < r.Length; i++)
-                    r[i] = (sbyte)(a-- - 1);
+                    r[i] = (sbyte)(a--);
             }
 
             return r;
         }
 
         /// <summary>
-        ///   Creates an interval vector.
+        ///   Enumerates through a range (like Python's xrange function).
         /// </summary>
         /// 
-        public static sbyte[] Range(sbyte a, sbyte b, sbyte stepSize)
-        {
-            if (a == b)
-                return new [] { a };
-
-            sbyte[] r;
-
-            if (b > a)
-            {
-                int steps = (int)System.Math.Ceiling((b - a) / (double)stepSize);
-                r = new sbyte[steps];
-                for (uint i = 0; i < r.Length; i++)
-                    r[i] = (sbyte)(a +  i * stepSize);
-                r[steps - 1] = (sbyte)(b);
-            }
-            else
-            {
-                int steps = (int)System.Math.Ceiling((a - b) / (double)stepSize);
-                r = new sbyte[steps];
-                for (uint i = 0; i < r.Length; i++)
-                    r[i] = (sbyte)(a - i * stepSize);
-                r[steps - 1] = (sbyte)(b);
-            }
-
-            return r;
-        }
-
-
-
-
-		/// <summary>
-        ///   Creates a range enumeration (similar to NumPy's xrange).
-        /// </summary>
-        /// 
+        /// <param name="n">The exclusive upper bound of the range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
         public static IEnumerable<sbyte> EnumerableRange(sbyte n)
         {
             for (sbyte i = 0; i < n; i++)
@@ -774,13 +4431,29 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Creates a range enumeration (similar to NumPy's xrange).
+        ///   Enumerates through a range (like Python's xrange).
         /// </summary>
         /// 
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
         public static IEnumerable<sbyte> EnumerableRange(sbyte a, sbyte b)
         {
             if (a == b)
-                yield return a;
+                yield break;
 
             if (b > a)
             {
@@ -792,39 +4465,465 @@ namespace Accord.Math
             {
                 int n = (int)(a - b);
                 for (int i = 0; i < n; i++)
-                    yield return (sbyte)(a-- - 1);
+                    yield return (sbyte)(a--);
             }
         }
 
+
         /// <summary>
-        ///   Creates an interval enumeration (similar to NumPy's xrange).
+        ///   Creates a range vector (like NumPy's arange function).
         /// </summary>
         /// 
-        public static IEnumerable<sbyte> EnumerableRange(sbyte a, sbyte b, sbyte stepSize)
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+        /// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static float[] Range(sbyte a, sbyte b, float stepSize)
         {
             if (a == b)
-                yield return a;
+                return new float[] { };
 
-            if (b > a)
+            if (stepSize == 0)
+                throw new ArgumentOutOfRangeException("stepSize", "stepSize must be different from zero.");
+
+            float[] r;
+
+            if (a < b)
             {
-                int steps = (int)System.Math.Ceiling((b - a) / (double)stepSize);
-                for (uint i = 0; i < steps; i++)
-                    yield return (sbyte)(a +  i * stepSize);
-                yield return (sbyte)(b);
+                if (stepSize < 0)
+                    throw new ArgumentOutOfRangeException("stepSize", "If a < b, stepSize must be positive.");
+
+                uint steps = (uint)System.Math.Ceiling(((float)(b - a) / (float)stepSize));
+
+                r = new float[steps];
+                for (uint i = 0; i < r.Length; i++)
+                    r[i] = (float)(a +  i * stepSize);
             }
             else
             {
-                int steps = (int)System.Math.Ceiling((a - b) / (double)stepSize);
+                if (stepSize > 0)
+                {
+                    uint steps = (uint)System.Math.Ceiling(((float)(a - b) / (float)stepSize));
+                    r = new float[steps];
+                    for (uint i = 0; i < r.Length; i++)
+                        r[i] = (float)(a - i * stepSize);
+                }
+                else
+                {
+                    uint steps = (uint)System.Math.Ceiling(((float)(b - a) / (float)stepSize));
+                    r = new float[steps];
+                    for (uint i = 0; i < r.Length; i++)
+                        r[i] = (float)(a + i * stepSize);
+                }
+            }
+
+            if (a < b)
+            {
+                if (r[r.Length - 1] > b)
+                    r[r.Length - 1] = b;
+            }
+            else
+            {
+                if (r[r.Length - 1] > a)
+                    r[r.Length - 1] = a;
+            }
+
+            return r;
+        }
+
+        /// <summary>
+        ///   Enumerates through a range (like Python's xrange function).
+        /// </summary>
+        /// 
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+        /// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static IEnumerable<float> EnumerableRange(sbyte a, sbyte b, float stepSize)
+        {
+            if (a == b)
+                yield break;
+
+            if (stepSize == 0)
+                throw new ArgumentOutOfRangeException("stepSize", "stepSize must be different from zero.");
+
+            float last;
+
+            if (a < b)
+            {
+                if (stepSize < 0)
+                    throw new ArgumentOutOfRangeException("stepSize", "If a < b, stepSize must be positive.");
+
+                uint steps = (uint)System.Math.Ceiling(((float)(b - a) / (float)stepSize)) - 1;
                 for (uint i = 0; i < steps; i++)
-                    yield return (sbyte)(a - i * stepSize);
-                yield return (sbyte)(b);
+                    yield return (float)(a +  i * stepSize);
+                last = (float)(a +  steps * stepSize);
+            }
+            else
+            {
+                if (stepSize > 0)
+                {
+                    uint steps = (uint)System.Math.Ceiling(((float)(a - b) / (float)stepSize)) - 1;
+                    for (uint i = 0; i < steps; i++)
+                        yield return (float)(a - i * stepSize);
+                    last = (float)(a - steps * stepSize);
+                }
+                else
+                {
+                    uint steps = (uint)System.Math.Ceiling(((float)(b - a) / (float)stepSize)) - 1;
+                    for (uint i = 0; i < steps; i++)
+                        yield return (float)(a + i * stepSize);
+                    last = (float)(a + steps * stepSize);
+                }
+            }
+
+            if (a < b)
+            {
+                yield return last > b ? b : last;
+            }
+            else
+            {
+                yield return last > a ? a : last;
             }
         }
 
         /// <summary>
-        ///   Creates a range vector.
+        ///   Creates a range vector (like NumPy's arange function).
         /// </summary>
         /// 
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+        /// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static double[] Range(sbyte a, sbyte b, double stepSize)
+        {
+            if (a == b)
+                return new double[] { };
+
+            if (stepSize == 0)
+                throw new ArgumentOutOfRangeException("stepSize", "stepSize must be different from zero.");
+
+            double[] r;
+
+            if (a < b)
+            {
+                if (stepSize < 0)
+                    throw new ArgumentOutOfRangeException("stepSize", "If a < b, stepSize must be positive.");
+
+                uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize));
+
+                r = new double[steps];
+                for (uint i = 0; i < r.Length; i++)
+                    r[i] = (double)(a +  i * stepSize);
+            }
+            else
+            {
+                if (stepSize > 0)
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(a - b) / (double)stepSize));
+                    r = new double[steps];
+                    for (uint i = 0; i < r.Length; i++)
+                        r[i] = (double)(a - i * stepSize);
+                }
+                else
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize));
+                    r = new double[steps];
+                    for (uint i = 0; i < r.Length; i++)
+                        r[i] = (double)(a + i * stepSize);
+                }
+            }
+
+            if (a < b)
+            {
+                if (r[r.Length - 1] > b)
+                    r[r.Length - 1] = b;
+            }
+            else
+            {
+                if (r[r.Length - 1] > a)
+                    r[r.Length - 1] = a;
+            }
+
+            return r;
+        }
+
+        /// <summary>
+        ///   Enumerates through a range (like Python's xrange function).
+        /// </summary>
+        /// 
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+        /// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static IEnumerable<double> EnumerableRange(sbyte a, sbyte b, double stepSize)
+        {
+            if (a == b)
+                yield break;
+
+            if (stepSize == 0)
+                throw new ArgumentOutOfRangeException("stepSize", "stepSize must be different from zero.");
+
+            double last;
+
+            if (a < b)
+            {
+                if (stepSize < 0)
+                    throw new ArgumentOutOfRangeException("stepSize", "If a < b, stepSize must be positive.");
+
+                uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize)) - 1;
+                for (uint i = 0; i < steps; i++)
+                    yield return (double)(a +  i * stepSize);
+                last = (double)(a +  steps * stepSize);
+            }
+            else
+            {
+                if (stepSize > 0)
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(a - b) / (double)stepSize)) - 1;
+                    for (uint i = 0; i < steps; i++)
+                        yield return (double)(a - i * stepSize);
+                    last = (double)(a - steps * stepSize);
+                }
+                else
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize)) - 1;
+                    for (uint i = 0; i < steps; i++)
+                        yield return (double)(a + i * stepSize);
+                    last = (double)(a + steps * stepSize);
+                }
+            }
+
+            if (a < b)
+            {
+                yield return last > b ? b : last;
+            }
+            else
+            {
+                yield return last > a ? a : last;
+            }
+        }
+
+        /// <summary>
+        ///   Creates a range vector (like NumPy's arange function).
+        /// </summary>
+        /// 
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+        /// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static sbyte[] Range(sbyte a, sbyte b, sbyte stepSize)
+        {
+            if (a == b)
+                return new sbyte[] { };
+
+            if (stepSize == 0)
+                throw new ArgumentOutOfRangeException("stepSize", "stepSize must be different from zero.");
+
+            sbyte[] r;
+
+            if (a < b)
+            {
+                if (stepSize < 0)
+                    throw new ArgumentOutOfRangeException("stepSize", "If a < b, stepSize must be positive.");
+
+                uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize));
+
+                r = new sbyte[steps];
+                for (uint i = 0; i < r.Length; i++)
+                    r[i] = (sbyte)(a +  i * stepSize);
+            }
+            else
+            {
+                if (stepSize > 0)
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(a - b) / (double)stepSize));
+                    r = new sbyte[steps];
+                    for (uint i = 0; i < r.Length; i++)
+                        r[i] = (sbyte)(a - i * stepSize);
+                }
+                else
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize));
+                    r = new sbyte[steps];
+                    for (uint i = 0; i < r.Length; i++)
+                        r[i] = (sbyte)(a + i * stepSize);
+                }
+            }
+
+            if (a < b)
+            {
+                if (r[r.Length - 1] > b)
+                    r[r.Length - 1] = b;
+            }
+            else
+            {
+                if (r[r.Length - 1] > a)
+                    r[r.Length - 1] = a;
+            }
+
+            return r;
+        }
+
+        /// <summary>
+        ///   Enumerates through a range (like Python's xrange function).
+        /// </summary>
+        /// 
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+        /// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static IEnumerable<sbyte> EnumerableRange(sbyte a, sbyte b, sbyte stepSize)
+        {
+            if (a == b)
+                yield break;
+
+            if (stepSize == 0)
+                throw new ArgumentOutOfRangeException("stepSize", "stepSize must be different from zero.");
+
+            sbyte last;
+
+            if (a < b)
+            {
+                if (stepSize < 0)
+                    throw new ArgumentOutOfRangeException("stepSize", "If a < b, stepSize must be positive.");
+
+                uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize)) - 1;
+                for (uint i = 0; i < steps; i++)
+                    yield return (sbyte)(a +  i * stepSize);
+                last = (sbyte)(a +  steps * stepSize);
+            }
+            else
+            {
+                if (stepSize > 0)
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(a - b) / (double)stepSize)) - 1;
+                    for (uint i = 0; i < steps; i++)
+                        yield return (sbyte)(a - i * stepSize);
+                    last = (sbyte)(a - steps * stepSize);
+                }
+                else
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize)) - 1;
+                    for (uint i = 0; i < steps; i++)
+                        yield return (sbyte)(a + i * stepSize);
+                    last = (sbyte)(a + steps * stepSize);
+                }
+            }
+
+            if (a < b)
+            {
+                yield return last > b ? b : last;
+            }
+            else
+            {
+                yield return last > a ? a : last;
+            }
+        }
+
+        /// <summary>
+        ///   Creates a range vector (like NumPy's arange function).
+        /// </summary>
+        /// 
+        /// <param name="n">The exclusive upper bound of the range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
         public static long[] Range(long n)
         {
             long[] r = new long[(int)n]; 
@@ -834,13 +4933,29 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Creates a range vector.
+        ///   Creates a range vector (like NumPy's arange function).
         /// </summary>
-        /// 
+        ///
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
         public static long[] Range(long a, long b)
         {
             if (a == b)
-                return new [] { a };
+                return new long[] { };
 
             long[] r;
 
@@ -854,50 +4969,31 @@ namespace Accord.Math
             {
                 r = new long[(int)(a - b)];
                 for (int i = 0; i < r.Length; i++)
-                    r[i] = (long)(a-- - 1);
+                    r[i] = (long)(a--);
             }
 
             return r;
         }
 
         /// <summary>
-        ///   Creates an interval vector.
+        ///   Enumerates through a range (like Python's xrange function).
         /// </summary>
         /// 
-        public static long[] Range(long a, long b, long stepSize)
-        {
-            if (a == b)
-                return new [] { a };
-
-            long[] r;
-
-            if (b > a)
-            {
-                int steps = (int)System.Math.Ceiling((b - a) / (double)stepSize);
-                r = new long[steps];
-                for (uint i = 0; i < r.Length; i++)
-                    r[i] = (long)(a +  i * stepSize);
-                r[steps - 1] = (long)(b);
-            }
-            else
-            {
-                int steps = (int)System.Math.Ceiling((a - b) / (double)stepSize);
-                r = new long[steps];
-                for (uint i = 0; i < r.Length; i++)
-                    r[i] = (long)(a - i * stepSize);
-                r[steps - 1] = (long)(b);
-            }
-
-            return r;
-        }
-
-
-
-
-		/// <summary>
-        ///   Creates a range enumeration (similar to NumPy's xrange).
-        /// </summary>
-        /// 
+        /// <param name="n">The exclusive upper bound of the range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
         public static IEnumerable<long> EnumerableRange(long n)
         {
             for (long i = 0; i < n; i++)
@@ -905,13 +5001,29 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Creates a range enumeration (similar to NumPy's xrange).
+        ///   Enumerates through a range (like Python's xrange).
         /// </summary>
         /// 
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
         public static IEnumerable<long> EnumerableRange(long a, long b)
         {
             if (a == b)
-                yield return a;
+                yield break;
 
             if (b > a)
             {
@@ -923,39 +5035,465 @@ namespace Accord.Math
             {
                 int n = (int)(a - b);
                 for (int i = 0; i < n; i++)
-                    yield return (long)(a-- - 1);
+                    yield return (long)(a--);
             }
         }
 
+
         /// <summary>
-        ///   Creates an interval enumeration (similar to NumPy's xrange).
+        ///   Creates a range vector (like NumPy's arange function).
         /// </summary>
         /// 
-        public static IEnumerable<long> EnumerableRange(long a, long b, long stepSize)
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+        /// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static float[] Range(long a, long b, float stepSize)
         {
             if (a == b)
-                yield return a;
+                return new float[] { };
 
-            if (b > a)
+            if (stepSize == 0)
+                throw new ArgumentOutOfRangeException("stepSize", "stepSize must be different from zero.");
+
+            float[] r;
+
+            if (a < b)
             {
-                int steps = (int)System.Math.Ceiling((b - a) / (double)stepSize);
-                for (uint i = 0; i < steps; i++)
-                    yield return (long)(a +  i * stepSize);
-                yield return (long)(b);
+                if (stepSize < 0)
+                    throw new ArgumentOutOfRangeException("stepSize", "If a < b, stepSize must be positive.");
+
+                uint steps = (uint)System.Math.Ceiling(((float)(b - a) / (float)stepSize));
+
+                r = new float[steps];
+                for (uint i = 0; i < r.Length; i++)
+                    r[i] = (float)(a +  i * stepSize);
             }
             else
             {
-                int steps = (int)System.Math.Ceiling((a - b) / (double)stepSize);
+                if (stepSize > 0)
+                {
+                    uint steps = (uint)System.Math.Ceiling(((float)(a - b) / (float)stepSize));
+                    r = new float[steps];
+                    for (uint i = 0; i < r.Length; i++)
+                        r[i] = (float)(a - i * stepSize);
+                }
+                else
+                {
+                    uint steps = (uint)System.Math.Ceiling(((float)(b - a) / (float)stepSize));
+                    r = new float[steps];
+                    for (uint i = 0; i < r.Length; i++)
+                        r[i] = (float)(a + i * stepSize);
+                }
+            }
+
+            if (a < b)
+            {
+                if (r[r.Length - 1] > b)
+                    r[r.Length - 1] = b;
+            }
+            else
+            {
+                if (r[r.Length - 1] > a)
+                    r[r.Length - 1] = a;
+            }
+
+            return r;
+        }
+
+        /// <summary>
+        ///   Enumerates through a range (like Python's xrange function).
+        /// </summary>
+        /// 
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+        /// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static IEnumerable<float> EnumerableRange(long a, long b, float stepSize)
+        {
+            if (a == b)
+                yield break;
+
+            if (stepSize == 0)
+                throw new ArgumentOutOfRangeException("stepSize", "stepSize must be different from zero.");
+
+            float last;
+
+            if (a < b)
+            {
+                if (stepSize < 0)
+                    throw new ArgumentOutOfRangeException("stepSize", "If a < b, stepSize must be positive.");
+
+                uint steps = (uint)System.Math.Ceiling(((float)(b - a) / (float)stepSize)) - 1;
                 for (uint i = 0; i < steps; i++)
-                    yield return (long)(a - i * stepSize);
-                yield return (long)(b);
+                    yield return (float)(a +  i * stepSize);
+                last = (float)(a +  steps * stepSize);
+            }
+            else
+            {
+                if (stepSize > 0)
+                {
+                    uint steps = (uint)System.Math.Ceiling(((float)(a - b) / (float)stepSize)) - 1;
+                    for (uint i = 0; i < steps; i++)
+                        yield return (float)(a - i * stepSize);
+                    last = (float)(a - steps * stepSize);
+                }
+                else
+                {
+                    uint steps = (uint)System.Math.Ceiling(((float)(b - a) / (float)stepSize)) - 1;
+                    for (uint i = 0; i < steps; i++)
+                        yield return (float)(a + i * stepSize);
+                    last = (float)(a + steps * stepSize);
+                }
+            }
+
+            if (a < b)
+            {
+                yield return last > b ? b : last;
+            }
+            else
+            {
+                yield return last > a ? a : last;
             }
         }
 
         /// <summary>
-        ///   Creates a range vector.
+        ///   Creates a range vector (like NumPy's arange function).
         /// </summary>
         /// 
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+        /// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static double[] Range(long a, long b, double stepSize)
+        {
+            if (a == b)
+                return new double[] { };
+
+            if (stepSize == 0)
+                throw new ArgumentOutOfRangeException("stepSize", "stepSize must be different from zero.");
+
+            double[] r;
+
+            if (a < b)
+            {
+                if (stepSize < 0)
+                    throw new ArgumentOutOfRangeException("stepSize", "If a < b, stepSize must be positive.");
+
+                uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize));
+
+                r = new double[steps];
+                for (uint i = 0; i < r.Length; i++)
+                    r[i] = (double)(a +  i * stepSize);
+            }
+            else
+            {
+                if (stepSize > 0)
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(a - b) / (double)stepSize));
+                    r = new double[steps];
+                    for (uint i = 0; i < r.Length; i++)
+                        r[i] = (double)(a - i * stepSize);
+                }
+                else
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize));
+                    r = new double[steps];
+                    for (uint i = 0; i < r.Length; i++)
+                        r[i] = (double)(a + i * stepSize);
+                }
+            }
+
+            if (a < b)
+            {
+                if (r[r.Length - 1] > b)
+                    r[r.Length - 1] = b;
+            }
+            else
+            {
+                if (r[r.Length - 1] > a)
+                    r[r.Length - 1] = a;
+            }
+
+            return r;
+        }
+
+        /// <summary>
+        ///   Enumerates through a range (like Python's xrange function).
+        /// </summary>
+        /// 
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+        /// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static IEnumerable<double> EnumerableRange(long a, long b, double stepSize)
+        {
+            if (a == b)
+                yield break;
+
+            if (stepSize == 0)
+                throw new ArgumentOutOfRangeException("stepSize", "stepSize must be different from zero.");
+
+            double last;
+
+            if (a < b)
+            {
+                if (stepSize < 0)
+                    throw new ArgumentOutOfRangeException("stepSize", "If a < b, stepSize must be positive.");
+
+                uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize)) - 1;
+                for (uint i = 0; i < steps; i++)
+                    yield return (double)(a +  i * stepSize);
+                last = (double)(a +  steps * stepSize);
+            }
+            else
+            {
+                if (stepSize > 0)
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(a - b) / (double)stepSize)) - 1;
+                    for (uint i = 0; i < steps; i++)
+                        yield return (double)(a - i * stepSize);
+                    last = (double)(a - steps * stepSize);
+                }
+                else
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize)) - 1;
+                    for (uint i = 0; i < steps; i++)
+                        yield return (double)(a + i * stepSize);
+                    last = (double)(a + steps * stepSize);
+                }
+            }
+
+            if (a < b)
+            {
+                yield return last > b ? b : last;
+            }
+            else
+            {
+                yield return last > a ? a : last;
+            }
+        }
+
+        /// <summary>
+        ///   Creates a range vector (like NumPy's arange function).
+        /// </summary>
+        /// 
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+        /// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static long[] Range(long a, long b, long stepSize)
+        {
+            if (a == b)
+                return new long[] { };
+
+            if (stepSize == 0)
+                throw new ArgumentOutOfRangeException("stepSize", "stepSize must be different from zero.");
+
+            long[] r;
+
+            if (a < b)
+            {
+                if (stepSize < 0)
+                    throw new ArgumentOutOfRangeException("stepSize", "If a < b, stepSize must be positive.");
+
+                uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize));
+
+                r = new long[steps];
+                for (uint i = 0; i < r.Length; i++)
+                    r[i] = (long)(a +  i * stepSize);
+            }
+            else
+            {
+                if (stepSize > 0)
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(a - b) / (double)stepSize));
+                    r = new long[steps];
+                    for (uint i = 0; i < r.Length; i++)
+                        r[i] = (long)(a - i * stepSize);
+                }
+                else
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize));
+                    r = new long[steps];
+                    for (uint i = 0; i < r.Length; i++)
+                        r[i] = (long)(a + i * stepSize);
+                }
+            }
+
+            if (a < b)
+            {
+                if (r[r.Length - 1] > b)
+                    r[r.Length - 1] = b;
+            }
+            else
+            {
+                if (r[r.Length - 1] > a)
+                    r[r.Length - 1] = a;
+            }
+
+            return r;
+        }
+
+        /// <summary>
+        ///   Enumerates through a range (like Python's xrange function).
+        /// </summary>
+        /// 
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+        /// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static IEnumerable<long> EnumerableRange(long a, long b, long stepSize)
+        {
+            if (a == b)
+                yield break;
+
+            if (stepSize == 0)
+                throw new ArgumentOutOfRangeException("stepSize", "stepSize must be different from zero.");
+
+            long last;
+
+            if (a < b)
+            {
+                if (stepSize < 0)
+                    throw new ArgumentOutOfRangeException("stepSize", "If a < b, stepSize must be positive.");
+
+                uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize)) - 1;
+                for (uint i = 0; i < steps; i++)
+                    yield return (long)(a +  i * stepSize);
+                last = (long)(a +  steps * stepSize);
+            }
+            else
+            {
+                if (stepSize > 0)
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(a - b) / (double)stepSize)) - 1;
+                    for (uint i = 0; i < steps; i++)
+                        yield return (long)(a - i * stepSize);
+                    last = (long)(a - steps * stepSize);
+                }
+                else
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize)) - 1;
+                    for (uint i = 0; i < steps; i++)
+                        yield return (long)(a + i * stepSize);
+                    last = (long)(a + steps * stepSize);
+                }
+            }
+
+            if (a < b)
+            {
+                yield return last > b ? b : last;
+            }
+            else
+            {
+                yield return last > a ? a : last;
+            }
+        }
+
+        /// <summary>
+        ///   Creates a range vector (like NumPy's arange function).
+        /// </summary>
+        /// 
+        /// <param name="n">The exclusive upper bound of the range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
         public static decimal[] Range(decimal n)
         {
             decimal[] r = new decimal[(int)n]; 
@@ -965,13 +5503,29 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Creates a range vector.
+        ///   Creates a range vector (like NumPy's arange function).
         /// </summary>
-        /// 
+        ///
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
         public static decimal[] Range(decimal a, decimal b)
         {
             if (a == b)
-                return new [] { a };
+                return new decimal[] { };
 
             decimal[] r;
 
@@ -985,50 +5539,31 @@ namespace Accord.Math
             {
                 r = new decimal[(int)(a - b)];
                 for (int i = 0; i < r.Length; i++)
-                    r[i] = (decimal)(a-- - 1);
+                    r[i] = (decimal)(a--);
             }
 
             return r;
         }
 
         /// <summary>
-        ///   Creates an interval vector.
+        ///   Enumerates through a range (like Python's xrange function).
         /// </summary>
         /// 
-        public static decimal[] Range(decimal a, decimal b, decimal stepSize)
-        {
-            if (a == b)
-                return new [] { a };
-
-            decimal[] r;
-
-            if (b > a)
-            {
-                int steps = (int)System.Math.Ceiling((b - a) / (decimal)stepSize);
-                r = new decimal[steps];
-                for (uint i = 0; i < r.Length; i++)
-                    r[i] = (decimal)(a +  i * stepSize);
-                r[steps - 1] = (decimal)(b);
-            }
-            else
-            {
-                int steps = (int)System.Math.Ceiling((a - b) / (decimal)stepSize);
-                r = new decimal[steps];
-                for (uint i = 0; i < r.Length; i++)
-                    r[i] = (decimal)(a - i * stepSize);
-                r[steps - 1] = (decimal)(b);
-            }
-
-            return r;
-        }
-
-
-
-
-		/// <summary>
-        ///   Creates a range enumeration (similar to NumPy's xrange).
-        /// </summary>
-        /// 
+        /// <param name="n">The exclusive upper bound of the range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
         public static IEnumerable<decimal> EnumerableRange(decimal n)
         {
             for (decimal i = 0; i < n; i++)
@@ -1036,13 +5571,29 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Creates a range enumeration (similar to NumPy's xrange).
+        ///   Enumerates through a range (like Python's xrange).
         /// </summary>
         /// 
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
         public static IEnumerable<decimal> EnumerableRange(decimal a, decimal b)
         {
             if (a == b)
-                yield return a;
+                yield break;
 
             if (b > a)
             {
@@ -1054,39 +5605,175 @@ namespace Accord.Math
             {
                 int n = (int)(a - b);
                 for (int i = 0; i < n; i++)
-                    yield return (decimal)(a-- - 1);
+                    yield return (decimal)(a--);
             }
         }
 
+
         /// <summary>
-        ///   Creates an interval enumeration (similar to NumPy's xrange).
+        ///   Creates a range vector (like NumPy's arange function).
         /// </summary>
         /// 
-        public static IEnumerable<decimal> EnumerableRange(decimal a, decimal b, decimal stepSize)
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+        /// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static decimal[] Range(decimal a, decimal b, decimal stepSize)
         {
             if (a == b)
-                yield return a;
+                return new decimal[] { };
 
-            if (b > a)
+            if (stepSize == 0)
+                throw new ArgumentOutOfRangeException("stepSize", "stepSize must be different from zero.");
+
+            decimal[] r;
+
+            if (a < b)
             {
-                int steps = (int)System.Math.Ceiling((b - a) / (decimal)stepSize);
-                for (uint i = 0; i < steps; i++)
-                    yield return (decimal)(a +  i * stepSize);
-                yield return (decimal)(b);
+                if (stepSize < 0)
+                    throw new ArgumentOutOfRangeException("stepSize", "If a < b, stepSize must be positive.");
+
+                uint steps = (uint)System.Math.Ceiling(((decimal)(b - a) / (decimal)stepSize));
+
+                r = new decimal[steps];
+                for (uint i = 0; i < r.Length; i++)
+                    r[i] = (decimal)(a +  i * stepSize);
             }
             else
             {
-                int steps = (int)System.Math.Ceiling((a - b) / (decimal)stepSize);
+                if (stepSize > 0)
+                {
+                    uint steps = (uint)System.Math.Ceiling(((decimal)(a - b) / (decimal)stepSize));
+                    r = new decimal[steps];
+                    for (uint i = 0; i < r.Length; i++)
+                        r[i] = (decimal)(a - i * stepSize);
+                }
+                else
+                {
+                    uint steps = (uint)System.Math.Ceiling(((decimal)(b - a) / (decimal)stepSize));
+                    r = new decimal[steps];
+                    for (uint i = 0; i < r.Length; i++)
+                        r[i] = (decimal)(a + i * stepSize);
+                }
+            }
+
+            if (a < b)
+            {
+                if (r[r.Length - 1] > b)
+                    r[r.Length - 1] = b;
+            }
+            else
+            {
+                if (r[r.Length - 1] > a)
+                    r[r.Length - 1] = a;
+            }
+
+            return r;
+        }
+
+        /// <summary>
+        ///   Enumerates through a range (like Python's xrange function).
+        /// </summary>
+        /// 
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+        /// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static IEnumerable<decimal> EnumerableRange(decimal a, decimal b, decimal stepSize)
+        {
+            if (a == b)
+                yield break;
+
+            if (stepSize == 0)
+                throw new ArgumentOutOfRangeException("stepSize", "stepSize must be different from zero.");
+
+            decimal last;
+
+            if (a < b)
+            {
+                if (stepSize < 0)
+                    throw new ArgumentOutOfRangeException("stepSize", "If a < b, stepSize must be positive.");
+
+                uint steps = (uint)System.Math.Ceiling(((decimal)(b - a) / (decimal)stepSize)) - 1;
                 for (uint i = 0; i < steps; i++)
-                    yield return (decimal)(a - i * stepSize);
-                yield return (decimal)(b);
+                    yield return (decimal)(a +  i * stepSize);
+                last = (decimal)(a +  steps * stepSize);
+            }
+            else
+            {
+                if (stepSize > 0)
+                {
+                    uint steps = (uint)System.Math.Ceiling(((decimal)(a - b) / (decimal)stepSize)) - 1;
+                    for (uint i = 0; i < steps; i++)
+                        yield return (decimal)(a - i * stepSize);
+                    last = (decimal)(a - steps * stepSize);
+                }
+                else
+                {
+                    uint steps = (uint)System.Math.Ceiling(((decimal)(b - a) / (decimal)stepSize)) - 1;
+                    for (uint i = 0; i < steps; i++)
+                        yield return (decimal)(a + i * stepSize);
+                    last = (decimal)(a + steps * stepSize);
+                }
+            }
+
+            if (a < b)
+            {
+                yield return last > b ? b : last;
+            }
+            else
+            {
+                yield return last > a ? a : last;
             }
         }
 
         /// <summary>
-        ///   Creates a range vector.
+        ///   Creates a range vector (like NumPy's arange function).
         /// </summary>
         /// 
+        /// <param name="n">The exclusive upper bound of the range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
         public static ulong[] Range(ulong n)
         {
             ulong[] r = new ulong[(int)n]; 
@@ -1096,13 +5783,29 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Creates a range vector.
+        ///   Creates a range vector (like NumPy's arange function).
         /// </summary>
-        /// 
+        ///
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
         public static ulong[] Range(ulong a, ulong b)
         {
             if (a == b)
-                return new [] { a };
+                return new ulong[] { };
 
             ulong[] r;
 
@@ -1116,50 +5819,31 @@ namespace Accord.Math
             {
                 r = new ulong[(int)(a - b)];
                 for (int i = 0; i < r.Length; i++)
-                    r[i] = (ulong)(a-- - 1);
+                    r[i] = (ulong)(a--);
             }
 
             return r;
         }
 
         /// <summary>
-        ///   Creates an interval vector.
+        ///   Enumerates through a range (like Python's xrange function).
         /// </summary>
         /// 
-        public static ulong[] Range(ulong a, ulong b, ulong stepSize)
-        {
-            if (a == b)
-                return new [] { a };
-
-            ulong[] r;
-
-            if (b > a)
-            {
-                int steps = (int)System.Math.Ceiling((b - a) / (double)stepSize);
-                r = new ulong[steps];
-                for (uint i = 0; i < r.Length; i++)
-                    r[i] = (ulong)(a +  i * stepSize);
-                r[steps - 1] = (ulong)(b);
-            }
-            else
-            {
-                int steps = (int)System.Math.Ceiling((a - b) / (double)stepSize);
-                r = new ulong[steps];
-                for (uint i = 0; i < r.Length; i++)
-                    r[i] = (ulong)(a - i * stepSize);
-                r[steps - 1] = (ulong)(b);
-            }
-
-            return r;
-        }
-
-
-
-
-		/// <summary>
-        ///   Creates a range enumeration (similar to NumPy's xrange).
-        /// </summary>
-        /// 
+        /// <param name="n">The exclusive upper bound of the range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
         public static IEnumerable<ulong> EnumerableRange(ulong n)
         {
             for (ulong i = 0; i < n; i++)
@@ -1167,13 +5851,29 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Creates a range enumeration (similar to NumPy's xrange).
+        ///   Enumerates through a range (like Python's xrange).
         /// </summary>
         /// 
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
         public static IEnumerable<ulong> EnumerableRange(ulong a, ulong b)
         {
             if (a == b)
-                yield return a;
+                yield break;
 
             if (b > a)
             {
@@ -1185,39 +5885,465 @@ namespace Accord.Math
             {
                 int n = (int)(a - b);
                 for (int i = 0; i < n; i++)
-                    yield return (ulong)(a-- - 1);
+                    yield return (ulong)(a--);
             }
         }
 
+
         /// <summary>
-        ///   Creates an interval enumeration (similar to NumPy's xrange).
+        ///   Creates a range vector (like NumPy's arange function).
         /// </summary>
         /// 
-        public static IEnumerable<ulong> EnumerableRange(ulong a, ulong b, ulong stepSize)
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+        /// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static float[] Range(ulong a, ulong b, float stepSize)
         {
             if (a == b)
-                yield return a;
+                return new float[] { };
 
-            if (b > a)
+            if (stepSize == 0)
+                throw new ArgumentOutOfRangeException("stepSize", "stepSize must be different from zero.");
+
+            float[] r;
+
+            if (a < b)
             {
-                int steps = (int)System.Math.Ceiling((b - a) / (double)stepSize);
-                for (uint i = 0; i < steps; i++)
-                    yield return (ulong)(a +  i * stepSize);
-                yield return (ulong)(b);
+                if (stepSize < 0)
+                    throw new ArgumentOutOfRangeException("stepSize", "If a < b, stepSize must be positive.");
+
+                uint steps = (uint)System.Math.Ceiling(((float)(b - a) / (float)stepSize));
+
+                r = new float[steps];
+                for (uint i = 0; i < r.Length; i++)
+                    r[i] = (float)(a +  i * stepSize);
             }
             else
             {
-                int steps = (int)System.Math.Ceiling((a - b) / (double)stepSize);
+                if (stepSize > 0)
+                {
+                    uint steps = (uint)System.Math.Ceiling(((float)(a - b) / (float)stepSize));
+                    r = new float[steps];
+                    for (uint i = 0; i < r.Length; i++)
+                        r[i] = (float)(a - i * stepSize);
+                }
+                else
+                {
+                    uint steps = (uint)System.Math.Ceiling(((float)(b - a) / (float)stepSize));
+                    r = new float[steps];
+                    for (uint i = 0; i < r.Length; i++)
+                        r[i] = (float)(a + i * stepSize);
+                }
+            }
+
+            if (a < b)
+            {
+                if (r[r.Length - 1] > b)
+                    r[r.Length - 1] = b;
+            }
+            else
+            {
+                if (r[r.Length - 1] > a)
+                    r[r.Length - 1] = a;
+            }
+
+            return r;
+        }
+
+        /// <summary>
+        ///   Enumerates through a range (like Python's xrange function).
+        /// </summary>
+        /// 
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+        /// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static IEnumerable<float> EnumerableRange(ulong a, ulong b, float stepSize)
+        {
+            if (a == b)
+                yield break;
+
+            if (stepSize == 0)
+                throw new ArgumentOutOfRangeException("stepSize", "stepSize must be different from zero.");
+
+            float last;
+
+            if (a < b)
+            {
+                if (stepSize < 0)
+                    throw new ArgumentOutOfRangeException("stepSize", "If a < b, stepSize must be positive.");
+
+                uint steps = (uint)System.Math.Ceiling(((float)(b - a) / (float)stepSize)) - 1;
                 for (uint i = 0; i < steps; i++)
-                    yield return (ulong)(a - i * stepSize);
-                yield return (ulong)(b);
+                    yield return (float)(a +  i * stepSize);
+                last = (float)(a +  steps * stepSize);
+            }
+            else
+            {
+                if (stepSize > 0)
+                {
+                    uint steps = (uint)System.Math.Ceiling(((float)(a - b) / (float)stepSize)) - 1;
+                    for (uint i = 0; i < steps; i++)
+                        yield return (float)(a - i * stepSize);
+                    last = (float)(a - steps * stepSize);
+                }
+                else
+                {
+                    uint steps = (uint)System.Math.Ceiling(((float)(b - a) / (float)stepSize)) - 1;
+                    for (uint i = 0; i < steps; i++)
+                        yield return (float)(a + i * stepSize);
+                    last = (float)(a + steps * stepSize);
+                }
+            }
+
+            if (a < b)
+            {
+                yield return last > b ? b : last;
+            }
+            else
+            {
+                yield return last > a ? a : last;
             }
         }
 
         /// <summary>
-        ///   Creates a range vector.
+        ///   Creates a range vector (like NumPy's arange function).
         /// </summary>
         /// 
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+        /// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static double[] Range(ulong a, ulong b, double stepSize)
+        {
+            if (a == b)
+                return new double[] { };
+
+            if (stepSize == 0)
+                throw new ArgumentOutOfRangeException("stepSize", "stepSize must be different from zero.");
+
+            double[] r;
+
+            if (a < b)
+            {
+                if (stepSize < 0)
+                    throw new ArgumentOutOfRangeException("stepSize", "If a < b, stepSize must be positive.");
+
+                uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize));
+
+                r = new double[steps];
+                for (uint i = 0; i < r.Length; i++)
+                    r[i] = (double)(a +  i * stepSize);
+            }
+            else
+            {
+                if (stepSize > 0)
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(a - b) / (double)stepSize));
+                    r = new double[steps];
+                    for (uint i = 0; i < r.Length; i++)
+                        r[i] = (double)(a - i * stepSize);
+                }
+                else
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize));
+                    r = new double[steps];
+                    for (uint i = 0; i < r.Length; i++)
+                        r[i] = (double)(a + i * stepSize);
+                }
+            }
+
+            if (a < b)
+            {
+                if (r[r.Length - 1] > b)
+                    r[r.Length - 1] = b;
+            }
+            else
+            {
+                if (r[r.Length - 1] > a)
+                    r[r.Length - 1] = a;
+            }
+
+            return r;
+        }
+
+        /// <summary>
+        ///   Enumerates through a range (like Python's xrange function).
+        /// </summary>
+        /// 
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+        /// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static IEnumerable<double> EnumerableRange(ulong a, ulong b, double stepSize)
+        {
+            if (a == b)
+                yield break;
+
+            if (stepSize == 0)
+                throw new ArgumentOutOfRangeException("stepSize", "stepSize must be different from zero.");
+
+            double last;
+
+            if (a < b)
+            {
+                if (stepSize < 0)
+                    throw new ArgumentOutOfRangeException("stepSize", "If a < b, stepSize must be positive.");
+
+                uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize)) - 1;
+                for (uint i = 0; i < steps; i++)
+                    yield return (double)(a +  i * stepSize);
+                last = (double)(a +  steps * stepSize);
+            }
+            else
+            {
+                if (stepSize > 0)
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(a - b) / (double)stepSize)) - 1;
+                    for (uint i = 0; i < steps; i++)
+                        yield return (double)(a - i * stepSize);
+                    last = (double)(a - steps * stepSize);
+                }
+                else
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize)) - 1;
+                    for (uint i = 0; i < steps; i++)
+                        yield return (double)(a + i * stepSize);
+                    last = (double)(a + steps * stepSize);
+                }
+            }
+
+            if (a < b)
+            {
+                yield return last > b ? b : last;
+            }
+            else
+            {
+                yield return last > a ? a : last;
+            }
+        }
+
+        /// <summary>
+        ///   Creates a range vector (like NumPy's arange function).
+        /// </summary>
+        /// 
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+        /// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static ulong[] Range(ulong a, ulong b, ulong stepSize)
+        {
+            if (a == b)
+                return new ulong[] { };
+
+            if (stepSize == 0)
+                throw new ArgumentOutOfRangeException("stepSize", "stepSize must be different from zero.");
+
+            ulong[] r;
+
+            if (a < b)
+            {
+                if (stepSize < 0)
+                    throw new ArgumentOutOfRangeException("stepSize", "If a < b, stepSize must be positive.");
+
+                uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize));
+
+                r = new ulong[steps];
+                for (uint i = 0; i < r.Length; i++)
+                    r[i] = (ulong)(a +  i * stepSize);
+            }
+            else
+            {
+                if (stepSize > 0)
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(a - b) / (double)stepSize));
+                    r = new ulong[steps];
+                    for (uint i = 0; i < r.Length; i++)
+                        r[i] = (ulong)(a - i * stepSize);
+                }
+                else
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize));
+                    r = new ulong[steps];
+                    for (uint i = 0; i < r.Length; i++)
+                        r[i] = (ulong)(a + i * stepSize);
+                }
+            }
+
+            if (a < b)
+            {
+                if (r[r.Length - 1] > b)
+                    r[r.Length - 1] = b;
+            }
+            else
+            {
+                if (r[r.Length - 1] > a)
+                    r[r.Length - 1] = a;
+            }
+
+            return r;
+        }
+
+        /// <summary>
+        ///   Enumerates through a range (like Python's xrange function).
+        /// </summary>
+        /// 
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+        /// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static IEnumerable<ulong> EnumerableRange(ulong a, ulong b, ulong stepSize)
+        {
+            if (a == b)
+                yield break;
+
+            if (stepSize == 0)
+                throw new ArgumentOutOfRangeException("stepSize", "stepSize must be different from zero.");
+
+            ulong last;
+
+            if (a < b)
+            {
+                if (stepSize < 0)
+                    throw new ArgumentOutOfRangeException("stepSize", "If a < b, stepSize must be positive.");
+
+                uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize)) - 1;
+                for (uint i = 0; i < steps; i++)
+                    yield return (ulong)(a +  i * stepSize);
+                last = (ulong)(a +  steps * stepSize);
+            }
+            else
+            {
+                if (stepSize > 0)
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(a - b) / (double)stepSize)) - 1;
+                    for (uint i = 0; i < steps; i++)
+                        yield return (ulong)(a - i * stepSize);
+                    last = (ulong)(a - steps * stepSize);
+                }
+                else
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize)) - 1;
+                    for (uint i = 0; i < steps; i++)
+                        yield return (ulong)(a + i * stepSize);
+                    last = (ulong)(a + steps * stepSize);
+                }
+            }
+
+            if (a < b)
+            {
+                yield return last > b ? b : last;
+            }
+            else
+            {
+                yield return last > a ? a : last;
+            }
+        }
+
+        /// <summary>
+        ///   Creates a range vector (like NumPy's arange function).
+        /// </summary>
+        /// 
+        /// <param name="n">The exclusive upper bound of the range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
         public static ushort[] Range(ushort n)
         {
             ushort[] r = new ushort[(int)n]; 
@@ -1227,13 +6353,29 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Creates a range vector.
+        ///   Creates a range vector (like NumPy's arange function).
         /// </summary>
-        /// 
+        ///
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
         public static ushort[] Range(ushort a, ushort b)
         {
             if (a == b)
-                return new [] { a };
+                return new ushort[] { };
 
             ushort[] r;
 
@@ -1247,50 +6389,31 @@ namespace Accord.Math
             {
                 r = new ushort[(int)(a - b)];
                 for (int i = 0; i < r.Length; i++)
-                    r[i] = (ushort)(a-- - 1);
+                    r[i] = (ushort)(a--);
             }
 
             return r;
         }
 
         /// <summary>
-        ///   Creates an interval vector.
+        ///   Enumerates through a range (like Python's xrange function).
         /// </summary>
         /// 
-        public static ushort[] Range(ushort a, ushort b, ushort stepSize)
-        {
-            if (a == b)
-                return new [] { a };
-
-            ushort[] r;
-
-            if (b > a)
-            {
-                int steps = (int)System.Math.Ceiling((b - a) / (double)stepSize);
-                r = new ushort[steps];
-                for (uint i = 0; i < r.Length; i++)
-                    r[i] = (ushort)(a +  i * stepSize);
-                r[steps - 1] = (ushort)(b);
-            }
-            else
-            {
-                int steps = (int)System.Math.Ceiling((a - b) / (double)stepSize);
-                r = new ushort[steps];
-                for (uint i = 0; i < r.Length; i++)
-                    r[i] = (ushort)(a - i * stepSize);
-                r[steps - 1] = (ushort)(b);
-            }
-
-            return r;
-        }
-
-
-
-
-		/// <summary>
-        ///   Creates a range enumeration (similar to NumPy's xrange).
-        /// </summary>
-        /// 
+        /// <param name="n">The exclusive upper bound of the range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
         public static IEnumerable<ushort> EnumerableRange(ushort n)
         {
             for (ushort i = 0; i < n; i++)
@@ -1298,13 +6421,29 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Creates a range enumeration (similar to NumPy's xrange).
+        ///   Enumerates through a range (like Python's xrange).
         /// </summary>
         /// 
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
         public static IEnumerable<ushort> EnumerableRange(ushort a, ushort b)
         {
             if (a == b)
-                yield return a;
+                yield break;
 
             if (b > a)
             {
@@ -1316,103 +6455,892 @@ namespace Accord.Math
             {
                 int n = (int)(a - b);
                 for (int i = 0; i < n; i++)
-                    yield return (ushort)(a-- - 1);
+                    yield return (ushort)(a--);
             }
         }
 
+
         /// <summary>
-        ///   Creates an interval enumeration (similar to NumPy's xrange).
+        ///   Creates a range vector (like NumPy's arange function).
         /// </summary>
         /// 
-        public static IEnumerable<ushort> EnumerableRange(ushort a, ushort b, ushort stepSize)
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+        /// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static float[] Range(ushort a, ushort b, float stepSize)
         {
             if (a == b)
-                yield return a;
+                return new float[] { };
 
-            if (b > a)
+            if (stepSize == 0)
+                throw new ArgumentOutOfRangeException("stepSize", "stepSize must be different from zero.");
+
+            float[] r;
+
+            if (a < b)
             {
-                int steps = (int)System.Math.Ceiling((b - a) / (double)stepSize);
-                for (uint i = 0; i < steps; i++)
-                    yield return (ushort)(a +  i * stepSize);
-                yield return (ushort)(b);
+                if (stepSize < 0)
+                    throw new ArgumentOutOfRangeException("stepSize", "If a < b, stepSize must be positive.");
+
+                uint steps = (uint)System.Math.Ceiling(((float)(b - a) / (float)stepSize));
+
+                r = new float[steps];
+                for (uint i = 0; i < r.Length; i++)
+                    r[i] = (float)(a +  i * stepSize);
             }
             else
             {
-                int steps = (int)System.Math.Ceiling((a - b) / (double)stepSize);
+                if (stepSize > 0)
+                {
+                    uint steps = (uint)System.Math.Ceiling(((float)(a - b) / (float)stepSize));
+                    r = new float[steps];
+                    for (uint i = 0; i < r.Length; i++)
+                        r[i] = (float)(a - i * stepSize);
+                }
+                else
+                {
+                    uint steps = (uint)System.Math.Ceiling(((float)(b - a) / (float)stepSize));
+                    r = new float[steps];
+                    for (uint i = 0; i < r.Length; i++)
+                        r[i] = (float)(a + i * stepSize);
+                }
+            }
+
+            if (a < b)
+            {
+                if (r[r.Length - 1] > b)
+                    r[r.Length - 1] = b;
+            }
+            else
+            {
+                if (r[r.Length - 1] > a)
+                    r[r.Length - 1] = a;
+            }
+
+            return r;
+        }
+
+        /// <summary>
+        ///   Enumerates through a range (like Python's xrange function).
+        /// </summary>
+        /// 
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+        /// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static IEnumerable<float> EnumerableRange(ushort a, ushort b, float stepSize)
+        {
+            if (a == b)
+                yield break;
+
+            if (stepSize == 0)
+                throw new ArgumentOutOfRangeException("stepSize", "stepSize must be different from zero.");
+
+            float last;
+
+            if (a < b)
+            {
+                if (stepSize < 0)
+                    throw new ArgumentOutOfRangeException("stepSize", "If a < b, stepSize must be positive.");
+
+                uint steps = (uint)System.Math.Ceiling(((float)(b - a) / (float)stepSize)) - 1;
                 for (uint i = 0; i < steps; i++)
-                    yield return (ushort)(a - i * stepSize);
-                yield return (ushort)(b);
+                    yield return (float)(a +  i * stepSize);
+                last = (float)(a +  steps * stepSize);
+            }
+            else
+            {
+                if (stepSize > 0)
+                {
+                    uint steps = (uint)System.Math.Ceiling(((float)(a - b) / (float)stepSize)) - 1;
+                    for (uint i = 0; i < steps; i++)
+                        yield return (float)(a - i * stepSize);
+                    last = (float)(a - steps * stepSize);
+                }
+                else
+                {
+                    uint steps = (uint)System.Math.Ceiling(((float)(b - a) / (float)stepSize)) - 1;
+                    for (uint i = 0; i < steps; i++)
+                        yield return (float)(a + i * stepSize);
+                    last = (float)(a + steps * stepSize);
+                }
+            }
+
+            if (a < b)
+            {
+                yield return last > b ? b : last;
+            }
+            else
+            {
+                yield return last > a ? a : last;
             }
         }
 
         /// <summary>
-        ///   Creates an interval vector.
+        ///   Creates a range vector (like NumPy's arange function).
         /// </summary>
         /// 
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+        /// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static double[] Range(ushort a, ushort b, double stepSize)
+        {
+            if (a == b)
+                return new double[] { };
+
+            if (stepSize == 0)
+                throw new ArgumentOutOfRangeException("stepSize", "stepSize must be different from zero.");
+
+            double[] r;
+
+            if (a < b)
+            {
+                if (stepSize < 0)
+                    throw new ArgumentOutOfRangeException("stepSize", "If a < b, stepSize must be positive.");
+
+                uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize));
+
+                r = new double[steps];
+                for (uint i = 0; i < r.Length; i++)
+                    r[i] = (double)(a +  i * stepSize);
+            }
+            else
+            {
+                if (stepSize > 0)
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(a - b) / (double)stepSize));
+                    r = new double[steps];
+                    for (uint i = 0; i < r.Length; i++)
+                        r[i] = (double)(a - i * stepSize);
+                }
+                else
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize));
+                    r = new double[steps];
+                    for (uint i = 0; i < r.Length; i++)
+                        r[i] = (double)(a + i * stepSize);
+                }
+            }
+
+            if (a < b)
+            {
+                if (r[r.Length - 1] > b)
+                    r[r.Length - 1] = b;
+            }
+            else
+            {
+                if (r[r.Length - 1] > a)
+                    r[r.Length - 1] = a;
+            }
+
+            return r;
+        }
+
+        /// <summary>
+        ///   Enumerates through a range (like Python's xrange function).
+        /// </summary>
+        /// 
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+        /// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static IEnumerable<double> EnumerableRange(ushort a, ushort b, double stepSize)
+        {
+            if (a == b)
+                yield break;
+
+            if (stepSize == 0)
+                throw new ArgumentOutOfRangeException("stepSize", "stepSize must be different from zero.");
+
+            double last;
+
+            if (a < b)
+            {
+                if (stepSize < 0)
+                    throw new ArgumentOutOfRangeException("stepSize", "If a < b, stepSize must be positive.");
+
+                uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize)) - 1;
+                for (uint i = 0; i < steps; i++)
+                    yield return (double)(a +  i * stepSize);
+                last = (double)(a +  steps * stepSize);
+            }
+            else
+            {
+                if (stepSize > 0)
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(a - b) / (double)stepSize)) - 1;
+                    for (uint i = 0; i < steps; i++)
+                        yield return (double)(a - i * stepSize);
+                    last = (double)(a - steps * stepSize);
+                }
+                else
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize)) - 1;
+                    for (uint i = 0; i < steps; i++)
+                        yield return (double)(a + i * stepSize);
+                    last = (double)(a + steps * stepSize);
+                }
+            }
+
+            if (a < b)
+            {
+                yield return last > b ? b : last;
+            }
+            else
+            {
+                yield return last > a ? a : last;
+            }
+        }
+
+        /// <summary>
+        ///   Creates a range vector (like NumPy's arange function).
+        /// </summary>
+        /// 
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+        /// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static ushort[] Range(ushort a, ushort b, ushort stepSize)
+        {
+            if (a == b)
+                return new ushort[] { };
+
+            if (stepSize == 0)
+                throw new ArgumentOutOfRangeException("stepSize", "stepSize must be different from zero.");
+
+            ushort[] r;
+
+            if (a < b)
+            {
+                if (stepSize < 0)
+                    throw new ArgumentOutOfRangeException("stepSize", "If a < b, stepSize must be positive.");
+
+                uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize));
+
+                r = new ushort[steps];
+                for (uint i = 0; i < r.Length; i++)
+                    r[i] = (ushort)(a +  i * stepSize);
+            }
+            else
+            {
+                if (stepSize > 0)
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(a - b) / (double)stepSize));
+                    r = new ushort[steps];
+                    for (uint i = 0; i < r.Length; i++)
+                        r[i] = (ushort)(a - i * stepSize);
+                }
+                else
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize));
+                    r = new ushort[steps];
+                    for (uint i = 0; i < r.Length; i++)
+                        r[i] = (ushort)(a + i * stepSize);
+                }
+            }
+
+            if (a < b)
+            {
+                if (r[r.Length - 1] > b)
+                    r[r.Length - 1] = b;
+            }
+            else
+            {
+                if (r[r.Length - 1] > a)
+                    r[r.Length - 1] = a;
+            }
+
+            return r;
+        }
+
+        /// <summary>
+        ///   Enumerates through a range (like Python's xrange function).
+        /// </summary>
+        /// 
+        /// <param name="a">The inclusive lower bound of the range.</param>
+        /// <param name="b">The exclusive upper bound of the range.</param>
+        /// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static IEnumerable<ushort> EnumerableRange(ushort a, ushort b, ushort stepSize)
+        {
+            if (a == b)
+                yield break;
+
+            if (stepSize == 0)
+                throw new ArgumentOutOfRangeException("stepSize", "stepSize must be different from zero.");
+
+            ushort last;
+
+            if (a < b)
+            {
+                if (stepSize < 0)
+                    throw new ArgumentOutOfRangeException("stepSize", "If a < b, stepSize must be positive.");
+
+                uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize)) - 1;
+                for (uint i = 0; i < steps; i++)
+                    yield return (ushort)(a +  i * stepSize);
+                last = (ushort)(a +  steps * stepSize);
+            }
+            else
+            {
+                if (stepSize > 0)
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(a - b) / (double)stepSize)) - 1;
+                    for (uint i = 0; i < steps; i++)
+                        yield return (ushort)(a - i * stepSize);
+                    last = (ushort)(a - steps * stepSize);
+                }
+                else
+                {
+                    uint steps = (uint)System.Math.Ceiling(((double)(b - a) / (double)stepSize)) - 1;
+                    for (uint i = 0; i < steps; i++)
+                        yield return (ushort)(a + i * stepSize);
+                    last = (ushort)(a + steps * stepSize);
+                }
+            }
+
+            if (a < b)
+            {
+                yield return last > b ? b : last;
+            }
+            else
+            {
+                yield return last > a ? a : last;
+            }
+        }
+
+        /// <summary>
+        ///   Creates a range vector (like NumPy's arange function).
+        /// </summary>
+        /// 
+        /// <param name="range">The range from where values should be created.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
         public static double[] Range(this DoubleRange range)
         {
             return Range(range.Min, range.Max);
         }
 
         /// <summary>
-        ///   Creates an interval vector.
+        ///   Creates a range vector (like NumPy's arange function).
         /// </summary>
         /// 
+        /// <param name="range">The range from where values should be created.</param>
+		/// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
         public static double[] Range(this DoubleRange range, double stepSize)
+        {
+            return Range(range.Min, range.Max, stepSize);
+        }
+        /// <summary>
+        ///   Creates a range vector (like NumPy's arange function).
+        /// </summary>
+        /// 
+        /// <param name="range">The range from where values should be created.</param>
+		/// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static double[] Range(this DoubleRange range, float stepSize)
+        {
+            return Range(range.Min, range.Max, stepSize);
+        }
+        /// <summary>
+        ///   Creates a range vector (like NumPy's arange function).
+        /// </summary>
+        /// 
+        /// <param name="range">The range from where values should be created.</param>
+		/// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static double[] Range(this DoubleRange range, byte stepSize)
+        {
+            return Range(range.Min, range.Max, stepSize);
+        }
+        /// <summary>
+        ///   Creates a range vector (like NumPy's arange function).
+        /// </summary>
+        /// 
+        /// <param name="range">The range from where values should be created.</param>
+		/// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static double[] Range(this DoubleRange range, int stepSize)
         {
             return Range(range.Min, range.Max, stepSize);
         }
 
         /// <summary>
-        ///   Creates an interval vector.
+        ///   Creates a range vector (like NumPy's arange function).
         /// </summary>
         /// 
+        /// <param name="range">The range from where values should be created.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
         public static float[] Range(this Range range)
         {
             return Range(range.Min, range.Max);
         }
 
         /// <summary>
-        ///   Creates an interval vector.
+        ///   Creates a range vector (like NumPy's arange function).
         /// </summary>
         /// 
+        /// <param name="range">The range from where values should be created.</param>
+		/// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static double[] Range(this Range range, double stepSize)
+        {
+            return Range(range.Min, range.Max, stepSize);
+        }
+        /// <summary>
+        ///   Creates a range vector (like NumPy's arange function).
+        /// </summary>
+        /// 
+        /// <param name="range">The range from where values should be created.</param>
+		/// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
         public static float[] Range(this Range range, float stepSize)
+        {
+            return Range(range.Min, range.Max, stepSize);
+        }
+        /// <summary>
+        ///   Creates a range vector (like NumPy's arange function).
+        /// </summary>
+        /// 
+        /// <param name="range">The range from where values should be created.</param>
+		/// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static float[] Range(this Range range, byte stepSize)
+        {
+            return Range(range.Min, range.Max, stepSize);
+        }
+        /// <summary>
+        ///   Creates a range vector (like NumPy's arange function).
+        /// </summary>
+        /// 
+        /// <param name="range">The range from where values should be created.</param>
+		/// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static float[] Range(this Range range, int stepSize)
         {
             return Range(range.Min, range.Max, stepSize);
         }
 
         /// <summary>
-        ///   Creates an interval vector.
+        ///   Creates a range vector (like NumPy's arange function).
         /// </summary>
         /// 
+        /// <param name="range">The range from where values should be created.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
         public static byte[] Range(this ByteRange range)
         {
             return Range(range.Min, range.Max);
         }
 
         /// <summary>
-        ///   Creates an interval vector.
+        ///   Creates a range vector (like NumPy's arange function).
         /// </summary>
         /// 
+        /// <param name="range">The range from where values should be created.</param>
+		/// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static double[] Range(this ByteRange range, double stepSize)
+        {
+            return Range(range.Min, range.Max, stepSize);
+        }
+        /// <summary>
+        ///   Creates a range vector (like NumPy's arange function).
+        /// </summary>
+        /// 
+        /// <param name="range">The range from where values should be created.</param>
+		/// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static float[] Range(this ByteRange range, float stepSize)
+        {
+            return Range(range.Min, range.Max, stepSize);
+        }
+        /// <summary>
+        ///   Creates a range vector (like NumPy's arange function).
+        /// </summary>
+        /// 
+        /// <param name="range">The range from where values should be created.</param>
+		/// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
         public static byte[] Range(this ByteRange range, byte stepSize)
         {
             return Range(range.Min, range.Max, stepSize);
         }
 
         /// <summary>
-        ///   Creates an interval vector.
+        ///   Creates a range vector (like NumPy's arange function).
         /// </summary>
         /// 
+        /// <param name="range">The range from where values should be created.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
         public static int[] Range(this IntRange range)
         {
             return Range(range.Min, range.Max);
         }
 
         /// <summary>
-        ///   Creates an interval vector.
+        ///   Creates a range vector (like NumPy's arange function).
         /// </summary>
         /// 
-        public static int[] Range(this IntRange range, double stepSize)
+        /// <param name="range">The range from where values should be created.</param>
+		/// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static double[] Range(this IntRange range, double stepSize)
+        {
+            return Range(range.Min, range.Max, stepSize);
+        }
+        /// <summary>
+        ///   Creates a range vector (like NumPy's arange function).
+        /// </summary>
+        /// 
+        /// <param name="range">The range from where values should be created.</param>
+		/// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static float[] Range(this IntRange range, float stepSize)
+        {
+            return Range(range.Min, range.Max, stepSize);
+        }
+        /// <summary>
+        ///   Creates a range vector (like NumPy's arange function).
+        /// </summary>
+        /// 
+        /// <param name="range">The range from where values should be created.</param>
+		/// <param name="stepSize">The step size to be taken between elements. 
+        ///   This parameter can be negative to create a decreasing range.</param>
+		///
+        /// <remarks>
+        /// <para>
+        ///   The Range methods should be equivalent to NumPy's np.arange method, with one
+        ///   single difference: when the intervals are inverted (i.e. a > b) and the step
+        ///   size is negative, the framework still iterates over the range backwards, as 
+        ///   if the step was negative.</para>
+        /// <para>
+        ///   This function never includes the upper bound of the range. For methods
+        ///   that include it, please see the <see cref="Interval(int, int)"/> methods.</para>  
+        /// </remarks>
+        ///
+        /// <seealso cref="Interval(int, int)"/>
+        ///
+        public static int[] Range(this IntRange range, int stepSize)
         {
             return Range(range.Min, range.Max, stepSize);
         }

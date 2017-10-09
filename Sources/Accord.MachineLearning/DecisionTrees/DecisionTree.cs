@@ -155,7 +155,14 @@ namespace Accord.MachineLearning.DecisionTrees
         /// 
         public override int Decide(int[] input)
         {
-            return decideIterative(input, Root);
+            try
+            {
+                return decideIterative(input, Root);
+            }
+            catch
+            {
+                return decideRecursive(input.ToDouble(), Root, new int[NumberOfClasses]).ArgMax();
+            }
         }
 
         /// <summary>
@@ -219,19 +226,26 @@ namespace Accord.MachineLearning.DecisionTrees
             if (subtree.Owner != this)
                 throw new ArgumentException("The node does not belong to this tree.", "subtree");
 
-            // Check the instance contains missing values
-            if (input.HasNaN())
+            try
             {
-                // Yes, the instance contains missing values. We will need to generate all possible 
-                // tree paths considering the diffent values that this value could have assumed, and
-                // take the most likely answer as the final decision for this sample.
+                // Check the instance contains missing values
+                if (input.HasNaN())
+                {
+                    // Yes, the instance contains missing values. We will need to generate all possible 
+                    // tree paths considering the diffent values that this value could have assumed, and
+                    // take the most likely answer as the final decision for this sample.
 
-                return decideRecursive(input, subtree, new int[NumberOfClasses]).ArgMax();
+                    return decideRecursive(input, subtree, new int[NumberOfClasses]).ArgMax();
+                }
+                else
+                {
+                    // No missing values, proceed as normal:
+                    return decideIterative(input, subtree);
+                }
             }
-            else
+            catch
             {
-                // No missing values, proceed as normal:
-                return decideIterative(input, subtree);
+                return decideRecursive(input, subtree, new int[NumberOfClasses]).ArgMax();
             }
         }
 
@@ -383,8 +397,7 @@ namespace Accord.MachineLearning.DecisionTrees
             }
 
             // Normal execution should not reach here.
-            throw new InvalidOperationException("The tree is degenerated. This is often a sign that "
-                + "the tree is expecting discrete inputs, but it was given only real values.");
+            return answerCounts;
         }
 
 
@@ -719,7 +732,7 @@ namespace Accord.MachineLearning.DecisionTrees
         [OnDeserialized]
         private void OnDeserialized(StreamingContext context)
         {
-            if (Root.Owner == null)
+            if (Root != null && Root.Owner == null)
                 Root.Owner = this;
         }
 

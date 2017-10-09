@@ -3,7 +3,7 @@
   <PropertyGroup>
     <RootNamespace>Accord.Tests.IO</RootNamespace>
     <AssemblyName>Accord.Tests.IO</AssemblyName>
-    <TargetFrameworks>netcoreapp2.0;netcoreapp1.1</TargetFrameworks>
+    <TargetFrameworks>netcoreapp2.0;netcoreapp1.1<!--;net462--></TargetFrameworks>
   </PropertyGroup>
 
   <Import Project="$(SolutionDir)../Unit Tests/Accord.Tests (NETStandard).targets" />
@@ -127,6 +127,12 @@
     <None Update="Resources\t10k-images-idx3-ubyte.gz">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="Microsoft.NET.Test.Sdk" Version="15.3.0" />
+    <PackageReference Update="NUnit" Version="3.8.1" />
+    <PackageReference Update="NUnit.Console" Version="3.7.0" />
   </ItemGroup>
 
 </Project>

@@ -30,15 +30,39 @@ namespace Accord.Statistics.Filters
     ///   Column option collection.
     /// </summary>
     /// 
+    /// <typeparam name="TFilter">The type of the filter that this collection belongs to.</typeparam>
+    /// <typeparam name="TOptions">The type of the column options that will be used by the 
+    ///   <typeparamref name="TFilter"/> to determine how to process a particular column.</typeparam>
+    /// 
     [Serializable]
-    public class ColumnOptionCollection<T> : KeyedCollection<String, T>
-        where T : ColumnOptionsBase
+    public class ColumnOptionCollection<TOptions, TFilter> : KeyedCollection<String, TOptions>
+        where TOptions : ColumnOptionsBase<TFilter>
     {
+
+        /// <summary>
+        ///   Occurs when a new <typeparamref name="TOptions"/> is being 
+        ///   added to the collection. Handlers of this event can prevent a column
+        ///   options from being added by throwing an exception.
+        /// </summary>
+        /// 
+#if !NET35 && !NET40
+        public event EventHandler<TOptions> AddingNew;
+#else
+        public event ColumnOptionsEventHandler AddingNew;
+
+        /// <summary>
+        ///   Compatibility event args for the <see cref="AddingNew"/> event. This
+        ///   is only required and used for the .NET 3.5 version of the framework.
+        /// </summary>
+        /// 
+        public delegate void ColumnOptionsEventHandler(object sender, TOptions options);
+#endif
+
         /// <summary>
         ///   Extracts the key from the specified column options.
         /// </summary>
         /// 
-        protected override string GetKeyForItem(T item)
+        protected override string GetKeyForItem(TOptions item)
         {
             return item.ColumnName;
         }
@@ -51,8 +75,11 @@ namespace Accord.Statistics.Filters
         /// 
         /// <returns>The added column options.</returns>
         /// 
-        new public T Add(T options)
+        new public TOptions Add(TOptions options)
         {
+            if (AddingNew != null)
+                AddingNew(this, options);
+
             base.Add(options);
             return options;
         }
@@ -66,7 +93,7 @@ namespace Accord.Statistics.Filters
         /// 
         /// <returns>True if the options was contained in the collection; false otherwise.</returns>
         /// 
-        public bool TryGetValue(String columnName, out T options)
+        public bool TryGetValue(String columnName, out TOptions options)
         {
             return base.Dictionary.TryGetValue(columnName, out options);
         }

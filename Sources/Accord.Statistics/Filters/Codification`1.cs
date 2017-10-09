@@ -27,10 +27,15 @@ namespace Accord.Statistics.Filters
     using MachineLearning;
     using System.Data;
     using Accord.Compat;
+    using System.Runtime.Serialization;
+    using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     ///   Codification Filter class.
     /// </summary>
+    /// 
+    /// <typeparam name="T">The object type that needs to be codified. Default is <c>string</c>.</typeparam>
     /// 
     /// <remarks>
     /// <para>
@@ -48,19 +53,26 @@ namespace Accord.Statistics.Filters
     ///   Codification class to perform such pre-processing.</para>
     ///   
     ///   <code source="Unit Tests\Accord.Tests.MachineLearning\VectorMachines\MulticlassSupportVectorLearningTest.cs" region="doc_learn_codification" />
-    /// </example>
     /// 
     /// <para>
     ///   Most classifiers in the framework also expect the input data to be of the same nature, i.e. continuous. 
     ///   The codification filter can also be used to convert discrete, categorical, ordinal and baseline categorical
     ///   variables into continuous vectors that can be fed to other machine learning algorithms, such as K-Means:.</para>
     ///   <code source="Unit Tests\Accord.Tests.MachineLearning\Clustering\KMeansTest.cs" region="doc_learn_mixed" />
+    ///   
+    /// <para>
+    ///   For more examples, please see the documentation page for the non-generic <see cref="Codification"/> filter.</para>
+    /// </example>
     /// 
     /// <seealso cref="Codification"/>
     /// <seealso cref="Discretization{TInput, TOutput}"/>
     /// 
     [Serializable]
-    public partial class Codification<T> : BaseFilter<Codification<T>.Options>,
+#if NETSTANDARD2_0
+    [SurrogateSelector(typeof(Codification.Selector))]
+#endif
+    public partial class Codification<T> : BaseFilter<Codification<T>.Options, Codification<T>>,
+        // TODO: It may be better if the codification filter could transform T in T (instead of int or double)
         ITransform<T[], double[]>, IUnsupervisedLearning<Codification<T>, T[], double[]>,
         ITransform<T[], int[]>, IUnsupervisedLearning<Codification<T>, T[], int[]>
     {
@@ -85,7 +97,6 @@ namespace Accord.Statistics.Filters
                     total += col.NumberOfSymbols;
                 return total;
             }
-            set { throw new InvalidOperationException("This property is read only."); }
         }
 
         /// <summary>
@@ -115,7 +126,7 @@ namespace Accord.Statistics.Filters
             : this()
         {
             for (int i = 0; i < columns.Length; i++)
-                Columns.Add(new Options(columns[i]).Learn(data));
+                this.Add(new Options(columns[i]).Learn(data));
         }
 #endif
 
@@ -126,7 +137,7 @@ namespace Accord.Statistics.Filters
         public Codification(string columnName, params T[] values)
             : this()
         {
-            Columns.Add(new Options(columnName).Learn(values));
+            this.Add(new Options(columnName).Learn(values));
         }
 
         /// <summary>
@@ -137,7 +148,7 @@ namespace Accord.Statistics.Filters
             : this()
         {
             for (int i = 0; i < columnNames.Length; i++)
-                Columns.Add(new Options(columnNames[i]).Learn(values.GetColumn(i)));
+                this.Add(new Options(columnNames[i]).Learn(values.GetColumn(i)));
         }
 
         /// <summary>
@@ -147,7 +158,7 @@ namespace Accord.Statistics.Filters
         public Codification(string columnName, T[][] values)
             : this()
         {
-            Columns.Add(new Options(columnName).Learn(values.Concatenate()));
+            this.Add(new Options(columnName).Learn(values.Concatenate()));
         }
 
         /// <summary>
@@ -159,6 +170,12 @@ namespace Accord.Statistics.Filters
         {
             get { return this.defaultMissingValueReplacement; }
             set { this.defaultMissingValueReplacement = value; }
+        }
+
+        int ITransform.NumberOfOutputs
+        {
+            get { return NumberOfOutputs; }
+            set { throw new InvalidOperationException("This property is read only."); }
         }
 
         /// <summary>
@@ -221,11 +238,129 @@ namespace Accord.Statistics.Filters
         /// uniquely identifies the given value for each of
         /// the variables.</returns>
         /// 
-        public int[] Transform(DataRow row, params string[] columnNames)
+        public int[] Transform(DataRow row, string[] columnNames)
         {
-            var result = new int[columnNames.Length];
-            for (int i = 0; i < columnNames.Length; i++)
-                result[i] = this.Columns[columnNames[i]].Transform(row);
+            string[] newColumnNames;
+            return Transform(row, columnNames, out newColumnNames);
+        }
+
+        /// <summary>
+        ///   Translates an array of values into their
+        ///   integer representation, assuming values
+        ///   are given in original order of columns.
+        /// </summary>
+        /// 
+        /// <param name="row">A <see cref="DataRow"/> containing the values to be translated.</param>
+        /// <param name="columnNames">The columns of the <paramref name="row"/> containing the
+        /// values to be translated.</param>
+        /// <param name="newColumnNames">The updated column names after the data has been translated.</param>
+        /// 
+        /// <returns>An array of integers in which each value
+        /// uniquely identifies the given value for each of
+        /// the variables.</returns>
+        /// 
+        public int[] Transform(DataRow row, string[] columnNames, out string[] newColumnNames)
+        {
+            int length = 0;
+            foreach (string columnName in columnNames)
+                length += Columns[columnName].NumberOfOutputs;
+
+            int[] result = new int[length];
+            newColumnNames = new string[length];
+
+            int c = 0;
+            foreach (string columnName in columnNames)
+            {
+                Options options = Columns[columnName];
+                object x = row[columnName];
+
+                if ((options.VariableType == CodificationVariable.Continuous) ||
+                    (options.VariableType == CodificationVariable.Discrete))
+                {
+                    newColumnNames[c] = options.ColumnName;
+                    result[c++] = (int)System.Convert.ChangeType(x, typeof(int));
+                }
+                else if (options.VariableType == CodificationVariable.CategoricalWithBaseline)
+                {
+                    for (int k = 0; k < options.NumberOfOutputs; k++)
+                    {
+                        newColumnNames[c + k] = getFactorName(options, options.Mapping.Reverse[k + 1]);
+                        result[c + k] = 0;
+                    }
+
+                    int j = options.Transform(row);
+                    if (j >= 1)
+                        result[c + j - 1] = 1;
+                    c += options.NumberOfOutputs;
+                }
+                else if (options.VariableType == CodificationVariable.Categorical)
+                {
+                    for (int k = 0; k < options.NumberOfOutputs; k++)
+                    {
+                        newColumnNames[c + k] = getFactorName(options, options.Mapping.Reverse[k]);
+                        result[c + k] = 0;
+                    }
+
+                    result[c + options.Transform(row)] = 1;
+                    c += options.NumberOfOutputs;
+                }
+                else if (options.VariableType == CodificationVariable.Ordinal)
+                {
+                    newColumnNames[c] = options.ColumnName;
+                    result[c] = options.Transform(row);
+                    c++;
+                }
+                else
+                {
+                    throw new InvalidOperationException("Invalid VariableType. Execution should never reach here.");
+                }
+            }
+
+            return result;
+        }
+
+
+        /// <summary>
+        ///   Translates an array of values into their
+        ///   integer representation, assuming values
+        ///   are given in original order of columns.
+        /// </summary>
+        /// 
+        /// <param name="table">A <see cref="DataTable"/> containing the values to be translated.</param>
+        /// <param name="columnNames">The columns of the <paramref name="table"/> containing the
+        /// values to be translated.</param>
+        /// 
+        /// <returns>An array of integers in which each value
+        /// uniquely identifies the given value for each of
+        /// the variables.</returns>
+        /// 
+        public int[][] Transform(DataTable table, string[] columnNames)
+        {
+            string[] newColumnNames;
+            return Transform(table, columnNames, out newColumnNames);
+        }
+
+        /// <summary>
+        ///   Translates an array of values into their
+        ///   integer representation, assuming values
+        ///   are given in original order of columns.
+        /// </summary>
+        /// 
+        /// <param name="table">A <see cref="DataTable"/> containing the values to be translated.</param>
+        /// <param name="columnNames">The columns of the <paramref name="table"/> containing the
+        /// values to be translated.</param>
+        /// <param name="newColumnNames">The updated column names after the data has been translated.</param>
+        /// 
+        /// <returns>An array of integers in which each value
+        /// uniquely identifies the given value for each of
+        /// the variables.</returns>
+        /// 
+        public int[][] Transform(DataTable table, string[] columnNames, out string[] newColumnNames)
+        {
+            newColumnNames = columnNames;
+            var result = new int[table.Rows.Count][];
+            for (int i = 0; i < table.Rows.Count; i++)
+                result[i] = Transform(table.Rows[i], columnNames, out newColumnNames);
             return result;
         }
 #endif
@@ -359,22 +494,39 @@ namespace Accord.Statistics.Filters
                 int c = 0;
                 for (int i = 0; i < Columns.Count; i++)
                 {
-                    Options col = Columns[i];
+                    Options options = this.Columns[i];
 
-                    if (col.VariableType == CodificationVariable.Continuous)
+                    if (options.VariableType == CodificationVariable.Continuous)
                     {
                         result[j][c++] = (double)System.Convert.ChangeType(x[i], typeof(double));
                     }
-                    else if (col.VariableType == CodificationVariable.Discrete)
+                    else if (options.VariableType == CodificationVariable.Discrete)
                     {
                         result[j][c++] = Math.Round((double)System.Convert.ChangeType(x[i], typeof(double)));
                     }
+                    else if (options.VariableType == CodificationVariable.Ordinal)
+                    {
+                        result[j][c++] = options.Transform(x[i]);
+                    }
+                    else if (options.VariableType == CodificationVariable.Categorical)
+                    {
+                        for (int k = 0; k < options.NumberOfSymbols; k++)
+                            r[c + k] = 0;
+                        r[c + options.Transform(x[i])] = 1;
+                        c += options.NumberOfSymbols;
+                    }
+                    else if (options.VariableType == CodificationVariable.CategoricalWithBaseline)
+                    {
+                        for (int k = 0; k < options.NumberOfSymbols; k++)
+                            r[c + k] = 0;
+                        int m = options.Transform(x[i]);
+                        if (m >= 1)
+                            r[c + m - 1] = 1;
+                        c += options.NumberOfSymbols;
+                    }
                     else
                     {
-                        for (int k = 0; k < col.NumberOfSymbols; k++)
-                            r[c + k] = 0;
-                        r[c + col.Transform(x[i])] = 1;
-                        c += col.NumberOfSymbols;
+                        throw new InvalidOperationException("Unknown variable type: " + options.VariableType);
                     }
                 }
             }
@@ -468,79 +620,86 @@ namespace Accord.Statistics.Filters
             if (!this.initialized)
                 Learn(data);
 
+            var order = new List<DataColumn>();
+
             // For each column having a mapping
-            foreach (Options options in Columns)
+            foreach (DataColumn column in data.Columns)
             {
-                if (!result.Columns.Contains(options.ColumnName))
+                DataColumn currentColumn = result.Columns[column.ColumnName];
+                order.Add(currentColumn);
+
+                if (!this.Columns.Contains(column.ColumnName))
                     continue;
+
+                Options options = this.Columns[column.ColumnName];
 
                 // If we are just converting strings to integer codes
                 if (options.VariableType == CodificationVariable.Ordinal)
                 {
                     // Change its type from string to integer
-                    result.Columns[options.ColumnName].MaxLength = -1;
+                    currentColumn.MaxLength = -1;
                     if (options.HasMissingValue && options.MissingValueReplacement != null && options.MissingValueReplacement != DBNull.Value)
                     {
-                        result.Columns[options.ColumnName].DataType = options.MissingValueReplacement.GetType();
+                        currentColumn.DataType = options.MissingValueReplacement.GetType();
                     }
                     else
                     {
-                        result.Columns[options.ColumnName].DataType = typeof(int);
+                        currentColumn.DataType = typeof(int);
                     }
                 }
 
                 // If we want to avoid implying an order relationship between them
                 else if (options.VariableType == CodificationVariable.Categorical)
                 {
+                    // Remove the column from the schema
+                    order.Remove(currentColumn);
+
                     // Create extra columns for each possible value
-                    for (int i = 0; i < options.NumberOfSymbols; i++)
+                    for (int i = 0; i < options.NumberOfOutputs; i++)
                     {
                         // Except for the first, that should be the baseline value
                         T symbolName = options.Mapping.Reverse[i];
                         string factorName = getFactorName(options, symbolName);
 
-                        result.Columns.Add(new DataColumn(factorName, typeof(int))
+                        order.Add(new DataColumn(factorName, typeof(int))
                         {
                             DefaultValue = 0
                         });
                     }
-
-                    // Remove the column from the schema
-                    result.Columns.Remove(options.ColumnName);
                 }
 
                 // If we want to avoid implying an order relationship between them
                 else if (options.VariableType == CodificationVariable.CategoricalWithBaseline)
                 {
+                    // Remove the column from the schema
+                    order.Remove(currentColumn);
+
                     // Create extra columns for each possible value
-                    for (int i = 1; i < options.NumberOfSymbols; i++)
+                    for (int i = 0; i < options.NumberOfOutputs; i++)
                     {
                         // Except for the first, that should be the baseline value
-                        T symbolName = options.Mapping.Reverse[i];
+                        T symbolName = options.Mapping.Reverse[i + 1];
                         string factorName = getFactorName(options, symbolName);
 
-                        result.Columns.Add(new DataColumn(factorName, typeof(int))
+                        order.Add(new DataColumn(factorName, typeof(int))
                         {
                             DefaultValue = 0
                         });
                     }
-
-                    // Remove the column from the schema
-                    result.Columns.Remove(options.ColumnName);
                 }
 
                 else if (options.VariableType == CodificationVariable.Continuous)
                 {
                     // Change its type from to double
-                    result.Columns[options.ColumnName].MaxLength = -1;
-                    result.Columns[options.ColumnName].DataType = typeof(double);
+                    currentColumn.MaxLength = -1;
+                    currentColumn.DataType = typeof(double);
                 }
 
                 else if (options.VariableType == CodificationVariable.Discrete)
                 {
                     // Change its type from to int
-                    result.Columns[options.ColumnName].MaxLength = -1;
-                    result.Columns[options.ColumnName].DataType = typeof(double);
+                    currentColumn.MaxLength = -1;
+                    currentColumn.DataType = typeof(double);
                 }
 
                 else
@@ -548,6 +707,10 @@ namespace Accord.Statistics.Filters
                     throw new InvalidOperationException("Unknown variable type: " + options.VariableType);
                 }
             }
+
+            // Put the columns back in the same order
+            result.Columns.Clear();
+            result.Columns.AddRange(order.ToArray());
 
 
             // Now for each row on the original table
@@ -662,8 +825,11 @@ namespace Accord.Statistics.Filters
         /// given the input data <paramref name="x" />.</returns>
         public Codification<T> Learn(T[] x, double[] weights = null)
         {
+            if (weights != null)
+                throw new ArgumentException(Accord.Properties.Resources.NotSupportedWeights, "weights");
+
             if (this.Columns.Count == 0)
-                this.Columns.Add(new Options("0"));
+                this.Add(new Options("0"));
             if (this.Columns.Count != 1)
                 throw new Exception("There are more predefined columns than columns in the data.");
 
@@ -683,8 +849,11 @@ namespace Accord.Statistics.Filters
         /// given the input data <paramref name="x" />.</returns>
         public Codification<T> Learn(T[][] x, double[] weights = null)
         {
+            if (weights != null)
+                throw new ArgumentException(Accord.Properties.Resources.NotSupportedWeights, "weights");
+
             for (int i = this.Columns.Count; i < x.Columns(); i++)
-                this.Columns.Add(new Options(i.ToString()));
+                this.Add(new Options(i.ToString()));
             if (this.Columns.Count != x.Columns())
                 throw new Exception("There are more predefined columns than columns in the data.");
 
@@ -706,17 +875,15 @@ namespace Accord.Statistics.Filters
         /// given the input data <paramref name="x" />.</returns>
         public Codification<T> Learn(DataTable x, double[] weights = null)
         {
+            if (weights != null)
+                throw new ArgumentException(Accord.Properties.Resources.NotSupportedWeights, "weights");
+
             foreach (DataColumn col in x.Columns)
             {
                 if (!this.Columns.Contains(col.ColumnName))
                 {
                     if (col.DataType == typeof(T))
-                    {
-                        Columns.Add(new Options(col.ColumnName)
-                        {
-                            MissingValueReplacement = DefaultMissingValueReplacement
-                        });
-                    }
+                        this.Add(new Options(col.ColumnName));
                 }
             }
 
@@ -742,12 +909,80 @@ namespace Accord.Statistics.Filters
         }
 
         /// <summary>
-        ///   Add a new column options definition with the given variable type to the collection.
+        /// Adds a new <see cref="Options">column options</see> to this filter's collection,
+        /// specifying how a particular column should be processed by the filter..
         /// </summary>
         /// 
-        public void Add(CodificationVariable variableType)
+        /// <param name="codificationVariable">The type of the variable to be added.</param>
+        /// 
+        public void Add(CodificationVariable codificationVariable)
         {
-            this.Add(new Options(this.Columns.Count.ToString(), variableType));
+            this.Add(new Options(this.Columns.Count.ToString(), codificationVariable));
+        }
+
+        /// <summary>
+        /// Adds a new <see cref="Options">column options</see> to this filter's collection,
+        /// specifying how a particular column should be processed by the filter..
+        /// </summary>
+        /// 
+        /// <param name="name">The name of the variable to added.</param>
+        /// <param name="codificationVariable">The type of the variable to be added.</param>
+        /// 
+        public void Add(string name, CodificationVariable codificationVariable)
+        {
+            this.Add(new Options(name, codificationVariable));
+        }
+
+        /// <summary>
+        /// Adds a new <see cref="Options">column options</see> to this filter's collection,
+        /// specifying how a particular column should be processed by the filter..
+        /// </summary>
+        /// 
+        /// <param name="name">The name of the variable to added.</param>
+        /// <param name="codificationVariable">The type of the variable to be added.</param>
+        /// <param name="baseline">The baseline value to be used in conjunction with 
+        ///   <see cref="CodificationVariable.CategoricalWithBaseline"/>. The baseline
+        ///   value will be treated as absolute zero in a otherwise one-hot representation.</param>
+        /// 
+        public void Add(string name, CodificationVariable codificationVariable, T baseline)
+        {
+            this.Add(new Options(name, codificationVariable, baseline));
+        }
+
+        /// <summary>
+        /// Adds a new <see cref="Options">column options</see> to this filter's collection,
+        /// specifying how a particular column should be processed by the filter..
+        /// </summary>
+        /// 
+        /// <param name="name">The name of the variable to added.</param>
+        /// <param name="codificationVariable">The type of the variable to be added.</param>
+        /// <param name="order">The order of the variables in the mapping. The first variable
+        ///   will be assigned to position (symbol) 1, the second to position 2, and so on.</param>
+        /// 
+        public void Add(string name, CodificationVariable codificationVariable, T[] order)
+        {
+            this.Add(new Options(name, codificationVariable, order));
+        }
+
+        /// <summary>
+        /// Called when a new column options definition is being added.
+        /// Can be used to validate or modify these options beforehand.
+        /// </summary>
+        /// 
+        /// <param name="options">The column options being added.</param>
+        /// 
+        protected override void OnAddingOptions(Options options)
+        {
+            if (options.Owner != null)
+                throw new ArgumentException("The provided options already belong to another codification object.");
+            options.Owner = this;
+        }
+
+        [OnDeserializedAttribute]
+        private void OnDeserialized(StreamingContext context)
+        {
+            foreach (Options option in this)
+                option.Owner = this;
         }
     }
 }

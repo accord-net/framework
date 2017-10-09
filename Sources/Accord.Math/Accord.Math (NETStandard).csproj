@@ -1,9 +1,9 @@
-﻿<Project Sdk="Microsoft.NET.Sdk"> 
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <AssemblyName>Accord.Math</AssemblyName>
     <RootNamespace>Accord.Math</RootNamespace>
-    <TargetFrameworks>netstandard2.0;netstandard1.4</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;netstandard1.4<!--;net462;net46;net45;net40;net35--></TargetFrameworks>
   </PropertyGroup>
 
   <Import Project="$(SolutionDir)Accord.NET (NETStandard).targets" />
@@ -13,21 +13,38 @@
     <ProjectReference Include="..\Accord.Math.Core\Accord.Math.Core (NETStandard).csproj" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard1.4'">
-    <PackageReference Include="System.Threading.Thread" Version="4.3.0" />
-    <PackageReference Include="System.Threading.Tasks" Version="4.3.0" />
-  </ItemGroup>
+  <Choose>
+    <When Condition="'$(TargetFramework)' == 'netstandard1.4'">
+      <ItemGroup>
+        <PackageReference Include="System.Threading.Thread" Version="4.3.0" />
+        <PackageReference Include="System.Threading.Tasks" Version="4.3.0" />
+      </ItemGroup>
+    </When>
+    <When Condition="'$(TargetFramework)' == 'netstandard2.0'">
+      <ItemGroup>
+        <PackageReference Include="System.Threading.Thread" Version="4.3.0" />
+        <PackageReference Include="System.Threading.Tasks" Version="4.3.0" />
+      </ItemGroup>
+    </When>
+    <When Condition="'$(TargetFramework)' == 'net35' OR '$(TargetFramework)' == 'net40'">
+    </When>
+    <Otherwise>
+      <ItemGroup>
+        <Reference Include="System.IO.Compression" />
+      </ItemGroup>
+    </Otherwise>
+  </Choose>
 
   <ItemGroup>
     <None Update="Decompositions\CholeskyDecomposition.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>CholeskyDecomposition.txt</LastGenOutput>
       <LastOutputs>
-.\CholeskyDecomposition.cs
-.\CholeskyDecomposition.txt
-.\CholeskyDecompositionD.cs
-.\CholeskyDecompositionF.cs
-</LastOutputs>
+        .\CholeskyDecomposition.cs
+        .\CholeskyDecomposition.txt
+        .\CholeskyDecompositionD.cs
+        .\CholeskyDecompositionF.cs
+      </LastOutputs>
     </None>
     <None Update="Decompositions\EigenvalueDecomposition.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -38,15 +55,20 @@
 .\EigenvalueDecompositionF.cs
 </LastOutputs>
     </None>
+    <None Update="Decompositions\EigenvalueDecomposition.txt">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>EigenvalueDecomposition.tt</DependentUpon>
+    </None>
     <None Update="Decompositions\JaggedCholeskyDecomposition.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>JaggedCholeskyDecomposition.txt</LastGenOutput>
       <LastOutputs>
-.\JaggedCholeskyDecomposition.cs
-.\JaggedCholeskyDecomposition.txt
-.\JaggedCholeskyDecompositionD.cs
-.\JaggedCholeskyDecompositionF.cs
-</LastOutputs>
+        .\JaggedCholeskyDecomposition.cs
+        .\JaggedCholeskyDecomposition.txt
+        .\JaggedCholeskyDecompositionD.cs
+        .\JaggedCholeskyDecompositionF.cs
+      </LastOutputs>
     </None>
     <None Update="Decompositions\JaggedEigenvalueDecomposition.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -111,6 +133,11 @@
 .\QrDecompositionD.cs
 .\QrDecompositionF.cs
 </LastOutputs>
+    </None>
+    <None Update="Decompositions\QrDecomposition.txt">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>QrDecomposition.tt</DependentUpon>
     </None>
     <None Update="Decompositions\SingularValueDecomposition.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

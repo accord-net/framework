@@ -50,6 +50,25 @@ namespace Accord.Tests.Math
         }
 
         [Test]
+        [Ignore("Re-enable this test when GH-870 is implemented")]
+        public void ParallelTest_zero_2()
+        {
+            // https://github.com/accord-net/framework/issues/870
+            Accord.Math.Random.Generator.Seed = 0;
+            int n = 100000;
+            var seeds = new int?[n];
+            var values = new int[n];
+            Parallel.For(0, seeds.Length, i =>
+            {
+                seeds[i] = Accord.Math.Random.Generator.ThreadSeed;
+                values[i] = Accord.Math.Random.Generator.Random.Next();
+            });
+
+            Assert.IsTrue(seeds.All(x => x == 0));
+            Assert.IsTrue(values.All(x => x == values[0]));
+        }
+
+        [Test]
         public void ParallelTest_less_than_zero()
         {
             Accord.Math.Random.Generator.Seed = -1;

@@ -813,13 +813,17 @@ namespace Accord.Statistics.Distributions.Univariate
                         f = DistributionFunction(upper);
                     }
                 }
-                else
+                else if (f < p)
                 {
                     while (f < p && !Double.IsInfinity(upper))
                     {
                         upper += 2 * (upper - lower) + 1;
                         f = DistributionFunction(upper);
                     }
+                }
+                else
+                {
+                    return lower;
                 }
             }
 
@@ -838,13 +842,17 @@ namespace Accord.Statistics.Distributions.Univariate
                         f = DistributionFunction(lower);
                     }
                 }
-                else
+                else if (f < p)
                 {
                     while (f < p && !Double.IsInfinity(lower))
                     {
                         lower = lower - 2 * lower;
                         f = DistributionFunction(lower);
                     }
+                }
+                else
+                {
+                    return upper;
                 }
             }
 
@@ -864,7 +872,7 @@ namespace Accord.Statistics.Distributions.Univariate
                         f = DistributionFunction(lower);
                     }
                 }
-                else
+                else if (f < p)
                 {
                     while (f < p && !Double.IsInfinity(upper))
                     {
@@ -872,6 +880,10 @@ namespace Accord.Statistics.Distributions.Univariate
                         upper = 2 * upper + 1;
                         f = DistributionFunction(upper);
                     }
+                }
+                else
+                {
+                    return 0;
                 }
             }
 
@@ -1106,6 +1118,20 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   impact in performance.
         /// </remarks>
         ///   
+        /// <example>
+        /// <para>
+        ///   The following example shows how to fit a <see cref="NormalDistribution"/> using
+        ///   the <see cref="Fit(double[], double[])"/> method. However, any other kind of 
+        ///   distribution could be fit in the exactly same way. Please consider the code below
+        ///   as an example only:</para>
+        /// <code source="Unit Tests\Accord.Tests.Statistics\Distributions\Univariate\Continuous\UnivariateContinuousDistributionTest.cs" region="doc_fit" />
+        /// 
+        /// <para>
+        ///   If you would like futher examples, please take a look at the documentation page
+        ///   for the distribution you would like to fit for more details and configuration
+        ///   options you would like or need to control.</para>
+        /// </example>
+        /// 
         public virtual void Fit(double[] observations)
         {
             Fit(observations, (IFittingOptions)null);
@@ -1128,6 +1154,20 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   double[][] for a univariate distribution may have a negative
         ///   impact in performance.
         /// </remarks>
+        /// 
+        /// <example>
+        /// <para>
+        ///   The following example shows how to fit a <see cref="NormalDistribution"/> using
+        ///   the <see cref="Fit(double[], double[])"/> method. However, any other kind of 
+        ///   distribution could be fit in the exactly same way. Please consider the code below
+        ///   as an example only:</para>
+        /// <code source="Unit Tests\Accord.Tests.Statistics\Distributions\Univariate\Continuous\UnivariateContinuousDistributionTest.cs" region="doc_fit" />
+        /// 
+        /// <para>
+        ///   If you would like futher examples, please take a look at the documentation page
+        ///   for the distribution you would like to fit for more details and configuration
+        ///   options you would like or need to control.</para>
+        /// </example>
         /// 
         public virtual void Fit(double[] observations, double[] weights)
         {
@@ -1152,6 +1192,21 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   impact in performance.
         /// </remarks>
         /// 
+        /// <example>
+        /// <para>
+        ///   The following example shows how to fit a <see cref="NormalDistribution"/> using
+        ///   the <see cref="Fit(double[], double[])"/> method. However, any other kind of 
+        ///   distribution could be fit in the exactly same way. Please consider the code below
+        ///   as an example only:</para>
+        /// <code source="Unit Tests\Accord.Tests.Statistics\Distributions\Univariate\Continuous\UnivariateContinuousDistributionTest.cs" region="doc_fit" />
+        /// 
+        /// <para>
+        ///   If you would like futher examples, please take a look at the documentation page
+        ///   for the distribution you would like to fit for more details and configuration
+        ///   options you would like or need to control.</para>
+        /// </example>
+        /// 
+        /// 
         public virtual void Fit(double[] observations, int[] weights)
         {
             Fit(observations, weights, (IFittingOptions)null);
@@ -1175,6 +1230,20 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   double[][] for a univariate distribution may have a negative
         ///   impact in performance.
         /// </remarks>
+        /// 
+        /// <example>
+        /// <para>
+        ///   The following example shows how to fit a <see cref="NormalDistribution"/> using
+        ///   the <see cref="Fit(double[], double[])"/> method. However, any other kind of 
+        ///   distribution could be fit in the exactly same way. Please consider the code below
+        ///   as an example only:</para>
+        /// <code source="Unit Tests\Accord.Tests.Statistics\Distributions\Univariate\Continuous\UnivariateContinuousDistributionTest.cs" region="doc_fit" />
+        /// 
+        /// <para>
+        ///   If you would like futher examples, please take a look at the documentation page
+        ///   for the distribution you would like to fit for more details and configuration
+        ///   options you would like or need to control.</para>
+        /// </example>
         /// 
         public virtual void Fit(double[] observations, IFittingOptions options)
         {
@@ -1203,6 +1272,20 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   impact in performance.
         /// </remarks>
         /// 
+        /// <example>
+        /// <para>
+        ///   The following example shows how to fit a <see cref="NormalDistribution"/> using
+        ///   the <see cref="Fit(double[], double[])"/> method. However, any other kind of 
+        ///   distribution could be fit in the exactly same way. Please consider the code below
+        ///   as an example only:</para>
+        /// <code source="Unit Tests\Accord.Tests.Statistics\Distributions\Univariate\Continuous\UnivariateContinuousDistributionTest.cs" region="doc_fit" />
+        /// 
+        /// <para>
+        ///   If you would like futher examples, please take a look at the documentation page
+        ///   for the distribution you would like to fit for more details and configuration
+        ///   options you would like or need to control.</para>
+        /// </example>
+        /// 
         public virtual void Fit(double[] observations, double[] weights, IFittingOptions options)
         {
             throw new NotSupportedException();
@@ -1229,6 +1312,20 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   double[][] for a univariate distribution may have a negative
         ///   impact in performance.
         /// </remarks>
+        /// 
+        /// <example>
+        /// <para>
+        ///   The following example shows how to fit a <see cref="NormalDistribution"/> using
+        ///   the <see cref="Fit(double[], double[])"/> method. However, any other kind of 
+        ///   distribution could be fit in the exactly same way. Please consider the code below
+        ///   as an example only:</para>
+        /// <code source="Unit Tests\Accord.Tests.Statistics\Distributions\Univariate\Continuous\UnivariateContinuousDistributionTest.cs" region="doc_fit" />
+        /// 
+        /// <para>
+        ///   If you would like futher examples, please take a look at the documentation page
+        ///   for the distribution you would like to fit for more details and configuration
+        ///   options you would like or need to control.</para>
+        /// </example>
         /// 
         public virtual void Fit(double[] observations, int[] weights, IFittingOptions options)
         {

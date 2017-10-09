@@ -39,6 +39,7 @@ namespace Accord.Tests.MachineLearning
     using Accord.IO;
     using Accord.Tests.MachineLearning.Properties;
     using System.Data;
+    using Accord.DataSets;
 
     [TestFixture]
     public class MulticlassSupportVectorLearningTest
@@ -156,6 +157,88 @@ namespace Accord.Tests.MachineLearning
             Assert.IsTrue(ovo.Scores(inputs[0]).IsEqual(new double[] { 0.62, -0.25, -0.59, -0.62 }, 1e-2));
             Assert.IsTrue(ovo.Scores(inputs[1]).IsEqual(new double[] { -0.62, -0.57, -0.13, 0.62 }, 1e-2));
             Assert.IsTrue(ovo.Scores(inputs[2]).IsEqual(new double[] { -0.25, 0.63, -0.63, -0.51 }, 1e-2));
+
+            #region doc_learn_decision_path
+            // The decision process in a multi-class SVM is actually based on a series of
+            // smaller, binary decisions combined together using a one-vs-one strategy. It
+            // is possible to determine the results of each of those internal one-vs-one
+            // decisions using:
+
+            // First, call Decide, Scores, LogLikelihood or Probability methods:
+            int y = ovo.Decide(new double[] { 6, 2, 3 }); // result should be 3
+
+            // Now, call method GetLastDecisionPath():
+            Decision[] path = ovo.GetLastDecisionPath(); // contains 3 decisions
+
+            // The binary decisions obtained while computing the last decision
+            // above (i.e. the last call to the Decide method), were:
+            //
+            //  - Class 0 vs. class 3, winner was 3
+            //  - Class 1 vs. class 3, winner was 3
+            //  - Class 2 vs. class 3, winner was 3
+
+            // The GetLastDecisionPath() method is thread-safe and will always
+            // return the last computed path in the current calling thread.
+            #endregion
+
+            Assert.AreEqual(3, y);
+            Assert.AreEqual(0, path[0].Pair.Class1);
+            Assert.AreEqual(1, path[1].Pair.Class1);
+            Assert.AreEqual(2, path[2].Pair.Class1);
+            Assert.AreEqual(3, path[0].Pair.Class2);
+            Assert.AreEqual(3, path[1].Pair.Class2);
+            Assert.AreEqual(3, path[2].Pair.Class2);
+            Assert.AreEqual(3, path[0].Winner);
+            Assert.AreEqual(3, path[1].Winner);
+            Assert.AreEqual(3, path[2].Winner);
+        }
+
+        [Test]
+        public void learn_test_iris()
+        {
+            #region doc_learn_iris_confusion_matrix
+            // Generate always same random numbers
+            Accord.Math.Random.Generator.Seed = 0;
+
+            // Let's say we would like to learn a classifier for the famous Iris
+            // dataset, and measure its performance using a GeneralConfusionMatrix
+
+            // Download and load the Iris dataset
+            var iris = new Iris();
+            double[][] inputs = iris.Instances;
+            int[] outputs = iris.ClassLabels;
+
+            // Create the multi-class learning algorithm for the machine
+            var teacher = new MulticlassSupportVectorLearning<Linear>()
+            {
+                // Configure the learning algorithm to use SMO to train the
+                //  underlying SVMs in each of the binary class subproblems.
+                Learner = (param) => new SequentialMinimalOptimization<Linear>()
+                {
+                    // If you would like to use other kernels, simply replace
+                    // the generic parameter to the desired kernel class, such
+                    // as for example, Polynomial or Gaussian:
+
+                    Kernel = new Linear() // use the Linear kernel
+                }
+            };
+
+            // Estimate the multi-class support vector machine using one-vs-one method
+            MulticlassSupportVectorMachine<Linear> ovo = teacher.Learn(inputs, outputs);
+
+            // Compute classification error
+            GeneralConfusionMatrix cm = GeneralConfusionMatrix.Estimate(ovo, inputs, outputs);
+
+            double error = cm.Error;         // should be 0.066666666666666652
+            double accuracy = cm.Accuracy;   // should be 0.93333333333333335
+            double kappa = cm.Kappa;         // should be 0.9
+            double chiSquare = cm.ChiSquare; // should be 248.52216748768473
+            #endregion
+
+            Assert.AreEqual(0.066666666666666652, error);
+            Assert.AreEqual(0.93333333333333335, accuracy);
+            Assert.AreEqual(0.9, kappa);
+            Assert.AreEqual(248.52216748768473, chiSquare);
         }
 
         [Test]
@@ -740,7 +823,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(0.5, machine[0].Value.Kernel.Gamma);
             Assert.AreEqual(0.5, machine[1].Value.Kernel.Gamma);
             Assert.AreEqual(0.5, machine[2].Value.Kernel.Gamma);
-            Assert.AreEqual(1.0231652126930515, loss);
+            Assert.AreEqual(1.0231652126930515, loss, 1e-8);
             Assert.IsTrue(predicted.IsEqual(outputs));
             Assert.IsTrue(expectedScores.IsEqual(scores, 1e-10));
             Assert.IsTrue(expectedLogL.IsEqual(logl, 1e-10));
@@ -1166,6 +1249,8 @@ namespace Accord.Tests.MachineLearning
                 }
             };
 
+            msvl.ParallelOptions.MaxDegreeOfParallelism = 1;
+
             var svm = msvl.Learn(x, y);
 
             var actual = svm.Decide(x);
@@ -1180,6 +1265,7 @@ namespace Accord.Tests.MachineLearning
         }
 
         [Test]
+        [Category("Slow")]
         public void dynamic_time_warp_issue_470()
         {
             var instances = CsvReader.FromText(Resources.Shapes, hasHeaders: false).Select(x => new

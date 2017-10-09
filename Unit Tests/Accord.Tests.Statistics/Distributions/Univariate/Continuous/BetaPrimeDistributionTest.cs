@@ -80,7 +80,7 @@ namespace Accord.Tests.Statistics.Distributions.Univariate.Continuous
             Assert.AreEqual(2, betaPrime.Beta);
 
             Assert.AreEqual(4.0, mean);
-            Assert.AreEqual(2.1866398762435981, median);
+            Assert.AreEqual(2.1866398674965075, median, 1e-6);
             Assert.AreEqual(1.0, mode);
             Assert.AreEqual(double.PositiveInfinity, var);
             Assert.AreEqual(0.026039684773113869, chf);
@@ -89,17 +89,17 @@ namespace Accord.Tests.Statistics.Distributions.Univariate.Continuous
             Assert.AreEqual(-1.7719733417957513, lpdf);
             Assert.AreEqual(0.17448200654307533, hf);
             Assert.AreEqual(0.97429642410900219, ccdf);
-            Assert.AreEqual(0.39999982363709291, icdf);
+            Assert.AreEqual(0.4, icdf, 1e-6);
             Assert.AreEqual("BetaPrime(x; α = 4, β = 2)", str);
 
             var range1 = betaPrime.GetRange(0.95);
             var range2 = betaPrime.GetRange(0.99);
             var range3 = betaPrime.GetRange(0.01);
 
-            Assert.AreEqual(0.52112465307247502, range1.Min);
-            Assert.AreEqual(12.082089043372052, range1.Max);
-            Assert.AreEqual(0.28546647531958014, range2.Min);
-            Assert.AreEqual(29.597777621141635, range2.Max);
+            Assert.AreEqual(0.52112458565894904, range1.Min);
+            Assert.AreEqual(12.082088955968088, range1.Max);
+            Assert.AreEqual(0.28546647531299646, range2.Min);
+            Assert.AreEqual(29.597777581273448, range2.Max);
             Assert.AreEqual(range2.Min, range3.Min, 1e-15);
             Assert.AreEqual(range2.Max, range3.Max, 1e-15);
         }

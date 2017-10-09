@@ -182,6 +182,10 @@ namespace Accord.Video.DirectShow.Internals
     /// The structure describes the bitmap and color information for a video image.
     /// </summary>
     /// 
+    /// <remarks>
+    ///   See https://msdn.microsoft.com/en-us/library/windows/desktop/dd407325(v=vs.85).aspx
+    /// </remarks>
+    /// 
     [ComVisible( false ),
     StructLayout( LayoutKind.Sequential )]
     internal struct VideoInfoHeader

@@ -73,7 +73,12 @@ namespace Tutorials.Classification.Binary
                 var reader = new SparseReader("examples-sparse.txt");
 
                 // Read the sparse inputs and outputs from the file
-                var (inputs, outputs) = reader.ReadSparseToEnd();
+                var results = reader.ReadSparseToEnd();
+                Sparse<double>[] inputs = results.Item1;
+                double[] outputs = results.Item2;
+
+                // Note: this can be done more succintly in C# 7:
+                // var (inputs, outputs) = reader.ReadSparseToEnd(); 
 
                 // Learn the data using a sparse SVM
                 sparseMachine(inputs, outputs);

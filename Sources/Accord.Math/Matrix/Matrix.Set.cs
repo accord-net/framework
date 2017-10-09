@@ -88,7 +88,8 @@ namespace Accord.Math
         /// 
         public static void Set<T>(this T[][] destination, T[][] value, int[] rowIndices, int startColumn, int endColumn)
         {
-            var columnIndices = Accord.Math.Vector.Range(startColumn, end(endColumn, destination.Columns()));
+            int endIndex = end(endColumn, destination.Columns());
+            int[] columnIndices = Accord.Math.Vector.Range(startColumn, endIndex);
             set(destination, rowIndices, columnIndices, value, rowIndices, columnIndices);
         }
 
@@ -104,7 +105,8 @@ namespace Accord.Math
         /// 
         public static void Set<T>(this T[,] destination, T[,] value, int[] rowIndices, int startColumn, int endColumn)
         {
-            var columnIndices = Accord.Math.Vector.Range(startColumn, end(endColumn, destination.Columns()));
+            int endIndex = end(endColumn, destination.Columns());
+            int[] columnIndices = Accord.Math.Vector.Range(startColumn, endIndex);
             set(destination, rowIndices, columnIndices, value, rowIndices, columnIndices);
         }
 
@@ -135,7 +137,8 @@ namespace Accord.Math
         /// 
         public static void Set<T>(this T[,] destination, T[,] value, int startRow, int endRow, int[] columnIndices)
         {
-            var rowIndices = Accord.Math.Vector.Range(startRow, end(endRow, destination.Rows()));
+            int endIndex = end(endRow, destination.Rows());
+            int[] rowIndices = Accord.Math.Vector.Range(startRow, endIndex);
             set(destination, rowIndices, columnIndices, value, rowIndices, columnIndices);
         }
 
@@ -151,7 +154,8 @@ namespace Accord.Math
         /// 
         public static void Set<T>(this T[][] destination, T[][] value, int startRow, int endRow, int[] columnIndices)
         {
-            var rowIndices = Accord.Math.Vector.Range(startRow, end(endRow, destination.Rows()));
+            int endIndex = end(endRow, destination.Rows());
+            int[] rowIndices = Accord.Math.Vector.Range(startRow, endIndex);
             set(destination, rowIndices, columnIndices, value, rowIndices, columnIndices);
         }
 
@@ -167,7 +171,8 @@ namespace Accord.Math
         /// 
         public static void Set<T>(this T[,] destination, T value, int[] rowIndices, int startColumn, int endColumn)
         {
-            Set(destination, Matrix.Create(destination.Rows(), destination.Columns(), value), rowIndices, startColumn, endColumn);
+            T[,] source = Matrix.Create(destination.Rows(), destination.Columns(), value);
+            Set(destination, source, rowIndices, startColumn, endColumn);
         }
 
         /// <summary>
@@ -182,7 +187,8 @@ namespace Accord.Math
         /// 
         public static void Set<T>(this T[][] destination, T value, int startRow, int endRow, int[] columnIndices)
         {
-            Set(destination, Jagged.Create(destination.Rows(), destination.Columns(), value), startRow, endRow, columnIndices);
+            T[][] source = Jagged.Create(destination.Rows(), destination.Columns(), value);
+            Set(destination, source, startRow, endRow, columnIndices);
         }
 
         /// <summary>
@@ -197,7 +203,8 @@ namespace Accord.Math
         /// 
         public static void Set<T>(this T[,] destination, T value, int startRow, int endRow, int[] columnIndices)
         {
-            Set(destination, Matrix.Create(destination.Rows(), destination.Columns(), value), startRow, endRow, columnIndices);
+            T[,] source = Matrix.Create(destination.Rows(), destination.Columns(), value);
+            Set(destination, source, startRow, endRow, columnIndices);
         }
 
 
@@ -214,9 +221,11 @@ namespace Accord.Math
         /// 
         public static void Set<T>(this T[][] destination, T value, int startRow, int endRow, int startCol, int endCol)
         {
-            var values = Jagged.Create<T>(destination.Rows(), destination.Columns(), value);
-            var rowIndices = Accord.Math.Vector.Range(startRow, end(endRow, destination.Rows()));
-            var columnIndices = Accord.Math.Vector.Range(startCol, end(endCol, destination.Columns()));
+            T[][] values = Jagged.Create<T>(destination.Rows(), destination.Columns(), value);
+            int rowIndex = end(endRow, destination.Rows());
+            int[] rowIndices = Accord.Math.Vector.Range(startRow, rowIndex);
+            int colIndex = end(endCol, destination.Columns());
+            int[] columnIndices = Accord.Math.Vector.Range(startCol, colIndex);
             set(destination, rowIndices, columnIndices, values, rowIndices, columnIndices);
         }
 
@@ -233,9 +242,11 @@ namespace Accord.Math
         /// 
         public static void Set<T>(this T[,] destination, T value, int startRow, int endRow, int startCol, int endCol)
         {
-            var values = Matrix.Create<T>(destination.Rows(), destination.Columns(), value);
-            var rowIndices = Accord.Math.Vector.Range(startRow, end(endRow, destination.Rows()));
-            var columnIndices = Accord.Math.Vector.Range(startCol, end(endCol, destination.Columns()));
+            T[,] values = Matrix.Create<T>(destination.Rows(), destination.Columns(), value);
+            int rowIndex = end(endRow, destination.Rows());
+            int[] rowIndices = Accord.Math.Vector.Range(startRow, rowIndex);
+            int colIndex = end(endCol, destination.Columns());
+            int[] columnIndices = Accord.Math.Vector.Range(startCol, colIndex);
             set(destination, rowIndices, columnIndices, values, rowIndices, columnIndices);
         }
 

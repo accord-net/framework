@@ -59,7 +59,7 @@
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <CharacterSet>Unicode</CharacterSet>
     <CLRSupport>true</CLRSupport>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
     <LinkIncremental>
     </LinkIncremental>
     <IntDir>$(ProjectDir)obj\$(Configuration)\</IntDir>
@@ -69,7 +69,7 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)'=='Debug'" Label="Configuration">
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
-	<PlatformToolset>v141</PlatformToolset>
+	<PlatformToolset>v140</PlatformToolset>
 	<DefineConstants>DEBUG</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)'=='net35'" Label="Configuration">
@@ -79,22 +79,22 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)'=='net40'" Label="Configuration">
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-	<PlatformToolset>v141</PlatformToolset>
+	<PlatformToolset>v140</PlatformToolset>
 	<DefineConstants>NET40</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)'=='net45'" Label="Configuration">
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-	<PlatformToolset>v141</PlatformToolset>
+	<PlatformToolset>v140</PlatformToolset>
 	<DefineConstants>NET45</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)'=='net46'" Label="Configuration">
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
-	<PlatformToolset>v141</PlatformToolset>
+	<PlatformToolset>v140</PlatformToolset>
 	<DefineConstants>NET46</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)'=='net462'" Label="Configuration">
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
-	<PlatformToolset>v141</PlatformToolset>
+	<PlatformToolset>v140</PlatformToolset>
 	<DefineConstants>NET462</DefineConstants>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />

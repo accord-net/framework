@@ -9,6 +9,7 @@
 namespace Accord.Neuro
 {
     using System;
+    using Accord.Compat;
 
     /// <summary>
     /// Activation network.

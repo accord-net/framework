@@ -40,6 +40,8 @@ namespace Accord.MachineLearning.DecisionTrees
     using Accord.MachineLearning.DecisionTrees.Learning;
     using Accord.Compat;
     using System.Threading.Tasks;
+    using Accord.Collections;
+    using Accord.Math.Optimization.Losses;
 
     /// <summary>
     ///   Random Forest learning algorithm.
@@ -145,10 +147,49 @@ namespace Accord.MachineLearning.DecisionTrees
         /// 
         /// <param name="attributes">The attributes to be processed by the induced tree.</param>
         ///
+        public RandomForestLearning(OrderedDictionary<string, string[]> attributes)
+            : this()
+        {
+            this.attributes = DecisionVariable.FromDictionary(attributes);
+        }
+
+        /// <summary>
+        ///   Creates a new decision forest learning algorithm.
+        /// </summary>
+        /// 
+        /// <param name="attributes">The attributes to be processed by the induced tree.</param>
+        ///
         public RandomForestLearning(DecisionVariable[] attributes)
             : this()
         {
             this.attributes = attributes;
+        }
+
+
+        /// <summary>
+        ///   Learns a model that can map the given inputs to the given outputs.
+        /// </summary>
+        /// 
+        /// <param name="x">The model inputs.</param>
+        /// <param name="y">The desired outputs associated with each <paramref name="x">inputs</paramref>.</param>
+        /// <param name="weights">The weight of importance for each input-output pair (if supported by the learning algorithm).</param>
+        /// 
+        /// <returns>A model that has learned how to produce <paramref name="y"/> given <paramref name="x"/>.</returns>
+        /// 
+        public RandomForest Learn(int[][] x, int[] y, double[] weights = null)
+        {
+            if (weights != null)
+                throw new ArgumentException(Accord.Properties.Resources.NotSupportedWeights, "weights");
+
+            if (forest == null)
+            {
+                if (this.attributes == null)
+                    this.attributes = DecisionVariable.FromData(x);
+                this.forest = new RandomForest(x[0].Length, this.attributes, y.Max() + 1);
+            }
+
+            run(x, y);
+            return this.forest;
         }
 
         /// <summary>
@@ -168,12 +209,9 @@ namespace Accord.MachineLearning.DecisionTrees
 
             if (forest == null)
             {
-                int classes = y.Max() + 1;
-                this.forest = new RandomForest(NumberOfTrees, classes);
                 if (this.attributes == null)
                     this.attributes = DecisionVariable.FromData(x);
-                for (int i = 0; i < forest.Trees.Length; i++)
-                    forest.Trees[i] = new DecisionTree(attributes, classes);
+                this.forest = new RandomForest(x[0].Length, this.attributes, y.Max() + 1);
             }
 
             run(x, y);
@@ -191,10 +229,37 @@ namespace Accord.MachineLearning.DecisionTrees
         [Obsolete("Please use the Learn(x, y) method instead.")]
         public double Run(double[][] inputs, int[] output)
         {
-            return run(inputs, output);
+            run(inputs, output);
+            return new ZeroOneLoss(output).Loss(this.forest.Decide(inputs));
         }
 
-        private double run(double[][] inputs, int[] output)
+        private void run(double[][] inputs, int[] output)
+        {
+            Parallel.For(0, forest.Trees.Length, ParallelOptions, i =>
+            {
+                learn<double, C45Learning, DecisionTree>(inputs, output, new C45Learning(forest.Trees[i]));
+            });
+        }
+
+        private void run(int[][] inputs, int[] output)
+        {
+            Parallel.For(0, forest.Trees.Length, ParallelOptions, i =>
+            {
+                learn<int, ID3Learning, DecisionTree>(inputs, output, new ID3Learning(forest.Trees[i]));
+            });
+        }
+
+        private void learn<TData, TLearning, TModel>(TData[][] inputs, int[] output, TLearning teacher)
+            where TLearning : DecisionTreeLearningBase, ISupervisedLearning<TModel, TData[], int>
+            where TModel : DecisionTree, ITransform<TData[], int>
+        {
+            teacher.MaxVariables = getColsPerTree(inputs);
+            teacher.Join = this.Join;
+            int[] idx = Vector.Sample(SampleRatio, output.Length);
+            teacher.Learn(inputs.Get(idx), output.Get(idx));
+        }
+
+        private int getColsPerTree<T>(T[][] inputs)
         {
             int rows = inputs.Length;
             int cols = inputs[0].Length;
@@ -209,24 +274,7 @@ namespace Accord.MachineLearning.DecisionTrees
                 colsPerTree = (int)(cols * CoverageRatio);
             }
 
-            var trees = forest.Trees;
-
-            Parallel.For(0, trees.Length, ParallelOptions, i =>
-            {
-                int[] idx = Vector.Sample(SampleRatio, output.Length);
-                var x = inputs.Get(idx);
-                var y = output.Get(idx);
-
-                var c45 = new C45Learning(forest.Trees[i])
-                {
-                    MaxVariables = colsPerTree,
-                    Join = 100
-                };
-
-                c45.Learn(x, y);
-            });
-
-            return 0;
+            return colsPerTree;
         }
 
     }

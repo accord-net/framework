@@ -87,34 +87,83 @@ namespace Accord.Tests.Statistics
         [Test]
         public void ConfusionMatrixConstructorTest2()
         {
-            // The correct and expected output values (as confirmed by a Gold
-            //  standard rule, actual experiment or true verification)
+            #region doc_ctor_values
+            // Let's say we have a decision problem involving 2 classes. In a typical
+            // machine learning problem, have a set of expected, ground truth values:
+            //
             bool[] expected = { false, false, true, false, true, false, false, false, false, false };
 
-            // The values as predicted by the decision system or
-            //  the test whose performance is being measured.
+            // And we have a set of values that have been predicted by a machine model,
+            // a procedure or a laboratory test:
+            //
             bool[] predicted = { false, false, false, true, true, false, false, false, false, true };
 
+            // We can get different performance measures to assess how good our model was at 
+            // predicting the true, expected, ground-truth labels for the decision problem:
+            var cm = new ConfusionMatrix(predicted, expected);
+            
+            // Those are the individual values of the confusion matrix:
+            int falseNegatives = cm.FalseNegatives; // should be 1
+            int falsePositives = cm.FalsePositives; // should be 2
+            int truePositives = cm.TruePositives;   // should be 1
+            int trueNegatives = cm.TrueNegatives;   // should be 6
 
-            // Create a new confusion matrix using the given parameters
-            ConfusionMatrix matrix = new ConfusionMatrix(predicted, expected);
+            // We can also get it in matrix form:
+            int[,] matrix = cm.Matrix;
+
+            // The values of this matrix should be the same as:
+            int[,] expectedMatrix =
+            {
+                //              expected
+                /*predicted*/ { 1, 1 },
+                              { 2, 6 },
+            };
 
 
-            int falseNegatives = 1;
-            int falsePositives = 2;
-            int truePositives = 1;
-            int trueNegatives = 6;
+            // We can get more information about our problem as well:
+            int classes = cm.NumberOfClasses; // should be 2
+            int samples = cm.NumberOfSamples; // should be 10
 
-            Assert.AreEqual(predicted.Length, matrix.Samples);
-            Assert.AreEqual(8, matrix.ActualNegatives);
-            Assert.AreEqual(2, matrix.ActualPositives);
-            Assert.AreEqual(7, matrix.PredictedNegatives);
-            Assert.AreEqual(3, matrix.PredictedPositives);
+            // And multiple performance measures:
+            double accuracy = cm.Accuracy;                      // should be 0.7
+            double error = cm.Error;                            // should be 0.3
+            double chanceAgreement = cm.ChanceAgreement;        // should be 0.62
+            double geommetricAgreement = cm.GeometricAgreement; // should be 2.4494897427831779
+            double pearson = cm.Pearson;                        // should be 0.21320071635561044
+            double kappa = cm.Kappa;                            // should be 0.21052631578947359
+            double chiSquare = cm.ChiSquare;                    // should be 0.47619047619047622
 
-            Assert.AreEqual(falseNegatives, matrix.FalseNegatives);
-            Assert.AreEqual(falsePositives, matrix.FalsePositives);
-            Assert.AreEqual(truePositives, matrix.TruePositives);
-            Assert.AreEqual(trueNegatives, matrix.TrueNegatives);
+            // and some of their standard errors:
+            double kappaStdErr = cm.StandardError;              // should be 0.32822854833459553
+            double kappaStdErr0 = cm.StandardErrorUnderNull;    // should be 0.16666666666666663
+            #endregion
+
+            Assert.AreEqual(2, classes);
+            Assert.AreEqual(10, samples);
+
+            Assert.IsTrue(expectedMatrix.IsEqual(matrix));
+
+            Assert.AreEqual(0.7, accuracy);
+            Assert.AreEqual(0.3, error);
+            Assert.AreEqual(0.62, chanceAgreement);
+            Assert.AreEqual(2.4494897427831779, geommetricAgreement);
+            Assert.AreEqual(0.21320071635561044, pearson);
+            Assert.AreEqual(0.21052631578947359, kappa);
+            Assert.AreEqual(0.47619047619047622, chiSquare);
+
+            Assert.AreEqual(0.32822854833459553, kappaStdErr);
+            Assert.AreEqual(0.30508161570925141, kappaStdErr0);
+
+            Assert.AreEqual(predicted.Length, cm.Samples);
+            Assert.AreEqual(8, cm.ActualNegatives);
+            Assert.AreEqual(2, cm.ActualPositives);
+            Assert.AreEqual(7, cm.PredictedNegatives);
+            Assert.AreEqual(3, cm.PredictedPositives);
+
+            Assert.AreEqual(1, cm.FalseNegatives);
+            Assert.AreEqual(2, cm.FalsePositives);
+            Assert.AreEqual(1, cm.TruePositives);
+            Assert.AreEqual(6, cm.TrueNegatives);
         }
 
         [Test]

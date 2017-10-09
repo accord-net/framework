@@ -30,7 +30,7 @@ namespace Accord.MachineLearning
     using System.Threading;
 
     /// <summary>
-    ///   Base class for K-Nearest Neighbor (k-NN) algorithms.
+    ///   Base class for <see cref="KNearestNeighbors{TInput}">K-Nearest Neighbor (k-NN) algorithms</see>.
     /// </summary>
     /// 
     /// <typeparam name="TModel">The type of the model being learned.</typeparam>

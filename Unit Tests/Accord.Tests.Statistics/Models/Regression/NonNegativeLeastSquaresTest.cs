@@ -179,7 +179,7 @@ namespace Accord.Tests.Statistics.Models.Regression
             double[] prediction = regression.Transform(inputs);
 
             double error = new SquareLoss(expected: outputs)
-                .Loss(actual: prediction); // should be
+                .Loss(actual: prediction); // should be 0
 
             #endregion
 

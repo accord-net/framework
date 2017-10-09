@@ -341,7 +341,58 @@ namespace Accord
             return last;
         }
 
+        /// <summary>
+        ///   Partially orders a collection, making sure every element smaller 
+        ///   than the n-th smaller element are in the beginning of the array.
+        /// </summary>
+        /// 
+        /// <typeparam name="T">The type for the items in the array.</typeparam>
+        /// 
+        /// <param name="items">The array of elements from which the n-th element should be extracted.</param>
+        /// <param name="n">The position to look for (0 returns the smallest element, 1 the second smallest, and so on).</param>
+        /// <param name="asc">Whether to take the smallest or the largest element. If set to false, instead
+        ///   of returning the smallest, the method will return the largest elements in the beginning of the 
+        ///   array.</param>
+        /// 
+        public static void Partial<T>(T[] items, int n, bool asc = true)
+            where T : IComparable<T>
+        {
+            NthElement<T>(items, n, asc);
 
+            Array.Sort(items, 0, n);
+
+            if (!asc)
+                Array.Reverse(items, 0, n);
+        }
+
+        /// <summary>
+        ///   Partially orders a collection, making sure every element smaller 
+        ///   than the n-th smaller element are in the beginning of the array.
+        /// </summary>
+        /// 
+        /// <typeparam name="TKey">The type for the keys associated with each value in the items array.</typeparam>
+        /// <typeparam name="TValue">The type for the items in the array.</typeparam>
+        /// 
+        /// <param name="keys">The keys that will be used to determine the order of elements in <paramref name="items"/>.</param>
+        /// <param name="items">The array of elements from which the n-th element should be extracted.</param>
+        /// <param name="n">The position to look for (0 returns the smallest element, 1 the second smallest, and so on).</param>
+        /// <param name="asc">Whether to take the smallest or the largest element. If set to false, instead
+        ///   of returning the smallest, the method will return the largest elements in the beginning of the 
+        ///   array.</param>
+        /// 
+        public static void Partial<TKey, TValue>(TKey[] keys, TValue[] items, int n, bool asc = true)
+            where TKey : IComparable<TKey>
+        {
+            NthElement<TKey, TValue>(keys, items, n, asc);
+
+            Array.Sort(keys, items, 0, n);
+
+            if (!asc)
+            {
+                Array.Reverse(keys, 0, n);
+                Array.Reverse(items, 0, n);
+            }
+        }
 
 
 
@@ -581,10 +632,15 @@ namespace Accord
 
 
         /// <summary>
-        ///   Retrieves the n-th smallest element in an array. As a side-effect, partially orders
-        ///   the collection, making sure every element smaller than the n-th smaller element are
-        ///   in the beginning of the array.
+        ///   Retrieves the n-th smallest element in an array. See remarks for more info.
         /// </summary>
+        /// 
+        /// <remarks>
+        ///   As a side-effect, partially orders the collection, making sure every element smaller than the n-th 
+        ///   smaller element are in the beginning of the array (but not necessarily in order). If you need the
+        ///   values that come before the n-th element to also be in order, please use the 
+        ///   <see cref="Partial{T}(T[], int, bool)"/> method instead.
+        /// </remarks>
         /// 
         /// <typeparam name="TKey">The type for the keys associated with each value in the items array.</typeparam>
         /// <typeparam name="TValue">The type for the items in the array.</typeparam>
@@ -622,10 +678,15 @@ namespace Accord
         }
 
         /// <summary>
-        ///   Retrieves the n-th smallest element in an array. As a side-effect, partially orders
-        ///   the collection, making sure every element smaller than the n-th smaller element are
-        ///   in the beginning of the array.
+        ///   Retrieves the n-th smallest element in an array. See remarks for more info.
         /// </summary>
+        /// 
+        /// <remarks>
+        ///   As a side-effect, partially orders the collection, making sure every element smaller than the n-th 
+        ///   smaller element are in the beginning of the array (but not necessarily in order). If you need the
+        ///   values that come before the n-th element to also be in order, please use the 
+        ///   <see cref="Partial{T}(T[], int, bool)"/> method instead.
+        /// </remarks>
         /// 
         /// <typeparam name="T">The type for the items in the array.</typeparam>
         /// <param name="items">The array of elements from which the n-th element should be extracted.</param>
@@ -660,10 +721,15 @@ namespace Accord
         }
 
         /// <summary>
-        ///   Retrieves the n-th smallest element in an array. As a side-effect, partially orders
-        ///   the collection, making sure every element smaller than the n-th smaller element are
-        ///   in the beginning of the array.
+        ///   Retrieves the n-th smallest element in an array. See remarks for more info.
         /// </summary>
+        /// 
+        /// <remarks>
+        ///   As a side-effect, partially orders the collection, making sure every element smaller than the n-th 
+        ///   smaller element are in the beginning of the array (but not necessarily in order). If you need the
+        ///   values that come before the n-th element to also be in order, please use the 
+        ///   <see cref="Partial{T}(T[], int, bool)"/> method instead.
+        /// </remarks>
         /// 
         /// <typeparam name="TKey">The type for the keys associated with each value in the items array.</typeparam>
         /// <typeparam name="TValue">The type for the items in the array.</typeparam>
@@ -700,10 +766,15 @@ namespace Accord
         }
 
         /// <summary>
-        ///   Retrieves the n-th smallest element in an array. As a side-effect, partially orders
-        ///   the collection, making sure every element smaller than the n-th smaller element are
-        ///   in the beginning of the array.
+        ///   Retrieves the n-th smallest element in an array. See remarks for more info.
         /// </summary>
+        /// 
+        /// <remarks>
+        ///   As a side-effect, partially orders the collection, making sure every element smaller than the n-th 
+        ///   smaller element are in the beginning of the array (but not necessarily in order). If you need the
+        ///   values that come before the n-th element to also be in order, please use the 
+        ///   <see cref="Partial{T}(T[], int, bool)"/> method instead.
+        /// </remarks>
         /// 
         /// <typeparam name="T">The type for the items in the array.</typeparam>
         /// <param name="items">The array of elements from which the n-th element should be extracted.</param>
@@ -721,10 +792,44 @@ namespace Accord
         }
 
         /// <summary>
-        ///   Retrieves the n-th smallest element in an array. As a side-effect, partially orders
-        ///   the collection, making sure every element smaller than the n-th smaller element are
-        ///   in the beginning of the array.
+        ///   Retrieves the n-th smallest element in an array. See remarks for more info.
         /// </summary>
+        /// 
+        /// <remarks>
+        ///   As a side-effect, partially orders the collection, making sure every element smaller than the n-th 
+        ///   smaller element are in the beginning of the array (but not necessarily in order). If you need the
+        ///   values that come before the n-th element to also be in order, please use the 
+        ///   <see cref="Partial{T}(T[], int, bool)"/> method instead.
+        /// </remarks>
+        /// 
+        /// <typeparam name="TKey">The type for the keys associated with each value in the items array.</typeparam>
+        /// <typeparam name="TValue">The type for the items in the array.</typeparam>
+        /// 
+        /// <param name="keys">The keys that will be used to determine the order of elements in <paramref name="items"/>.</param>
+        /// <param name="items">The array of elements from which the n-th element should be extracted.</param>
+        /// <param name="n">The position to look for (0 returns the smallest element, 1 the second smallest, and so on).</param>
+        /// <param name="asc">Whether to take the smallest or the largest element. If set to false, instead
+        ///   of returning the smallest, the method will return the largest elements.</param>
+        /// 
+        /// <returns>If <paramref name="asc"/> is true, returns the n-th smallest element in 
+        ///   the array. Otherwise, returns the n-th largest.</returns>
+        /// 
+        public static TKey NthElement<TKey, TValue>(this TKey[] keys, TValue[] items, int n, bool asc = true)
+            where TKey : IComparable<TKey>
+        {
+            return NthElement(keys, items, 0, keys.Length, n, asc);
+        }
+
+        /// <summary>
+        ///   Retrieves the n-th smallest element in an array. See remarks for more info.
+        /// </summary>
+        /// 
+        /// <remarks>
+        ///   As a side-effect, partially orders the collection, making sure every element smaller than the n-th 
+        ///   smaller element are in the beginning of the array (but not necessarily in order). If you need the
+        ///   values that come before the n-th element to also be in order, please use the 
+        ///   <see cref="Partial{T}(T[], int, bool)"/> method instead.
+        /// </remarks>
         /// 
         /// <typeparam name="T">The type for the items in the array.</typeparam>
         /// <param name="items">The array of elements from which the n-th element should be extracted.</param>

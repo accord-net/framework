@@ -22,10 +22,15 @@
 
 namespace Accord.DataSets
 {
+    using Accord;
+    using Accord.Imaging;
     using Accord.Math;
     using System;
+    using System.Collections.Generic;
     using System.Drawing;
+    using System.Drawing.Imaging;
     using System.IO;
+    using System.Linq;
     using System.Net;
 
     /// <summary>
@@ -37,6 +42,45 @@ namespace Accord.DataSets
     ///   This dataset contains famous images used in the image processing literature, such as 
     ///   <a href="https://en.wikipedia.org/wiki/Lenna">Lena Söderberg</a> picture.</para>
     ///   
+    /// <para>Using this class, you can retrieve any of the following famous test images:</para>
+    /// 
+    /// <list type="bullet">
+    ///  <list><description>airplane.png  </description></list>
+    ///  <list><description>arctichare.png</description></list>
+    ///  <list><description>baboon.png    </description></list>
+    ///  <list><description>barbara.bmp   </description></list>
+    ///  <list><description>barbara.png   </description></list>
+    ///  <list><description>boat.png      </description></list>
+    ///  <list><description>boy.bmp       </description></list>
+    ///  <list><description>boy.ppm       </description></list>
+    ///  <list><description>cameraman.tif </description></list>
+    ///  <list><description>cat.png       </description></list>
+    ///  <list><description>fprint3.pgm   </description></list>
+    ///  <list><description>fruits.png    </description></list>
+    ///  <list><description>frymire.png   </description></list>
+    ///  <list><description>girl.png      </description></list>
+    ///  <list><description>goldhill.bmp  </description></list>
+    ///  <list><description>goldhill.png  </description></list>
+    ///  <list><description>lena.bmp      </description></list>
+    ///  <list><description>lenacolor.png </description></list>
+    ///  <list><description>lena.ppm      </description></list>
+    ///  <list><description>Lenaclor.ppm  </description></list>
+    ///  <list><description>monarch.png   </description></list>
+    ///  <list><description>mountain.png  </description></list>
+    ///  <list><description>mountain.bmp  </description></list>
+    ///  <list><description>p64int.txt    </description></list>
+    ///  <list><description>peppers.png   </description></list>
+    ///  <list><description>pool.png      </description></list>
+    ///  <list><description>sails.bmp     </description></list>
+    ///  <list><description>sails.png     </description></list>
+    ///  <list><description>serrano.png   </description></list>
+    ///  <list><description>tulips.png    </description></list>
+    ///  <list><description>us021.pgm     </description></list>
+    ///  <list><description>us092.pgm     </description></list>
+    ///  <list><description>watch.png     </description></list>
+    ///  <list><description>zelda.png     </description></list>
+    /// </list>
+    ///   
     /// <para>
     ///   References:
     ///   <list type="bullet">
@@ -47,12 +91,13 @@ namespace Accord.DataSets
     ///    </list></para>
     /// </remarks>
     /// 
+    /// <example>
+    /// <code source="Unit Tests\Accord.Tests.Imaging\HistogramsOfOrientedGradientsTest.cs" region="doc_apply" />
+    /// </example>
+    /// 
     public class TestImages
     {
-
-        string path;
-
-        private string[] imageNames = new[]
+        static readonly string[] imageNames = new []
         {
             "airplane.png",
             "arctichare.png",
@@ -90,6 +135,8 @@ namespace Accord.DataSets
             "zelda.png",
         };
 
+        string path;
+
         /// <summary>
         ///   Gets all the image names that can be passed to
         ///   the <see cref="GetImage(string)"/> method.
@@ -97,10 +144,27 @@ namespace Accord.DataSets
         /// 
         /// <value>The image names in this dataset.</value>
         /// 
+#if NET35 || NET40
         public string[] ImageNames
+        {
+            get { return (string[])imageNames.Clone(); }
+        }
+#else
+        public IReadOnlyList<string> ImageNames
         {
             get { return imageNames; }
         }
+#endif
+
+        /// <summary>
+        ///   Gets or sets whether images with non-standard color palettes (i.e. 8-bpp images where
+        ///   values do not represent intensity values but rather indices in a color palette) should
+        ///   be converted to true 8-bpp grayscale. Default is true.
+        /// </summary>
+        /// 
+        /// <seealso cref="Accord.Imaging.Image.ConvertColor8bppToGrayscale8bpp"/>
+        /// 
+        public bool CorrectIndexedPalettes { get; set; }
 
         /// <summary>
         ///   Downloads and prepares the Iris dataset.
@@ -114,17 +178,42 @@ namespace Accord.DataSets
             if (path == null)
                 path = "data";
             this.path = path;
+
+            this.CorrectIndexedPalettes = true;
+        }
+
+        /// <summary>
+        ///   Gets the example <see cref="Bitmap"/> with the specified name.
+        /// </summary>
+        /// 
+        /// <param name="name">The standard image name. For a list of all possible names, see <see cref="ImageNames"/>.</param>
+        /// 
+        public Bitmap this[string name]
+        {
+            get { return GetImage(name); }
         }
 
         /// <summary>
         ///   Gets the example image.
         /// </summary>
         /// 
-        /// <param name="filename">The filename of the image to be retrieved.</param>
+        /// <param name="name">The standard image name. For a list of all possible names, see <see cref="ImageNames"/>.</param>
         /// 
-        public Bitmap GetImage(string filename)
+        public Bitmap GetImage(string name)
         {
-            return Accord.Imaging.Image.FromUrl("https://homepages.cae.wisc.edu/~ece533/images/" + filename, path);
+            if (!imageNames.Contains(name))
+            {
+                throw new ArgumentOutOfRangeException("name", String.Format("The provided image '{0}' is not in the list of " +
+                    "test images provided by this class. The list of supported image names can be found in the ImageNames " +
+                    "property and in the Accord.DataSets.TestImages class documentation page.", name));
+            }
+
+            Bitmap bmp = Accord.Imaging.Image.FromUrl("https://homepages.cae.wisc.edu/~ece533/images/" + name, path);
+
+            if (CorrectIndexedPalettes && bmp.IsColor8bpp())
+                Accord.Imaging.Image.ConvertColor8bppToGrayscale8bpp(bmp);
+
+            return bmp;
         }
 
     }

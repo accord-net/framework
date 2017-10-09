@@ -62,7 +62,7 @@ namespace Accord.MachineLearning
         public GridSearchRange(string name, double start, double end, double step)
         {
             this.Name = name;
-            this.Values = Vector.Interval(start, end, step);
+            this.Values = Vector.Range(start, end, step);
         }
 
         /// <summary>

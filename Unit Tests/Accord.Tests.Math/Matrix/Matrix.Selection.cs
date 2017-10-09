@@ -211,6 +211,70 @@ namespace Accord.Tests.Math
         }
 
         [Test]
+        public void partial_test_1()
+        {
+            // Example from https://github.com/accord-net/framework/issues/865
+
+            double[][] data = {
+                new double[] { 18, 31, 25, 2, 22, 13, 37, 1, 4, 7, 6, 45, 10, 24, 23, 49, 27, 9, 35,
+                  14, 34, 33, 41, 42, 20, 43, 3, 48, 15, 39, 11, 38, 46, 17, 40, 16,
+                  50, 29, 19, 47, 12, 28, 32, 8, 30, 26, 5, 44, 36, 21 },
+                new double[] { 18,14,1,15,4,32,10,26,38,9,24,16,31,20,25,30,22,6,28,21,33,17,5,35,2,13,36,8,29,7 }
+            };
+
+            foreach (var v in data)
+            {
+                double[] sorted;
+
+                sorted = v.Sorted();
+                for (int i = 0; i < v.Length; i++)
+                {
+                    double[] copy = v.Copy();
+                    Sort.Partial(copy, i);
+
+                    for (int j = 0; j <= i; j++)
+                        Assert.AreEqual(sorted[j], copy[j]);
+                }
+
+                sorted = v.Sorted();
+                for (int i = 0; i < v.Length; i++)
+                {
+                    double[] copy = v.Copy();
+                    int[] idx = Vector.Range(copy.Length);
+                    Sort.Partial(copy, idx, i);
+
+                    for (int j = 0; j <= i; j++)
+                        Assert.AreEqual(sorted[j], copy[j]);
+
+                    Assert.AreEqual(copy, v.Get(idx));
+                }
+
+                sorted = v.Sorted(asc: false);
+                for (int i = 0; i < v.Length; i++)
+                {
+                    double[] copy = v.Copy();
+                    Sort.Partial(copy, i, asc: false);
+
+                    for (int j = 0; j <= i; j++)
+                        Assert.AreEqual(sorted[j], copy[j]);
+                }
+
+                sorted = v.Sorted(asc: false);
+                for (int i = 0; i < v.Length; i++)
+                {
+                    double[] copy = v.Copy();
+                    int[] idx = Vector.Range(copy.Length);
+                    Sort.Partial(copy, idx, i, asc: false);
+
+                    for (int j = 0; j <= i; j++)
+                        Assert.AreEqual(sorted[j], copy[j]);
+
+                    Assert.AreEqual(copy, v.Get(idx));
+                }
+            }
+        }
+
+        [Test]
         public void bottom_1()
         {
             Accord.Math.Random.Generator.Seed = 0;
@@ -481,6 +545,62 @@ namespace Accord.Tests.Math
 
             actual = a.Get(-1, 0, 0, -1);
             Assert.IsTrue(new[] { new[] { 1, 2, 6, 8 } }.IsEqual(actual));
+        }
+
+        [Test]
+        public void matrix_sort()
+        {
+            #region doc_matrix_sort
+            // Let's say we are in a situation where you have a NxM matrix of values and 
+            // a row vector 1xM where each value in the vector is associated with a column 
+            // in the matrix (e.g. this is the case if we had a matrix of Eigenvectors and 
+            // their associated eigenvalues):
+
+            double[,] matrix =
+            {
+                { 1, 5, 3 },
+                { 2, 2, 6 },
+                { 1, 3, 4 },
+                { 2, 4, 3 },
+                { 1, 0, 1 },
+            };
+
+            double[] v = { -3, 1, 0.42 };
+
+            // Let's say we would like to sort the columns of the matrix 
+            // according to the value of the elements in the row vector:
+
+            double[,] sortedMatrix1 = Matrix.Sort(keys: v, values: matrix);
+
+            // The resulting matrix will be:
+            double[,] expected1 =
+            {
+                { 1, 3, 5 },
+                { 2, 6, 2 },
+                { 1, 4, 3 },
+                { 2, 3, 4 },
+                { 1, 1, 0 },
+            };
+
+            // Now, let's say we would like to sort the columns of the matrix 
+            // according to the absolute value of the elements in the row vector:
+
+            double[,] sortedMatrix2 = Matrix.Sort(keys: v, values: matrix, 
+                comparer: new GeneralComparer(ComparerDirection.Ascending, useAbsoluteValues: true));
+
+            // The resulting matrix will be:
+            double[,] expected2 =
+            {
+                { 3, 5, 1 },
+                { 6, 2, 2 },
+                { 4, 3, 1 },
+                { 3, 4, 2 },
+                { 1, 0, 1 },
+            };
+            #endregion
+
+            Assert.AreEqual(expected1, sortedMatrix1);
+            Assert.AreEqual(expected2, sortedMatrix2);
         }
     }
 }

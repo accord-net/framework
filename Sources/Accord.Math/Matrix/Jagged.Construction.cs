@@ -1247,5 +1247,31 @@ namespace Accord.Math
             }
         }
 
+
+        /// <summary>
+        ///   Gets the transpose of a matrix.
+        /// </summary>
+        /// 
+        /// <param name="matrix">A matrix.</param>
+        /// 
+        /// <returns>The transpose of the given matrix.</returns>
+        /// 
+        public static T[][] Transpose<T>(T[,] matrix)
+        {
+            int rows = matrix.Rows();
+            if (rows == 0)
+                return new T[rows][];
+            int cols = matrix.Columns();
+
+            T[][] result = new T[cols][];
+            for (int j = 0; j < result.Length; j++)
+            {
+                result[j] = new T[rows];
+                for (int i = 0; i < result[j].Length; i++)
+                    result[j][i] = matrix[i, j];
+            }
+
+            return result;
+        }
     }
 }

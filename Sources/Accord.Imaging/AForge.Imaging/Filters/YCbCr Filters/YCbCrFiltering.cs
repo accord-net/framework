@@ -246,7 +246,7 @@ namespace Accord.Imaging.Filters
                     rgb.Blue = ptr[RGB.B];
 
                     // convert to YCbCr
-                    Accord.Imaging.YCbCr.FromRGB(rgb, ycbcr);
+                    Accord.Imaging.YCbCr.FromRGB(rgb, ref ycbcr);
 
                     // check YCbCr values
                     if (
@@ -279,7 +279,7 @@ namespace Accord.Imaging.Filters
                     if (updated)
                     {
                         // convert back to RGB
-                        Accord.Imaging.YCbCr.ToRGB(ycbcr, rgb);
+                        Accord.Imaging.YCbCr.ToRGB(ycbcr, ref rgb);
 
                         ptr[RGB.R] = rgb.Red;
                         ptr[RGB.G] = rgb.Green;

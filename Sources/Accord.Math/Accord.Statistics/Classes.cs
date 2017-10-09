@@ -128,6 +128,10 @@ namespace Accord.Statistics
         /// 
         /// <returns>The original values divided into groups.</returns>
         /// 
+        /// <example>
+        ///   <code source="Unit Tests\Accord.Tests.Statistics\ClassesTest.cs" region="doc_random" />
+        /// </example>
+        /// 
         public static T[][] Separate<T>(this T[] values, int[] labels)
         {
             return Separate(values, labels, labels.Max() + 1);
@@ -147,6 +151,10 @@ namespace Accord.Statistics
         /// <param name="groups">The number of groups.</param>
         /// 
         /// <returns>The original values divided into groups.</returns>
+        /// 
+        /// <example>
+        ///   <code source="Unit Tests\Accord.Tests.Statistics\ClassesTest.cs" region="doc_random" />
+        /// </example>
         /// 
         public static T[][] Separate<T>(this T[] values, int[] labels, int groups)
         {
@@ -242,19 +250,48 @@ namespace Accord.Statistics
         /// </summary>
         /// 
         /// <param name="samples">The sample size.</param>
-        /// <param name="groups">The number of groups.</param>
+        /// <param name="classes">The number of groups.</param>
         /// 
-        public static int[] Random(int samples, int groups)
+        /// <example>
+        ///   <code source="Unit Tests\Accord.Tests.Statistics\ClassesTest.cs" region="doc_random" />
+        /// </example>
+        /// 
+        public static int[] Random(int samples, int classes)
+        {
+            return Random(samples, Vector.Create(classes, 1.0 / classes));
+        }
+
+        /// <summary>
+        ///   Returns a random group assignment for a sample.
+        /// </summary>
+        /// 
+        /// <param name="samples">The sample size.</param>
+        /// <param name="proportion">The desired proportion for each class.</param>
+        /// 
+        /// <example>
+        ///   <code source="Unit Tests\Accord.Tests.Statistics\ClassesTest.cs" region="doc_random" />
+        /// </example>
+        /// 
+        public static int[] Random(int samples, double[] proportion)
         {
             // Create the index vector
             int[] idx = new int[samples];
-
-            if (groups == 1)
+            if (proportion.Length == 1)
                 return idx;
 
-            double n = groups / (double)samples;
-            for (int i = 0; i < idx.Length; i++)
-                idx[i] = (int)System.Math.Ceiling((i + 0.9) * n) - 1;
+            proportion = proportion.Divide(proportion.Sum());
+            double[] cumSum = proportion.CumulativeSum();
+
+            int a = 0;
+            for (int i = 0; i < proportion.Length; i++)
+            {
+                int b = (int)Math.Round(cumSum[i] * samples, MidpointRounding.AwayFromZero);
+
+                for (int j = a; j < b; j++)
+                    idx[j] = i;
+
+                a = b;
+            };
 
             // Shuffle the indices vector
             Vector.Shuffle(idx);
@@ -270,20 +307,31 @@ namespace Accord.Statistics
         /// <param name="samples">The sample size.</param>
         /// <param name="proportion">The proportion of samples between the groups.</param>
         /// 
+        /// <example>
+        ///   <code source="Unit Tests\Accord.Tests.Statistics\ClassesTest.cs" region="doc_random" />
+        /// </example>
+        /// 
         public static int[] Random(int samples, double proportion)
         {
-            // Create the index vector
-            int[] idx = new int[samples];
+            return Random(samples, new[] { proportion, 1.0 - proportion });
+        }
 
-            int mid = (int)Math.Floor(proportion * samples);
-
-            for (int i = mid; i < idx.Length; i++)
-                idx[i] = 1;
-
-            // Shuffle the indices vector
-            Vector.Shuffle(idx);
-
-            return idx;
+        /// <summary>
+        ///   Returns a random group assignment for a sample, making
+        ///   sure different class labels are distributed evenly among
+        ///   the groups.
+        /// </summary>
+        /// 
+        /// <param name="labels">A vector containing class labels.</param>
+        /// <param name="categories">The number of groups.</param>
+        /// 
+        /// <example>
+        ///   <code source="Unit Tests\Accord.Tests.Statistics\ClassesTest.cs" region="doc_random" />
+        /// </example>
+        /// 
+        public static int[] Random(int[] labels, int categories)
+        {
+            return Random(labels, labels.Max() + 1, categories);
         }
 
         /// <summary>
@@ -295,6 +343,10 @@ namespace Accord.Statistics
         /// <param name="labels">A vector containing class labels.</param>
         /// <param name="classes">The number of different classes in <paramref name="labels"/>.</param>
         /// <param name="categories">The number of groups.</param>
+        /// 
+        /// <example>
+        ///   <code source="Unit Tests\Accord.Tests.Statistics\ClassesTest.cs" region="doc_random" />
+        /// </example>
         /// 
         public static int[] Random(int[] labels, int classes, int categories)
         {
@@ -366,6 +418,10 @@ namespace Accord.Statistics
         /// 
         /// <param name="labels">A vector containing class labels.</param>
         /// <param name="proportion">The proportion of positive and negative samples.</param>
+        /// 
+        /// <example>
+        ///   <code source="Unit Tests\Accord.Tests.Statistics\ClassesTest.cs" region="doc_random" />
+        /// </example>
         /// 
         public static int[] Random(int[] labels, double proportion)
         {

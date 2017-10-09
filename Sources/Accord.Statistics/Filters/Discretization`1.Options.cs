@@ -38,7 +38,7 @@ namespace Accord.Statistics.Filters
         /// </summary>
         /// 
         [Serializable]
-        public class Options : ColumnOptionsBase,
+        public class Options : ColumnOptionsBase<Discretization<TInput, TOutput>>,
             ITransform<TInput, TOutput>,
             IUnsupervisedLearning<Options, TInput, TOutput>
         {
@@ -188,7 +188,7 @@ namespace Accord.Statistics.Filters
             public Options Learn(TInput[] x, double[] weights = null)
             {
                 if (weights != null)
-                    throw new ArgumentException("Weights are not supported and should be null.");
+                    throw new ArgumentException(Accord.Properties.Resources.NotSupportedWeights, "weights");
 
                 this.NumberOfInputs = 1;
                 this.NumberOfOutputs = 1;
@@ -227,7 +227,7 @@ namespace Accord.Statistics.Filters
             public Options Learn(DataRow[] x, double[] weights = null)
             {
                 if (weights != null)
-                    throw new ArgumentException("Weights are not supported and should be null.");
+                    throw new ArgumentException(Accord.Properties.Resources.NotSupportedWeights, "weights");
 
                 this.NumberOfInputs = 1;
                 this.NumberOfOutputs = 1;

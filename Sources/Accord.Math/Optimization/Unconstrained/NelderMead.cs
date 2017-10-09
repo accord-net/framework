@@ -150,6 +150,10 @@ namespace Accord.Math.Optimization
     ///    </list></para>
     /// </remarks>
     /// 
+    /// <example>
+    /// <code source="Unit Tests\Accord.Tests.Math\Optimization\NelderMeadTest.cs" region="doc_min" />
+    /// </example>
+    /// 
     public class NelderMead : BaseOptimizationMethod, IOptimizationMethod<NelderMeadStatus>
     {
         private int nmax;

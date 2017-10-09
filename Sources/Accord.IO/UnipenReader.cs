@@ -26,8 +26,12 @@ namespace Accord.IO
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
-    using Accord.IO.Compression;
     using Accord.Compat;
+#if NETSTANDARD
+    using ICSharpCode.SharpZipLib.Lzw;
+#else
+    using ICSharpCode.SharpZipLib.LZW;
+#endif
 
     /// <summary>
     ///   Reader for UNIPEN files (such as Pendigits dataset).
@@ -55,37 +59,15 @@ namespace Accord.IO
 
 
         /// <summary>
-        ///   Creates a new <see cref="IdxReader"/>.
-        /// </summary>
-        /// 
-        /// <param name="path">The path for the IDX file.</param>
-        /// 
-        public UnipenReader(string path)
-            : this(new FileStream(path, FileMode.Open, FileAccess.Read))
-        {
-        }
-
-        /// <summary>
         ///   Creates a new <see cref="UnipenReader"/>.
         /// </summary>
         /// 
         /// <param name="path">The path for the IDX file.</param>
         /// <param name="compressed">Pass <c>true</c> if the stream contains a compressed (.gz) file. Default is true.</param>
         /// 
-        public UnipenReader(string path, bool compressed)
-            : this(new FileStream(path, FileMode.Open, FileAccess.Read), compressed)
+        public UnipenReader(string path, bool compressed = true)
         {
-        }
-
-        /// <summary>
-        ///   Creates a new <see cref="UnipenReader"/>.
-        /// </summary>
-        /// 
-        /// <param name="input">The input stream containing the UNIPEN file.</param>
-        /// 
-        public UnipenReader(Stream input)
-            : this(input, true)
-        {
+            init(new FileStream(path, FileMode.Open, FileAccess.Read), compressed);
         }
 
         /// <summary>
@@ -95,7 +77,12 @@ namespace Accord.IO
         /// <param name="input">The input stream containing the UNIPEN file.</param>
         /// <param name="compressed">Pass <c>true</c> if the stream contains a compressed (.Z) file. Default is true.</param>
         /// 
-        public UnipenReader(Stream input, bool compressed)
+        public UnipenReader(Stream input, bool compressed = true)
+        {
+            init(input, compressed);
+        }
+
+        private void init(Stream input, bool compressed = true)
         {
             if (compressed)
                 reader = new StreamReader(new LzwInputStream(input));
@@ -158,7 +145,17 @@ namespace Accord.IO
 
             do // Find the next ".SEGMENT" region
             {
-                line = reader.ReadLine();
+                try
+                {
+                    line = reader.ReadLine();
+                }
+                catch
+                {
+                    line = null; // TODO: This try-catch block is only necessary because of the 
+                    // current version of SharpZipLib being used. This block can be removed after
+                    // SharpZipLib NuGet's package is finally updated.
+                }
+
                 if (line == null)
                     return false;
             } while (!line.StartsWith(".SEGMENT"));
@@ -235,7 +232,7 @@ namespace Accord.IO
 
 
 
-#region IDisposable members
+        #region IDisposable members
         /// <summary>
         ///   Performs application-defined tasks associated with
         ///   freeing, releasing, or resetting unmanaged resources.
@@ -278,7 +275,7 @@ namespace Accord.IO
         {
             Dispose(false);
         }
-#endregion
+        #endregion
 
 
     }

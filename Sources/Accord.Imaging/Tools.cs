@@ -1579,5 +1579,14 @@ namespace Accord.Imaging
         {
             return value.LockBits(new Rectangle(0, 0, value.Width, value.Height), mode, value.PixelFormat);
         }
+
+
+
+
+        internal static void CheckGrayscale(Bitmap input)
+        {
+            if (input.PixelFormat == PixelFormat.Format8bppIndexed && !input.IsGrayscale())
+                throw new UnsupportedImageFormatException("The image is 8-bpp indexed but has a non-grayscale pallette.");
+        }
     }
 }

@@ -29,6 +29,7 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
     ///   Antecedent expression for <see cref="DecisionRule"/>s.
     /// </summary>
     /// 
+    [Serializable]
     public struct Antecedent : IEquatable<Antecedent>
     {
         private int index;

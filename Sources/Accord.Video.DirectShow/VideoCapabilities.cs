@@ -79,7 +79,7 @@ namespace Accord.Video.DirectShow
                 throw new NotSupportedException("Unable to retrieve video device capabilities. This video device requires a larger VideoStreamConfigCaps structure.");
 
             // group capabilities with similar parameters
-            Dictionary<uint, VideoCapabilities> videocapsList = new Dictionary<uint, VideoCapabilities>();
+            Dictionary<ulong, VideoCapabilities> videocapsList = new Dictionary<ulong, VideoCapabilities>();
 
             for (int i = 0; i < count; i++)
             {
@@ -87,7 +87,8 @@ namespace Accord.Video.DirectShow
                 {
                     VideoCapabilities vc = new VideoCapabilities(videoStreamConfig, i);
 
-                    uint key = (((uint)vc.FrameSize.Height) << 32) |
+                    ulong key = (((uint)vc.AverageFrameRate) << 48) |
+                               (((uint)vc.FrameSize.Height) << 32) |
                                (((uint)vc.FrameSize.Width) << 16);
 
                     if (!videocapsList.ContainsKey(key))
@@ -250,7 +251,7 @@ namespace Accord.Video.DirectShow
         /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
         public override string ToString()
         {
-            return String.Format("{0}x{1}, {2} fps ({3} max fps), {4} bpp", 
+            return String.Format("{0}x{1}, {2} fps ({3} max fps), {4} bpp",
                 FrameSize.Width, FrameSize.Height,
                 AverageFrameRate, MaximumFrameRate,
                 BitCount);

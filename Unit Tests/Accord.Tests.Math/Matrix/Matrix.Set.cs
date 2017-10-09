@@ -33,12 +33,39 @@ namespace Accord.Tests.Math
     {
 
         [Test]
+        public void set_value_specific1()
+        {
+            int[,] m;
+            int[,] expected;
+
+            m = Vector.Interval(0, 12).Reshape(3, 4);
+            m.Set(10, null, 2, -1); // tested against numpy
+            expected = new int[,]
+            {
+                { 0, 1, 10, 3 },
+                 { 4, 5, 10, 7 },
+                 { 8, 9, 10, 11 },
+            };
+            Assert.AreEqual(expected, m);
+
+            m = Vector.Interval(0, 12).Reshape(3, 4).Transpose();
+            m.Set(10, 2, -1, null); // tested against numpy
+            expected = new int[,]
+            {
+                { 0, 1, 10, 3 },
+                 { 4, 5, 10, 7 },
+                 { 8, 9, 10, 11 },
+            }.Transpose();
+            Assert.AreEqual(expected, m);
+        }
+
+        [Test]
         public void set_value()
         {
             int[,] m;
             int[,] expected;
 
-            m = Vector.Range(0, 12).Reshape(3, 4);
+            m = Vector.Interval(0, 12).Reshape(3, 4);
             m.Set(10);
             expected = new int[,]
             {
@@ -48,7 +75,7 @@ namespace Accord.Tests.Math
             };
             Assert.AreEqual(expected, m);
 
-            m = Vector.Range(0, 12).Reshape(3, 4);
+            m = Vector.Interval(0, 12).Reshape(3, 4);
             m.Set(10, null, 2, 3);
             expected = new int[,]
             {
@@ -58,7 +85,7 @@ namespace Accord.Tests.Math
             };
             Assert.AreEqual(expected, m);
 
-            m = Vector.Range(0, 12).Reshape(3, 4);
+            m = Vector.Interval(0, 12).Reshape(3, 4);
             m.Set(10, 2, 3, null);
             expected = new int[,]
             {
@@ -68,7 +95,7 @@ namespace Accord.Tests.Math
             };
             Assert.AreEqual(expected, m);
 
-            m = Vector.Range(0, 12).Reshape(3, 4);
+            m = Vector.Interval(0, 12).Reshape(3, 4);
             m.Set(10, 0, 1,
                       0, 2);
             expected = new int[,]
@@ -89,8 +116,8 @@ namespace Accord.Tests.Math
             Assert.AreEqual(expected, m);
 
 
-            m = Vector.Range(0, 12).Reshape(3, 4);
-            m.Set(10, null, 2, -2);
+            m = Vector.Interval(0, 12).Reshape(3, 4);
+            m.Set(10, null, 2, -1);
             expected = new int[,]
             {
                 { 0, 1, 10, 3 },
@@ -99,8 +126,18 @@ namespace Accord.Tests.Math
             };
             Assert.AreEqual(expected, m);
 
-            m = Vector.Range(0, 12).Reshape(3, 4);
-            m.Set(10, 2, -2, null);
+            m = Vector.Interval(0, 12).Reshape(3, 4).Transpose();
+            m.Set(10, 2, -1, null);
+            expected = new int[,]
+            {
+                { 0, 1, 10, 3 },
+                 { 4, 5, 10, 7 },
+                 { 8, 9, 10, 11 },
+            }.Transpose();
+            Assert.AreEqual(expected, m);
+
+            m = Vector.Interval(0, 12).Reshape(3, 4);
+            m.Set(10, 1, -1, null);
             expected = new int[,]
             {
                 { 0, 1, 2, 3 },
@@ -119,7 +156,7 @@ namespace Accord.Tests.Math
             };
             Assert.AreEqual(expected, m);
 
-            m = Vector.Range(0, 12).Reshape(3, 4);
+            m = Vector.Interval(0, 12).Reshape(3, 4);
             m.Set(42, new[] { -1 }, new[] { -2 });
             expected = new int[,]
             {
@@ -133,7 +170,7 @@ namespace Accord.Tests.Math
         //[Test]
         //public void set_matrix()
         //{
-        //    int[,] m = Vector.Range(0, 12).Reshape(3, 4);
+        //    int[,] m = Vector.Interval(0, 12).Reshape(3, 4);
         //    int[,] expected;
 
         //    m.Set(new[,] {

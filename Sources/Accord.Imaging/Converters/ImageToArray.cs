@@ -151,6 +151,8 @@ namespace Accord.Imaging.Converters
         /// 
         public void Convert(Bitmap input, out double[][] output)
         {
+            Accord.Imaging.Tools.CheckGrayscale(input);
+
             BitmapData bitmapData = input.LockBits(ImageLockMode.ReadOnly);
 
             Convert(new UnmanagedImage(bitmapData), out output);
@@ -167,6 +169,8 @@ namespace Accord.Imaging.Converters
         /// 
         public void Convert(Bitmap input, out float[][] output)
         {
+            Accord.Imaging.Tools.CheckGrayscale(input);
+
             BitmapData bitmapData = input.LockBits(ImageLockMode.ReadOnly);
 
             Convert(new UnmanagedImage(bitmapData), out output);
@@ -183,6 +187,8 @@ namespace Accord.Imaging.Converters
         /// 
         public void Convert(Bitmap input, out double[] output)
         {
+            Accord.Imaging.Tools.CheckGrayscale(input);
+
             BitmapData bitmapData = input.LockBits(ImageLockMode.ReadOnly);
 
             Convert(new UnmanagedImage(bitmapData), out output);
@@ -199,6 +205,8 @@ namespace Accord.Imaging.Converters
         /// 
         public void Convert(Bitmap input, out float[] output)
         {
+            Accord.Imaging.Tools.CheckGrayscale(input);
+
             BitmapData bitmapData = input.LockBits(ImageLockMode.ReadOnly);
 
             Convert(new UnmanagedImage(bitmapData), out output);
@@ -215,6 +223,8 @@ namespace Accord.Imaging.Converters
         /// 
         public void Convert(Bitmap input, out Color[] output)
         {
+            Accord.Imaging.Tools.CheckGrayscale(input);
+
             BitmapData bitmapData = input.LockBits(ImageLockMode.ReadOnly);
 
             Convert(new UnmanagedImage(bitmapData), out output);

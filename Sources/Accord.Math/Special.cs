@@ -836,19 +836,10 @@ namespace Accord.Math
 #endif
         public static double[] Softmax(double[] input, double[] result)
         {
-            double sum = 0;
-            for (int i = 0; i < input.Length; i++)
-            {
-                double u = Math.Exp(input[i]);
-                result[i] = u;
-                sum += u;
-            }
+            double sum = Special.LogSumExp(input);
 
-            if (sum != 0)
-            {
-                for (int i = 0; i < result.Length; i++)
-                    result[i] /= sum;
-            }
+            for (int i = 0; i < input.Length; i++)
+                result[i] = Math.Exp(input[i] - sum);
 
             return result;
         }

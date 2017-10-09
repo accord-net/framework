@@ -90,6 +90,14 @@ namespace Accord.Imaging
     ///   <code source="Unit Tests\Accord.Tests.Vision\Imaging\BagOfVisualWordsTest.cs" region="doc_classification_feature" />
     ///   
     /// <para>
+    ///   Or this also simple case using the <see cref="FastRetinaKeypointDetector">FREAK</see>
+    ///   detector and the <see cref="BinarySplit"/> clustering algorithm:</para>
+    ///   
+    ///   <code source="Unit Tests\Accord.Tests.Vision\Imaging\BagOfVisualWordsTest.cs" region="doc_feature_freak" />
+    ///   <code source="Unit Tests\Accord.Tests.Vision\Imaging\BagOfVisualWordsTest.cs" region="doc_classification_feature_freak" />
+    ///   
+    ///   
+    /// <para>
     ///   More advanced use cases are also supported. For example, some image patches
     ///   can be represented using different data representations, such as byte vectors.
     ///   In this case, it is still possible to use the BoW using an appropriate clustering
@@ -97,6 +105,24 @@ namespace Accord.Imaging
     ///   
     ///   <code source="Unit Tests\Accord.Tests.Vision\Imaging\BagOfVisualWordsTest.cs" region="doc_datatype" />
     ///   <code source="Unit Tests\Accord.Tests.Vision\Imaging\BagOfVisualWordsTest.cs" region="doc_classification_datatype" />
+    /// 
+    /// <para>
+    ///   Other more specialized feature extractors can also be used, such as <see cref="Haralick"/>
+    ///   texture feature extractors for performing texture classification.</para>
+    ///   
+    ///   <code source="Unit Tests\Accord.Tests.Vision\Imaging\BagOfVisualWordsTest.cs" region="doc_feature_haralick" />
+    ///   <code source="Unit Tests\Accord.Tests.Vision\Imaging\BagOfVisualWordsTest.cs" region="doc_classification_feature_haralick" />
+    ///   
+    /// <para>
+    ///   In some applications, learning a BoW with the default settings might need a large amount of memory to be
+    ///   available. In those cases, it is possible to reduce the memory and CPU requirements for the learning phase
+    ///   using the <see cref="BaseBagOfVisualWords{A,B,C,D,E}.NumberOfDescriptors"/> and 
+    ///   <see cref="BaseBagOfVisualWords{A,B,C,D,E}.MaxDescriptorsPerImage"/> properties. It is also possible
+    ///   to avoid loading all images at once by feeding the algorithm with the image filenames instead of their Bitmap
+    ///   representations:</para>
+    ///   
+    ///   <code source="Unit Tests\Accord.Tests.Vision\Imaging\BagOfVisualWordsTest.cs" region="doc_learn_disk" />
+    ///   <code source="Unit Tests\Accord.Tests.Vision\Imaging\BagOfVisualWordsTest.cs" region="doc_classification_disk" />
     /// </example>
     /// 
     /// <seealso cref="BagOfVisualWords{TPoint}"/>
@@ -110,6 +136,7 @@ namespace Accord.Imaging
                 IUnsupervisedLearning<IClassifier<double[], int>, double[], int>,
                 SpeededUpRobustFeaturesDetector>
     {
+
         /// <summary>
         ///   Constructs a new <see cref="BagOfVisualWords"/> using a
         ///   <see cref="SpeededUpRobustFeaturesDetector">surf</see>
@@ -244,6 +271,17 @@ namespace Accord.Imaging
             where TDetector : IFeatureDetector<IFeatureDescriptor<double[]>, double[]>
         {
             return Create<TDetector, TClustering, IFeatureDescriptor<double[]>, double[]>(detector, clustering);
+        }
+
+        /// <summary>
+        /// Creates a Bag-of-Words model using the given feature detector and K-Means.
+        /// </summary>
+        /// 
+        public static BagOfVisualWords<IFeatureDescriptor<double[]>, double[], KMeans, TDetector>
+            Create<TDetector>(TDetector detector, int numberOfWords)
+            where TDetector : IFeatureDetector<IFeatureDescriptor<double[]>, double[]>
+        {
+            return Create<TDetector, KMeans, IFeatureDescriptor<double[]>, double[]>(detector, new KMeans(numberOfWords));
         }
 
         /// <summary>

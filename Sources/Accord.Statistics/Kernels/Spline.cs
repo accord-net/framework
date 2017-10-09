@@ -34,6 +34,10 @@ namespace Accord.Statistics.Kernels
     ///   polynomial, as derived in the works by Gunn (1998).
     /// </remarks>
     /// 
+    /// <example>
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\Kernels\SplineTest.cs" region="doc_learn" />
+    /// </example>
+    /// 
     [Serializable]
     public sealed class Spline : KernelBase, IKernel, ICloneable
     {

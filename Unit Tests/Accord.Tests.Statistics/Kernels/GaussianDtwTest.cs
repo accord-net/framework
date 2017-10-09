@@ -31,22 +31,6 @@ namespace Accord.Tests.Statistics
     public class GaussianDtwTest
     {
 
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
         [Test]
         public void GaussianFunctionTest()
         {
@@ -58,7 +42,7 @@ namespace Accord.Tests.Statistics
 
             double actual = gaussian.Function(x, y);
 
-            Assert.AreEqual(0.3407192298459587, actual);
+            Assert.AreEqual(0.3407192298459587, actual, 1e-10);
 
 
             gaussian = new Gaussian<DynamicTimeWarping>(dtw, 11.5);
@@ -68,7 +52,7 @@ namespace Accord.Tests.Statistics
 
             actual = gaussian.Function(x, y);
 
-            Assert.AreEqual(0.99065918303292089, actual);
+            Assert.AreEqual(0.99065918303292089, actual, 1e-10);
         }
 
         [Test]

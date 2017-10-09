@@ -122,11 +122,14 @@ namespace Accord.Tests.Statistics
 
             double[][] groups = value.Subgroups(idx);
 
+            int[] hist = idx.Histogram();
+
             Assert.AreEqual(4, groups.Length);
             Assert.AreEqual(3, groups[0].Length);
             Assert.AreEqual(4, groups[1].Length);
             Assert.AreEqual(3, groups[2].Length);
             Assert.AreEqual(3, groups[3].Length);
+            Assert.AreEqual(new[] { 3, 4, 3, 3 }, hist);
 
             for (int i = 0; i < groups.Length; i++)
             {
@@ -484,6 +487,35 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0, q1);
             Assert.AreEqual(1, actual);
             Assert.AreEqual(2, q3);
+        }
+
+        [Test]
+        [TestCase(new double[] { 0.0, 1.0, 2.0, 4.0, 5.4, 3.5, 7.8, 8.9, 17.0, 23.78, 98.9, 2.3, 4.5, 6.7, 9.34, 42.42 }, 3.2, 11.255)]
+        [TestCase(new double[] { 0.0, 5.4, 2.0, 4.0, 1.0, 3.5, 7.8, 17.0, 8.9, 98.9, 23.78, 2.3, 4.5, 6.7, 42.42, 9.34 }, 3.2, 11.255)]
+        [TestCase(new double[] { 0.0, 1.0, 2.0, 4.0, 5.4, 3.5, 7.8, 8.9, 17.0, 23.78, 98.9, 2.3, 4.5, 6.7, 9.34, 42.42, 23, 17.87, 18.54, 16.23, 15.34, 19.8723, 23, 24.32 }, 4.375, 20.65423)]
+        [TestCase(new double[] { 18, 31, 25, 2, 22, 13, 37, 1, 4, 7, 6, 45, 10, 24, 23, 49, 27, 9, 35, 14, 34, 33, 41, 42, 20, 43, 3, 48, 15, 39, 11, 38, 46, 17, 40, 16, 50, 29, 19, 47, 12, 28, 32, 8, 30, 26, 5, 44, 36, 21 }, 13.25, 37.75)]
+        [TestCase(new double[] { 18, 14, 1, 15, 4, 32, 10, 26, 38, 9, 24, 16, 31, 20, 25, 30, 22, 6, 28, 21, 33, 17, 5, 35, 2, 13, 36, 8, 29, 7 }, 9.25, 28.75)]
+        [TestCase(new double[] { 112, 718, 320, 576, 547, 658, 253, 560, 408, 314, 681, 303, 236, 753, 122, 239, 222, 797, 593, 274, 338, 604, 52, 245, 389 }, 245, 593)]
+        [TestCase(new double[] { 209, 556, 317, 571, 219, 599, 568, 516, 582, 279, 298, 319, 614, 290, 458, 262, 281, 606, 513, 519, 356, 338, 525, 576, 180 }, 290, 568)]
+        public void quartile_test_gh865(double[] values, double expectedQ1, double expectedQ3)
+        {
+            // https://github.com/accord-net/framework/issues/865
+
+            double q1, q3;
+            Measures.Quartiles(values, out q1, out q3, alreadySorted: false, type: QuantileMethod.R);
+            Assert.AreEqual(expectedQ1, q1, 1e-6);
+            Assert.AreEqual(expectedQ3, q3, 1e-5);
+
+            Measures.Quartiles(values.Sorted(), out q1, out q3, alreadySorted: true, type: QuantileMethod.R);
+            Assert.AreEqual(expectedQ1, q1, 1e-6);
+            Assert.AreEqual(expectedQ3, q3, 1e-5);
+
+            Measures.Quartiles(values.Sorted(), out q1, out q3, alreadySorted: false, type: QuantileMethod.R);
+            Assert.AreEqual(expectedQ1, q1, 1e-6);
+            Assert.AreEqual(expectedQ3, q3, 1e-5);
+
+            Measures.Quartiles(values, out q1, out q3, alreadySorted: true, type: QuantileMethod.R);
+            Assert.IsFalse(expectedQ1.IsEqual(q1, 1e-3) && expectedQ3.IsEqual(q3, 1e-3));
         }
 
         [Test]
@@ -942,6 +974,9 @@ namespace Accord.Tests.Statistics
         {
             // http://www.solvemymath.com/online_math_calculator/statistics/descriptive/correlation.php
 
+            #region doc_correlation
+            // Let's say we have a matrix containing 5
+            // samples (rows) of 3 dimensions (columns):
             double[,] matrix = new double[,]
             {
                 { 4.0, 2.0, 0.60 },
@@ -951,7 +986,10 @@ namespace Accord.Tests.Statistics
                 { 4.1, 2.2, 0.63 }
             };
 
+            // We can compute their correlation matrix using
+            double[,] corr1 = Measures.Correlation(matrix);
 
+            // The matrix should be equal to:
             double[,] expected = new double[,]
             {
                 { 1.000000, 0.5669467, 0.533745 },
@@ -960,10 +998,22 @@ namespace Accord.Tests.Statistics
             };
 
 
-            double[,] actual = Measures.Correlation(matrix);
+            // The same could be repeated with a jagged matrix instead:
+            double[][] jagged = new double[][]
+            {
+                new double[] { 4.0, 2.0, 0.60 },
+                new double[] { 4.2, 2.1, 0.59 },
+                new double[] { 3.9, 2.0, 0.58 },
+                new double[] { 4.3, 2.1, 0.62 },
+                new double[] { 4.1, 2.2, 0.63 }
+            };
 
-            Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.001));
+            // And the value would be the same:
+            double[][] corr2 = Measures.Correlation(jagged);
+            #endregion
 
+            Assert.IsTrue(Matrix.IsEqual(expected, corr1, 1e-5));
+            Assert.IsTrue(Matrix.IsEqual(expected, corr2, 1e-5));
         }
 
 
@@ -1255,7 +1305,7 @@ namespace Accord.Tests.Statistics
             double[] values = { 7, 1, 2, 1, 7, 8, 1, 1, 2, 0, 10, 27 };
             double[] copy = (double[])values.Clone();
 
-            double[] expected = { 7.5, 2.5, 5.5, 2.5, 7.5, 9, 2.5, 2.5, 5.5, 0, 10, 11 };
+            double[] expected = { 8.5, 3.5, 6.5, 3.5, 8.5, 10.0, 3.5, 3.5, 6.5, 1.0, 11.0, 12.0 };
             double[] actual = values.Rank();
 
             Assert.IsTrue(expected.IsEqual(actual));
@@ -1277,6 +1327,77 @@ namespace Accord.Tests.Statistics
             Array.Sort(expected);
             Array.Sort(actual);
 
+            Assert.IsTrue(expected.IsEqual(actual));
+        }
+
+
+        [Test]
+        public void RankTest4()
+        {
+            double[] sample1 = new double[] { 250, 200, 450, 400, 250, 250, 350, 0, 200, 400, 300, 600, 200, 200,
+                550, 100, 300, 250, 350, 200, 550, 200, 450, 400, 200, 400, 450,
+                200, 400, 400, 500, 450, 300, 250, 200 };
+            double[] sample2 = new double[] { 250, 200, 450, 400, 250, 250, 350, 0, 200, 400, 300, 600, 200, 200,
+               550, 100, 300, 250, 350, 200, 550, 200, 450, 400, 200, 400, 450,
+               200, 400, 400, 500, 450, 300, 250, 200 };
+
+            double[] samples = sample1.Concatenate(sample2);
+
+            bool hasTies;
+            double[] actual = samples.Rank(hasTies: out hasTies, adjustForTies: true);
+            Assert.IsTrue(hasTies);
+
+            double[] expected =
+            {
+                27.5, 13.5, 58.5, 48.5, 27.5, 27.5, 40.5, 1.5, 13.5, 48.5, 35.5, 69.5, 13.5, 13.5, 66.5, 3.5, 35.5, 27.5, 40.5,
+                13.5, 66.5, 13.5, 58.5, 48.5, 13.5, 48.5, 58.5, 13.5, 48.5, 48.5, 63.5, 58.5, 35.5, 27.5, 13.5, 27.5, 13.5, 58.5, 48.5,
+                27.5, 27.5, 40.5, 1.5, 13.5, 48.5, 35.5, 69.5, 13.5, 13.5, 66.5, 3.5, 35.5, 27.5, 40.5, 13.5, 66.5, 13.5, 58.5, 48.5,
+                13.5, 48.5, 58.5, 13.5, 48.5, 48.5, 63.5, 58.5, 35.5, 27.5, 13.5
+            };
+
+            Assert.IsTrue(expected.IsEqual(actual));
+        }
+
+        [Test]
+        public void RankTest5()
+        {
+            double[] sample = new double[] { 250, 200, 450, 400, 250, 250, 350, 0, 200, 400, 300, 600, 200, 200,
+                550, 100, 300, 250, 350, 200, 550, 200, 450, 400, 200, 400, 450,
+                200, 400, 400, 500, 450, 300, 250, 200 };
+
+            bool hasTies;
+            double[] actual = sample.Rank(hasTies: out hasTies, adjustForTies: true);
+            Assert.IsTrue(hasTies);
+
+            double[] expected =
+            {
+                14.0, 7.0, 29.5, 24.5, 14.0, 14.0, 20.5, 1.0, 7.0, 24.5, 18.0, 35.0, 7.0, 7.0, 33.5,
+                2.0, 18.0, 14.0, 20.5, 7.0, 33.5, 7.0, 29.5, 24.5, 7.0, 24.5, 29.5, 7.0, 24.5, 24.5,
+                32.0, 29.5, 18.0, 14.0, 7.0
+            };
+
+            Assert.IsTrue(expected.IsEqual(actual));
+        }
+
+        [Test]
+        public void test_rank_all_ties_odd()
+        {
+            double[] samples = new double[] { 0, 0, 0 };
+            bool hasTies;
+            double[] actual = samples.Rank(hasTies: out hasTies, adjustForTies: true);
+            Assert.IsTrue(hasTies);
+            double[] expected = { 2, 2, 2 };
+            Assert.IsTrue(expected.IsEqual(actual));
+        }
+
+        [Test]
+        public void test_rank_all_ties_even()
+        {
+            double[] samples = new double[] { 0, 0, 0, 0 };
+            bool hasTies;
+            double[] actual = samples.Rank(hasTies: out hasTies, adjustForTies: true);
+            Assert.IsTrue(hasTies);
+            double[] expected = { 2.5, 2.5, 2.5, 2.5 };
             Assert.IsTrue(expected.IsEqual(actual));
         }
 

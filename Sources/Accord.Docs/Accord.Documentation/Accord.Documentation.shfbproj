@@ -43,13 +43,13 @@
       <DocumentationSource sourceFile="..\..\Extras\Accord.Imaging.NonCommercial\Accord.Imaging (Noncommercial).csproj" />
       <DocumentationSource sourceFile="..\..\Extras\Accord.MachineLearning.GPL\Accord.MachineLearning (GPL).csproj" />
       <DocumentationSource sourceFile="..\..\Extras\Accord.Math.NonCommercial\Accord.Math (Noncommercial).csproj" />
-      <DocumentationSource sourceFile="..\..\Extras\Accord.Video.FFMPEG.GPL\Video.FFMPEG.vcxproj" platform="Win32" />
+      <DocumentationSource sourceFile="..\..\Extras\Accord.Video.FFMPEG.GPL\Video.FFMPEG.vcxproj" configuration="net462" platform="Win32" />
       <DocumentationSource sourceFile="..\..\Accord.DataSets\Accord.DataSets.csproj" />
       <DocumentationSource sourceFile="..\..\Accord.Text\Accord.Text.csproj" />
-      <DocumentationSource sourceFile="..\..\..\Externals\SharpDX\v311\net45\SharpDX.DirectSound.xml" />
-      <DocumentationSource sourceFile="..\..\..\Externals\SharpDX\v311\net45\SharpDX.DirectSound.dll" />
-      <DocumentationSource sourceFile="..\..\..\Externals\SharpDX\v311\net45\SharpDX.xml" />
-      <DocumentationSource sourceFile="..\..\..\Externals\SharpDX\v311\net45\SharpDX.dll" />
+      <DocumentationSource sourceFile="..\..\..\Externals\SharpDX\v401\net45\SharpDX.DirectSound.dll" />
+      <DocumentationSource sourceFile="..\..\..\Externals\SharpDX\v401\net45\SharpDX.DirectSound.xml" />
+      <DocumentationSource sourceFile="..\..\..\Externals\SharpDX\v401\net45\SharpDX.dll" />
+      <DocumentationSource sourceFile="..\..\..\Externals\SharpDX\v401\net45\SharpDX.xml" />
     </DocumentationSources>
     <CopyrightText>Accord.NET Framework &amp;#169%3b 2009-2017. All documentation is licensed under the Creative Commons Attribution/Share-Alike License.</CopyrightText>
     <FeedbackEMailAddress>feedback%40accord-framework.net</FeedbackEMailAddress>
@@ -261,8 +261,8 @@
     <PresentationStyle>VS2013</PresentationStyle>
     <SyntaxFilters>C#, Visual Basic</SyntaxFilters>
     <NamingMethod>MemberName</NamingMethod>
-    <HelpFileVersion>3.7.0.0</HelpFileVersion>
-    <FrameworkVersion>.NET Framework 4.6</FrameworkVersion>
+    <HelpFileVersion>3.7.3.0</HelpFileVersion>
+    <FrameworkVersion>.NET Framework 4.6.2</FrameworkVersion>
     <VisibleItems>Attributes, InheritedMembers, InheritedFrameworkMembers, Protected</VisibleItems>
     <PlugInNamespaces>ms.vsipcc+, ms.vsexpresscc+</PlugInNamespaces>
     <CollectionTocStyle>Flat</CollectionTocStyle>
@@ -320,7 +320,6 @@
     <OutputPath>..\..\..\..\..\..\Docs\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <Folder Include="diagrams\Modules\" />
     <Folder Include="icons\" />
     <Folder Include="images\" />
     <Folder Include="images\" />
@@ -597,22 +596,6 @@
       <ImageId>normalization-filter</ImageId>
       <AlternateText>normalization-filter</AlternateText>
     </Content>
-    <Content Include="diagrams\Modules\Graph - Accord-AForge.png">
-      <ImageId>Graph - Accord-AForge</ImageId>
-      <AlternateText>Graph - Accord-AForge</AlternateText>
-    </Content>
-    <Content Include="diagrams\Modules\Graph - Accord.png">
-      <ImageId>Graph - Accord</ImageId>
-      <AlternateText>Graph - Accord</AlternateText>
-    </Content>
-    <Content Include="diagrams\Modules\Matrix - Accord-AForge.png">
-      <ImageId>Matrix - Accord-AForge</ImageId>
-      <AlternateText>Matrix - Accord-AForge</AlternateText>
-    </Content>
-    <Content Include="diagrams\Modules\Matrix - Accord.png">
-      <ImageId>Matrix - Accord</ImageId>
-      <AlternateText>Matrix - Accord</AlternateText>
-    </Content>
     <Content Include="diagrams\classes\Accord.Imaging.Filters.png">
       <ImageId>Accord.Imaging.Filters</ImageId>
       <AlternateText>Accord.Imaging.Filters</AlternateText>
@@ -791,12 +774,12 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="SharpDX, Version=3.1.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1">
-      <HintPath>..\..\..\Externals\SharpDX\v311\net45\SharpDX.dll</HintPath>
+    <Reference Include="SharpDX, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1">
+      <HintPath>..\..\..\Externals\SharpDX\v401\net45\SharpDX.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="SharpDX.DirectSound, Version=3.1.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1">
-      <HintPath>..\..\..\Externals\SharpDX\v311\net45\SharpDX.DirectSound.dll</HintPath>
+    <Reference Include="SharpDX.DirectSound, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1">
+      <HintPath>..\..\..\Externals\SharpDX\v401\net45\SharpDX.DirectSound.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">

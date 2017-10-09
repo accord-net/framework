@@ -194,6 +194,7 @@ namespace Accord.Tests.Statistics
         }
 
         [Test]
+        [Category("Slow")]
         public void DurbinTest2()
         {
             double expected;

@@ -54,6 +54,13 @@ namespace Accord.Statistics.Models.Regression.Linear
     /// <code source="Unit Tests\Accord.Tests.Statistics\Models\Regression\MultipleLinearRegressionTest.cs" region="doc_learn" />
     /// 
     ///  <para>
+    ///   The next example shows how to fit a multiple linear regression model
+    ///   in conjunction with a discrete codebook to learn from discrete variables
+    ///   using one-hot encodings when applicable:</para>
+    ///   
+    /// <code source="Unit Tests\Accord.Tests.Statistics\Models\Regression\MultipleLinearRegressionTest.cs" region="doc_learn_2" />
+    /// 
+    ///  <para>
     ///   The next example shows how to fit a multiple linear regression model with the 
     ///   additional constraint that none of its coefficients should be negative. For this
     ///   we can use the <see cref="NonNegativeLeastSquares"/> learning algorithm instead of
@@ -388,9 +395,15 @@ namespace Accord.Statistics.Models.Regression.Linear
         ///    The R² coefficient of determination is a statistical measure of how well the
         ///    regression line approximates the real data points. An R² of 1.0 indicates
         ///    that the regression line perfectly fits the data.</para> 
+        ///   <para>
+        ///    This method uses the <see cref="RSquaredLoss"/> class to compute the R²
+        ///    coefficient. Please see the documentation for <see cref="RSquaredLoss"/>
+        ///    for more details, including usage examples.</para>
         /// </remarks>
         /// 
         /// <returns>The R² (r-squared) coefficient for the given data.</returns>
+        /// 
+        /// <seealso cref="RSquaredLoss"/>
         /// 
         public double CoefficientOfDetermination(double[][] inputs, double[] outputs, bool adjust = false, double[] weights = null)
         {

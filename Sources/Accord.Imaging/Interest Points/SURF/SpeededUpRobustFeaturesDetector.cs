@@ -87,6 +87,18 @@ namespace Accord.Imaging
     ///   </list>
     /// </para>
     /// </remarks>
+    /// 
+    /// <example>
+    /// <para>
+    ///   The first example shows how to extract SURF descriptors from a standard test image:</para>
+    ///   <code source="Unit Tests\Accord.Tests.Imaging\SpeedUpRobustFeaturesDetectorTest.cs" region="doc_apply" />
+    ///   
+    /// <para>
+    ///   The second example shows how to use SURF descriptors as part of a BagOfVisualWords (BoW) pipeline 
+    ///   for image classification:</para>
+    ///   <code source="Unit Tests\Accord.Tests.Vision\Imaging\BagOfVisualWordsTest.cs" region="doc_learn" />
+    ///   <code source="Unit Tests\Accord.Tests.Vision\Imaging\BagOfVisualWordsTest.cs" region="doc_classification" />
+    /// </example>
     ///
     /// <seealso cref="SpeededUpRobustFeaturePoint"/>
     /// <seealso cref="SpeededUpRobustFeaturesDescriptor"/>
@@ -117,27 +129,6 @@ namespace Accord.Imaging
         ///   Initializes a new instance of the <see cref="SpeededUpRobustFeaturesDetector"/> class.
         /// </summary>
         /// 
-        public SpeededUpRobustFeaturesDetector()
-            : this(0.0002f)
-        {
-        }
-
-        /// <summary>
-        ///   Initializes a new instance of the <see cref="SpeededUpRobustFeaturesDetector"/> class.
-        /// </summary>
-        /// 
-        /// <param name="threshold">
-        ///   The non-maximum suppression threshold. Default is 0.0002f.</param>
-        ///   
-        public SpeededUpRobustFeaturesDetector(float threshold)
-            : this(threshold, 5, 2)
-        {
-        }
-
-        /// <summary>
-        ///   Initializes a new instance of the <see cref="SpeededUpRobustFeaturesDetector"/> class.
-        /// </summary>
-        /// 
         /// <param name="threshold">
         ///   The non-maximum suppression threshold. Default is 0.0002f.</param>
         /// <param name="octaves">
@@ -148,7 +139,7 @@ namespace Accord.Imaging
         ///   The initial step to use when building the <see cref="ResponseLayerCollection">
         ///   response filter</see>. Default is 2. </param>
         ///   
-        public SpeededUpRobustFeaturesDetector(double threshold, int octaves, int initial)
+        public SpeededUpRobustFeaturesDetector(double threshold = 0.0002f, int octaves = 5, int initial = 2)
         {
             this.threshold = threshold;
             this.octaves = octaves;
@@ -280,24 +271,17 @@ namespace Accord.Imaging
 
         private List<SpeededUpRobustFeaturePoint> processImage(UnmanagedImage image)
         {
-            // make sure we have grayscale image
-            UnmanagedImage grayImage = null;
-
+            // 1. Compute the integral for the given image
             if (image.PixelFormat == PixelFormat.Format8bppIndexed)
             {
-                grayImage = image;
+                integral = IntegralImage.FromBitmap(image);
             }
             else
             {
                 // create temporary grayscale image
-                grayImage = Grayscale.CommonAlgorithms.BT709.Apply(image);
+                using (UnmanagedImage grayImage = Grayscale.CommonAlgorithms.BT709.Apply(image))
+                    integral = IntegralImage.FromBitmap(grayImage);
             }
-
-
-            // 1. Compute the integral for the given image
-            integral = IntegralImage.FromBitmap(grayImage);
-
-
 
             // 2. Create and compute interest point response map
             if (responses == null)
@@ -342,7 +326,7 @@ namespace Accord.Imaging
                         int mscale = mid.Width / top.Width;
                         int bscale = bot.Width / top.Width;
 
-                        double currentValue = mid.Responses[y * mscale, x * mscale];
+                        double currentValue = mid.Responses[y * mscale][x * mscale];
 
                         // for each windows' row
                         for (int i = -r; (currentValue >= threshold) && (i <= r); i++)
@@ -354,9 +338,9 @@ namespace Accord.Imaging
                                 int xj = x + j;
 
                                 // for each response layer
-                                if (top.Responses[yi, xj] >= currentValue ||
-                                    bot.Responses[yi * bscale, xj * bscale] >= currentValue || ((i != 0 || j != 0) &&
-                                    mid.Responses[yi * mscale, xj * mscale] >= currentValue))
+                                if (top.Responses[yi][xj] >= currentValue ||
+                                    bot.Responses[yi * bscale][xj * bscale] >= currentValue || ((i != 0 || j != 0) &&
+                                    mid.Responses[yi * mscale][xj * mscale] >= currentValue))
                                 {
                                     currentValue = 0;
                                     break;
@@ -378,7 +362,7 @@ namespace Accord.Imaging
                                     (x + offset[0]) * tstep,
                                     (y + offset[1]) * tstep,
                                     0.133333333 * (mid.Size + offset[2] * mstep),
-                                    mid.Laplacian[y * mscale, x * mscale]));
+                                    mid.Laplacian[y * mscale][x * mscale]));
                             }
                         }
 
@@ -490,9 +474,9 @@ namespace Accord.Imaging
             int xm1 = x - 1, ym1 = y - 1;
 
             // Compute first order scale-space derivatives
-            double dx = (mid.Responses[y * ms, xp1 * ms] - mid.Responses[y * ms, xm1 * ms]) / 2f;
-            double dy = (mid.Responses[yp1 * ms, x * ms] - mid.Responses[ym1 * ms, x * ms]) / 2f;
-            double ds = (top.Responses[y, x] - bot.Responses[y * bs, x * bs]) / 2f;
+            double dx = (mid.Responses[y * ms][xp1 * ms] - mid.Responses[y * ms][xm1 * ms]) / 2f;
+            double dy = (mid.Responses[yp1 * ms][x * ms] - mid.Responses[ym1 * ms][x * ms]) / 2f;
+            double ds = (top.Responses[y][x] - bot.Responses[y * bs][x * bs]) / 2f;
 
             double[] d =
             {
@@ -502,14 +486,14 @@ namespace Accord.Imaging
             };
 
             // Compute Hessian
-            double v = mid.Responses[y * ms, x * ms] * 2.0;
-            double dxx = (mid.Responses[y * ms, xp1 * ms] + mid.Responses[y * ms, xm1 * ms] - v);
-            double dyy = (mid.Responses[yp1 * ms, x * ms] + mid.Responses[ym1 * ms, x * ms] - v);
-            double dxs = (top.Responses[y, xp1] - top.Responses[y, x - 1] - bot.Responses[y * bs, xp1 * bs] + bot.Responses[y * bs, xm1 * bs]) / 4f;
-            double dys = (top.Responses[yp1, x] - top.Responses[y - 1, x] - bot.Responses[yp1 * bs, x * bs] + bot.Responses[ym1 * bs, x * bs]) / 4f;
-            double dss = (top.Responses[y, x] + bot.Responses[y * ms, x * ms] - v);
-            double dxy = (mid.Responses[yp1 * ms, xp1 * ms] - mid.Responses[yp1 * ms, xm1 * ms]
-                - mid.Responses[ym1 * ms, xp1 * ms] + mid.Responses[ym1 * ms, xm1 * ms]) / 4f;
+            double v = mid.Responses[y * ms][x * ms] * 2.0;
+            double dxx = (mid.Responses[y * ms][xp1 * ms] + mid.Responses[y * ms][xm1 * ms] - v);
+            double dyy = (mid.Responses[yp1 * ms][x * ms] + mid.Responses[ym1 * ms][x * ms] - v);
+            double dxs = (top.Responses[y][xp1] - top.Responses[y][x - 1] - bot.Responses[y * bs][xp1 * bs] + bot.Responses[y * bs][xm1 * bs]) / 4f;
+            double dys = (top.Responses[yp1][x] - top.Responses[y - 1][x] - bot.Responses[yp1 * bs][x * bs] + bot.Responses[ym1 * bs][x * bs]) / 4f;
+            double dss = (top.Responses[y][x] + bot.Responses[y * ms][x * ms] - v);
+            double dxy = (mid.Responses[yp1 * ms][xp1 * ms] - mid.Responses[yp1 * ms][xm1 * ms]
+                - mid.Responses[ym1 * ms][xp1 * ms] + mid.Responses[ym1 * ms][xm1 * ms]) / 4f;
 
             double[,] H =
             {

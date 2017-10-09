@@ -1067,6 +1067,8 @@ namespace Accord.Math
         [Obsolete("Please use Vector.Range instead.")]
         public static int[] Indices(int from, int to)
         {
+            if (from > to)
+                return Accord.Math.Vector.Range(from - 1, to - 1);
             return Accord.Math.Vector.Range(from, to);
         }
 
@@ -1077,7 +1079,7 @@ namespace Accord.Math
         [Obsolete("Please use Vector.Range instead.")]
         public static int[] Indices(int to)
         {
-            return Accord.Math.Vector.Range(to);
+            return Accord.Math.Vector.Range(0, to);
         }
 
         /// <summary>
@@ -1287,38 +1289,17 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Creates a bi-dimensional mesh matrix.
+        ///   Obsolete. Please specify the number of steps instead of the step size for the rows and columns.
         /// </summary>
         /// 
-        /// <example>
-        /// <code>
-        /// // The Mesh method can be used to generate all
-        /// // possible (x,y) pairs between two ranges. 
-        /// 
-        /// // We can create a grid as
-        /// double[][] grid = Matrix.Mesh
-        /// (
-        ///     rowMin: 0, rowMax: 1, rowStepSize: 0.3,
-        ///     colMin: 0, colMax: 1, colStepSize: 0.1
-        /// );
-        /// 
-        /// // Now we can plot the points on-screen
-        /// ScatterplotBox.Show("Grid (step size)", grid).Hold();
-        /// </code>
-        /// 
-        /// <para>
-        ///   The resulting image is shown below. </para>
-        ///   <img src="..\images\grid-step-size.png" /> 
-        /// </example>
-        /// 
+        [Obsolete("Please specify the number of steps instead of the step size for the rows and columns.")]
         public static double[][] Mesh(
             double rowMin, double rowMax, double rowStepSize,
             double colMin, double colMax, double colStepSize)
         {
-            double[][] mesh = Matrix.Cartesian(
-                Accord.Math.Vector.Interval(rowMin, rowMax, rowStepSize),
-                Accord.Math.Vector.Interval(colMin, colMax, colStepSize));
-
+            double[] x = Accord.Math.Vector.Interval(rowMin, rowMax, rowStepSize);
+            double[] y = Accord.Math.Vector.Interval(colMin, colMax, colStepSize);
+            double[][] mesh = Matrix.Cartesian(x, y);
             return mesh;
         }
 
@@ -1330,10 +1311,9 @@ namespace Accord.Math
             int rowMin, int rowMax,
             int colMin, int colMax)
         {
-            int[][] mesh = Matrix.Cartesian(
-                Accord.Math.Vector.Interval(rowMin, rowMax),
-                Accord.Math.Vector.Interval(colMin, colMax));
-
+            int[] x = Accord.Math.Vector.Interval(rowMin, rowMax);
+            int[] y = Accord.Math.Vector.Interval(colMin, colMax);
+            int[][] mesh = Matrix.Cartesian(x, y);
             return mesh;
         }
 
@@ -1366,10 +1346,9 @@ namespace Accord.Math
             double rowMin, double rowMax, int rowSteps,
             double colMin, double colMax, int colSteps)
         {
-            double[][] mesh = Matrix.Cartesian(
-                Accord.Math.Vector.Interval(rowMin, rowMax, rowSteps),
-                Accord.Math.Vector.Interval(colMin, colMax, colSteps));
-
+            double[] x = Accord.Math.Vector.Interval(rowMin, rowMax, rowSteps);
+            double[] y = Accord.Math.Vector.Interval(colMin, colMax, colSteps);
+            double[][] mesh = Matrix.Cartesian(x, y);
             return mesh;
         }
 
@@ -1385,27 +1364,41 @@ namespace Accord.Math
         /// // We can create a grid as
         /// double[][] grid = Matrix.Mesh
         /// (
-        ///     rowRange: new DoubleRange(0, 1), rowStepSize: 0.3,
-        ///     colRange: new DoubleRange(0, 1), colStepSize: 0.1
+        ///     rowMin: 0, rowMax: 1, rowSteps: 10,
+        ///     colMin: 0, colMax: 1, colSteps: 5
         /// );
-        /// 
+        ///
         /// // Now we can plot the points on-screen
-        /// ScatterplotBox.Show("Grid (step size)", grid).Hold();
+        /// ScatterplotBox.Show("Grid (fixed steps)", grid).Hold();
         /// </code>
         /// 
         /// <para>
         ///   The resulting image is shown below. </para>
-        ///   <img src="..\images\grid-step-size.png" /> 
+        ///   <img src="..\images\grid-fixed-steps.png" /> 
         /// </example>
         /// 
+        public static double[][] Mesh(
+            DoubleRange rowRange, int rowSteps,
+            DoubleRange colRange, int colSteps)
+        {
+            double[] x = Accord.Math.Vector.Interval(rowRange, rowSteps);
+            double[] y = Accord.Math.Vector.Interval(colRange, colSteps);
+            double[][] mesh = Matrix.Cartesian(x, y);
+            return mesh;
+        }
+
+        /// <summary>
+        ///   Obsolete. Please specify the number of steps instead of the step size for the rows and columns.
+        /// </summary>
+        /// 
+        [Obsolete("Please specify the number of steps instead of the step size for the rows and columns.")]
         public static double[][] Mesh(
             DoubleRange rowRange, DoubleRange colRange,
             double rowStepSize, double colStepSize)
         {
-            double[][] mesh = Matrix.Cartesian(
-                Accord.Math.Vector.Interval(rowRange, rowStepSize),
-                Accord.Math.Vector.Interval(colRange, colStepSize));
-
+            double[] x = Accord.Math.Vector.Interval(rowRange, rowStepSize);
+            double[] y = Accord.Math.Vector.Interval(colRange, colStepSize);
+            double[][] mesh = Matrix.Cartesian(x, y);
             return mesh;
         }
 

@@ -25,6 +25,8 @@
 
 namespace Accord.MachineLearning.Boosting
 {
+    using System;
+
     /// <summary>
     ///   Common interface for Weak classifiers
     ///   used in Boosting mechanisms.
@@ -32,6 +34,7 @@ namespace Accord.MachineLearning.Boosting
     /// 
     /// <seealso cref="AdaBoost{TModel}"/>
     /// 
+    [Obsolete("This interface will be removed.")]
     public interface IWeakClassifier
     {
         /// <summary>
@@ -42,6 +45,7 @@ namespace Accord.MachineLearning.Boosting
         /// 
         /// <returns>The most likely class label for the given input.</returns>
         /// 
+        [Obsolete("Please used the Decide() method instead.")]
         int Compute(double[] inputs);
     }
 }

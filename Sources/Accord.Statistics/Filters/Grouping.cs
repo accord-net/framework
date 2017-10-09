@@ -33,7 +33,7 @@ namespace Accord.Statistics.Filters
     /// </summary>
     /// 
     [Serializable]
-    public class Grouping : BaseFilter<Grouping.Options>
+    public class Grouping : BaseFilter<Grouping.Options, Grouping>
     {
 
         [OptionalField]
@@ -214,7 +214,7 @@ namespace Accord.Statistics.Filters
         /// </summary>
         /// 
         [Serializable]
-        public class Options : ColumnOptionsBase
+        public class Options : ColumnOptionsBase<Grouping>
         {
             /// <summary>
             ///   Gets or sets the labels used for each class contained in the column.

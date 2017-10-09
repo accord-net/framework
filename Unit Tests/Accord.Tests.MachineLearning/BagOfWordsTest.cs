@@ -327,6 +327,8 @@ namespace Accord.Tests.MachineLearning
             // Create a Bag-of-Words learning algorithm
             var bow = new BagOfWords<int>();
 
+            bow.ParallelOptions.MaxDegreeOfParallelism = 1;
+
             // Use the BoW to create a quantizer
             var quantizer = bow.Learn(sequences);
 

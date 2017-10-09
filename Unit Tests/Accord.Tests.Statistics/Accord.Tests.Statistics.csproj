@@ -99,6 +99,7 @@
     <Compile Include="Distributions\Univariate\Discrete\DegenerateDistributionTest.cs" />
     <Compile Include="Distributions\Univariate\UnivariateDistributionTest.cs" />
     <Compile Include="Filters\BranchingFilterTest.cs" />
+    <Compile Include="Filters\ImputationFilterTest.cs" />
     <Compile Include="Kernels\GaussianLinearTest.cs" />
     <Compile Include="Kernels\GaussianDtwTest.cs" />
     <Compile Include="Kernels\QuadraticTest.cs" />
@@ -109,8 +110,10 @@
     <Compile Include="Models\Fields\Learning\KeepTravisAlive.cs" />
     <Compile Include="Models\Markov\HiddenMarkovClassifier`2Test.cs" />
     <Compile Include="Models\Markov\HiddenMarkovModel`2Test.cs" />
+    <Compile Include="Models\Regression\LevenbergMarquardtTest.cs" />
     <Compile Include="Models\Regression\LogarithmRegressionTest.cs" />
     <Compile Include="Models\Regression\MultinomialLogisticGradientDescentTest.cs" />
+    <Compile Include="Models\Regression\GaussNewtonTest.cs" />
     <Compile Include="Models\Regression\NonlinearLeastSquaresTest.cs" />
     <Compile Include="Models\Regression\NonNegativeLeastSquaresTest.cs" />
     <Compile Include="MovingCircularStatisticsTest.cs" />
@@ -243,6 +246,7 @@
     <Compile Include="Testing\TwoSamples\TwoSampleZTestTest.cs" />
     <Compile Include="Testing\Power\TTestPowerAnalysisTest.cs" />
     <Compile Include="Testing\TwoSamples\TwoSampleKolmogorovSmirnovTestTest.cs" />
+    <Compile Include="ClassesTest.cs" />
     <Compile Include="Visualizations\HistogramTest.cs" />
     <Compile Include="Kernels\AnovaTest.cs" />
     <Compile Include="Filters\CodificationFilterTest.cs" />

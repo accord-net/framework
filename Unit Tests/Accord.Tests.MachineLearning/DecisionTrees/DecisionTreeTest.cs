@@ -36,6 +36,7 @@ namespace Accord.Tests.MachineLearning
     using Accord.DataSets;
     using Accord.Math.Optimization.Losses;
     using Accord.MachineLearning.Performance;
+    using Accord.Statistics.Analysis;
 
     [TestFixture]
     public class DecisionTreeTest
@@ -165,6 +166,24 @@ namespace Accord.Tests.MachineLearning
                 Assert.AreEqual(expected.Length, i);
             }
         }
+
+        [Test]
+        public void unknown_values_test()
+        {
+            // https://github.com/accord-net/framework/issues/689
+
+            DecisionTree tree;
+            int[][] inputs;
+            int[] outputs;
+
+            ID3LearningTest.CreateMitchellExample(out tree, out inputs, out outputs);
+
+            int a = tree.Decide(new[] { 42, Double.NaN, 52, 21 });
+            int b= tree.Decide(new[] { 42, 3, 52, 21 });
+
+            Assert.AreEqual(0, a);
+            Assert.AreEqual(0, b);
+        }
 #endif
 
         //[Test]
@@ -278,20 +297,29 @@ namespace Accord.Tests.MachineLearning
             int numberOfInputs = result.NumberOfInputs;   // should be 30
             int numberOfOutputs = result.NumberOfOutputs; // should be 2
 
-            double trainingError = result.Training.Mean; // should be 0
-            double validationError = result.Validation.Mean; // should be 0.089661654135338359
+            double trainingError = result.Training.Mean; // should be 0.017771153143274855
+            double validationError = result.Validation.Mean; // should be 0.0755952380952381
+
+            // If desired, compute an aggregate confusion matrix for the validation sets:
+            GeneralConfusionMatrix gcm = result.ToConfusionMatrix(input, output);
+            double accuracy = gcm.Accuracy; // result should be 0.92442882249560632
             #endregion
+
+            Assert.AreEqual(569, gcm.Samples);
+            Assert.AreEqual(0.92442882249560632, gcm.Accuracy);
+            Assert.AreEqual(0.075571177504393683, gcm.Error);
+            Assert.AreEqual(2, gcm.Classes);
 
             Assert.AreEqual(569, numberOfSamples);
             Assert.AreEqual(30, numberOfInputs);
             Assert.AreEqual(2, numberOfOutputs);
 
             Assert.AreEqual(10, cv.K);
-            Assert.AreEqual(0.017770391691033137, result.Training.Mean, 1e-10);
-            Assert.AreEqual(0.077318295739348369, result.Validation.Mean, 1e-10);
+            Assert.AreEqual(0.017771153143274855, result.Training.Mean, 1e-10);
+            Assert.AreEqual(0.0755952380952381, result.Validation.Mean, 1e-10);
 
-            Assert.AreEqual(3.0913682243756776E-05, result.Training.Variance, 1e-10);
-            Assert.AreEqual(0.00090104473101439207, result.Validation.Variance, 1e-10);
+            Assert.AreEqual(3.0929835736884063E-05, result.Training.Variance, 1e-10);
+            Assert.AreEqual(0.00096549963219103182, result.Validation.Variance, 1e-10);
 
             Assert.AreEqual(10, cv.Folds.Length);
             Assert.AreEqual(10, result.Models.Length);
@@ -299,6 +327,8 @@ namespace Accord.Tests.MachineLearning
             var tree = result.Models[0].Model;
             int height = tree.GetHeight();
             Assert.AreEqual(5, height);
+
+            Accord.Math.Random.Generator.Seed = 0;
 
             cv = CrossValidation.Create(
                k: 10,
@@ -313,6 +343,8 @@ namespace Accord.Tests.MachineLearning
                x: input, y: output
             );
 
+            cv.ParallelOptions.MaxDegreeOfParallelism = 1;
+
             result = cv.Learn(input, output);
 
             tree = result.Models[0].Model;
@@ -320,11 +352,11 @@ namespace Accord.Tests.MachineLearning
 
             Assert.AreEqual(1, height);
 
-            Assert.AreEqual(0.10896305433723197, result.Training.Mean, 5e-3);
-            Assert.AreEqual(0.1125, result.Validation.Mean, 1e-10);
+            Assert.AreEqual(0.24842341313352828, result.Training.Mean, 1e-10);
+            Assert.AreEqual(0.25112781954887214, result.Validation.Mean, 1e-10);
 
-            Assert.AreEqual(2.1009258672955873E-05, result.Training.Variance, 1e-10);
-            Assert.AreEqual(0.0017292179645018977, result.Validation.Variance, 1e-10);
+            Assert.AreEqual(0.017727583138285874, result.Training.Variance, 1e-10);
+            Assert.AreEqual(0.018956888182583998, result.Validation.Variance, 1e-10);
         }
     }
 }

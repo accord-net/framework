@@ -113,22 +113,13 @@ namespace Accord.IO
         ///   Initializes a new instance of the <see cref="CsvWriter"/> class.
         /// </summary>
         /// 
-        /// <param name="writer">A <see cref="T:TextWriter"/> pointing to the CSV file.</param>
-        /// 
-        public CsvWriter(TextWriter writer)
-            : this(writer, CsvReader.DefaultDelimiter)
-        {
-        }
-
-        /// <summary>
-        ///   Initializes a new instance of the <see cref="CsvWriter"/> class.
-        /// </summary>
-        /// 
         /// <param name="path">The path to the file to be written.</param>
+        /// <param name="delimiter">The field delimiter character to separate values in the CSV file.
+        ///   If set to zero, will use the system's default text separator. Default is '\0' (zero).</param>
         /// 
-        public CsvWriter(String path)
-            : this(new StreamWriter(new FileStream(path, FileMode.Create)), CsvReader.DefaultDelimiter)
+        public CsvWriter(String path, char delimiter = CsvReader.DefaultDelimiter)
         {
+            init(new StreamWriter(new FileStream(path, FileMode.Create, FileAccess.Write)), delimiter);
         }
 
         /// <summary>
@@ -139,7 +130,12 @@ namespace Accord.IO
         /// <param name="delimiter">The field delimiter character to separate values in the CSV file.
         ///   If set to zero, will use the system's default text separator. Default is '\0' (zero).</param>
         /// 
-        public CsvWriter(TextWriter writer, char delimiter)
+        public CsvWriter(TextWriter writer, char delimiter = CsvReader.DefaultDelimiter)
+        {
+            init(writer, delimiter);
+        }
+
+        private void init(TextWriter writer, char delimiter)
         {
             this.Writer = writer;
             this.Quote = CsvReader.DefaultQuote;
@@ -159,24 +155,13 @@ namespace Accord.IO
         /// </summary>
         /// 
         /// <param name="builder">A <see cref="T:StringBuilder"/> to write to.</param>
-        /// 
-        public static CsvWriter ToText(StringBuilder builder)
-        {
-            return new CsvWriter(new StringWriter(builder));
-        }
-
-        /// <summary>
-        ///   Initializes a new instance of the <see cref="CsvWriter"/> 
-        ///   class to write the CSV fields to a in-memory string.
-        /// </summary>
-        /// 
-        /// <param name="builder">A <see cref="T:StringBuilder"/> to write to.</param>
         /// <param name="delimiter">The field delimiter character to separate values in the CSV file.
         ///   If set to zero, will use the system's default text separator. Default is '\0' (zero).</param>
         /// 
-        public static CsvWriter ToText(StringBuilder builder, char delimiter)
+        public static CsvWriter ToText(StringBuilder builder, char delimiter = CsvReader.DefaultDelimiter)
         {
-            return new CsvWriter(new StringWriter(builder), delimiter);
+            using (var writer = new StringWriter(builder))
+                return new CsvWriter(writer, delimiter);
         }
 
         /// <summary>

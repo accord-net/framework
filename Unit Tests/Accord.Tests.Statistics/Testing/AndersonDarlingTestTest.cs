@@ -34,9 +34,9 @@ namespace Accord.Tests.Statistics
         [Test]
         public void AndersonDarlingConstructorTest()
         {
+            #region doc_test_uniform
             // Test against a standard Uniform distribution
             // References: http://www.math.nsysu.edu.tw/~lomn/homepage/class/92/kstest/kolmogorov.pdf
-
 
             // Suppose we got a new sample, and we would like to test whether this
             // sample seems to have originated from a uniform continuous distribution.
@@ -65,6 +65,7 @@ namespace Accord.Tests.Statistics
             // can perhaps be from a uniform distribution. However, please note
             // that this doesn't means that the sample *is* from the uniform, it
             // only means that we could not rule out the possibility.
+            #endregion
 
             Assert.AreEqual(distribution, adtest.TheoreticalDistribution);
             Assert.AreEqual(DistributionTail.TwoTail, adtest.Tail);
@@ -92,6 +93,7 @@ namespace Accord.Tests.Statistics
         [Test]
         public void AndersonDarlingConstructorTest2()
         {
+            #region doc_test_normal
             // Test against a Normal distribution
 
             // This time, let's see if the same sample from the previous example
@@ -102,25 +104,27 @@ namespace Accord.Tests.Statistics
                 0.621, 0.503, 0.203, 0.477, 0.710, 0.581, 0.329, 0.480, 0.554, 0.382
             };
 
+            // Let's estimate a new Normal distribution using the sample
             NormalDistribution distribution = NormalDistribution.Estimate(sample);
 
-            var adtest = new AndersonDarlingTest(sample, distribution);
+            // Now, we can create a new Anderson-Darling's test:
+            var ad = new AndersonDarlingTest(sample, distribution);
 
-            double statistic = adtest.Statistic; // 0.1796
-            double pvalue = adtest.PValue; // 0.8884
+            // We can then compute the test statistic, 
+            // the test p-value and its significance:
+            double statistic = ad.Statistic; // 0.1796
+            double pvalue = ad.PValue; // 0.8884
+            bool significant = ad.Significant; // false
+            #endregion
 
-            bool significant = adtest.Significant; // false
+            Assert.AreEqual(distribution, ad.TheoreticalDistribution);
+            Assert.AreEqual(DistributionTail.TwoTail, ad.Tail);
 
-         
+            Assert.AreEqual(0.1796, ad.Statistic, 1e-4);
+            Assert.AreEqual(0.8884, ad.PValue, 1e-4);
+            Assert.IsFalse(Double.IsNaN(ad.Statistic));
 
-            Assert.AreEqual(distribution, adtest.TheoreticalDistribution);
-            Assert.AreEqual(DistributionTail.TwoTail, adtest.Tail);
-
-            Assert.AreEqual(0.1796, adtest.Statistic, 1e-4);
-            Assert.AreEqual(0.8884, adtest.PValue, 1e-4);
-            Assert.IsFalse(Double.IsNaN(adtest.Statistic));
-
-            Assert.IsFalse(adtest.Significant);
+            Assert.IsFalse(ad.Significant);
         }
 
     }

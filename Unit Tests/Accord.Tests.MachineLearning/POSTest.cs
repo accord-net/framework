@@ -47,7 +47,7 @@ namespace Accord.Tests.MachineLearning
         [Test]
         public void chunking_dataset_markov()
         {
-            Chunking chunking = new Chunking(path: Path.GetTempPath());
+            Chunking chunking = new Chunking(path: Path.Combine(TestContext.CurrentContext.WorkDirectory, "tmp"));
 
             // Learn a mapping between each word to an integer class label:
             var wordMap = new Codification().Learn(chunking.Words);

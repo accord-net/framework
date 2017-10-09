@@ -33,6 +33,11 @@ namespace Accord.Statistics.Testing
     ///   One-sample Anderson-Darling (AD) test.
     /// </summary>
     /// 
+    /// <example>
+    /// <code source="Unit Tests\Accord.Tests.Statistics\Testing\AndersonDarlingTestTest.cs" region="doc_test_uniform" />
+    /// <code source="Unit Tests\Accord.Tests.Statistics\Testing\AndersonDarlingTestTest.cs" region="doc_test_normal" />
+    /// </example>
+    /// 
     [Serializable]
     public class AndersonDarlingTest : HypothesisTest<AndersonDarlingDistribution>,
         IHypothesisTest<AndersonDarlingDistribution>

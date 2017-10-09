@@ -2,10 +2,13 @@
 
 [assembly: InternalsVisibleTo("Accord.Math")]
 [assembly: InternalsVisibleTo("Accord.Statistics")]
+[assembly: InternalsVisibleTo("Accord.Imaging")]
 [assembly: InternalsVisibleTo("Accord.DataSets")]
 [assembly: InternalsVisibleTo("Accord.MachineLearning")]
 [assembly: InternalsVisibleTo("Accord.IO")]
 [assembly: InternalsVisibleTo("Accord.Audio")]
+[assembly: InternalsVisibleTo("Accord.Neuro")]
+[assembly: InternalsVisibleTo("Accord.Vision")]
 [assembly: InternalsVisibleTo("Accord.Audio.DirectSound")]
 
 [assembly: InternalsVisibleTo("Accord.Tests.Core")]

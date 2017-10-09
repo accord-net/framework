@@ -29,6 +29,7 @@ namespace Accord.MachineLearning.DecisionTrees
     using Accord.Math;
     using System.Linq;
     using Accord.Compat;
+    using Accord.Collections;
 
     /// <summary>
     ///   Attribute category.
@@ -186,6 +187,31 @@ namespace Accord.MachineLearning.DecisionTrees
         public override string ToString()
         {
             return String.Format("{0} : {1} ({2})", Name, Nature, Range);
+        }
+
+        /// <summary>
+        ///   Creates a set of decision variables from a <see cref="OrderedDictionary{TKey, TValue}"/> codebook.
+        /// </summary>
+        /// 
+        /// <param name="columns">The ordered dictionary containing information about the variables.</param>
+        /// 
+        /// <returns>An array of <see cref="DecisionVariable"/> objects 
+        ///   initialized with the values from the codebook.</returns>
+        /// 
+        public static DecisionVariable[] FromDictionary(OrderedDictionary<string, string[]> columns)
+        {
+            if (columns.Count == 0)
+                throw new ArgumentException("List of columns is empty.");
+
+            var variables = new DecisionVariable[columns.Count];
+
+            for (int i = 0; i < variables.Length; i++)
+            {
+                string name = columns.GetKeyByIndex(i);
+                variables[i] = new DecisionVariable(name, columns[name].Length);
+            }
+
+            return variables;
         }
 
         /// <summary>

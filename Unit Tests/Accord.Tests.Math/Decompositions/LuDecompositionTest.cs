@@ -262,14 +262,24 @@ namespace Accord.Tests.Math
         [Test]
         public void LuDecompositionConstructorTest()
         {
-            double[,] value =
+            #region doc_ctor
+            // Let's say we would like to compute the
+            // LU decomposition of the following matrix:
+            double[,] matrix =
             {
                {  2, -1,  0 },
                { -1,  2, -1 },
                {  0, -1,  2 }
             };
 
+            // Compute the LU decomposition with:
+            var lu = new LuDecomposition(matrix);
 
+
+            // Retrieve the lower triangular factor L:
+            double[,] L = lu.LowerTriangularFactor;
+
+            // Should be equal to
             double[,] expectedL =
             {
                 {  1.0000,         0,         0 },
@@ -278,6 +288,10 @@ namespace Accord.Tests.Math
             };
 
 
+            // Retrieve the upper triangular factor U:
+            double[,] U = lu.UpperTriangularFactor;
+
+            // Should be equal to
             double[,] expectedU =
             {
                 { 2.0000,   -1.0000,         0 },
@@ -286,21 +300,31 @@ namespace Accord.Tests.Math
              };
 
 
-            var target = new LuDecomposition(value);
-            double[,] actualL = target.LowerTriangularFactor;
-            double[,] actualU = target.UpperTriangularFactor;
+            // Certify that the decomposition has worked as expected by
+            // trying to reconstruct the original matrix with R = L * U:
+            double[,] reconstruction = L.Dot(U);
 
-            Assert.IsTrue(Matrix.IsEqual(expectedL, actualL, 0.001));
-            Assert.IsTrue(Matrix.IsEqual(expectedU, actualU, 0.001));
+            // reconstruction should be equal to
+            // {
+            //     {  2, -1,  0 },
+            //     { -1,  2, -1 },
+            //     {  0, -1,  2 }
+            // };
+            #endregion
 
 
-            target = new LuDecomposition(value.Transpose(), true);
+            Assert.IsTrue(Matrix.IsEqual(matrix, reconstruction, 1e-4));
+            Assert.IsTrue(Matrix.IsEqual(expectedL, L, 1e-4));
+            Assert.IsTrue(Matrix.IsEqual(expectedU, U, 1e-4));
 
-            actualL = target.LowerTriangularFactor;
-            actualU = target.UpperTriangularFactor;
 
-            Assert.IsTrue(Matrix.IsEqual(expectedL, actualL, 0.001));
-            Assert.IsTrue(Matrix.IsEqual(expectedU, actualU, 0.001));
+            lu = new LuDecomposition(matrix.Transpose(), true);
+
+            L = lu.LowerTriangularFactor;
+            U = lu.UpperTriangularFactor;
+
+            Assert.IsTrue(Matrix.IsEqual(expectedL, L, 0.001));
+            Assert.IsTrue(Matrix.IsEqual(expectedU, U, 0.001));
         }
 
         [Test]

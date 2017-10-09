@@ -28,24 +28,37 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
     using System;
     using System.Globalization;
     using Accord.Math;
-
-    // TODO: Implement the IClassifier interface / MulticlassClassifierBase base class
+    using Accord.MachineLearning.DecisionTrees.Learning;
 
     /// <summary>
     ///   Decision rule set.
     /// </summary>
     /// 
-    public class DecisionSet : IEnumerable<DecisionRule>
+    /// <remarks>
+    /// <para>
+    ///   Decision rule sets can be created from <see cref="DecisionTree"/>s using their
+    ///   <see cref="DecisionTree.ToRules()"/> method. An example is shown below.</para>
+    /// </remarks>
+    /// 
+    /// <example>
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\DecisionTrees\C45LearningTest.cs" region="doc_iris" />
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\DecisionTrees\C45LearningTest.cs" region="doc_missing" />
+    /// </example>
+    /// 
+    /// <seealso cref="DecisionTree"/>
+    /// <seealso cref="C45Learning"/>
+    /// 
+    public class DecisionSet : MulticlassClassifierBase<double[]>, IEnumerable<DecisionRule>
     {
 
         HashSet<DecisionRule> rules;
 
         /// <summary>
-        ///   Gets the number of possible output 
-        ///   classes covered by this decision set.
+        ///   Obsolete. Please use <see cref="ClassifierBase{TInput, TClasses}.NumberOfClasses"/> instead.
         /// </summary>
         /// 
-        public int OutputClasses { get; private set; }
+        [Obsolete("Please use NumberOfClasses instead.")]
+        public int OutputClasses { get { return NumberOfClasses; } }
 
 
         /// <summary>
@@ -91,7 +104,8 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
 
             return new DecisionSet(rules)
             {
-                OutputClasses = tree.NumberOfOutputs
+                NumberOfClasses = tree.NumberOfClasses,
+                NumberOfOutputs = tree.NumberOfOutputs
             };
         }
 
@@ -107,27 +121,8 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
         /// 
         public double? Compute(double[] input)
         {
-            if (input.HasNaN())
-            {
-                int[] outputs = new int[OutputClasses];
-                foreach (DecisionRule rule in rules)
-                {
-                    if (rule.Match(input))
-                        outputs[(int)rule.Output] += 1;
-                }
-
-                return outputs.ArgMax();
-            }
-            else
-            {
-                foreach (DecisionRule rule in rules)
-                {
-                    if (rule.Match(input))
-                        return rule.Output;
-                }
-            }
-
-            return null;
+            double r = Decide(input);
+            return r == -1 ? (double?)null : r;
         }
 
 
@@ -287,7 +282,36 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
             return rules.GetEnumerator();
         }
 
+        /// <summary>
+        /// Computes a class-label decision for a given <paramref name="input" />.
+        /// </summary>
+        /// <param name="input">The input vector that should be classified into
+        /// one of the <see cref="P:Accord.MachineLearning.ITransform.NumberOfOutputs" /> possible classes.</param>
+        /// <returns>A class-label that best described <paramref name="input" /> according
+        /// to this classifier.</returns>
+        public override int Decide(double[] input)
+        {
+            if (input.HasNaN())
+            {
+                int[] outputs = new int[NumberOfClasses];
+                foreach (DecisionRule rule in rules)
+                {
+                    if (rule.Match(input))
+                        outputs[(int)rule.Output] += 1;
+                }
 
-        
+                return outputs.ArgMax();
+            }
+            else
+            {
+                foreach (DecisionRule rule in rules)
+                {
+                    if (rule.Match(input))
+                        return (int)rule.Output;
+                }
+            }
+
+            return -1;
+        }
     }
 }

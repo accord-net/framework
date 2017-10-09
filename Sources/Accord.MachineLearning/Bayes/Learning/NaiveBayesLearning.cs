@@ -30,6 +30,7 @@ namespace Accord.MachineLearning.Bayes
     using System;
     using Accord.Compat;
     using System.Threading;
+    using System.Diagnostics;
 
     /// <summary>
     ///   Naïve Bayes learning algorithm for discrete distribution models.
@@ -60,7 +61,8 @@ namespace Accord.MachineLearning.Bayes
         /// </summary>
         protected override NaiveBayes Create(int[][] x, int y)
         {
-            int[] inputs = x.DistinctCount();
+            int[] inputs = x.Max(dimension: 0).Add(1);
+            Debug.Assert(inputs.Length == x.Columns());
             return new NaiveBayes(classes: y, symbols: inputs);
         }
 

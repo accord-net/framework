@@ -67,6 +67,7 @@ namespace Accord.MachineLearning.Performance
     ///   <code source="Unit Tests\Accord.Tests.MachineLearning\CrossValidationTest.cs" region="doc_learn" />
     ///   <code source="Unit Tests\Accord.Tests.MachineLearning\CrossValidationTest.cs" region="doc_learn_hmm" />
     ///   <code source="Unit Tests\Accord.Tests.MachineLearning\DecisionTrees\DecisionTreeTest.cs" region="doc_cross_validation" />
+    ///   <code source="Unit Tests\Accord.Tests.MachineLearning\Bayes\NaiveBayesTest.cs" region="doc_cross_validation" />
     /// </example>
     /// 
     public class CrossValidation<TModel, TLearner, TInput, TOutput> :
@@ -151,7 +152,15 @@ namespace Accord.MachineLearning.Performance
             // Create indices for each fold
             this.folds = new int[k][];
             for (int i = 0; i < folds.Length; i++)
+            {
                 this.folds[i] = indices.Find(j => j == i);
+
+                // Assert all folds have enough samples
+                if (this.folds[i].Length == 0)
+                    throw new InvalidOperationException("Some folds do not have any samples. Please decrease the number of data folds.");
+            }
+
+
 
 
             var foldResults = new SplitResult<TModel, TInput, TOutput>[k];
@@ -184,7 +193,7 @@ namespace Accord.MachineLearning.Performance
         /// 
         protected virtual int[] CreateValidationSplits(TInput[] x, TOutput[] y, int numberOfFolds)
         {
-            return Classes.Random(samples: x.Length, groups: numberOfFolds);
+            return Classes.Random(samples: x.Length, classes: numberOfFolds);
         }
 
         /// <summary>

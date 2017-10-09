@@ -43,41 +43,48 @@ namespace Accord.Imaging
     /// pixel of template.</para>
     /// 
     /// <para>The class processes only grayscale 8 bpp and color 24 bpp images.</para>
+    /// </remarks>
     /// 
+    /// <example>
     /// <para>Sample usage:</para>
     /// <code>
     /// // create template matching algorithm's instance
-    /// ExhaustiveTemplateMatching tm = new ExhaustiveTemplateMatching( 0.9f );
+    /// var tm = new ExhaustiveTemplateMatching(0.9f);
+    /// 
     /// // find all matchings with specified above similarity
-    /// TemplateMatch[] matchings = tm.ProcessImage( sourceImage, templateImage );
+    /// TemplateMatch[] matchings = tm.ProcessImage(sourceImage, templateImage);
+    /// 
     /// // highlight found matchings
-    /// BitmapData data = sourceImage.LockBits(
-    ///     new Rectangle( 0, 0, sourceImage.Width, sourceImage.Height ),
-    ///     ImageLockMode.ReadWrite, sourceImage.PixelFormat );
-    /// foreach ( TemplateMatch m in matchings )
+    /// BitmapData data = sourceImage.LockBits(ImageLockMode.ReadWrite);
+    /// 
+    /// foreach (TemplateMatch m in matchings)
     /// {
-    ///     Drawing.Rectangle( data, m.Rectangle, Color.White );
-    ///     // do something else with matching
+    ///     Drawing.Rectangle(data, m.Rectangle, Color.White);
+    ///     
+    ///     // do something else with the matching
     /// }
-    /// sourceImage.UnlockBits( data );
+    /// 
+    /// sourceImage.UnlockBits(data);
     /// </code>
     /// 
     /// <para>The class also can be used to get similarity level between two image of the same
     /// size, which can be useful to get information about how different/similar are images:</para>
+    /// 
     /// <code>
     /// // create template matching algorithm's instance
     /// // use zero similarity to make sure algorithm will provide anything
-    /// ExhaustiveTemplateMatching tm = new ExhaustiveTemplateMatching( 0 );
+    /// ExhaustiveTemplateMatching tm = new ExhaustiveTemplateMatching(0);
+    /// 
     /// // compare two images
-    /// TemplateMatch[] matchings = tm.ProcessImage( image1, image2 );
+    /// TemplateMatch[] matchings = tm.ProcessImage(image1, image2);
+    /// 
     /// // check similarity level
-    /// if ( matchings[0].Similarity > 0.95f )
+    /// if (matchings[0].Similarity > 0.95f)
     /// {
     ///     // do something with quite similar images
     /// }
     /// </code>
-    /// 
-    /// </remarks>
+    /// </example>
     /// 
     public class ExhaustiveTemplateMatching : ITemplateMatching
     {

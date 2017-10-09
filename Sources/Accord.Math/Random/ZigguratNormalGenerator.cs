@@ -69,6 +69,11 @@ namespace Accord.Math.Random
         public ZigguratNormalGenerator(int seed)
         {
             u = new ZigguratUniformOneGenerator(seed);
+
+            kn = new uint[128];
+            fn = new double[128];
+            wn = new double[128];
+            setup();
         }
 
         /// <summary>
@@ -78,10 +83,6 @@ namespace Accord.Math.Random
         public ZigguratNormalGenerator()
             : this(Generator.Random.Next())
         {
-            kn = new uint[128];
-            fn = new double[128];
-            wn = new double[128];
-            setup();
         }
 
         /// <summary>
@@ -129,7 +130,7 @@ namespace Accord.Math.Random
         {
             const double r = 3.442620;
 
-            int hz = (int)u.Next();
+            int hz = unchecked((int)u.Next());
             uint iz = (uint)(hz & 127);
 
             if (Math.Abs(hz) < kn[iz])
@@ -162,7 +163,7 @@ namespace Accord.Math.Random
                 if (fn[iz] + u.Generate() * (fn[iz - 1] - fn[iz]) < Math.Exp(-0.5 * x * x))
                     return x;
 
-                hz = (int)u.Next();
+                hz = unchecked((int)u.Next());
                 iz = (uint)(hz & 127);
 
                 if (Math.Abs(hz) < kn[iz])

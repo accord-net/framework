@@ -48,7 +48,17 @@ namespace Accord.Statistics.Distributions.DensityKernels
     ///   </list></para>
     /// </remarks>
     /// 
+    /// <example>
+    /// <para>
+    ///   The following example demonstrates how to use the Mean Shift algorithm with 
+    ///   a <see cref="UniformKernel">uniform kernel</see> to solve a clustering task:</para>
+    /// <code source="Unit Tests\Accord.Tests.MachineLearning\Clustering\MeanShiftTest.cs" region="doc_sample1" />
+    /// </example>
+    /// 
     /// <seealso cref="Accord.Statistics.Distributions.Univariate.EmpiricalDistribution"/>
+    /// 
+    /// <seealso cref="EpanechnikovKernel"/>
+    /// <seealso cref="GaussianKernel"/>
     /// 
     [Serializable]
     public class UniformKernel : IRadiallySymmetricKernel

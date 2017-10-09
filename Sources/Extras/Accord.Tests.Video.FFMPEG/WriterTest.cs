@@ -96,6 +96,7 @@ namespace Accord.Tests.Video
         }
 
         [Test]
+        [Category("Slow")]
         public void reencode_vp9()
         {
             var fileInput = new FileInfo(fireplace_mp4);
