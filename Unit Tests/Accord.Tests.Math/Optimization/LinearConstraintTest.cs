@@ -46,7 +46,50 @@ namespace Accord.Tests.Math
             }
         }
 
+        [Test]
+        public void DocumentationTest()
+        {
+            #region doc_example
+            // Linear constraints are common in numerical optimization.
+            // Constraints can be defined using strings, expressions or
+            // vectors. Suppose we have a quadratic objective function:
+            var f = new QuadraticObjectiveFunction("2x² + 4y² - 2xy + 6");
 
+            // Then the following three are all equivalent:
+            var lc1 = new LinearConstraint(f, "3*x + 5*y <= 7");
+
+            double x = 0, y = 0; // Define some dummy variables
+            var lc2 = new LinearConstraint(f, () => 3*x + 5*y <= 7);
+
+            var lc3 = new LinearConstraint(numberOfVariables: 2)
+            {
+                CombinedAs = new double[] { 3, 5 },
+                ShouldBe = ConstraintType.LesserThanOrEqualTo,
+                Value = 7
+            };
+
+            // Then, we can check whether a constraint is violated and, if so,
+            // by how much.
+            double[] vector = { -2, 3 };
+
+            if (lc1.IsViolated(vector))
+            {
+                // act on violation...
+            }
+
+            double violation = lc2.GetViolation(vector); // negative if violated
+
+            #endregion
+
+            double expected = -2;
+            double v1 = lc1.GetViolation(vector);
+            double v2 = lc2.GetViolation(vector);
+            double v3 = lc3.GetViolation(vector);
+
+            Assert.AreEqual(expected, v1);
+            Assert.AreEqual(expected, v2);
+            Assert.AreEqual(expected, v3);
+        }
 
         [Test]
         public void ConstructorTest1()

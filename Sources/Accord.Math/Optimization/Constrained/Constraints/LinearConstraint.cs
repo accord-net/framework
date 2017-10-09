@@ -57,6 +57,21 @@ namespace Accord.Math.Optimization
     ///   Constraint with only linear terms.
     /// </summary>
     /// 
+    /// <example>
+    /// <para>
+    ///   Linear constraints are commonly used in optimisation routines.
+    ///   The framework provides support for linear constraints to be specified
+    ///   using a <see cref="string"/> representation, an <see cref="Expression"/> 
+    ///   or using a vector of constraint values.
+    /// </para>
+    /// 
+    /// <code source="Unit Tests\Accord.Tests.Math\Optimization\LinearConstraintTest.cs" region="doc_example" />
+    /// 
+    /// </example>
+    /// 
+    /// <seealso cref="LinearConstraintCollection"/>
+    ///
+
     public class LinearConstraint : IConstraint
     {
         /// <summary>
