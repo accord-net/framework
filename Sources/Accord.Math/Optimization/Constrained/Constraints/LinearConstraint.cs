@@ -248,52 +248,6 @@ namespace Accord.Math.Optimization
         }
 
         /// <summary>
-        ///   Gets how much the constraint is being violated.
-        /// </summary>
-        /// 
-        /// <param name="input">The function point.</param>
-        /// 
-        /// <returns>
-        ///   How much the constraint is being violated at the given point. Positive
-        ///   value means the constraint is not being violated with the returned slack, 
-        ///   while a negative value means the constraint is being violated by the returned
-        ///   amount.
-        /// </returns>
-        /// 
-        public double GetViolation(double[] input)
-        {
-            double fx = compute(input);
-
-            switch (ShouldBe)
-            {
-                case ConstraintType.EqualTo:
-                    return Math.Abs(fx - Value);
-
-                case ConstraintType.GreaterThanOrEqualTo:
-                    return fx - Value;
-
-                case ConstraintType.LesserThanOrEqualTo:
-                    return Value - fx;
-            }
-
-            throw new NotSupportedException();
-        }
-
-        /// <summary>
-        ///   Gets whether this constraint is being violated 
-        ///   (within the current tolerance threshold).
-        /// </summary>
-        /// 
-        /// <param name="input">The function point.</param>
-        /// 
-        /// <returns>True if the constraint is being violated, false otherwise.</returns>
-        /// 
-        public bool IsViolated(double[] input)
-        {
-            return GetViolation(input) < -Tolerance;
-        }
-
-        /// <summary>
         ///   Attempts to create a <see cref="LinearConstraint"/>
         ///   from a <see cref="System.String"/> representation.
         /// </summary>

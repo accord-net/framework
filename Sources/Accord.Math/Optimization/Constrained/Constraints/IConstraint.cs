@@ -23,11 +23,8 @@
 namespace Accord.Math.Optimization
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
 
-    interface IConstraint
+    public interface IConstraint
     {
         /// <summary>
         ///   Gets the type of the constraint.
@@ -41,6 +38,12 @@ namespace Accord.Math.Optimization
         /// </summary>
         /// 
         double Value { get; }
+
+        /// <summary>
+        ///   Gets the violation tolerance for the constraint.
+        /// </summary>
+        /// 
+        double Tolerance { get; }
 
         /// <summary>
         ///   Gets the number of variables in the constraint.
@@ -61,20 +64,5 @@ namespace Accord.Math.Optimization
         /// </summary>
         /// 
         Func<double[], double[]> Gradient { get; }
-
-        /// <summary>
-        ///   Gets how much the constraint is being violated.
-        /// </summary>
-        /// 
-        /// <param name="input">The function point.</param>
-        /// 
-        /// <returns>
-        ///   How much the constraint is being violated at the given point. Positive
-        ///   value means the constraint is not being violated with the returned slack, 
-        ///   while a negative value means the constraint is being violated by the returned
-        ///   amount.
-        /// </returns>
-        /// 
-        double GetViolation(double[] input);
     }
 }
