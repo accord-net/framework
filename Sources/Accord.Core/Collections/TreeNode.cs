@@ -32,8 +32,8 @@ namespace Accord.Collections
     /// <typeparam name="TNode">The class type for the nodes of the tree.</typeparam>
     /// 
     [Serializable]
-    public class TreeNode<TNode>
-        where TNode : TreeNode<TNode>
+    public class TreeNode<TNode> : ITreeNode<TNode>
+        where TNode : TreeNode<TNode>, ITreeNode<TNode>
     {
         /// <summary>
         ///   Gets or sets the parent of this node.
@@ -107,5 +107,4 @@ namespace Accord.Collections
         }
 
     }
-
 }

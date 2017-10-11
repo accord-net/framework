@@ -37,7 +37,7 @@ namespace Accord.Collections
     /// <returns>An enumerator traversing the tree.</returns>
     /// 
     public delegate IEnumerator<TNode> BinaryTraversalMethod<TNode>(BinaryTree<TNode> tree)
-        where TNode : BinaryNode<TNode>, new();
+        where TNode : BinaryNode<TNode>;
 
     /// <summary>
     ///   Tree enumeration method delegate.
@@ -72,7 +72,8 @@ namespace Accord.Collections
             {
                 TNode current = queue.Dequeue();
 
-                yield return current;
+                if (current != null)
+                    yield return current;
 
                 if (current.Left != null)
                     queue.Enqueue(current.Left);
@@ -197,6 +198,34 @@ namespace Accord.Collections
         ///   Depth-first tree traversal method.
         /// </summary>
         /// 
+        public static IEnumerator<TNode> DepthFirst<TNode>(BinaryTree<TNode> tree)
+            where TNode : BinaryNode<TNode>
+        {
+            if (tree.Root == null)
+                yield break;
+
+            var stack = new Stack<TNode>();
+            stack.Push(tree.Root);
+
+            while (stack.Count != 0)
+            {
+                TNode node = stack.Pop();
+
+                if (node != null)
+                    yield return node;
+
+                if (node.Left != null)
+                    stack.Push(node.Left);
+
+                if (node.Right != null)
+                    stack.Push(node.Right);
+            }
+        }
+
+        /// <summary>
+        ///   Depth-first tree traversal method.
+        /// </summary>
+        /// 
         public static IEnumerator<TNode> DepthFirst<TNode>(Tree<TNode> tree)
             where TNode : TreeNode<TNode>
         {
@@ -220,7 +249,6 @@ namespace Accord.Collections
                     node = node.Children[0];
                 }
             }
-
         }
 
     }

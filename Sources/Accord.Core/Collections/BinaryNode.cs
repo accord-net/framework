@@ -32,8 +32,8 @@ namespace Accord.Collections
     /// <typeparam name="TNode">The class type for the nodes of the tree.</typeparam>
     /// 
     [Serializable]
-    public class BinaryNode<TNode> : IEquatable<TNode> // TODO: Try to remove IEquatable
-        where TNode : BinaryNode<TNode>
+    public class BinaryNode<TNode> : IEquatable<TNode>, ITreeNode<TNode> // TODO: Try to remove IEquatable
+        where TNode : BinaryNode<TNode>, ITreeNode<TNode>
     {
         /// <summary>
         ///   Gets or sets the left subtree of this node.
@@ -68,6 +68,19 @@ namespace Accord.Collections
         {
             return this == other;
         }
-    }
 
+
+        public TNode[] Children
+        {
+            get { return new[] { Left, Right }; }
+            set
+            {
+                if (value.Length != 2)
+                    throw new ArgumentException();
+                Left = value[0];
+                Right = value[1];
+            }
+        }
+
+    }
 }

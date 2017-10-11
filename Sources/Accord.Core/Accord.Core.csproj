@@ -55,6 +55,7 @@
     <Compile Include="Attributes\SurrogateSelectorAttribute.cs" />
     <Compile Include="Collections\BinaryNode.cs" />
     <Compile Include="Collections\BinaryTree.cs" />
+    <Compile Include="Collections\ITreeNode.cs" />
     <Compile Include="Collections\PriorityQueue.cs" />
     <Compile Include="Collections\PriorityQueueNode.cs" />
     <Compile Include="Collections\OrderedDictionary`2.cs" />
