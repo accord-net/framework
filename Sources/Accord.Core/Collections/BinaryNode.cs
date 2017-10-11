@@ -69,14 +69,18 @@ namespace Accord.Collections
             return this == other;
         }
 
-
+        /// <summary>
+        ///   Gets or sets the collection of child nodes
+        ///   under this node.
+        /// </summary>
+        /// 
         public TNode[] Children
         {
             get { return new[] { Left, Right }; }
             set
             {
                 if (value.Length != 2)
-                    throw new ArgumentException();
+                    throw new ArgumentException("The array must have length 2.", "value");
                 Left = value[0];
                 Right = value[1];
             }

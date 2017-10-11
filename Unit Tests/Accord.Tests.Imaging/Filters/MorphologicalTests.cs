@@ -54,7 +54,8 @@ namespace Accord.Tests.Imaging
             // Let's get Lena's picture
             Bitmap bmp = test["lena.bmp"];
 
-            // And transform it to a binary mask using Niblack's threshold class
+            // And transform it to a binary mask 
+            // using Niblack's threshold class
             var niblack = new NiblackThreshold();
             Bitmap binary = niblack.Apply(bmp);
 
