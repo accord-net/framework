@@ -34,8 +34,11 @@ namespace Accord.Math.Optimization
     /// 
     public class NonlinearConstraint : IConstraint, IFormattable
     {
-
         private const double DEFAULT_TOL = 1e-8;
+
+        private Func<double[], double> function;
+
+        private Func<double[], double[]> gradient;
 
         /// <summary>
         ///   Gets the number of variables in the constraint.
@@ -43,20 +46,6 @@ namespace Accord.Math.Optimization
         /// 
         public int NumberOfVariables { get; private set; }
 
-        /// <summary>
-        ///   Gets the left hand side of 
-        ///   the constraint equation.
-        /// </summary>
-        /// 
-        public Func<double[], double> Function { get; private set; }
-
-        /// <summary>
-        ///   Gets the gradient of the left hand
-        ///   side of the constraint equation.
-        /// </summary>
-        /// 
-        public Func<double[], double[]> Gradient { get; private set; }
-        
         /// <summary>
         ///   Gets the type of the constraint.
         /// </summary>
@@ -102,14 +91,14 @@ namespace Accord.Math.Optimization
 
             // Generate lambda functions
             var func = ExpressionParser.Replace(function, objective.Variables);
-            this.Function = func.Compile();
+            this.function = func.Compile();
             this.Value = value;
             this.Tolerance = withinTolerance;
 
             if (gradient != null)
             {
                 var grad = ExpressionParser.Replace(gradient, objective.Variables);
-                this.Gradient = grad.Compile();
+                this.gradient = grad.Compile();
 
                 int n = NumberOfVariables;
                 double[] probe = new double[n];
@@ -226,6 +215,30 @@ namespace Accord.Math.Optimization
         }
 
         /// <summary>
+        /// Calculates the left hand side of the constraint
+        /// equation given a vector x.
+        /// </summary>
+        /// <param name="x">The vector.</param>
+        /// <returns>
+        /// The left hand side of the constraint equation as evaluated at x.
+        /// </returns>
+        public double Function(double[] x)
+        {
+            return this.function(x);
+        }
+
+        /// <summary>
+        /// Calculates the gradient of the constraint
+        /// equation given a vector x
+        /// </summary>
+        /// <param name="x">The vector.</param>
+        /// <returns>The gradient of the constraint as evaluated at x.</returns>
+        public double[] Gradient(double[] x)
+        {
+            return this.gradient(x);
+        }
+
+        /// <summary>
         ///    Creates a nonlinear constraint.
         /// </summary>
         /// 
@@ -249,10 +262,9 @@ namespace Accord.Math.Optimization
             this.Value = value;
             this.Tolerance = tolerance;
 
-            this.Function = function;
-            this.Gradient = gradient;
+            this.function = function;
+            this.gradient = gradient;
         }
-
 
 
         private static void parse(Expression<Func<double[], bool>> constraint,

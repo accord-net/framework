@@ -22,8 +22,6 @@
 
 namespace Accord.Math.Optimization
 {
-    using System;
-
     /// <summary>
     /// Defines an interface for an optimization constraint.
     /// </summary>
@@ -55,17 +53,21 @@ namespace Accord.Math.Optimization
         int NumberOfVariables { get; }
 
         /// <summary>
-        ///   Gets the left hand side of 
-        ///   the constraint equation.
+        /// Calculates the left hand side of the constraint
+        /// equation given a vector x.
         /// </summary>
-        /// 
-        Func<double[], double> Function { get; }
+        /// <param name="x">The vector.</param>
+        /// <returns>
+        /// The left hand side of the constraint equation as evaluated at x.
+        /// </returns>
+        double Function(double[] x);
 
         /// <summary>
-        ///   Gets the gradient of the left hand
-        ///   side of the constraint equation.
+        /// Calculates the gradient of the constraint
+        /// equation given a vector x
         /// </summary>
-        /// 
-        Func<double[], double[]> Gradient { get; }
+        /// <param name="x">The vector.</param>
+        /// <returns>The gradient of the constraint as evaluated at x.</returns>
+        double[] Gradient(double[] x);
     }
 }

@@ -170,9 +170,6 @@ namespace Accord.Math.Optimization
             this.indices = Vector.Range(numberOfVariables);
             this.combinedAs = Vector.Ones(numberOfVariables);
             this.ShouldBe = ConstraintType.GreaterThanOrEqualTo;
-
-            this.Function = compute;
-            this.Gradient = gradient;
         }
 
         /// <summary>
@@ -189,9 +186,6 @@ namespace Accord.Math.Optimization
             this.indices = Vector.Range(0, coefficients.Length);
             this.CombinedAs = coefficients;
             this.ShouldBe = ConstraintType.GreaterThanOrEqualTo;
-
-            this.Function = compute;
-            this.Gradient = gradient;
         }
 
         /// <summary>
@@ -210,9 +204,6 @@ namespace Accord.Math.Optimization
             : this()
         {
             parseString(function, constraint, format);
-
-            this.Function = compute;
-            this.Gradient = gradient;
         }
 
         /// <summary>
@@ -242,9 +233,6 @@ namespace Accord.Math.Optimization
             : this()
         {
             parseExpression(function, constraint);
-
-            this.Function = compute;
-            this.Gradient = gradient;
         }
 
         /// <summary>
@@ -298,22 +286,36 @@ namespace Accord.Math.Optimization
             return true;
         }
 
-        private double compute(double[] input)
+        /// <summary>
+        /// Calculates the left hand side of the constraint
+        /// equation given a vector x.
+        /// </summary>
+        /// <param name="x">The vector.</param>
+        /// <returns>
+        /// The left hand side of the constraint equation as evaluated at x.
+        /// </returns>
+        public double Function(double[] x)
         {
             double sum = 0;
 
             for (int i = 0; i < indices.Length; i++)
             {
-                double x = input[indices[i]];
+                int index = indices[i];
+                double val = x[index];
                 double a = CombinedAs[i];
 
-                sum += x * a;
+                sum += val * a;
             }
 
             return sum;
         }
 
-        private double[] gradient(double[] x)
+        /// <summary>
+        /// Calculates the gradient of the constraint.
+        /// </summary>
+        /// <param name="x">The vector.</param>
+        /// <returns>The gradient of the constraint.</returns>
+        public double[] Gradient(double[] x)
         {
             if (grad == null)
             {
@@ -338,7 +340,6 @@ namespace Accord.Math.Optimization
 
             return grad;
         }
-
 
         private void parseString(IObjectiveFunction function, string constraint, CultureInfo culture)
         {
@@ -634,19 +635,5 @@ namespace Accord.Math.Optimization
 
             return null;
         }
-
-
-        /// <summary>
-        ///   Gets the left hand side of the constraint equation.
-        /// </summary>
-        /// 
-        public Func<double[], double> Function { get; private set; }
-
-        /// <summary>
-        ///   Gets the gradient of the left hand side of the constraint equation.
-        /// </summary>
-        /// 
-        public Func<double[], double[]> Gradient { get; private set; }
-
     }
 }
