@@ -195,6 +195,71 @@ namespace Accord.Imaging
         {
             return (-Intensity.CompareTo(((HoughLine)obj).Intensity));
         }
+
+        /// <summary>
+        /// Returns a <see cref="System.String" /> that represents this instance.
+        /// </summary>
+        /// 
+        public override string ToString()
+        {
+            return "Theta: {0}, radius: {1}, intensity: {2}".Format(Theta, Radius, Intensity);
+        }
+
+        /// <summary>
+        ///   Draws the line to a given image.
+        /// </summary>
+        /// 
+        /// <param name="image">The image where this Hough line should be drawn to.</param>
+        /// <param name="color">The color to be used when drawing the line.</param>
+        /// 
+        public void Draw(UnmanagedImage image, Color color)
+        {
+            // get line's radius and theta values
+            int r = this.Radius;
+            double t = this.Theta;
+
+            // check if line is in lower part of the image
+            if (r < 0)
+            {
+                t += 180;
+                r = -r;
+            }
+
+            // convert degrees to radians
+            t = (t / 180) * Math.PI;
+
+            // get image centers (all coordinate are measured relative to center)
+            int w2 = image.Width / 2;
+            int h2 = image.Height / 2;
+
+            double x0 = 0, x1 = 0, y0 = 0, y1 = 0;
+
+            if (this.Theta != 0)
+            {
+                // none-vertical line
+                x0 = -w2; // most left point
+                x1 = w2;  // most right point
+
+                // calculate corresponding y values
+                y0 = (-Math.Cos(t) * x0 + r) / Math.Sin(t);
+                y1 = (-Math.Cos(t) * x1 + r) / Math.Sin(t);
+            }
+            else
+            {
+                // vertical line
+                x0 = this.Radius;
+                x1 = this.Radius;
+
+                y0 = h2;
+                y1 = -h2;
+            }
+
+            // draw line on the image
+            Drawing.Line(image,
+                new IntPoint((int)x0 + w2, h2 - (int)y0),
+                new IntPoint((int)x1 + w2, h2 - (int)y1),
+                Color.Red);
+        }
     }
 
     /// <summary>
@@ -223,27 +288,27 @@ namespace Accord.Imaging
     /// 
     /// <para>See also documentation to <see cref="HoughLine"/> class for additional information
     /// about Hough Lines.</para>
-    /// 
-    /// <para>Sample usage:</para>
-    /// <code>
-    /// HoughLineTransformation lineTransform = new HoughLineTransformation( );
-    /// // apply Hough line transofrm
-    /// lineTransform.ProcessImage( sourceImage );
-    /// Bitmap houghLineImage = lineTransform.ToBitmap( );
-    /// // get lines using relative intensity
-    /// HoughLine[] lines = lineTransform.GetLinesByRelativeIntensity( 0.5 );
-    /// 
-    /// foreach ( HoughLine line in lines )
-    /// {
-    ///     // ...
-    /// }
-    /// </code>
-    /// 
-    /// <para><b>Initial image:</b></para>
-    /// <img src="img/imaging/sample8.jpg" width="400" height="300" />
-    /// <para><b>Hough line transformation image:</b></para>
-    /// <img src="img/imaging/hough_lines.jpg" width="500" height="180" />
     /// </remarks>
+    /// 
+    /// <example>
+    /// <para>
+    ///   The following example shows how to apply the Hough Line Transform. The example 
+    ///   will apply it to the "sudoku.png" test image from OpenCV, as shown below:</para>
+    /// <img src="..\images\imaging\hough-input.png" />
+    /// 
+    /// <code source="Unit Tests\Accord.Tests.Imaging\HoughTest.cs" region="doc_apply_part1" />
+    /// <para>
+    ///   Input image after applying the filter sequence:</para>
+    /// <img src="..\images\imaging\hough-output0.png" />
+    /// <para>
+    ///   Output image after the Hough transform:</para>
+    /// <img src="..\images\imaging\hough-output1.png" />
+    /// 
+    /// <code source="Unit Tests\Accord.Tests.Imaging\HoughTest.cs" region="doc_apply_part2" />
+    /// <para>
+    ///   Hough lines drawn over the input image:</para>
+    /// <img src="..\images\imaging\hough-output2.png" />
+    /// </example>
     /// 
     /// <seealso cref="HoughLine"/>
     /// 
@@ -388,9 +453,7 @@ namespace Accord.Imaging
             }
 
             // lock source image
-            BitmapData imageData = image.LockBits(
-                new Rectangle(0, 0, image.Width, image.Height),
-                ImageLockMode.ReadOnly, PixelFormat.Format8bppIndexed);
+            BitmapData imageData = image.LockBits(ImageLockMode.ReadOnly);
 
             try
             {
@@ -551,9 +614,7 @@ namespace Accord.Imaging
             Bitmap image = Accord.Imaging.Image.CreateGrayscaleImage(width, height);
 
             // lock destination bitmap data
-            BitmapData imageData = image.LockBits(
-                new Rectangle(0, 0, width, height),
-                ImageLockMode.ReadWrite, PixelFormat.Format8bppIndexed);
+            BitmapData imageData = image.LockBits(ImageLockMode.WriteOnly);
 
             int offset = imageData.Stride - width;
             float scale = 255.0f / maxMapIntensity;
@@ -691,7 +752,7 @@ namespace Accord.Imaging
                     if (!foundGreater)
                     {
                         // we have local maximum
-                        lines.Add(new HoughLine((double)theta / stepsPerDegree, (short)(radius - halfHoughWidth), intensity, (double)intensity / maxMapIntensity));
+                        lines.Add(new HoughLine(theta / (double)stepsPerDegree, (short)(radius - halfHoughWidth), intensity, (double)intensity / maxMapIntensity));
                     }
                 }
             }
