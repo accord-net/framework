@@ -592,7 +592,7 @@ namespace Accord.Tests.Statistics
             int outputCount = mlra.NumberOfOutputs; // should be 1
             double r2 = mlra.RSquared;              // should be 0.12801838425195311
             AnovaSourceCollection a = mlra.Table;   // ANOVA table (bind to a visual control for quick inspection)
-            double[][] h = mlra.InformationMatrix;  // 
+            double[][] h = mlra.InformationMatrix;  // should contain Fisher's information matrix for the problem
             ZTest z = mlra.ZTest;                   // should be 0 (p=0.999, non-significant)
             #endregion
 

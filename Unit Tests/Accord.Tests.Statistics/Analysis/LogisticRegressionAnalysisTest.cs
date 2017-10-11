@@ -130,7 +130,7 @@ namespace Accord.Tests.Statistics
             double[] stdErr = lra.StandardErrors;  // should be high except for the last value of 0.27122079214927985 (due small data)
             double[] or = lra.OddsRatios;          // should be 1.1116659950687609 for the last coefficient (related to time of day)
             LogisticCoefficientCollection c = lra.Coefficients; // coefficient table (bind to a visual control for quick inspection)
-            double[][] h = lra.InformationMatrix; // should contain Fisher's information matrix for the problem
+            double[][] h = lra.InformationMatrix;  // should contain Fisher's information matrix for the problem
             #endregion
 
             Assert.AreEqual(0.28703150858677107, predicted, 1e-8);
