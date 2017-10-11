@@ -1397,6 +1397,8 @@ namespace Accord.Imaging
         /// <returns>A <see cref="System.Drawing.Bitmap"/> of the same width
         /// and height as the pixel matrix containing the given pixel values.</returns>
         /// 
+        /// <seealso cref="MatrixToImage"/>
+        /// 
         public static Bitmap ToBitmap(this byte[,] pixels)
         {
             Bitmap bitmap;
@@ -1413,6 +1415,8 @@ namespace Accord.Imaging
         /// values as <see cref="System.Double">bytes</see>.</param>
         /// <returns>A <see cref="System.Drawing.Bitmap"/> of the same width
         /// and height as the pixel matrix containing the given pixel values.</returns>
+        /// 
+        /// <seealso cref="MatrixToImage"/>
         /// 
         public static Bitmap ToBitmap(this short[,] pixels)
         {
@@ -1431,6 +1435,8 @@ namespace Accord.Imaging
         /// <returns>A <see cref="System.Drawing.Bitmap"/> of the same width
         /// and height as the pixel matrix containing the given pixel values.</returns>
         /// 
+        /// <seealso cref="MatrixToImage"/>
+        /// 
         public static Bitmap ToBitmap(this double[,] pixels)
         {
             Bitmap bitmap;
@@ -1447,6 +1453,8 @@ namespace Accord.Imaging
         /// values as <see cref="System.Double">bytes</see>.</param>
         /// <returns>A <see cref="System.Drawing.Bitmap"/> of the same width
         /// and height as the pixel matrix containing the given pixel values.</returns>
+        /// 
+        /// <seealso cref="MatrixToImage"/>
         /// 
         public static Bitmap ToBitmap(this int[,] pixels)
         {
@@ -1465,11 +1473,98 @@ namespace Accord.Imaging
         /// <returns>A <see cref="System.Drawing.Bitmap"/> of the same width
         /// and height as the pixel matrix containing the given pixel values.</returns>
         /// 
+        /// <seealso cref="MatrixToImage"/>
+        /// 
         public static Bitmap ToBitmap(this float[,] pixels)
         {
             Bitmap bitmap;
             new MatrixToImage().Convert(pixels, out bitmap);
             return bitmap;
+        }
+        #endregion
+
+
+
+
+        #region ToMatrix
+        /// <summary>
+        ///   Converts an image given as a <see cref="System.Drawing.Bitmap"/> into a matrix of 
+        ///   pixel values.For more options, please use the <see cref="MatrixToImage"/> class.
+        /// </summary>
+        /// 
+        /// <param name="bitmap">A image represented as a bitmap.</param>
+        /// 
+        /// <returns>A matrix containing the values of each pixel in the bitmap.</returns>
+        /// 
+        /// <seealso cref="ImageToMatrix"/>
+        /// 
+        public static double[,,] ToMatrix(this Bitmap bitmap)
+        {
+            double[,,] matrix;
+            new ImageToMatrix().Convert(bitmap, out matrix);
+            return matrix;
+        }
+
+        /// <summary>
+        ///   Converts an image given as a <see cref="System.Drawing.Bitmap"/> into a matrix of 
+        ///   pixel values.For more options, please use the <see cref="MatrixToImage"/> class.
+        /// </summary>
+        /// 
+        /// <param name="bitmap">A image represented as a bitmap.</param>
+        /// 
+        /// <returns>A matrix containing the values of each pixel in the bitmap.</returns>
+        /// 
+        /// <seealso cref="ImageToMatrix"/>
+        /// 
+        public static double[][][] ToJagged(this Bitmap bitmap)
+        {
+            double[][][] matrix;
+            new ImageToMatrix().Convert(bitmap, out matrix);
+            return matrix;
+        }
+
+        /// <summary>
+        ///   Converts an image given as a <see cref="System.Drawing.Bitmap"/> into a matrix of 
+        ///   pixel values.For more options, please use the <see cref="MatrixToImage"/> class.
+        /// </summary>
+        /// 
+        /// <param name="bitmap">A image represented as a bitmap.</param>
+        /// <param name="channel">The color channel to be extracted.</param>
+        /// 
+        /// <returns>A matrix containing the values of each pixel in the bitmap.</returns>
+        /// 
+        /// <seealso cref="ImageToMatrix"/>
+        /// 
+        public static double[,] ToMatrix(this Bitmap bitmap, int channel)
+        {
+            double[,] matrix;
+            new ImageToMatrix()
+            {
+                Channel = channel
+            }.Convert(bitmap, out matrix);
+            return matrix;
+        }
+
+        /// <summary>
+        ///   Converts an image given as a <see cref="System.Drawing.Bitmap"/> into a matrix of 
+        ///   pixel values.For more options, please use the <see cref="MatrixToImage"/> class.
+        /// </summary>
+        /// 
+        /// <param name="bitmap">A image represented as a bitmap.</param>
+        /// <param name="channel">The color channel to be extracted.</param>
+        /// 
+        /// <returns>A matrix containing the values of each pixel in the bitmap.</returns>
+        /// 
+        /// <seealso cref="ImageToMatrix"/>
+        /// 
+        public static double[][] ToJagged(this Bitmap bitmap, int channel)
+        {
+            double[][] matrix;
+            new ImageToMatrix()
+            {
+                Channel = channel
+            }.Convert(bitmap, out matrix);
+            return matrix;
         }
         #endregion
 

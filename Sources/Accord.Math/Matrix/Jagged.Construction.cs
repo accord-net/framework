@@ -73,6 +73,32 @@ namespace Accord.Math
 #if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
+        public static T[][][] Zeros<T>(int rows, int columns, int depth)
+        {
+            T[][][] matrix = new T[rows][][];
+            for (int i = 0; i < matrix.Length; i++)
+            {
+                matrix[i] = new T[columns][];
+                for (int j = 0; j < matrix[i].Length; j++)
+                    matrix[i][j] = new T[depth];
+            }
+
+            return matrix;
+        }
+
+        /// <summary>
+        ///   Creates a zero-valued matrix.
+        /// </summary>
+        /// 
+        /// <typeparam name="T">The type of the matrix to be created.</typeparam>
+        /// <param name="rows">The number of rows in the matrix.</param>
+        /// <param name="columns">The number of columns in the matrix.</param>
+        /// 
+        /// <returns>A matrix of the specified size.</returns>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static T[][] Ones<T>(int rows, int columns)
             where T : struct
         {
@@ -95,6 +121,23 @@ namespace Accord.Math
         public static double[][] Zeros(int rows, int columns)
         {
             return Zeros<double>(rows, columns);
+        }
+
+        /// <summary>
+        ///   Creates a zero-valued matrix.
+        /// </summary>
+        /// 
+        /// <param name="rows">The number of rows in the matrix.</param>
+        /// <param name="columns">The number of columns in the matrix.</param>
+        /// 
+        /// <returns>A vector of the specified size.</returns>
+        /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double[][][] Zeros(int rows, int columns, int depth)
+        {
+            return Zeros<double>(rows, columns, depth);
         }
 
         /// <summary>
