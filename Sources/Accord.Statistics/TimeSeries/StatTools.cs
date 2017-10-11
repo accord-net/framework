@@ -24,6 +24,7 @@
 
 namespace Accord.Statistics.TimeSeries
 {
+    using Accord.Audio;
     using Accord.Math;
     using System;
     using System.Collections.Generic;
@@ -31,7 +32,7 @@ namespace Accord.Statistics.TimeSeries
     using System.Numerics;
     
 
-    public static class stattools
+    public static class StatTools
     {
         /// <summary>
         ///   Calculates the auto correlation function using Wiener–Khinchin theorem.
@@ -49,7 +50,7 @@ namespace Accord.Statistics.TimeSeries
         ///   Returns a vector of type double giving the autocorrelation function upto given lags.
         /// </returns>
         /// 
-        public static double[] ACF(double[] vector, int nlag)
+        public static double[] acf(double[] vector, int nlag)
         {
 
             int nTime = vector.Length;
@@ -107,6 +108,43 @@ namespace Accord.Statistics.TimeSeries
                 }
             }
             return acf;
+        }
+
+
+        /// <summary>
+        ///   Calculates Periodogram of a given vector of type double based on Welch method.
+        /// </summary>
+        /// 
+        /// <param name="vector">
+        ///   A vector of observations whose Periodogram will be calculated. It is assumed that
+        ///   the vector is a 1-D array of type double
+        /// </param> 
+        /// 
+        /// <returns>
+        ///   Returns a vector of type double giving the periodogram of the vector.
+        /// </returns>
+
+        public static double[] periodogram(double[] vector)
+        {
+            int nTime = vector.Length;
+            double[] pwr = new double[vector.Length];
+
+            if (nTime == 1)
+            {
+                //throw new System.ArgumentException("Vector length should be >=2", "vector");
+                //double[] pwr = new double[] { 1.0 };
+                pwr[0] = 1.0;
+                return pwr;
+            }
+
+            Complex[] vectorComplex = new Complex[vector.Length];
+            for (int k = 0; k < vector.Length; k++)
+            {
+                vectorComplex[k] = new Complex(vector[k], 0);
+            }
+            Accord.Math.Transforms.FourierTransform2.FFT(vectorComplex, Accord.Math.FourierTransform.Direction.Forward);
+            pwr = Accord.Audio.Tools.GetPowerSpectrum(vectorComplex);
+            return pwr;
         }
     }
 }
