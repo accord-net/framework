@@ -31,18 +31,16 @@ namespace Accord.Math.Optimization
     {
 
         /// <summary>
-        ///   Gets how much the constraint is being violated.
+        /// Gets how much the constraint is being violated.
         /// </summary>
-        /// 
+        /// <param name="constraint">The constraint.</param>
         /// <param name="input">The function point.</param>
-        /// 
         /// <returns>
-        ///   How much the constraint is being violated at the given point. Positive
-        ///   value means the constraint is not being violated with the returned slack, 
-        ///   while a negative value means the constraint is being violated by the returned
-        ///   amount.
+        /// How much the constraint is being violated at the given point. Positive
+        /// value means the constraint is not being violated with the returned slack,
+        /// while a negative value means the constraint is being violated by the returned
+        /// amount.
         /// </returns>
-        /// 
         public static double GetViolation(this IConstraint constraint, double[] input)
         {
             double fx = constraint.Function(input);

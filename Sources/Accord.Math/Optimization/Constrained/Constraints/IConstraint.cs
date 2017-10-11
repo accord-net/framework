@@ -24,6 +24,9 @@ namespace Accord.Math.Optimization
 {
     using System;
 
+    /// <summary>
+    /// Defines an interface for an optimization constraint.
+    /// </summary>
     public interface IConstraint
     {
         /// <summary>
