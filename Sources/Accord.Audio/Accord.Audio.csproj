@@ -55,7 +55,7 @@
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
     <Compile Include="Features\BaseAudioFeatureExtractor.cs" />
-    <Compile Include="Features\IAudioFeatureDetector.cs" />
+    <Compile Include="Features\IAudioFeatureExtractor.cs" />
     <Compile Include="Filters\AddFilter.cs" />
     <Compile Include="Filters\MonoFilter.cs" />
     <Compile Include="Formats\AudioDecoder.cs" />

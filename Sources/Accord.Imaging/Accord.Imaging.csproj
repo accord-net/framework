@@ -315,7 +315,7 @@
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Interest Points\CornerFeaturePoint.cs" />
     <Compile Include="Interest Points\CornerFeaturesDetector.cs" />
-    <Compile Include="Interest Points\Base\IImageFeatureDetector.cs" />
+    <Compile Include="Interest Points\Base\IImageFeatureExtractor.cs" />
     <Compile Include="Moments\HuMoments.cs" />
     <Compile Include="Moments\MomentsBase.cs" />
     <Compile Include="Interest Points\Matching\CorrelationMatching.cs" />
