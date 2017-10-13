@@ -294,7 +294,7 @@ namespace Accord.MachineLearning
             return result;
         }
 
-        int[] ITransform<string[], int[]>.Transform(string[] input)
+        int[] ICovariantTransform<string[], int[]>.Transform(string[] input)
         {
             return Transform(input, new int[NumberOfWords]);
         }
@@ -356,7 +356,7 @@ namespace Accord.MachineLearning
             return Transform(input, Jagged.Zeros<double>(input.Length, NumberOfWords));
         }
 
-        int[][] ITransform<string[], int[]>.Transform(string[][] input)
+        int[][] ICovariantTransform<string[], int[]>.Transform(string[][] input)
         {
             return Transform(input, Jagged.Zeros<int>(input.Length, NumberOfWords));
         }
@@ -431,12 +431,12 @@ namespace Accord.MachineLearning
             return result;
         }
 
-        Sparse<double> ITransform<string[], Sparse<double>>.Transform(string[] input)
+        Sparse<double> ICovariantTransform<string[], Sparse<double>>.Transform(string[] input)
         {
             return Sparse.FromDense(Transform(input));
         }
 
-        Sparse<double>[] ITransform<string[], Sparse<double>>.Transform(string[][] input)
+        Sparse<double>[] ICovariantTransform<string[], Sparse<double>>.Transform(string[][] input)
         {
             return Transform(input, new Sparse<double>[input.Length]);
         }

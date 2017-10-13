@@ -55,7 +55,6 @@
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
     <Compile Include="Accord.Imaging\BagOfVisualWords.cs" />
-    <Compile Include="Accord.Imaging\BagOfVisualWordsStatistics.cs" />
     <Compile Include="Accord.Imaging\BagOfVisualWords`1.cs" />
     <Compile Include="Accord.Imaging\BaseBagOfVisualWords`5.cs" />
     <Compile Include="Accord.Imaging\BagOfVisualWords`4.cs" />

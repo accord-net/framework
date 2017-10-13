@@ -28,7 +28,7 @@ namespace Accord.Imaging
     ///   Corner feature point.
     /// </summary>
     /// 
-    public class CornerFeaturePoint : IFeaturePoint
+    public class CornerFeaturePoint : IFeaturePoint<double[]>
     {
 
         /// <summary>

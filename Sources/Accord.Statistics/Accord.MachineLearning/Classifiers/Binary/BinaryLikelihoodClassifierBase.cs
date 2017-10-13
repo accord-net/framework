@@ -1445,7 +1445,7 @@ namespace Accord.MachineLearning
 
         // Transform
 
-        double ITransform<TInput, double>.Transform(TInput input)
+        double ICovariantTransform<TInput, double>.Transform(TInput input)
         {
             return Probability(input);
         }

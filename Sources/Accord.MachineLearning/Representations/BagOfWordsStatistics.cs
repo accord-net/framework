@@ -1,4 +1,4 @@
-﻿// Accord Imaging Library
+﻿// Accord Machine Learning Library
 // The Accord.NET Framework
 // http://accord-framework.net
 //
@@ -20,25 +20,25 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-namespace Accord.Imaging
+namespace Accord.MachineLearning
 {
     using Accord.Statistics.Distributions.Univariate;
     using System;
 
     /// <summary>
-    ///   Codebook learning statistics for <see cref="BagOfVisualWords"/> models.
+    ///   Codebook learning statistics for <see cref="BagOfWords"/> models.
     /// </summary>
     /// 
     [Serializable]
-    public class BagOfVisualWordsStatistics
+    public class BagOfWordsStatistics
     {
         /// <summary>
-        ///   Gets or sets the number of images in the training set.
+        ///   Gets or sets the number of instances (i.e. images or audio signals) in the training set.
         /// </summary>
         /// 
-        /// <value>The number of images.</value>
+        /// <value>The number of instances (i.e. images or audio signals).</value>
         /// 
-        public int TotalNumberOfImages { get; set; }
+        public int TotalNumberOfInstances { get; set; }
 
         /// <summary>
         ///   Gets or sets the total number of descriptors seen in the training set.
@@ -52,27 +52,27 @@ namespace Accord.Imaging
         ///   Gets or sets the count distribution of the descriptors seen in the training set.
         /// </summary>
         /// 
-        public NormalDistribution TotalNumberOfDescriptorsPerImage { get; set; }
+        public NormalDistribution TotalNumberOfDescriptorsPerInstance { get; set; }
 
         /// <summary>
-        ///   Gets or sets the minimum and maximum number of descriptors per image seen in the training set.
+        ///   Gets or sets the minimum and maximum number of descriptors per instance seen in the training set.
         /// </summary>
         /// 
-        public IntRange TotalNumberOfDescriptorsPerImageRange { get; set; }
+        public IntRange TotalNumberOfDescriptorsPerInstanceRange { get; set; }
 
 
         /// <summary>
-        ///   Gets or sets the number of images actually used in
-        ///   the learning of the <see cref="BagOfVisualWords"/>.
+        ///   Gets or sets the number of instances (i.e. images or audio signals)
+        ///   actually used in the learning of the <see cref="BagOfWords"/>.
         /// </summary>
         /// 
-        /// <value>The number of images.</value>
+        /// <value>The number of instances.</value>
         /// 
-        public int NumberOfImagesTaken { get; set; }
+        public int NumberOfInstancesTaken { get; set; }
 
         /// <summary>
         ///   Gets or sets the number of descriptors actually used 
-        ///   in the learning of the <see cref="BagOfVisualWords"/>.
+        ///   in the learning of the <see cref="BagOfWords"/>.
         /// </summary>
         /// 
         /// <value>The total number of descriptors.</value>
@@ -81,16 +81,16 @@ namespace Accord.Imaging
 
         /// <summary>
         ///   Gets or sets the count distribution of the descriptors actually
-        ///   used in the learning of the <see cref="BagOfVisualWords"/>.
+        ///   used in the learning of the <see cref="BagOfWords"/>.
         /// </summary>
         /// 
-        public NormalDistribution NumberOfDescriptorsTakenPerImage { get; set; }
+        public NormalDistribution NumberOfDescriptorsTakenPerInstance { get; set; }
 
         /// <summary>
-        ///   Gets or sets the minimum and maximum number of descriptors per image
-        ///   actually used in the learning of the <see cref="BagOfVisualWords"/>.
+        ///   Gets or sets the minimum and maximum number of descriptors per instance
+        ///   actually used in the learning of the <see cref="BagOfWords"/>.
         /// </summary>
         /// 
-        public IntRange NumberOfDescriptorsTakenPerImageRange { get; set; }
+        public IntRange NumberOfDescriptorsTakenPerInstanceRange { get; set; }
     }
 }

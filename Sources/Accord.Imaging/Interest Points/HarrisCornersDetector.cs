@@ -94,7 +94,7 @@ namespace Accord.Imaging
     /// <seealso cref="MoravecCornersDetector"/>
     /// <seealso cref="SusanCornersDetector"/>
     ///
-    public class HarrisCornersDetector : ICornersDetector
+    public class HarrisCornersDetector : BaseCornersDetector
     {
         // Harris parameters
         private HarrisCornerMeasure measure = HarrisCornerMeasure.Harris;
@@ -253,6 +253,14 @@ namespace Accord.Imaging
             this.size = size;
 
             createGaussian();
+
+            base.SupportedFormats.UnionWith(new[]
+            {
+                PixelFormat.Format8bppIndexed,
+                PixelFormat.Format24bppRgb,
+                PixelFormat.Format32bppRgb,
+                PixelFormat.Format32bppArgb
+            });
         }
 
         private void createGaussian()
@@ -262,33 +270,13 @@ namespace Accord.Imaging
         }
         #endregion
 
-
         /// <summary>
-        ///   Process image looking for corners.
+        /// This method should be implemented by inheriting classes to implement the
+        /// actual corners detection, transforming the input image into a list of points.
         /// </summary>
         /// 
-        /// <param name="image">Source image data to process.</param>
-        /// 
-        /// <returns>Returns list of found corners (X-Y coordinates).</returns>
-        /// 
-        /// <exception cref="UnsupportedImageFormatException">
-        ///   The source image has incorrect pixel format.
-        /// </exception>
-        /// 
-        public List<IntPoint> ProcessImage(UnmanagedImage image)
+        protected override List<IntPoint> InnerProcess(UnmanagedImage image)
         {
-
-            // check image format
-            if (
-                (image.PixelFormat != PixelFormat.Format8bppIndexed) &&
-                (image.PixelFormat != PixelFormat.Format24bppRgb) &&
-                (image.PixelFormat != PixelFormat.Format32bppRgb) &&
-                (image.PixelFormat != PixelFormat.Format32bppArgb)
-                )
-            {
-                throw new UnsupportedImageFormatException("Unsupported pixel format of the source image.");
-            }
-
             // make sure we have grayscale image
             UnmanagedImage grayImage = null;
 
@@ -502,81 +490,14 @@ namespace Accord.Imaging
             }
         }
 
-
         /// <summary>
-        ///   Process image looking for corners.
+        /// Creates a new object that is a copy of the current instance.
         /// </summary>
         /// 
-        /// <param name="imageData">Source image data to process.</param>
-        /// 
-        /// <returns>Returns list of found corners (X-Y coordinates).</returns>
-        /// 
-        /// <exception cref="UnsupportedImageFormatException">
-        ///   The source image has incorrect pixel format.
-        /// </exception>
-        /// 
-        public List<IntPoint> ProcessImage(BitmapData imageData)
-        {
-            return ProcessImage(new UnmanagedImage(imageData));
-        }
-
-        /// <summary>
-        ///   Process image looking for corners.
-        /// </summary>
-        /// 
-        /// <param name="image">Source image data to process.</param>
-        /// 
-        /// <returns>Returns list of found corners (X-Y coordinates).</returns>
-        /// 
-        /// <exception cref="UnsupportedImageFormatException">
-        ///   The source image has incorrect pixel format.
-        /// </exception>
-        /// 
-        public List<IntPoint> ProcessImage(Bitmap image)
-        {
-            // check image format
-            if (
-                (image.PixelFormat != PixelFormat.Format8bppIndexed) &&
-                (image.PixelFormat != PixelFormat.Format24bppRgb) &&
-                (image.PixelFormat != PixelFormat.Format32bppRgb) &&
-                (image.PixelFormat != PixelFormat.Format32bppArgb)
-                )
-            {
-                throw new UnsupportedImageFormatException("Unsupported pixel format of the source");
-            }
-
-            // lock source image
-            BitmapData imageData = image.LockBits(
-                new Rectangle(0, 0, image.Width, image.Height),
-                ImageLockMode.ReadOnly, image.PixelFormat);
-
-            List<IntPoint> corners;
-
-            try
-            {
-                // process the image
-                corners = ProcessImage(new UnmanagedImage(imageData));
-            }
-            finally
-            {
-                // unlock image
-                image.UnlockBits(imageData);
-            }
-
-            return corners;
-        }
-
-        /// <summary>
-        ///   Creates a new object that is a copy of the current instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A new object that is a copy of this instance.
-        /// </returns>
-        /// 
-        public object Clone()
+        protected override object Clone(ISet<PixelFormat> supportedFormats)
         {
             var clone = new HarrisCornersDetector();
+            clone.SupportedFormats = supportedFormats;
             clone.initialize(measure, k, threshold, sigma, r, size);
             return clone;
         }

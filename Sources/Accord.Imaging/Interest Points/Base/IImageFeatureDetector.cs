@@ -22,72 +22,58 @@
 
 namespace Accord.Imaging
 {
+    using Accord.MachineLearning;
     using System;
     using System.Collections.Generic;
     using System.Drawing;
     using System.Drawing.Imaging;
 
     /// <summary>
-    ///   Common interface for feature detectors.
+    ///   Common interface for feature detectors (e.g. <see cref="SpeededUpRobustFeaturesDetector"/>,
+    ///   <see cref="Haralick"/>, <see cref="HistogramsOfOrientedGradients"/>).
     /// </summary>
     /// 
-    public interface IFeatureDetector<
-#if !NET35
-        out
-#endif
-        TPoint> : IFeatureDetector<TPoint, double[]>
-        where TPoint : IFeatureDescriptor<double[]>
+    /// <typeparam name="TFeature">The type of the extracted features (e.g. <see cref="SpeededUpRobustFeaturePoint"/>, <see cref="FastRetinaKeypoint"/>]).</typeparam>
+    /// 
+    /// <seealso cref="SpeededUpRobustFeaturesDetector"/>
+    /// <seealso cref="HistogramsOfOrientedGradients"/>
+    /// <seealso cref="Haralick"/>
+    /// <seealso cref="LocalBinaryPattern"/>
+    /// 
+    public interface IImageFeatureExtractor<out TFeature> :
+        IFeatureExtractor<TFeature, Bitmap>,
+        IFeatureExtractor<TFeature, UnmanagedImage>, ICloneable, IDisposable
     {
-        // This class exists to maintain backward compatibility with
-        // the non-generic version of IFeaturePoint (and to provide
-        // a more intuitive way of handling standard, double valued
-        // feature description vectors.
     }
 
     /// <summary>
-    ///   Common interface for feature detectors.
+    ///   Obsolete. See <see cref="IImageFeatureExtractor{TFeature}"/> instead.
     /// </summary>
     /// 
-    public interface IFeatureDetector<
-#if !NET35
-        out 
-#endif
-        TPoint,
-#if !NET35
-        out 
-#endif
-        TFeature> : ICloneable, IDisposable
-        where TPoint : IFeatureDescriptor<TFeature>
+    [Obsolete("This class will be removed.")]
+    public interface IFeatureDetector<out TPoint> 
     {
         /// <summary>
-        ///   Process image looking for interest points.
+        ///   Obsolete. Please use the <see cref="ICovariantTransform{TInput, TOutput}.Transform(TInput)"/> method instead.
         /// </summary>
         /// 
-        /// <param name="image">Source image data to process.</param>
-        /// 
-        /// <returns>Returns list of found interest points.</returns>
-        /// 
+        [Obsolete("Please use the Transform(image) method instead.")]
         IEnumerable<TPoint> ProcessImage(Bitmap image);
 
         /// <summary>
-        ///   Process image looking for interest points.
+        ///   Obsolete. Please use the <see cref="ICovariantTransform{TInput, TOutput}.Transform(TInput)"/> method instead.
         /// </summary>
         /// 
-        /// <param name="imageData">Source image data to process.</param>
-        /// 
-        /// <returns>Returns list of found interest points.</returns>
-        /// 
+        [Obsolete("Please use the Transform(image) method instead.")]
         IEnumerable<TPoint> ProcessImage(BitmapData imageData);
 
         /// <summary>
-        ///   Process image looking for interest points.
+        ///   Obsolete. Please use the <see cref="ICovariantTransform{TInput, TOutput}.Transform(TInput)"/> method instead.
         /// </summary>
         /// 
-        /// <param name="image">Source image data to process.</param>
-        /// 
-        /// <returns>Returns list of found interest points.</returns>
-        /// 
+        [Obsolete("Please use the Transform(image) method instead.")]
         IEnumerable<TPoint> ProcessImage(UnmanagedImage image);
+
     }
 
 }

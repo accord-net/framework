@@ -241,19 +241,19 @@ namespace Accord.Tests.Imaging
             double[][] features = bow.Transform(images);
 
             // We can also check some statistics about the dataset:
-            int numberOfImages = bow.Statistics.TotalNumberOfImages; // 6
+            int numberOfImages = bow.Statistics.TotalNumberOfInstances; // 6
 
             // Statistics about all the descriptors that have been extracted:
             int totalDescriptors = bow.Statistics.TotalNumberOfDescriptors; // 4132
-            double totalMean = bow.Statistics.TotalNumberOfDescriptorsPerImage.Mean; // 688.66666666666663
-            double totalVar = bow.Statistics.TotalNumberOfDescriptorsPerImage.Variance; // 96745.866666666669
-            IntRange totalRange = bow.Statistics.TotalNumberOfDescriptorsPerImageRange; // [409, 1265]
+            double totalMean = bow.Statistics.TotalNumberOfDescriptorsPerInstance.Mean; // 688.66666666666663
+            double totalVar = bow.Statistics.TotalNumberOfDescriptorsPerInstance.Variance; // 96745.866666666669
+            IntRange totalRange = bow.Statistics.TotalNumberOfDescriptorsPerInstanceRange; // [409, 1265]
 
             // Statistics only about the descriptors that have been actually used:
             int takenDescriptors = bow.Statistics.NumberOfDescriptorsTaken; // 4132
-            double takenMean = bow.Statistics.NumberOfDescriptorsTakenPerImage.Mean; // 688.66666666666663
-            double takenVar = bow.Statistics.NumberOfDescriptorsTakenPerImage.Variance; // 96745.866666666669
-            IntRange takenRange = bow.Statistics.NumberOfDescriptorsTakenPerImageRange; // [409, 1265]
+            double takenMean = bow.Statistics.NumberOfDescriptorsTakenPerInstance.Mean; // 688.66666666666663
+            double takenVar = bow.Statistics.NumberOfDescriptorsTakenPerInstance.Variance; // 96745.866666666669
+            IntRange takenRange = bow.Statistics.NumberOfDescriptorsTakenPerInstanceRange; // [409, 1265]
             #endregion
 
             Assert.AreEqual(6, numberOfImages);
@@ -552,6 +552,8 @@ namespace Accord.Tests.Imaging
 
             // Compute the model
             bow.Learn(images);
+
+            bow.ParallelOptions.MaxDegreeOfParallelism = 1;
 
             // After this point, we will be able to translate
             // images into double[] feature vectors using
@@ -886,7 +888,7 @@ namespace Accord.Tests.Imaging
             // We will load at most 5 descriptors from each image. This means
             // that we will only keep 5 descriptors per image at maximum in 
             // memory at a given time.
-            bow.MaxDescriptorsPerImage = 200; // Note: In the real world, use >1,000 samples
+            bow.MaxDescriptorsPerInstance = 200; // Note: In the real world, use >1,000 samples
 
             // Get some training images. Here, instead of loading Bitmaps as in
             // the other examples, we will just specify their paths in the disk:
@@ -908,19 +910,19 @@ namespace Accord.Tests.Imaging
             double[][] features = bow.Transform(filenames);
 
             // We can also check some statistics about the dataset:
-            int numberOfImages = bow.Statistics.TotalNumberOfImages; // 6
+            int numberOfImages = bow.Statistics.TotalNumberOfInstances; // 6
 
             // Statistics about all the descriptors that have been extracted:
             int totalDescriptors = bow.Statistics.TotalNumberOfDescriptors; // 4132
-            double totalMean = bow.Statistics.TotalNumberOfDescriptorsPerImage.Mean; // 688.66666666666663
-            double totalVar = bow.Statistics.TotalNumberOfDescriptorsPerImage.Variance; // 96745.866666666669
-            IntRange totalRange = bow.Statistics.TotalNumberOfDescriptorsPerImageRange; // [409, 1265]
+            double totalMean = bow.Statistics.TotalNumberOfDescriptorsPerInstance.Mean; // 688.66666666666663
+            double totalVar = bow.Statistics.TotalNumberOfDescriptorsPerInstance.Variance; // 96745.866666666669
+            IntRange totalRange = bow.Statistics.TotalNumberOfDescriptorsPerInstanceRange; // [409, 1265]
 
             // Statistics only about the descriptors that have been actually used:
             int takenDescriptors = bow.Statistics.NumberOfDescriptorsTaken; // 1000
-            double takenMean = bow.Statistics.NumberOfDescriptorsTakenPerImage.Mean; // 200
-            double takenVar = bow.Statistics.NumberOfDescriptorsTakenPerImage.Variance; // 0
-            IntRange takenRange = bow.Statistics.NumberOfDescriptorsTakenPerImageRange; // [200, 200]
+            double takenMean = bow.Statistics.NumberOfDescriptorsTakenPerInstance.Mean; // 200
+            double takenVar = bow.Statistics.NumberOfDescriptorsTakenPerInstance.Variance; // 0
+            IntRange takenRange = bow.Statistics.NumberOfDescriptorsTakenPerInstanceRange; // [200, 200]
             #endregion
 
             Assert.AreEqual(6, numberOfImages);

@@ -188,32 +188,32 @@ namespace Accord.MachineLearning
 
         // Transform
 
-        double[] ITransform<TInput, double[]>.Transform(TInput input)
+        double[] ICovariantTransform<TInput, double[]>.Transform(TInput input)
         {
             return Transform(input, create<double>(input));
         }
 
-        double[][] ITransform<TInput, double[]>.Transform(TInput[] input)
+        double[][] ICovariantTransform<TInput, double[]>.Transform(TInput[] input)
         {
             return Transform(input, create<double>(input));
         }
 
-        bool[] ITransform<TInput, bool[]>.Transform(TInput input)
+        bool[] ICovariantTransform<TInput, bool[]>.Transform(TInput input)
         {
             return Transform(input, create<bool>(input));
         }
 
-        bool[][] ITransform<TInput, bool[]>.Transform(TInput[] input)
+        bool[][] ICovariantTransform<TInput, bool[]>.Transform(TInput[] input)
         {
             return Transform(input, create<bool>(input));
         }
 
-        int[] ITransform<TInput, int[]>.Transform(TInput input)
+        int[] ICovariantTransform<TInput, int[]>.Transform(TInput input)
         {
             return Transform(input, create<int>(input));
         }
 
-        int[][] ITransform<TInput, int[]>.Transform(TInput[] input)
+        int[][] ICovariantTransform<TInput, int[]>.Transform(TInput[] input)
         {
             return Transform(input, create<int>(input));
         }

@@ -464,12 +464,12 @@ namespace Accord.Statistics.Filters
             return result;
         }
 
-        double[] ITransform<T[], double[]>.Transform(T[] input)
+        double[] ICovariantTransform<T[], double[]>.Transform(T[] input)
         {
             return Transform(new[] { input }, new double[][] { new double[NumberOfOutputs] })[0];
         }
 
-        double[][] ITransform<T[], double[]>.Transform(T[][] input)
+        double[][] ICovariantTransform<T[], double[]>.Transform(T[][] input)
         {
             return Transform(input, Jagged.Zeros(input.Length, NumberOfOutputs));
         }

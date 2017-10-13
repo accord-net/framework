@@ -97,8 +97,10 @@
     <Compile Include="Performance\Data Splits\Base\TrainValSplit.cs" />
     <Compile Include="Performance\Data Splits\Base\TrainValTestSplit.cs" />
     <Compile Include="Performance\Data Splits\Base\TrainTestSplit.cs" />
+    <Compile Include="Representations\BagOfWordsStatistics.cs" />
     <Compile Include="Representations\BagOfWords`1.cs" />
     <Compile Include="Representations\BagOfWords`2.cs" />
+    <Compile Include="Representations\BaseBagOfWords`6.cs" />
     <Compile Include="Representations\BaseBagOfWords`3.cs" />
     <Compile Include="Representations\TFIDF.cs" />
     <Compile Include="Representations\BagOfWords.cs" />

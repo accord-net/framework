@@ -66,6 +66,7 @@ namespace Accord.Imaging
     using AForge;
     using Accord.Imaging;
     using Accord.Imaging.Filters;
+    using System.CodeDom.Compiler;
 
     /// <summary>
     ///   Features from Accelerated Segment Test (FAST) corners detector.
@@ -140,8 +141,7 @@ namespace Accord.Imaging
     /// <seealso cref="FastRetinaKeypointDetector"/>
     /// 
     [Serializable]
-    [SuppressMessage("Microsoft.Maintainability", "CA1505:AvoidUnmaintainableCode")]
-    public class FastCornersDetector : ICornersDetector
+    public class FastCornersDetector : BaseCornersDetector
     {
 
         private int threshold = 20;
@@ -159,6 +159,14 @@ namespace Accord.Imaging
         public FastCornersDetector(int threshold = 20)
         {
             this.threshold = threshold;
+
+            base.SupportedFormats.UnionWith(new[]
+            {
+                PixelFormat.Format8bppIndexed,
+                PixelFormat.Format24bppRgb,
+                PixelFormat.Format32bppRgb,
+                PixelFormat.Format32bppArgb
+            });
         }
 
 
@@ -191,7 +199,7 @@ namespace Accord.Imaging
 
         /// <summary>
         ///   Gets the scores of the each corner detected in
-        ///   the previous call to <see cref="ProcessImage(Bitmap)"/>.
+        ///   the previous call to <see cref="BaseFeatureExtractor{TFeature}.Transform(Bitmap)"/>.
         /// </summary>
         /// 
         /// <value>The scores of each last computed corner.</value>
@@ -201,96 +209,13 @@ namespace Accord.Imaging
             get { return scores; }
         }
 
-
         /// <summary>
-        ///   Process image looking for corners.
+        /// This method should be implemented by inheriting classes to implement the
+        /// actual corners detection, transforming the input image into a list of points.
         /// </summary>
         /// 
-        /// <param name="imageData">Source image data to process.</param>
-        /// 
-        /// <returns>Returns list of found corners (X-Y coordinates).</returns>
-        /// 
-        /// <exception cref="UnsupportedImageFormatException">
-        ///   The source image has incorrect pixel format.
-        /// </exception>
-        /// 
-        public List<IntPoint> ProcessImage(BitmapData imageData)
+        protected override List<IntPoint> InnerProcess(UnmanagedImage image)
         {
-            return ProcessImage(new UnmanagedImage(imageData));
-        }
-
-        /// <summary>
-        ///   Process image looking for corners.
-        /// </summary>
-        /// 
-        /// <param name="image">Source image data to process.</param>
-        /// 
-        /// <returns>Returns list of found corners (X-Y coordinates).</returns>
-        /// 
-        /// <exception cref="UnsupportedImageFormatException">
-        ///   The source image has incorrect pixel format.
-        /// </exception>
-        /// 
-        public List<IntPoint> ProcessImage(Bitmap image)
-        {
-            // check image format
-            if (
-                (image.PixelFormat != PixelFormat.Format8bppIndexed) &&
-                (image.PixelFormat != PixelFormat.Format24bppRgb) &&
-                (image.PixelFormat != PixelFormat.Format32bppRgb) &&
-                (image.PixelFormat != PixelFormat.Format32bppArgb)
-                )
-            {
-                throw new UnsupportedImageFormatException("Unsupported pixel format of the source");
-            }
-
-            // lock source image
-            BitmapData imageData = image.LockBits(
-                new Rectangle(0, 0, image.Width, image.Height),
-                ImageLockMode.ReadOnly, image.PixelFormat);
-
-            List<IntPoint> corners;
-
-            try
-            {
-                // process the image
-                corners = ProcessImage(new UnmanagedImage(imageData));
-            }
-            finally
-            {
-                // unlock image
-                image.UnlockBits(imageData);
-            }
-
-            return corners;
-        }
-
-        /// <summary>
-        ///   Process image looking for corners.
-        /// </summary>
-        /// 
-        /// <param name="image">Source image data to process.</param>
-        /// 
-        /// <returns>Returns list of found corners (X-Y coordinates).</returns>
-        /// 
-        /// <exception cref="UnsupportedImageFormatException">
-        ///   The source image has incorrect pixel format.
-        /// </exception>
-        /// 
-        public List<IntPoint> ProcessImage(UnmanagedImage image)
-        {
-
-            // check image format
-            if (
-                (image.PixelFormat != PixelFormat.Format8bppIndexed) &&
-                (image.PixelFormat != PixelFormat.Format24bppRgb) &&
-                (image.PixelFormat != PixelFormat.Format32bppRgb) &&
-                (image.PixelFormat != PixelFormat.Format32bppArgb)
-                )
-            {
-                throw new UnsupportedImageFormatException("Unsupported pixel format of the source image.");
-            }
-
             // make sure we have grayscale image
             UnmanagedImage grayImage = null;
 
@@ -439,6 +364,7 @@ namespace Accord.Imaging
             return maximum.ToArray();
         }
 
+        [GeneratedCode("Accord.NET", "3.7.0")]
         private unsafe IntPoint[] detect(UnmanagedImage image, int[] offsets)
         {
             int width = image.Width;
@@ -4468,16 +4394,15 @@ namespace Accord.Imaging
         #endregion
 
         /// <summary>
-        ///   Creates a new object that is a copy of the current instance.
+        /// Creates a new object that is a copy of the current instance.
         /// </summary>
         /// 
-        /// <returns>
-        ///   A new object that is a copy of this instance.
-        /// </returns>
-        /// 
-        public object Clone()
+        protected override object Clone(ISet<PixelFormat> supportedFormats)
         {
-            return new FastCornersDetector(threshold);
+            return new FastCornersDetector(threshold)
+            {
+                SupportedFormats = supportedFormats
+            };
         }
     }
 }

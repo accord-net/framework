@@ -628,13 +628,13 @@ namespace Accord.MachineLearning
 
         // Transform
 
-        int ITransform<TInput, int>.Transform(TInput input)
+        int ICovariantTransform<TInput, int>.Transform(TInput input)
         {
             var t = (IClassifier<TInput, int>)this;
             return t.Decide(input);
         }
 
-        int[] ITransform<TInput, int>.Transform(TInput[] input)
+        int[] ICovariantTransform<TInput, int>.Transform(TInput[] input)
         {
             return Transform(input, new int[NumberOfOutputs]);
         }
@@ -652,13 +652,13 @@ namespace Accord.MachineLearning
             return Decide(input, result);
         }
 
-        double ITransform<TInput, double>.Transform(TInput input)
+        double ICovariantTransform<TInput, double>.Transform(TInput input)
         {
             var t = (IClassifier<TInput, double>)this;
             return t.Decide(input);
         }
 
-        double[] ITransform<TInput, double>.Transform(TInput[] input)
+        double[] ICovariantTransform<TInput, double>.Transform(TInput[] input)
         {
             return Transform(input, new double[NumberOfOutputs]);
         }

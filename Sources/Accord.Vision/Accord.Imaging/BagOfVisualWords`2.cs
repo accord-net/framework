@@ -51,7 +51,7 @@ namespace Accord.Imaging
     /// <para>
     ///   The bag-of-words (BoW) model can be used to extract finite
     ///   length features from otherwise varying length representations.
-    ///   This class can uses any <see cref="IFeatureDetector{TPoint}">feature
+    ///   This class can uses any <see cref="IImageFeatureExtractor{TPoint}">feature
     ///   detector</see> to determine a coded representation for a given image.</para>
     ///   
     /// <para>
@@ -72,9 +72,8 @@ namespace Accord.Imaging
     public class BagOfVisualWords<TPoint, TFeature> : 
         BaseBagOfVisualWords<BagOfVisualWords<TPoint, TFeature>,
             TPoint, TFeature,
-            //IClusteringAlgorithm<TFeature>, 
             IUnsupervisedLearning<IClassifier<TFeature, int>, TFeature, int>,
-            IFeatureDetector<TPoint, TFeature>>
+            IImageFeatureExtractor<TPoint>>
         where TPoint : IFeatureDescriptor<TFeature>
     {
 
@@ -82,14 +81,13 @@ namespace Accord.Imaging
         ///   Constructs a new <see cref="BagOfVisualWords"/>.
         /// </summary>
         /// 
-        /// <param name="detector">The feature detector to use.</param>
+        /// <param name="extractor">The feature extractor to use.</param>
         /// <param name="algorithm">The clustering algorithm to use.</param>
         /// 
-        public BagOfVisualWords(IFeatureDetector<TPoint, TFeature> detector, 
-            //IClusteringAlgorithm<TFeature> 
+        public BagOfVisualWords(IImageFeatureExtractor<TPoint> extractor, 
             IUnsupervisedLearning<IClassifier<TFeature, int>, TFeature, int> algorithm)
         {
-            Init(detector, algorithm);
+            Init(extractor, algorithm);
         }
 
         /// <summary>

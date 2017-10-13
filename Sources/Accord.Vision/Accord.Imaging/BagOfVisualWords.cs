@@ -116,8 +116,8 @@ namespace Accord.Imaging
     /// <para>
     ///   In some applications, learning a BoW with the default settings might need a large amount of memory to be
     ///   available. In those cases, it is possible to reduce the memory and CPU requirements for the learning phase
-    ///   using the <see cref="BaseBagOfVisualWords{A,B,C,D,E}.NumberOfDescriptors"/> and 
-    ///   <see cref="BaseBagOfVisualWords{A,B,C,D,E}.MaxDescriptorsPerImage"/> properties. It is also possible
+    ///   using the <see cref="BaseBagOfWords{A,B,C,D,E,F}.NumberOfDescriptors"/> and 
+    ///   <see cref="BaseBagOfWords{A,B,C,D,E,F}.MaxDescriptorsPerInstance"/> properties. It is also possible
     ///   to avoid loading all images at once by feeding the algorithm with the image filenames instead of their Bitmap
     ///   representations:</para>
     ///   
@@ -147,7 +147,7 @@ namespace Accord.Imaging
         /// 
         public BagOfVisualWords(int numberOfWords)
         {
-            base.Init(new SpeededUpRobustFeaturesDetector(), base.KMeans(numberOfWords));
+            base.Init(new SpeededUpRobustFeaturesDetector(), base.GetDefaultClusteringAlgorithm(numberOfWords));
         }
 
         /// <summary>
@@ -158,8 +158,7 @@ namespace Accord.Imaging
         /// 
         /// <param name="algorithm">The clustering algorithm to use.</param>
         /// 
-        public BagOfVisualWords(//IClusteringAlgorithm<double[]>
-            IUnsupervisedLearning<IClassifier<double[], int>, double[], int> algorithm)
+        public BagOfVisualWords(IUnsupervisedLearning<IClassifier<double[], int>, double[], int> algorithm)
         {
             base.Init(new SpeededUpRobustFeaturesDetector(), algorithm);
         }
@@ -202,7 +201,7 @@ namespace Accord.Imaging
         /// 
         [Obsolete("Please use the Accord.IO.Serializer<BagOfVisualWords<TPoint>>.Load() method instead.")]
         public static BagOfVisualWords<TPoint> Load<TPoint>(Stream stream)
-            where TPoint : IFeaturePoint
+            where TPoint : IFeaturePoint<double[]>
         {
             return Serializer.Load<BagOfVisualWords<TPoint>>(stream);
         }
@@ -217,7 +216,7 @@ namespace Accord.Imaging
         /// 
         [Obsolete("Please use the Accord.IO.Serializer<BagOfVisualWords<TPoint>>.Load() method instead.")]
         public static BagOfVisualWords<TPoint> Load<TPoint>(string path)
-            where TPoint : IFeaturePoint
+            where TPoint : IFeaturePoint<double[]>
         {
             return Serializer.Load<BagOfVisualWords<TPoint>>(path);
         }
@@ -268,7 +267,7 @@ namespace Accord.Imaging
         public static BagOfVisualWords<IFeatureDescriptor<double[]>, double[], TClustering, TDetector>
             Create<TDetector, TClustering>(TDetector detector, TClustering clustering)
             where TClustering : IUnsupervisedLearning<IClassifier<double[], int>, double[], int> //IClusteringAlgorithm<double[]>
-            where TDetector : IFeatureDetector<IFeatureDescriptor<double[]>, double[]>
+            where TDetector : IImageFeatureExtractor<IFeatureDescriptor<double[]>>
         {
             return Create<TDetector, TClustering, IFeatureDescriptor<double[]>, double[]>(detector, clustering);
         }
@@ -279,7 +278,7 @@ namespace Accord.Imaging
         /// 
         public static BagOfVisualWords<IFeatureDescriptor<double[]>, double[], KMeans, TDetector>
             Create<TDetector>(TDetector detector, int numberOfWords)
-            where TDetector : IFeatureDetector<IFeatureDescriptor<double[]>, double[]>
+            where TDetector : IImageFeatureExtractor<IFeatureDescriptor<double[]>>
         {
             return Create<TDetector, KMeans, IFeatureDescriptor<double[]>, double[]>(detector, new KMeans(numberOfWords));
         }
@@ -290,7 +289,7 @@ namespace Accord.Imaging
         /// 
         public static BagOfVisualWords<IFeatureDescriptor<double[]>, double[], KMeans, TDetector>
             Create<TDetector, TClustering>(TDetector detector, int numberOfWords)
-            where TDetector : IFeatureDetector<IFeatureDescriptor<double[]>, double[]>
+            where TDetector : IImageFeatureExtractor<IFeatureDescriptor<double[]>>
         {
             return Create<TDetector, KMeans, IFeatureDescriptor<double[]>, double[]>(detector, new KMeans(numberOfWords));
         }
@@ -314,7 +313,7 @@ namespace Accord.Imaging
         public static BagOfVisualWords<IFeatureDescriptor<TFeature>, TFeature, TClustering, TDetector>
             Create<TDetector, TClustering, TFeature>(TDetector detector, TClustering clustering)
             where TClustering : IUnsupervisedLearning<IClassifier<TFeature, int>, TFeature, int> //IClusteringAlgorithm<TFeature>
-            where TDetector : IFeatureDetector<IFeatureDescriptor<TFeature>, TFeature>
+            where TDetector : IImageFeatureExtractor<IFeatureDescriptor<TFeature>>
         {
             return Create<TDetector, TClustering, IFeatureDescriptor<TFeature>, TFeature>(detector, clustering);
         }
@@ -327,7 +326,7 @@ namespace Accord.Imaging
             Create<TDetector, TClustering, TPoint, TFeature>(TDetector detector, TClustering clustering)
             where TPoint : IFeatureDescriptor<TFeature>
             where TClustering : IUnsupervisedLearning<IClassifier<TFeature, int>, TFeature, int> //IClusteringAlgorithm<TFeature>
-            where TDetector : IFeatureDetector<TPoint, TFeature>
+            where TDetector : IImageFeatureExtractor<TPoint>
         {
             return new BagOfVisualWords<TPoint, TFeature, TClustering, TDetector>(detector, clustering);
         }

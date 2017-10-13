@@ -29,6 +29,7 @@ namespace Accord.Imaging
     using Accord.Math;
     using Accord.Imaging;
     using Accord.Imaging.Filters;
+    using System.Threading;
 
     /// <summary>
     ///   Local Binary Patterns.
@@ -67,8 +68,7 @@ namespace Accord.Imaging
     ///   <code source="Unit Tests\Accord.Tests.Vision\Imaging\BagOfVisualWordsTest.cs" region="doc_feature_lbp" />
     /// </example>
     /// 
-    public class LocalBinaryPattern : IFeatureDetector<FeatureDescriptor>,
-        IFeatureDetector<IFeatureDescriptor<double[]>>
+    public class LocalBinaryPattern : BaseFeatureExtractor<FeatureDescriptor>
     {
         const int numberOfBins = 256;
 
@@ -105,7 +105,7 @@ namespace Accord.Imaging
 
         /// <summary>
         ///   Gets the set of local binary patterns computed for each
-        ///   pixel in the last call to to <see cref="ProcessImage(Bitmap)"/>.
+        ///   pixel in the last call to to <see cref="BaseFeatureExtractor{TFeature}.Transform(Bitmap)"/>.
         /// </summary>
         /// 
         public int[,] Patterns { get { return patterns; } }
@@ -145,35 +145,21 @@ namespace Accord.Imaging
             this.cellSize = cellSize;
             this.blockSize = blockSize;
             this.normalize = normalize;
+
+            base.SupportedFormats.UnionWith(new[] {
+                PixelFormat.Format8bppIndexed,
+                PixelFormat.Format24bppRgb,
+                PixelFormat.Format32bppRgb,
+                PixelFormat.Format32bppArgb });
         }
 
-
         /// <summary>
-        ///   Process image looking for interest points.
+        ///   This method should be implemented by inheriting classes to implement the 
+        ///   actual feature extraction, transforming the input image into a list of features.
         /// </summary>
         /// 
-        /// <param name="image">Source image data to process.</param>
-        /// 
-        /// <returns>Returns list of found features points.</returns>
-        /// 
-        /// <exception cref="UnsupportedImageFormatException">
-        ///   The source image has incorrect pixel format.
-        /// </exception>
-        /// 
-        public List<double[]> ProcessImage(UnmanagedImage image)
+        protected override IEnumerable<FeatureDescriptor> InnerTransform(UnmanagedImage image)
         {
-
-            // check image format
-            if (
-                (image.PixelFormat != PixelFormat.Format8bppIndexed) &&
-                (image.PixelFormat != PixelFormat.Format24bppRgb) &&
-                (image.PixelFormat != PixelFormat.Format32bppRgb) &&
-                (image.PixelFormat != PixelFormat.Format32bppArgb)
-                )
-            {
-                throw new UnsupportedImageFormatException("Unsupported pixel format of the source image.");
-            }
-
             // make sure we have grayscale image
             UnmanagedImage grayImage = null;
 
@@ -328,7 +314,7 @@ namespace Accord.Imaging
             }
 
 
-            var blocks = new List<double[]>();
+            var blocks = new List<FeatureDescriptor>();
 
             for (int i = 0; i < blocksCountX; i++)
             {
@@ -365,138 +351,17 @@ namespace Accord.Imaging
             return blocks;
         }
 
-
-
         /// <summary>
-        ///   Process image looking for interest points.
+        /// Creates a new object that is a copy of the current instance.
         /// </summary>
         /// 
-        /// <param name="imageData">Source image data to process.</param>
-        /// 
-        /// <returns>Returns list of found interest points.</returns>
-        /// 
-        /// <exception cref="UnsupportedImageFormatException">
-        ///   The source image has incorrect pixel format.
-        /// </exception>
-        /// 
-        public List<double[]> ProcessImage(BitmapData imageData)
-        {
-            return ProcessImage(new UnmanagedImage(imageData));
-        }
-
-        /// <summary>
-        ///   Process image looking for interest points.
-        /// </summary>
-        /// 
-        /// <param name="image">Source image data to process.</param>
-        /// 
-        /// <returns>Returns list of found interest points.</returns>
-        /// 
-        /// <exception cref="UnsupportedImageFormatException">
-        ///   The source image has incorrect pixel format.
-        /// </exception>
-        /// 
-        public List<double[]> ProcessImage(Bitmap image)
-        {
-            // check image format
-            if (
-                (image.PixelFormat != PixelFormat.Format8bppIndexed) &&
-                (image.PixelFormat != PixelFormat.Format24bppRgb) &&
-                (image.PixelFormat != PixelFormat.Format32bppRgb) &&
-                (image.PixelFormat != PixelFormat.Format32bppArgb)
-                )
-            {
-                throw new UnsupportedImageFormatException("Unsupported pixel format of the source");
-            }
-
-            // lock source image
-            BitmapData imageData = image.LockBits(ImageLockMode.ReadOnly);
-
-            try
-            {
-                // process the image
-                return ProcessImage(new UnmanagedImage(imageData));
-            }
-            finally
-            {
-                // unlock image
-                image.UnlockBits(imageData);
-            }
-        }
-
-
-        IEnumerable<FeatureDescriptor> IFeatureDetector<FeatureDescriptor, double[]>.ProcessImage(Bitmap image)
-        {
-            return ProcessImage(image).ConvertAll(p => new FeatureDescriptor(p));
-        }
-
-        IEnumerable<FeatureDescriptor> IFeatureDetector<FeatureDescriptor, double[]>.ProcessImage(BitmapData imageData)
-        {
-            return ProcessImage(imageData).ConvertAll(p => new FeatureDescriptor(p));
-        }
-
-        IEnumerable<FeatureDescriptor> IFeatureDetector<FeatureDescriptor, double[]>.ProcessImage(UnmanagedImage image)
-        {
-            return ProcessImage(image).ConvertAll(p => new FeatureDescriptor(p));
-        }
-
-        IEnumerable<IFeatureDescriptor<double[]>> IFeatureDetector<IFeatureDescriptor<double[]>, double[]>.ProcessImage(Bitmap image)
-        {
-            return ProcessImage(image).ConvertAll(p => (IFeatureDescriptor<double[]>)new FeatureDescriptor(p));
-        }
-
-        IEnumerable<IFeatureDescriptor<double[]>> IFeatureDetector<IFeatureDescriptor<double[]>, double[]>.ProcessImage(BitmapData imageData)
-        {
-            return ProcessImage(imageData).ConvertAll(p => (IFeatureDescriptor<double[]>)new FeatureDescriptor(p));
-        }
-
-        IEnumerable<IFeatureDescriptor<double[]>> IFeatureDetector<IFeatureDescriptor<double[]>, double[]>.ProcessImage(UnmanagedImage image)
-        {
-            return ProcessImage(image).ConvertAll(p => (IFeatureDescriptor<double[]>)new FeatureDescriptor(p));
-        }
-
-
-        /// <summary>
-        ///   Creates a new object that is a copy of the current instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A new object that is a copy of this instance.
-        /// </returns>
-        ///
-        public object Clone()
+        protected override object Clone(ISet<PixelFormat> supportedFormats)
         {
             var clone = new LocalBinaryPattern(blockSize, cellSize, normalize);
             clone.epsilon = epsilon;
+            clone.SupportedFormats = supportedFormats;
             return clone;
         }
 
-        /// <summary>
-        ///   Performs application-defined tasks associated with freeing, releasing, 
-        ///   or resetting unmanaged resources.
-        /// </summary>
-        /// 
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        /// <summary>
-        ///   Releases unmanaged and - optionally - managed resources.
-        /// </summary>
-        /// 
-        /// <param name="disposing"><c>true</c> to release both managed and unmanaged
-        ///   resources; <c>false</c> to release only unmanaged resources.</param>
-        /// 
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                // free managed resources
-            }
-
-            // free native resources if there are any.
-        }
     }
 }
