@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="AForge.Core\Delegates.cs" />
     <Compile Include="AForge.Core\DoublePoint.cs" />
+    <Compile Include="Attributes\FormatDecoderAttribute.cs" />
     <Compile Include="Attributes\SourceTypeAttribute.cs" />
     <Compile Include="Attributes\SerializationBinderAttribute.cs" />
     <Compile Include="Attributes\SurrogateSelectorAttribute.cs" />
@@ -69,6 +70,8 @@
     <Compile Include="Compatibility\EnvironmentEx.cs" />
     <Compile Include="Compatibility\TypeExtensions.cs" />
     <Compile Include="Debug.cs" />
+    <Compile Include="Features\IFeatureDescriptor.cs" />
+    <Compile Include="Features\IFeatureExtractor.cs" />
     <Compile Include="InterlockedEx.cs" />
     <Compile Include="MachineLearning\Classifiers\IClassifier.cs" />
     <Compile Include="MachineLearning\Classifiers\Multiclass\IMulticlassClassifier.cs" />

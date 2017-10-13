@@ -35,6 +35,7 @@ namespace Accord.Imaging.Formats
     using System.Globalization;
     using System.IO;
     using Accord.Compat;
+    using System.Linq;
 
     /// <summary>
     /// Image decoder to decode different custom image file formats.
@@ -45,13 +46,14 @@ namespace Accord.Imaging.Formats
     /// image decoders). Instead of using required image decoder directly, users may use this
     /// class, which will find required decoder by file's extension.</para>
     /// 
-    /// <para>By default the class registers on its own all decoders, which are available in
-    /// AForge.Imaging.Formats library. If user has implementation of his own image decoders, he
-    /// needs to register them using <see cref="RegisterDecoder"/> method to be able to use them through
-    /// the <see cref="ImageDecoder"/> class.</para>
+    /// <para>
+    ///   By default the class will query all referenced assemblies for types that are marked
+    ///   with the <see cref="FormatDecoderAttribute"/>. If the user would like to implement
+    ///   a new decoder, all that is necessary is to mark a new class with the <see cref="FormatDecoderAttribute"/>
+    ///   and make it implement the <see cref="IImageDecoder"/> interface.</para>
     /// 
-    /// <para><note>If the class can not find appropriate decode in the list of registered
-    /// decoders, it passes file to .NET's image decoder for decoding.</note></para>
+    /// <para><note>If the class can not find the appropriate decoder, it will delegate
+    ///   the file decoding to .NET's internal image decoders.</note></para>
     /// </remarks>
     /// 
     /// <example>
@@ -63,40 +65,16 @@ namespace Accord.Imaging.Formats
     /// 
     public static class ImageDecoder
     {
-        private static Dictionary<string, IImageDecoder> decoders = new Dictionary<string, IImageDecoder>();
-
-        static ImageDecoder()
-        {
-            // register PNM file format
-            IImageDecoder decoder = new PNMCodec();
-
-            RegisterDecoder("pbm", decoder);
-            RegisterDecoder("pgm", decoder);
-            RegisterDecoder("pnm", decoder);
-            RegisterDecoder("ppm", decoder);
-
-            // register FITS file format
-            decoder = new FITSCodec();
-
-            RegisterDecoder("fit", decoder);
-            RegisterDecoder("fits", decoder);
-        }
+        private static Dictionary<string, Type> decoders = new Dictionary<string, Type>();
 
         /// <summary>
-        /// Register image decoder for a specified file extension.
+        ///   Obsolete. Please mark your decoder class with the <see cref="FormatDecoderAttribute"/> instead.
         /// </summary>
         /// 
-        /// <param name="fileExtension">File extension to register decoder for ("bmp", for example).</param>
-        /// <param name="decoder">Image decoder to use for the specified file extension.</param>
-        /// 
-        /// <remarks><para>The method allows to register image decoder object, which should be used
-        /// to decode images from files with the specified extension.</para></remarks>
-        /// 
+        [Obsolete("Please mark your decoder class with the FormatDecoderAttribute instead.")]
         public static void RegisterDecoder(string fileExtension, IImageDecoder decoder)
         {
-            System.Diagnostics.Debug.WriteLine("Registering decoder: " + fileExtension);
-
-            decoders.Add(fileExtension.ToUpperInvariant(), decoder);
+            decoders.Add(fileExtension.ToUpperInvariant(), decoder.GetType());
         }
 
         /// <summary>
@@ -111,7 +89,7 @@ namespace Accord.Imaging.Formats
         /// <remarks><para>The method uses table of registered image decoders to find the one,
         /// which should be used for the specified file. If there is not appropriate decoder
         /// found, the method uses default .NET's image decoding routine (see
-        /// <see cref="System.Drawing.Image.FromFile( string )"/>).</para></remarks>
+        /// <see cref="System.Drawing.Image.FromFile(string)"/>).</para></remarks>
         /// 
         public static Bitmap DecodeFromFile(string fileName)
         {
@@ -133,7 +111,7 @@ namespace Accord.Imaging.Formats
         /// <remarks><para>The method uses table of registered image decoders to find the one,
         /// which should be used for the specified file. If there is not appropriate decoder
         /// found, the method uses default .NET's image decoding routine (see
-        /// <see cref="System.Drawing.Image.FromFile( string )"/>).</para></remarks>
+        /// <see cref="System.Drawing.Image.FromFile(string)"/>).</para></remarks>
         /// 
         public static Bitmap DecodeFromFile(string fileName, out ImageInfo imageInfo)
         {
@@ -145,12 +123,15 @@ namespace Accord.Imaging.Formats
             {
                 fileExtension = fileExtension.Substring(1);
 
+                if (!decoders.ContainsKey(fileExtension))
+                    FormatDecoderAttribute.PopulateDictionaryWithDecodersFromAllAssemblies<IImageDecoder>(decoders, fileExtension);
+
                 if (decoders.ContainsKey(fileExtension))
                 {
-                    IImageDecoder decoder = decoders[fileExtension];
+                    IImageDecoder decoder = (IImageDecoder)Activator.CreateInstance(decoders[fileExtension]);
 
                     // open stream
-                    using (FileStream stream = new FileStream(fileName, FileMode.Open))
+                    using (FileStream stream = new FileStream(fileName, FileMode.Open, FileAccess.Read))
                     {
                         // open decoder
                         decoder.Open(stream);
