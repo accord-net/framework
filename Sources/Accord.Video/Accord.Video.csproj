@@ -50,6 +50,7 @@
     </Compile>
     <Compile Include="AsyncVideoSource.cs" />
     <Compile Include="ByteArrayUtils.cs" />
+    <Compile Include="DataSets\TestVideos.cs" />
     <Compile Include="Exceptions.cs" />
     <Compile Include="Internal\Boundary.cs" />
     <Compile Include="Internal\MJPEGStreamParser.cs" />
