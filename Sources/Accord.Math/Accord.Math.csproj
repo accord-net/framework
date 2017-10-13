@@ -217,6 +217,7 @@
     <Compile Include="Matrix\Vector.MinMax.cs" />
     <Compile Include="Matrix\Matrix.MinMax.cs" />
     <Compile Include="Optimization\Base\IFunctionOptimizationMethod.cs" />
+    <Compile Include="Optimization\Constrained\Constraints\ConstraintExtensions.cs" />
     <Compile Include="Optimization\Losses\BinaryCrossEntropyLoss.cs" />
     <Compile Include="Optimization\Losses\CategoryCrossEntropyLoss.cs" />
     <Compile Include="Optimization\Losses\HammingLoss.cs" />

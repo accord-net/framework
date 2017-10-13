@@ -34,74 +34,17 @@ namespace Accord.Math.Optimization
     /// 
     public class NonlinearConstraint : IConstraint, IFormattable
     {
-
         private const double DEFAULT_TOL = 1e-8;
+
+        private Func<double[], double> function;
+
+        private Func<double[], double[]> gradient;
 
         /// <summary>
         ///   Gets the number of variables in the constraint.
         /// </summary>
         /// 
         public int NumberOfVariables { get; private set; }
-
-        /// <summary>
-        ///   Gets the left hand side of 
-        ///   the constraint equation.
-        /// </summary>
-        /// 
-        public Func<double[], double> Function { get; private set; }
-
-        /// <summary>
-        ///   Gets the gradient of the left hand
-        ///   side of the constraint equation.
-        /// </summary>
-        /// 
-        public Func<double[], double[]> Gradient { get; private set; }
-
-        /// <summary>
-        ///   Gets how much the constraint is being violated.
-        /// </summary>
-        /// 
-        /// <param name="input">The function point.</param>
-        /// 
-        /// <returns>
-        ///   How much the constraint is being violated at the given point. Positive
-        ///   value means the constraint is not being violated with the returned slack, 
-        ///   while a negative value means the constraint is being violated by the returned
-        ///   amount.
-        /// </returns>
-        /// 
-        public double GetViolation(double[] input)
-        {
-            double fx = Function(input);
-
-            switch (ShouldBe)
-            {
-                case ConstraintType.EqualTo:
-                    return Math.Abs(fx - Value);
-
-                case ConstraintType.GreaterThanOrEqualTo:
-                    return fx - Value;
-
-                case ConstraintType.LesserThanOrEqualTo:
-                    return Value - fx;
-            }
-
-            throw new NotSupportedException();
-        }
-
-        /// <summary>
-        ///   Gets whether this constraint is being violated 
-        ///   (within the current tolerance threshold).
-        /// </summary>
-        /// 
-        /// <param name="input">The function point.</param>
-        /// 
-        /// <returns>True if the constraint is being violated, false otherwise.</returns>
-        /// 
-        public bool IsViolated(double[] input)
-        {
-            return GetViolation(input) < -Tolerance;
-        }
 
         /// <summary>
         ///   Gets the type of the constraint.
@@ -148,14 +91,14 @@ namespace Accord.Math.Optimization
 
             // Generate lambda functions
             var func = ExpressionParser.Replace(function, objective.Variables);
-            this.Function = func.Compile();
+            this.function = func.Compile();
             this.Value = value;
             this.Tolerance = withinTolerance;
 
             if (gradient != null)
             {
                 var grad = ExpressionParser.Replace(gradient, objective.Variables);
-                this.Gradient = grad.Compile();
+                this.gradient = grad.Compile();
 
                 int n = NumberOfVariables;
                 double[] probe = new double[n];
@@ -272,6 +215,30 @@ namespace Accord.Math.Optimization
         }
 
         /// <summary>
+        /// Calculates the left hand side of the constraint
+        /// equation given a vector x.
+        /// </summary>
+        /// <param name="x">The vector.</param>
+        /// <returns>
+        /// The left hand side of the constraint equation as evaluated at x.
+        /// </returns>
+        public double Function(double[] x)
+        {
+            return this.function(x);
+        }
+
+        /// <summary>
+        /// Calculates the gradient of the constraint
+        /// equation given a vector x
+        /// </summary>
+        /// <param name="x">The vector.</param>
+        /// <returns>The gradient of the constraint as evaluated at x.</returns>
+        public double[] Gradient(double[] x)
+        {
+            return this.gradient(x);
+        }
+
+        /// <summary>
         ///    Creates a nonlinear constraint.
         /// </summary>
         /// 
@@ -295,10 +262,9 @@ namespace Accord.Math.Optimization
             this.Value = value;
             this.Tolerance = tolerance;
 
-            this.Function = function;
-            this.Gradient = gradient;
+            this.function = function;
+            this.gradient = gradient;
         }
-
 
 
         private static void parse(Expression<Func<double[], bool>> constraint,

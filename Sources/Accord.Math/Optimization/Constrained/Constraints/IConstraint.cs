@@ -22,12 +22,10 @@
 
 namespace Accord.Math.Optimization
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-
-    interface IConstraint
+    /// <summary>
+    /// Defines an interface for an optimization constraint.
+    /// </summary>
+    public interface IConstraint
     {
         /// <summary>
         ///   Gets the type of the constraint.
@@ -43,38 +41,33 @@ namespace Accord.Math.Optimization
         double Value { get; }
 
         /// <summary>
+        ///   Gets the violation tolerance for the constraint.
+        /// </summary>
+        /// 
+        double Tolerance { get; }
+
+        /// <summary>
         ///   Gets the number of variables in the constraint.
         /// </summary>
         /// 
         int NumberOfVariables { get; }
 
         /// <summary>
-        ///   Gets the left hand side of 
-        ///   the constraint equation.
+        /// Calculates the left hand side of the constraint
+        /// equation given a vector x.
         /// </summary>
-        /// 
-        Func<double[], double> Function { get; }
-
-        /// <summary>
-        ///   Gets the gradient of the left hand
-        ///   side of the constraint equation.
-        /// </summary>
-        /// 
-        Func<double[], double[]> Gradient { get; }
-
-        /// <summary>
-        ///   Gets how much the constraint is being violated.
-        /// </summary>
-        /// 
-        /// <param name="input">The function point.</param>
-        /// 
+        /// <param name="x">The vector.</param>
         /// <returns>
-        ///   How much the constraint is being violated at the given point. Positive
-        ///   value means the constraint is not being violated with the returned slack, 
-        ///   while a negative value means the constraint is being violated by the returned
-        ///   amount.
+        /// The left hand side of the constraint equation as evaluated at x.
         /// </returns>
-        /// 
-        double GetViolation(double[] input);
+        double Function(double[] x);
+
+        /// <summary>
+        /// Calculates the gradient of the constraint
+        /// equation given a vector x
+        /// </summary>
+        /// <param name="x">The vector.</param>
+        /// <returns>The gradient of the constraint as evaluated at x.</returns>
+        double[] Gradient(double[] x);
     }
 }
