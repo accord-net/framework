@@ -20,9 +20,8 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-namespace Accord.Imaging
+namespace Accord
 {
-
     /// <summary>
     ///   Common interface for feature descriptors.
     /// </summary>
@@ -30,8 +29,7 @@ namespace Accord.Imaging
     public interface IFeatureDescriptor<out T>
     {
         /// <summary>
-        ///   Gets or sets the descriptor vector
-        ///   associated with this point.
+        ///   Gets or sets the descriptor vector associated with this point.
         /// </summary>
         /// 
         T Descriptor { get; }
