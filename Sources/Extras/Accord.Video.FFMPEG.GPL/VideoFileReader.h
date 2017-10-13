@@ -47,7 +47,7 @@ namespace Accord {
             /// <remarks><para>The class allows to read video files using <a href="http://www.ffmpeg.org/">FFmpeg</a> library.</para>
             /// 
             /// <para><note>Make sure you have <b>FFmpeg</b> binaries (DLLs) in the output folder of your application in order
-            /// to use this class successfully. <b>FFmpeg</b> binaries can be found in Externals folder provided with AForge.NET
+            /// to use this class successfully. <b>FFmpeg</b> binaries can be found in Externals folder provided with Accord.NET
             /// framework's distribution.</note></para>
             ///
             /// <para>Sample usage:</para>
@@ -88,7 +88,9 @@ namespace Accord {
                 ReaderPrivateData^ data;
                 bool disposed;
 
-                Bitmap^ DecodeVideoFrame();
+                Bitmap^ DecodeVideoFrame(BitmapData^ bitmapData);
+
+                Bitmap^ readVideoFrame(int frameIndex, BitmapData^ output);
 
                 // Checks if video file was opened
                 void CheckIfVideoFileIsOpen()
@@ -257,7 +259,55 @@ namespace Accord {
                 /// <exception cref="System::IO::IOException">Thrown if no video file was open.</exception>
                 /// <exception cref="VideoException">A error occurred while reading next video frame. See exception message.</exception>
                 /// 
-                Bitmap^ ReadVideoFrame();
+                Bitmap^ ReadVideoFrame()
+                {
+                    return ReadVideoFrame(-1);
+                }
+
+                /// <summary>
+                /// Read the given video frame of the currently opened video file.
+                /// </summary>
+                /// 
+                /// <returns>Returns the desired frame of the opened file or <see langword="null"/> if end of
+                /// file was reached. The returned video frame has 24 bpp color format.</returns>
+                /// 
+                /// <exception cref="System::IO::IOException">Thrown if no video file was open.</exception>
+                /// <exception cref="VideoException">A error occurred while reading next video frame. See exception message.</exception>
+                /// 
+                Bitmap^ ReadVideoFrame(int frameIndex)
+                {
+                    return readVideoFrame(frameIndex, nullptr);
+                }
+
+                /// <summary>
+                /// Read next video frame of the currently opened video file.
+                /// </summary>
+                /// 
+                /// <returns>Returns next video frame of the opened file or <see langword="null"/> if end of
+                /// file was reached. The returned video frame has 24 bpp color format.</returns>
+                /// 
+                /// <exception cref="System::IO::IOException">Thrown if no video file was open.</exception>
+                /// <exception cref="VideoException">A error occurred while reading next video frame. See exception message.</exception>
+                /// 
+                void ReadVideoFrame(BitmapData^ output)
+                {
+                    readVideoFrame(-1, output);
+                }
+
+                /// <summary>
+                /// Read the given video frame of the currently opened video file.
+                /// </summary>
+                /// 
+                /// <returns>Returns the desired frame of the opened file or <see langword="null"/> if end of
+                /// file was reached. The returned video frame has 24 bpp color format.</returns>
+                /// 
+                /// <exception cref="System::IO::IOException">Thrown if no video file was open.</exception>
+                /// <exception cref="VideoException">A error occurred while reading next video frame. See exception message.</exception>
+                /// 
+                void ReadVideoFrame(int frameIndex, BitmapData^ output)
+                {
+                    readVideoFrame(frameIndex, output);
+                }
 
                 /// <summary>
                 /// Close currently opened video file if any.
