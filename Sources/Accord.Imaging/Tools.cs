@@ -1668,11 +1668,54 @@ namespace Accord.Imaging
         }
 
         /// <summary>
-        /// Locks a Bitmap into system memory.
+        ///   Locks a Bitmap into system memory.
         /// </summary>
+        /// 
         public static BitmapData LockBits(this Bitmap value, ImageLockMode mode)
         {
             return value.LockBits(new Rectangle(0, 0, value.Width, value.Height), mode, value.PixelFormat);
+        }
+
+        /// <summary>
+        ///   Locks a Bitmap into system memory and executes an operation with a 
+        ///   <see cref="UnmanagedImage"/> that points to this memory location.
+        /// </summary>
+        /// 
+        public static TResult LockBits<TResult>(this Bitmap input, ImageLockMode lockMode, Func<UnmanagedImage, TResult> func)
+        {
+            BitmapData imageData = input.LockBits(lockMode);
+
+            try
+            {
+                // process the image
+                return func(new UnmanagedImage(imageData));
+            }
+            finally
+            {
+                // unlock image
+                input.UnlockBits(imageData);
+            }
+        }
+
+        /// <summary>
+        ///   Locks a Bitmap into system memory and executes an operation with a 
+        ///   <see cref="UnmanagedImage"/> that points to this memory location.
+        /// </summary>
+        /// 
+        public static void LockBits<TResult>(this Bitmap input, ImageLockMode lockMode, Action<UnmanagedImage> func)
+        {
+            BitmapData imageData = input.LockBits(lockMode);
+
+            try
+            {
+                // process the image
+                func(new UnmanagedImage(imageData));
+            }
+            finally
+            {
+                // unlock image
+                input.UnlockBits(imageData);
+            }
         }
 
 
