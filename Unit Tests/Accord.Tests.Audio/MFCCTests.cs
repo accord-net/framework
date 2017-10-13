@@ -28,10 +28,37 @@ namespace Accord.Tests.Audio
     using Accord.Audio.Windows;
     using Accord.Math;
     using System.IO;
+    using Accord.DataSets;
+    using System.Linq;
 
     [TestFixture]
     public class MFCCTests
     {
+
+
+        [Test]
+        public void sample_test()
+        {
+            string basePath = NUnit.Framework.TestContext.CurrentContext.TestDirectory;
+
+            FreeSpokenDigitsDataset fsdd = new FreeSpokenDigitsDataset(Path.Combine(basePath, "a"));
+            var mfcc = new MelFrequencyCepstrumCoefficient();
+
+            Signal a = fsdd.GetSignal(0, "jackson", 10);
+            MelFrequencyCepstrumCoefficientDescriptor[] ra = mfcc.Transform(a).ToArray();
+            Assert.AreEqual(35, ra.Length);
+            Assert.IsTrue(new double[] { 10.570020645259348d, 1.3484344242338475d, 0.4861056552885234d, -0.79287993818868352d, -0.64182784362935996d, -0.28079835895392041d, -0.46378109632237779d, 0.072039410871952647d, -0.43971730320461733d, 0.48891921252102533d, -0.22502241185050212d, 0.12478713268421229d, -0.13373400147110801d }.IsEqual(ra[0].Descriptor, 1e-8));
+
+            Signal b = fsdd.GetSignal(0, "nicolas", 10);
+            MelFrequencyCepstrumCoefficientDescriptor[] rb = mfcc.Transform(b).ToArray();
+            Assert.AreEqual(24, rb.Length);
+            Assert.IsTrue(new[] { 10.6434445230168, -0.222107787197107, 0.316067614396639, -0.212769536249701, -0.107755264262885, -0.292732772820073, -0.00445205345925395, 0.024397440969199, 0.0213769364471326, -0.0882765552657509, -0.177682484734242, -0.1013307739251, -0.099014915302743 }.IsEqual(rb[0].Descriptor, 1e-8));
+
+            Signal c = fsdd.GetSignal(5, "theo", 23);
+            MelFrequencyCepstrumCoefficientDescriptor[] rc = mfcc.Transform(c).ToArray();
+            Assert.AreEqual(27, rc.Length);
+            Assert.IsTrue(new[] { 7.24614406589037, -1.16796769512142, -0.134374026111248, -0.192703972718674, 0.112752647291759, -0.118712048308068, -0.0603752892245708, -0.0275002195634854, -0.0830858413953528, -0.0838965948140795, -0.15293502718595, 0.0107796827068413, -0.0491283773795346 }.IsEqual(rc[0].Descriptor, 1e-8));
+        }
 
         [Test]
         public void sig2s2mfcTest()
