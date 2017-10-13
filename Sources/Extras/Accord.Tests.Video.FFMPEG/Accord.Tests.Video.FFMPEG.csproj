@@ -42,7 +42,7 @@
   <PropertyGroup Condition=" '$(Configuration)' == 'mono' ">
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <DefineConstants>TRACE;MONO</DefineConstants>
-<TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="nunit.framework">
@@ -61,6 +61,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MatchingTrackerTest.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -81,6 +82,10 @@
       <Project>{A177A90C-8207-466A-AF70-F2B8452A42AC}</Project>
       <Name>Accord.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Accord.DataSets\Accord.DataSets.csproj">
+      <Project>{f11a77c5-00b3-4921-acf5-4728f6576efd}</Project>
+      <Name>Accord.DataSets</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Accord.Imaging\Accord.Imaging.csproj">
       <Project>{4959A83D-F78F-439E-80A5-41583ECEAAC6}</Project>
       <Name>Accord.Imaging</Name>
@@ -96,6 +101,10 @@
     <ProjectReference Include="..\..\Accord.Statistics\Accord.Statistics.csproj">
       <Project>{FD8101DD-C95D-42D6-AD44-AE01C25F2811}</Project>
       <Name>Accord.Statistics</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Accord.Video\Accord.Video.csproj">
+      <Project>{809725dc-6502-4732-a51c-deb7fea12975}</Project>
+      <Name>Accord.Video</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Accord.Vision\Accord.Vision.csproj">
       <Project>{C70A159D-74A4-405F-9A7F-C17ACF451CCA}</Project>
