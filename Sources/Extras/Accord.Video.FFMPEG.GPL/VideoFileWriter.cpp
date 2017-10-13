@@ -595,34 +595,43 @@ namespace Accord {
             // Writes new video frame to the opened video file
             void VideoFileWriter::WriteVideoFrame(Bitmap^ frame, unsigned long frameIndex)
             {
-                CheckIfDisposed();
-
-                if (data == nullptr)
-                    throw gcnew System::IO::IOException("A video file was not opened yet.");
-
-                if ((frame->PixelFormat != PixelFormat::Format24bppRgb) &&
-                    (frame->PixelFormat != PixelFormat::Format32bppArgb) &&
-                    (frame->PixelFormat != PixelFormat::Format32bppPArgb) &&
-                    (frame->PixelFormat != PixelFormat::Format32bppRgb) &&
-                    (frame->PixelFormat != PixelFormat::Format8bppIndexed))
-                {
-                    throw gcnew ArgumentException("The provided bitmap must be 24 or 32 bpp color image or 8 bpp grayscale image.");
-                }
-
-                if ((frame->Width != m_width) || (frame->Height != m_height))
-                    throw gcnew ArgumentException("Bitmap size must be of the same as video size, which was specified on opening video file.");
-
                 // lock the bitmap
                 BitmapData^ bitmapData = frame->LockBits(System::Drawing::Rectangle(0, 0, m_width, m_height),
                     ImageLockMode::ReadOnly,
                     (frame->PixelFormat == PixelFormat::Format8bppIndexed) ?
                     PixelFormat::Format8bppIndexed : PixelFormat::Format24bppRgb);
 
+                WriteVideoFrame(bitmapData, frameIndex);
+
+                frame->UnlockBits(bitmapData);
+            }
+
+            // Writes new video frame to the opened video file
+            void VideoFileWriter::WriteVideoFrame(BitmapData^ bitmapData, unsigned long frameIndex)
+            {
+                CheckIfDisposed();
+
+                if (data == nullptr)
+                    throw gcnew System::IO::IOException("A video file was not opened yet.");
+
+                if ((bitmapData->PixelFormat != PixelFormat::Format24bppRgb) &&
+                    (bitmapData->PixelFormat != PixelFormat::Format32bppArgb) &&
+                    (bitmapData->PixelFormat != PixelFormat::Format32bppPArgb) &&
+                    (bitmapData->PixelFormat != PixelFormat::Format32bppRgb) &&
+                    (bitmapData->PixelFormat != PixelFormat::Format8bppIndexed))
+                {
+                    throw gcnew ArgumentException("The provided bitmap must be 24 or 32 bpp color image or 8 bpp grayscale image.");
+                }
+
+                if ((bitmapData->Width != m_width) || (bitmapData->Height != m_height))
+                    throw gcnew ArgumentException("Bitmap size must be of the same as video size, which was specified on opening video file.");
+               
+
                 uint8_t* srcData[4] = { static_cast<uint8_t*>(static_cast<void*>(bitmapData->Scan0)), nullptr, nullptr, nullptr };
                 int srcLinesize[4] = { bitmapData->Stride, 0, 0, 0 };
 
                 // convert source image to the format of the video file
-                if (frame->PixelFormat == PixelFormat::Format8bppIndexed)
+                if (bitmapData->PixelFormat == PixelFormat::Format8bppIndexed)
                 {
                     libffmpeg::sws_scale(data->ConvertContextGrayscale, srcData, srcLinesize, 0,
                         m_height, data->VideoFrame->data, data->VideoFrame->linesize);
@@ -632,8 +641,6 @@ namespace Accord {
                     libffmpeg::sws_scale(data->ConvertContext, srcData, srcLinesize, 0, m_height,
                         data->VideoFrame->data, data->VideoFrame->linesize);
                 }
-
-                frame->UnlockBits(bitmapData);
 
                 data->VideoFrame->pts = frameIndex;
 

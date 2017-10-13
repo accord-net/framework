@@ -136,6 +136,7 @@ namespace Accord.Vision.Detection
     /// 
     /// <example>
     ///   <code source="Unit Tests\Accord.Tests.Vision\ObjectDetectorTest.cs" region="doc_example"/>
+    ///   <code source="Sources\Extras\Accord.Tests.Video.FFMPEG\ObjectDetectorTest.cs" region="doc_video"/>
     /// </example>
     /// 
     /// <seealso cref="FaceHaarCascade"/> 
