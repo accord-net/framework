@@ -14,63 +14,65 @@ namespace Accord.Imaging
     using System.Drawing.Imaging;
 
     /// <summary>
-    /// Hough line.
+    ///   Hough line.
     /// </summary>
     /// 
-    /// <remarks><para>Represents line of Hough Line transformation using
-    /// <a href="http://en.wikipedia.org/wiki/Polar_coordinate_system">polar coordinates</a>.
-    /// See <a href="http://en.wikipedia.org/wiki/Polar_coordinate_system#Converting_between_polar_and_Cartesian_coordinates">Wikipedia</a>
-    /// for information on how to convert polar coordinates to Cartesian coordinates.
-    /// </para>
+    /// <remarks>
+    ///   <para>
+    ///   Represents line of Hough Line transformation using <a href="http://en.wikipedia.org/wiki/Polar_coordinate_system">
+    ///   polar coordinates</a>. See <a href="http://en.wikipedia.org/wiki/Polar_coordinate_system#Converting_between_polar_and_Cartesian_coordinates">
+    ///   Wikipedia</a> for information on how to convert polar coordinates to Cartesian coordinates.</para>
     /// 
-    /// <para><note><see cref="HoughLineTransformation">Hough Line transformation</see> does not provide
-    /// information about lines start and end points, only slope and distance from image's center. Using
-    /// only provided information it is not possible to draw the detected line as it exactly appears on
-    /// the source image. But it is possible to draw a line through the entire image, which contains the
-    /// source line (see sample code below).
-    /// </note></para>
+    ///   <para>
+    ///   <note><see cref="HoughLineTransformation">Hough Line transformation</see> does not provide
+    ///   information about lines start and end points, only slope and distance from image's center. Using
+    ///   only provided information it is not possible to draw the detected line as it exactly appears on
+    ///   the source image. But it is possible to draw a line through the entire image, which contains the
+    ///   source line (see sample code below).</note></para>
+    /// </remarks>
     /// 
-    /// <para>Sample code to draw detected Hough lines:</para>
+    /// <example>
     /// <code>
-    /// HoughLineTransformation lineTransform = new HoughLineTransformation( );
-    /// // apply Hough line transofrm
-    /// lineTransform.ProcessImage( sourceImage );
-    /// Bitmap houghLineImage = lineTransform.ToBitmap( );
-    /// // get lines using relative intensity
-    /// HoughLine[] lines = lineTransform.GetLinesByRelativeIntensity( 0.5 );
+    /// HoughLineTransformation lineTransform = new HoughLineTransformation();
     /// 
-    /// foreach ( HoughLine line in lines )
+    /// // apply Hough line transofrm
+    /// lineTransform.ProcessImage(sourceImage);
+    /// Bitmap houghLineImage = lineTransform.ToBitmap();
+    /// 
+    /// // get lines using relative intensity
+    /// HoughLine[] lines = lineTransform.GetLinesByRelativeIntensity(0.5);
+    /// 
+    /// foreach (HoughLine line in lines)
     /// {
     ///     // get line's radius and theta values
     ///     int    r = line.Radius;
     ///     double t = line.Theta;
     ///     
     ///     // check if line is in lower part of the image
-    ///     if ( r &lt; 0 )
+    ///     if (r &lt; 0)
     ///     {
     ///         t += 180;
     ///         r = -r;
     ///     }
     ///     
     ///     // convert degrees to radians
-    ///     t = ( t / 180 ) * Math.PI;
+    ///     t = (t / 180) * Math.PI;
     ///     
-    ///     // get image centers (all coordinate are measured relative
-    ///     // to center)
-    ///     int w2 = image.Width /2;
+    ///     // get image centers (all coordinate are measured relative to center)
+    ///     int w2 = image.Width / 2;
     ///     int h2 = image.Height / 2;
     ///     
     ///     double x0 = 0, x1 = 0, y0 = 0, y1 = 0;
     ///     
-    ///     if ( line.Theta != 0 )
+    ///     if (line.Theta != 0)
     ///     {
-    ///         // none-vertical line
+    ///         // non-vertical line
     ///         x0 = -w2; // most left point
     ///         x1 = w2;  // most right point
     ///     
     ///         // calculate corresponding y values
-    ///         y0 = ( -Math.Cos( t ) * x0 + r ) / Math.Sin( t );
-    ///         y1 = ( -Math.Cos( t ) * x1 + r ) / Math.Sin( t );
+    ///         y0 = (-Math.Cos(t) * x0 + r) / Math.Sin(t);
+    ///         y1 = (-Math.Cos(t) * x1 + r) / Math.Sin(t);
     ///     }
     ///     else
     ///     {
@@ -83,10 +85,10 @@ namespace Accord.Imaging
     ///     }
     ///     
     ///     // draw line on the image
-    ///     Drawing.Line( sourceData,
-    ///         new IntPoint( (int) x0 + w2, h2 - (int) y0 ),
-    ///         new IntPoint( (int) x1 + w2, h2 - (int) y1 ),
-    ///         Color.Red );
+    ///     Drawing.Line(sourceData,
+    ///         new IntPoint((int)x0 + w2, h2 - (int)y0),
+    ///         new IntPoint((int)x1 + w2, h2 - (int)y1),
+    ///         Color.Red);
     /// }
     /// </code>
     /// 
@@ -97,18 +99,16 @@ namespace Accord.Imaging
     /// 
     /// <img src="img/imaging/sample15.png" width="400" height="300" />
     /// 
-    /// <para>Detected radius and theta values (color in corresponding colors):
-    /// <list type="bullet">
-    /// <item><font color="#FF0000">Theta = 90, R = 125, I = 249</font>;</item>
-    /// <item><font color="#00FF00">Theta = 0, R = -170, I = 187</font> (converts to Theta = 180, R = 170);</item>
-    /// <item><font color="#0000FF">Theta = 90, R = -58, I = 163</font> (converts to Theta = 270, R = 58);</item>
-    /// <item><font color="#FFFF00">Theta = 101, R = -101, I = 130</font> (converts to Theta = 281, R = 101);</item>
-    /// <item><font color="#FF8000">Theta = 0, R = 43, I = 112</font>;</item>
-    /// <item><font color="#FF80FF">Theta = 45, R = 127, I = 82</font>.</item>
-    /// </list>
-    /// </para>
-    /// 
-    /// </remarks>
+    /// <para>
+    ///   Detected radius and theta values (color in corresponding colors):
+    ///     <list type="bullet">
+    ///     <item><font color="#FF0000">Theta = 90, R = 125, I = 249</font>;</item>
+    ///     <item><font color="#00FF00">Theta = 0, R = -170, I = 187</font> (converts to Theta = 180, R = 170);</item>
+    ///     <item><font color="#0000FF">Theta = 90, R = -58, I = 163</font> (converts to Theta = 270, R = 58);</item>
+    ///     <item><font color="#FFFF00">Theta = 101, R = -101, I = 130</font> (converts to Theta = 281, R = 101);</item>
+    ///     <item><font color="#FF8000">Theta = 0, R = 43, I = 112</font>;</item>
+    ///     <item><font color="#FF80FF">Theta = 45, R = 127, I = 82</font>.</item></list></para>
+    /// </example>
     /// 
     /// <seealso cref="HoughLineTransformation"/>
     /// 

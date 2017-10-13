@@ -762,11 +762,15 @@ namespace Accord.Imaging.Converters
             }
         }
 
-
-
-
-
-
+        /// <summary>
+        ///   Converts an image from one representation to another. When
+        ///   converting to byte, the <see cref="Max"/> and <see cref="Min"/>
+        ///   are ignored.
+        /// </summary>
+        /// 
+        /// <param name="input">The input image to be converted.</param>
+        /// <param name="output">The converted image.</param>
+        /// 
         public void Convert(UnmanagedImage input, out double[][][] output)
         {
             int width = input.Width;
@@ -795,7 +799,15 @@ namespace Accord.Imaging.Converters
             }
         }
 
-
+        /// <summary>
+        ///   Converts an image from one representation to another. When
+        ///   converting to byte, the <see cref="Max"/> and <see cref="Min"/>
+        ///   are ignored.
+        /// </summary>
+        /// 
+        /// <param name="input">The input image to be converted.</param>
+        /// <param name="output">The converted image.</param>
+        /// 
         public void Convert(UnmanagedImage input, out float[,,] output)
         {
             int width = input.Width;
@@ -824,7 +836,15 @@ namespace Accord.Imaging.Converters
             }
         }
 
-
+        /// <summary>
+        ///   Converts an image from one representation to another. When
+        ///   converting to byte, the <see cref="Max"/> and <see cref="Min"/>
+        ///   are ignored.
+        /// </summary>
+        /// 
+        /// <param name="input">The input image to be converted.</param>
+        /// <param name="output">The converted image.</param>
+        /// 
         public void Convert(UnmanagedImage input, out float[][][] output)
         {
             int width = input.Width;
@@ -853,6 +873,15 @@ namespace Accord.Imaging.Converters
             }
         }
 
+        /// <summary>
+        ///   Converts an image from one representation to another. When
+        ///   converting to byte, the <see cref="Max"/> and <see cref="Min"/>
+        ///   are ignored.
+        /// </summary>
+        /// 
+        /// <param name="input">The input image to be converted.</param>
+        /// <param name="output">The converted image.</param>
+        /// 
         public void Convert(UnmanagedImage input, out byte[,,] output)
         {
             int width = input.Width;
@@ -881,6 +910,15 @@ namespace Accord.Imaging.Converters
             }
         }
 
+        /// <summary>
+        ///   Converts an image from one representation to another. When
+        ///   converting to byte, the <see cref="Max"/> and <see cref="Min"/>
+        ///   are ignored.
+        /// </summary>
+        /// 
+        /// <param name="input">The input image to be converted.</param>
+        /// <param name="output">The converted image.</param>
+        /// 
         public void Convert(UnmanagedImage input, out byte[][][] output)
         {
             int width = input.Width;
@@ -909,6 +947,15 @@ namespace Accord.Imaging.Converters
             }
         }
 
+        /// <summary>
+        ///   Converts an image from one representation to another. When
+        ///   converting to byte, the <see cref="Max"/> and <see cref="Min"/>
+        ///   are ignored.
+        /// </summary>
+        /// 
+        /// <param name="input">The input image to be converted.</param>
+        /// <param name="output">The converted image.</param>
+        /// 
         public void Convert(UnmanagedImage input, out double[,,] output)
         {
             int width = input.Width;

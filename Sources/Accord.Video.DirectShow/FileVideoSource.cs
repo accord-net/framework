@@ -1,9 +1,30 @@
+// Accord Direct Show Library
+// The Accord.NET Framework
+// http://accord-framework.net
+//
+// Copyright © César Souza, 2009-2017
+// cesarsouza at gmail.com
+//
 // AForge Direct Show Library
 // AForge.NET framework
 // http://www.aforgenet.com/framework/
 //
 // Copyright © AForge.NET, 2009-2011
 // contacts@aforgenet.com
+//
+//    This library is free software; you can redistribute it and/or
+//    modify it under the terms of the GNU Lesser General Public
+//    License as published by the Free Software Foundation; either
+//    version 2.1 of the License, or (at your option) any later version.
+//
+//    This library is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+//    Lesser General Public License for more details.
+//
+//    You should have received a copy of the GNU Lesser General Public
+//    License along with this library; if not, write to the Free Software
+//    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
 namespace Accord.Video.DirectShow
@@ -152,14 +173,14 @@ namespace Accord.Video.DirectShow
         {
             get
             {
-                if ( thread != null )
+                if (thread != null)
                 {
                     // check thread status
-                    if ( thread.Join( 0 ) == false )
+                    if (thread.Join(0) == false)
                         return true;
 
                     // the thread is not running, free resources
-                    Free( );
+                    Free();
                 }
                 return false;
             }
@@ -211,14 +232,14 @@ namespace Accord.Video.DirectShow
         public bool ReferenceClockEnabled
         {
             get { return referenceClockEnabled; }
-            set { referenceClockEnabled = value;}
+            set { referenceClockEnabled = value; }
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FileVideoSource"/> class.
         /// </summary>
         /// 
-        public FileVideoSource( ) { }
+        public FileVideoSource() { }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FileVideoSource"/> class.
@@ -226,7 +247,7 @@ namespace Accord.Video.DirectShow
         /// 
         /// <param name="fileName">Video file name.</param>
         /// 
-        public FileVideoSource( string fileName )
+        public FileVideoSource(string fileName)
         {
             this.fileName = fileName;
         }
@@ -239,24 +260,24 @@ namespace Accord.Video.DirectShow
         /// object creates background thread and notifies about new frames with the
         /// help of <see cref="NewFrame"/> event.</remarks>
         /// 
-        public void Start( )
+        public void Start()
         {
-            if ( !IsRunning )
+            if (!IsRunning)
             {
                 // check source
-                if ( ( fileName == null ) || ( fileName == string.Empty ) )
-                    throw new ArgumentException( "Video source is not specified" );
+                if ((fileName == null) || (fileName == string.Empty))
+                    throw new ArgumentException("Video source is not specified");
 
                 framesReceived = 0;
                 bytesReceived = 0;
 
                 // create events
-                stopEvent = new ManualResetEvent( false );
+                stopEvent = new ManualResetEvent(false);
 
                 // create and start new thread
-                thread = new Thread( new ThreadStart( WorkerThread ) );
+                thread = new Thread(new ThreadStart(WorkerThread));
                 thread.Name = fileName; // mainly for debugging
-                thread.Start( );
+                thread.Start();
             }
         }
 
@@ -267,13 +288,13 @@ namespace Accord.Video.DirectShow
         /// <remarks>Signals video source to stop its background thread, stop to
         /// provide new frames and free resources.</remarks>
         /// 
-        public void SignalToStop( )
+        public void SignalToStop()
         {
             // stop thread
-            if ( thread != null )
+            if (thread != null)
             {
                 // signal to stop
-                stopEvent.Set( );
+                stopEvent.Set();
             }
         }
 
@@ -284,14 +305,14 @@ namespace Accord.Video.DirectShow
         /// <remarks>Waits for source stopping after it was signalled to stop using
         /// <see cref="SignalToStop"/> method.</remarks>
         /// 
-        public void WaitForStop( )
+        public void WaitForStop()
         {
-            if ( thread != null )
+            if (thread != null)
             {
                 // wait for thread stop
-                thread.Join( );
+                thread.Join();
 
-                Free( );
+                Free();
             }
         }
 
@@ -307,12 +328,12 @@ namespace Accord.Video.DirectShow
         /// <see cref="WaitForStop">waiting</see> for background thread's completion.</note></para>
         /// </remarks>
         /// 
-        public void Stop( )
+        public void Stop()
         {
-            if ( this.IsRunning )
+            if (this.IsRunning)
             {
-                thread.Abort( );
-                WaitForStop( );
+                thread.Abort();
+                WaitForStop();
             }
         }
 
@@ -320,12 +341,12 @@ namespace Accord.Video.DirectShow
         /// Free resource.
         /// </summary>
         /// 
-        private void Free( )
+        private void Free()
         {
             thread = null;
 
             // release events
-            stopEvent.Close( );
+            stopEvent.Close();
             stopEvent = null;
         }
 
@@ -333,81 +354,81 @@ namespace Accord.Video.DirectShow
         /// Worker thread.
         /// </summary>
         /// 
-        private void WorkerThread( )
+        private void WorkerThread()
         {
             ReasonToFinishPlaying reasonToStop = ReasonToFinishPlaying.StoppedByUser;
 
             // grabber
-            Grabber grabber = new Grabber( this );
+            Grabber grabber = new Grabber(this);
 
             // objects
             object graphObject = null;
             object grabberObject = null;
 
             // interfaces
-            IGraphBuilder       graph = null;
-            IBaseFilter         sourceBase = null;
-            IBaseFilter         grabberBase = null;
-            ISampleGrabber      sampleGrabber = null;
-            IMediaControl       mediaControl = null;
+            IGraphBuilder graph = null;
+            IBaseFilter sourceBase = null;
+            IBaseFilter grabberBase = null;
+            ISampleGrabber sampleGrabber = null;
+            IMediaControl mediaControl = null;
 
-            IMediaEventEx       mediaEvent = null;
+            IMediaEventEx mediaEvent = null;
 
             try
             {
                 // get type for filter graph
-                Type type = Type.GetTypeFromCLSID( Clsid.FilterGraph );
-                if ( type == null )
-                    throw new ApplicationException( "Failed creating filter graph" );
+                Type type = Type.GetTypeFromCLSID(Clsid.FilterGraph);
+                if (type == null)
+                    throw new ApplicationException("Failed creating filter graph");
 
                 // create filter graph
-                graphObject = Activator.CreateInstance( type );
-                graph = (IGraphBuilder) graphObject;
+                graphObject = Activator.CreateInstance(type);
+                graph = (IGraphBuilder)graphObject;
 
                 // create source device's object
-                graph.AddSourceFilter( fileName, "source", out sourceBase );
-                if ( sourceBase == null )
-                    throw new ApplicationException( "Failed creating source filter" );
+                graph.AddSourceFilter(fileName, "source", out sourceBase);
+                if (sourceBase == null)
+                    throw new ApplicationException("Failed creating source filter");
 
                 // get type for sample grabber
-                type = Type.GetTypeFromCLSID( Clsid.SampleGrabber );
-                if ( type == null )
-                    throw new ApplicationException( "Failed creating sample grabber" );
+                type = Type.GetTypeFromCLSID(Clsid.SampleGrabber);
+                if (type == null)
+                    throw new ApplicationException("Failed creating sample grabber");
 
                 // create sample grabber
-                grabberObject = Activator.CreateInstance( type );
-                sampleGrabber = (ISampleGrabber) grabberObject;
-                grabberBase = (IBaseFilter) grabberObject;
+                grabberObject = Activator.CreateInstance(type);
+                sampleGrabber = (ISampleGrabber)grabberObject;
+                grabberBase = (IBaseFilter)grabberObject;
 
                 // add grabber filters to graph
-                graph.AddFilter( grabberBase, "grabber" );
+                graph.AddFilter(grabberBase, "grabber");
 
                 // set media type
-                AMMediaType mediaType = new AMMediaType( );
+                AMMediaType mediaType = new AMMediaType();
                 mediaType.MajorType = MediaType.Video;
                 mediaType.SubType = MediaSubType.RGB24;
-                sampleGrabber.SetMediaType( mediaType );
+                sampleGrabber.SetMediaType(mediaType);
 
                 // connect pins
                 int pinToTry = 0;
 
-                IPin inPin = Tools.GetInPin( grabberBase, 0 );
+                IPin inPin = Tools.GetInPin(grabberBase, 0);
                 IPin outPin = null;
 
                 // find output pin acceptable by sample grabber
-                while ( true )
+                while (true)
                 {
-                    outPin = Tools.GetOutPin( sourceBase, pinToTry );
+                    outPin = Tools.GetOutPin(sourceBase, pinToTry);
 
-                    if ( outPin == null )
+                    if (outPin == null)
                     {
-                        Marshal.ReleaseComObject( inPin );
-                        throw new ApplicationException( "Did not find acceptable output video pin in the given source" );
+                        Marshal.ReleaseComObject(inPin);
+                        throw new ApplicationException("Did not find acceptable output video pin in the given source");
                     }
 
-                    if ( graph.Connect( outPin, inPin ) < 0 )
+                    if (graph.Connect(outPin, inPin) < 0)
                     {
-                        Marshal.ReleaseComObject( outPin );
+                        Marshal.ReleaseComObject(outPin);
                         outPin = null;
                         pinToTry++;
                     }
@@ -417,63 +438,63 @@ namespace Accord.Video.DirectShow
                     }
                 }
 
-                Marshal.ReleaseComObject( outPin );
-                Marshal.ReleaseComObject( inPin );
+                Marshal.ReleaseComObject(outPin);
+                Marshal.ReleaseComObject(inPin);
 
                 // get media type
-                if ( sampleGrabber.GetConnectedMediaType( mediaType ) == 0 )
+                if (sampleGrabber.GetConnectedMediaType(mediaType) == 0)
                 {
-                    VideoInfoHeader vih = (VideoInfoHeader) Marshal.PtrToStructure( mediaType.FormatPtr, typeof( VideoInfoHeader ) );
+                    VideoInfoHeader vih = (VideoInfoHeader)Marshal.PtrToStructure(mediaType.FormatPtr, typeof(VideoInfoHeader));
 
                     grabber.Width = vih.BmiHeader.Width;
                     grabber.Height = vih.BmiHeader.Height;
-                    mediaType.Dispose( );
+                    mediaType.Dispose();
                 }
 
                 // let's do rendering, if we don't need to prevent freezing
-                if ( !preventFreezing )
+                if (!preventFreezing)
                 {
                     // render pin
-                    graph.Render( Tools.GetOutPin( grabberBase, 0 ) );
+                    graph.Render(Tools.GetOutPin(grabberBase, 0));
 
                     // configure video window
-                    IVideoWindow window = (IVideoWindow) graphObject;
-                    window.put_AutoShow( false );
+                    IVideoWindow window = (IVideoWindow)graphObject;
+                    window.put_AutoShow(false);
                     window = null;
                 }
 
                 // configure sample grabber
-                sampleGrabber.SetBufferSamples( false );
-                sampleGrabber.SetOneShot( false );
-                sampleGrabber.SetCallback( grabber, 1 );
+                sampleGrabber.SetBufferSamples(false);
+                sampleGrabber.SetOneShot(false);
+                sampleGrabber.SetCallback(grabber, 1);
 
                 // disable clock, if someone requested it
-                if ( !referenceClockEnabled )
+                if (!referenceClockEnabled)
                 {
-                    IMediaFilter mediaFilter = (IMediaFilter) graphObject;
-                    mediaFilter.SetSyncSource( null );
+                    IMediaFilter mediaFilter = (IMediaFilter)graphObject;
+                    mediaFilter.SetSyncSource(null);
                 }
 
                 // get media control
-                mediaControl = (IMediaControl) graphObject;
+                mediaControl = (IMediaControl)graphObject;
 
                 // get media events' interface
-                mediaEvent = (IMediaEventEx) graphObject;
+                mediaEvent = (IMediaEventEx)graphObject;
                 IntPtr p1, p2;
                 DsEvCode code;
 
                 // run
-                mediaControl.Run( );
+                mediaControl.Run();
 
                 do
                 {
-                    if ( mediaEvent != null )
+                    if (mediaEvent != null)
                     {
-                        if ( mediaEvent.GetEvent( out code, out p1, out p2, 0 ) >= 0 )
+                        if (mediaEvent.GetEvent(out code, out p1, out p2, 0) >= 0)
                         {
-                            mediaEvent.FreeEventParams( code, p1, p2 );
+                            mediaEvent.FreeEventParams(code, p1, p2);
 
-                            if ( code == DsEvCode.Complete )
+                            if (code == DsEvCode.Complete)
                             {
                                 reasonToStop = ReasonToFinishPlaying.EndOfStreamReached;
                                 break;
@@ -481,47 +502,47 @@ namespace Accord.Video.DirectShow
                         }
                     }
                 }
-                while ( !stopEvent.WaitOne( 100, false ) );
+                while (!stopEvent.WaitOne(100, false));
 
-                mediaControl.Stop( );
+                mediaControl.Stop();
             }
-            catch ( Exception exception )
+            catch (Exception exception)
             {
                 // provide information to clients
-                if ( VideoSourceError != null )
+                if (VideoSourceError != null)
                 {
-                    VideoSourceError( this, new VideoSourceErrorEventArgs( exception.Message ) );
+                    VideoSourceError(this, new VideoSourceErrorEventArgs(exception.Message));
                 }
             }
             finally
             {
                 // release all objects
-                graph           = null;
-                grabberBase     = null;
-                sampleGrabber   = null;
-                mediaControl    = null;
-                mediaEvent      = null;
+                graph = null;
+                grabberBase = null;
+                sampleGrabber = null;
+                mediaControl = null;
+                mediaEvent = null;
 
-                if ( graphObject != null )
+                if (graphObject != null)
                 {
-                    Marshal.ReleaseComObject( graphObject );
+                    Marshal.ReleaseComObject(graphObject);
                     graphObject = null;
                 }
-                if ( sourceBase != null )
+                if (sourceBase != null)
                 {
-                    Marshal.ReleaseComObject( sourceBase );
+                    Marshal.ReleaseComObject(sourceBase);
                     sourceBase = null;
                 }
-                if ( grabberObject != null )
+                if (grabberObject != null)
                 {
-                    Marshal.ReleaseComObject( grabberObject );
+                    Marshal.ReleaseComObject(grabberObject);
                     grabberObject = null;
                 }
             }
 
-            if ( PlayingFinished != null )
+            if (PlayingFinished != null)
             {
-                PlayingFinished( this, reasonToStop );
+                PlayingFinished(this, reasonToStop);
             }
         }
 
@@ -531,13 +552,13 @@ namespace Accord.Video.DirectShow
         /// 
         /// <param name="image">New frame's image.</param>
         /// 
-        protected void OnNewFrame( Bitmap image )
+        protected void OnNewFrame(Bitmap image)
         {
             framesReceived++;
-            bytesReceived += image.Width * image.Height * ( Bitmap.GetPixelFormatSize( image.PixelFormat ) >> 3 );
+            bytesReceived += image.Width * image.Height * (Bitmap.GetPixelFormatSize(image.PixelFormat) >> 3);
 
-            if ( ( !stopEvent.WaitOne( 0, false ) ) && ( NewFrame != null ) )
-                NewFrame( this, new NewFrameEventArgs( image ) );
+            if ((!stopEvent.WaitOne(0, false)) && (NewFrame != null))
+                NewFrame(this, new NewFrameEventArgs(image));
         }
 
         //
@@ -562,30 +583,30 @@ namespace Accord.Video.DirectShow
             }
 
             // Constructor
-            public Grabber( FileVideoSource parent )
+            public Grabber(FileVideoSource parent)
             {
                 this.parent = parent;
             }
 
             // Callback to receive samples
-            public int SampleCB( double sampleTime, IntPtr sample )
+            public int SampleCB(double sampleTime, IntPtr sample)
             {
                 return 0;
             }
 
             // Callback method that receives a pointer to the sample buffer
-            public int BufferCB( double sampleTime, IntPtr buffer, int bufferLen )
+            public int BufferCB(double sampleTime, IntPtr buffer, int bufferLen)
             {
-                if ( parent.NewFrame != null )
+                if (parent.NewFrame != null)
                 {
                     // create new image
-                    System.Drawing.Bitmap image = new Bitmap( width, height, PixelFormat.Format24bppRgb );
+                    System.Drawing.Bitmap image = new Bitmap(width, height, PixelFormat.Format24bppRgb);
 
                     // lock bitmap data
                     BitmapData imageData = image.LockBits(
-                        new Rectangle( 0, 0, width, height ),
+                        new Rectangle(0, 0, width, height),
                         ImageLockMode.ReadWrite,
-                        PixelFormat.Format24bppRgb );
+                        PixelFormat.Format24bppRgb);
 
                     // copy image data
                     int srcStride = imageData.Stride;
@@ -593,25 +614,25 @@ namespace Accord.Video.DirectShow
 
                     unsafe
                     {
-                        byte* dst = (byte*) imageData.Scan0.ToPointer( ) + dstStride * ( height - 1 );
-                        byte* src = (byte*) buffer.ToPointer( );
+                        byte* dst = (byte*)imageData.Scan0.ToPointer() + dstStride * (height - 1);
+                        byte* src = (byte*)buffer.ToPointer();
 
-                        for ( int y = 0; y < height; y++ )
+                        for (int y = 0; y < height; y++)
                         {
-                            Win32.memcpy( dst, src, srcStride );
+                            Win32.memcpy(dst, src, srcStride);
                             dst -= dstStride;
                             src += srcStride;
                         }
                     }
 
                     // unlock bitmap data
-                    image.UnlockBits( imageData );
+                    image.UnlockBits(imageData);
 
                     // notify parent
-                    parent.OnNewFrame( image );
+                    parent.OnNewFrame(image);
 
                     // release the image
-                    image.Dispose( );
+                    image.Dispose();
                 }
 
                 return 0;
