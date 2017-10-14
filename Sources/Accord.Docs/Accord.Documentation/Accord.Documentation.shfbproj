@@ -330,6 +330,7 @@
     <Folder Include="images\math" />
     <Folder Include="images\neuro" />
     <Folder Include="images\controls" />
+    <Folder Include="images\video" />
     <Folder Include="images\visualizations" />
     <Folder Include="resources\" />
     <Folder Include="diagrams\" />
@@ -1535,6 +1536,18 @@
     <Content Include="images\controls\slider_threshold.png">
       <ImageId>slider_threshold</ImageId>
       <AlternateText>slider threshold</AlternateText>
+    </Content>
+    <Content Include="images\video\VideoCaptureDeviceForm.png">
+      <ImageId>VideoCaptureDeviceForm</ImageId>
+      <AlternateText>Video Capture Device Form</AlternateText>
+    </Content>
+    <Content Include="images\video\HW_SW_buffers.png">
+      <ImageId>HW_SW_buffers</ImageId>
+      <AlternateText>HW SW buffers</AlternateText>
+    </Content>
+    <Content Include="images\video\kinect.jpg">
+      <ImageId>kinect</ImageId>
+      <AlternateText>kinect</AlternateText>
     </Content>
     <Image Include="resources\Accord.NET.png">
       <CopyToMedia>True</CopyToMedia>
