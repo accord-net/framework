@@ -460,5 +460,22 @@ namespace Accord.MachineLearning
             });
             return result;
         }
+
+
+
+        /// <summary>
+        ///   Creates the default clustering algorithm for Bag-of-Words models (<see cref="KMeans"/>).
+        /// </summary>
+        /// 
+        /// <param name="numberOfWords">The number of clusters for k-means.</param>
+        /// 
+        public static KMeans GetDefaultClusteringAlgorithm(int numberOfWords)
+        {
+            return new KMeans(numberOfWords)
+            {
+                ComputeCovariances = false,
+                UseSeeding = Seeding.KMeansPlusPlus,
+            };
+        }
     }
 }

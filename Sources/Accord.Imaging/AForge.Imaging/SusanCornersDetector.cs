@@ -37,6 +37,7 @@ namespace Accord.Imaging
     using System.Drawing.Imaging;
     using System.Collections.Generic;
     using Accord.Imaging.Filters;
+    using Accord.Compat;
 
     /// <summary>
     /// Susan corners detector.

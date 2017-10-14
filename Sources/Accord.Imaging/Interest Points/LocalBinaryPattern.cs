@@ -30,6 +30,7 @@ namespace Accord.Imaging
     using Accord.Imaging;
     using Accord.Imaging.Filters;
     using System.Threading;
+    using Accord.Compat;
 
     /// <summary>
     ///   Local Binary Patterns.

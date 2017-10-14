@@ -31,6 +31,7 @@ namespace Accord.DataSets
     using System.Net;
     using System.Text;
     using System.Threading.Tasks;
+    using Accord.Compat;
 
 
 

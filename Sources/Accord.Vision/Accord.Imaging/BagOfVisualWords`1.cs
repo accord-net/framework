@@ -81,7 +81,7 @@ namespace Accord.Imaging
         /// 
         public BagOfVisualWords(IImageFeatureExtractor<TPoint> extractor, int numberOfWords)
         {
-            base.Init(extractor, base.GetDefaultClusteringAlgorithm(numberOfWords));
+            base.Init(extractor, BagOfWords.GetDefaultClusteringAlgorithm(numberOfWords));
         }
 
         /// <summary>

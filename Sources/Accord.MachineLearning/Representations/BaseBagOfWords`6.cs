@@ -110,7 +110,7 @@ namespace Accord.MachineLearning
         public BagOfWordsStatistics Statistics { get; private set; }
 
         /// <summary>
-        ///   Constructs a new <see cref="BaseBagOfWords{TModel, TPoint, TFeature, TClustering, TDetector, TInput}"/>.
+        ///   Constructs a new <see cref="BaseBagOfWords{TModel, TPoint, TFeature, TClustering, TExtractor, TInput}"/>.
         /// </summary>
         /// 
         protected BaseBagOfWords()
@@ -125,23 +125,12 @@ namespace Accord.MachineLearning
         {
             this.Clustering = algorithm;
             this.Detector = detector;
+
+            IParallel p = algorithm as IParallel;
+            if (p != null)
+                this.ParallelOptions = p.ParallelOptions;
         }
 
-        /// <summary>
-        ///   Creates the default clustering algorithm (<see cref="KMeans"/>).
-        /// </summary>
-        /// 
-        /// <param name="numberOfWords">The number of clusters for k-means.</param>
-        /// 
-        protected KMeans GetDefaultClusteringAlgorithm(int numberOfWords)
-        {
-            return new KMeans(numberOfWords)
-            {
-                ComputeCovariances = false,
-                UseSeeding = Seeding.KMeansPlusPlus,
-                ParallelOptions = ParallelOptions
-            };
-        }
 
 
         #region Transform

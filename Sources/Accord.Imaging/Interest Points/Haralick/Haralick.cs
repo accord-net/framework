@@ -29,6 +29,7 @@ namespace Accord.Imaging
     using Accord.Imaging;
     using Accord.Imaging.Filters;
     using Accord.Math;
+    using Accord.Compat;
 
     /// <summary>
     ///   <see cref="Haralick"/>'s operation modes.

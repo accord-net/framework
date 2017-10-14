@@ -579,8 +579,10 @@ namespace Accord
         /// <typeparam name="T">The type of the object whose address needs to be retrieved.</typeparam>
         /// <param name="t">The object those address needs to be retrieved.</param>
         /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public  static System.IntPtr AddressOf<T>(this T t)
+#endif
+        public static System.IntPtr AddressOf<T>(this T t)
         {
             unsafe
             {
@@ -596,7 +598,9 @@ namespace Accord
         /// <typeparam name="T">The type of the object whose address needs to be retrieved.</typeparam>
         /// <param name="t">The object those address needs to be retrieved.</param>
         /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         static System.IntPtr AddressOfRef<T>(ref T t)
         {
             unsafe

@@ -29,6 +29,7 @@ namespace Accord.Imaging
     using Accord.Math;
     using Accord.Imaging;
     using Accord.Imaging.Filters;
+    using Accord.Compat;
 
     /// <summary>
     ///   Histograms of Oriented Gradients (HOG) descriptor extractor.

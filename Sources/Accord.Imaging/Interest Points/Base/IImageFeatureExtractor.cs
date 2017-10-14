@@ -40,7 +40,11 @@ namespace Accord.Imaging
     /// <seealso cref="Haralick"/>
     /// <seealso cref="LocalBinaryPattern"/>
     /// 
-    public interface IImageFeatureExtractor<out TFeature> :
+    public interface IImageFeatureExtractor<
+#if !NET35
+        out 
+#endif
+        TFeature> :
         IFeatureExtractor<TFeature, Bitmap>,
         IFeatureExtractor<TFeature, UnmanagedImage>, ICloneable, IDisposable
     {
@@ -51,7 +55,11 @@ namespace Accord.Imaging
     /// </summary>
     /// 
     [Obsolete("This class will be removed.")]
-    public interface IFeatureDetector<out TPoint> 
+    public interface IFeatureDetector<
+#if !NET35
+        out 
+#endif
+        TPoint>
     {
         /// <summary>
         ///   Obsolete. Please use the <see cref="ICovariantTransform{TInput, TOutput}.Transform(TInput)"/> method instead.

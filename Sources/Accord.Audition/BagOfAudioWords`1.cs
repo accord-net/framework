@@ -74,7 +74,7 @@ namespace Accord.Audition
         /// 
         public BagOfAudioWords(IAudioFeatureExtractor<TFeature> extractor, int numberOfWords)
         {
-            base.Init(extractor, base.GetDefaultClusteringAlgorithm(numberOfWords));
+            base.Init(extractor, BagOfWords.GetDefaultClusteringAlgorithm(numberOfWords));
         }
 
         /// <summary>

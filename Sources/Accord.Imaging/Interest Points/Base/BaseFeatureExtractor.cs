@@ -22,6 +22,7 @@
 
 namespace Accord.Imaging
 {
+    using Accord.Compat;
     using Accord.MachineLearning;
     using System;
     using System.Collections.Generic;
@@ -302,5 +303,6 @@ namespace Accord.Imaging
             get { return NumberOfOutputs; }
             set { throw new InvalidOperationException("This property is read-only."); }
         }
+
     }
 }

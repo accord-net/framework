@@ -67,6 +67,7 @@ namespace Accord.Imaging
     using Accord.Imaging;
     using Accord.Imaging.Filters;
     using System.CodeDom.Compiler;
+    using Accord.Compat;
 
     /// <summary>
     ///   Features from Accelerated Segment Test (FAST) corners detector.

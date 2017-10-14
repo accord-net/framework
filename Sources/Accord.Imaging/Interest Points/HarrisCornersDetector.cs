@@ -30,6 +30,7 @@ namespace Accord.Imaging
     using AForge;
     using Accord.Imaging;
     using Accord.Imaging.Filters;
+    using Accord.Compat;
 
     /// <summary>
     ///   Corners measures to be used in <see cref="HarrisCornersDetector"/>.

@@ -33,6 +33,7 @@ namespace Accord.Imaging
     using AForge;
     using Accord.Imaging;
     using Accord.Imaging.Filters;
+    using Accord.Compat;
 
     /// <summary>
     ///   SURF Feature descriptor types.

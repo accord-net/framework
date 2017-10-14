@@ -34,7 +34,7 @@ namespace Accord.Audition
     /// </summary>
     /// 
     /// <seealso cref="BagOfAudioWords"/>
-    /// <seealso cref="BagOfAudioWords{TPoint, TFeature, TClustering, TDetector}"/>
+    /// <seealso cref="BagOfAudioWords{TPoint, TFeature, TClustering, TExtractor}"/>
     /// <seealso cref="BagOfAudioWords{TPoint, TFeature}"/>
     /// <seealso cref="BagOfAudioWords{TPoint}"/>
     /// 

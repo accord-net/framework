@@ -29,6 +29,7 @@ namespace Accord.Imaging
     using Accord.Imaging;
     using System;
     using System.Linq;
+    using Accord.Compat;
 
     /// <summary>
     ///   Feature detector based on corners.

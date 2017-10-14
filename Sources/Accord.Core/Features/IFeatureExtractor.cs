@@ -30,7 +30,11 @@ namespace Accord
     ///   Common interface for feature extractors.
     /// </summary>
     /// 
-    public interface IFeatureExtractor<out TPoint, in TInput> : 
+    public interface IFeatureExtractor<
+#if !NET35
+        out
+#endif
+        TPoint, in TInput> : 
         ICovariantTransform<TInput, IEnumerable<TPoint>>, ICloneable, IDisposable
     {
 

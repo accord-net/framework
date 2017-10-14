@@ -22,10 +22,10 @@
 
 namespace Accord.Audio
 {
+    using Accord.Compat;
     using Accord.MachineLearning;
     using System;
     using System.Collections.Generic;
-    using System.Drawing;
 
     /// <summary>
     ///   Base class for signal feature extractors that implement the <see cref="IAudioFeatureExtractor{TPoint}"/> interface.

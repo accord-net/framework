@@ -69,7 +69,7 @@ namespace Accord.Audition
     /// </example>
     /// 
     /// <seealso cref="BagOfAudioWords{TPoint, TFeature}"/>
-    /// <seealso cref="BagOfAudioWords{TPoint, TFeature, TClustering, TDetector}"/>
+    /// <seealso cref="BagOfAudioWords{TPoint, TFeature, TClustering, TExtractor}"/>
     /// 
     [Serializable]
     public class BagOfAudioWords :
@@ -89,7 +89,7 @@ namespace Accord.Audition
         /// 
         public BagOfAudioWords(int numberOfWords)
         {
-            base.Init(new MelFrequencyCepstrumCoefficient(), base.GetDefaultClusteringAlgorithm(numberOfWords));
+            base.Init(new MelFrequencyCepstrumCoefficient(), BagOfWords.GetDefaultClusteringAlgorithm(numberOfWords));
         }
 
         /// <summary>
@@ -121,7 +121,7 @@ namespace Accord.Audition
         /// 
         public static BagOfAudioWords<IFeatureDescriptor<double[]>, double[], TClustering, TExtractor>
             Create<TExtractor, TClustering>(TExtractor extractor, TClustering clustering)
-            where TClustering : IUnsupervisedLearning<IClassifier<double[], int>, double[], int> //IClusteringAlgorithm<double[]>
+            where TClustering : IUnsupervisedLearning<IClassifier<double[], int>, double[], int> 
             where TExtractor : IAudioFeatureExtractor<IFeatureDescriptor<double[]>>
         {
             return Create<TExtractor, TClustering, IFeatureDescriptor<double[]>, double[]>(extractor, clustering);
@@ -135,7 +135,7 @@ namespace Accord.Audition
             Create<TExtractor>(TExtractor extractor, int numberOfWords)
             where TExtractor : IAudioFeatureExtractor<IFeatureDescriptor<double[]>>
         {
-            return Create<TExtractor, KMeans, IFeatureDescriptor<double[]>, double[]>(extractor, new KMeans(numberOfWords));
+            return Create<TExtractor, KMeans, IFeatureDescriptor<double[]>, double[]>(extractor, BagOfWords.GetDefaultClusteringAlgorithm(numberOfWords));
         }
 
         /// <summary>
@@ -146,7 +146,7 @@ namespace Accord.Audition
             Create<TExtractor, TClustering>(TExtractor extractor, int numberOfWords)
             where TExtractor : IAudioFeatureExtractor<IFeatureDescriptor<double[]>>
         {
-            return Create<TExtractor, KMeans, IFeatureDescriptor<double[]>, double[]>(extractor, new KMeans(numberOfWords));
+            return Create<TExtractor, KMeans, IFeatureDescriptor<double[]>, double[]>(extractor, BagOfWords.GetDefaultClusteringAlgorithm(numberOfWords));
         }
 
         /// <summary>

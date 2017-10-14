@@ -30,7 +30,11 @@ namespace Accord.Audio
     /// 
     /// <seealso cref="MelFrequencyCepstrumCoefficient"/>
     /// 
-    public interface IAudioFeatureExtractor<out TFeature> :
+    public interface IAudioFeatureExtractor<
+#if !NET35
+        out
+#endif
+        TFeature> :
         IFeatureExtractor<TFeature, Signal>, ICloneable, IDisposable
     {
     }

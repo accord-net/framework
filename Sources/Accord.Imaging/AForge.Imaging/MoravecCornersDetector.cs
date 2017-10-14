@@ -33,6 +33,7 @@ namespace Accord.Imaging
     using System.Drawing;
     using System.Drawing.Imaging;
     using System.Collections.Generic;
+    using Accord.Compat;
 
     /// <summary>
     /// Moravec corners detector.

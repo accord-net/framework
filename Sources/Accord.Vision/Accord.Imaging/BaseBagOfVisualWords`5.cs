@@ -44,7 +44,7 @@ namespace Accord.Imaging
     /// </summary>
     /// 
     /// <seealso cref="BagOfVisualWords"/>
-    /// <seealso cref="BagOfVisualWords{TPoint, TFeature, TClustering, TDetector}"/>
+    /// <seealso cref="BagOfVisualWords{TPoint, TFeature, TClustering, TExtractor}"/>
     /// <seealso cref="BagOfVisualWords{TPoint, TFeature}"/>
     /// <seealso cref="BagOfVisualWords{TPoint}"/>
     /// 

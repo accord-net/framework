@@ -22,6 +22,7 @@
 
 namespace Accord.Imaging
 {
+    using Accord.Compat;
     using Accord.Imaging.Filters;
     using AForge;
     using System;

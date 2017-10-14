@@ -86,7 +86,7 @@ namespace Accord.DataSets
 #if NET35 || NET40
         public string[] VideoNames
         {
-            get { return imageNames.Keys.ToArray(); }
+            get { return videoNames.Keys.ToArray(); }
         }
 #else
         public IReadOnlyCollection<string> VideoNames
@@ -142,7 +142,7 @@ namespace Accord.DataSets
             if (!File.Exists(downloadedFileName))
             {
 #if NET35
-                if (localPath == null || String.IsNullOrEmpty(localPath.Trim()))
+                if (this.path == null || String.IsNullOrEmpty(this.path.Trim()))
 #else
                 if (!String.IsNullOrWhiteSpace(this.path))
 #endif
