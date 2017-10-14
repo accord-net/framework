@@ -72,7 +72,7 @@ namespace Accord.Controls
         /// <para>This type allows as one-arrow, as two-arrows control.</para>
         /// 
         /// <para><b>Sample control's look:</b></para>
-        /// <img src="img/controls/slider_gradient.png" width="258" height="17" />    
+        /// <img src="..\images\controls\slider_gradient.png" width="258" height="17" />    
         /// 
         /// <para>The <see cref="ColorSliderType.InnerGradient"/> slider's type supposes the control's
         /// background filled with gradient startting from <see cref="StartColor"/> color and ending
@@ -82,7 +82,7 @@ namespace Accord.Controls
         /// <para>This type allows only two-arrows control.</para>
         /// 
         /// <para><b>Sample control's look:</b></para>
-        /// <img src="img/controls/slider_inner_gradient.png" width="258" height="17" />
+        /// <img src="..\images\controls\slider_inner_gradient.png" width="258" height="17" />
         /// 
         /// <para>The <see cref="ColorSliderType.OuterGradient"/> slider's type supposes the
         /// control's background filled with gradient startting from <see cref="StartColor"/> color
@@ -92,7 +92,7 @@ namespace Accord.Controls
         /// <para>This type allows only two-arrows control.</para>
         /// 
         /// <para><b>Sample control's look:</b></para>
-        /// <img src="img/controls/slider_outer_gradient.png" width="258" height="17" />
+        /// <img src="..\images\controls\slider_outer_gradient.png" width="258" height="17" />
         /// 
         /// <para>The <see cref="ColorSliderType.Threshold"/> slider's type supposes filling areas
         /// outside of [<see cref="Min"/>, <see cref="Max"/>] range with <see cref="StartColor"/> and
@@ -102,7 +102,7 @@ namespace Accord.Controls
         /// <para>This type allows as one-arrow, as two-arrows control.</para>
         /// 
         /// <para><b>Sample control's look:</b></para>
-        /// <img src="img/controls/slider_threshold.png" width="258" height="17" />
+        /// <img src="..\images\controls\slider_threshold.png" width="258" height="17" />
         /// </remarks>
         ///
         public enum ColorSliderType

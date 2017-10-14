@@ -329,6 +329,7 @@
     <Folder Include="images\imaging" />
     <Folder Include="images\math" />
     <Folder Include="images\neuro" />
+    <Folder Include="images\controls" />
     <Folder Include="images\visualizations" />
     <Folder Include="resources\" />
     <Folder Include="diagrams\" />
@@ -1494,6 +1495,46 @@
     <Content Include="images\neuro\threshold.bmp">
       <ImageId>threshold</ImageId>
       <AlternateText>threshold</AlternateText>
+    </Content>
+    <Content Include="images\controls\histogram.jpg">
+      <ImageId>histogram</ImageId>
+      <AlternateText>histogram</AlternateText>
+    </Content>
+    <Content Include="images\controls\hue_picker1.png">
+      <ImageId>hue_picker1</ImageId>
+      <AlternateText>hue picker 1</AlternateText>
+    </Content>
+    <Content Include="images\controls\hue_picker2.png">
+      <ImageId>hue_picker2</ImageId>
+      <AlternateText>hue picker 2</AlternateText>
+    </Content>
+    <Content Include="images\controls\manipulator_round.png">
+      <ImageId>manipulator_round</ImageId>
+      <AlternateText>manipulator round</AlternateText>
+    </Content>
+    <Content Include="images\controls\manipulator_square.png">
+      <ImageId>manipulator_square</ImageId>
+      <AlternateText>manipulator square</AlternateText>
+    </Content>
+    <Content Include="images\controls\slider_control.png">
+      <ImageId>slider_control</ImageId>
+      <AlternateText>slider control</AlternateText>
+    </Content>
+    <Content Include="images\controls\slider_gradient.png">
+      <ImageId>slider_gradient</ImageId>
+      <AlternateText>slider gradient</AlternateText>
+    </Content>
+    <Content Include="images\controls\slider_inner_gradient.png">
+      <ImageId>slider_inner_gradient</ImageId>
+      <AlternateText>slider inner gradient</AlternateText>
+    </Content>
+    <Content Include="images\controls\slider_outer_gradient.png">
+      <ImageId>slider_outer_gradient</ImageId>
+      <AlternateText>slider outer gradient</AlternateText>
+    </Content>
+    <Content Include="images\controls\slider_threshold.png">
+      <ImageId>slider_threshold</ImageId>
+      <AlternateText>slider threshold</AlternateText>
     </Content>
     <Image Include="resources\Accord.NET.png">
       <CopyToMedia>True</CopyToMedia>
