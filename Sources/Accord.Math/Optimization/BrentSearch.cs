@@ -396,6 +396,9 @@ namespace Accord.Math.Optimization
             if (tol < 0)
                 throw new ArgumentOutOfRangeException("tol", "Tolerance must be positive.");
 
+            if (maxIterations == 0)
+                maxIterations = Int32.MaxValue;
+
             double x, v, w; // Abscissas
             double fx;      // f(x)             
             double fv;      // f(v)
@@ -421,7 +424,6 @@ namespace Accord.Math.Optimization
             // Main loop
             for (int i = 0; i < maxIterations; i++)
             {
-
                 double range = upperBound - lowerBound; // Range over which the minimum
 
                 double middle_range = lowerBound / 2.0 + upperBound / 2.0;
