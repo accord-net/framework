@@ -26,6 +26,7 @@ namespace Accord.Vision.Detection
     using System.Xml;
     using System.Xml.Serialization;
     using Accord.Imaging;
+    using System.Runtime.CompilerServices;
 
     /// <summary>
     ///   Haar Cascade Classifier Stage.
@@ -105,6 +106,9 @@ namespace Accord.Vision.Detection
         ///   Classifies an image as having the searched object or not.
         /// </summary>
         /// 
+#if NET45 || NET46 || NET462 || NETSTANDARD2_0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public bool Classify(IntegralImage2 image, int x, int y, double factor)
         {
             double value = 0;
@@ -137,7 +141,8 @@ namespace Accord.Vision.Detection
                 } while (current > 0);
 
                 // Stop early if we have already surpassed the stage threshold value.
-                //if (value > this.Threshold) return true;
+                //if (value >= this.Threshold)
+                //    return true;
             }
 
             // After we have evaluated the output for the
@@ -167,7 +172,7 @@ namespace Accord.Vision.Detection
         /// 
         public object Clone()
         {
-            HaarFeatureNode[][] newTrees = new HaarFeatureNode[Trees.Length][];
+            var newTrees = new HaarFeatureNode[Trees.Length][];
 
             for (int i = 0; i < newTrees.Length; i++)
             {

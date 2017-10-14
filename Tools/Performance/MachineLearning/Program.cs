@@ -14,6 +14,11 @@ using Accord.DataSets;
 using Accord.Imaging.Converters;
 using System.Drawing;
 using Accord.Statistics.Distributions.DensityKernels;
+using Accord.Vision.Detection;
+using Accord.Video.FFMPEG;
+using System.Drawing.Imaging;
+using Accord.Imaging.Filters;
+using Accord.Imaging;
 
 namespace Accord.Perf.MachineLearning
 {
@@ -35,7 +40,8 @@ namespace Accord.Perf.MachineLearning
             //TestLinearASGD();
             //TestSMO();
             //TestMeanShift();
-            TestEmpty();
+            //TestEmpty();
+            TestHaar();
         }
 
         private static void TestSparseKernelSVM()
@@ -391,6 +397,55 @@ namespace Accord.Perf.MachineLearning
         static void TestEmpty()
         {
 
+        }
+
+        static void TestHaar()
+        {
+            if (Environment.Is64BitProcess)
+                throw new Exception("Run in 32-bits");
+
+            // Let's test the detector using a sample video from 
+            // the collection of test videos in the framework:
+            TestVideos ds = new TestVideos();
+            string fileName = ds["crowd.mp4"];
+
+            // In this example, we will be creating a cascade for a Face detector:
+            var cascade = new Accord.Vision.Detection.Cascades.FaceHaarCascade();
+
+            // Now, create a new Haar object detector with the cascade:
+            var detector = new HaarObjectDetector(cascade, minSize: 25,
+                searchMode: ObjectDetectorSearchMode.Average,
+                scalingMode: ObjectDetectorScalingMode.SmallerToGreater,
+                scaleFactor: 1.1f)
+            {
+                Suppression = 5 // This should make sure we only report regions as faces if 
+                // they have been detected at least 5 times within different cascade scales.
+            };
+
+            // Now, let's open the video using FFMPEG:
+            var video = new VideoFileReader();
+            video.Open(fileName);
+
+            Stopwatch sw = Stopwatch.StartNew();
+
+            // Now, for each frame of the video
+            for (int frameIndex = 0; frameIndex < video.FrameCount; frameIndex++)
+            {
+                // Read the current frame into the bitmap data
+                Bitmap bmp = video.ReadVideoFrame(frameIndex);
+
+                // Feed the frame to the tracker
+                Rectangle[] faces = detector.ProcessFrame(bmp);
+
+                Console.WriteLine(faces.Length);
+                Console.WriteLine(bmp.Flags);
+            }
+
+            sw.Stop();
+
+            Console.WriteLine(sw.Elapsed);
+
+            video.Close();
         }
     }
 }

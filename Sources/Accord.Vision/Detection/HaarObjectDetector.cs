@@ -172,6 +172,9 @@ namespace Accord.Vision.Detection
 
         private GroupMatching match;
 
+        [NonSerialized]
+        private IntegralImage2 integralImage;
+
 
         #region Constructors
 
@@ -444,7 +447,7 @@ namespace Accord.Vision.Detection
         /// 
         public Rectangle[] ProcessFrame(Bitmap frame)
         {
-            return ProcessFrame(UnmanagedImage.FromManagedImage(frame));
+            return frame.LockBits(ImageLockMode.ReadOnly, (ui) => ProcessFrame(ui));
         }
 
         /// <summary>
@@ -457,8 +460,14 @@ namespace Accord.Vision.Detection
               image.PixelFormat == PixelFormat.Format8bppIndexed ? 0 : channel;
 
             // Creates an integral image representation of the frame
-            IntegralImage2 integralImage = IntegralImage2.FromBitmap(
-                image, colorChannel, classifier.Cascade.HasTiltedFeatures);
+            if (integralImage == null || integralImage.Width != image.Width || integralImage.Height != image.Height)
+            {
+                integralImage = IntegralImage2.FromBitmap(image, colorChannel, classifier.Cascade.HasTiltedFeatures);
+            }
+            else
+            {
+                integralImage.Update(image, colorChannel);
+            }
 
             // Creates a new list of detected objects.
             this.detectedObjects.Clear();
@@ -568,7 +577,8 @@ namespace Accord.Vision.Detection
                         // For each pixel in the window row
                         for (int x = 0; x < xEnd; x += xStep)
                         {
-                            if (options.ShouldExitCurrentIteration) return;
+                            if (options.ShouldExitCurrentIteration)
+                                return;
 
                             localWindow.X = x;
 
@@ -590,7 +600,8 @@ namespace Accord.Vision.Detection
                     if (searchMode == ObjectDetectorSearchMode.NoOverlap)
                     {
                         foreach (Rectangle obj in bag)
-                            if (!overlaps(obj)) detectedObjects.Add(obj);
+                            if (!overlaps(obj))
+                                detectedObjects.Add(obj);
                     }
                     else if (searchMode == ObjectDetectorSearchMode.Single)
                     {
