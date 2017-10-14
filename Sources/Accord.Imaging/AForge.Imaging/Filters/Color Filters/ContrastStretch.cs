@@ -39,9 +39,9 @@ namespace Accord.Imaging.Filters
     /// </code>
     /// 
     /// <para><b>Source image:</b></para>
-    /// <img src="img/imaging/sample5.jpg" width="480" height="387" />
+    /// <img src="..\images\imaging\sample5.jpg" width="480" height="387" />
     /// <para><b>Result image:</b></para>
-    /// <img src="img/imaging/contrast_stretch.jpg" width="480" height="387" />
+    /// <img src="..\images\imaging\contrast_stretch.jpg" width="480" height="387" />
     /// </remarks>
     /// 
     public class ContrastStretch : BaseInPlacePartialFilter

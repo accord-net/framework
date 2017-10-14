@@ -30,9 +30,9 @@ namespace Accord.Imaging.Filters
     /// </code>
     /// 
     /// <para><b>Initial image:</b></para>
-    /// <img src="img/imaging/sample2.jpg" width="320" height="240" />
+    /// <img src="..\images\imaging\sample2.jpg" width="320" height="240" />
     /// <para><b>Result image:</b></para>
-    /// <img src="img/imaging/shrink.jpg" width="295" height="226" />
+    /// <img src="..\images\imaging\shrink.jpg" width="295" height="226" />
     /// </remarks>
     /// 
     public class Shrink : BaseTransformationFilter

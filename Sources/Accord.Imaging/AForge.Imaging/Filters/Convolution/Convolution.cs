@@ -45,9 +45,9 @@ namespace Accord.Imaging.Filters
     /// </code>
     /// 
     /// <para><b>Initial image:</b></para>
-    /// <img src="img/imaging/sample5.jpg" width="480" height="361" />
+    /// <img src="..\images\imaging\sample5.jpg" width="480" height="361" />
     /// <para><b>Result image:</b></para>
-    /// <img src="img/imaging/emboss.jpg" width="480" height="361" />
+    /// <img src="..\images\imaging\emboss.jpg" width="480" height="361" />
     /// </remarks>
     /// 
     public class Convolution : BaseUsingCopyPartialFilter

@@ -44,11 +44,11 @@ namespace Accord.Imaging.Filters
     /// </code>
     /// 
     /// <para><b>Source image:</b></para>
-    /// <img src="img/imaging/sample4.jpg" width="480" height="387" />
+    /// <img src="..\images\imaging\sample4.jpg" width="480" height="387" />
     /// <para><b>Background image:</b></para>
-    /// <img src="img/imaging/bg.jpg" width="480" height="387" />
+    /// <img src="..\images\imaging\bg.jpg" width="480" height="387" />
     /// <para><b>Result image:</b></para>
-    /// <img src="img/imaging/flat_field.jpg" width="480" height="387" />
+    /// <img src="..\images\imaging\flat_field.jpg" width="480" height="387" />
     /// </remarks>
     /// 
     public class FlatFieldCorrection : BaseInPlaceFilter

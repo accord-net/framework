@@ -47,9 +47,9 @@ namespace Accord.Imaging
     /// </code>
     /// 
     /// <para><b>Initial image:</b></para>
-    /// <img src="img/imaging/sample10.png" width="300" height="184" />
+    /// <img src="..\images\imaging\sample10.png" width="300" height="184" />
     /// <para><b>Deskewed image:</b></para>
-    /// <img src="img/imaging/deskew.png" width="335" height="250" /> 
+    /// <img src="..\images\imaging\deskew.png" width="335" height="250" /> 
     /// </remarks>
     /// 
     /// <seealso cref="HoughLineTransformation"/>

@@ -61,7 +61,7 @@ namespace Accord.Imaging
     ///   The first example shows how to extract LBP descriptors given an image.</para>
     ///   <code source="Unit Tests\Accord.Tests.Imaging\LocalBinaryPatternsTest.cs" region="doc_apply" />
     ///   <para><b>Input image:</b></para>
-    ///   <img src="img/imaging/wood_texture.jpg" width="320" height="240" />
+    ///   <img src="..\images\imaging\wood_texture.jpg" width="320" height="240" />
     ///   
     /// <para>
     ///   The second example shows how to use the LBP feature extractor as part of a

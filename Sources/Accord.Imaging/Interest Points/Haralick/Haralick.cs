@@ -111,7 +111,7 @@ namespace Accord.Imaging
     ///   The first example shows how to extract Haralick descriptors given an image.</para>
     ///   <code source="Unit Tests\Accord.Tests.Imaging\HaralickTest.cs" region="doc_apply" />
     ///   <para><b>Input image:</b></para>
-    ///   <img src="img/imaging/wood_texture.jpg" width="320" height="240" />
+    ///   <img src="..\images\imaging\wood_texture.jpg" width="320" height="240" />
     ///   
     /// <para>
     ///   The second example shows how to use the Haralick feature extractor as part of a

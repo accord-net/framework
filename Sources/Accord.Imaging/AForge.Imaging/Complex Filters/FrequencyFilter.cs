@@ -38,9 +38,9 @@ namespace Accord.Imaging.ComplexFilters
     /// </code>
     /// 
     /// <para><b>Initial image:</b></para>
-    /// <img src="img/imaging/sample3.jpg" width="256" height="256" />
+    /// <img src="..\images\imaging\sample3.jpg" width="256" height="256" />
     /// <para><b>Fourier image:</b></para>
-    /// <img src="img/imaging/frequency_filter.jpg" width="256" height="256" />
+    /// <img src="..\images\imaging\frequency_filter.jpg" width="256" height="256" />
     /// </remarks>
     /// 
     public class FrequencyFilter : IComplexFilter

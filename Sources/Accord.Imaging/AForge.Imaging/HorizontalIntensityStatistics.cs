@@ -39,7 +39,7 @@ namespace Accord.Imaging
     /// </code>
     /// 
     /// <para><b>Sample grayscale image with its horizontal intensity histogram:</b></para>
-    /// <img src="img/imaging/hor_histogram.jpg" width="320" height="338" />
+    /// <img src="..\images\imaging\hor_histogram.jpg" width="320" height="338" />
     /// </remarks>
     /// 
     /// <seealso cref="VerticalIntensityStatistics"/>

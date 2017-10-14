@@ -45,9 +45,10 @@ namespace Accord.Imaging.ColorReduction
     /// </code>
     /// 
     /// <para><b>Initial image:</b></para>
-    /// <img src="img/imaging/sample1.jpg" width="480" height="361" />
+    /// <img src="..\images\imaging\sample1.jpg" width="480" height="361" />
+    /// <img src="..\images\imaging\sample1.jpg" width="480" height="361" />
     /// <para><b>Result image:</b></para>
-    /// <img src="img/imaging/color_burkes.png" width="480" height="361" />
+    /// <img src="..\images\imaging\color_burkes.png" width="480" height="361" />
     /// </remarks>
     /// 
     /// <seealso cref="FloydSteinbergColorDithering"/>

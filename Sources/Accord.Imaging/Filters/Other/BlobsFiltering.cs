@@ -61,9 +61,9 @@ namespace Accord.Imaging.Filters
     /// </code>
     /// 
     /// <para><b>Initial image:</b></para>
-    /// <img src="img/imaging/sample2.jpg" width="320" height="240" />
+    /// <img src="..\images\imaging\sample2.jpg" width="320" height="240" />
     /// <para><b>Result image:</b></para>
-    /// <img src="img/imaging/blobs_filtering.jpg" width="320" height="240" />
+    /// <img src="..\images\imaging\blobs_filtering.jpg" width="320" height="240" />
     /// </remarks>
     /// 
     /// <seealso cref="BlobCounter"/>
