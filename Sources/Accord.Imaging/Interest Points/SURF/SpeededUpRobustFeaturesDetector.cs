@@ -92,7 +92,7 @@ namespace Accord.Imaging
     /// <example>
     /// <para>
     ///   The first example shows how to extract SURF descriptors from a standard test image:</para>
-    ///   <code source="Unit Tests\Accord.Tests.Imaging\SpeedUpRobustFeaturesDetectorTest.cs" region="doc_apply" />
+    ///   <code source="Unit Tests\Accord.Tests.Imaging\SpeededUpRobustFeaturesDetectorTest.cs" region="doc_apply" />
     ///   
     /// <para>
     ///   The second example shows how to use SURF descriptors as part of a BagOfVisualWords (BoW) pipeline 

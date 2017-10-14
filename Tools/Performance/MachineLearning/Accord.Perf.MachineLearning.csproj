@@ -213,8 +213,6 @@
     <None Include="Accord.snk" />
     <None Include="App.config" />
     <None Include="packages.config" />
-    <None Include="Reports\haar-aggresive.diagsession" />
-    <None Include="Reports\haar-baseline.diagsession" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Sources\Accord.Controls.Imaging\Accord.Controls.Imaging.csproj">
