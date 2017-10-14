@@ -1,6 +1,6 @@
 Accord.NET Framework 3.7.3-alpha release notes
 -----------------------------------------
-08.10.2017.
+15.10.2017.
 
 Version updates and fixes:
   - GH-82: Add support for weighted PCA;
@@ -12,11 +12,14 @@ Version updates and fixes:
   - GH-257: DFT functions in AForge.Math.FourierTransform and Accord.Math.Transforms;
   - GH-262: C45Learning Discrete vs Real;
   - GH-374: Dictionary of video capabilities doesn't take into account the video framerate;
+  - GH-376: Add an Example for VideoCaptureDevice Class;
   - GH-377: Add an Example for LevenbergMarquardt Class;
   - GH-415: Add an Example for AdaBoost(TModel);
+  - GH-421: Add an Example for KalmanFilter2D Class;
   - GH-422: Add an Example for DecisionStump.Learn Method;
   - GH-424: Add an Example for AdaBoost(TModel) Class;
   - GH-430: Add an Example for GeneralConfusionMatrix Constructor (Int32, Int32[], Int32[]);
+  - GH-440: BagOfWords for audio signals;
   - GH-441: Add Mel Frequency Cepstral Coefficients (MFCC);
   - GH-466: Add an Example for Distance.Mahalanobis Method (Double[], Double[]);
   - GH-467: Add an Example for Spline Class;
@@ -32,6 +35,7 @@ Version updates and fixes:
   - GH-530: Add an Example for Matrix.Inverse Method (Double[][]);
   - GH-532: Add an Example for GaussNewton Class;
   - GH-547: Add an Example for HaralickDescriptor Class;
+  - GH-554: Add an Example for BinaryTree(TNode) Class;
   - GH-557: Add an Example for Matrix.Sort(TKey, TValue) Method (TKey[], TValue[,], IComparer(TKey));
   - GH-560: Add an Example for FourierTransform2.FFT Method (Double[], Double[], FourierTransform.Direction);
   - GH-566: Add an Example for Distance.GetDistance(T) Method;
@@ -67,6 +71,7 @@ Version updates and fixes:
   - GH-787: Add an Example for HiddenMarkovModel(TDistribution, TObservation).Predict Method (TObservation[]);
   - GH-789: Add support for OS X;
   - GH-792: Add an Example for FisherExactTest Class;
+  - GH-793: Add an Example for HoughLineTransformation Class;
   - GH-798: System.AccessViolationException in FastBoxBlur;
   - GH-800: Missing dependency for Accord.Neuro in NuGet;
   - GH-802: Index outside of the bounds of the array in Naive Bayes;
@@ -77,7 +82,9 @@ Version updates and fixes:
   - GH-811: Naive Bayes should provide better argument checking for negative symbols;
   - GH-812: ZhangSuenSkeletonization filter not exist to use;
   - GH-814: Add an Example for MulticlassSupportVectorMachine(TKernel, TInput) Class;
+  - GH-818: Add an Example for LinearConstraint Class;
   - GH-819: Quadratic Objective Function to support basic vector operations;
+  - GH-820: Augmented Lagrangian to support linear constraints;
   - GH-824: Improve number of class inference in ZeroOneLoss;
   - GH-825: Replace multi-dimentional with jagged arrays in IntegralImage.cs;
   - GH-828: Accord.Neuro under .Net Standard 2.0;
@@ -98,6 +105,7 @@ Version updates and fixes:
   - GH-877: Add an Example for HaarCascadeWriter Class;
   - GH-878: Accord.Math.Transforms.FourierTransform2.DFT2 Is bugged;
   - GH-882: Adding lazy evaluation to matrix decompositions;
+  - GH-885: Add an Example for Signal.GetEnergy Method;
   - GH-890: Add an Example for MultinomialLogisticRegressionAnalysis Class;
   - GH-897: Wrong status text in ImageView from DebugVisualizer;
   - GH-898: The Range method is producing some unexpected results;
@@ -113,24 +121,42 @@ Version updates and fixes:
   - GH-927: Broadcasting dimension seems counter-intuitive;
   - GH-929: Add an Example for SpeededUpRobustFeaturesDescriptor Class;
   - GH-930: Add an Example for FastCornersDetector Class;
+  - GH-931: Add an Example for MatchingTracker Class;
   - GH-937: Add an Example for LogisticRegression Class;
+  - GH-948: Accord.Video.FFMPEG.VideoFileReader should provide frame-based random access;
+  - GH-949: Add the Free Spoken Digits Dataset to Accord.DataSets;
+  - GH-950: Add a dataset for example test videos;
+  - GH-955: KalmanFilter2D throws System.NullReferenceException;
 
 * General
   - The libsonly script is now in RAR4 format instead of RAR5 so they 
     will not be listed as corrupted files by Linux/MacOSX decompressors;
+
+* Core
+  - Splitting ITransform into ITransform and ICovariantTransform (to support generic covariance);
 
 * Video.FFMPEG
   - Standardizing the C++ projects to depend on VS2015 runtime instead of VS2017 to keep compatibility with VS2015;
   - Adding a static constructor in the FFMPEG project to check whether the system has those dependencies installed;
 
 * Audio
-  - Adding the initial version for a MFCC audio feature extractor;
+  - Adding the initial version for a MelFrequencyCepstrumCoefficients audio feature extractor;
+  - Adding a IAudioFeatureExtractor interface (akin to the IImageFeatureExtractor for Accord.Imaging);
+  - Adding a Mono filter to convert multi-channel audio signals into single channel (mono) signals;
+  - Adding a Signal.FromFile() method to load audio signals from file similarly to Bitmap.FromFile();
+  - Adding an AudioDecoder class akin to ImageDecoder to find audio format decoders based on file extension;
+
+* Audition
+  - Adding BagOfAudioWords class to compute bag-of-word representations from audio signals;
 
 * Imaging
   - Adding support for decoding PNM files in format P2 and P3 (besides the already supported P5 and P6);
   - Updating Haralick's to use the same normalization method as HOG and LBP;
   - Updating the color classes (RGB, HSL, YCbCr) to be structs;
   - Adding conversion operators between different color classes;
+  - Updating ImageDecoder to find decoders using reflection instead of manual registration;
+  - Updating the feature extraction framelet to implement the ITransform interfaces and deprecating IFeatureDetector;
+  - Updating all feature descriptors to be classes rather than structs so the generics covariance can work;
   - Integrating AForge.NET's texture generation classes: Adding a base class for texture
     generation methods, updating them to use the framework-wide random number generator,
 	and deprecating their Reset method;
@@ -144,6 +170,7 @@ Version updates and fixes:
   - Updating Vector.Interval and Vector.Range to behave similar to NumPy's linspance and arange functions;
   - Adding new overloads in element-wise operations that accept a VectorType enumeration instead 
     of a integer for specifying to which dimension the element-wise operation should be performed;
+  - Updating the Digamma and Trigamma functions to handle negative values;
 
 * MachineLearning
   - Updating the AdaBoost classes to implement the more recent classification framelet;
