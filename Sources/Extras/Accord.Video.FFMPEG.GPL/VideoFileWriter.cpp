@@ -517,8 +517,14 @@ namespace Accord {
                         libffmpeg::av_free(data->VideoOutputBuffer);
 
                     // audio support
+                    if (data->AudioEncodeBuffer)
+                        libffmpeg::av_free(data->AudioEncodeBuffer);
+
                     if (data->AudioBuffer)
-                        libffmpeg::av_free(data->AudioBuffer);
+                    {
+                        delete[] data->AudioBuffer;
+                        data->AudioBuffer = nullptr;
+                    }
                     // end audio support
 
                     if (data->FormatContext->pb != nullptr)
