@@ -331,17 +331,6 @@ namespace Accord.Imaging
         {
             return Create<TExtractor, TClustering, IFeatureDescriptor<double[]>, double[]>(detector, clustering);
         }
-
-        /// <summary>
-        /// Creates a Bag-of-Words model using the <see cref="SpeededUpRobustFeaturesDetector">SURF feature detector</see> and the given clustering algorithm.
-        /// </summary>
-        /// 
-        public static BagOfVisualWords<SpeededUpRobustFeaturePoint, double[], TClustering, SpeededUpRobustFeaturesDetector>
-            Create<TClustering>(TClustering clustering)
-            where TClustering : IUnsupervisedLearning<IClassifier<double[], int>, double[], int>
-        {
-            return Create<SpeededUpRobustFeaturesDetector, TClustering, SpeededUpRobustFeaturePoint, double[]>(new SpeededUpRobustFeaturesDetector(), clustering);
-        }
 #endif
 
 
