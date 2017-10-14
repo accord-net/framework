@@ -31,7 +31,6 @@ namespace Accord.Statistics.TimeSeries
     using System.Text;
     using System.Numerics;
     
-
     public static class StatTools
     {
         /// <summary>
@@ -61,9 +60,9 @@ namespace Accord.Statistics.TimeSeries
             if (nTime <= 1)
             {
                 //throw new System.ArgumentException("Vector length should be >=2", "vector");
-                double[] acf1 = new double[] { 1.0 };
+                double[] acf1 = new double[] { };
                 return acf1;
-            }            
+            }
             // padding the length to be the power of 2 to facilitate FFT speed.
             int newLength = Convert.ToInt32(Math.Pow(2, Math.Ceiling(Math.Log(nTime, 2))));
 
