@@ -1465,5 +1465,75 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(prediction.Length, 1);
             Assert.AreEqual(11.909090909090905, prediction[0], 1e-6);
         }
+
+        [Test]
+        public void gh_945()
+        {
+            // https://github.com/accord-net/framework/issues/945
+
+            double[][] sequences = new double[][]
+            {
+                new double[] { 0.1, 5.2, 0.3, 6.7, 0.1, 6.0 },
+                new double[] { 0.2, 6.2, 0.3, 6.3, 0.1, 5.0 },
+                new double[] { 0.1, 7.0, 0.1, 7.0, 0.2, 5.6 },
+            };
+
+            var density = new GeneralizedNormalDistribution(0, 1, 1);
+
+            var model = new HiddenMarkovModel<GeneralizedNormalDistribution, double>(new Ergodic(2), density);
+
+            var teacher = new BaumWelchLearning<GeneralizedNormalDistribution, double>(model)
+            {
+                Tolerance = 0.0001,
+                Iterations = 0,
+            };
+
+            teacher.Learn(sequences);
+
+            double logLikelihood = teacher.LogLikelihood;
+
+            double a1 = model.LogLikelihood(new[] { 0.1, 5.2, 0.3, 6.7, 0.1, 6.0 }); 
+            double a2 = model.LogLikelihood(new[] { 0.2, 6.2, 0.3, 6.3, 0.1, 5.0 }); 
+            double a3 = model.LogLikelihood(new[] { 1.1, 2.2, 1.3, 3.2, 4.2, 1.0 }); 
+
+            double likelihood = Math.Exp(logLikelihood);
+            a1 = Math.Exp(a1); // 0.879
+            a2 = Math.Exp(a2); // 1.011
+            a3 = Math.Exp(a3); // 0.000
+
+            int[] states = model.Decide(new[] { 0.1, 5.2, 0.3, 6.7, 0.1, 6.0 });
+
+            Assert.AreEqual(7, teacher.CurrentIteration);
+            Assert.IsTrue(states.IsEqual(new[] { 0, 1, 0, 1, 0, 1 }));
+
+            Assert.AreEqual(1.091030568847944, likelihood, 1e-10);
+            Assert.AreEqual(0.87985875800297753, a1, 1e-10);
+            Assert.AreEqual(1.0117804233450221, a2, 1e-10);
+            Assert.AreEqual(1.8031545195073828E-130, a3, 1e-10);
+
+            Assert.AreEqual(2, model.Emissions.Length);
+            var state1 = (model.Emissions[0] as GeneralizedNormalDistribution);
+            var state2 = (model.Emissions[1] as GeneralizedNormalDistribution);
+            Assert.AreEqual(0.16666666666666, state1.Mean, 1e-10);
+            Assert.AreEqual(6.11111111111111, state2.Mean, 1e-10);
+            Assert.IsFalse(Double.IsNaN(state1.Mean));
+            Assert.IsFalse(Double.IsNaN(state2.Mean));
+
+            Assert.AreEqual(0.007499999999999, state1.Variance, 1e-10);
+            Assert.AreEqual(0.538611111111111, state2.Variance, 1e-10);
+            Assert.IsFalse(Double.IsNaN(state1.Variance));
+            Assert.IsFalse(Double.IsNaN(state2.Variance));
+
+            Assert.AreEqual(2, model.LogTransitions.GetLength(0));
+            Assert.AreEqual(2, model.LogTransitions.Columns());
+
+            var A = model.LogTransitions.Exp();
+            Assert.AreEqual(0, A[0][0], 1e-16);
+            Assert.AreEqual(1, A[0][1], 1e-16);
+            Assert.AreEqual(1, A[1][0], 1e-16);
+            Assert.AreEqual(0, A[1][1], 1e-16);
+
+            Assert.IsFalse(A.HasNaN());
+        }
     }
 }

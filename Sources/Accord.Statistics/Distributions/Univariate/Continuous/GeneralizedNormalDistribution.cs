@@ -25,6 +25,8 @@ namespace Accord.Statistics.Distributions.Univariate
     using System;
     using Accord.Math;
     using Accord.Compat;
+    using Accord.Statistics.Distributions.Fitting;
+    using Accord.Math.Optimization;
 
     /// <summary>
     ///   Generalized Normal distribution (also known as Exponential Power distribution).
@@ -85,7 +87,8 @@ namespace Accord.Statistics.Distributions.Univariate
     /// <seealso cref="LaplaceDistribution"/>
     /// 
     [Serializable]
-    public class GeneralizedNormalDistribution : UnivariateContinuousDistribution
+    public class GeneralizedNormalDistribution : UnivariateContinuousDistribution,
+        IFittableDistribution<double>
     {
 
         // Distribution parameters
@@ -94,14 +97,23 @@ namespace Accord.Statistics.Distributions.Univariate
         private double beta = 0;  // shape β
 
         /// <summary>
+        ///   Constructs a Generalized Normal distribution with zero location, unit scale and unit shape.
+        /// </summary>
+        /// 
+        public GeneralizedNormalDistribution()
+        {
+            initialize(0, 1, 1);
+        }
+
+        /// <summary>
         ///   Constructs a Generalized Normal distribution with the given parameters.
         /// </summary>
         /// 
-        /// <param name="location">The location parameter μ.</param>
-        /// <param name="scale">The scale parameter α.</param>
-        /// <param name="shape">The shape parameter β.</param>
+        /// <param name="location">The location parameter μ. Default is 0.</param>
+        /// <param name="scale">The scale parameter α. Default is 1.</param>
+        /// <param name="shape">The shape parameter β. Default is 1.</param>
         /// 
-        public GeneralizedNormalDistribution([Real] double location, 
+        public GeneralizedNormalDistribution([Real] double location,
             [Positive] double scale, [Positive] double shape)
         {
             initialize(location, scale, shape);
@@ -163,6 +175,16 @@ namespace Accord.Statistics.Distributions.Univariate
                 Accord.Diagnostics.Debug.Assert(mean.IsEqual(base.Median, 1e-5));
                 return mean;
             }
+        }
+
+        public double Scale
+        {
+            get { return alpha; }
+        }
+
+        public double Shape
+        {
+            get { return beta; }
         }
 
         /// <summary>
@@ -289,6 +311,94 @@ namespace Accord.Statistics.Distributions.Univariate
             return a * Math.Exp(-b);
         }
 
+        public override void Fit(double[] observations, double[] weights, IFittingOptions options)
+        {
+            double[] abs = observations.Abs();
+            double m1, m2;
+
+            if (weights == null)
+            {
+                m1 = abs.Mean();
+                m2 = abs.Variance(m1);
+            }
+            else
+            {
+                m1 = abs.WeightedMean(weights);
+                m2 = abs.WeightedVariance(weights, m1);
+            }
+
+            double N = observations.Length;
+
+
+            // Start by estimating beta
+            double mu = m1;
+            double b0 = m1 / Math.Sqrt(m2);
+
+            double newBeta = b0;
+
+            var rel = new RelativeConvergence(iterations: 0, tolerance: 1e-5, startValue: newBeta);
+
+            do
+            {
+                double sumZBetaLogZ = 0;
+                double sumZBeta = 0;
+                double sumZBetaLogZ2 = 0;
+
+                for (int i = 0; i < observations.Length; i++)
+                {
+                    double z = Math.Abs(observations[i] - mu);
+
+                    double zbeta = Math.Pow(z, newBeta);
+                    double logz = Math.Log(z);
+                    sumZBetaLogZ += zbeta * logz;
+                    sumZBeta += zbeta;
+                    sumZBetaLogZ2 += zbeta * logz * logz;
+                }
+
+                double dig = Gamma.Digamma(1.0 / newBeta);
+                double gb1a = 1;
+                double gb1b = dig / newBeta;
+                double gb1c = sumZBetaLogZ / sumZBeta;
+                double gb1d = Math.Log((newBeta / N) * sumZBeta) / newBeta;
+
+                double g1b = gb1a + gb1b - gb1c + gb1d;
+
+                double trig = Gamma.Trigamma(1.0 / newBeta);
+                double gb2a = dig / (newBeta * newBeta);
+                double gb2b = trig / (newBeta * newBeta * newBeta);
+                double gb2c = 1.0 / (newBeta * newBeta);
+                double gb2d = sumZBetaLogZ2 / sumZBeta;
+                double gb2e = (sumZBetaLogZ * sumZBetaLogZ) / (sumZBeta * sumZBeta);
+                double gb2f = sumZBetaLogZ / (newBeta * sumZBeta);
+                double gb2g = Math.Log((newBeta / N) * sumZBeta) / (newBeta * newBeta);
+
+                double g2b = -gb2a - gb2b + gb2c - gb2d + gb2e + gb2f - gb2g;
+
+                double r = g1b / g2b;
+                if (Double.IsNaN(r))
+                    throw new Exception();
+
+                newBeta = newBeta - r;
+                rel.NewValue = newBeta;
+            } while (!rel.HasConverged);
+
+            // Given beta, estimate mu
+            double newMu = BrentSearch.Minimize((u) =>
+            {
+                double r = 0;
+                for (int i = 0; i < observations.Length; i++)
+                    r += Math.Pow(Math.Abs(observations[i] - u), newBeta);
+                return r;
+            }, lowerBound: 1e-100, upperBound: 1e+100, maxIterations: 0);
+
+            double sum = 0;
+            for (int i = 0; i < observations.Length; i++)
+                sum += Math.Pow(Math.Abs(observations[i] - newMu), newBeta);
+
+            double newAlpha = Math.Pow((beta / N) * sum, 1 / beta);
+
+            initialize(newMu, newBeta, newAlpha);
+        }
 
         /// <summary>
         ///   Creates a new object that is a copy of the current instance.

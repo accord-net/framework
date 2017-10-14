@@ -207,5 +207,21 @@ namespace Accord.Tests.Statistics
             }
         }
 
+
+
+        [Test]
+        public void FitTest()
+        {
+            double[] values = NormalDistribution.Random(0, 1, samples: 1000000);
+            var target = new GeneralizedNormalDistribution();
+
+            target.Fit(values);
+             
+            Assert.AreEqual(0, target.Mean);
+            Assert.AreEqual(0, target.StandardDeviation);
+            Assert.AreEqual(0, target.Variance);
+            Assert.AreEqual(0, target.Scale);
+            Assert.AreEqual(0, target.Shape);
+        }
     }
 }
