@@ -518,22 +518,13 @@ namespace Accord {
 
                     // audio support
                     if (data->AudioBuffer)
-                    {
-                        delete[] data->AudioBuffer;
-                        data->AudioBuffer = nullptr;
-                    }
+                        libffmpeg::av_free(data->AudioBuffer);
                     // end audio support
-
-                    for (unsigned int i = 0; i < data->FormatContext->nb_streams; i++)
-                    {
-                        libffmpeg::av_freep(&data->FormatContext->streams[i]->codec);
-                        libffmpeg::av_freep(&data->FormatContext->streams[i]);
-                    }
 
                     if (data->FormatContext->pb != nullptr)
                         libffmpeg::avio_close(data->FormatContext->pb);
 
-                    libffmpeg::av_free(data->FormatContext);
+                    libffmpeg::avformat_free_context(data->FormatContext);
                 }
 
                 if (data->ConvertContext != nullptr)
