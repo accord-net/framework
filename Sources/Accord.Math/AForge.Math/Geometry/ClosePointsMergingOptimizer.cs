@@ -33,7 +33,7 @@ namespace Accord.Math.Geometry
     /// <para>
     /// For example, the below circle shape comprised of 65 points, can be optimized to 8 points
     /// by setting <see cref="MaxDistanceToMerge"/> to 28.<br />
-    /// <img src="img/math/close_points_merging_optimizer.png" width="268" height="238" />
+    /// <img src="..\images\math\close_points_merging_optimizer.png" width="268" height="238" />
     /// </para>
     /// </remarks>
     /// 

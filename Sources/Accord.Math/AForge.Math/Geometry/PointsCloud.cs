@@ -359,7 +359,7 @@ namespace Accord.Math.Geometry
         /// 
         /// <para>To explain the idea behind distortion limit, let’s suppose that quadrilateral finder routine found
         /// the next candidates for corners:<br />
-        /// <img src="img/math/potential_corners.png" width="151" height="128" /><br />
+        /// <img src="..\images\math\potential_corners.png" width="151" height="128" /><br />
         /// As we can see on the above picture, the shape there potentially can be a triangle, but not quadrilateral
         /// (suppose that points list comes from a hand drawn picture or acquired from camera, so some
         /// inaccuracy may exist). It may happen that the <b>D</b> point is just a distortion (noise, etc).

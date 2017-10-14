@@ -327,6 +327,7 @@
     <Folder Include="images\filters\" />
     <Folder Include="images\hmm\" />
     <Folder Include="images\imaging" />
+    <Folder Include="images\math" />
     <Folder Include="images\visualizations" />
     <Folder Include="resources\" />
     <Folder Include="diagrams\" />
@@ -769,702 +770,718 @@
       <ImageId>Accord.Video.Ximea</ImageId>
       <AlternateText>Accord.Video.Ximea</AlternateText>
     </Content>
-    <Image Include="images\imaging\adaptive_smooth.png">
+    <Content Include="images\imaging\adaptive_smooth.png">
       <ImageId>adaptive_smooth</ImageId>
       <AlternateText>adaptive smooth</AlternateText>
-    </Image>
-    <Image Include="images\imaging\add.png">
+    </Content>
+    <Content Include="images\imaging\add.png">
       <ImageId>add</ImageId>
       <AlternateText>add</AlternateText>
-    </Image>
-    <Image Include="images\imaging\additive_noise.jpg">
+    </Content>
+    <Content Include="images\imaging\additive_noise.jpg">
       <ImageId>additive_noise</ImageId>
       <AlternateText>additive noise</AlternateText>
-    </Image>
-    <Image Include="images\imaging\anaglyph.png">
+    </Content>
+    <Content Include="images\imaging\anaglyph.png">
       <ImageId>anaglyph</ImageId>
       <AlternateText>anaglyph</AlternateText>
-    </Image>
-    <Image Include="images\imaging\anaglyph_glasses.png">
+    </Content>
+    <Content Include="images\imaging\anaglyph_glasses.png">
       <ImageId>anaglyph_glasses</ImageId>
       <AlternateText>anaglyph glasses</AlternateText>
-    </Image>
-    <Image Include="images\imaging\background.jpg">
+    </Content>
+    <Content Include="images\imaging\background.jpg">
       <ImageId>background</ImageId>
       <AlternateText>background</AlternateText>
-    </Image>
-    <Image Include="images\imaging\backward_quadrilateral.jpg">
+    </Content>
+    <Content Include="images\imaging\backward_quadrilateral.jpg">
       <ImageId>backward_quadrilateral</ImageId>
       <AlternateText>backward quadrilateral</AlternateText>
-    </Image>
-    <Image Include="images\imaging\bayer_dithering.jpg">
+    </Content>
+    <Content Include="images\imaging\bayer_dithering.jpg">
       <ImageId>bayer_dithering</ImageId>
       <AlternateText>bayer dithering</AlternateText>
-    </Image>
-    <Image Include="images\imaging\bayer_filter.jpg">
+    </Content>
+    <Content Include="images\imaging\bayer_filter.jpg">
       <ImageId>bayer_filter</ImageId>
       <AlternateText>bayer filter</AlternateText>
-    </Image>
-    <Image Include="images\imaging\bg.jpg">
+    </Content>
+    <Content Include="images\imaging\bg.jpg">
       <ImageId>bg</ImageId>
       <AlternateText>bg</AlternateText>
-    </Image>
-    <Image Include="images\imaging\biggest_blob.jpg">
+    </Content>
+    <Content Include="images\imaging\biggest_blob.jpg">
       <ImageId>biggest_blob</ImageId>
       <AlternateText>biggest blob</AlternateText>
-    </Image>
-    <Image Include="images\imaging\bilateral.jpg">
+    </Content>
+    <Content Include="images\imaging\bilateral.jpg">
       <ImageId>bilateral</ImageId>
       <AlternateText>bilateral</AlternateText>
-    </Image>
-    <Image Include="images\imaging\blobs_filtering.jpg">
+    </Content>
+    <Content Include="images\imaging\blobs_filtering.jpg">
       <ImageId>blobs_filtering</ImageId>
       <AlternateText>blobs filtering</AlternateText>
-    </Image>
-    <Image Include="images\imaging\blur.jpg">
+    </Content>
+    <Content Include="images\imaging\blur.jpg">
       <ImageId>blur</ImageId>
       <AlternateText>blur</AlternateText>
-    </Image>
-    <Image Include="images\imaging\bottomhat.png">
+    </Content>
+    <Content Include="images\imaging\bottomhat.png">
       <ImageId>bottomhat</ImageId>
       <AlternateText>bottomhat</AlternateText>
-    </Image>
-    <Image Include="images\imaging\bradley_local_thresholding.png">
+    </Content>
+    <Content Include="images\imaging\bradley_local_thresholding.png">
       <ImageId>bradley_local_thresholding</ImageId>
       <AlternateText>bradley local thresholding</AlternateText>
-    </Image>
-    <Image Include="images\imaging\brightness_correction.jpg">
+    </Content>
+    <Content Include="images\imaging\brightness_correction.jpg">
       <ImageId>brightness_correction</ImageId>
       <AlternateText>brightness correction</AlternateText>
-    </Image>
-    <Image Include="images\imaging\burkes.jpg">
+    </Content>
+    <Content Include="images\imaging\burkes.jpg">
       <ImageId>burkes</ImageId>
       <AlternateText>burkes</AlternateText>
-    </Image>
-    <Image Include="images\imaging\canny_edges.png">
+    </Content>
+    <Content Include="images\imaging\canny_edges.png">
       <ImageId>canny_edges</ImageId>
       <AlternateText>canny edges</AlternateText>
-    </Image>
-    <Image Include="images\imaging\canvas_crop.jpg">
+    </Content>
+    <Content Include="images\imaging\canvas_crop.jpg">
       <ImageId>canvas_crop</ImageId>
       <AlternateText>canvas crop</AlternateText>
-    </Image>
-    <Image Include="images\imaging\canvas_move.jpg">
+    </Content>
+    <Content Include="images\imaging\canvas_move.jpg">
       <ImageId>canvas_move</ImageId>
       <AlternateText>canvas move</AlternateText>
-    </Image>
-    <Image Include="images\imaging\channel_filtering.jpg">
+    </Content>
+    <Content Include="images\imaging\channel_filtering.jpg">
       <ImageId>channel_filtering</ImageId>
       <AlternateText>channel filtering</AlternateText>
-    </Image>
-    <Image Include="images\imaging\closing.png">
+    </Content>
+    <Content Include="images\imaging\closing.png">
       <ImageId>closing</ImageId>
       <AlternateText>closing</AlternateText>
-    </Image>
-    <Image Include="images\imaging\clouds_texture.jpg">
+    </Content>
+    <Content Include="images\imaging\clouds_texture.jpg">
       <ImageId>clouds_texture</ImageId>
       <AlternateText>clouds texture</AlternateText>
-    </Image>
-    <Image Include="images\imaging\color_burkes.png">
+    </Content>
+    <Content Include="images\imaging\color_burkes.png">
       <ImageId>color_burkes</ImageId>
       <AlternateText>color burkes</AlternateText>
-    </Image>
-    <Image Include="images\imaging\color_filtering.jpg">
+    </Content>
+    <Content Include="images\imaging\color_filtering.jpg">
       <ImageId>color_filtering</ImageId>
       <AlternateText>color filtering</AlternateText>
-    </Image>
-    <Image Include="images\imaging\color_floyd_steinberg.png">
+    </Content>
+    <Content Include="images\imaging\color_floyd_steinberg.png">
       <ImageId>color_floyd_steinberg</ImageId>
       <AlternateText>color floyd steinberg</AlternateText>
-    </Image>
-    <Image Include="images\imaging\color_jarvis_judice_ninke.png">
+    </Content>
+    <Content Include="images\imaging\color_jarvis_judice_ninke.png">
       <ImageId>color_jarvis_judice_ninke</ImageId>
       <AlternateText>color jarvis judice ninke</AlternateText>
-    </Image>
-    <Image Include="images\imaging\color_remapping.jpg">
+    </Content>
+    <Content Include="images\imaging\color_remapping.jpg">
       <ImageId>color_remapping</ImageId>
       <AlternateText>color remapping</AlternateText>
-    </Image>
-    <Image Include="images\imaging\color_sierra.png">
+    </Content>
+    <Content Include="images\imaging\color_sierra.png">
       <ImageId>color_sierra</ImageId>
       <AlternateText>color sierra</AlternateText>
-    </Image>
-    <Image Include="images\imaging\color_stucki.png">
+    </Content>
+    <Content Include="images\imaging\color_stucki.png">
       <ImageId>color_stucki</ImageId>
       <AlternateText>color stucki</AlternateText>
-    </Image>
-    <Image Include="images\imaging\conservative_smoothing.png">
+    </Content>
+    <Content Include="images\imaging\conservative_smoothing.png">
       <ImageId>conservative_smoothing</ImageId>
       <AlternateText>conservative smoothing</AlternateText>
-    </Image>
-    <Image Include="images\imaging\contrast_correction.jpg">
+    </Content>
+    <Content Include="images\imaging\contrast_correction.jpg">
       <ImageId>contrast_correction</ImageId>
       <AlternateText>contrast correction</AlternateText>
-    </Image>
-    <Image Include="images\imaging\contrast_stretch.jpg">
+    </Content>
+    <Content Include="images\imaging\contrast_stretch.jpg">
       <ImageId>contrast_stretch</ImageId>
       <AlternateText>contrast stretch</AlternateText>
-    </Image>
-    <Image Include="images\imaging\crop.jpg">
+    </Content>
+    <Content Include="images\imaging\crop.jpg">
       <ImageId>crop</ImageId>
       <AlternateText>crop</AlternateText>
-    </Image>
-    <Image Include="images\imaging\deskew.png">
+    </Content>
+    <Content Include="images\imaging\deskew.png">
       <ImageId>deskew</ImageId>
       <AlternateText>deskew</AlternateText>
-    </Image>
-    <Image Include="images\imaging\difference.png">
+    </Content>
+    <Content Include="images\imaging\difference.png">
       <ImageId>difference</ImageId>
       <AlternateText>difference</AlternateText>
-    </Image>
-    <Image Include="images\imaging\difference_edges.png">
+    </Content>
+    <Content Include="images\imaging\difference_edges.png">
       <ImageId>difference_edges</ImageId>
       <AlternateText>difference edges</AlternateText>
-    </Image>
-    <Image Include="images\imaging\dilatation.png">
+    </Content>
+    <Content Include="images\imaging\dilatation.png">
       <ImageId>dilatation</ImageId>
       <AlternateText>dilatation</AlternateText>
-    </Image>
-    <Image Include="images\imaging\ebm_result.png">
+    </Content>
+    <Content Include="images\imaging\ebm_result.png">
       <ImageId>ebm_result</ImageId>
       <AlternateText>ebm result</AlternateText>
-    </Image>
-    <Image Include="images\imaging\ebm_sample1.png">
+    </Content>
+    <Content Include="images\imaging\ebm_sample1.png">
       <ImageId>ebm_sample1</ImageId>
       <AlternateText>ebm sample 1</AlternateText>
-    </Image>
-    <Image Include="images\imaging\ebm_sample2.png">
+    </Content>
+    <Content Include="images\imaging\ebm_sample2.png">
       <ImageId>ebm_sample2</ImageId>
       <AlternateText>ebm sample 2</AlternateText>
-    </Image>
-    <Image Include="images\imaging\edges.png">
+    </Content>
+    <Content Include="images\imaging\edges.png">
       <ImageId>edges</ImageId>
       <AlternateText>edges</AlternateText>
-    </Image>
-    <Image Include="images\imaging\emboss.jpg">
+    </Content>
+    <Content Include="images\imaging\emboss.jpg">
       <ImageId>emboss</ImageId>
       <AlternateText>emboss</AlternateText>
-    </Image>
-    <Image Include="images\imaging\equalized.jpg">
+    </Content>
+    <Content Include="images\imaging\equalized.jpg">
       <ImageId>equalized</ImageId>
       <AlternateText>equalized</AlternateText>
-    </Image>
-    <Image Include="images\imaging\erosion.png">
+    </Content>
+    <Content Include="images\imaging\erosion.png">
       <ImageId>erosion</ImageId>
       <AlternateText>erosion</AlternateText>
-    </Image>
-    <Image Include="images\imaging\euclidean_filtering.jpg">
+    </Content>
+    <Content Include="images\imaging\euclidean_filtering.jpg">
       <ImageId>euclidean_filtering</ImageId>
       <AlternateText>euclidean filtering</AlternateText>
-    </Image>
-    <Image Include="images\imaging\extract_channel.jpg">
+    </Content>
+    <Content Include="images\imaging\extract_channel.jpg">
       <ImageId>extract_channel</ImageId>
       <AlternateText>extract channel</AlternateText>
-    </Image>
-    <Image Include="images\imaging\filled_holes.png">
+    </Content>
+    <Content Include="images\imaging\filled_holes.png">
       <ImageId>filled_holes</ImageId>
       <AlternateText>filled holes</AlternateText>
-    </Image>
-    <Image Include="images\imaging\flat_field.jpg">
+    </Content>
+    <Content Include="images\imaging\flat_field.jpg">
       <ImageId>flat_field</ImageId>
       <AlternateText>flat field</AlternateText>
-    </Image>
-    <Image Include="images\imaging\floyd_steinberg.jpg">
+    </Content>
+    <Content Include="images\imaging\floyd_steinberg.jpg">
       <ImageId>floyd_steinberg</ImageId>
       <AlternateText>floyd steinberg</AlternateText>
-    </Image>
-    <Image Include="images\imaging\fourier.jpg">
+    </Content>
+    <Content Include="images\imaging\fourier.jpg">
       <ImageId>fourier</ImageId>
       <AlternateText>fourier</AlternateText>
-    </Image>
-    <Image Include="images\imaging\frequency_filter.jpg">
+    </Content>
+    <Content Include="images\imaging\frequency_filter.jpg">
       <ImageId>frequency_filter</ImageId>
       <AlternateText>frequency filter</AlternateText>
-    </Image>
-    <Image Include="images\imaging\from_polar.png">
+    </Content>
+    <Content Include="images\imaging\from_polar.png">
       <ImageId>from_polar</ImageId>
       <AlternateText>from polar</AlternateText>
-    </Image>
-    <Image Include="images\imaging\gamma.jpg">
+    </Content>
+    <Content Include="images\imaging\gamma.jpg">
       <ImageId>gamma</ImageId>
       <AlternateText>gamma</AlternateText>
-    </Image>
-    <Image Include="images\imaging\gaussian_blur.jpg">
+    </Content>
+    <Content Include="images\imaging\gaussian_blur.jpg">
       <ImageId>gaussian_blur</ImageId>
       <AlternateText>gaussian blur</AlternateText>
-    </Image>
-    <Image Include="images\imaging\gaussian_sharpen.jpg">
+    </Content>
+    <Content Include="images\imaging\gaussian_sharpen.jpg">
       <ImageId>gaussian_sharpen</ImageId>
       <AlternateText>gaussian sharpen</AlternateText>
-    </Image>
-    <Image Include="images\imaging\grayscale.jpg">
+    </Content>
+    <Content Include="images\imaging\grayscale.jpg">
       <ImageId>grayscale</ImageId>
       <AlternateText>grayscale</AlternateText>
-    </Image>
-    <Image Include="images\imaging\hit-and-miss.png">
+    </Content>
+    <Content Include="images\imaging\hit-and-miss.png">
       <ImageId>hit-and-miss</ImageId>
       <AlternateText>hit-and-miss</AlternateText>
-    </Image>
-    <Image Include="images\imaging\homogenity_edges.png">
+    </Content>
+    <Content Include="images\imaging\homogenity_edges.png">
       <ImageId>homogenity_edges</ImageId>
       <AlternateText>homogenity edges</AlternateText>
-    </Image>
-    <Image Include="images\imaging\hor_histogram.jpg">
+    </Content>
+    <Content Include="images\imaging\hor_histogram.jpg">
       <ImageId>hor_histogram</ImageId>
       <AlternateText>hor histogram</AlternateText>
-    </Image>
-    <Image Include="images\imaging\hough-input.png">
+    </Content>
+    <Content Include="images\imaging\hough-input.png">
       <ImageId>hough-input</ImageId>
       <AlternateText>hough-input</AlternateText>
-    </Image>
-    <Image Include="images\imaging\hough-output0.png">
+    </Content>
+    <Content Include="images\imaging\hough-output0.png">
       <ImageId>hough-output0</ImageId>
       <AlternateText>hough-output 0</AlternateText>
-    </Image>
-    <Image Include="images\imaging\hough-output1.png">
+    </Content>
+    <Content Include="images\imaging\hough-output1.png">
       <ImageId>hough-output1</ImageId>
       <AlternateText>hough-output 1</AlternateText>
-    </Image>
-    <Image Include="images\imaging\hough-output2.png">
+    </Content>
+    <Content Include="images\imaging\hough-output2.png">
       <ImageId>hough-output2</ImageId>
       <AlternateText>hough-output 2</AlternateText>
-    </Image>
-    <Image Include="images\imaging\hough_circles.jpg">
+    </Content>
+    <Content Include="images\imaging\hough_circles.jpg">
       <ImageId>hough_circles</ImageId>
       <AlternateText>hough circles</AlternateText>
-    </Image>
-    <Image Include="images\imaging\hough_lines.jpg">
+    </Content>
+    <Content Include="images\imaging\hough_lines.jpg">
       <ImageId>hough_lines</ImageId>
       <AlternateText>hough lines</AlternateText>
-    </Image>
-    <Image Include="images\imaging\hrls.png">
+    </Content>
+    <Content Include="images\imaging\hrls.png">
       <ImageId>hrls</ImageId>
       <AlternateText>hrls</AlternateText>
-    </Image>
-    <Image Include="images\imaging\hsl_filtering.jpg">
+    </Content>
+    <Content Include="images\imaging\hsl_filtering.jpg">
       <ImageId>hsl_filtering</ImageId>
       <AlternateText>hsl filtering</AlternateText>
-    </Image>
-    <Image Include="images\imaging\hsl_filtering2.jpg">
+    </Content>
+    <Content Include="images\imaging\hsl_filtering2.jpg">
       <ImageId>hsl_filtering2</ImageId>
       <AlternateText>hsl filtering 2</AlternateText>
-    </Image>
-    <Image Include="images\imaging\hsl_linear.jpg">
+    </Content>
+    <Content Include="images\imaging\hsl_linear.jpg">
       <ImageId>hsl_linear</ImageId>
       <AlternateText>hsl linear</AlternateText>
-    </Image>
-    <Image Include="images\imaging\hue_modifier.jpg">
+    </Content>
+    <Content Include="images\imaging\hue_modifier.jpg">
       <ImageId>hue_modifier</ImageId>
       <AlternateText>hue modifier</AlternateText>
-    </Image>
-    <Image Include="images\imaging\icon.png">
+    </Content>
+    <Content Include="images\imaging\icon.png">
       <ImageId>icon</ImageId>
       <AlternateText>icon</AlternateText>
-    </Image>
-    <Image Include="images\imaging\image_warp.png">
+    </Content>
+    <Content Include="images\imaging\image_warp.png">
       <ImageId>image_warp</ImageId>
       <AlternateText>image warp</AlternateText>
-    </Image>
-    <Image Include="images\imaging\intersect.png">
+    </Content>
+    <Content Include="images\imaging\intersect.png">
       <ImageId>intersect</ImageId>
       <AlternateText>intersect</AlternateText>
-    </Image>
-    <Image Include="images\imaging\invert.jpg">
+    </Content>
+    <Content Include="images\imaging\invert.jpg">
       <ImageId>invert</ImageId>
       <AlternateText>invert</AlternateText>
-    </Image>
-    <Image Include="images\imaging\iterative_threshold.png">
+    </Content>
+    <Content Include="images\imaging\iterative_threshold.png">
       <ImageId>iterative_threshold</ImageId>
       <AlternateText>iterative threshold</AlternateText>
-    </Image>
-    <Image Include="images\imaging\jarvis_judice_ninke.jpg">
+    </Content>
+    <Content Include="images\imaging\jarvis_judice_ninke.jpg">
       <ImageId>jarvis_judice_ninke</ImageId>
       <AlternateText>jarvis judice ninke</AlternateText>
-    </Image>
-    <Image Include="images\imaging\jitter.jpg">
+    </Content>
+    <Content Include="images\imaging\jitter.jpg">
       <ImageId>jitter</ImageId>
       <AlternateText>jitter</AlternateText>
-    </Image>
-    <Image Include="images\imaging\labeling.jpg">
+    </Content>
+    <Content Include="images\imaging\labeling.jpg">
       <ImageId>labeling</ImageId>
       <AlternateText>labeling</AlternateText>
-    </Image>
-    <Image Include="images\imaging\labyrinth_texture.jpg">
+    </Content>
+    <Content Include="images\imaging\labyrinth_texture.jpg">
       <ImageId>labyrinth_texture</ImageId>
       <AlternateText>labyrinth texture</AlternateText>
-    </Image>
-    <Image Include="images\imaging\levels_linear.jpg">
+    </Content>
+    <Content Include="images\imaging\levels_linear.jpg">
       <ImageId>levels_linear</ImageId>
       <AlternateText>levels linear</AlternateText>
-    </Image>
-    <Image Include="images\imaging\marble_texture.jpg">
+    </Content>
+    <Content Include="images\imaging\marble_texture.jpg">
       <ImageId>marble_texture</ImageId>
       <AlternateText>marble texture</AlternateText>
-    </Image>
-    <Image Include="images\imaging\mask.png">
+    </Content>
+    <Content Include="images\imaging\mask.png">
       <ImageId>mask</ImageId>
       <AlternateText>mask</AlternateText>
-    </Image>
-    <Image Include="images\imaging\masked_image.jpg">
+    </Content>
+    <Content Include="images\imaging\masked_image.jpg">
       <ImageId>masked_image</ImageId>
       <AlternateText>masked image</AlternateText>
-    </Image>
-    <Image Include="images\imaging\mean.png">
+    </Content>
+    <Content Include="images\imaging\mean.png">
       <ImageId>mean</ImageId>
       <AlternateText>mean</AlternateText>
-    </Image>
-    <Image Include="images\imaging\median.png">
+    </Content>
+    <Content Include="images\imaging\median.png">
       <ImageId>median</ImageId>
       <AlternateText>median</AlternateText>
-    </Image>
-    <Image Include="images\imaging\merge.png">
+    </Content>
+    <Content Include="images\imaging\merge.png">
       <ImageId>merge</ImageId>
       <AlternateText>merge</AlternateText>
-    </Image>
-    <Image Include="images\imaging\mirror.jpg">
+    </Content>
+    <Content Include="images\imaging\mirror.jpg">
       <ImageId>mirror</ImageId>
       <AlternateText>mirror</AlternateText>
-    </Image>
-    <Image Include="images\imaging\morph.png">
+    </Content>
+    <Content Include="images\imaging\morph.png">
       <ImageId>morph</ImageId>
       <AlternateText>morph</AlternateText>
-    </Image>
-    <Image Include="images\imaging\morpho-dilation3x3-binary.png">
+    </Content>
+    <Content Include="images\imaging\morpho-dilation3x3-binary.png">
       <ImageId>morpho-dilation3x3-binary</ImageId>
       <AlternateText>morpho-dilation 3x 3-binary</AlternateText>
-    </Image>
-    <Image Include="images\imaging\morpho-dilation3x3-result.png">
+    </Content>
+    <Content Include="images\imaging\morpho-dilation3x3-result.png">
       <ImageId>morpho-dilation3x3-result</ImageId>
       <AlternateText>morpho-dilation 3x 3-result</AlternateText>
-    </Image>
-    <Image Include="images\imaging\move_towards.png">
+    </Content>
+    <Content Include="images\imaging\move_towards.png">
       <ImageId>move_towards</ImageId>
       <AlternateText>move towards</AlternateText>
-    </Image>
-    <Image Include="images\imaging\object.jpg">
+    </Content>
+    <Content Include="images\imaging\object.jpg">
       <ImageId>object</ImageId>
       <AlternateText>object</AlternateText>
-    </Image>
-    <Image Include="images\imaging\oil_painting.jpg">
+    </Content>
+    <Content Include="images\imaging\oil_painting.jpg">
       <ImageId>oil_painting</ImageId>
       <AlternateText>oil painting</AlternateText>
-    </Image>
-    <Image Include="images\imaging\opening.png">
+    </Content>
+    <Content Include="images\imaging\opening.png">
       <ImageId>opening</ImageId>
       <AlternateText>opening</AlternateText>
-    </Image>
-    <Image Include="images\imaging\ordered_color_dithering.png">
+    </Content>
+    <Content Include="images\imaging\ordered_color_dithering.png">
       <ImageId>ordered_color_dithering</ImageId>
       <AlternateText>ordered color dithering</AlternateText>
-    </Image>
-    <Image Include="images\imaging\ordered_dithering.jpg">
+    </Content>
+    <Content Include="images\imaging\ordered_dithering.jpg">
       <ImageId>ordered_dithering</ImageId>
       <AlternateText>ordered dithering</AlternateText>
-    </Image>
-    <Image Include="images\imaging\otsu_threshold.png">
+    </Content>
+    <Content Include="images\imaging\otsu_threshold.png">
       <ImageId>otsu_threshold</ImageId>
       <AlternateText>otsu threshold</AlternateText>
-    </Image>
-    <Image Include="images\imaging\pixellate.jpg">
+    </Content>
+    <Content Include="images\imaging\pixellate.jpg">
       <ImageId>pixellate</ImageId>
       <AlternateText>pixellate</AlternateText>
-    </Image>
-    <Image Include="images\imaging\pointed_color_fill.jpg">
+    </Content>
+    <Content Include="images\imaging\pointed_color_fill.jpg">
       <ImageId>pointed_color_fill</ImageId>
       <AlternateText>pointed color fill</AlternateText>
-    </Image>
-    <Image Include="images\imaging\pointed_mean_fill.jpg">
+    </Content>
+    <Content Include="images\imaging\pointed_mean_fill.jpg">
       <ImageId>pointed_mean_fill</ImageId>
       <AlternateText>pointed mean fill</AlternateText>
-    </Image>
-    <Image Include="images\imaging\polar.png">
+    </Content>
+    <Content Include="images\imaging\polar.png">
       <ImageId>polar</ImageId>
       <AlternateText>polar</AlternateText>
-    </Image>
-    <Image Include="images\imaging\posterization.png">
+    </Content>
+    <Content Include="images\imaging\posterization.png">
       <ImageId>posterization</ImageId>
       <AlternateText>posterization</AlternateText>
-    </Image>
-    <Image Include="images\imaging\quadrilateral_bilinear.png">
+    </Content>
+    <Content Include="images\imaging\quadrilateral_bilinear.png">
       <ImageId>quadrilateral_bilinear</ImageId>
       <AlternateText>quadrilateral bilinear</AlternateText>
-    </Image>
-    <Image Include="images\imaging\quadrilateral_ex_bilinear.png">
+    </Content>
+    <Content Include="images\imaging\quadrilateral_ex_bilinear.png">
       <ImageId>quadrilateral_ex_bilinear</ImageId>
       <AlternateText>quadrilateral ex bilinear</AlternateText>
-    </Image>
-    <Image Include="images\imaging\quadrilateral_finder.png">
+    </Content>
+    <Content Include="images\imaging\quadrilateral_finder.png">
       <ImageId>quadrilateral_finder</ImageId>
       <AlternateText>quadrilateral finder</AlternateText>
-    </Image>
-    <Image Include="images\imaging\quadrilateral_nearest.png">
+    </Content>
+    <Content Include="images\imaging\quadrilateral_nearest.png">
       <ImageId>quadrilateral_nearest</ImageId>
       <AlternateText>quadrilateral nearest</AlternateText>
-    </Image>
-    <Image Include="images\imaging\reduced_colors.png">
+    </Content>
+    <Content Include="images\imaging\reduced_colors.png">
       <ImageId>reduced_colors</ImageId>
       <AlternateText>reduced colors</AlternateText>
-    </Image>
-    <Image Include="images\imaging\replace_channel.jpg">
+    </Content>
+    <Content Include="images\imaging\replace_channel.jpg">
       <ImageId>replace_channel</ImageId>
       <AlternateText>replace channel</AlternateText>
-    </Image>
-    <Image Include="images\imaging\resize_bicubic.png">
+    </Content>
+    <Content Include="images\imaging\resize_bicubic.png">
       <ImageId>resize_bicubic</ImageId>
       <AlternateText>resize bicubic</AlternateText>
-    </Image>
-    <Image Include="images\imaging\resize_bilinear.png">
+    </Content>
+    <Content Include="images\imaging\resize_bilinear.png">
       <ImageId>resize_bilinear</ImageId>
       <AlternateText>resize bilinear</AlternateText>
-    </Image>
-    <Image Include="images\imaging\resize_nearest.png">
+    </Content>
+    <Content Include="images\imaging\resize_nearest.png">
       <ImageId>resize_nearest</ImageId>
       <AlternateText>resize nearest</AlternateText>
-    </Image>
-    <Image Include="images\imaging\rotate_bicubic.png">
+    </Content>
+    <Content Include="images\imaging\rotate_bicubic.png">
       <ImageId>rotate_bicubic</ImageId>
       <AlternateText>rotate bicubic</AlternateText>
-    </Image>
-    <Image Include="images\imaging\rotate_bilinear.png">
+    </Content>
+    <Content Include="images\imaging\rotate_bilinear.png">
       <ImageId>rotate_bilinear</ImageId>
       <AlternateText>rotate bilinear</AlternateText>
-    </Image>
-    <Image Include="images\imaging\rotate_channels.jpg">
+    </Content>
+    <Content Include="images\imaging\rotate_channels.jpg">
       <ImageId>rotate_channels</ImageId>
       <AlternateText>rotate channels</AlternateText>
-    </Image>
-    <Image Include="images\imaging\rotate_nearest.png">
+    </Content>
+    <Content Include="images\imaging\rotate_nearest.png">
       <ImageId>rotate_nearest</ImageId>
       <AlternateText>rotate nearest</AlternateText>
-    </Image>
-    <Image Include="images\imaging\salt_noise.jpg">
+    </Content>
+    <Content Include="images\imaging\salt_noise.jpg">
       <ImageId>salt_noise</ImageId>
       <AlternateText>salt noise</AlternateText>
-    </Image>
-    <Image Include="images\imaging\sample1.jpg">
+    </Content>
+    <Content Include="images\imaging\sample1.jpg">
       <ImageId>sample1</ImageId>
       <AlternateText>sample 1</AlternateText>
-    </Image>
-    <Image Include="images\imaging\sample10.png">
+    </Content>
+    <Content Include="images\imaging\sample10.png">
       <ImageId>sample10</ImageId>
       <AlternateText>sample 10</AlternateText>
-    </Image>
-    <Image Include="images\imaging\sample11.png">
+    </Content>
+    <Content Include="images\imaging\sample11.png">
       <ImageId>sample11</ImageId>
       <AlternateText>sample 11</AlternateText>
-    </Image>
-    <Image Include="images\imaging\sample12.png">
+    </Content>
+    <Content Include="images\imaging\sample12.png">
       <ImageId>sample12</ImageId>
       <AlternateText>sample 12</AlternateText>
-    </Image>
-    <Image Include="images\imaging\sample13.png">
+    </Content>
+    <Content Include="images\imaging\sample13.png">
       <ImageId>sample13</ImageId>
       <AlternateText>sample 13</AlternateText>
-    </Image>
-    <Image Include="images\imaging\sample14.png">
+    </Content>
+    <Content Include="images\imaging\sample14.png">
       <ImageId>sample14</ImageId>
       <AlternateText>sample 14</AlternateText>
-    </Image>
-    <Image Include="images\imaging\sample15.png">
+    </Content>
+    <Content Include="images\imaging\sample15.png">
       <ImageId>sample15</ImageId>
       <AlternateText>sample 15</AlternateText>
-    </Image>
-    <Image Include="images\imaging\sample16_left.png">
+    </Content>
+    <Content Include="images\imaging\sample16_left.png">
       <ImageId>sample16_left</ImageId>
       <AlternateText>sample 16 left</AlternateText>
-    </Image>
-    <Image Include="images\imaging\sample16_right.png">
+    </Content>
+    <Content Include="images\imaging\sample16_right.png">
       <ImageId>sample16_right</ImageId>
       <AlternateText>sample 16 right</AlternateText>
-    </Image>
-    <Image Include="images\imaging\sample17.png">
+    </Content>
+    <Content Include="images\imaging\sample17.png">
       <ImageId>sample17</ImageId>
       <AlternateText>sample 17</AlternateText>
-    </Image>
-    <Image Include="images\imaging\sample18.jpg">
+    </Content>
+    <Content Include="images\imaging\sample18.jpg">
       <ImageId>sample18</ImageId>
       <AlternateText>sample 18</AlternateText>
-    </Image>
-    <Image Include="images\imaging\sample19.png">
+    </Content>
+    <Content Include="images\imaging\sample19.png">
       <ImageId>sample19</ImageId>
       <AlternateText>sample 19</AlternateText>
-    </Image>
-    <Image Include="images\imaging\sample2.jpg">
+    </Content>
+    <Content Include="images\imaging\sample2.jpg">
       <ImageId>sample2</ImageId>
       <AlternateText>sample 2</AlternateText>
-    </Image>
-    <Image Include="images\imaging\sample20.png">
+    </Content>
+    <Content Include="images\imaging\sample20.png">
       <ImageId>sample20</ImageId>
       <AlternateText>sample 20</AlternateText>
-    </Image>
-    <Image Include="images\imaging\sample21.png">
+    </Content>
+    <Content Include="images\imaging\sample21.png">
       <ImageId>sample21</ImageId>
       <AlternateText>sample 21</AlternateText>
-    </Image>
-    <Image Include="images\imaging\sample22.png">
+    </Content>
+    <Content Include="images\imaging\sample22.png">
       <ImageId>sample22</ImageId>
       <AlternateText>sample 22</AlternateText>
-    </Image>
-    <Image Include="images\imaging\sample23.png">
+    </Content>
+    <Content Include="images\imaging\sample23.png">
       <ImageId>sample23</ImageId>
       <AlternateText>sample 23</AlternateText>
-    </Image>
-    <Image Include="images\imaging\sample24.png">
+    </Content>
+    <Content Include="images\imaging\sample24.png">
       <ImageId>sample24</ImageId>
       <AlternateText>sample 24</AlternateText>
-    </Image>
-    <Image Include="images\imaging\sample3.jpg">
+    </Content>
+    <Content Include="images\imaging\sample3.jpg">
       <ImageId>sample3</ImageId>
       <AlternateText>sample 3</AlternateText>
-    </Image>
-    <Image Include="images\imaging\sample4.jpg">
+    </Content>
+    <Content Include="images\imaging\sample4.jpg">
       <ImageId>sample4</ImageId>
       <AlternateText>sample 4</AlternateText>
-    </Image>
-    <Image Include="images\imaging\sample5.jpg">
+    </Content>
+    <Content Include="images\imaging\sample5.jpg">
       <ImageId>sample5</ImageId>
       <AlternateText>sample 5</AlternateText>
-    </Image>
-    <Image Include="images\imaging\sample6.png">
+    </Content>
+    <Content Include="images\imaging\sample6.png">
       <ImageId>sample6</ImageId>
       <AlternateText>sample 6</AlternateText>
-    </Image>
-    <Image Include="images\imaging\sample7.png">
+    </Content>
+    <Content Include="images\imaging\sample7.png">
       <ImageId>sample7</ImageId>
       <AlternateText>sample 7</AlternateText>
-    </Image>
-    <Image Include="images\imaging\sample8.jpg">
+    </Content>
+    <Content Include="images\imaging\sample8.jpg">
       <ImageId>sample8</ImageId>
       <AlternateText>sample 8</AlternateText>
-    </Image>
-    <Image Include="images\imaging\sample9.png">
+    </Content>
+    <Content Include="images\imaging\sample9.png">
       <ImageId>sample9</ImageId>
       <AlternateText>sample 9</AlternateText>
-    </Image>
-    <Image Include="images\imaging\saturation_correction.jpg">
+    </Content>
+    <Content Include="images\imaging\saturation_correction.jpg">
       <ImageId>saturation_correction</ImageId>
       <AlternateText>saturation correction</AlternateText>
-    </Image>
-    <Image Include="images\imaging\sepia.jpg">
+    </Content>
+    <Content Include="images\imaging\sepia.jpg">
       <ImageId>sepia</ImageId>
       <AlternateText>sepia</AlternateText>
-    </Image>
-    <Image Include="images\imaging\sharpen.jpg">
+    </Content>
+    <Content Include="images\imaging\sharpen.jpg">
       <ImageId>sharpen</ImageId>
       <AlternateText>sharpen</AlternateText>
-    </Image>
-    <Image Include="images\imaging\shrink.jpg">
+    </Content>
+    <Content Include="images\imaging\shrink.jpg">
       <ImageId>shrink</ImageId>
       <AlternateText>shrink</AlternateText>
-    </Image>
-    <Image Include="images\imaging\sierra.jpg">
+    </Content>
+    <Content Include="images\imaging\sierra.jpg">
       <ImageId>sierra</ImageId>
       <AlternateText>sierra</AlternateText>
-    </Image>
-    <Image Include="images\imaging\simple_skeletonization.png">
+    </Content>
+    <Content Include="images\imaging\simple_skeletonization.png">
       <ImageId>simple_skeletonization</ImageId>
       <AlternateText>simple skeletonization</AlternateText>
-    </Image>
-    <Image Include="images\imaging\sis_threshold.png">
+    </Content>
+    <Content Include="images\imaging\sis_threshold.png">
       <ImageId>sis_threshold</ImageId>
       <AlternateText>sis threshold</AlternateText>
-    </Image>
-    <Image Include="images\imaging\sobel_edges.png">
+    </Content>
+    <Content Include="images\imaging\sobel_edges.png">
       <ImageId>sobel_edges</ImageId>
       <AlternateText>sobel edges</AlternateText>
-    </Image>
-    <Image Include="images\imaging\stucki.jpg">
+    </Content>
+    <Content Include="images\imaging\stucki.jpg">
       <ImageId>stucki</ImageId>
       <AlternateText>stucki</AlternateText>
-    </Image>
-    <Image Include="images\imaging\subtract.png">
+    </Content>
+    <Content Include="images\imaging\subtract.png">
       <ImageId>subtract</ImageId>
       <AlternateText>subtract</AlternateText>
-    </Image>
-    <Image Include="images\imaging\susan_corners.png">
+    </Content>
+    <Content Include="images\imaging\susan_corners.png">
       <ImageId>susan_corners</ImageId>
       <AlternateText>susan corners</AlternateText>
-    </Image>
-    <Image Include="images\imaging\textile_texture.jpg">
+    </Content>
+    <Content Include="images\imaging\textile_texture.jpg">
       <ImageId>textile_texture</ImageId>
       <AlternateText>textile texture</AlternateText>
-    </Image>
-    <Image Include="images\imaging\textured_filter1.jpg">
+    </Content>
+    <Content Include="images\imaging\textured_filter1.jpg">
       <ImageId>textured_filter1</ImageId>
       <AlternateText>textured filter 1</AlternateText>
-    </Image>
-    <Image Include="images\imaging\textured_filter2.jpg">
+    </Content>
+    <Content Include="images\imaging\textured_filter2.jpg">
       <ImageId>textured_filter2</ImageId>
       <AlternateText>textured filter 2</AlternateText>
-    </Image>
-    <Image Include="images\imaging\textured_merge1.jpg">
+    </Content>
+    <Content Include="images\imaging\textured_merge1.jpg">
       <ImageId>textured_merge1</ImageId>
       <AlternateText>textured merge 1</AlternateText>
-    </Image>
-    <Image Include="images\imaging\textured_merge2.jpg">
+    </Content>
+    <Content Include="images\imaging\textured_merge2.jpg">
       <ImageId>textured_merge2</ImageId>
       <AlternateText>textured merge 2</AlternateText>
-    </Image>
-    <Image Include="images\imaging\texturer.jpg">
+    </Content>
+    <Content Include="images\imaging\texturer.jpg">
       <ImageId>texturer</ImageId>
       <AlternateText>texturer</AlternateText>
-    </Image>
-    <Image Include="images\imaging\thinning.png">
+    </Content>
+    <Content Include="images\imaging\thinning.png">
       <ImageId>thinning</ImageId>
       <AlternateText>thinning</AlternateText>
-    </Image>
-    <Image Include="images\imaging\threshold.jpg">
+    </Content>
+    <Content Include="images\imaging\threshold.jpg">
       <ImageId>threshold</ImageId>
       <AlternateText>threshold</AlternateText>
-    </Image>
-    <Image Include="images\imaging\thresholded_difference.png">
+    </Content>
+    <Content Include="images\imaging\thresholded_difference.png">
       <ImageId>thresholded_difference</ImageId>
       <AlternateText>thresholded difference</AlternateText>
-    </Image>
-    <Image Include="images\imaging\thresholded_euclidean_difference.png">
+    </Content>
+    <Content Include="images\imaging\thresholded_euclidean_difference.png">
       <ImageId>thresholded_euclidean_difference</ImageId>
       <AlternateText>thresholded euclidean difference</AlternateText>
-    </Image>
-    <Image Include="images\imaging\threshold_carry.jpg">
+    </Content>
+    <Content Include="images\imaging\threshold_carry.jpg">
       <ImageId>threshold_carry</ImageId>
       <AlternateText>threshold carry</AlternateText>
-    </Image>
-    <Image Include="images\imaging\tophat.png">
+    </Content>
+    <Content Include="images\imaging\tophat.png">
       <ImageId>tophat</ImageId>
       <AlternateText>tophat</AlternateText>
-    </Image>
-    <Image Include="images\imaging\ver_histogram.jpg">
+    </Content>
+    <Content Include="images\imaging\ver_histogram.jpg">
       <ImageId>ver_histogram</ImageId>
       <AlternateText>ver histogram</AlternateText>
-    </Image>
-    <Image Include="images\imaging\vrls.png">
+    </Content>
+    <Content Include="images\imaging\vrls.png">
       <ImageId>vrls</ImageId>
       <AlternateText>vrls</AlternateText>
-    </Image>
-    <Image Include="images\imaging\water_wave.jpg">
+    </Content>
+    <Content Include="images\imaging\water_wave.jpg">
       <ImageId>water_wave</ImageId>
       <AlternateText>water wave</AlternateText>
-    </Image>
-    <Image Include="images\imaging\wood_texture.jpg">
+    </Content>
+    <Content Include="images\imaging\wood_texture.jpg">
       <ImageId>wood_texture</ImageId>
       <AlternateText>wood texture</AlternateText>
-    </Image>
-    <Image Include="images\imaging\ycbcr_filtering.jpg">
+    </Content>
+    <Content Include="images\imaging\ycbcr_filtering.jpg">
       <ImageId>ycbcr_filtering</ImageId>
       <AlternateText>ycbcr filtering</AlternateText>
-    </Image>
-    <Image Include="images\imaging\ycbcr_linear.jpg">
+    </Content>
+    <Content Include="images\imaging\ycbcr_linear.jpg">
       <ImageId>ycbcr_linear</ImageId>
       <AlternateText>ycbcr linear</AlternateText>
-    </Image>
-    <Image Include="images\imaging\ycbcr_replace_channel.jpg">
+    </Content>
+    <Content Include="images\imaging\ycbcr_replace_channel.jpg">
       <ImageId>ycbcr_replace_channel</ImageId>
       <AlternateText>ycbcr replace channel</AlternateText>
-    </Image>
-    <Image Include="images\imaging\ZhangSuen_skeletonization.png">
+    </Content>
+    <Content Include="images\imaging\ZhangSuen_skeletonization.png">
       <ImageId>ZhangSuen_skeletonization</ImageId>
       <AlternateText>Zhang Suen skeletonization</AlternateText>
-    </Image>
+    </Content>
+    <Content Include="images\math\close_points_merging_optimizer.png">
+      <ImageId>close_points_merging_optimizer</ImageId>
+      <AlternateText>close points merging optimizer</AlternateText>
+    </Content>
+    <Content Include="images\math\flat_angles_optimizer.png">
+      <ImageId>flat_angles_optimizer</ImageId>
+      <AlternateText>flat angles optimizer</AlternateText>
+    </Content>
+    <Content Include="images\math\line_straightening_optimizer.png">
+      <ImageId>line_straightening_optimizer</ImageId>
+      <AlternateText>line straightening optimizer</AlternateText>
+    </Content>
+    <Content Include="images\math\potential_corners.png">
+      <ImageId>potential_corners</ImageId>
+      <AlternateText>potential corners</AlternateText>
+    </Content>
     <Image Include="resources\Accord.NET.png">
       <CopyToMedia>True</CopyToMedia>
       <AlternateText>Accord.NET</AlternateText>
