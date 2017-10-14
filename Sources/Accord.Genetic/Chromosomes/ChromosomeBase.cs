@@ -20,12 +20,12 @@ namespace Accord.Genetic
     public abstract class ChromosomeBase : IChromosome
     {
         /// <summary>
-        /// Chromosome's fintess value.
+        /// Chromosome's fitness value.
         /// </summary>
         protected double fitness = 0;
 
         /// <summary>
-        /// Chromosome's fintess value.
+        /// Chromosome's fitness value.
         /// </summary>
         /// 
         /// <remarks><para>Fitness value (usefulness) of the chromosome calculate by calling
