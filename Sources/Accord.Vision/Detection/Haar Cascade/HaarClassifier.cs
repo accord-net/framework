@@ -40,6 +40,7 @@ namespace Accord.Vision.Detection
     using System.Runtime.CompilerServices;
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using Accord.Compat;
 
     /// <summary>
     ///   Strong classifier based on a weaker cascade of
