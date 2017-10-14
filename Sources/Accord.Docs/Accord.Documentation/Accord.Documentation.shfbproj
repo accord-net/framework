@@ -328,6 +328,7 @@
     <Folder Include="images\hmm\" />
     <Folder Include="images\imaging" />
     <Folder Include="images\math" />
+    <Folder Include="images\neuro" />
     <Folder Include="images\visualizations" />
     <Folder Include="resources\" />
     <Folder Include="diagrams\" />
@@ -1481,6 +1482,18 @@
     <Content Include="images\math\potential_corners.png">
       <ImageId>potential_corners</ImageId>
       <AlternateText>potential corners</AlternateText>
+    </Content>
+    <Content Include="images\neuro\sigmoid.bmp">
+      <ImageId>sigmoid</ImageId>
+      <AlternateText>sigmoid</AlternateText>
+    </Content>
+    <Content Include="images\neuro\sigmoid_bipolar.bmp">
+      <ImageId>sigmoid_bipolar</ImageId>
+      <AlternateText>sigmoid bipolar</AlternateText>
+    </Content>
+    <Content Include="images\neuro\threshold.bmp">
+      <ImageId>threshold</ImageId>
+      <AlternateText>threshold</AlternateText>
     </Content>
     <Image Include="resources\Accord.NET.png">
       <CopyToMedia>True</CopyToMedia>

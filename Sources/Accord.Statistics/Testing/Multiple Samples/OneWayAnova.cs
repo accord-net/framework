@@ -95,7 +95,7 @@ namespace Accord.Statistics.Testing
     /// 
     /// <para>Result in:</para>
     /// 
-    /// <img src="../images/one-way-anova.png"/>
+    /// <img src="..\images\one-way-anova.png"/>
     /// 
     /// <para>
     ///  The p-level for the analysis is about 0.002, meaning the test is
