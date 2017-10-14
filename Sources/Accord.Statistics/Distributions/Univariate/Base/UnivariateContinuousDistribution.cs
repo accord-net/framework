@@ -1132,7 +1132,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   options you would like or need to control.</para>
         /// </example>
         /// 
-        public virtual void Fit(double[] observations)
+        public void Fit(double[] observations)
         {
             Fit(observations, (IFittingOptions)null);
         }
@@ -1169,7 +1169,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   options you would like or need to control.</para>
         /// </example>
         /// 
-        public virtual void Fit(double[] observations, double[] weights)
+        public void Fit(double[] observations, double[] weights)
         {
             Fit(observations, weights, (IFittingOptions)null);
         }
@@ -1207,7 +1207,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// </example>
         /// 
         /// 
-        public virtual void Fit(double[] observations, int[] weights)
+        public void Fit(double[] observations, int[] weights)
         {
             Fit(observations, weights, (IFittingOptions)null);
         }
@@ -1245,7 +1245,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   options you would like or need to control.</para>
         /// </example>
         /// 
-        public virtual void Fit(double[] observations, IFittingOptions options)
+        public void Fit(double[] observations, IFittingOptions options)
         {
             Fit(observations, (double[])null, options);
         }
