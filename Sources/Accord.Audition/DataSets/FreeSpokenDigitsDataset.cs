@@ -107,7 +107,9 @@ namespace Accord.DataSets
 
             WebClient c = new WebClient();
             c.Headers.Add("user-agent", "Accord.NET Framework");
-            string s = c.DownloadString("https://api.github.com/repositories/61622039/git/trees/ee8c3d6b556fd70607ccaae089abad378d4d257c");
+            string fileListUrl = "https://api.github.com/repositories/61622039/git/trees/ee8c3d6b556fd70607ccaae089abad378d4d257c";
+            Console.WriteLine("Downloading {0}", fileListUrl);
+            string s = c.DownloadString(fileListUrl);
             string[] lines = s.Split(',');
 
             this.Records = new RecordCollection(path);
@@ -355,9 +357,12 @@ namespace Accord.DataSets
                     Directory.CreateDirectory(localPath);
 
                 string localFileName = Path.Combine(localPath, FileName);
-                
+
                 if (!File.Exists(localFileName))
+                {
+                    //Console.WriteLine("Downloading {0}", Url);
                     new WebClient().DownloadFile(Url, localFileName);
+                }
                 return localFileName;
             }
 

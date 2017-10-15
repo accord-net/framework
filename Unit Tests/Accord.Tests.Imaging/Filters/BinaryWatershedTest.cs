@@ -44,6 +44,7 @@ namespace Accord.Tests.Imaging
         public void ApplyTest1()
         {
             string basePath = Path.Combine(NUnit.Framework.TestContext.CurrentContext.TestDirectory, "watershed");
+            Directory.CreateDirectory(basePath);
 
             Bitmap shapes = Accord.Imaging.Image.Clone(Resources.water);
             shapes.Save(Path.Combine(basePath, "shapes.jpg"));

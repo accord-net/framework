@@ -800,7 +800,7 @@ namespace Accord.Tests.Statistics
         public void learn_pendigits()
         {
             Console.WriteLine("Starting HiddenMarkovClassifier`2Test.learn_pendigits");
-            string localDownloadPath = Path.Combine(NUnit.Framework.TestContext.CurrentContext.TestDirectory, "pendigits");
+            string localDownloadPath = Path.Combine(NUnit.Framework.TestContext.CurrentContext.TestDirectory, "pendigits4");
 
             using (var travis = new KeepTravisAlive())
             {
@@ -850,7 +850,7 @@ namespace Accord.Tests.Statistics
         public void learn_pendigits_normalization()
         {
             Console.WriteLine("Starting HiddenMarkovClassifier`2Test.learn_pendigits_normalization");
-            string localDownloadPath = Path.Combine(NUnit.Framework.TestContext.CurrentContext.TestDirectory, "pendigits");
+            string localDownloadPath = Path.Combine(NUnit.Framework.TestContext.CurrentContext.TestDirectory, "pendigits5");
 
             #region doc_learn_pendigits
             // Ensure we get reproducible results

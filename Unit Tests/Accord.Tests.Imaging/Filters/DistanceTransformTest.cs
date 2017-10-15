@@ -43,6 +43,7 @@ namespace Accord.Tests.Imaging
         public void ApplyTest1()
         {
             string localPath = Path.Combine(NUnit.Framework.TestContext.CurrentContext.TestDirectory, "distance");
+            Directory.CreateDirectory(localPath);
 
             // Bitmap cards = new TestImages().GetImage("cards.jpg");
             Bitmap cards = Accord.Imaging.Image.Clone(Resources.cards);

@@ -517,6 +517,7 @@ namespace Accord.Imaging
 #endif
                     Directory.CreateDirectory(localPath);
 
+                Console.WriteLine("Downloading {0}", url);
                 using (var client = new WebClient())
                     client.DownloadFile(url, downloadedFileName);
             }

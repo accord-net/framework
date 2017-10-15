@@ -101,7 +101,7 @@ namespace Accord.Tests.Statistics.Models.Fields
         public void learn_pendigits_normalization()
         {
             Console.WriteLine("Starting NormalQuasiNewtonHiddenLearningTest.learn_pendigits_normalization");
-            string localDownloadPath = Path.Combine(NUnit.Framework.TestContext.CurrentContext.TestDirectory, "pendigits");
+            string localDownloadPath = Path.Combine(NUnit.Framework.TestContext.CurrentContext.TestDirectory, "pendigits2");
 
             using (var travis = new KeepTravisAlive())
             {

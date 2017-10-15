@@ -264,6 +264,7 @@ namespace Accord.IO
         public static CsvReader FromUrl(string url, bool hasHeaders)
         {
             WebClient client = new WebClient();
+            Console.WriteLine("Downloading {0}", url);
             byte[] bytes = client.DownloadData(url);
             MemoryStream stream = new MemoryStream(bytes);
             return new CsvReader(stream, hasHeaders);

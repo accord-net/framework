@@ -221,7 +221,7 @@ namespace Accord.Tests.MachineLearning
         public void learn_pendigits_normalization()
         {
             Console.WriteLine("Starting BagOfWordsTest.learn_pendigits_normalization");
-            string localDownloadPath = Path.Combine(NUnit.Framework.TestContext.CurrentContext.TestDirectory, "pendigits");
+            string localDownloadPath = Path.Combine(NUnit.Framework.TestContext.CurrentContext.TestDirectory, "pendigits1");
 
             using (var travis = new KeepTravisAlive())
             {

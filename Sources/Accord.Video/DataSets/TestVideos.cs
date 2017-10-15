@@ -149,7 +149,10 @@ namespace Accord.DataSets
                     Directory.CreateDirectory(this.path);
 
                 using (var client = new WebClient())
+                {
+                    Console.WriteLine("Downloading {0}", url);
                     client.DownloadFile(url, downloadedFileName);
+                }
             }
 
             return downloadedFileName;

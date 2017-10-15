@@ -271,7 +271,7 @@ namespace Accord.Tests.Statistics.Models.Fields
         public void learn_pendigits_normalization()
         {
             Console.WriteLine("Starting ResilientGradientHiddenLearningTest.learn_pendigits_normalization");
-            string localDownloadPath = Path.Combine(NUnit.Framework.TestContext.CurrentContext.TestDirectory, "pendigits");
+            string localDownloadPath = Path.Combine(NUnit.Framework.TestContext.CurrentContext.TestDirectory, "pendigits3");
 
             using (var travis = new KeepTravisAlive())
             {
