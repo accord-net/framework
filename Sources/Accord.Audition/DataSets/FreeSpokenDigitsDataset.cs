@@ -52,10 +52,10 @@ namespace Accord.DataSets
     ///   <a href="https://zenodo.org/record/1000742">https://zenodo.org/record/1000742</a> </para>
     /// </remarks>
     /// 
-    public class FreeSpokenDigitsDataset
+    public class FreeSpokenDigitsDataset : IDisposable
     {
-
         string basePath;
+        WebClient webClient;
 
         /// <summary>
         ///   Gets a list of all recordings in the dataset.
@@ -104,20 +104,14 @@ namespace Accord.DataSets
         public FreeSpokenDigitsDataset(string path)
         {
             this.basePath = path;
+            this.webClient = CreateWebClient();
+            this.Records = new RecordCollection(this);
 
-            WebClient c = new WebClient();
-            c.Headers.Add("user-agent", "Accord.NET Framework");
-            string fileListUrl = "https://api.github.com/repositories/61622039/git/trees/ee8c3d6b556fd70607ccaae089abad378d4d257c";
-            Console.WriteLine("Downloading {0}", fileListUrl);
-            string s = c.DownloadString(fileListUrl);
-            string[] lines = s.Split(',');
-
-            this.Records = new RecordCollection(path);
-            foreach (string l in lines)
+            foreach (string line in GetFileList())
             {
-                if (l.Contains("\"path\":"))
+                if (line.Contains("\"path\":"))
                 {
-                    string name = l.Split(new[] { "path\":" }, StringSplitOptions.None)[1].Trim(' ', '"');
+                    string name = line.Split(new[] { "path\":" }, StringSplitOptions.None)[1].Trim(' ', '"');
                     string[] parts = name.Replace(".wav", "").Split('_');
                     var record = new Record(
                         digit: int.Parse(parts[0]),
@@ -142,8 +136,24 @@ namespace Accord.DataSets
 
             // From README.md: "The test set officially consists of the first 10% of the recordings. 
             // Recordings numbered 0-4 (inclusive) are in the test and 5-49 are in the training set."
-            Testing = new RecordCollection(path, Records.Where(x => x.Index >= 0 && x.Index <= 4));
-            Training = new RecordCollection(path, Records.Where(x => x.Index >= 5 && x.Index <= 49));
+            Testing = new RecordCollection(this, Records.Where(x => x.Index >= 0 && x.Index <= 4));
+            Training = new RecordCollection(this, Records.Where(x => x.Index >= 5 && x.Index <= 49));
+        }
+
+        private static WebClient CreateWebClient()
+        {
+            var webClient = new WebClient();
+            webClient.Headers.Add("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) (Accord.NET Framework)");
+            return webClient;
+        }
+
+        private string[] GetFileList()
+        {
+            string fileListUrl = "https://api.github.com/repositories/61622039/git/trees/ee8c3d6b556fd70607ccaae089abad378d4d257c";
+            string filePath = Path.Combine(basePath, "filelist.txt");
+            webClient.DownloadFileWithRetry(fileListUrl, filePath);
+            string s = File.ReadAllText(filePath);
+            return s.Split(',');
         }
 
         /// <summary>
@@ -169,7 +179,7 @@ namespace Accord.DataSets
         /// 
         public Signal GetSignal(int digit, string speaker, int index)
         {
-            return GetRecord(digit, speaker, index).Open(this.basePath);
+            return GetRecord(digit, speaker, index).Open(new WebClient(), this.basePath);
         }
 
         /// <summary>
@@ -180,7 +190,7 @@ namespace Accord.DataSets
         /// 
         public Signal GetSignal(Record record)
         {
-            return record.Open(this.basePath);
+            return record.Open(this.webClient, this.basePath);
         }
 
         /// <summary>
@@ -191,7 +201,7 @@ namespace Accord.DataSets
         /// 
         public IEnumerable<Signal> GetSignals(IEnumerable<Record> records)
         {
-            return records.Select(x => x.Open(this.basePath));
+             return records.Select(x => x.Open(this.webClient, this.basePath));
         }
 
 
@@ -202,32 +212,17 @@ namespace Accord.DataSets
         /// 
         public class RecordCollection : SortedSet<Record>
         {
-            string basePath;
+            FreeSpokenDigitsDataset dataset;
 
-            /// <summary>
-            /// Initializes a new instance of the <see cref="RecordCollection"/> class.
-            /// </summary>
-            /// 
-            /// <param name="path">The path where datasets will be stored. If null or empty, the dataset
-            /// will be saved on a subfolder called "data" in the current working directory.</param>
-            /// 
-            public RecordCollection(string path)
+            internal RecordCollection(FreeSpokenDigitsDataset dataset)
             {
-                this.basePath = path;
+                this.dataset = dataset;
             }
 
-            /// <summary>
-            /// Initializes a new instance of the <see cref="RecordCollection"/> class.
-            /// </summary>
-            /// 
-            /// <param name="path">The path where datasets will be stored. If null or empty, the dataset
-            /// will be saved on a subfolder called "data" in the current working directory.</param>
-            /// <param name="collection">The collection to be copied.</param>
-            /// 
-            public RecordCollection(string path, IEnumerable<Record> collection)
+            internal RecordCollection(FreeSpokenDigitsDataset dataset, IEnumerable<Record> collection)
                 : base(collection)
             {
-                this.basePath = path;
+                this.dataset = dataset;
             }
 
             /// <summary>
@@ -247,7 +242,7 @@ namespace Accord.DataSets
             /// 
             public string[] LocalPaths
             {
-                get { return this.Select(x => x.Download(basePath)).ToArray(); }
+                get { return this.Select(x => x.Download(dataset.webClient, dataset.basePath)).ToArray(); }
             }
 
             /// <summary>
@@ -258,7 +253,7 @@ namespace Accord.DataSets
             /// 
             public Signal[] Signals
             {
-                get { return this.Select(x => x.Open(basePath)).ToArray(); }
+                get { return this.Select(x => x.Open(dataset.webClient, dataset.basePath)).ToArray(); }
             }
 
             /// <summary>
@@ -353,17 +348,7 @@ namespace Accord.DataSets
             /// 
             public string Download(string localPath)
             {
-                if (!Directory.Exists(localPath))
-                    Directory.CreateDirectory(localPath);
-
-                string localFileName = Path.Combine(localPath, FileName);
-
-                if (!File.Exists(localFileName))
-                {
-                    //Console.WriteLine("Downloading {0}", Url);
-                    new WebClient().DownloadFile(Url, localFileName);
-                }
-                return localFileName;
+                return Download(CreateWebClient(), localPath);
             }
 
             /// <summary>
@@ -377,8 +362,26 @@ namespace Accord.DataSets
             /// 
             public Signal Open(string localPath)
             {
-                return Signal.FromFile(Download(localPath));
+                return Open(CreateWebClient(), localPath);
             }
+
+            internal string Download(WebClient client, string localPath)
+            {
+                if (!Directory.Exists(localPath))
+                    Directory.CreateDirectory(localPath);
+
+                string localFileName = Path.Combine(localPath, FileName);
+
+                if (!File.Exists(localFileName))
+                    client.DownloadFileWithRetry(Url, localFileName);
+                return localFileName;
+            }
+
+            internal Signal Open(WebClient client, string localPath)
+            {
+                return Signal.FromFile(Download(CreateWebClient(), localPath));
+            }
+
 
             /// <summary>
             ///   Returns a <see cref="System.String" /> that represents this instance.
@@ -420,5 +423,50 @@ namespace Accord.DataSets
                 return this.FileName.CompareTo(other.FileName);
             }
         }
+
+
+
+        #region IDisposable Support
+        private bool disposedValue = false; // To detect redundant calls
+
+        /// <summary>
+        /// Releases unmanaged and - optionally - managed resources.
+        /// </summary>
+        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    // TODO: dispose managed state (managed objects).
+                    this.webClient.Dispose();
+                }
+
+                // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
+                // TODO: set large fields to null.
+                this.webClient = null;
+
+                disposedValue = true;
+            }
+        }
+
+        // TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
+        // ~FreeSpokenDigitsDataset() {
+        //   // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+        //   Dispose(false);
+        // }
+
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        public void Dispose()
+        {
+            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+            Dispose(true);
+            // TODO: uncomment the following line if the finalizer is overridden above.
+            // GC.SuppressFinalize(this);
+        }
+        #endregion
     }
 }

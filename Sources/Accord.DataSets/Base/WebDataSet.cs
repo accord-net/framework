@@ -29,6 +29,7 @@ namespace Accord.DataSets.Base
     using ICSharpCode.SharpZipLib.GZip;
     using Accord;
     using Accord.Compat;
+    using System.Threading;
 
     /// <summary>
     ///   Base class for sparse datasets that can be downloaded from LIBSVM website.
@@ -115,7 +116,8 @@ namespace Accord.DataSets.Base
             if (!File.Exists(downloadedFullFilePath))
             {
                 Directory.CreateDirectory(localPath);
-                TryDownload(url, downloadedFullFilePath);
+                using (var client = new WebClient())
+                    client.DownloadFileWithRetry(url, downloadedFullFilePath);
             }
 
 
@@ -166,33 +168,6 @@ namespace Accord.DataSets.Base
             return true;
         }
 
-        /// <summary>
-        ///   Attempts to download a file from the web multiple times before giving up.
-        /// </summary>
-        /// 
-        /// <param name="url">The URL of the file to be downloaded.</param>
-        /// <param name="fileName">The disk location where the file should be stored.</param>
-        /// <param name="maxAttempts">The maximum number of attempts.</param>
-        /// 
-        internal static void TryDownload(string url, string fileName, int maxAttempts = 3)
-        {
-            for (int numberOfAttempts = 0; numberOfAttempts <= maxAttempts; numberOfAttempts++)
-            {
-                Console.WriteLine("Downloading {0} (#{1})", url, numberOfAttempts);
-                try
-                {
-                    numberOfAttempts++;
-                    using (var client = new WebClient())
-                        client.DownloadFile(url, fileName);
-                    break;
-                }
-                catch (WebException)
-                {
-                    if (numberOfAttempts == maxAttempts)
-                        throw;
-                }
-            }
-        }
 
         private static bool endsWith(string str, string value)
         {

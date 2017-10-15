@@ -38,6 +38,9 @@ namespace Accord
     using System.Data;
     using Accord.Collections;
     using System.Runtime.CompilerServices;
+    using System.Net;
+    using System.Threading;
+    using System.Threading.Tasks;
 
     /// <summary>
     ///   Static class for utility extension methods.
@@ -608,5 +611,43 @@ namespace Accord
             }
         }
 #endif
+
+        /// <summary>
+        ///   Attempts to download a file from the web multiple times before giving up.
+        /// </summary>
+        /// 
+        /// <param name="client">The web client to use.</param>
+        /// <param name="url">The URL of the file to be downloaded.</param>
+        /// <param name="fileName">The disk location where the file should be stored.</param>
+        /// <param name="maxAttempts">The maximum number of attempts.</param>
+        /// <param name="overwrite">Do not overwrite <paramref name="fileName"/> if it already exists.</param>
+        /// 
+        internal static void DownloadFileWithRetry(this WebClient client, string url, string fileName, int maxAttempts = 3, bool overwrite = false)
+        {
+            if (!overwrite && File.Exists(fileName))
+                return;
+
+            for (int numberOfAttempts = 0; numberOfAttempts <= maxAttempts; numberOfAttempts++)
+            {
+                Console.WriteLine("Downloading {0} (#{1})", url, numberOfAttempts);
+                try
+                {
+                    numberOfAttempts++;
+                    client.DownloadFile(url, fileName);
+                    break;
+                }
+                catch (WebException)
+                {
+                    int milliseconds = numberOfAttempts * 2000;
+#if NETSTANDARD1_4
+                    Task.Delay(milliseconds).Wait();
+#else
+                    Thread.Sleep(milliseconds);
+#endif
+                    if (numberOfAttempts == maxAttempts)
+                        throw;
+                }
+            }
+        }
     }
 }
