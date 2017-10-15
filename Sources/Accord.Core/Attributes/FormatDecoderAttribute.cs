@@ -26,6 +26,7 @@ namespace Accord
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
+    using System.Reflection;
 
     /// <summary>
     ///   Specifies that a class can be used to decode a particular file type.
@@ -64,11 +65,23 @@ namespace Accord
         {
             lock (dictionary)
             {
+                extension = extension.ToUpperInvariant();
                 if (dictionary.ContainsKey(extension))
                     return;
 
 #if NETSTANDARD1_4
-                throw new NotSupportedException("The autodiscovery of format decoders is not supported in .NET Standard 1.4. Please create a new instance of the format decoder you would like to use and use it directly instead.");
+                var decoderTypes = from t in typeof(T).GetTypeInfo().Assembly.ExportedTypes
+                                   let attributes = t.GetTypeInfo().GetCustomAttributes(typeof(FormatDecoderAttribute), true)
+                                   where typeof(T).GetTypeInfo().IsAssignableFrom(typeof(T).GetTypeInfo())
+                                   where attributes != null && attributes.Count() > 0
+                                   select new { Type = t, Attributes = attributes.Cast<FormatDecoderAttribute>() };
+#elif MONO
+                var decoderTypes = from a in AppDomain.CurrentDomain.GetAssemblies()
+                                   from t in a.GetTypes()
+                                   let attributes = t.GetCustomAttributes(typeof(FormatDecoderAttribute), true)
+                                   where typeof(T).IsAssignableFrom(t)
+                                   where attributes != null && attributes.Length > 0
+                                   select new { Type = t, Attributes = attributes.Cast<FormatDecoderAttribute>() };
 #else
                 var decoderTypes = from a in AppDomain.CurrentDomain.GetAssemblies()
                                    from r in a.GetReferencedAssemblies()
@@ -77,7 +90,7 @@ namespace Accord
                                    where typeof(T).IsAssignableFrom(t)
                                    where attributes != null && attributes.Length > 0
                                    select new { Type = t, Attributes = attributes.Cast<FormatDecoderAttribute>() };
-
+#endif
                 foreach (var t in decoderTypes)
                 {
                     foreach (FormatDecoderAttribute attr in t.Attributes)
@@ -87,7 +100,6 @@ namespace Accord
                             dictionary.Add(extension, t.Type);
                     }
                 }
-#endif
             }
         }
     }
