@@ -223,6 +223,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual);
         }
 
+#if !MONO
         [Test]
         public void generic_test()
         {
@@ -277,5 +278,6 @@ namespace Accord.Tests.Statistics
             actual = target.Function(y, x);
             Assert.AreEqual(expected, actual, 1e-6);
         }
+#endif
     }
 }
