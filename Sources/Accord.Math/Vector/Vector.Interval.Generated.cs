@@ -42,10 +42,10 @@ namespace Accord.Math
         /// <para>
         ///   The Range methods should be equivalent to NumPy's np.linspace function. For 
 		///   a similar method that accepts a step size instead of a number of steps, see
-		///   <see cref="Range(int, int)"/>.</para>
+		///   <see cref="Vector.Range(int, int)"/>.</para>
         /// </remarks>
         ///
-        /// <seealso cref="Range(int, int)"/>
+        /// <seealso cref="Vector.Range(int, int)"/>
         ///
         public static int[] Interval(int a, int b)
         {
@@ -93,10 +93,10 @@ namespace Accord.Math
         /// <para>
         ///   The Range methods should be equivalent to NumPy's np.linspace function. For 
 		///   a similar method that accepts a step size instead of a number of steps, see
-		///   <see cref="Range(int, int)"/>.</para>
+		///   <see cref="Vector.Range(int, int)"/>.</para>
         /// </remarks>
         ///
-        /// <seealso cref="Range(int, int)"/>
+        /// <seealso cref="Vector.Range(int, int)"/>
         ///
         public static int[] Interval(int a, int b, int steps, bool includeLast = true)
         {
@@ -150,10 +150,10 @@ namespace Accord.Math
         /// <para>
         ///   The Range methods should be equivalent to NumPy's np.linspace function. For 
 		///   a similar method that accepts a step size instead of a number of steps, see
-		///   <see cref="Range(int, int)"/>.</para>
+		///   <see cref="Vector.Range(int, int)"/>.</para>
         /// </remarks>
         ///
-        /// <seealso cref="Range(int, int)"/>
+        /// <seealso cref="Vector.Range(int, int)"/>
         ///
         public static float[] Interval(float a, float b)
         {
@@ -199,10 +199,10 @@ namespace Accord.Math
         /// <para>
         ///   The Range methods should be equivalent to NumPy's np.linspace function. For 
 		///   a similar method that accepts a step size instead of a number of steps, see
-		///   <see cref="Range(int, int)"/>.</para>
+		///   <see cref="Vector.Range(int, int)"/>.</para>
         /// </remarks>
         ///
-        /// <seealso cref="Range(int, int)"/>
+        /// <seealso cref="Vector.Range(int, int)"/>
         ///
         public static float[] Interval(float a, float b, int steps, bool includeLast = true)
         {
@@ -256,10 +256,10 @@ namespace Accord.Math
         /// <para>
         ///   The Range methods should be equivalent to NumPy's np.linspace function. For 
 		///   a similar method that accepts a step size instead of a number of steps, see
-		///   <see cref="Range(int, int)"/>.</para>
+		///   <see cref="Vector.Range(int, int)"/>.</para>
         /// </remarks>
         ///
-        /// <seealso cref="Range(int, int)"/>
+        /// <seealso cref="Vector.Range(int, int)"/>
         ///
         public static double[] Interval(double a, double b)
         {
@@ -305,10 +305,10 @@ namespace Accord.Math
         /// <para>
         ///   The Range methods should be equivalent to NumPy's np.linspace function. For 
 		///   a similar method that accepts a step size instead of a number of steps, see
-		///   <see cref="Range(int, int)"/>.</para>
+		///   <see cref="Vector.Range(int, int)"/>.</para>
         /// </remarks>
         ///
-        /// <seealso cref="Range(int, int)"/>
+        /// <seealso cref="Vector.Range(int, int)"/>
         ///
         public static double[] Interval(double a, double b, int steps, bool includeLast = true)
         {
@@ -362,10 +362,10 @@ namespace Accord.Math
         /// <para>
         ///   The Range methods should be equivalent to NumPy's np.linspace function. For 
 		///   a similar method that accepts a step size instead of a number of steps, see
-		///   <see cref="Range(int, int)"/>.</para>
+		///   <see cref="Vector.Range(int, int)"/>.</para>
         /// </remarks>
         ///
-        /// <seealso cref="Range(int, int)"/>
+        /// <seealso cref="Vector.Range(int, int)"/>
         ///
         public static short[] Interval(short a, short b)
         {
@@ -413,10 +413,10 @@ namespace Accord.Math
         /// <para>
         ///   The Range methods should be equivalent to NumPy's np.linspace function. For 
 		///   a similar method that accepts a step size instead of a number of steps, see
-		///   <see cref="Range(int, int)"/>.</para>
+		///   <see cref="Vector.Range(int, int)"/>.</para>
         /// </remarks>
         ///
-        /// <seealso cref="Range(int, int)"/>
+        /// <seealso cref="Vector.Range(int, int)"/>
         ///
         public static short[] Interval(short a, short b, int steps, bool includeLast = true)
         {
@@ -470,10 +470,10 @@ namespace Accord.Math
         /// <para>
         ///   The Range methods should be equivalent to NumPy's np.linspace function. For 
 		///   a similar method that accepts a step size instead of a number of steps, see
-		///   <see cref="Range(int, int)"/>.</para>
+		///   <see cref="Vector.Range(int, int)"/>.</para>
         /// </remarks>
         ///
-        /// <seealso cref="Range(int, int)"/>
+        /// <seealso cref="Vector.Range(int, int)"/>
         ///
         public static byte[] Interval(byte a, byte b)
         {
@@ -521,10 +521,10 @@ namespace Accord.Math
         /// <para>
         ///   The Range methods should be equivalent to NumPy's np.linspace function. For 
 		///   a similar method that accepts a step size instead of a number of steps, see
-		///   <see cref="Range(int, int)"/>.</para>
+		///   <see cref="Vector.Range(int, int)"/>.</para>
         /// </remarks>
         ///
-        /// <seealso cref="Range(int, int)"/>
+        /// <seealso cref="Vector.Range(int, int)"/>
         ///
         public static byte[] Interval(byte a, byte b, int steps, bool includeLast = true)
         {
@@ -578,10 +578,10 @@ namespace Accord.Math
         /// <para>
         ///   The Range methods should be equivalent to NumPy's np.linspace function. For 
 		///   a similar method that accepts a step size instead of a number of steps, see
-		///   <see cref="Range(int, int)"/>.</para>
+		///   <see cref="Vector.Range(int, int)"/>.</para>
         /// </remarks>
         ///
-        /// <seealso cref="Range(int, int)"/>
+        /// <seealso cref="Vector.Range(int, int)"/>
         ///
         public static sbyte[] Interval(sbyte a, sbyte b)
         {
@@ -629,10 +629,10 @@ namespace Accord.Math
         /// <para>
         ///   The Range methods should be equivalent to NumPy's np.linspace function. For 
 		///   a similar method that accepts a step size instead of a number of steps, see
-		///   <see cref="Range(int, int)"/>.</para>
+		///   <see cref="Vector.Range(int, int)"/>.</para>
         /// </remarks>
         ///
-        /// <seealso cref="Range(int, int)"/>
+        /// <seealso cref="Vector.Range(int, int)"/>
         ///
         public static sbyte[] Interval(sbyte a, sbyte b, int steps, bool includeLast = true)
         {
@@ -686,10 +686,10 @@ namespace Accord.Math
         /// <para>
         ///   The Range methods should be equivalent to NumPy's np.linspace function. For 
 		///   a similar method that accepts a step size instead of a number of steps, see
-		///   <see cref="Range(int, int)"/>.</para>
+		///   <see cref="Vector.Range(int, int)"/>.</para>
         /// </remarks>
         ///
-        /// <seealso cref="Range(int, int)"/>
+        /// <seealso cref="Vector.Range(int, int)"/>
         ///
         public static long[] Interval(long a, long b)
         {
@@ -737,10 +737,10 @@ namespace Accord.Math
         /// <para>
         ///   The Range methods should be equivalent to NumPy's np.linspace function. For 
 		///   a similar method that accepts a step size instead of a number of steps, see
-		///   <see cref="Range(int, int)"/>.</para>
+		///   <see cref="Vector.Range(int, int)"/>.</para>
         /// </remarks>
         ///
-        /// <seealso cref="Range(int, int)"/>
+        /// <seealso cref="Vector.Range(int, int)"/>
         ///
         public static long[] Interval(long a, long b, int steps, bool includeLast = true)
         {
@@ -794,10 +794,10 @@ namespace Accord.Math
         /// <para>
         ///   The Range methods should be equivalent to NumPy's np.linspace function. For 
 		///   a similar method that accepts a step size instead of a number of steps, see
-		///   <see cref="Range(int, int)"/>.</para>
+		///   <see cref="Vector.Range(int, int)"/>.</para>
         /// </remarks>
         ///
-        /// <seealso cref="Range(int, int)"/>
+        /// <seealso cref="Vector.Range(int, int)"/>
         ///
         public static decimal[] Interval(decimal a, decimal b)
         {
@@ -843,10 +843,10 @@ namespace Accord.Math
         /// <para>
         ///   The Range methods should be equivalent to NumPy's np.linspace function. For 
 		///   a similar method that accepts a step size instead of a number of steps, see
-		///   <see cref="Range(int, int)"/>.</para>
+		///   <see cref="Vector.Range(int, int)"/>.</para>
         /// </remarks>
         ///
-        /// <seealso cref="Range(int, int)"/>
+        /// <seealso cref="Vector.Range(int, int)"/>
         ///
         public static decimal[] Interval(decimal a, decimal b, int steps, bool includeLast = true)
         {
@@ -900,10 +900,10 @@ namespace Accord.Math
         /// <para>
         ///   The Range methods should be equivalent to NumPy's np.linspace function. For 
 		///   a similar method that accepts a step size instead of a number of steps, see
-		///   <see cref="Range(int, int)"/>.</para>
+		///   <see cref="Vector.Range(int, int)"/>.</para>
         /// </remarks>
         ///
-        /// <seealso cref="Range(int, int)"/>
+        /// <seealso cref="Vector.Range(int, int)"/>
         ///
         public static ulong[] Interval(ulong a, ulong b)
         {
@@ -951,10 +951,10 @@ namespace Accord.Math
         /// <para>
         ///   The Range methods should be equivalent to NumPy's np.linspace function. For 
 		///   a similar method that accepts a step size instead of a number of steps, see
-		///   <see cref="Range(int, int)"/>.</para>
+		///   <see cref="Vector.Range(int, int)"/>.</para>
         /// </remarks>
         ///
-        /// <seealso cref="Range(int, int)"/>
+        /// <seealso cref="Vector.Range(int, int)"/>
         ///
         public static ulong[] Interval(ulong a, ulong b, int steps, bool includeLast = true)
         {
@@ -1008,10 +1008,10 @@ namespace Accord.Math
         /// <para>
         ///   The Range methods should be equivalent to NumPy's np.linspace function. For 
 		///   a similar method that accepts a step size instead of a number of steps, see
-		///   <see cref="Range(int, int)"/>.</para>
+		///   <see cref="Vector.Range(int, int)"/>.</para>
         /// </remarks>
         ///
-        /// <seealso cref="Range(int, int)"/>
+        /// <seealso cref="Vector.Range(int, int)"/>
         ///
         public static ushort[] Interval(ushort a, ushort b)
         {
@@ -1059,10 +1059,10 @@ namespace Accord.Math
         /// <para>
         ///   The Range methods should be equivalent to NumPy's np.linspace function. For 
 		///   a similar method that accepts a step size instead of a number of steps, see
-		///   <see cref="Range(int, int)"/>.</para>
+		///   <see cref="Vector.Range(int, int)"/>.</para>
         /// </remarks>
         ///
-        /// <seealso cref="Range(int, int)"/>
+        /// <seealso cref="Vector.Range(int, int)"/>
         ///
         public static ushort[] Interval(ushort a, ushort b, int steps, bool includeLast = true)
         {
@@ -1116,10 +1116,10 @@ namespace Accord.Math
         /// <para>
         ///   The Range methods should be equivalent to NumPy's np.linspace function. For 
 		///   a similar method that accepts a step size instead of a number of steps, see
-		///   <see cref="Range(int, int)"/>.</para>
+		///   <see cref="Vector.Range(int, int)"/>.</para>
         /// </remarks>
         ///
-        /// <seealso cref="Range(int, int)"/>
+        /// <seealso cref="Vector.Range(int, int)"/>
         ///
         public static double[] Interval(this DoubleRange range, int steps)
         {
@@ -1144,10 +1144,10 @@ namespace Accord.Math
         /// <para>
         ///   The Range methods should be equivalent to NumPy's np.linspace function. For 
 		///   a similar method that accepts a step size instead of a number of steps, see
-		///   <see cref="Range(int, int)"/>.</para>
+		///   <see cref="Vector.Range(int, int)"/>.</para>
         /// </remarks>
         ///
-        /// <seealso cref="Range(int, int)"/>
+        /// <seealso cref="Vector.Range(int, int)"/>
         ///
         public static float[] Interval(this Range range, int steps)
         {
@@ -1172,10 +1172,10 @@ namespace Accord.Math
         /// <para>
         ///   The Range methods should be equivalent to NumPy's np.linspace function. For 
 		///   a similar method that accepts a step size instead of a number of steps, see
-		///   <see cref="Range(int, int)"/>.</para>
+		///   <see cref="Vector.Range(int, int)"/>.</para>
         /// </remarks>
         ///
-        /// <seealso cref="Range(int, int)"/>
+        /// <seealso cref="Vector.Range(int, int)"/>
         ///
         public static byte[] Interval(this ByteRange range, int steps)
         {
@@ -1200,10 +1200,10 @@ namespace Accord.Math
         /// <para>
         ///   The Range methods should be equivalent to NumPy's np.linspace function. For 
 		///   a similar method that accepts a step size instead of a number of steps, see
-		///   <see cref="Range(int, int)"/>.</para>
+		///   <see cref="Vector.Range(int, int)"/>.</para>
         /// </remarks>
         ///
-        /// <seealso cref="Range(int, int)"/>
+        /// <seealso cref="Vector.Range(int, int)"/>
         ///
         public static int[] Interval(this IntRange range, int steps)
         {

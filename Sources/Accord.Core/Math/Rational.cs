@@ -402,7 +402,7 @@ namespace Accord.Math
                 throw new ArgumentOutOfRangeException("Maximum denominator base must be greater than or equal to 1.", "maxDenominator");
 
             int denominator = 0;
-            int bestDenominator = 1;
+            // int bestDenominator = 1;
             double bestDifference = 1.0;
             double numerator;
             do
@@ -413,7 +413,7 @@ namespace Accord.Math
                 if (difference < bestDifference)
                 {
                     bestDifference = difference;
-                    bestDenominator = denominator;
+                    // bestDenominator = denominator;
                 }
             } while (!IsInteger(numerator, tolerance) && denominator < maxDenominator);
 

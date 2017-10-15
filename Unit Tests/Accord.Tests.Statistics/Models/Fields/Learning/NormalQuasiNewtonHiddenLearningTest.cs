@@ -97,9 +97,7 @@ namespace Accord.Tests.Statistics.Models.Fields
         }
 
         [Test, Category("Intensive")]
-#if DEBUG || NET35
-        [Ignore("Intensive")]
-#endif
+        [Ignore("Intensive")] // reproducible parallelization of this test requires #870
         public void learn_pendigits_normalization()
         {
             Console.WriteLine("Starting NormalQuasiNewtonHiddenLearningTest.learn_pendigits_normalization");

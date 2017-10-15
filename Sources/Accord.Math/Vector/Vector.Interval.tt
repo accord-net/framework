@@ -64,10 +64,10 @@ namespace Accord.Math
         /// <para>
         ///   The Range methods should be equivalent to NumPy's np.linspace function. For 
 		///   a similar method that accepts a step size instead of a number of steps, see
-		///   <see cref=""Range(int, int)""/>.</para>
+		///   <see cref=""Vector.Range(int, int)""/>.</para>
         /// </remarks>
         ///
-        /// <seealso cref=""Range(int, int)""/>
+        /// <seealso cref=""Vector.Range(int, int)""/>
         ///";
 
 
