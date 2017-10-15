@@ -33,9 +33,9 @@ namespace Accord.Imaging
     /// </code>
     /// 
     /// <para><b>Initial image:</b></para>
-    /// <img src="img/imaging/sample3.jpg" width="256" height="256" />
+    /// <img src="..\images\imaging\sample3.jpg" width="256" height="256" />
     /// <para><b>Fourier image:</b></para>
-    /// <img src="img/imaging/fourier.jpg" width="256" height="256" />
+    /// <img src="..\images\imaging\fourier.jpg" width="256" height="256" />
     /// </remarks>
     /// 
     public class ComplexImage : ICloneable

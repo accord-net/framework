@@ -51,7 +51,7 @@ namespace Accord.Imaging.Textures
     /// </code>
     ///
     /// <para><b>Result image:</b></para>
-    /// <img src="img/imaging/textile_texture.jpg" width="320" height="240" />
+    /// <img src="..\images\imaging\textile_texture.jpg" width="320" height="240" />
     /// </remarks>
     /// 
     public class TextileTexture : BaseTextureGenerator, ITextureGenerator

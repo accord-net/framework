@@ -53,7 +53,7 @@ namespace Accord.Imaging.Textures
     /// </code>
     ///
     /// <para><b>Result image:</b></para>
-    /// <img src="img/imaging/clouds_texture.jpg" width="320" height="240" />
+    /// <img src="..\images\imaging\clouds_texture.jpg" width="320" height="240" />
     /// </remarks>
     /// 
     public class CloudsTexture : BaseTextureGenerator, ITextureGenerator

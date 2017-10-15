@@ -45,9 +45,9 @@ namespace Accord.Imaging.Filters
     /// </code>
     /// 
     /// <para><b>Initial image:</b></para>
-    /// <img src="img/imaging/sample18.jpg" width="320" height="240" />
+    /// <img src="..\images\imaging\sample18.jpg" width="320" height="240" />
     /// <para><b>Result image:</b></para>
-    /// <img src="img/imaging/quadrilateral_ex_bilinear.png" width="200" height="200" />
+    /// <img src="..\images\imaging\quadrilateral_ex_bilinear.png" width="200" height="200" />
     /// </remarks>
     /// 
     /// <seealso cref="BackwardQuadrilateralTransformation"/>

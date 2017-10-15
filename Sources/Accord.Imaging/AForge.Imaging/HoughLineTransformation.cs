@@ -97,7 +97,7 @@ namespace Accord.Imaging
     /// corresponding values of radius and theta for the lines on the image:
     /// </para>
     /// 
-    /// <img src="img/imaging/sample15.png" width="400" height="300" />
+    /// <img src="..\images\imaging\sample15.png" width="400" height="300" />
     /// 
     /// <para>
     ///   Detected radius and theta values (color in corresponding colors):

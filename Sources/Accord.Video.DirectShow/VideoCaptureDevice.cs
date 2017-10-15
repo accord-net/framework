@@ -52,11 +52,11 @@ namespace Accord.Video.DirectShow
     /// </remarks>
     /// 
     /// <example>
-    /// <code source="Unit Tests\Accord.Tests.Video\VideoCaptureDeviceTest.cs" region="doc_part1" />
+    /// <code source="Unit Tests\Accord.Tests.Video\VideoCaptureDeviceTest.cs" region="doc_part_1" />
     /// <para>
     ///   The video_NewFrame event could have been defined as in any of the following examples:</para>
-    /// <code source="Unit Tests\Accord.Tests.Video\VideoCaptureDeviceTest.cs" region="doc_part2" />
-    /// <code source="Unit Tests\Accord.Tests.Video\VideoCaptureDeviceTest.cs" region="doc_part3" />
+    /// <code source="Unit Tests\Accord.Tests.Video\VideoCaptureDeviceTest.cs" region="doc_part_2" />
+    /// <code source="Unit Tests\Accord.Tests.Video\VideoCaptureDeviceTest.cs" region="doc_part_3" />
     /// </example>
     /// 
     public class VideoCaptureDevice : IVideoSource
@@ -1146,7 +1146,8 @@ namespace Accord.Video.DirectShow
                     {
                         VideoControlFlags caps;
                         videoControl.GetCaps(pinStillImage, out caps);
-                        isSnapshotSupported = ((caps & VideoControlFlags.ExternalTriggerEnable) != 0);
+                        isSnapshotSupported = (((caps & VideoControlFlags.ExternalTriggerEnable) != 0) || 
+                                               ((caps & VideoControlFlags.Trigger) != 0));
                     }
                 }
 

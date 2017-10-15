@@ -33,9 +33,9 @@ namespace Accord.Imaging.Filters
     /// </code>
     /// 
     /// <para><b>Initial image:</b></para>
-    /// <img src="img/imaging/sample1.jpg" width="480" height="361" />
+    /// <img src="..\images\imaging\sample1.jpg" width="480" height="361" />
     /// <para><b>Result image:</b></para>
-    /// <img src="img/imaging/extract_channel.jpg" width="480" height="361" />
+    /// <img src="..\images\imaging\extract_channel.jpg" width="480" height="361" />
     /// 
     /// </remarks>
     /// 

@@ -37,11 +37,11 @@ namespace Accord.Imaging.Filters
     /// </code>
     /// 
     /// <para><b>Source image:</b></para>
-    /// <img src="img/imaging/object.jpg" width="320" height="240" />
+    /// <img src="..\images\imaging\object.jpg" width="320" height="240" />
     /// <para><b>Background image:</b></para>
-    /// <img src="img/imaging/background.jpg" width="320" height="240" />
+    /// <img src="..\images\imaging\background.jpg" width="320" height="240" />
     /// <para><b>Result image:</b></para>
-    /// <img src="img/imaging/thresholded_difference.png" width="320" height="240" />
+    /// <img src="..\images\imaging\thresholded_difference.png" width="320" height="240" />
     /// </remarks>
     /// 
     /// <seealso cref="ThresholdedEuclideanDifference"/>

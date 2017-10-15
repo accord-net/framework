@@ -53,11 +53,11 @@ namespace Accord.Imaging.Filters
     /// </code>
     /// 
     /// <para><b>Initial image:</b></para>
-    /// <img src="img/imaging/sample1.jpg" width="480" height="361" />
+    /// <img src="..\images\imaging\sample1.jpg" width="480" height="361" />
     /// <para><b>Result image #1:</b></para>
-    /// <img src="img/imaging/textured_filter1.jpg" width="480" height="361" />
+    /// <img src="..\images\imaging\textured_filter1.jpg" width="480" height="361" />
     /// <para><b>Result image #2:</b></para>
-    /// <img src="img/imaging/textured_filter2.jpg" width="480" height="361" />
+    /// <img src="..\images\imaging\textured_filter2.jpg" width="480" height="361" />
     /// </remarks>
     /// 
     public class TexturedFilter : BaseFilter

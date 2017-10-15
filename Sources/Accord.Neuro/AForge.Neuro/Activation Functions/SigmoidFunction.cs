@@ -31,7 +31,7 @@ namespace Accord.Neuro
     /// <para>Output range of the function: <b>[0, 1]</b>.</para>
     /// 
     /// <para>Functions graph:</para>
-    /// <img src="img/neuro/sigmoid.bmp" width="242" height="172" />
+    /// <img src="..\images\neuro\sigmoid.bmp" width="242" height="172" />
     /// </remarks>
     /// 
     [Serializable]

@@ -90,11 +90,11 @@ namespace Accord.Imaging
     /// </code>
     /// 
     /// <para><b>Test image 1 (source):</b></para>
-    /// <img src="img/imaging/ebm_sample1.png" width="217" height="192" />
+    /// <img src="..\images\imaging\ebm_sample1.png" width="217" height="192" />
     /// <para><b>Test image 2 (search):</b></para>
-    /// <img src="img/imaging/ebm_sample2.png" width="217" height="192" />
+    /// <img src="..\images\imaging\ebm_sample2.png" width="217" height="192" />
     /// <para><b>Result image:</b></para>
-    /// <img src="img/imaging/ebm_result.png" width="217" height="192" />
+    /// <img src="..\images\imaging\ebm_result.png" width="217" height="192" />
     /// </remarks>
     /// 
     public class ExhaustiveBlockMatching : IBlockMatching

@@ -27,7 +27,7 @@ namespace Accord.Math.Geometry
     /// <para>
     /// For example, the below circle shape comprised of 65 points, can be optimized to 10 points
     /// by setting <see cref="MaxAngleToKeep"/> to 160.<br />
-    /// <img src="img/math/flat_angles_optimizer.png" width="268" height="238" />
+    /// <img src="..\images\math\flat_angles_optimizer.png" width="268" height="238" />
     /// </para>
     /// </remarks>
     /// 
