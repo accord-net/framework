@@ -33,9 +33,6 @@
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Accord.Video.FFMPEG">
-      <HintPath>..\..\Debug\GPL\Accord.Video.FFMPEG.dll</HintPath>
-    </Reference>
     <Reference Include="nunit.framework">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Externals\NUnit\NUnit.Framework-3.6.1\bin\net-4.5\nunit.framework.dll</HintPath>
@@ -123,10 +120,6 @@
     <ProjectReference Include="..\..\Sources\Accord.Statistics\Accord.Statistics.csproj">
       <Project>{FD8101DD-C95D-42D6-AD44-AE01C25F2811}</Project>
       <Name>Accord.Statistics</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Sources\Accord.Video.DirectShow\Accord.Video.DirectShow.csproj">
-      <Project>{26CD2CE7-FF63-4669-83B0-7D9C8F3408EE}</Project>
-      <Name>Accord.Video.DirectShow</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Sources\Accord.Video\Accord.Video.csproj">
       <Project>{809725DC-6502-4732-A51C-DEB7FEA12975}</Project>

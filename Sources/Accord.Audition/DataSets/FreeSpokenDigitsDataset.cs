@@ -107,6 +107,9 @@ namespace Accord.DataSets
             this.webClient = CreateWebClient();
             this.Records = new RecordCollection(this);
 
+            if (!Directory.Exists(basePath))
+                Directory.CreateDirectory(basePath);
+
             foreach (string line in GetFileList())
             {
                 if (line.Contains("\"path\":"))

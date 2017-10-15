@@ -27,6 +27,7 @@ namespace Accord
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
     using System.Reflection;
+    using Accord.Compat;
 
     /// <summary>
     ///   Specifies that a class can be used to decode a particular file type.
@@ -88,13 +89,12 @@ namespace Accord
 #else
                 Type baseType = typeof(T);
 
-                foreach (Assembly a in AppDomain.CurrentDomain.GetAssemblies())
+                if (SystemTools.IsRunningOnMono())
                 {
-                    foreach (AssemblyName referencedName in a.GetReferencedAssemblies())
+                    Console.WriteLine("FormatDecoderAttribute: Running on Mono ({0})", typeof(T));
+                    foreach (Assembly a in AppDomain.CurrentDomain.GetAssemblies())
                     {
-                        Assembly referencedAssembly = Assembly.Load(referencedName);
-
-                        foreach (Type t in referencedAssembly.GetTypes())
+                        foreach (Type t in a.GetTypes())
                         {
                             var attributes = t.GetCustomAttributes(typeof(FormatDecoderAttribute), true);
 
@@ -102,6 +102,28 @@ namespace Accord
                             {
                                 FormatDecoderAttribute[] at = attributes.Cast<FormatDecoderAttribute>().ToArray();
                                 decoderTypes.Add(Tuple.Create(t, at));
+                            }
+                        }
+                    }
+                    Console.WriteLine("FormatDecoderAttribute: Found {0} {1} decoders.", decoderTypes.Count, typeof(T));
+                }
+                else
+                {
+                    foreach (Assembly a in AppDomain.CurrentDomain.GetAssemblies())
+                    {
+                        foreach (AssemblyName referencedName in a.GetReferencedAssemblies())
+                        {
+                            Assembly referencedAssembly = Assembly.Load(referencedName);
+
+                            foreach (Type t in referencedAssembly.GetTypes())
+                            {
+                                var attributes = t.GetCustomAttributes(typeof(FormatDecoderAttribute), true);
+
+                                if (attributes != null && attributes.Length > 0 && baseType.IsAssignableFrom(t))
+                                {
+                                    FormatDecoderAttribute[] at = attributes.Cast<FormatDecoderAttribute>().ToArray();
+                                    decoderTypes.Add(Tuple.Create(t, at));
+                                }
                             }
                         }
                     }
