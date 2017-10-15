@@ -19,14 +19,14 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-using System.Linq;
-
 namespace Accord.Tests.Math
 {
+    using System.Linq;
     using Accord.Math.Optimization;
     using NUnit.Framework;
     using System;
     using Accord.Math;
+    using Accord;
 
     [TestFixture]
     public class BinarySearchTest2
@@ -48,7 +48,7 @@ namespace Accord.Tests.Math
         {
             var zeroIndex = data.ToList().FindIndex(v => v == 0);
             var index = new BinarySearch(i => data[i], 0, data.Length - 1).FindRoot();
-            Assert.AreEqual(zeroIndex,index,$"For {String.Join(",",data)}");
+            Assert.AreEqual(zeroIndex, index, String.Format("For {0}", String.Join(",", data)));
         }
     }
 
