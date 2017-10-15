@@ -215,8 +215,8 @@ namespace Accord.Tests.MachineLearning
         }
 
         [Test, Category("Intensive")]
-#if NET35
-        [Ignore("Random")]
+#if DEBUG || NET35
+        [Ignore("Intensive")]
 #endif
         public void learn_pendigits_normalization()
         {

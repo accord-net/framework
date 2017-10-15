@@ -27,11 +27,6 @@ namespace Accord.IO
     using System.IO;
     using System.Linq;
     using Accord.Compat;
-#if NETSTANDARD
-    using ICSharpCode.SharpZipLib.Lzw;
-#else
-    using ICSharpCode.SharpZipLib.LZW;
-#endif
 
     /// <summary>
     ///   Reader for UNIPEN files (such as Pendigits dataset).
@@ -85,7 +80,7 @@ namespace Accord.IO
         private void init(Stream input, bool compressed = true)
         {
             if (compressed)
-                reader = new StreamReader(new LzwInputStream(input));
+                reader = new StreamReader(new Accord.IO.Compression.LzwInputStream(input));
             else
                 reader = new StreamReader(input);
 

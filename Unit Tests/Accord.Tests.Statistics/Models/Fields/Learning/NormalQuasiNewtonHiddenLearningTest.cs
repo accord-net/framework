@@ -97,7 +97,9 @@ namespace Accord.Tests.Statistics.Models.Fields
         }
 
         [Test, Category("Intensive")]
+#if DEBUG || NET35
         [Ignore("Intensive")]
+#endif
         public void learn_pendigits_normalization()
         {
             Console.WriteLine("Starting NormalQuasiNewtonHiddenLearningTest.learn_pendigits_normalization");

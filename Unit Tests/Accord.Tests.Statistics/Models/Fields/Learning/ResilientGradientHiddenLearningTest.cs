@@ -267,7 +267,9 @@ namespace Accord.Tests.Statistics.Models.Fields
 
 
         [Test, Category("Intensive")]
+#if DEBUG || NET35
         [Ignore("Intensive")]
+#endif
         public void learn_pendigits_normalization()
         {
             Console.WriteLine("Starting ResilientGradientHiddenLearningTest.learn_pendigits_normalization");
