@@ -148,10 +148,10 @@ namespace Accord.DataSets
 #endif
                     Directory.CreateDirectory(this.path);
 
-                using (var client = new WebClient())
+                using (var client = ExtensionMethods.NewWebClient())
                 {
                     Console.WriteLine("Downloading {0}", url);
-                    client.DownloadFile(url, downloadedFileName);
+                    client.DownloadFileWithRetry(url, downloadedFileName);
                 }
             }
 

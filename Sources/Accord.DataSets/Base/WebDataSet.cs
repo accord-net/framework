@@ -116,7 +116,7 @@ namespace Accord.DataSets.Base
             if (!File.Exists(downloadedFullFilePath))
             {
                 Directory.CreateDirectory(localPath);
-                using (var client = new WebClient())
+                using (var client = ExtensionMethods.NewWebClient())
                     client.DownloadFileWithRetry(url, downloadedFullFilePath);
             }
 

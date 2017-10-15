@@ -333,6 +333,8 @@ namespace Accord
             return reader.BaseStream.Position - byteLen + numReadBytes;
         }
 
+#if !NETSTANDARD1_4
+
         private static object GetField(StreamReader reader, string name)
         {
             return typeof(StreamReader).InvokeMember(name,
@@ -340,8 +342,6 @@ namespace Accord
                 BindingFlags.GetField, null, reader, null, CultureInfo.InvariantCulture);
         }
 
-
-#if !NETSTANDARD1_4
         /// <summary>
         ///   Deserializes the specified stream into an object graph, but locates
         ///   types by searching all loaded assemblies and ignoring their versions.
@@ -634,6 +634,13 @@ namespace Accord
             }
         }
 #endif
+
+        internal static WebClient NewWebClient()
+        {
+            var webClient = new WebClient();
+            webClient.Headers.Add("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) (Accord.NET Framework)");
+            return webClient;
+        }
 
         /// <summary>
         ///   Attempts to download a file from the web multiple times before giving up.

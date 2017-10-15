@@ -518,8 +518,8 @@ namespace Accord.Imaging
                     Directory.CreateDirectory(localPath);
 
                 Console.WriteLine("Downloading {0}", url);
-                using (var client = new WebClient())
-                    client.DownloadFile(url, downloadedFileName);
+                using (var client = ExtensionMethods.NewWebClient())
+                    client.DownloadFileWithRetry(url, downloadedFileName);
             }
 
             return FromFile(downloadedFileName);

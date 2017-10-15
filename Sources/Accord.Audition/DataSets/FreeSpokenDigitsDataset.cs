@@ -104,7 +104,7 @@ namespace Accord.DataSets
         public FreeSpokenDigitsDataset(string path)
         {
             this.basePath = path;
-            this.webClient = CreateWebClient();
+            this.webClient = ExtensionMethods.NewWebClient();
             this.Records = new RecordCollection(this);
 
             if (!Directory.Exists(basePath))
@@ -141,13 +141,6 @@ namespace Accord.DataSets
             // Recordings numbered 0-4 (inclusive) are in the test and 5-49 are in the training set."
             Testing = new RecordCollection(this, Records.Where(x => x.Index >= 0 && x.Index <= 4));
             Training = new RecordCollection(this, Records.Where(x => x.Index >= 5 && x.Index <= 49));
-        }
-
-        private static WebClient CreateWebClient()
-        {
-            var webClient = new WebClient();
-            webClient.Headers.Add("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) (Accord.NET Framework)");
-            return webClient;
         }
 
         private string[] GetFileList()
@@ -351,7 +344,7 @@ namespace Accord.DataSets
             /// 
             public string Download(string localPath)
             {
-                return Download(CreateWebClient(), localPath);
+                return Download(ExtensionMethods.NewWebClient(), localPath);
             }
 
             /// <summary>
@@ -365,7 +358,7 @@ namespace Accord.DataSets
             /// 
             public Signal Open(string localPath)
             {
-                return Open(CreateWebClient(), localPath);
+                return Open(ExtensionMethods.NewWebClient(), localPath);
             }
 
             internal string Download(WebClient client, string localPath)
@@ -382,7 +375,7 @@ namespace Accord.DataSets
 
             internal Signal Open(WebClient client, string localPath)
             {
-                return Signal.FromFile(Download(CreateWebClient(), localPath));
+                return Signal.FromFile(Download(ExtensionMethods.NewWebClient(), localPath));
             }
 
 
