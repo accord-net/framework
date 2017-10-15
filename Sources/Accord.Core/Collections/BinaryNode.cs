@@ -24,6 +24,7 @@ namespace Accord.Collections
 {
     using System;
     using System.Text;
+    using Accord.Compat;
 
     /// <summary>
     ///   Tree node for binary trees.

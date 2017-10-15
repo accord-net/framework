@@ -67,6 +67,9 @@ namespace Accord
                 if (dictionary.ContainsKey(extension))
                     return;
 
+#if NETSTANDARD1_4
+                throw new NotSupportedException("The autodiscovery of format decoders is not supported in .NET Standard 1.4. Please create a new instance of the format decoder you would like to use and use it directly instead.");
+#else
                 var decoderTypes = from a in AppDomain.CurrentDomain.GetAssemblies()
                                    from r in a.GetReferencedAssemblies()
                                    from t in AppDomain.CurrentDomain.Load(r).GetTypes()
@@ -84,6 +87,7 @@ namespace Accord
                             dictionary.Add(extension, t.Type);
                     }
                 }
+#endif
             }
         }
     }

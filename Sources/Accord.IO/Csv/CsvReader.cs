@@ -45,6 +45,7 @@ namespace Accord.IO
     using System.IO;
     using Accord.IO.Resources;
     using System.Net;
+    using Accord.Compat;
 
     /// <summary>
     ///   Represents a reader that provides fast, non-cached, forward-only access to CSV data.  

@@ -33,7 +33,6 @@ namespace Accord.Tests.MachineLearning
     using Accord.Statistics.Distributions.Multivariate;
     using Accord.Statistics.Distributions.Univariate;
     using Accord.Statistics.Filters;
-    using Accord.Tests.MachineLearning.Properties;
     using NUnit.Framework;
     using System.Data;
     using System.IO;

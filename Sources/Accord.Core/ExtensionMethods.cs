@@ -372,13 +372,9 @@ namespace Accord
             Type inputType = value.GetType();
 
             var methods = new List<MethodInfo>();
-#if !NETSTANDARD1_4
             methods.AddRange(inputType.GetMethods(BindingFlags.Public | BindingFlags.Static));
             methods.AddRange(type.GetMethods(BindingFlags.Public | BindingFlags.Static));
-#else
-            methods.AddRange(inputType.GetTypeInfo().DeclaredMethods.ToArray());
-            methods.AddRange(type.GetTypeInfo().DeclaredMethods.ToArray());
-#endif
+
             foreach (MethodInfo m in methods)
             {
                 if (m.IsPublic && m.IsStatic)
@@ -572,6 +568,7 @@ namespace Accord
         }
 #endif
 
+#if !NETSTANDARD1_4
         /// <summary>
         ///   Retrieves the memory address of a generic value type.
         /// </summary>
@@ -610,5 +607,6 @@ namespace Accord
                 return (System.IntPtr)pRef; //(&pRef)
             }
         }
+#endif
     }
 }

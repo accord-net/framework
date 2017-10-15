@@ -61,14 +61,21 @@ namespace Accord.Collections
     using Accord.Collections;
     using Accord.Math;
     using Accord.Math.Distances;
+    using Accord.Compat;
+
 #if !MONO
     /// <summary>
-    ///   Base class for Vantage-Point Trees.
+    ///   Base class for <see cref="VPTree">Vantage-Point Trees</see>.
     /// </summary>
     /// 
     /// <typeparam name="TPoint">The type for the position vector of each node.</typeparam>
     /// <typeparam name="TNode">The class type for the nodes of the tree.</typeparam>
     /// 
+    /// <seealso cref="VPTree"/>
+    /// <seealso cref="VPTree{TPoint, TData}"/>
+    /// <seealso cref="VPTree{TPoint}"/>
+    /// 
+    [Serializable]
     public class VPTreeBase<TPoint, TNode> : BinaryTree<TNode>, IEnumerable<TNode>
         where TNode : VPTreeNodeBase<TPoint, TNode>, new()
     {

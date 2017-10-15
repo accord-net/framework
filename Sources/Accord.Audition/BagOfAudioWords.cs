@@ -25,6 +25,7 @@ namespace Accord.Audition
     using Accord.MachineLearning;
     using System;
     using Accord.Audio;
+    using Accord.Compat;
 
     /// <summary>
     ///   Bag of Audio Words

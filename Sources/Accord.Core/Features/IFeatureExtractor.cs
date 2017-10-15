@@ -25,6 +25,7 @@ namespace Accord
     using Accord.MachineLearning;
     using System;
     using System.Collections.Generic;
+    using Accord.Compat;
 
     /// <summary>
     ///   Common interface for feature extractors.

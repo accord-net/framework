@@ -9,6 +9,8 @@
 [assembly: InternalsVisibleTo("Accord.Audio")]
 [assembly: InternalsVisibleTo("Accord.Neuro")]
 [assembly: InternalsVisibleTo("Accord.Vision")]
+[assembly: InternalsVisibleTo("Accord.Audition")]
+[assembly: InternalsVisibleTo("Accord.Genetic")]
 [assembly: InternalsVisibleTo("Accord.Audio.DirectSound")]
 
 [assembly: InternalsVisibleTo("Accord.Tests.Core")]

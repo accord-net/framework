@@ -33,8 +33,6 @@ namespace Accord.DataSets
     using System.Threading.Tasks;
     using Accord.Compat;
 
-
-
     /// <summary>
     /// Free Spoken Digits Dataset (FSDD)
     /// </summary>
@@ -144,9 +142,6 @@ namespace Accord.DataSets
             // Recordings numbered 0-4 (inclusive) are in the test and 5-49 are in the training set."
             Testing = new RecordCollection(path, Records.Where(x => x.Index >= 0 && x.Index <= 4));
             Training = new RecordCollection(path, Records.Where(x => x.Index >= 5 && x.Index <= 49));
-
-            System.Diagnostics.Trace.Assert(Training.Count > Testing.Count);
-            //System.Diagnostics.Trace.Assert(Training.Item1.Length + Testing.Item1.Length == Records.Count);
         }
 
         /// <summary>

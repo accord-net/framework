@@ -23,6 +23,7 @@
 namespace Accord.Audio
 {
     using System;
+    using Accord.Compat;
 
     /// <summary>
     ///   Common interface for audio feature extractors (e.g. <see cref="MelFrequencyCepstrumCoefficient"/>).

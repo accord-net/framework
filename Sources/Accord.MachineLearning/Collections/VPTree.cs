@@ -33,11 +33,17 @@ namespace Accord.Collections
     using System.Linq;
     using System.Text;
     using System.Collections;
+    using Accord.Compat;
 
     /// <summary>
     ///   Vantage-Point Tree.
     /// </summary>
     /// 
+    /// <seealso cref="SPTree"/>
+    /// <seealso cref="VPTree"/>
+    /// <seealso cref="KDTree"/>
+    /// 
+    [Serializable]
     public class VPTree : VPTree<double[]>
     {
 

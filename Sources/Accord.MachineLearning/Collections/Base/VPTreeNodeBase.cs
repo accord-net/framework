@@ -28,6 +28,7 @@ namespace Accord.Collections
     using System.Collections.Generic;
     using System.Collections;
     using System.Text;
+    using Accord.Compat;
 
     /// <summary>
     ///   Base class for <see cref="VPTree"/> nodes.

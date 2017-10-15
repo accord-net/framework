@@ -24,6 +24,7 @@ namespace Accord.MachineLearning
 {
     using Accord.Statistics.Distributions.Univariate;
     using System;
+    using Accord.Compat;
 
     /// <summary>
     ///   Codebook learning statistics for <see cref="BagOfWords"/> models.

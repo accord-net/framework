@@ -9,7 +9,7 @@
   <Import Project="$(SolutionDir)../Unit Tests/Accord.Tests (NETStandard).targets" />
 
   <Choose>
-    <When Condition="'$(TargetFramework)' == 'netcoreapp2.0' OR '$(TargetFramework)' == 'netcoreapp1.4'">
+    <When Condition="'$(TargetFramework)' == 'netcoreapp2.0' OR '$(TargetFramework)' == 'netcoreapp1.1'">
       <ItemGroup>
         <PackageReference Include="System.ComponentModel.Annotations" Version="4.4.0" />
       </ItemGroup>

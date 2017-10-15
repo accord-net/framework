@@ -27,6 +27,9 @@ namespace Accord.Imaging.Tests
     using NUnit.Framework;
     using Accord.DataSets;
     using Accord.Tests.Imaging.Properties;
+#if NO_BITMAP
+    using Resources = Accord.Tests.Imaging.Properties.Resources_Standard;
+#endif
 
     [TestFixture]
     public class ImageTest

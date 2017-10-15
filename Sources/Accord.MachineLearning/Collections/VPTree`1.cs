@@ -26,6 +26,7 @@ namespace Accord.Collections
     using System.Linq;
     using System.Collections.Generic;
     using Accord.Math.Distances;
+    using Accord.Compat;
 
 #if !MONO
     /// <summary>
@@ -34,6 +35,7 @@ namespace Accord.Collections
     /// 
     /// <typeparam name="TPoint">The type for the position vector of each node.</typeparam>
     /// 
+    [Serializable]
     public class VPTree<TPoint> : VPTreeBase<TPoint, VPTreeNode<TPoint>>
     {
         /// <summary>
