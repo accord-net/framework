@@ -516,6 +516,7 @@ namespace Accord.Tests.Imaging
         public void custom_feature_test_haralick()
         {
             #region doc_feature_haralick
+            // Ensure results are reproducible
             Accord.Math.Random.Generator.Seed = 0;
 
             // The Bag-of-Visual-Words model converts images of arbitrary 
@@ -613,6 +614,7 @@ namespace Accord.Tests.Imaging
         public void custom_feature_test_lbp()
         {
             #region doc_feature_lbp
+            // Ensure results are reproducible
             Accord.Math.Random.Generator.Seed = 0;
 
             // The Bag-of-Visual-Words model converts images of arbitrary 
@@ -704,6 +706,7 @@ namespace Accord.Tests.Imaging
         public void custom_data_type_test()
         {
             #region doc_datatype
+            // Ensure results are reproducible
             Accord.Math.Random.Generator.Seed = 0;
 
             // The Bag-of-Visual-Words model converts images of arbitrary 
@@ -785,6 +788,7 @@ namespace Accord.Tests.Imaging
         public void freak_binary_split()
         {
             #region doc_feature_freak
+            // Ensure results are reproducible
             Accord.Math.Random.Generator.Seed = 0;
 
             // The Bag-of-Visual-Words model converts images of arbitrary 

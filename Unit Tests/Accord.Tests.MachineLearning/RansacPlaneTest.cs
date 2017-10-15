@@ -114,7 +114,7 @@ namespace Accord.Tests.MachineLearning
             }
         }
 
-        [Test]
+        [Test, Category("Random")]
         public void RansacPlaneConstructorTest2()
         {
             Accord.Math.Random.Generator.Seed = 0;

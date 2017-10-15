@@ -41,7 +41,7 @@ namespace Accord.Tests.Video
     [TestFixture]
     public class VideoCaptureDeviceTest
     {
-        [Test]
+        [Test, Ignore("This test needs a webcam to run.")]
         public void doc_test()
         {
             #region doc_part_1

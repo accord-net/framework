@@ -137,7 +137,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(4, inputCount, 1e-8);
             Assert.AreEqual(1, outputCount, 1e-8);
             Assert.AreEqual(-4.6035570737785525, logl, 1e-8);
-            Assert.AreEqual(new[] { 0.0019604927838235376, 88.043929817973222, 101.42211648160144, 2.1954970044905113E-07, 1.1116659950687609 }, or);
+            Assert.IsTrue(new[] { 0.0019604927838235376, 88.043929817973222, 101.42211648160144, 2.1954970044905113E-07, 1.1116659950687609 }.IsEqual(or, 1e-8));
 
             Assert.AreEqual(1.377897662970609, x2.Statistic, 1e-8);
             Assert.AreEqual(0.84802726696077046, x2.PValue, 1e-8);
