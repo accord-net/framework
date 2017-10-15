@@ -127,6 +127,7 @@ Version updates and fixes:
   - GH-949: Add the Free Spoken Digits Dataset to Accord.DataSets;
   - GH-950: Add a dataset for example test videos;
   - GH-955: KalmanFilter2D throws System.NullReferenceException;
+  - GH-956: Integrate AForge.NET fixes (up to September 6);
 
 * General
   - The libsonly script is now in RAR4 format instead of RAR5 so they 

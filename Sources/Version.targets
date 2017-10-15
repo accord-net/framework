@@ -2,8 +2,8 @@
   <PropertyGroup>
     <Copyright>Copyright (c) Accord.NET authors, 2009-2017</Copyright>
     <Version>3.5.0</Version>
-    <AssemblyVersion>3.7.2</AssemblyVersion>
-    <AssemblyInformationalVersion>3.7.2-alpha</AssemblyInformationalVersion>
-    <FileVersion>3.7.2.6108</FileVersion>
+    <AssemblyVersion>3.7.3</AssemblyVersion>
+    <AssemblyInformationalVersion>3.7.3-alpha</AssemblyInformationalVersion>
+    <FileVersion>3.7.3.6131</FileVersion>
   </PropertyGroup>
 </Project>
