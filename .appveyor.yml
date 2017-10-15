@@ -21,6 +21,9 @@ matrix:
 
 clone_depth: 5
 
+before_build:
+- cmd: set PATH=C:\Program Files (x86)\MSBuild\14.0\Bin;%PATH%
+
 build:
   project: Sources/Accord.NET.sln
   parallel: true
