@@ -1,4 +1,4 @@
-version: 1.0.{build}
+version: 3.7.3.{build}
 
 image:
 - Visual Studio 2017
@@ -34,3 +34,11 @@ test:
     except:
     - Office
     - Random
+    
+notifications:
+- provider: Webhook
+  url: https://webhooks.gitter.im/e/322469abaeff8aca5bc9
+  method: POST
+  on_build_success: false
+  on_build_failure: false
+  on_build_status_changed: true
