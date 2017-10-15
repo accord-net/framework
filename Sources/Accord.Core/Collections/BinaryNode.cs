@@ -33,7 +33,7 @@ namespace Accord.Collections
     /// <typeparam name="TNode">The class type for the nodes of the tree.</typeparam>
     /// 
     [Serializable]
-    public class BinaryNode<TNode> : IEquatable<TNode> // TODO: Try to remove IEquatable
+    public class BinaryNode<TNode> : IEquatable<TNode>, ITreeNode<TNode> // TODO: Try to remove IEquatable
         where TNode : BinaryNode<TNode>
     {
         /// <summary>

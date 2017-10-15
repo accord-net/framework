@@ -1,0 +1,36 @@
+version: 1.0.{build}
+
+image:
+- Visual Studio 2017
+- Visual Studio 2015
+
+configuration:
+- mono
+- net35
+- net40
+- net45
+- net46
+- net462
+
+platform: Any CPU
+
+matrix:
+  exclude:
+    - configuration: net35
+      image: Visual Studio 2017
+
+clone_depth: 5
+
+build:
+  project: Sources/Accord.NET.sln
+  parallel: true
+  verbosity: normal
+  
+test:
+  assemblies:
+    only:
+    - '**\Accord.Tests.*.dll'
+  categories:
+    except:
+    - Office
+    - Random
