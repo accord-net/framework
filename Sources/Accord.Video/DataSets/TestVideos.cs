@@ -83,7 +83,7 @@ namespace Accord.DataSets
         /// 
         /// <value>The video names in this dataset.</value>
         /// 
-#if NET35 || NET40 || MONO
+#if NET35 || NET40 || NET45 || MONO
         public string[] VideoNames
         {
             get { return videoNames.Keys.ToArray(); }
