@@ -69,35 +69,52 @@ namespace Accord
                 if (dictionary.ContainsKey(extension))
                     return;
 
+                var decoderTypes = new List<Tuple<Type, FormatDecoderAttribute[]>>();
+
 #if NETSTANDARD1_4
-                var decoderTypes = from t in typeof(T).GetTypeInfo().Assembly.ExportedTypes
-                                   let attributes = t.GetTypeInfo().GetCustomAttributes(typeof(FormatDecoderAttribute), true)
-                                   where typeof(T).GetTypeInfo().IsAssignableFrom(typeof(T).GetTypeInfo())
-                                   where attributes != null && attributes.Count() > 0
-                                   select new { Type = t, Attributes = attributes.Cast<FormatDecoderAttribute>() };
-#elif MONO
-                var decoderTypes = from a in AppDomain.CurrentDomain.GetAssemblies()
-                                   from t in a.GetTypes()
-                                   let attributes = t.GetCustomAttributes(typeof(FormatDecoderAttribute), true)
-                                   where typeof(T).IsAssignableFrom(t)
-                                   where attributes != null && attributes.Length > 0
-                                   select new { Type = t, Attributes = attributes.Cast<FormatDecoderAttribute>() };
-#else
-                var decoderTypes = from a in AppDomain.CurrentDomain.GetAssemblies()
-                                   from r in a.GetReferencedAssemblies()
-                                   from t in AppDomain.CurrentDomain.Load(r).GetTypes()
-                                   let attributes = t.GetCustomAttributes(typeof(FormatDecoderAttribute), true)
-                                   where typeof(T).IsAssignableFrom(t)
-                                   where attributes != null && attributes.Length > 0
-                                   select new { Type = t, Attributes = attributes.Cast<FormatDecoderAttribute>() };
-#endif
-                foreach (var t in decoderTypes)
+                TypeInfo baseType = typeof(T).GetTypeInfo();
+
+                foreach (Type t in baseType.Assembly.ExportedTypes)
                 {
-                    foreach (FormatDecoderAttribute attr in t.Attributes)
+                    TypeInfo ti = t.GetTypeInfo();
+                    var attributes = ti.GetCustomAttributes(typeof(FormatDecoderAttribute), true).ToArray();
+
+                    if (attributes != null && attributes.Length > 0 && baseType.IsAssignableFrom(ti))
+                    {
+                        FormatDecoderAttribute[] at = attributes.Cast<FormatDecoderAttribute>().ToArray();
+                        decoderTypes.Add(Tuple.Create(t, at));
+                    }
+                }
+#else
+                Type baseType = typeof(T);
+
+                foreach (Assembly a in AppDomain.CurrentDomain.GetAssemblies())
+                {
+                    foreach (AssemblyName referencedName in a.GetReferencedAssemblies())
+                    {
+                        Assembly referencedAssembly = Assembly.Load(referencedName);
+
+                        foreach (Type t in referencedAssembly.GetTypes())
+                        {
+                            var attributes = t.GetCustomAttributes(typeof(FormatDecoderAttribute), true);
+
+                            if (attributes != null && attributes.Length > 0 && baseType.IsAssignableFrom(t))
+                            {
+                                FormatDecoderAttribute[] at = attributes.Cast<FormatDecoderAttribute>().ToArray();
+                                decoderTypes.Add(Tuple.Create(t, at));
+                            }
+                        }
+                    }
+                }
+#endif
+
+                foreach (Tuple<Type, FormatDecoderAttribute[]> pair in decoderTypes)
+                {
+                    foreach (FormatDecoderAttribute attr in pair.Item2)
                     {
                         extension = attr.Extension.ToUpperInvariant();
                         if (!dictionary.ContainsKey(extension))
-                            dictionary.Add(extension, t.Type);
+                            dictionary.Add(extension, pair.Item1);
                     }
                 }
             }

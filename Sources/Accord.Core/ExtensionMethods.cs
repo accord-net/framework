@@ -290,31 +290,54 @@ namespace Accord
             // http://stackoverflow.com/a/17457085/262032
 
 #if NETSTANDARD1_4 || NETSTANDARD2_0
-            var type = reader.GetType().GetTypeInfo();
+            var type = typeof(StreamReader).GetTypeInfo();
             char[] charBuffer = (char[])type.GetDeclaredField("_charBuffer").GetValue(reader);
             int charPos = (int)type.GetDeclaredField("_charPos").GetValue(reader);
             int byteLen = (int)type.GetDeclaredField("_byteLen").GetValue(reader);
 #else
-            // The current buffer of decoded characters
-            char[] charBuffer = (char[])reader.GetType().InvokeMember("charBuffer",
-                BindingFlags.DeclaredOnly | BindingFlags.NonPublic | BindingFlags.Instance
-                | BindingFlags.GetField, null, reader, null, CultureInfo.InvariantCulture);
+            var type = typeof(StreamReader);
 
-            // The current position in the buffer of decoded characters
-            int charPos = (int)reader.GetType().InvokeMember("charPos",
-                BindingFlags.DeclaredOnly | BindingFlags.NonPublic | BindingFlags.Instance
-                | BindingFlags.GetField, null, reader, null, CultureInfo.InvariantCulture);
+            char[] charBuffer;
+            int charPos;
+            int byteLen;
 
-            // The number of encoded bytes that are in the current buffer
-            int byteLen = (int)reader.GetType().InvokeMember("byteLen",
-                BindingFlags.DeclaredOnly | BindingFlags.NonPublic | BindingFlags.Instance
-                | BindingFlags.GetField, null, reader, null, CultureInfo.InvariantCulture);
+            if (SystemTools.IsRunningOnMono() && type.GetField("decoded_buffer") != null)
+            {
+                // Mono's StreamReader source code is at: https://searchcode.com/codesearch/view/26576619/
+
+                // The current buffer of decoded characters
+                charBuffer = (char[])GetField(reader, "decoded_buffer");
+
+                // The current position in the buffer of decoded characters
+                charPos = (int)GetField(reader, "decoded_count");
+
+                // The number of encoded bytes that are in the current buffer
+                byteLen = (int)GetField(reader, "buffer_size");
+            }
+            else
+            {
+                // The current buffer of decoded characters
+                charBuffer = (char[])GetField(reader, "charBuffer");
+
+                // The current position in the buffer of decoded characters
+                charPos = (int)GetField(reader, "charPos");
+
+                // The number of encoded bytes that are in the current buffer
+                byteLen = (int)GetField(reader, "byteLen");
+            }
 #endif
 
             // The number of bytes that the already-read characters need when encoded.
             int numReadBytes = reader.CurrentEncoding.GetByteCount(charBuffer, 0, charPos);
 
             return reader.BaseStream.Position - byteLen + numReadBytes;
+        }
+
+        private static object GetField(StreamReader reader, string name)
+        {
+            return typeof(StreamReader).InvokeMember(name,
+                BindingFlags.DeclaredOnly | BindingFlags.NonPublic | BindingFlags.Instance |
+                BindingFlags.GetField, null, reader, null, CultureInfo.InvariantCulture);
         }
 
 
