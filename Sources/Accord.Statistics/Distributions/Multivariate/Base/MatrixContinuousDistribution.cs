@@ -679,13 +679,6 @@ namespace Accord.Statistics.Distributions.Multivariate
             return Generate(1, result: new[] { result }, source: source)[0];
         }
 
-        /// <summary>
-        /// Generates a random vector of observations from the current distribution.
-        /// </summary>
-        /// <param name="samples">The number of samples to generate.</param>
-        /// <param name="source">The random number generator to use as a source of randomness.
-        /// Default is to use <see cref="P:Accord.Math.Random.Generator.Random" />.</param>
-        /// <returns>A random vector of observations drawn from this distribution.</returns>
         double[][] ISampleableDistribution<double[]>.Generate(int samples, Random source)
         {
             return Generate(samples, Jagged.Create<double>(samples, Dimension));
