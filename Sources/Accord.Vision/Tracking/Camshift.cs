@@ -104,6 +104,9 @@ namespace Accord.Vision.Tracking
     ///  </list></para>  
     /// </remarks>
     /// 
+    /// <seealso cref="MatchingTracker"/>
+    /// <seealso cref="HslBlobTracker"/>
+    /// 
     public class Camshift : IObjectTracker
     {
 

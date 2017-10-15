@@ -44,16 +44,21 @@ namespace Accord {
             ref struct WriterPrivateData;
 
             /// <summary>
-            /// Class for writing video files utilizing FFmpeg library.
+            ///   Class for writing video files utilizing FFmpeg library.
             /// </summary>
             ///
-            /// <remarks><para>The class allows to write video files using <a href="http://www.ffmpeg.org/">FFmpeg</a> library.</para>
+            /// <remarks>
+            ///   <para>The class allows to write video files using <a href="http://www.ffmpeg.org/">FFmpeg</a> library.</para>
             ///
-            /// <para><note>Make sure you have <b>FFmpeg</b> binaries (DLLs) in the output folder of your application in order
-            /// to use this class successfully. <b>FFmpeg</b> binaries can be found in Externals folder provided with AForge.NET
-            /// framework's distribution.</note></para>
+            ///   <para><note>Make sure you have <b>FFmpeg</b> binaries (DLLs) in the output folder of your application in order
+            ///   to use this class successfully. <b>FFmpeg</b> binaries can be found in Externals folder provided with AForge.NET
+            ///   framework's distribution.</note></para>
+            /// </remarks>
             ///
-            /// <para>Sample usage:</para>
+            /// <example>
+            /// <para>
+            ///   After making sure FFMPEG's dlls are contained in the output folder of your application,
+            ///   you can use the following code to open a video file and save frames in order to it:
             /// <code>
             /// int width  = 320;
             /// int height = 240;
@@ -76,7 +81,18 @@ namespace Accord {
             ///
             /// writer.Close();
             /// </code>
-            /// </remarks>
+            ///
+            /// <para>
+            ///   The following example shows how to read frames from a video file using <see cref="VideoFileReader"/>, 
+            ///   how to process each frame using a face detector, and how to save those detections back to disk in the 
+            ///   form of individual frames and as a .mp4 file.</para>
+            ///   <code source="Sources\Extras\Accord.Tests.Video.FFMPEG\ObjectDetectorTest.cs" region="doc_video"/>
+            ///   <img src="..\images\video\haar_frame_24.png" />
+            /// <para>
+            ///   The <a href="https://1drv.ms/v/s!AoiTwBxoR4OAoLJhPozzixD25XcbiQ">generated video file can be found here</a>.</para>
+            /// </example>
+            ///
+            /// <seealso cref="VideoFileReader"/>
             ///
             public ref class VideoFileWriter : IDisposable
             {

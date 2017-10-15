@@ -41,39 +41,66 @@ namespace Accord {
             ref struct ReaderPrivateData;
 
             /// <summary>
-            /// Class for reading video files utilizing FFmpeg library.
+            ///   Class for reading video files utilizing FFmpeg library.
             /// </summary>
             /// 
-            /// <remarks><para>The class allows to read video files using <a href="http://www.ffmpeg.org/">FFmpeg</a> library.</para>
+            /// <remarks>
+            ///   <para>This class allows to read video files using <a href="http://www.ffmpeg.org/">FFmpeg</a> library.</para>
             /// 
-            /// <para><note>Make sure you have <b>FFmpeg</b> binaries (DLLs) in the output folder of your application in order
-            /// to use this class successfully. <b>FFmpeg</b> binaries can be found in Externals folder provided with Accord.NET
-            /// framework's distribution.</note></para>
-            ///
-            /// <para>Sample usage:</para>
+            ///   <para><note>Make sure you have <b>FFmpeg</b> binaries (DLLs) in the output folder of your application in order
+            ///   to use this class successfully. <b>FFmpeg</b> binaries can be found in Externals folder provided with Accord.NET
+            ///   framework's distribution.</note></para>
+            /// </remarks>
+            /// 
+            /// <example>
+            /// <para>
+            ///   After making sure FFMPEG's dlls are contained in the output folder of your application,
+            ///   you can use the following code to open a video file and read frames in order from it:
             /// <code>
             /// // create instance of video reader
-            /// VideoFileReader reader = new VideoFileReader( );
+            /// VideoFileReader reader = new VideoFileReader();
+            ///
             /// // open video file
-            /// reader.Open( "test.avi" );
+            /// reader.Open("test.avi");
+            /// 
             /// // check some of its attributes
             /// Console.WriteLine( "width:  " + reader.Width );
             /// Console.WriteLine( "height: " + reader.Height );
             /// Console.WriteLine( "fps:    " + reader.FrameRate );
             /// Console.WriteLine( "codec:  " + reader.CodecName );
+            ///
             /// // read 100 video frames out of it
-            /// for ( int i = 0; i &lt; 100; i++ )
+            /// for (int i = 0; i &lt; 100; i++)
             /// {
-            ///     Bitmap videoFrame = reader.ReadVideoFrame( );
-            ///     // process the frame somehow
-            ///     // ...
-            /// 
-            ///     // dispose the frame when it is no longer required
-            ///     videoFrame.Dispose( );
+            ///     using (Bitmap videoFrame = reader.ReadVideoFrame())
+            ///     {
+            ///         // process the frame somehow
+            ///         // ...
+            ///     }
             /// }
-            /// reader.Close( );
+            ///
+            /// reader.Close();
             /// </code>
-            /// </remarks>
+            ///
+            /// <para>
+            ///   Creating new Bitmaps for every frame can be quite expensive. The following example shows how 
+            ///   to read frames into a pre-allocated Bitmap and reuse this same memory location for each frame.
+            ///   It also shows how to process each frame using a face detector, and how to save those detections
+            ///   back to disk in the form of individual frames and as a .mp4 file using <see cref="VideoFileWriter"/>.</para>
+            ///   <code source="Sources\Extras\Accord.Tests.Video.FFMPEG\ObjectDetectorTest.cs" region="doc_video"/>
+            ///   <img src="..\images\video\haar_frame_24.png" />
+            /// <para>
+            ///   The <a href="https://1drv.ms/v/s!AoiTwBxoR4OAoLJhPozzixD25XcbiQ">generated video file can be found here</a>.</para>
+            ///
+            /// <para>
+            ///   The next example shows how to feed the frames returned by the VideoFileReader into an object
+            ///   tracker, how to mark the tracked object positions using <see cref="RectanglesMarker"/>, and 
+            ///   save those frames as individual files to the disk.</para>
+            ///   <code source="Sources\Extras\Accord.Tests.Video.FFMPEG\MatchingTrackerTest.cs" region="doc_track" />
+            ///   <img src="..\images\video\matching_frame_223.png" />
+            /// </example>
+            ///
+            /// <seealso cref="VideoFileWriter"/>
             ///
             public ref class VideoFileReader : IDisposable
             {

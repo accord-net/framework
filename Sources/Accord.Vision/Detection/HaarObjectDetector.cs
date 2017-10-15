@@ -135,8 +135,18 @@ namespace Accord.Vision.Detection
     /// </remarks>
     /// 
     /// <example>
+    /// <para>
+    ///   The first example shows how to detect faces from a single image using the detector.</para>
     ///   <code source="Unit Tests\Accord.Tests.Vision\ObjectDetectorTest.cs" region="doc_example"/>
+    /// 
+    /// <para>
+    ///   The second example shows how to process an entire video using FileVideoReader class,
+    ///   detecting faces from each frame, and saving those detections back to disk in the form
+    ///   of individual frames and as a .mp4 file (using FileVideoWriter).</para>
     ///   <code source="Sources\Extras\Accord.Tests.Video.FFMPEG\ObjectDetectorTest.cs" region="doc_video"/>
+    ///   <img src="..\images\video\haar_frame_24.png" />
+    /// <para>
+    ///   The <a href="https://1drv.ms/v/s!AoiTwBxoR4OAoLJhPozzixD25XcbiQ">generated video file can be found here</a>.</para>
     /// </example>
     /// 
     /// <seealso cref="FaceHaarCascade"/> 

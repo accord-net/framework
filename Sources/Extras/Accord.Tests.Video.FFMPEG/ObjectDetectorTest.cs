@@ -32,6 +32,7 @@ namespace Accord.Tests.Vision
     using Accord.Video.FFMPEG;
     using System.Drawing.Imaging;
     using Accord.Imaging;
+    using System.IO;
 #if NO_BITMAP
     using Resources = Accord.Tests.Vision.Properties.Resources_Standard;
 #endif
@@ -43,7 +44,7 @@ namespace Accord.Tests.Vision
         [Test]
         public void ProcessVideo()
         {
-            string basePath = NUnit.Framework.TestContext.CurrentContext.TestDirectory;
+            string basePath = Path.Combine(NUnit.Framework.TestContext.CurrentContext.TestDirectory, "detector");
 
             #region doc_video
             // Let's test the detector using a sample video from 
@@ -85,7 +86,7 @@ namespace Accord.Tests.Vision
 
             // To save results as a movie clip in mp4 format, you can use:
             VideoFileWriter writer = new VideoFileWriter();
-            writer.Open(@"C:\output\frame.mp4", frame.Width, frame.Height);
+            writer.Open(Path.Combine(basePath, "detected_faces.mp4"), frame.Width, frame.Height);
 
             // Now, for each frame of the video
             for (int frameIndex = 0; frameIndex < video.FrameCount; frameIndex++)
@@ -101,12 +102,13 @@ namespace Accord.Tests.Vision
                 objectMarker.ApplyInPlace(unmanagedImage); // overwrite the frame
 
                 // Save it to disk: first saving each frame separately:
-                frame.Save(@"C:\output\frame_{0}.png".Format(frameIndex));
+                frame.Save(Path.Combine(basePath, "frame_{0}.png".Format(frameIndex)));
 
                 // And then, saving as a .mp4 file:
                 writer.WriteVideoFrame(bitmapData);
             }
 
+            // The generated video can be seen at https://1drv.ms/v/s!AoiTwBxoR4OAoLJhPozzixD25XcbiQ
             video.Close();
             writer.Close();
             #endregion

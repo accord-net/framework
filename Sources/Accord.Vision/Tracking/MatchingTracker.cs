@@ -28,6 +28,7 @@ namespace Accord.Vision.Tracking
     using AForge;
     using System;
     using Accord.Math;
+    using Accord.Vision.Detection;
 
     /// <summary>
     ///   Template matching object tracker.
@@ -45,8 +46,17 @@ namespace Accord.Vision.Tracking
     /// </remarks>
     /// 
     /// <example>
-    /// <code source="Sources\Extras\Accord.Tests.Video.FFMPEG\MatchingTrackerTest.cs" region="doc_track" />
+    /// <para>
+    ///   The following example shows how to track an moving person from a video using the
+    ///   VideoFileReader class, how to mark the object positions using <see cref="RectanglesMarker"/>,
+    ///   and save those frames as individual files to the disk.</para>
+    ///   <code source="Sources\Extras\Accord.Tests.Video.FFMPEG\MatchingTrackerTest.cs" region="doc_track" />
+    ///   <img src="..\images\video\matching_frame_223.png" />
     /// </example>
+    /// 
+    /// <seealso cref="Camshift"/>
+    /// <seealso cref="HslBlobTracker"/>
+    /// <seealso cref="HaarObjectDetector"/>
     /// 
     public class MatchingTracker : IObjectTracker
     {

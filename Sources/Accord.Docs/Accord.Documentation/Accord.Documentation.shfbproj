@@ -1549,6 +1549,14 @@
       <ImageId>kinect</ImageId>
       <AlternateText>kinect</AlternateText>
     </Content>
+    <Content Include="images\video\matching_frame_223.png">
+      <ImageId>frame_223</ImageId>
+      <AlternateText>frame 223</AlternateText>
+    </Content>
+    <Content Include="images\video\haar_frame_24.png">
+      <ImageId>frame_24</ImageId>
+      <AlternateText>frame 24</AlternateText>
+    </Content>
     <Image Include="resources\Accord.NET.png">
       <CopyToMedia>True</CopyToMedia>
       <AlternateText>Accord.NET</AlternateText>

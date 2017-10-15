@@ -31,6 +31,7 @@ namespace Accord.Tests.Vision
     using Accord.Video.FFMPEG;
     using System.Drawing.Imaging;
     using Accord.Imaging.Filters;
+    using System.IO;
 #if NO_BITMAP
     using Resources = Accord.Tests.Vision.Properties.Resources_Standard;
 #endif
@@ -42,7 +43,7 @@ namespace Accord.Tests.Vision
         [Test]
         public void ProcessFrame()
         {
-            string basePath = NUnit.Framework.TestContext.CurrentContext.TestDirectory;
+            string basePath = Path.Combine(NUnit.Framework.TestContext.CurrentContext.TestDirectory, "matching-tracker");
 
             #region doc_track
             // Let's test the tracker using a sample video from 
@@ -56,8 +57,7 @@ namespace Accord.Tests.Vision
 
             // And then check the contents of one of the frames:
             Bitmap frame = video.ReadVideoFrame(frameIndex: 150);
-
-            frame.Save(@"C:\output\walking_frame.png");
+            frame.Save(Path.Combine(basePath, "walking_frame.png"));
 
             // Let's register a template for the bike rider in gray shirt
             Rectangle roi = new Rectangle(x: 70, y: 105, width: 28, height: 54);
@@ -102,7 +102,7 @@ namespace Accord.Tests.Vision
                 }
 
                 // Save it to disk
-                frame.Save(@"C:\output\frame_{0}.png".Format(frameIndex));
+                frame.Save(Path.Combine(basePath, "frame_{0}.png".Format(frameIndex)));
             }
 
             frame.UnlockBits(bitmapData);
