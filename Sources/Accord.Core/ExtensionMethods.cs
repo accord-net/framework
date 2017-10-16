@@ -657,12 +657,11 @@ namespace Accord
             if (!overwrite && File.Exists(fileName))
                 return;
 
-            for (int numberOfAttempts = 0; numberOfAttempts <= maxAttempts; numberOfAttempts++)
+            for (int numberOfAttempts = 1; numberOfAttempts <= maxAttempts; numberOfAttempts++)
             {
                 Console.WriteLine("Downloading {0} (#{1})", url, numberOfAttempts);
                 try
                 {
-                    numberOfAttempts++;
                     client.DownloadFile(url, fileName);
                     break;
                 }

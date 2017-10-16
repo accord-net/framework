@@ -85,16 +85,22 @@ namespace Accord.DataSets
         public Pendigits(string path = null)
             : base(path)
         {
-            Training = download("https://archive.ics.uci.edu/ml/machine-learning-databases/pendigits/pendigits-orig.tes.Z");
-            Testing = download("https://archive.ics.uci.edu/ml/machine-learning-databases/pendigits/pendigits-orig.tra.Z");
+            // https://archive.ics.uci.edu/ml/machine-learning-databases/pendigits/pendigits-orig.tra.Z => https://onedrive.live.com/download?cid=808347681CC09388&resid=808347681CC09388%21530792&authkey=APIFw0rzzh3OuQM
+            // https://archive.ics.uci.edu/ml/machine-learning-databases/pendigits/pendigits-orig.tes.Z => https://onedrive.live.com/download?cid=808347681CC09388&resid=808347681CC09388%21530791&authkey=AEBfVB3d3bil-oU
+
+            // Training = download("https://archive.ics.uci.edu/ml/machine-learning-databases/pendigits/pendigits-orig.tes.Z");
+            // Testing = download("https://archive.ics.uci.edu/ml/machine-learning-databases/pendigits/pendigits-orig.tra.Z");
+
+            Training = download("https://onedrive.live.com/download?cid=808347681CC09388&resid=808347681CC09388%21530792&authkey=APIFw0rzzh3OuQM", "pendigits-orig.tes.Z");
+            Testing = download("https://onedrive.live.com/download?cid=808347681CC09388&resid=808347681CC09388%21530791&authkey=AEBfVB3d3bil-oU", "pendigits-orig.tra.Z");
         }
 
-        private Tuple<double[][][], int[]> download(string url)
+        private Tuple<double[][][], int[]> download(string url, string localName)
         {
             this.VariableNames = new[] { "X", "Y" };
 
             string uncompressedFileName;
-            Download(url, Path, out uncompressedFileName);
+            Download(url, Path, localName, out uncompressedFileName);
 
             using (var reader = new UnipenReader(uncompressedFileName, compressed: false))
             {
