@@ -1,5 +1,6 @@
 # Accord.NET Framework
 
+[![Build status](https://ci.appveyor.com/api/projects/status/ns9h9opjmu8iw3ep?svg=true)](https://ci.appveyor.com/project/cesarsouza/framework)
 [![Build Status](https://travis-ci.org/accord-net/framework.svg?branch=development)](https://travis-ci.org/accord-net/framework)
 [![Github All Releases](https://img.shields.io/github/downloads/accord-net/framework/total.svg)]()
 [![License](https://img.shields.io/badge/license-LGPL--2.1-blue.svg)](LICENSE)
