@@ -34,7 +34,7 @@ namespace Accord.Collections
     /// 
     [Serializable]
     public class TreeNode<TNode> : ITreeNode<TNode>
-        where TNode : TreeNode<TNode>, ITreeNode<TNode>
+        where TNode : TreeNode<TNode>
     {
         /// <summary>
         ///   Gets or sets the parent of this node.

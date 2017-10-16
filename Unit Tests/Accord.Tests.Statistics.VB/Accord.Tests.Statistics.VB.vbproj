@@ -3,8 +3,8 @@
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <ProjectGuid>{EDC1164D-8E40-4D10-8B9E-5F1FCF85DDF0}</ProjectGuid>
-    <RootNamespace>Accord.Tests.Math.VB</RootNamespace>
-    <AssemblyName>Accord.Tests.Math.VB</AssemblyName>
+    <RootNamespace>Accord.Tests.Statistics.VB</RootNamespace>
+    <AssemblyName>Accord.Tests.Statistics.VB</AssemblyName>
   </PropertyGroup>
   <Import Project="$(SolutionDir)..\Unit Tests\Accord.Tests.targets" />
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">

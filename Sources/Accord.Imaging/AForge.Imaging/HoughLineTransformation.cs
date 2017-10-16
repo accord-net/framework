@@ -112,7 +112,7 @@ namespace Accord.Imaging
     /// 
     /// <seealso cref="HoughLineTransformation"/>
     /// 
-    public class HoughLine : IComparable
+    public class HoughLine : IComparable<HoughLine>
     {
         /// <summary>
         /// Line's slope - angle between polar axis and line's radius (normal going
@@ -179,7 +179,7 @@ namespace Accord.Imaging
         /// Compare the object with another instance of this class.
         /// </summary>
         /// 
-        /// <param name="obj">Object to compare with.</param>
+        /// <param name="other">Object to compare with.</param>
         /// 
         /// <returns><para>A signed number indicating the relative values of this instance and <b>value</b>: 1) greater than zero - 
         /// this instance is greater than <b>value</b>; 2) zero - this instance is equal to <b>value</b>;
@@ -191,9 +191,11 @@ namespace Accord.Imaging
         /// <para><note>Object are compared using their <see cref="Intensity">intensity</see> value.</note></para>
         /// </remarks>
         /// 
-        public int CompareTo(object obj)
+        public int CompareTo(HoughLine other)
         {
-            return (-Intensity.CompareTo(((HoughLine)obj).Intensity));
+            if (Intensity == other.Intensity)
+                return -(Radius.CompareTo(other.Radius));
+            return -(Intensity.CompareTo(other.Intensity));
         }
 
         /// <summary>

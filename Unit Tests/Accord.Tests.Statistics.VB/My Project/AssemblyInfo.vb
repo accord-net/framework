@@ -8,10 +8,10 @@ Imports System.Runtime.InteropServices
 
 ' Review the values of the assembly attributes
 
-<Assembly: AssemblyTitle("Accord.Tests.Math.VB")>
+<Assembly: AssemblyTitle("Accord.Tests.Statistics.VB")>
 <Assembly: AssemblyDescription("")>
 <Assembly: AssemblyCompany("")>
-<Assembly: AssemblyProduct("Accord.Tests.Math.VB")>
+<Assembly: AssemblyProduct("Accord.Tests.Statistics.VB")>
 <Assembly: AssemblyCopyright("Copyright ©  2017")>
 <Assembly: AssemblyTrademark("")>
 

@@ -28,6 +28,7 @@ namespace Accord.Imaging.Tests
     using Accord.DataSets;
     using Accord.Tests.Imaging.Properties;
     using Accord.Imaging.Filters;
+    using Accord.Math;
 
     [TestFixture]
     public class HoughTest

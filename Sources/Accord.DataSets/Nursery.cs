@@ -108,9 +108,10 @@ namespace Accord.DataSets
             };
 
             string uncompressedFileName;
-            Download("https://archive.ics.uci.edu/ml/machine-learning-databases/nursery/nursery.data", Path, out uncompressedFileName);
+            // Download("https://archive.ics.uci.edu/ml/machine-learning-databases/nursery/nursery.data", Path, out uncompressedFileName);
+            Download("https://onedrive.live.com/download?cid=808347681CC09388&resid=808347681CC09388%21530794&authkey=AObheTbGp_LOi-U", Path, "nursery.data", out uncompressedFileName);
 
-            string text = File.ReadAllText(uncompressedFileName);
+                     string text = File.ReadAllText(uncompressedFileName);
             string[] lines = text.Split(new[] { "\n", "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
             if (lines.Length != 12960)
                 throw new InvalidOperationException("The downloaded dataset definition file has a different number of lines than expected ({0} instead of expected 12960).".Format(lines.Length));

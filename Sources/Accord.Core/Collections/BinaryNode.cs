@@ -34,7 +34,7 @@ namespace Accord.Collections
     /// 
     [Serializable]
     public class BinaryNode<TNode> : IEquatable<TNode>, ITreeNode<TNode> // TODO: Try to remove IEquatable
-        where TNode : BinaryNode<TNode>, ITreeNode<TNode>
+        where TNode : BinaryNode<TNode>
     {
         /// <summary>
         ///   Gets or sets the left subtree of this node.

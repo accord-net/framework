@@ -41,7 +41,7 @@ namespace Accord.Tests.Audio
         {
             string basePath = NUnit.Framework.TestContext.CurrentContext.TestDirectory;
 
-            FreeSpokenDigitsDataset fsdd = new FreeSpokenDigitsDataset(Path.Combine(basePath, "a"));
+            FreeSpokenDigitsDataset fsdd = new FreeSpokenDigitsDataset(Path.Combine(basePath, "mfcc"));
             var mfcc = new MelFrequencyCepstrumCoefficient();
 
             Signal a = fsdd.GetSignal(0, "jackson", 10);

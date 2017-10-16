@@ -10,6 +10,7 @@
     <RootNamespace>Accord.Tests.MachineLearning.FSharp</RootNamespace>
     <AssemblyName>Accord.Tests.MachineLearning.FSharp</AssemblyName>
     <Name>Accord.Tests.MachineLearning.FSharp</Name>
+	<OutputPath>bin\$(Configuration)\$(Platform)</OutputPath>
     <TargetFrameworkProfile />
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
@@ -19,64 +20,43 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>$(SolutionDir)..\Unit Tests\bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <TargetFSharpCoreVersion>4.4.1.0</TargetFSharpCoreVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'net35|AnyCPU' ">
-    <OutputPath>$(SolutionDir)..\Unit Tests\bin\Release\net35\</OutputPath>
     <DefineConstants>TRACE;NET35</DefineConstants>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFSharpCoreVersion>4.4.1.0</TargetFSharpCoreVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'net40|AnyCPU' ">
-    <OutputPath>$(SolutionDir)..\Unit Tests\bin\Release\net40\</OutputPath>
     <DefineConstants>TRACE;NET40</DefineConstants>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFSharpCoreVersion>4.4.1.0</TargetFSharpCoreVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'net45|AnyCPU' ">
-    <OutputPath>$(SolutionDir)..\Unit Tests\bin\Release\net45\</OutputPath>
     <DefineConstants>TRACE;NET45</DefineConstants>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <TargetFSharpCoreVersion>4.4.1.0</TargetFSharpCoreVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'net46|AnyCPU' ">
-    <OutputPath>$(SolutionDir)..\Unit Tests\bin\Release\net46\</OutputPath>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <DefineConstants>TRACE;NET46</DefineConstants>
     <TargetFSharpCoreVersion>4.4.1.0</TargetFSharpCoreVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'net462|AnyCPU' ">
-    <OutputPath>$(SolutionDir)..\Unit Tests\bin\Release\net462\</OutputPath>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <TargetFSharpCoreVersion>4.4.1.0</TargetFSharpCoreVersion>
     <DefineConstants>TRACE;NET462</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'mono|AnyCPU' ">
-    <OutputPath>$(SolutionDir)..\Unit Tests\bin\Release\mono\</OutputPath>
     <DefineConstants>TRACE;MONO</DefineConstants>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <TargetFSharpCoreVersion>4.4.1.0</TargetFSharpCoreVersion>
   </PropertyGroup>
   <PropertyGroup>
-    <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>
+    <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">14</MinimumVisualStudioVersion>
   </PropertyGroup>
-  <!--
-  <Choose>
-    <When Condition="'$(VisualStudioVersion)' == '11.0'">
-      <PropertyGroup Condition="Exists('$(MSBuildExtensionsPath32)\..\Microsoft SDKs\F#\3.0\Framework\v4.0\Microsoft.FSharp.Targets')">
-        <FSharpTargetsPath>$(MSBuildExtensionsPath32)\..\Microsoft SDKs\F#\3.0\Framework\v4.0\Microsoft.FSharp.Targets</FSharpTargetsPath>
-      </PropertyGroup>
-    </When>
-    <Otherwise>
-      <PropertyGroup Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\FSharp\Microsoft.FSharp.Targets')">
-        <FSharpTargetsPath>$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\FSharp\Microsoft.FSharp.Targets</FSharpTargetsPath>
-      </PropertyGroup>
-    </Otherwise>
-  </Choose>
-  -->
   <PropertyGroup>
     <FSharpTargetsPath>$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\FSharp\Microsoft.FSharp.Targets</FSharpTargetsPath>
   </PropertyGroup>
