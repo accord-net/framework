@@ -33,6 +33,8 @@ test:
   assemblies:
     only:
     - '**\Accord.Tests.*.dll'
+    except:
+    - '**\*.FSharp.dll'
   categories:
     except:
     - Office
