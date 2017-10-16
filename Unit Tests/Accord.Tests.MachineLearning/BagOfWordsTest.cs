@@ -215,9 +215,7 @@ namespace Accord.Tests.MachineLearning
         }
 
         [Test, Category("Intensive")]
-#if DEBUG || NET35
-        [Ignore("Intensive")]
-#endif
+        [Ignore("Random")] // reproducible parallelization of this test requires #870
         public void learn_pendigits_normalization()
         {
             Console.WriteLine("Starting BagOfWordsTest.learn_pendigits_normalization");

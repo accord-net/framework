@@ -39,7 +39,7 @@ namespace Accord.Tests.Statistics
     using System.Threading.Tasks;
 
     [TestFixture]
-    public class GenericSequenceClassifierTest2
+    public class HiddenMarkovClassifier2Test
     {
         const double EXPECTED_LOGLIKELIHOOD_1 = -13.275229544352495;
         const double EXPECTED_LOGLIKELIHOOD_2 = -24.563151414305928;
@@ -794,9 +794,7 @@ namespace Accord.Tests.Statistics
         }
 
         [Test, Category("Intensive")]
-#if DEBUG || NET35
-        [Ignore("Intensive")]
-#endif
+        [Ignore("Random")] // reproducible parallelization of this test requires #870
         public void learn_pendigits()
         {
             Console.WriteLine("Starting HiddenMarkovClassifier`2Test.learn_pendigits");
@@ -844,9 +842,7 @@ namespace Accord.Tests.Statistics
         }
 
         [Test, Category("Intensive")]
-#if DEBUG || NET35
-        [Ignore("Intensive")]
-#endif
+        [Ignore("Random")] // reproducible parallelization of this test requires #870
         public void learn_pendigits_normalization()
         {
             Console.WriteLine("Starting HiddenMarkovClassifier`2Test.learn_pendigits_normalization");
