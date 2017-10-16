@@ -31,9 +31,23 @@ build:
   
 test:
   assemblies:
-    except:
-    - '**\Accord.Tests.*.FSharp.dll'
-    - 'Externals\*'
+    only:
+    - Accord.Tests.Audio.dll
+    - Accord.Tests.Controls.dll
+    - Accord.Tests.Core.dll
+    - Accord.Tests.Imaging.dll
+    - Accord.Tests.IO.dll
+    - Accord.Tests.MachineLearning.dll
+    - Accord.Tests.Math.dll
+    - Accord.Tests.Math.Cpp.dll
+    - Accord.Tests.Math.Interop.dll
+    - Accord.Tests.Neuro.dll
+    - Accord.Tests.Statistics.dll
+    - Accord.Tests.Statistics.VB.dll
+    - Accord.Tests.Text.dll
+    - Accord.Tests.Video.dll
+    - Accord.Tests.Vision.dll
+    
   categories:
     except:
     - Office

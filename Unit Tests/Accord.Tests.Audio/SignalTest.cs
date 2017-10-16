@@ -61,7 +61,7 @@ namespace Accord.Tests.Audio
         [Test]
         public void GetEnergyTest_doc()
         {
-            string basePath = NUnit.Framework.TestContext.CurrentContext.TestDirectory;
+            string basePath = Path.Combine(NUnit.Framework.TestContext.CurrentContext.TestDirectory, "energy");
 
             #region doc_energy
             // Let's say we would like to compute the energy of an audio signal. For this,
