@@ -31,14 +31,14 @@ build:
   
 test:
   assemblies:
-    only:
-    - '**\Accord.Tests.*.dll'
     except:
-    - '**\*.FSharp.dll'
+    - '**\Accord.Tests.*.FSharp.dll'
+    - '**\NUnit.*.dll'
   categories:
     except:
     - Office
     - Random
+    - Slow
     
 notifications:
 - provider: Webhook

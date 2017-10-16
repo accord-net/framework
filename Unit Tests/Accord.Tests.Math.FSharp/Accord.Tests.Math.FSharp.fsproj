@@ -89,7 +89,6 @@
     <Compile Include="AssemblyInfo.fs" />
     <None Include="Accord.snk" />
     <Content Include="packages.config" />
-    <Content Include="app.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Sources\Accord.Statistics\Accord.Statistics.csproj">
