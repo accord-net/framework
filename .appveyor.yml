@@ -33,7 +33,7 @@ test:
   assemblies:
     except:
     - '**\Accord.Tests.*.FSharp.dll'
-    - 'Externals\*
+    - 'Externals\*'
   categories:
     except:
     - Office
