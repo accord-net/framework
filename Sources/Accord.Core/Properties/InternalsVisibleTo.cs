@@ -8,6 +8,7 @@
 [assembly: InternalsVisibleTo("Accord.IO")]
 [assembly: InternalsVisibleTo("Accord.Audio")]
 [assembly: InternalsVisibleTo("Accord.Neuro")]
+[assembly: InternalsVisibleTo("Accord.Video")]
 [assembly: InternalsVisibleTo("Accord.Vision")]
 [assembly: InternalsVisibleTo("Accord.Audition")]
 [assembly: InternalsVisibleTo("Accord.Genetic")]

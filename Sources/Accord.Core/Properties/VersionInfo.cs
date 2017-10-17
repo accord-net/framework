@@ -6,4 +6,4 @@ using System.Reflection;
 [assembly: AssemblyCultureAttribute("")]
 [assembly: AssemblyVersionAttribute("3.7.3")]
 [assembly: AssemblyInformationalVersionAttribute("3.7.3-alpha")]
-[assembly: AssemblyFileVersionAttribute("3.7.3.6131")]
+[assembly: AssemblyFileVersionAttribute("3.7.3.6133")]
