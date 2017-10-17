@@ -344,7 +344,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             //    of the candidate attributes at each split point
 
             if (MaxVariables > 0 && candidates.Length > MaxVariables)
-                candidates = Vector.Sample(candidates, MaxVariables);
+                candidates = Vector.Sample(MaxVariables / (double)candidates.Length, candidates.Length);
 
             var scores = new double[candidates.Length];
             var thresholds = new double[candidates.Length];
