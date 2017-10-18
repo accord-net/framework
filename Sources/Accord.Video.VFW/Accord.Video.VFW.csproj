@@ -5,7 +5,7 @@
     <RootNamespace>Accord.Video.VFW</RootNamespace>
     <AssemblyName>Accord.Video.VFW</AssemblyName>
   </PropertyGroup>
-  <Import Project="$(SolutionDir)Accord.NET.targets" />  
+  <Import Project="..\Accord.NET.targets" />  
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
 		<DebugType>Full</DebugType>
 		<Optimize>False</Optimize>
