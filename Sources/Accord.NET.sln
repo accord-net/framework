@@ -69,7 +69,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accord.Controls.Vision", "A
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{3364C282-6629-4FC0-B7D3-E488576D7115}"
 EndProject
-Project("{7CF6DF6D-3B04-46F8-A40B-537D21BCA0B4}") = "Accord.Docs.SHFB", "Accord.Docs\Accord.Documentation\Accord.Docs.SHFB.shfbproj", "{048ACC63-3B91-4E14-B5A3-38E7898426FE}"
+Project("{7CF6DF6D-3B04-46F8-A40B-537D21BCA0B4}") = "Accord.Docs.SHFB", "Accord.Docs\Accord.Docs.SHFB\Accord.Docs.SHFB.shfbproj", "{048ACC63-3B91-4E14-B5A3-38E7898426FE}"
 	ProjectSection(ProjectDependencies) = postProject
 		{4ED2AB06-991F-44FF-AC01-53394B222AF7} = {4ED2AB06-991F-44FF-AC01-53394B222AF7}
 		{E7B65F08-82F1-438F-847A-2AAC2BEC9AC0} = {E7B65F08-82F1-438F-847A-2AAC2BEC9AC0}
@@ -130,7 +130,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Setup", "Setup", "{98CCD2AC
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accord.Setup", "..\Setup\Accord.Setup.csproj", "{F00F5E2D-D181-4FCC-8F2E-FDCB90F4721B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accord.Docs.Accord", "Accord.Docs\Namespaces\Accord.Docs.Accord.csproj", "{4ED2AB06-991F-44FF-AC01-53394B222AF7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accord.Namespaces", "Accord.Docs\Namespaces\Accord.Namespaces.csproj", "{4ED2AB06-991F-44FF-AC01-53394B222AF7}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Accord.Tests.Math.Cpp", "..\Unit Tests\Accord.Tests.Math.Cpp\Accord.Tests.Math.Cpp.vcxproj", "{161BD953-537D-4325-8A00-22475FC9088E}"
 EndProject
@@ -217,7 +217,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accord.Debug.Visualizers (G
 		{FD8101DD-C95D-42D6-AD44-AE01C25F2811} = {FD8101DD-C95D-42D6-AD44-AE01C25F2811}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accord.Docs.DocFx", "Accord.Docs\DocFx\Accord.Docs.DocFx.csproj", "{493D3B8F-D924-439C-B69F-96D5ABF2167C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accord.Docs.DocFx", "Accord.Docs\Accord.Docs.DocFx\Accord.Docs.DocFx.csproj", "{493D3B8F-D924-439C-B69F-96D5ABF2167C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -2798,11 +2798,8 @@ Global
 		{493D3B8F-D924-439C-B69F-96D5ABF2167C}.Debug|Win32.ActiveCfg = Debug|Any CPU
 		{493D3B8F-D924-439C-B69F-96D5ABF2167C}.Debug|x64.ActiveCfg = Debug|Any CPU
 		{493D3B8F-D924-439C-B69F-96D5ABF2167C}.Docs|Any CPU.ActiveCfg = Release|Any CPU
-		{493D3B8F-D924-439C-B69F-96D5ABF2167C}.Docs|Any CPU.Build.0 = Release|Any CPU
 		{493D3B8F-D924-439C-B69F-96D5ABF2167C}.Docs|Win32.ActiveCfg = Debug|Any CPU
-		{493D3B8F-D924-439C-B69F-96D5ABF2167C}.Docs|Win32.Build.0 = Debug|Any CPU
 		{493D3B8F-D924-439C-B69F-96D5ABF2167C}.Docs|x64.ActiveCfg = Debug|Any CPU
-		{493D3B8F-D924-439C-B69F-96D5ABF2167C}.Docs|x64.Build.0 = Debug|Any CPU
 		{493D3B8F-D924-439C-B69F-96D5ABF2167C}.mono|Any CPU.ActiveCfg = Release|Any CPU
 		{493D3B8F-D924-439C-B69F-96D5ABF2167C}.mono|Win32.ActiveCfg = Release|Any CPU
 		{493D3B8F-D924-439C-B69F-96D5ABF2167C}.mono|x64.ActiveCfg = Release|Any CPU

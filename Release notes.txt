@@ -1,6 +1,6 @@
-Accord.NET Framework 3.7.3-alpha release notes
+Accord.NET Framework 3.8.0 release notes
 -----------------------------------------
-17.10.2017.
+22.10.2017.
 
 Version updates and fixes:
   - GH-82: Add support for weighted PCA;

@@ -58,7 +58,7 @@ namespace Accord.Setup.Scripts
         private static void replaceDocumentation(string frameworkRootPath, string major, string minor, string rev)
         {
             string pattern = "<HelpFileVersion>.*</HelpFileVersion>";
-            string docPath = Path.Combine(frameworkRootPath, "Sources/Accord.Docs/Accord.Documentation/Accord.Documentation.shfbproj");
+            string docPath = Path.Combine(frameworkRootPath, "Sources/Accord.Docs/Accord.Docs.SHFB/Accord.Docs.SHFB.shfbproj");
             string contents = File.ReadAllText(docPath);
             string replacement = String.Format("<HelpFileVersion>{0}.{1}.{2}.0</HelpFileVersion>", major, minor, rev);
             contents = Regex.Replace(contents, pattern, replacement);
