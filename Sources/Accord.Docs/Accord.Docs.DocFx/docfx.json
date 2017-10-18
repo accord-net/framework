@@ -4,6 +4,7 @@
       "src": [
         {
           "files": [
+            //"Sources/Accord.NET.sln"
             "Sources/Accord.Docs/Namespaces/Accord.Namespaces.csproj",
             "Sources/Accord.Audio/Accord.Audio.csproj",
             "Sources/Accord.Audio.DirectSound/Accord.Audio.DirectSound.csproj",
@@ -29,7 +30,11 @@
             "Sources/Accord.Video.Kinect/Accord.Video.Kinect.csproj",
             "Sources/Accord.Video.VFW/Accord.Video.VFW.csproj",
             "Sources/Accord.Video.Ximea/Accord.Video.Ximea.csproj",
-            "Sources/Accord.Vision/Accord.Vision.csproj"
+            "Sources/Accord.Vision/Accord.Vision.csproj",
+            "Sources/Extras/Accord.Imaging (Noncommercial)/Accord.Imaging (Noncommercial).csproj",
+            "Sources/Extras/Accord.MachineLearning (GPL)/Accord.MachineLearning (GPL).csproj",
+            "Sources/Extras/Accord.Math (Noncommercial)/Accord.Math (Noncommercial).csproj",
+            "Sources/Extras/Accord.Video.FFMPEG (GPL)/Video.FFMPEG.vcxproj"
           ],
           "exclude": [
             "**/obj/**",
@@ -48,7 +53,7 @@
         "files": [
           "api/**.yml"
         ],
-        "cwd": "obj"
+        "src": "obj"
       },
       {
         "files": [
@@ -61,16 +66,23 @@
           "obj/**",
           "_site/**"
         ]
-      }
-    ],
-    "resource": [
+      },
       {
         "files": [
           "images/**"
         ],
         "exclude": [
-          "obj/**",
-          "_site/**"
+        ],
+        "src": "../Accord.Docs.SHFB/" // Start from Sandcastle Help File Builder project folder
+      },
+    ],
+    "resource": [
+      {
+        "files": [
+        ],
+        "exclude": [
+          "**/obj/**",
+          "**/_site/**"
         ]
       }
     ],
