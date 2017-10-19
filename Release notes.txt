@@ -188,7 +188,7 @@ Version updates and fixes:
 * Statistics
   - Adding exponentially weighted moving average (ewma) methods in Statistics.Measures partial classes;
 
- * Sample applications
+* Sample applications
   - Adding a new sample application demonstrating how to use the framework in Unity 3D.
 
 
