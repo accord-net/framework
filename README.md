@@ -58,45 +58,45 @@ Then navigate to the Sources directory, and open the *Accord.NET.sln* solution f
 #### With Mono in Linux
 
 ```bash
-    # Install Mono
-    sudo apt-get install mono-complete monodevelop monodevelop-nunit git autoconf make
+# Install Mono
+sudo apt-get install mono-complete monodevelop monodevelop-nunit git autoconf make
 
-    # Clone the repository
-    git clone https://github.com/accord-net/framework.git
+# Clone the repository
+git clone https://github.com/accord-net/framework.git
 
-    # Enter the directory
-    cd framework
+# Enter the directory
+cd framework
 
-    # Build the framework solution using Mono
-    ./autogen.sh
-    make build
-    make samples
-    make test
+# Build the framework solution using Mono
+./autogen.sh
+make build
+make samples
+make test
 ```
 
 #### With Mono in OS X
 
 ```bash
-    # Install Mono
-    brew update
-    brew cask install mono-mdk pkg-config automake
+# Install Mono
+brew update
+brew cask install mono-mdk pkg-config automake
 
-    # Clone the repository
-    git clone https://github.com/accord-net/framework.git
+# Clone the repository
+git clone https://github.com/accord-net/framework.git
 
-    # Enter the directory
-    cd framework
-    
-    # Set some environment variables with OSX-specific paths
-    export PKG_CONFIG_PATH=/Library/Frameworks/Mono.framework/Versions/Current/lib/pkgconfig/
-    export MONO=/Library/Frameworks/Mono.framework/Versions/Current/bin/mono
-    export XBUILD=/Library/Frameworks/Mono.framework/Versions/Current/bin/xbuild
-    
-    # Build the framework solution using Mono
-    ./autogen.sh
-    make build
-    make samples
-    make test
+# Enter the directory
+cd framework
+
+# Set some environment variables with OSX-specific paths
+export PKG_CONFIG_PATH=/Library/Frameworks/Mono.framework/Versions/Current/lib/pkgconfig/
+export MONO=/Library/Frameworks/Mono.framework/Versions/Current/bin/mono
+export XBUILD=/Library/Frameworks/Mono.framework/Versions/Current/bin/xbuild
+
+# Build the framework solution using Mono
+./autogen.sh
+make build
+make samples
+make test
 ```
 
 # Contributing
