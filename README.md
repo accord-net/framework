@@ -4,11 +4,9 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/ns9h9opjmu8iw3ep?svg=true)](https://ci.appveyor.com/project/cesarsouza/framework)
 [![Build Status](https://travis-ci.org/accord-net/framework.svg?branch=development)](https://travis-ci.org/accord-net/framework)
 [![NuGet Downloads](https://img.shields.io/nuget/dt/Accord.svg)]()
-<!--[![Github All Releases](https://img.shields.io/github/downloads/accord-net/framework/total.svg)]()-->
 [![License](https://img.shields.io/badge/license-LGPL--2.1-blue.svg)](LICENSE)
 [![NuGet](https://img.shields.io/nuget/v/Accord.svg)]()
 [![NuGet Pre Release](https://img.shields.io/nuget/vpre/Accord.svg)]()
-<!--[![GitHub release](https://img.shields.io/github/release/accord-net/framework.svg?maxAge=2592000)]()-->
 
 The Accord.NET project provides machine learning, statistics, artificial intelligence, computer vision and image processing methods to .NET. It can be used on Microsoft Windows, Xamarin, Unity3D, Windows Store applications, Linux or mobile.
 
