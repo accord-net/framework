@@ -115,11 +115,11 @@ Join the chat at https://gitter.im/accord-net/framework - but to have issues and
 
 # Citing
 
-Please cite this work as 
+Please cite this work as:
 ```bibtex
 @misc{de2014accord,
   title={The Accord.NET Framework},
-  author={de Souza, C{\'e}sar Roberto},
+  author={C{\'e}sar Souza and Andrew Kirillov and Diego Catalano and Accord.NET contributors},
   year={2014},
   doi={10.5281/zenodo.1029480},
   url={http://accord-framework.net}
