@@ -57,6 +57,7 @@ Then navigate to the Sources directory, and open the *Accord.NET.sln* solution f
 
 #### With Mono in Linux
 
+```bash
     # Install Mono
     sudo apt-get install mono-complete monodevelop monodevelop-nunit git autoconf make
 
@@ -71,10 +72,11 @@ Then navigate to the Sources directory, and open the *Accord.NET.sln* solution f
     make build
     make samples
     make test
-
+```
 
 #### With Mono in OS X
 
+```bash
     # Install Mono
     brew update
     brew cask install mono-mdk pkg-config automake
@@ -95,7 +97,7 @@ Then navigate to the Sources directory, and open the *Accord.NET.sln* solution f
     make build
     make samples
     make test
-
+```
 
 # Contributing
 
