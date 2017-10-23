@@ -109,3 +109,18 @@ Donate using cryptocurrencies:
 Note: all donations are 100% invested towards improving the framework, including, but not limited to, the hiring of extra developers to work on issues currently present at the project's issue tracker. If you would like to donate resources towards the development of a particular issue, please let us know!
 
 Join the chat at https://gitter.im/accord-net/framework - but to have issues and questions answered, [post it as an issue](https://github.com/accord-net/framework/issues).
+
+
+# Citing
+
+Please cite this work as 
+```bibtex
+@misc{de2014accord,
+  title={The Accord.NET Framework},
+  author={de Souza, C{\'e}sar Roberto},
+  year={2014},
+  doi={10.5281/zenodo.1029480},
+  url={http://accord-framework.net}
+}
+```
+[[bibtex](https://zenodo.org/record/1029481/export/hx#.We0_zCyXeUk)]
