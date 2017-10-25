@@ -226,6 +226,13 @@ namespace Accord.Tests.MachineLearning
             // two different instances of identical objects.
             #endregion
 
+            // Make sure the loaded classifier is still working
+            Assert.AreEqual(2, loaded_knn.Decide(new double[] { 11, 5, 4 }));
+            cm = GeneralConfusionMatrix.Estimate(loaded_knn, inputs, outputs);
+            Assert.AreEqual(0, cm.Error);
+            Assert.AreEqual(1, cm.Accuracy);
+            Assert.AreEqual(1, cm.Kappa);
+
             Assert.AreEqual(knn.ClassCount , loaded_knn.ClassCount);
             Assert.AreEqual(knn.Distance, loaded_knn.Distance);
             Assert.AreEqual(knn.K, loaded_knn.K);
