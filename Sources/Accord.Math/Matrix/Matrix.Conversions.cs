@@ -30,6 +30,7 @@ namespace Accord.Math
 #endif
     using System.Globalization;
     using System.Linq;
+    using System.Runtime.InteropServices;
 
     public static partial class Matrix
     {
@@ -307,16 +308,41 @@ namespace Accord.Math
                     result.SetValue(outputValue, true, idx);
                 }
             }
-            else
+            else if (inputElementType.IsArray && outputElementType.IsArray)
             {
-                // Same nature (jagged or multidimensional) array
-                result = Array.CreateInstance(outputElementType, array.GetLength(false));
+                // jagged -> jagged
+                result = Array.CreateInstance(outputElementType, array.GetLength(0));
 
                 foreach (var idx in GetIndices(array))
                 {
                     object inputValue = array.GetValue(idx);
                     object outputValue = convertValue(outputElementType, inputValue);
                     result.SetValue(outputValue, idx);
+                }
+            }
+            else
+            {
+                // multidimensional -> multidimensional
+                int rank = outputType.GetArrayRank();
+                int[] length = new int[rank];
+                for (int i = 0; i < length.Length; i++)
+                    length[i] = array.GetLength(i);
+
+                result = Array.CreateInstance(outputElementType, length);
+
+                if (inputElementType == outputElementType && outputElementType.IsPrimitive)
+                {
+                    Buffer.BlockCopy(array, 0, result, 0, array.Length * Marshal.SizeOf(outputElementType));
+                    return result;
+                }
+                else
+                {
+                    foreach (var idx in GetIndices(array))
+                    {
+                        object inputValue = array.GetValue(idx);
+                        object outputValue = convertValue(outputElementType, inputValue);
+                        result.SetValue(outputValue, idx);
+                    }
                 }
             }
 
@@ -430,23 +456,10 @@ namespace Accord.Math
 #if !NETSTANDARD1_4
         private static object convertValue(Type outputElementType, object inputValue)
         {
-            object outputValue = null;
-
             Array inputArray = inputValue as Array;
-
-            if (outputElementType.IsEnum)
-            {
-                outputValue = Enum.ToObject(outputElementType, (int)System.Convert.ChangeType(inputValue, typeof(int)));
-            }
-            else if (inputArray != null)
-            {
-                outputValue = To(inputArray, outputElementType);
-            }
-            else
-            {
-                outputValue = System.Convert.ChangeType(inputValue, outputElementType);
-            }
-            return outputValue;
+            if (inputArray != null)
+                return To(inputArray, outputElementType);
+            return inputValue.To(outputElementType);
         }
 #endif
 
@@ -463,6 +476,9 @@ namespace Accord.Math
         ///   even if it contains nested arrays (as in jagged matrices).</param>
         /// <param name="max">Bases computations on the maximum length possible for 
         ///   each dimension (in case the jagged matrices has different lengths).</param>
+        /// <param name="order">The direction to access the matrix. Pass 1 to read the 
+        ///   matrix in row-major order. Pass 0 to read in column-major order. Default is 
+        ///   1 (row-major, c-style order).</param>
         /// 
         /// <returns>
         ///   An enumerable object that can be used to iterate over all
@@ -487,9 +503,9 @@ namespace Accord.Math
         /// 
         /// <seealso cref="Accord.Math.Vector.GetIndices{T}(T[])"/>
         /// 
-        public static IEnumerable<int[]> GetIndices(this Array array, bool deep = false, bool max = false)
+        public static IEnumerable<int[]> GetIndices(this Array array, bool deep = false, bool max = false, MatrixOrder order = MatrixOrder.Default)
         {
-            return Combinatorics.Sequences(array.GetLength(deep, max));
+            return Combinatorics.Sequences(array.GetLength(deep, max), firstColumnChangesFaster: order == MatrixOrder.FortranColumnMajor);
         }
 
 

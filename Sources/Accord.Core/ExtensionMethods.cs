@@ -395,7 +395,17 @@ namespace Accord
             if (type.IsInstanceOfType(value))
                 return value;
 
+            if (type.IsEnum)
+                return Enum.ToObject(type, (int)System.Convert.ChangeType(value, typeof(int)));
+
             Type inputType = value.GetType();
+
+            if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>))
+            {
+                MethodInfo setter = type.GetMethod("op_Implicit", new[] { inputType });
+                object nullable = setter.Invoke(null, new object[] { value });
+                return nullable;
+            }
 
             var methods = new List<MethodInfo>();
             methods.AddRange(inputType.GetMethods(BindingFlags.Public | BindingFlags.Static));
@@ -418,6 +428,20 @@ namespace Accord
             //    return System.Convert.ChangeType(value, type);
 
             return System.Convert.ChangeType(value, type);
+        }
+
+        /// <summary>
+        /// Gets the type of the element in a jagged or multi-dimensional matrix.
+        /// </summary>
+        /// 
+        /// <param name="type">The array type whose element type should be computed.</param>
+        /// 
+        public static Type GetInnerMostType(this Type type)
+        {
+            while (type.IsArray)
+                type = type.GetElementType();
+
+            return type;
         }
 
         /// <summary>
