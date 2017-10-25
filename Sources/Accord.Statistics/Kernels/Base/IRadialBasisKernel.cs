@@ -61,7 +61,9 @@ namespace Accord.Statistics.Kernels
     ///    </list></para>
     /// </remarks>
     /// 
+    /// <example>
     /// <code source="Unit Tests\Accord.Tests.Statistics\Kernels\GaussianTest.cs" region="doc_rbf" />
+    /// </example>
     /// 
     public interface IRadialBasisKernel : IKernel
     {
