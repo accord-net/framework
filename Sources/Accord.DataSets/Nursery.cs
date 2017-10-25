@@ -61,7 +61,7 @@ namespace Accord.DataSets
     public class Nursery : WebDataSet
     {
         /// <summary>
-        ///   Gets the data instances contained in Fisher's Iris flower dataset.
+        ///   Gets the data instances contained in the Nursery dataset.
         /// </summary>
         /// 
         public int[][] Instances { get; private set; }
