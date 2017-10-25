@@ -31,6 +31,7 @@ namespace Accord.Tests.Math
     {
 
         [Test]
+        [Ignore("MonoNotSupported")]
         public void create_nullable_test()
         {
             double?[] ones = Vector.Ones<double?>(5);
