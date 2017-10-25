@@ -36,6 +36,7 @@ namespace Accord.Imaging.Formats
     using System.IO;
     using Accord.Compat;
     using System.Linq;
+    using System.Threading;
 
     /// <summary>
     /// Image decoder to decode different custom image file formats.
@@ -65,7 +66,9 @@ namespace Accord.Imaging.Formats
     /// 
     public static class ImageDecoder
     {
-        private static Dictionary<string, Type> decoders = new Dictionary<string, Type>();
+        private static Dictionary<string, Type> decoderTypes = new Dictionary<string, Type>();
+        private static ThreadLocal<Dictionary<string, IImageDecoder>> decoders = 
+            new ThreadLocal<Dictionary<string, IImageDecoder>>(() => new Dictionary<string, IImageDecoder>());
 
         /// <summary>
         ///   Obsolete. Please mark your decoder class with the <see cref="FormatDecoderAttribute"/> instead.
@@ -74,7 +77,7 @@ namespace Accord.Imaging.Formats
         [Obsolete("Please mark your decoder class with the FormatDecoderAttribute instead.")]
         public static void RegisterDecoder(string fileExtension, IImageDecoder decoder)
         {
-            decoders.Add(fileExtension.ToUpperInvariant(), decoder.GetType());
+            decoderTypes.Add(fileExtension.ToUpperInvariant(), decoder.GetType());
         }
 
         /// <summary>
@@ -115,43 +118,37 @@ namespace Accord.Imaging.Formats
         /// 
         public static Bitmap DecodeFromFile(string fileName, out ImageInfo imageInfo)
         {
-            Bitmap bitmap = null;
+            string fileExtension = FormatDecoderAttribute.GetNormalizedExtension(fileName);
 
-            string fileExtension = Path.GetExtension(fileName).ToUpperInvariant();
+            IImageDecoder decoder = FormatDecoderAttribute.GetDecoder(fileExtension, decoderTypes, decoders.Value);
 
-            if ((fileExtension != string.Empty) && (fileExtension.Length != 0))
+            if (decoder != null)
             {
-                fileExtension = fileExtension.Substring(1);
-
-                if (!decoders.ContainsKey(fileExtension))
-                    FormatDecoderAttribute.PopulateDictionaryWithDecodersFromAllAssemblies<IImageDecoder>(decoders, fileExtension);
-
-                if (decoders.ContainsKey(fileExtension))
+                // open stream
+                using (FileStream stream = new FileStream(fileName, FileMode.Open, FileAccess.Read))
                 {
-                    IImageDecoder decoder = (IImageDecoder)Activator.CreateInstance(decoders[fileExtension]);
+                    // open decoder
+                    decoder.Open(stream);
 
-                    // open stream
-                    using (FileStream stream = new FileStream(fileName, FileMode.Open, FileAccess.Read))
-                    {
-                        // open decoder
-                        decoder.Open(stream);
+                    // read the first frame from the image
+                    Bitmap bitmap = decoder.DecodeFrame(0, out imageInfo);
 
-                        // read the first frame
-                        bitmap = decoder.DecodeFrame(0, out imageInfo);
-
-                        decoder.Close();
-                    }
-
+                    // close the decoder and return the bitmap
+                    decoder.Close();
                     return bitmap;
                 }
             }
+            else
+            {
+                // use default .NET's image decoding routine
+                Bitmap bitmap = FromFile(fileName);
 
-            // use default .NET's image decoding routine
-            bitmap = FromFile(fileName);
+                decoderTypes[fileExtension] = null; // mark that the file could be loaded using default .NET decoders
 
-            imageInfo = new ImageInfo(bitmap.Width, bitmap.Height, Image.GetPixelFormatSize(bitmap.PixelFormat), 0, 1);
+                imageInfo = new ImageInfo(bitmap.Width, bitmap.Height, Image.GetPixelFormatSize(bitmap.PixelFormat), 0, 1);
 
-            return bitmap;
+                return bitmap;
+            }
         }
 
         private static System.Drawing.Bitmap FromFile(string fileName)
