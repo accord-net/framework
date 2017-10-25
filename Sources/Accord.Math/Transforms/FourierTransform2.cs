@@ -68,6 +68,20 @@ namespace Accord.Math.Transforms
     ///   original FourierTransform class</see> that would provide more expected results.</para>
     /// </remarks>
     /// 
+    /// <example>
+    /// <para>
+    ///   The following examples show how to compute 1-D Discrete Fourier Transform and 
+    ///   1-D Fast Fourier Transforms, respectively:</para>
+    /// <code source="Unit Tests\Accord.Tests.Math\FourierTransformTest.cs" region="doc_dft" />
+    /// <code source="Unit Tests\Accord.Tests.Math\FourierTransformTest.cs" region="doc_fft" />
+    /// 
+    /// <para>
+    ///   The next examples show how to compute 2-D Discrete Fourier Transform and 
+    ///   2-D Fast Fourier Transforms, respectively:</para>
+    /// <code source="Unit Tests\Accord.Tests.Math\FourierTransformTest.cs" region="doc_dft2" />
+    /// <code source="Unit Tests\Accord.Tests.Math\FourierTransformTest.cs" region="doc_fft2" />
+    /// </example>
+    /// 
     /// <seealso cref="FourierTransform"/>
     /// 
     public static class FourierTransform2
@@ -80,7 +94,9 @@ namespace Accord.Math.Transforms
         /// <param name="data">The data to transform.</param>
         /// <param name="direction">The transformation direction.</param>
         /// 
+        /// <example>
         /// <code source="Unit Tests\Accord.Tests.Math\FourierTransformTest.cs" region="doc_dft" />
+        /// </example>
         /// 
         public static void DFT(Complex[] data, FourierTransform.Direction direction)
         {
@@ -131,7 +147,9 @@ namespace Accord.Math.Transforms
         /// <param name="data">The data to transform.</param>
         /// <param name="direction">The transformation direction.</param>
         /// 
+        /// <example>
         /// <code source="Unit Tests\Accord.Tests.Math\FourierTransformTest.cs" region="doc_dft2" />
+        /// </example>
         /// 
         public static void DFT2(Complex[][] data, FourierTransform.Direction direction)
         {
@@ -196,7 +214,9 @@ namespace Accord.Math.Transforms
         /// <param name="data">The data to transform..</param>
         /// <param name="direction">The transformation direction.</param>
         /// 
+        /// <example>
         /// <code source="Unit Tests\Accord.Tests.Math\FourierTransformTest.cs" region="doc_fft" />
+        /// </example>
         /// 
         public static void FFT(Complex[] data, FourierTransform.Direction direction)
         {
@@ -241,7 +261,9 @@ namespace Accord.Math.Transforms
         /// <param name="imag">The imaginary part of the complex numbers to transform.</param>
         /// <param name="direction">The transformation direction.</param>
         /// 
+        /// <example>
         /// <code source="Unit Tests\Accord.Tests.Math\FourierTransformTest.cs" region="doc_fft" />
+        /// </example>
         /// 
         public static void FFT(double[] real, double[] imag, FourierTransform.Direction direction)
         {
@@ -271,7 +293,9 @@ namespace Accord.Math.Transforms
         /// <param name="data">The data to transform.</param>
         /// <param name="direction">The Transformation direction.</param>
         /// 
+        /// <example>
         /// <code source="Unit Tests\Accord.Tests.Math\FourierTransformTest.cs" region="doc_fft2" />
+        /// </example>
         /// 
         public static void FFT2(Complex[][] data, FourierTransform.Direction direction)
         {
