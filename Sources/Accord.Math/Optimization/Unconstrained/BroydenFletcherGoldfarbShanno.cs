@@ -278,52 +278,10 @@ namespace Accord.Math.Optimization
     /// 
     /// <example>
     /// <para>
-    ///   The following example shows the basic usage of the L-BFGS solver
-    ///   to find the minimum of a function specifying its function and
-    ///   gradient. </para>
+    ///   The following example shows the basic usage of the L-BFGS solver to
+    ///   find the minimum of a function given the function and its gradient.</para>
     ///   
-    /// <code>
-    /// // Suppose we would like to find the minimum of the function
-    /// // 
-    /// //   f(x,y)  =  -exp{-(x-1)²} - exp{-(y-2)²/2}
-    /// //
-    /// 
-    /// // First we need write down the function either as a named
-    /// // method, an anonymous method or as a lambda function:
-    /// 
-    /// Func&lt;double[], double> f = (x) =>
-    ///     -Math.Exp(-Math.Pow(x[0] - 1, 2)) - Math.Exp(-0.5 * Math.Pow(x[1] - 2, 2));
-    /// 
-    /// // Now, we need to write its gradient, which is just the
-    /// // vector of first partial derivatives del_f / del_x, as:
-    /// //
-    /// //   g(x,y)  =  { del f / del x, del f / del y }
-    /// // 
-    /// 
-    /// Func&lt;double[], double[]> g = (x) => new double[] 
-    /// {
-    ///     // df/dx = {-2 e^(-    (x-1)^2) (x-1)}
-    ///     2 * Math.Exp(-Math.Pow(x[0] - 1, 2)) * (x[0] - 1),
-    /// 
-    ///     // df/dy = {-  e^(-1/2 (y-2)^2) (y-2)}
-    ///     Math.Exp(-0.5 * Math.Pow(x[1] - 2, 2)) * (x[1] - 2)
-    /// };
-    /// 
-    /// // Finally, we can create the L-BFGS solver, passing the functions as arguments
-    /// var lbfgs = new BroydenFletcherGoldfarbShanno(numberOfVariables: 2, function: f, gradient: g);
-    /// 
-    /// // And then minimize the function:
-    /// bool success = lbfgs.Minimize();
-    /// double minValue = lbfgs.Value;
-    /// double[] solution = lbfgs.Solution;
-    /// 
-    /// // The resultant minimum value should be -2, and the solution
-    /// // vector should be { 1.0, 2.0 }. The answer can be checked on
-    /// // Wolfram Alpha by clicking the following the link:
-    /// 
-    /// // http://www.wolframalpha.com/input/?i=maximize+%28exp%28-%28x-1%29%C2%B2%29+%2B+exp%28-%28y-2%29%C2%B2%2F2%29%29
-    /// 
-    /// </code>
+    /// <code source="Unit Tests\Accord.Tests.Math\Optimization\BroydenFletcherGoldfarbShannoTest.cs" region="doc_minimize" />
     /// </example>
     /// 
     /// <seealso cref="ConjugateGradient"/>

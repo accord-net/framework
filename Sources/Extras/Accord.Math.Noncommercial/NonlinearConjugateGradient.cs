@@ -37,13 +37,15 @@ namespace Accord.Math.Optimization
     ///   This code has been contributed by Peter Sergio Larsen based on the original
     ///   from Edward Rasmussen's FminCG. Please note that this code is only available
     ///   under a special license that specifically <b>denies</b> the use for commercial
-    ///   applications and is thus <b>not compatible with the LGPL and the GPL</b>. Use
-    ///   at your own risk.</para>
+    ///   applications and is thus <b>not compatible with the LGPL and the GPL</b>. For
+    ///   this reason, this class is <b>not</b> included in the default <c>Accord.Math.dll</c>
+    ///   assembly. Instead, it is distributed under a separate assembly that you can use
+    ///   in your projects only if you agree with the license below. At your own risk.</para>
     ///   
     /// <para>
     ///   To use this class, add a reference to the <c>Accord.Math.Noncommercial.dll</c>
-    ///   assembly that resides inside the Release/Noncommercial folder of the framework's
-    ///   installation directory.</para>
+    ///   assembly through NuGet or by finding it inside the Release/Noncommercial folder 
+    ///   of the framework's installation directory.</para>
     ///   
     /// <para>
     ///   The copyright license, plus the original documentation for this code, is
@@ -101,8 +103,17 @@ namespace Accord.Math.Optimization
     ///   necessary to port the original code from MATLAB/Octave to C#.</para>
     /// </remarks>
     /// 
+    /// <example>
+    /// <para>
+    ///   The following example shows the basic usage of the Nonlinear Conjugate Gradient
+    ///   solver to find the minimum of a function given the function and gradient.</para>
+    ///   
+    /// <code source="Sources\Extras\Accord.Tests.Math.Noncommercial\Optimization\NonlinearConjugateGradientTest.cs" region="doc_minimize" />
+    /// </example>
+    /// 
     /// <seealso cref="ConjugateGradient"/>
     /// <seealso cref="ResilientBackpropagation"/>
+    /// <seealso cref="BroydenFletcherGoldfarbShanno"/>
     /// 
     public class NonlinearConjugateGradient : BaseGradientOptimizationMethod,
         IGradientOptimizationMethod
