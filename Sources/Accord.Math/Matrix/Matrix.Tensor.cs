@@ -80,7 +80,9 @@ namespace Accord.Math
             if (order == MatrixOrder.CRowMajor)
             {
                 Array dst = Array.CreateInstance(t, array.Length);
+#pragma warning disable CS0618 // Type or member is obsolete
                 Buffer.BlockCopy(array, 0, dst, 0, dst.Length * Marshal.SizeOf(t));
+#pragma warning restore CS0618 // Type or member is obsolete
                 return dst;
             }
             else
@@ -206,7 +208,9 @@ namespace Accord.Math
             Type type = source.GetInnerMostType();
             Array r = Array.CreateInstance(type, length);
             int rowSize = source.Length / source.GetLength(dimension);
+#pragma warning disable CS0618 // Type or member is obsolete
             Buffer.BlockCopy(source, start * rowSize * Marshal.SizeOf(type), r, 0, rows * rowSize * Marshal.SizeOf(type));
+#pragma warning restore CS0618 // Type or member is obsolete
             return r;
         }
 
@@ -239,7 +243,9 @@ namespace Accord.Math
             Type type = destination.GetInnerMostType();
             int rowSize = destination.Length / destination.GetLength(0);
             int length = end - start;
+#pragma warning disable CS0618 // Type or member is obsolete
             Buffer.BlockCopy(value, 0, destination, start * rowSize * Marshal.SizeOf(type), length * rowSize * Marshal.SizeOf(type));
+#pragma warning restore CS0618 // Type or member is obsolete
         }
 
         /// <summary>

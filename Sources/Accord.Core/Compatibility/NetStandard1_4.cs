@@ -113,6 +113,30 @@ namespace Accord.Compat
             return true;
         }
 
+        public static MethodInfo GetMethod(this Type type, string name, Type[] inputTypes)
+        {
+            foreach (var method in type.GetTypeInfo().DeclaredMethods)
+                if (check(method, name, inputTypes))
+                    return method;
+            return null;
+        }
+
+        private static bool check(MethodInfo method, string name, Type[] inputTypes)
+        {
+            if (method.Name != name)
+                return false;
+
+            ParameterInfo[] p = method.GetParameters();
+            if (p.Length != inputTypes.Length)
+                return false;
+            for (int i = 0; i < inputTypes.Length; i++)
+            {
+                if (p[i].ParameterType != inputTypes[i])
+                    return false;
+            }
+            return true;
+        }
+
         public static MethodInfo[] GetMethods(this Type type, BindingFlags flags)
         {
             var methods = new List<MethodInfo>();

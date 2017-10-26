@@ -395,16 +395,23 @@ namespace Accord
             if (type.IsInstanceOfType(value))
                 return value;
 
+#if NETSTANDARD
+            if (type.GetTypeInfo().IsEnum)
+#else
             if (type.IsEnum)
+#endif
                 return Enum.ToObject(type, (int)System.Convert.ChangeType(value, typeof(int)));
 
             Type inputType = value.GetType();
 
+#if NETSTANDARD
+            if (type.GetTypeInfo().IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>))
+#else
             if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>))
+#endif
             {
                 MethodInfo setter = type.GetMethod("op_Implicit", new[] { inputType });
-                object nullable = setter.Invoke(null, new object[] { value });
-                return nullable;
+                return setter.Invoke(null, new object[] { value });
             }
 
             var methods = new List<MethodInfo>();

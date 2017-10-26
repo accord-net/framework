@@ -29,6 +29,7 @@ namespace Accord.Audio.Formats
     using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
+    using Accord.Compat;
 
     /// <summary>
     /// Audio decoder to decode different custom audio file formats.

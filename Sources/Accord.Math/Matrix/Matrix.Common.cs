@@ -106,7 +106,9 @@ namespace Accord.Math
         public static int GetNumberOfBytes(this Array array)
         {
             Type elementType = array.GetInnerMostType();
+#pragma warning disable CS0618 // Type or member is obsolete
             int elementSize = Marshal.SizeOf(elementType);
+#pragma warning restore CS0618 // Type or member is obsolete
             int numberOfElements = array.GetTotalLength();
             return elementSize * numberOfElements;
         }

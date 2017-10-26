@@ -153,17 +153,24 @@ namespace Accord
                     {
                         foreach (AssemblyName referencedName in a.GetReferencedAssemblies())
                         {
-                            Assembly referencedAssembly = Assembly.Load(referencedName);
-
-                            foreach (Type t in referencedAssembly.GetTypes())
+                            try 
                             {
-                                var attributes = t.GetCustomAttributes(typeof(FormatDecoderAttribute), true);
+                                Assembly referencedAssembly = Assembly.Load(referencedName);
 
-                                if (attributes != null && attributes.Length > 0 && baseType.IsAssignableFrom(t))
+                                foreach (Type t in referencedAssembly.GetTypes())
                                 {
-                                    FormatDecoderAttribute[] at = attributes.Cast<FormatDecoderAttribute>().ToArray();
-                                    decoderTypes.Add(Tuple.Create(t, at));
+                                    var attributes = t.GetCustomAttributes(typeof(FormatDecoderAttribute), true);
+
+                                    if (attributes != null && attributes.Length > 0 && baseType.IsAssignableFrom(t))
+                                    {
+                                        FormatDecoderAttribute[] at = attributes.Cast<FormatDecoderAttribute>().ToArray();
+                                        decoderTypes.Add(Tuple.Create(t, at));
+                                    }
                                 }
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine("FormatDecoderAttribute: " + ex.Message);
                             }
                         }
                     }
