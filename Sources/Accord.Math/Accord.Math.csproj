@@ -147,6 +147,8 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="Matrix\Matrix.Enumerable.cs" />
+    <Compile Include="Matrix\Matrix.Tensor.cs" />
     <Compile Include="Matrix\Matrix.Product.Generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

@@ -273,7 +273,7 @@ IList, ICollection, IEnumerable
                 if (!parseReader(reader, out bytes, out type, out shape))
                     throw new FormatException();
 
-                Array matrix = Matrix.Create(type, shape);
+                Array matrix = Matrix.Zeros(type, shape);
 
                 if (type == typeof(String))
                     return readStringMatrix(reader, matrix, bytes, type, shape);
@@ -304,7 +304,7 @@ IList, ICollection, IEnumerable
                 if (!parseReader(reader, out bytes, out type, out shape))
                     throw new FormatException();
 
-                Array matrix = Jagged.Create(type, shape);
+                Array matrix = Jagged.Zeros(type, shape);
 
                 if (type == typeof(String))
                 {

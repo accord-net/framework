@@ -97,6 +97,7 @@
     <Compile Include="Matrix\Matrix.Construction.cs" />
     <Compile Include="Matrix\Matrix.Common.cs" />
     <Compile Include="Matrix\Matrix.Algebra.cs" />
+    <Compile Include="Matrix\Matrix.Tensor.cs" />
     <Compile Include="Matrix\Vector.Interval.cs" />
     <Compile Include="Matrix\Vector.Range.cs" />
     <Compile Include="Matrix\VectorTest.cs" />

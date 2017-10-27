@@ -1,0 +1,169 @@
+﻿// Accord Unit Tests
+// The Accord.NET Framework
+// http://accord-framework.net
+//
+// Copyright © César Souza, 2009-2017
+// cesarsouza at gmail.com
+//
+//    This library is free software; you can redistribute it and/or
+//    modify it under the terms of the GNU Lesser General Public
+//    License as published by the Free Software Foundation; either
+//    version 2.1 of the License, or (at your option) any later version.
+//
+//    This library is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+//    Lesser General Public License for more details.
+//
+//    You should have received a copy of the GNU Lesser General Public
+//    License along with this library; if not, write to the Free Software
+//    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+//
+
+namespace Accord.Tests.Math
+{
+    using System;
+    using System.Collections.Generic;
+    using System.Data;
+    using System.Linq;
+    using Accord.Math;
+    using Accord.Math.Decompositions;
+    using AForge;
+    using NUnit.Framework;
+    using Accord.IO;
+
+    [TestFixture]
+    public partial class MatrixTensor
+    {
+
+        [Test]
+        public void squeeze_by_conversion()
+        {
+            double[,,,] a =
+            {
+                { { { 1 } }, { { 2 } }, { { 3 } } },
+                { { { 4 } }, { { 5 } }, { { 6 } } },
+            };
+
+            double[,] expected =
+            {
+                { 1, 2, 3 },
+                { 4, 5, 6 },
+            };
+
+            object actual = a.To<double[,]>();
+            Assert.AreEqual(expected, actual);
+
+            actual = a.To<double[,,]>();
+            Assert.AreNotEqual(expected, actual);
+
+            actual = a.To<double[,,]>().To<double[,]>();
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void expand_and_squeeze()
+        {
+            double[,] a =
+            {
+                { 1, 2, 3 },
+                { 4, 5, 6 },
+            };
+
+
+            double[,,] actual0 = a.ExpandDimensions(0).To<double[,,]>();
+            double[,,] actual1 = a.ExpandDimensions(1).To<double[,,]>();
+            double[,,] actual2 = a.ExpandDimensions(2).To<double[,,]>();
+
+            double[,,] expected0 =
+            {
+                { { 1, 2, 3 },
+                  { 4, 5, 6 } },
+            };
+
+            double[,,] expected1 =
+            {
+                { { 1, 2, 3 } },
+                { { 4, 5, 6 } },
+            };
+
+            double[,,] expected2 =
+            {
+                  { { 1 }, { 2 }, { 3 } },
+                  { { 4 }, { 5 }, { 6 } },
+            };
+
+
+            Assert.AreEqual(actual0, expected0);
+            Assert.AreEqual(actual1, expected1);
+            Assert.AreEqual(actual2, expected2);
+
+            // test squeeze
+            Assert.AreEqual(a, expected0.Squeeze());
+            Assert.AreEqual(a, expected1.Squeeze());
+            Assert.AreEqual(a, expected2.Squeeze());
+        }
+
+        [Test]
+        public void flatten_and_reshape()
+        {
+            double[] expected, actual;
+            double[,] a =
+            {
+                { 1, 2, 3 },
+                { 4, 5, 6 },
+            };
+
+            expected = a.Flatten(MatrixOrder.CRowMajor);
+            actual = (double[])((Array)a).Flatten(MatrixOrder.CRowMajor);
+            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(a, actual.Reshape(a.GetLength(), MatrixOrder.CRowMajor));
+            Assert.AreEqual(a, ((Array)actual).Reshape(a.GetLength(), MatrixOrder.CRowMajor));
+
+            expected = a.Flatten(MatrixOrder.FortranColumnMajor);
+            actual = (double[])((Array)a).Flatten(MatrixOrder.FortranColumnMajor);
+            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(a, actual.Reshape(a.GetLength(), MatrixOrder.FortranColumnMajor));
+            Assert.AreEqual(a, ((Array)actual).Reshape(a.GetLength(), MatrixOrder.FortranColumnMajor));
+
+
+            double[,,,] b =
+            {
+                { { { 1 }, { 2 }, { 3 } } },
+                { { { 4 }, { 5 }, { 6 } } },
+            };
+
+            expected = a.Flatten(MatrixOrder.CRowMajor);
+            actual = (double[])((Array)b).Flatten(MatrixOrder.CRowMajor);
+            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(a, actual.Reshape(a.GetLength(), MatrixOrder.CRowMajor));
+            Assert.AreEqual(a, ((Array)actual).Reshape(a.GetLength(), MatrixOrder.CRowMajor));
+
+            expected = a.Flatten(MatrixOrder.FortranColumnMajor);
+            actual = (double[])((Array)b).Flatten(MatrixOrder.FortranColumnMajor);
+            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(a, actual.Reshape(a.GetLength(), MatrixOrder.FortranColumnMajor));
+            Assert.AreEqual(a, ((Array)actual).Reshape(a.GetLength(), MatrixOrder.FortranColumnMajor));
+        }
+
+        [Test]
+        public void transpose()
+        {
+            double[,,,] target =
+            {
+                { { { 1 }, { 2 }, { 3 } } },
+                { { { 4 }, { 5 }, { 6 } } },
+            };
+
+            double[,,,] expected =
+            {
+                { { { 1, 4 } } ,
+                  { { 2, 5 } } ,
+                  { { 3, 6 } } },
+            };
+
+            Array actual = target.Transpose();
+            Assert.AreEqual(expected, actual);
+        }
+    }
+}

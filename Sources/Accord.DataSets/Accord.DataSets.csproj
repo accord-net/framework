@@ -61,6 +61,7 @@
     <Compile Include="Base\WebDataSet.cs" />
     <Compile Include="Chunking.cs" />
     <Compile Include="Nursery.cs" />
+    <Compile Include="PimaIndiansDiabetes.cs" />
     <Compile Include="Servo.cs" />
     <Compile Include="YinYang.cs" />
     <Compile Include="Parkinsons.cs" />

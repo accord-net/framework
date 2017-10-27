@@ -31,9 +31,17 @@ namespace Accord.Tests.Math
     {
 
         [Test]
+        [Ignore("MonoNotSupported")]
+        public void create_nullable_test()
+        {
+            double?[] ones = Vector.Ones<double?>(5);
+            Assert.AreEqual(new double?[] { 1, 1, 1, 1, 1 }, ones);
+        }
+
+        [Test]
         public void CreateJaggedTest()
         {
-            Array jagged = Jagged.Create(typeof(int), 2, 3, 1);
+            Array jagged = Jagged.Zeros(typeof(int), 2, 3, 1);
 
             foreach (var idx in jagged.GetIndices(deep: true))
             {
@@ -53,7 +61,7 @@ namespace Accord.Tests.Math
         [Test]
         public void CreateMatrixTest()
         {
-            Array matrix = Matrix.Create(typeof(int), 2, 3, 1);
+            Array matrix = Matrix.Zeros(typeof(int), 2, 3, 1);
 
             foreach (var idx in matrix.GetIndices())
             {

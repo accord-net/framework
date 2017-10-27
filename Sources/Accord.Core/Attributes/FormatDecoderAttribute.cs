@@ -28,6 +28,7 @@ namespace Accord
     using System.Linq;
     using System.Reflection;
     using Accord.Compat;
+    using System.IO;
 
     /// <summary>
     ///   Specifies that a class can be used to decode a particular file type.
@@ -52,6 +53,50 @@ namespace Accord
         }
 
         /// <summary>
+        ///   Extracts and normalizes a file extension in the same format that is used when 
+        ///   specifying which formats are supported by each decoder (e.g. "file.wav" would
+        ///   become "WAV", "image.png" would become "PNG", etc).
+        /// </summary>
+        /// 
+        public static string GetNormalizedExtension(string fileName)
+        {
+            string fileExtension = Path.GetExtension(fileName).ToUpperInvariant();
+            if (!String.IsNullOrEmpty(fileExtension))
+                fileExtension = fileExtension.Substring(1);
+            return fileExtension;
+        }
+
+        /// <summary>
+        ///   Finds a decoder that can process the given normalized file extension.
+        /// </summary>
+        /// 
+        /// <typeparam name="TDecoder">The type of the the decoder to be found (e.g. IImageDecoder or IAudioDecoder).</typeparam>
+        /// <param name="fileExtension">The normalized file extension (<see cref="GetNormalizedExtension(string)"/>.</param>
+        /// <param name="decoderTypes">The decoder types.</param>
+        /// <param name="cache">The cache of already instantiated decoder types.</param>
+        /// 
+        /// <returns>A decoder implementing the <typeparamref name="TDecoder"/> interface, or null if none have been found.</returns>
+        /// 
+        public static TDecoder GetDecoder<TDecoder>(string fileExtension,
+            Dictionary<string, Type> decoderTypes, Dictionary<string, TDecoder> cache)
+            where TDecoder : class
+        {
+            TDecoder decoder = null;
+
+            if (cache.TryGetValue(fileExtension, out decoder))
+                return decoder;
+
+            if (!decoderTypes.ContainsKey(fileExtension))
+                FormatDecoderAttribute.PopulateDictionaryWithDecodersFromAllAssemblies<TDecoder>(decoderTypes);
+
+            Type t;
+            if (decoderTypes.TryGetValue(fileExtension, out t) && t != null)
+                cache[fileExtension] = decoder = (TDecoder)Activator.CreateInstance(t);
+
+            return decoder;
+        }
+
+        /// <summary>
         ///   Populates the dictionary with available decoders of a particular category by 
         ///   inspecting types from all referenced assemblies. Note: calling this method
         ///   will force all referenced assemblies to be loaded into the current AppDomain.
@@ -60,16 +105,11 @@ namespace Accord
         /// <typeparam name="T">The base type for the decoders. This should be an interface such as IImageDecoder or IAudioDecoder.</typeparam>
         /// 
         /// <param name="dictionary">The dictionary where the found decoders will be stored.</param>
-        /// <param name="extension">The extension we are interested in.</param>
         /// 
-        public static void PopulateDictionaryWithDecodersFromAllAssemblies<T>(Dictionary<string, Type> dictionary, string extension)
+        public static void PopulateDictionaryWithDecodersFromAllAssemblies<T>(Dictionary<string, Type> dictionary)
         {
             lock (dictionary)
             {
-                extension = extension.ToUpperInvariant();
-                if (dictionary.ContainsKey(extension))
-                    return;
-
                 var decoderTypes = new List<Tuple<Type, FormatDecoderAttribute[]>>();
 
 #if NETSTANDARD1_4
@@ -113,17 +153,24 @@ namespace Accord
                     {
                         foreach (AssemblyName referencedName in a.GetReferencedAssemblies())
                         {
-                            Assembly referencedAssembly = Assembly.Load(referencedName);
-
-                            foreach (Type t in referencedAssembly.GetTypes())
+                            try 
                             {
-                                var attributes = t.GetCustomAttributes(typeof(FormatDecoderAttribute), true);
+                                Assembly referencedAssembly = Assembly.Load(referencedName);
 
-                                if (attributes != null && attributes.Length > 0 && baseType.IsAssignableFrom(t))
+                                foreach (Type t in referencedAssembly.GetTypes())
                                 {
-                                    FormatDecoderAttribute[] at = attributes.Cast<FormatDecoderAttribute>().ToArray();
-                                    decoderTypes.Add(Tuple.Create(t, at));
+                                    var attributes = t.GetCustomAttributes(typeof(FormatDecoderAttribute), true);
+
+                                    if (attributes != null && attributes.Length > 0 && baseType.IsAssignableFrom(t))
+                                    {
+                                        FormatDecoderAttribute[] at = attributes.Cast<FormatDecoderAttribute>().ToArray();
+                                        decoderTypes.Add(Tuple.Create(t, at));
+                                    }
                                 }
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine("FormatDecoderAttribute: " + ex.Message);
                             }
                         }
                     }
@@ -134,7 +181,7 @@ namespace Accord
                 {
                     foreach (FormatDecoderAttribute attr in pair.Item2)
                     {
-                        extension = attr.Extension.ToUpperInvariant();
+                        string extension = attr.Extension.ToUpperInvariant();
                         if (!dictionary.ContainsKey(extension))
                             dictionary.Add(extension, pair.Item1);
                     }

@@ -130,10 +130,8 @@ namespace Accord.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T[,] Ones<T>(int rows, int columns)
-            where T : struct
         {
-            var one = (T)System.Convert.ChangeType(1, typeof(T));
-            return Create(rows, columns, one);
+            return Create(rows, columns, Constants.One<T>());
         }
 
         /// <summary>
@@ -232,23 +230,6 @@ namespace Accord.Math
             var result = Zeros<T>(rows, columns);
             Matrix.CopyTo(values, destination: result, transpose: transpose);
             return result;
-        }
-
-        /// <summary>
-        ///   Creates a jagged matrix with all values set to a given value.
-        /// </summary>
-        /// 
-        /// <param name="elementType">The type of the elements to be contained in the matrix.</param>
-        /// <param name="shape">The number of dimensions that the matrix should have.</param>
-        /// 
-        /// <returns>A matrix of the specified size.</returns>
-        /// 
-#if NET45 || NET46 || NET462 || NETSTANDARD2_0
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-#endif
-        public static Array Create(Type elementType, params int[] shape)
-        {
-            return Array.CreateInstance(elementType, shape);
         }
 
         /// <summary>
@@ -415,7 +396,7 @@ namespace Accord.Math
 #endif
         public static T[,] OneHot<T>(int[] indices, T[,] result)
         {
-            var one = (T)System.Convert.ChangeType(1, typeof(T));
+            var one = Constants.One<T>();
             for (int i = 0; i < indices.Length; i++)
                 result[i, indices[i]] = one;
             return result;
@@ -502,7 +483,7 @@ namespace Accord.Math
 #endif
         public static T[,] KHot<T>(int[][] indices, T[,] result)
         {
-            var one = (T)System.Convert.ChangeType(1, typeof(T));
+            var one = Constants.One<T>();
             for (int i = 0; i < indices.Length; i++)
                 for (int j = 0; j < indices[i].Length; j++)
                     result[i, indices[i][j]] = one;
@@ -790,7 +771,7 @@ namespace Accord.Math
         /// 
         public static T[,] Identity<T>(int size)
         {
-            return Diagonal(size, (T)System.Convert.ChangeType(1, typeof(T)));
+            return Diagonal(size, Constants.One<T>());
         }
 
         /// <summary>

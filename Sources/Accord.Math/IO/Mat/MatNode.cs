@@ -417,7 +417,7 @@ namespace Accord.IO
                         Buffer.BlockCopy(rawData, 0, array, 0, length);
 
                         if (matReader.Transpose)
-                            array = array.Transpose(Accord.Math.Vector.Interval(dimensions.Length - 1, 0));
+                            array = array.Transpose();
 
                         value = array;
                     }
@@ -504,7 +504,7 @@ namespace Accord.IO
             Array array = Array.CreateInstance(type, dimensions);
             Buffer.BlockCopy(rawData, 0, array, 0, rawData.Length);
             if (matReader.Transpose)
-                array = array.Transpose(Accord.Math.Vector.Interval(dimensions.Length - 1, 0));
+                array = array.Transpose();
             return array;
         }
 

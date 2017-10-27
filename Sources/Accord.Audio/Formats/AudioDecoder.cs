@@ -27,7 +27,9 @@ namespace Accord.Audio.Formats
     using System.IO;
     using System.Linq;
     using System.Text;
+    using System.Threading;
     using System.Threading.Tasks;
+    using Accord.Compat;
 
     /// <summary>
     /// Audio decoder to decode different custom audio file formats.
@@ -51,7 +53,9 @@ namespace Accord.Audio.Formats
     /// 
     public class AudioDecoder
     {
-        private static Dictionary<string, Type> decoders = new Dictionary<string, Type>();
+        private static Dictionary<string, Type> decoderTypes = new Dictionary<string, Type>();
+        private static ThreadLocal<Dictionary<string, IAudioDecoder>> decoders = 
+            new ThreadLocal<Dictionary<string, IAudioDecoder>>(() => new Dictionary<string, IAudioDecoder>());
 
         /// <summary>
         /// Decode a signal from the specified file.
@@ -78,32 +82,22 @@ namespace Accord.Audio.Formats
         /// 
         public static Signal DecodeFromFile(string fileName, out FrameInfo frameInfo)
         {
-            Signal signal = null;
+            string fileExtension = FormatDecoderAttribute.GetNormalizedExtension(fileName);
 
-            string fileExtension = Path.GetExtension(fileName).ToUpperInvariant();
+            IAudioDecoder decoder = FormatDecoderAttribute.GetDecoder(fileExtension, decoderTypes, decoders.Value);
 
-            if ((fileExtension != string.Empty) && (fileExtension.Length != 0))
+            if (decoder != null)
             {
-                fileExtension = fileExtension.Substring(1);
-
-                if (!decoders.ContainsKey(fileExtension))
-                    FormatDecoderAttribute.PopulateDictionaryWithDecodersFromAllAssemblies<IAudioDecoder>(decoders, fileExtension);
-
-                if (decoders.ContainsKey(fileExtension))
+                // open stream
+                using (FileStream stream = new FileStream(fileName, FileMode.Open, FileAccess.Read))
                 {
-                    IAudioDecoder decoder = (IAudioDecoder)Activator.CreateInstance(decoders[fileExtension]);
+                    // open decoder
+                    decoder.Open(stream);
 
-                    // open stream
-                    using (FileStream stream = new FileStream(fileName, FileMode.Open, FileAccess.Read))
-                    {
-                        // open decoder
-                        decoder.Open(stream);
+                    // read all audio frames
+                    Signal signal = decoder.Decode();
 
-                        // read all audio frames
-                        signal = decoder.Decode();
-
-                        decoder.Close();
-                    }
+                    decoder.Close();
 
                     frameInfo = new FrameInfo(signal.Channels, signal.SampleRate, Signal.GetSampleSize(signal.SampleFormat), 0, signal.Length);
 

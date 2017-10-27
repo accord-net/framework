@@ -308,6 +308,10 @@ namespace Accord.Math
         ///   samples from being stored in other locations without having to clone
         ///   them. If set to false, a new memory block will be allocated for each
         ///   new object in the sequence.</param>
+        /// <param name="firstColumnChangesFaster">
+        ///   If set to true, the first elements in the sequences will change faster
+        ///   than last ones. This changes the order in which the sequences are presented,
+        ///   but no their content.</param>
         /// 
         /// <example>
         /// <para>
@@ -335,7 +339,7 @@ namespace Accord.Math
         /// </code>
         /// </example>
         /// 
-        public static IEnumerable<int[]> Sequences(this int[] symbols, bool inPlace = false)
+        public static IEnumerable<int[]> Sequences(this int[] symbols, bool inPlace = false, bool firstColumnChangesFaster = false)
         {
             var current = new int[symbols.Length];
 
@@ -345,24 +349,47 @@ namespace Accord.Math
                     yield break;
             }
 
-            while (true)
+            if (firstColumnChangesFaster)
             {
-                yield return inPlace ? current : (int[])current.Clone();
-
-                for (int j = symbols.Length - 1; j >= 0; j--)
+                while (true)
                 {
-                    if (current[j] != symbols[j] - 1)
+                    yield return inPlace ? current : (int[])current.Clone();
+
+                    for (int j = 0; j < symbols.Length; j++)
                     {
-                        current[j]++;
-                        break;
+                        if (current[j] != symbols[j] - 1)
+                        {
+                            current[j]++;
+                            break;
+                        }
+
+                        if (j == symbols.Length - 1)
+                            yield break;
+
+                        current[j] = 0;
                     }
-
-                    if (j == 0)
-                        yield break;
-
-                    current[j] = 0;
                 }
+            }
+            else
+            {
+                while (true)
+                {
+                    yield return inPlace ? current : (int[])current.Clone();
 
+                    for (int j = symbols.Length - 1; j >= 0; j--)
+                    {
+                        if (current[j] != symbols[j] - 1)
+                        {
+                            current[j]++;
+                            break;
+                        }
+
+                        if (j == 0)
+                            yield break;
+
+                        current[j] = 0;
+                    }
+                }
             }
         }
 
@@ -477,7 +504,7 @@ namespace Accord.Math
 #if NET35
             IEnumerable<T>
 #else
-            ISet<T> 
+            ISet<T>
 #endif
             set, bool inPlace = false)
         {
@@ -500,7 +527,7 @@ namespace Accord.Math
 #if NET35
             IEnumerable<T>
 #else
-            ISet<T> 
+            ISet<T>
 #endif
             set, int k, bool inPlace = false)
         {

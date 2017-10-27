@@ -3,11 +3,10 @@
 [![DOI](https://zenodo.org/badge/3964514.svg)](https://zenodo.org/badge/latestdoi/3964514)
 [![Build status](https://ci.appveyor.com/api/projects/status/ns9h9opjmu8iw3ep?svg=true)](https://ci.appveyor.com/project/cesarsouza/framework)
 [![Build Status](https://travis-ci.org/accord-net/framework.svg?branch=development)](https://travis-ci.org/accord-net/framework)
-[![Github All Releases](https://img.shields.io/github/downloads/accord-net/framework/total.svg)]()
+[![NuGet Downloads](https://img.shields.io/nuget/dt/Accord.svg)]()
 [![License](https://img.shields.io/badge/license-LGPL--2.1-blue.svg)](LICENSE)
 [![NuGet](https://img.shields.io/nuget/v/Accord.svg)]()
 [![NuGet Pre Release](https://img.shields.io/nuget/vpre/Accord.svg)]()
-<!--[![GitHub release](https://img.shields.io/github/release/accord-net/framework.svg?maxAge=2592000)]()-->
 
 The Accord.NET project provides machine learning, statistics, artificial intelligence, computer vision and image processing methods to .NET. It can be used on Microsoft Windows, Xamarin, Unity3D, Windows Store applications, Linux or mobile.
 
@@ -58,45 +57,47 @@ Then navigate to the Sources directory, and open the *Accord.NET.sln* solution f
 
 #### With Mono in Linux
 
-    # Install Mono
-    sudo apt-get install mono-complete monodevelop monodevelop-nunit git autoconf make
+```bash
+# Install Mono
+sudo apt-get install mono-complete monodevelop monodevelop-nunit git autoconf make
 
-    # Clone the repository
-    git clone https://github.com/accord-net/framework.git
+# Clone the repository
+git clone https://github.com/accord-net/framework.git
 
-    # Enter the directory
-    cd framework
+# Enter the directory
+cd framework
 
-    # Build the framework solution using Mono
-    ./autogen.sh
-    make build
-    make samples
-    make test
-
+# Build the framework solution using Mono
+./autogen.sh
+make build
+make samples
+make test
+```
 
 #### With Mono in OS X
 
-    # Install Mono
-    brew update
-    brew cask install mono-mdk pkg-config automake
+```bash
+# Install Mono
+brew update
+brew cask install mono-mdk pkg-config automake
 
-    # Clone the repository
-    git clone https://github.com/accord-net/framework.git
+# Clone the repository
+git clone https://github.com/accord-net/framework.git
 
-    # Enter the directory
-    cd framework
-    
-    # Set some environment variables with OSX-specific paths
-    export PKG_CONFIG_PATH=/Library/Frameworks/Mono.framework/Versions/Current/lib/pkgconfig/
-    export MONO=/Library/Frameworks/Mono.framework/Versions/Current/bin/mono
-    export XBUILD=/Library/Frameworks/Mono.framework/Versions/Current/bin/xbuild
-    
-    # Build the framework solution using Mono
-    ./autogen.sh
-    make build
-    make samples
-    make test
+# Enter the directory
+cd framework
 
+# Set some environment variables with OSX-specific paths
+export PKG_CONFIG_PATH=/Library/Frameworks/Mono.framework/Versions/Current/lib/pkgconfig/
+export MONO=/Library/Frameworks/Mono.framework/Versions/Current/bin/mono
+export XBUILD=/Library/Frameworks/Mono.framework/Versions/Current/bin/xbuild
+
+# Build the framework solution using Mono
+./autogen.sh
+make build
+make samples
+make test
+```
 
 # Contributing
 
@@ -110,3 +111,18 @@ Donate using cryptocurrencies:
 Note: all donations are 100% invested towards improving the framework, including, but not limited to, the hiring of extra developers to work on issues currently present at the project's issue tracker. If you would like to donate resources towards the development of a particular issue, please let us know!
 
 Join the chat at https://gitter.im/accord-net/framework - but to have issues and questions answered, [post it as an issue](https://github.com/accord-net/framework/issues).
+
+
+# Citing
+
+Please cite this work as:
+```bibtex
+@misc{de2014accord,
+  title={The Accord.NET Framework},
+  author={C{\'e}sar Souza and Andrew Kirillov and Diego Catalano and Accord.NET contributors},
+  year={2014},
+  doi={10.5281/zenodo.1029480},
+  url={http://accord-framework.net}
+}
+```
+[[bibtex](https://zenodo.org/record/1029481/export/hx#.We0_zCyXeUk)]
