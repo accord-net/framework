@@ -354,7 +354,7 @@ namespace Accord.Math.Optimization
 
                 // Update diagonal (Levenberg-Marquardt)
                 for (int i = 0; i < diagonal.Length; i++)
-                    hessian[i][i] = diagonal[i] + 2 * lambda;
+                    hessian[i][i] = diagonal[i] * (1 + lambda);
 
 
                 // Decompose to solve the linear system. The Cholesky decomposition
